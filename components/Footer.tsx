@@ -1,0 +1,39 @@
+import Link from "next/link";
+
+export function Footer() {
+  return (
+    <footer className="border-t border-border bg-muted/30">
+      <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
+        <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-sm text-muted-foreground">
+            Legantis – AI legal assistant for Bosnia & Herzegovina, Serbia,
+            Croatia, Montenegro, and Slovenia.
+          </p>
+          <div className="flex gap-6 text-sm">
+            <Link
+              href="#"
+              className="text-muted-foreground transition-colors hover:text-foreground"
+            >
+              Privacy
+            </Link>
+            <Link
+              href="#"
+              className="text-muted-foreground transition-colors hover:text-foreground"
+            >
+              Terms
+            </Link>
+            <Link
+              href="#"
+              className="text-muted-foreground transition-colors hover:text-foreground"
+            >
+              Contact
+            </Link>
+          </div>
+        </div>
+        <p className="mt-4 text-xs text-muted-foreground">
+          © {new Date().getFullYear()} Legantis. All rights reserved.
+        </p>
+      </div>
+    </footer>
+  );
+}
