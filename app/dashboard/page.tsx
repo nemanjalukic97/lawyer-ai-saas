@@ -1,8 +1,10 @@
+import Link from "next/link"
 import { redirect } from "next/navigation"
 
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { createClient } from "@/lib/supabase/server"
+import { FilePen, FileText, Scale, Users } from "lucide-react"
 
 const JURISDICTION_LABELS: Record<string, string> = {
   serbia: "Serbia",
@@ -208,6 +210,85 @@ export default async function DashboardPage() {
               Outcome predictions run so far
             </p>
           </Card>
+        </section>
+
+        <section className="space-y-3">
+          <div className="flex items-baseline justify-between gap-2">
+            <h2 className="text-lg font-semibold">Quick actions</h2>
+            <p className="text-xs text-muted-foreground">
+              Jump straight into key Legantis features.
+            </p>
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            <Card className="flex flex-col justify-between p-4">
+              <div className="space-y-2">
+                <div className="inline-flex h-9 w-9 items-center justify-center rounded-md bg-primary/10 text-primary">
+                  <FileText className="h-5 w-5" />
+                </div>
+                <h3 className="text-sm font-medium">Generate Document</h3>
+                <p className="text-xs text-muted-foreground">
+                  Create NDAs, contracts, and legal documents with AI.
+                </p>
+              </div>
+              <div className="mt-4">
+                <Button size="sm" asChild>
+                  <Link href="/dashboard/generate">Open</Link>
+                </Button>
+              </div>
+            </Card>
+
+            <Card className="flex flex-col justify-between p-4">
+              <div className="space-y-2">
+                <div className="inline-flex h-9 w-9 items-center justify-center rounded-md bg-muted text-muted-foreground">
+                  <FilePen className="h-5 w-5" />
+                </div>
+                <h3 className="text-sm font-medium">Draft Contract</h3>
+                <p className="text-xs text-muted-foreground">
+                  Multi-step contract wizard with jurisdiction-specific clauses.
+                </p>
+              </div>
+              <div className="mt-4">
+                <Button size="sm" asChild>
+                  <Link href="/dashboard/contracts">Open</Link>
+                </Button>
+              </div>
+            </Card>
+
+            <Card className="flex flex-col justify-between p-4">
+              <div className="space-y-2">
+                <div className="inline-flex h-9 w-9 items-center justify-center rounded-md bg-muted text-muted-foreground">
+                  <Scale className="h-5 w-5" />
+                </div>
+                <h3 className="text-sm font-medium">Predict Case Outcome</h3>
+                <p className="text-xs text-muted-foreground">
+                  AI analysis of case success probability based on precedents.
+                </p>
+              </div>
+              <div className="mt-4">
+                <Button size="sm" asChild>
+                  <Link href="/dashboard/predictions">Open</Link>
+                </Button>
+              </div>
+            </Card>
+
+            <Card className="flex flex-col justify-between p-4">
+              <div className="space-y-2">
+                <div className="inline-flex h-9 w-9 items-center justify-center rounded-md bg-muted text-muted-foreground">
+                  <Users className="h-5 w-5" />
+                </div>
+                <h3 className="text-sm font-medium">Clients</h3>
+                <p className="text-xs text-muted-foreground">
+                  Manage client contacts and prepare portal access.
+                </p>
+              </div>
+              <div className="mt-4">
+                <Button size="sm" asChild>
+                  <Link href="/dashboard/clients">Open</Link>
+                </Button>
+              </div>
+            </Card>
+          </div>
         </section>
 
         <section className="grid gap-4 lg:grid-cols-[minmax(0,2fr),minmax(0,1.2fr)]">
