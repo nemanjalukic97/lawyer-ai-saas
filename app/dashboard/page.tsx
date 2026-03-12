@@ -2,9 +2,39 @@ import Link from "next/link"
 import { redirect } from "next/navigation"
 
 import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 import { createClient } from "@/lib/supabase/server"
 import { FilePen, FileText, Scale, Users } from "lucide-react"
+import { FeatureUsageChart } from "./components/FeatureUsageChart"
+
+type DashboardScope = {
+  userId: string
+  lawFirmId: string | null
+}
+
+type ActivityItem = {
+  type: "contract" | "document" | "analysis" | "prediction" | "client"
+  id: string
+  title: string
+  createdAt: string
+}
+
+type FeatureUsagePoint = {
+  feature_type: string
+  usage_count: number
+}
+
+type RoiData = {
+  hoursSaved: number
+  savingsEur: number
+  subscriptionCostEur: number
+  subscriptionTier: string
+}
 
 const JURISDICTION_LABELS: Record<string, string> = {
   serbia: "Serbia",
@@ -27,6 +57,194 @@ const TIER_LABELS: Record<string, string> = {
   solo: "Solo",
   professional: "Professional",
   firm: "Firm",
+}
+
+function getScopeFromProfile(
+  userId: string,
+  profile: { law_firm_id: string | null }
+): DashboardScope {
+  return {
+    userId,
+    lawFirmId: profile.law_firm_id ?? null,
+  }
+}
+
+async function getRecentActivity(
+  supabase: ReturnType<typeof createClient>,
+  scope: DashboardScope
+): Promise<ActivityItem[]> {
+  const filterCol = scope.lawFirmId ? "law_firm_id" : "user_id"
+  const filterVal = scope.lawFirmId ?? scope.userId
+  const limitPerTable = 3
+
+  const [
+    { data: contracts },
+    { data: documents },
+    { data: analyses },
+    { data: predictions },
+    { data: clients },
+  ] = await Promise.all([
+    supabase
+      .from("contracts")
+      .select("id, title, created_at")
+      .eq(filterCol, filterVal)
+      .is("deleted_at", null)
+      .order("created_at", { ascending: false })
+      .limit(limitPerTable),
+    supabase
+      .from("documents")
+      .select("id, title, created_at")
+      .eq(filterCol, filterVal)
+      .is("deleted_at", null)
+      .order("created_at", { ascending: false })
+      .limit(limitPerTable),
+    supabase
+      .from("document_analyses")
+      .select("id, original_filename, analyzed_at, created_at")
+      .eq(filterCol, filterVal)
+      .is("deleted_at", null)
+      .order("analyzed_at", { ascending: false })
+      .limit(limitPerTable),
+    supabase
+      .from("case_predictions")
+      .select("id, case_name, created_at")
+      .eq(filterCol, filterVal)
+      .is("deleted_at", null)
+      .order("created_at", { ascending: false })
+      .limit(limitPerTable),
+    supabase
+      .from("clients")
+      .select("id, name, created_at")
+      .eq(filterCol, filterVal)
+      .is("deleted_at", null)
+      .order("created_at", { ascending: false })
+      .limit(limitPerTable),
+  ])
+
+  const items: ActivityItem[] = []
+
+  ;(contracts ?? []).forEach((c: any) =>
+    items.push({
+      type: "contract",
+      id: c.id,
+      title: c.title,
+      createdAt: c.created_at,
+    })
+  )
+
+  ;(documents ?? []).forEach((d: any) =>
+    items.push({
+      type: "document",
+      id: d.id,
+      title: d.title,
+      createdAt: d.created_at,
+    })
+  )
+
+  ;(analyses ?? []).forEach((a: any) =>
+    items.push({
+      type: "analysis",
+      id: a.id,
+      title: a.original_filename,
+      createdAt: a.analyzed_at ?? a.created_at,
+    })
+  )
+
+  ;(predictions ?? []).forEach((p: any) =>
+    items.push({
+      type: "prediction",
+      id: p.id,
+      title: p.case_name ?? "Case prediction",
+      createdAt: p.created_at,
+    })
+  )
+
+  ;(clients ?? []).forEach((cl: any) =>
+    items.push({
+      type: "client",
+      id: cl.id,
+      title: cl.name,
+      createdAt: cl.created_at,
+    })
+  )
+
+  items.sort(
+    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+  )
+
+  return items.slice(0, 10)
+}
+
+async function getRoiData(
+  supabase: ReturnType<typeof createClient>,
+  scope: DashboardScope,
+  profile: { law_firm_id: string | null; subscription_tier?: string | null }
+): Promise<RoiData> {
+  const filterCol = scope.lawFirmId ? "law_firm_id" : "user_id"
+  const filterVal = scope.lawFirmId ?? scope.userId
+
+  const startOfMonth = new Date()
+  startOfMonth.setDate(1)
+  startOfMonth.setHours(0, 0, 0, 0)
+
+  const { data: timeEntries } = await supabase
+    .from("time_entries")
+    .select("duration_minutes, hourly_rate, status")
+    .eq(filterCol, filterVal)
+    .is("deleted_at", null)
+    .gte("work_date", startOfMonth.toISOString())
+
+  const relevant = (timeEntries ?? []).filter((t: any) =>
+    ["approved", "billed"].includes(t.status)
+  )
+
+  const totalHoursTracked = relevant.reduce(
+    (sum: number, t: any) => sum + ((t.duration_minutes ?? 0) / 60),
+    0
+  )
+
+  const { data: clients } = await supabase
+    .from("clients")
+    .select("default_hourly_rate")
+    .eq(filterCol, filterVal)
+    .is("deleted_at", null)
+
+  const avgClientRate =
+    clients && clients.length
+      ? clients.reduce(
+          (sum: number, c: any) => sum + Number(c.default_hourly_rate ?? 0),
+          0
+        ) / clients.length
+      : 60
+
+  const effectiveRate = avgClientRate
+
+  const hoursSaved = totalHoursTracked * 0.3
+  const savingsEur = hoursSaved * effectiveRate
+
+  let tier = profile.subscription_tier ?? "professional"
+  if (scope.lawFirmId) {
+    const { data: firm } = await supabase
+      .from("law_firms")
+      .select("subscription_tier")
+      .eq("id", scope.lawFirmId)
+      .maybeSingle()
+    if (firm?.subscription_tier) tier = firm.subscription_tier
+  }
+
+  const tierPrices: Record<string, number> = {
+    solo: 29,
+    professional: 59,
+    firm: 79,
+  }
+  const subscriptionCostEur = tierPrices[tier] ?? 59
+
+  return {
+    hoursSaved,
+    savingsEur,
+    subscriptionCostEur,
+    subscriptionTier: tier,
+  }
 }
 
 export default async function DashboardPage() {
@@ -137,6 +355,46 @@ export default async function DashboardPage() {
     },
     { totalTokens: 0, totalCost: 0 }
   )
+
+  const scope = getScopeFromProfile(user.id, {
+    law_firm_id: profile?.law_firm_id ?? null,
+  })
+
+  const [recentActivity, roiData] = await Promise.all([
+    getRecentActivity(supabase, scope),
+    getRoiData(supabase, scope, {
+      law_firm_id: profile?.law_firm_id ?? null,
+      subscription_tier: profile?.subscription_tier ?? firm?.subscription_tier,
+    }),
+  ])
+
+  const featureUsage: FeatureUsagePoint[] = (() => {
+    const counts: Record<string, number> = {}
+    for (const row of usageRows ?? []) {
+      const key = row.feature_type as string
+      counts[key] = (counts[key] ?? 0) + 1
+    }
+    return Object.entries(counts).map(([feature_type, usage_count]) => ({
+      feature_type,
+      usage_count,
+    }))
+  })()
+
+  const typeLabels: Record<ActivityItem["type"], string> = {
+    contract: "Contract",
+    document: "Document",
+    analysis: "Document analysis",
+    prediction: "Case prediction",
+    client: "Client",
+  }
+
+  const activityHrefByType: Record<ActivityItem["type"], string> = {
+    contract: "/dashboard/contracts",
+    document: "/dashboard/generate",
+    analysis: "/dashboard/analyze",
+    prediction: "/dashboard/predictions",
+    client: "/dashboard/clients",
+  }
 
   return (
     <div className="min-h-screen bg-background px-4 py-10">
@@ -378,6 +636,75 @@ export default async function DashboardPage() {
                 contract generation, case prediction, and document analysis.
               </p>
             </div>
+          </Card>
+        </section>
+        <section className="grid gap-4 lg:grid-cols-[minmax(0,2fr),minmax(0,1.2fr)]">
+          <FeatureUsageChart data={featureUsage} />
+
+          <Card>
+            <CardHeader>
+              <CardTitle>ROI this month</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-2 text-sm">
+              <p>
+                You&apos;ve saved approximately{" "}
+                <strong>{roiData.hoursSaved.toFixed(1)} hours</strong> of work
+                this month.
+              </p>
+              <p>
+                That time is worth about{" "}
+                <strong>€{roiData.savingsEur.toFixed(0)}</strong> compared to
+                your{" "}
+                <strong>
+                  {roiData.subscriptionTier} plan at €
+                  {roiData.subscriptionCostEur}/month
+                </strong>
+                .
+              </p>
+              {roiData.subscriptionCostEur > 0 && (
+                <p className="text-xs text-muted-foreground">
+                  Approximate ROI:{" "}
+                  {(roiData.savingsEur / roiData.subscriptionCostEur).toFixed(
+                    1
+                  )}
+                  × your subscription.
+                </p>
+              )}
+            </CardContent>
+          </Card>
+        </section>
+
+        <section>
+          <Card>
+            <CardHeader>
+              <CardTitle>Recent activity</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {recentActivity.length === 0 ? (
+                <p className="text-sm text-muted-foreground">
+                  No recent activity yet.
+                </p>
+              ) : (
+                recentActivity.map((item) => (
+                  <div
+                    key={`${item.type}-${item.id}`}
+                    className="flex items-start justify-between"
+                  >
+                    <div>
+                      <Link
+                        href={`${activityHrefByType[item.type]}?id=${item.id}`}
+                        className="text-sm font-medium hover:text-primary hover:underline transition-colors"
+                      >
+                        {typeLabels[item.type]}: {item.title}
+                      </Link>
+                      <p className="text-xs text-muted-foreground">
+                        {new Date(item.createdAt).toLocaleDateString()}
+                      </p>
+                    </div>
+                  </div>
+                ))
+              )}
+            </CardContent>
           </Card>
         </section>
       </div>
