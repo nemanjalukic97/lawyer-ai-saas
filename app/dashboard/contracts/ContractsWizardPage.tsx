@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useMemo, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import Link from "next/link"
 
 import { Button } from "@/components/ui/button"
@@ -19,6 +19,7 @@ import { Loader2 } from "lucide-react"
 import { createClient } from "@/lib/supabase/client"
 import { saveAs } from "file-saver"
 import { Document as DocxDocument, Packer, Paragraph } from "docx"
+import { useLanguage } from "@/components/LanguageProvider"
 
 type ContractType =
   | "employment"
@@ -42,32 +43,25 @@ interface Option<T extends string> {
   label: string
 }
 
-const CONTRACT_TYPE_OPTIONS: Option<ContractType>[] = [
-  { value: "employment", label: "Employment Contract" },
-  { value: "service", label: "Service Agreement" },
-  { value: "sales", label: "Sales Contract" },
-  { value: "lease", label: "Lease/Rental Agreement" },
-  { value: "nda", label: "NDA" },
-  { value: "partnership", label: "Partnership Agreement" },
+type LocalizedOption<T extends string> = Option<T> & { translationKey: string }
+
+const CONTRACT_TYPE_OPTIONS: LocalizedOption<ContractType>[] = [
+  { value: "employment", label: "Employment Contract", translationKey: "contracts.contractTypes.employment" },
+  { value: "service", label: "Service Agreement", translationKey: "contracts.contractTypes.service" },
+  { value: "sales", label: "Sales Contract", translationKey: "contracts.contractTypes.sales" },
+  { value: "lease", label: "Lease/Rental Agreement", translationKey: "contracts.contractTypes.lease" },
+  { value: "nda", label: "NDA", translationKey: "contracts.contractTypes.nda" },
+  { value: "partnership", label: "Partnership Agreement", translationKey: "contracts.contractTypes.partnership" },
 ]
 
-const JURISDICTION_OPTIONS: Option<Jurisdiction>[] = [
-  { value: "serbia", label: "Serbia" },
-  { value: "croatia", label: "Croatia" },
-  {
-    value: "bih_fbih",
-    label: "Bosnia & Herzegovina - Federation",
-  },
-  {
-    value: "bih_rs",
-    label: "Bosnia & Herzegovina - Republika Srpska",
-  },
-  {
-    value: "bih_brcko",
-    label: "Bosnia & Herzegovina - Brcko District",
-  },
-  { value: "montenegro", label: "Montenegro" },
-  { value: "slovenia", label: "Slovenia" },
+const JURISDICTION_OPTIONS: LocalizedOption<Jurisdiction>[] = [
+  { value: "serbia", label: "Serbia", translationKey: "contracts.jurisdictions.serbia" },
+  { value: "croatia", label: "Croatia", translationKey: "contracts.jurisdictions.croatia" },
+  { value: "bih_fbih", label: "Bosnia & Herzegovina - Federation", translationKey: "contracts.jurisdictions.bih_fbih" },
+  { value: "bih_rs", label: "Bosnia & Herzegovina - Republika Srpska", translationKey: "contracts.jurisdictions.bih_rs" },
+  { value: "bih_brcko", label: "Bosnia & Herzegovina - Brcko District", translationKey: "contracts.jurisdictions.bih_brcko" },
+  { value: "montenegro", label: "Montenegro", translationKey: "contracts.jurisdictions.montenegro" },
+  { value: "slovenia", label: "Slovenia", translationKey: "contracts.jurisdictions.slovenia" },
 ]
 
 type EmploymentDetails = {
@@ -177,13 +171,18 @@ function cleanMarkdown(text: string): string {
     .replace(/#{1,6}\s/g, "")
 }
 
-function buildSystemPrompt(jurisdiction: Jurisdiction, contractType: ContractType): string {
+function buildSystemPrompt(
+  jurisdiction: Jurisdiction,
+  contractType: ContractType,
+  outputLanguageName: string
+): string {
   const jurisdictionLabel = labelForJurisdiction(jurisdiction)
   const contractLabel = labelForContractType(contractType)
 
   return [
     `You are a legal AI specialized in contract law for ${jurisdictionLabel}.`,
     `Generate a professional ${contractLabel} that complies with ${jurisdictionLabel} law.`,
+    `Write the contract in ${outputLanguageName}.`,
     "STRUCTURE:",
     "- Title in CAPITAL LETTERS",
     "- Preamble with parties, date, location",
@@ -354,6 +353,24 @@ type ContractsWizardPageProps = {
 
 export default function ContractsWizardPage({ selectedId }: ContractsWizardPageProps) {
   const supabase = useMemo(() => createClient(), [])
+  const { t, language } = useLanguage()
+
+  const outputLanguageName = useMemo(() => {
+    switch (language) {
+      case "sr":
+        return "Serbian"
+      case "bs":
+        return "Bosnian"
+      case "hr":
+        return "Croatian"
+      case "sl":
+        return "Slovenian"
+      case "me":
+        return "Montenegrin"
+      default:
+        return "English"
+    }
+  }, [language])
   const [currentStep, setCurrentStep] = useState<WizardStep>(1)
   const [contractType, setContractType] = useState<ContractType | null>(null)
   const [jurisdiction, setJurisdiction] = useState<Jurisdiction | null>(null)
@@ -369,6 +386,26 @@ export default function ContractsWizardPage({ selectedId }: ContractsWizardPageP
   const [detail, setDetail] = useState<ContractDetail | null>(null)
   const [detailLoading, setDetailLoading] = useState(false)
   const [detailError, setDetailError] = useState<string | null>(null)
+
+  const uiLabelForContractType = useCallback(
+    (value: ContractType): string => {
+      const option = CONTRACT_TYPE_OPTIONS.find((opt) => opt.value === value)
+      if (!option) return "Contract"
+      const translated = t(option.translationKey)
+      return translated === option.translationKey ? option.label : translated
+    },
+    [t]
+  )
+
+  const uiLabelForJurisdiction = useCallback(
+    (value: Jurisdiction): string => {
+      const option = JURISDICTION_OPTIONS.find((opt) => opt.value === value)
+      if (!option) return value
+      const translated = t(option.translationKey)
+      return translated === option.translationKey ? option.label : translated
+    },
+    [t]
+  )
 
   useEffect(() => {
     let isMounted = true
@@ -401,7 +438,7 @@ export default function ContractsWizardPage({ selectedId }: ContractsWizardPageP
 
         if (!data) {
           setDetail(null)
-          setDetailError("Record not found")
+          setDetailError(t("contracts.sidebar.recordNotFound"))
           return
         }
 
@@ -423,7 +460,7 @@ export default function ContractsWizardPage({ selectedId }: ContractsWizardPageP
           console.error("Failed to load contract detail:", error)
         }
         setDetail(null)
-        setDetailError("Record not found")
+        setDetailError(t("contracts.sidebar.recordNotFound"))
       } finally {
         if (isMounted) {
           setDetailLoading(false)
@@ -436,7 +473,7 @@ export default function ContractsWizardPage({ selectedId }: ContractsWizardPageP
     return () => {
       isMounted = false
     }
-  }, [selectedId, supabase])
+  }, [selectedId, supabase, t])
 
   const totalSteps = 5
 
@@ -451,24 +488,24 @@ export default function ContractsWizardPage({ selectedId }: ContractsWizardPageP
 
     if (currentStep === 1) {
       if (!contractType) {
-        errors.contractType = "Please select a contract type."
+        errors.contractType = t("contracts.validation.selectContractType")
       }
     }
 
     if (currentStep === 2) {
       if (!jurisdiction) {
-        errors.jurisdiction = "Please select a jurisdiction."
+        errors.jurisdiction = t("contracts.validation.selectJurisdiction")
       }
     }
 
     if (currentStep === 3) {
       if (!contractType || !details) {
-        errors.details = "Please complete the contract details."
+        errors.details = t("contracts.validation.completeDetails")
       } else {
         const data = details.data as Record<string, string>
         Object.entries(data).forEach(([key, value]) => {
           if (!value || !value.trim()) {
-            errors[key] = "This field is required."
+            errors[key] = t("contracts.validation.requiredField")
           }
         })
       }
@@ -494,10 +531,7 @@ export default function ContractsWizardPage({ selectedId }: ContractsWizardPageP
     setCurrentStep((prev) => (prev > 1 ? ((prev - 1) as WizardStep) : prev))
   }
 
-  function handleDetailsChange<K extends keyof EmploymentDetails | keyof ServiceAgreementDetails | keyof SalesContractDetails | keyof LeaseAgreementDetails | keyof NdaDetails | keyof PartnershipAgreementDetails>(
-    field: K,
-    value: string
-  ) {
+  function handleDetailsChange(field: string, value: string) {
     setDetails((prev) => {
       if (!prev) return prev
       return {
@@ -513,8 +547,8 @@ export default function ContractsWizardPage({ selectedId }: ContractsWizardPageP
   const summary = useMemo(() => {
     if (!contractType || !jurisdiction || !details) return null
 
-    const contractLabel = labelForContractType(contractType)
-    const jurisdictionLabel = labelForJurisdiction(jurisdiction)
+    const contractLabel = uiLabelForContractType(contractType)
+    const jurisdictionLabel = uiLabelForJurisdiction(jurisdiction)
     const data = details.data as Record<string, string>
 
     return {
@@ -522,11 +556,11 @@ export default function ContractsWizardPage({ selectedId }: ContractsWizardPageP
       jurisdictionLabel,
       fields: Object.entries(data),
     }
-  }, [contractType, jurisdiction, details])
+  }, [contractType, jurisdiction, details, uiLabelForContractType, uiLabelForJurisdiction])
 
   async function handleGenerate() {
     if (!contractType || !jurisdiction || !details) {
-      setGenerateError("Please complete the previous steps before generating.")
+      setGenerateError(t("contracts.validation.completePreviousSteps"))
       return
     }
 
@@ -537,7 +571,7 @@ export default function ContractsWizardPage({ selectedId }: ContractsWizardPageP
     setSaveSuccess(false)
 
     try {
-      const systemPrompt = buildSystemPrompt(jurisdiction, contractType)
+      const systemPrompt = buildSystemPrompt(jurisdiction, contractType, outputLanguageName)
       const userPrompt = buildUserPrompt(
         contractType,
         jurisdiction,
@@ -580,7 +614,7 @@ export default function ContractsWizardPage({ selectedId }: ContractsWizardPageP
       setGenerateError(
         error instanceof Error
           ? error.message
-          : "Failed to generate contract. Please try again."
+          : t("contracts.errors.generateFailed")
       )
     } finally {
       setIsGenerating(false)
@@ -600,7 +634,7 @@ export default function ContractsWizardPage({ selectedId }: ContractsWizardPageP
       } = await supabase.auth.getUser()
 
       if (!user) {
-        setSaveError("You must be logged in to save contracts.")
+        setSaveError(t("contracts.errors.mustBeLoggedInToSave"))
         return
       }
 
@@ -651,7 +685,18 @@ export default function ContractsWizardPage({ selectedId }: ContractsWizardPageP
         titleParts.push(`- ${parties[0]} & ${parties[1]}`)
       }
 
-      await supabase.from("contracts").insert({
+      type ContractInsert = {
+        user_id: string
+        title: string
+        contract_type: ContractType
+        jurisdiction: Jurisdiction
+        content: string
+        party_names: Record<string, string> | null
+        status: "draft" | string
+        ai_generated: boolean
+      }
+
+      const newContract: ContractInsert = {
         user_id: user.id,
         title: titleParts.join(" "),
         contract_type: contractType,
@@ -660,14 +705,16 @@ export default function ContractsWizardPage({ selectedId }: ContractsWizardPageP
         party_names: Object.keys(partyNames).length ? partyNames : null,
         status: "draft",
         ai_generated: true,
-      } as any)
+      }
+
+      await supabase.from("contracts").insert(newContract)
 
       setSaveSuccess(true)
     } catch (error) {
       setSaveError(
         error instanceof Error
           ? error.message
-          : "Failed to save contract. Please try again."
+          : t("contracts.errors.saveFailed")
       )
     }
   }
@@ -764,11 +811,11 @@ export default function ContractsWizardPage({ selectedId }: ContractsWizardPageP
 
   function renderStepIndicator() {
     const steps = [
-      { id: 1, label: "Contract type" },
-      { id: 2, label: "Jurisdiction" },
-      { id: 3, label: "Details" },
-      { id: 4, label: "Review & generate" },
-      { id: 5, label: "Download & save" },
+      { id: 1, label: t("contracts.steps.step1.title") },
+      { id: 2, label: t("contracts.steps.step2.title") },
+      { id: 3, label: t("contracts.steps.step3.title") },
+      { id: 4, label: t("contracts.steps.step4.title") },
+      { id: 5, label: t("contracts.steps.step5.title") },
     ] as const
 
     return (
@@ -817,7 +864,9 @@ export default function ContractsWizardPage({ selectedId }: ContractsWizardPageP
       return (
         <div className="space-y-4">
           <p className="text-sm text-muted-foreground">
-            Step 1 of {totalSteps}. Choose the type of contract you want to draft.
+            {t("contracts.steps.step1.lead")
+              .replace("{current}", String(1))
+              .replace("{total}", String(totalSteps))}
           </p>
           <div className="grid gap-3 sm:grid-cols-2">
             {CONTRACT_TYPE_OPTIONS.map((option) => {
@@ -842,9 +891,9 @@ export default function ContractsWizardPage({ selectedId }: ContractsWizardPageP
                       : "border-border hover:border-primary/40 hover:bg-muted/60",
                   ].join(" ")}
                 >
-                  <span className="font-medium">{option.label}</span>
+                  <span className="font-medium">{t(option.translationKey) || option.label}</span>
                   <span className="mt-1 text-xs text-muted-foreground">
-                    AI will tailor clauses to this contract type.
+                    {t("contracts.steps.step1.hint")}
                   </span>
                 </button>
               )
@@ -863,10 +912,12 @@ export default function ContractsWizardPage({ selectedId }: ContractsWizardPageP
       return (
         <div className="space-y-4">
           <p className="text-sm text-muted-foreground">
-            Step 2 of {totalSteps}. Select the jurisdiction that will govern this contract.
+            {t("contracts.steps.step2.lead")
+              .replace("{current}", String(2))
+              .replace("{total}", String(totalSteps))}
           </p>
           <div className="max-w-xs space-y-2">
-            <Label>Jurisdiction</Label>
+            <Label>{t("contracts.form.jurisdiction.label")}</Label>
             <Select
               value={jurisdiction ?? undefined}
               onValueChange={(value) => {
@@ -879,12 +930,12 @@ export default function ContractsWizardPage({ selectedId }: ContractsWizardPageP
               }}
             >
               <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select jurisdiction" />
+                <SelectValue placeholder={t("contracts.form.jurisdiction.placeholder")} />
               </SelectTrigger>
               <SelectContent>
                 {JURISDICTION_OPTIONS.map((option) => (
                   <SelectItem key={option.value} value={option.value}>
-                    {option.label}
+                    {t(option.translationKey) || option.label}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -906,68 +957,67 @@ export default function ContractsWizardPage({ selectedId }: ContractsWizardPageP
 
       if (details?.type === "employment") {
         fieldConfigs.push(
-          { name: "employerName", label: "Employer Name" },
-          { name: "employeeName", label: "Employee Name" },
-          { name: "jobTitle", label: "Job Title" },
-          { name: "startDate", label: "Start Date", type: "date" },
-          { name: "salary", label: "Salary" },
-          { name: "workLocation", label: "Work Location" },
-          { name: "contractDuration", label: "Contract Duration" }
+          { name: "employerName", label: t("contracts.fields.employerName") },
+          { name: "employeeName", label: t("contracts.fields.employeeName") },
+          { name: "jobTitle", label: t("contracts.fields.jobTitle") },
+          { name: "startDate", label: t("contracts.fields.startDate"), type: "date" },
+          { name: "salary", label: t("contracts.fields.salary") },
+          { name: "workLocation", label: t("contracts.fields.workLocation") },
+          { name: "contractDuration", label: t("contracts.fields.contractDuration") }
         )
       } else if (details?.type === "service") {
         fieldConfigs.push(
-          { name: "clientName", label: "Client Name" },
-          { name: "serviceProviderName", label: "Service Provider Name" },
-          { name: "serviceDescription", label: "Service Description" },
-          { name: "paymentAmount", label: "Payment Amount" },
-          { name: "paymentSchedule", label: "Payment Schedule" },
-          { name: "startDate", label: "Start Date", type: "date" },
-          { name: "endDate", label: "End Date", type: "date" }
+          { name: "clientName", label: t("contracts.fields.clientName") },
+          { name: "serviceProviderName", label: t("contracts.fields.serviceProviderName") },
+          { name: "serviceDescription", label: t("contracts.fields.serviceDescription") },
+          { name: "paymentAmount", label: t("contracts.fields.paymentAmount") },
+          { name: "paymentSchedule", label: t("contracts.fields.paymentSchedule") },
+          { name: "startDate", label: t("contracts.fields.startDate"), type: "date" },
+          { name: "endDate", label: t("contracts.fields.endDate"), type: "date" }
         )
       } else if (details?.type === "sales") {
         fieldConfigs.push(
-          { name: "sellerName", label: "Seller Name" },
-          { name: "buyerName", label: "Buyer Name" },
-          { name: "itemDescription", label: "Item Description" },
-          { name: "purchasePrice", label: "Purchase Price" },
-          { name: "paymentTerms", label: "Payment Terms" },
-          { name: "deliveryDate", label: "Delivery Date", type: "date" }
+          { name: "sellerName", label: t("contracts.fields.sellerName") },
+          { name: "buyerName", label: t("contracts.fields.buyerName") },
+          { name: "itemDescription", label: t("contracts.fields.itemDescription") },
+          { name: "purchasePrice", label: t("contracts.fields.purchasePrice") },
+          { name: "paymentTerms", label: t("contracts.fields.paymentTerms") },
+          { name: "deliveryDate", label: t("contracts.fields.deliveryDate"), type: "date" }
         )
       } else if (details?.type === "lease") {
         fieldConfigs.push(
-          { name: "landlordName", label: "Landlord Name" },
-          { name: "tenantName", label: "Tenant Name" },
-          { name: "propertyAddress", label: "Property Address" },
-          { name: "monthlyRent", label: "Monthly Rent" },
-          { name: "depositAmount", label: "Deposit Amount" },
-          { name: "leaseStartDate", label: "Lease Start Date", type: "date" },
-          { name: "leaseDuration", label: "Lease Duration" }
+          { name: "landlordName", label: t("contracts.fields.landlordName") },
+          { name: "tenantName", label: t("contracts.fields.tenantName") },
+          { name: "propertyAddress", label: t("contracts.fields.propertyAddress") },
+          { name: "monthlyRent", label: t("contracts.fields.monthlyRent") },
+          { name: "depositAmount", label: t("contracts.fields.depositAmount") },
+          { name: "leaseStartDate", label: t("contracts.fields.leaseStartDate"), type: "date" },
+          { name: "leaseDuration", label: t("contracts.fields.leaseDuration") }
         )
       } else if (details?.type === "nda") {
         fieldConfigs.push(
-          { name: "disclosingParty", label: "Disclosing Party" },
-          { name: "receivingParty", label: "Receiving Party" },
-          { name: "purpose", label: "Purpose" },
-          {
-            name: "confidentialInfoDescription",
-            label: "Confidential Info Description",
-          },
-          { name: "duration", label: "Duration" }
+          { name: "disclosingParty", label: t("contracts.fields.disclosingParty") },
+          { name: "receivingParty", label: t("contracts.fields.receivingParty") },
+          { name: "purpose", label: t("contracts.fields.purpose") },
+          { name: "confidentialInfoDescription", label: t("contracts.fields.confidentialInfoDescription") },
+          { name: "duration", label: t("contracts.fields.duration") }
         )
       } else if (details?.type === "partnership") {
         fieldConfigs.push(
-          { name: "partner1Name", label: "Partner 1 Name" },
-          { name: "partner2Name", label: "Partner 2 Name" },
-          { name: "businessPurpose", label: "Business Purpose" },
-          { name: "profitSplit", label: "Profit Split %" },
-          { name: "startDate", label: "Start Date", type: "date" }
+          { name: "partner1Name", label: t("contracts.fields.partner1Name") },
+          { name: "partner2Name", label: t("contracts.fields.partner2Name") },
+          { name: "businessPurpose", label: t("contracts.fields.businessPurpose") },
+          { name: "profitSplit", label: t("contracts.fields.profitSplit") },
+          { name: "startDate", label: t("contracts.fields.startDate"), type: "date" }
         )
       }
 
       return (
         <div className="space-y-4">
           <p className="text-sm text-muted-foreground">
-            Step 3 of {totalSteps}. Fill in the key parties and commercial terms. AI will handle the boilerplate and jurisdiction-specific clauses.
+            {t("contracts.steps.step3.lead")
+              .replace("{current}", String(3))
+              .replace("{total}", String(totalSteps))}
           </p>
 
           <div className="grid gap-4 md:grid-cols-2">
@@ -979,7 +1029,7 @@ export default function ContractsWizardPage({ selectedId }: ContractsWizardPageP
                   type={field.type ?? "text"}
                   value={data?.[field.name] ?? ""}
                   onChange={(event) =>
-                    handleDetailsChange(field.name as any, event.target.value)
+                    handleDetailsChange(field.name, event.target.value)
                   }
                 />
                 {validationErrors[field.name] && (
@@ -1004,23 +1054,25 @@ export default function ContractsWizardPage({ selectedId }: ContractsWizardPageP
       return (
         <div className="space-y-4">
           <p className="text-sm text-muted-foreground">
-            Step 4 of {totalSteps}. Review the summary and add any special instructions before generating the contract.
+            {t("contracts.steps.step4.lead")
+              .replace("{current}", String(4))
+              .replace("{total}", String(totalSteps))}
           </p>
 
           <Card className="border-dashed bg-muted/40 p-4">
             {summary ? (
               <div className="space-y-2 text-sm">
                 <p>
-                  <span className="font-medium">Contract type:</span>{" "}
+                  <span className="font-medium">{t("contracts.summary.contractType")}:</span>{" "}
                   {summary.contractLabel}
                 </p>
                 <p>
-                  <span className="font-medium">Jurisdiction:</span>{" "}
+                  <span className="font-medium">{t("contracts.summary.jurisdiction")}:</span>{" "}
                   {summary.jurisdictionLabel}
                 </p>
                 <div className="mt-3 space-y-1">
                   <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                    Key details
+                    {t("contracts.summary.keyDetails")}
                   </p>
                   <ul className="space-y-0.5 text-sm">
                     {summary.fields.map(([key, value]) => (
@@ -1031,7 +1083,7 @@ export default function ContractsWizardPage({ selectedId }: ContractsWizardPageP
                             .replace(/^./, (c) => c.toUpperCase())}
                           :
                         </span>{" "}
-                        {value || "—"}
+                        {value || t("contracts.common.emptyValue")}
                       </li>
                     ))}
                   </ul>
@@ -1039,24 +1091,24 @@ export default function ContractsWizardPage({ selectedId }: ContractsWizardPageP
               </div>
             ) : (
               <p className="text-sm text-muted-foreground">
-                Complete the earlier steps to see a structured summary of your contract inputs.
+                {t("contracts.summary.completeEarlierSteps")}
               </p>
             )}
           </Card>
 
           <div className="space-y-2">
             <Label htmlFor="additionalInstructions">
-              Additional instructions (optional)
+              {t("contracts.form.additionalInstructions.label")}
             </Label>
             <Textarea
               id="additionalInstructions"
               value={additionalInstructions}
               onChange={(event) => setAdditionalInstructions(event.target.value)}
-              placeholder="E.g. Include a 3-month probation period, add non-compete clause limited to 12 months and Serbia only, specify arbitration in Belgrade, etc."
+              placeholder={t("contracts.form.additionalInstructions.placeholder")}
               rows={4}
             />
             <p className="text-xs text-muted-foreground">
-              These instructions will be added to the AI prompt but you must always review the final wording before use.
+              {t("contracts.form.additionalInstructions.help")}
             </p>
           </div>
 
@@ -1075,10 +1127,12 @@ export default function ContractsWizardPage({ selectedId }: ContractsWizardPageP
               {isGenerating && (
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               )}
-              {isGenerating ? "Generating contract..." : "Generate contract"}
+              {isGenerating
+                ? t("contracts.actions.generating")
+                : t("contracts.actions.generate")}
             </Button>
             <p className="text-xs text-muted-foreground">
-              Uses your plan&apos;s AI quota. Output is a draft only and does not constitute legal advice.
+              {t("contracts.actions.note")}
             </p>
           </div>
         </div>
@@ -1089,7 +1143,9 @@ export default function ContractsWizardPage({ selectedId }: ContractsWizardPageP
     return (
       <div className="space-y-4">
         <p className="text-sm text-muted-foreground">
-          Step 5 of {totalSteps}. Download the contract or save it into your Legantis workspace.
+          {t("contracts.steps.step5.lead")
+            .replace("{current}", String(5))
+            .replace("{total}", String(totalSteps))}
         </p>
 
         <div className="flex flex-wrap items-center gap-2">
@@ -1100,7 +1156,7 @@ export default function ContractsWizardPage({ selectedId }: ContractsWizardPageP
             onClick={handleDownloadPdf}
             disabled={!generatedContent}
           >
-            Download PDF
+            {t("contracts.actions.downloadPdf")}
           </Button>
           <Button
             type="button"
@@ -1109,7 +1165,7 @@ export default function ContractsWizardPage({ selectedId }: ContractsWizardPageP
             onClick={handleDownloadDocx}
             disabled={!generatedContent}
           >
-            Download DOCX
+            {t("contracts.actions.downloadDocx")}
           </Button>
           <Button
             type="button"
@@ -1117,13 +1173,13 @@ export default function ContractsWizardPage({ selectedId }: ContractsWizardPageP
             onClick={handleSave}
             disabled={!generatedContent}
           >
-            Save to contracts
+            {t("contracts.actions.saveToContracts")}
           </Button>
         </div>
 
         {saveSuccess && (
           <p className="text-xs font-medium text-emerald-600">
-            Contract saved to your workspace.
+            {t("contracts.messages.saved")}
           </p>
         )}
         {saveError && (
@@ -1139,7 +1195,7 @@ export default function ContractsWizardPage({ selectedId }: ContractsWizardPageP
             </pre>
           ) : (
             <p className="text-sm text-muted-foreground">
-              Generate a contract in the previous step to see the AI draft here.
+              {t("contracts.preview.empty")}
             </p>
           )}
         </div>
@@ -1154,17 +1210,17 @@ export default function ContractsWizardPage({ selectedId }: ContractsWizardPageP
           <header className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
             <div>
               <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                Legantis · Contract drafting
+                {t("contracts.header.kicker")}
               </p>
               <h1 className="mt-1 text-3xl font-semibold tracking-tight text-foreground">
-                AI contract drafting wizard
+                {t("contracts.header.title")}
               </h1>
               <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
-                Step-by-step contract builder for employment, services, sales, leases, NDAs, and partnerships across the Balkans.
+                {t("contracts.header.subtitle")}
               </p>
             </div>
             <Button asChild variant="outline" size="sm">
-              <Link href="/dashboard">Back to dashboard</Link>
+              <Link href="/dashboard">{t("contracts.header.back")}</Link>
             </Button>
           </header>
 
@@ -1172,10 +1228,10 @@ export default function ContractsWizardPage({ selectedId }: ContractsWizardPageP
             <div className="mb-6 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
               <div className="space-y-1">
                 <h2 className="text-sm font-semibold tracking-tight text-foreground">
-                  Contract drafting steps
+                  {t("contracts.section.stepsTitle")}
                 </h2>
                 <p className="text-xs text-muted-foreground">
-                  Move through each step to capture parties, commercial terms, and jurisdiction before generating the final draft.
+                  {t("contracts.section.stepsSubtitle")}
                 </p>
               </div>
               {renderStepIndicator()}
@@ -1194,24 +1250,26 @@ export default function ContractsWizardPage({ selectedId }: ContractsWizardPageP
                       onClick={handleBack}
                       disabled={currentStep === 1}
                     >
-                      Back
+                      {t("contracts.nav.back")}
                     </Button>
                     {currentStep < 4 && (
                       <Button type="button" size="sm" onClick={handleNext}>
-                        Next
+                        {t("contracts.nav.next")}
                       </Button>
                     )}
                   </div>
                   <p className="text-xs text-muted-foreground">
-                    Step {currentStep} of {totalSteps}
+                    {t("contracts.nav.stepOf")
+                      .replace("{current}", String(currentStep))
+                      .replace("{total}", String(totalSteps))}
                   </p>
                 </div>
               </div>
 
               <div className="space-y-4 rounded-md border bg-muted/30 p-4">
-                <h2 className="text-sm font-semibold">Contract preview</h2>
+                <h2 className="text-sm font-semibold">{t("contracts.preview.title")}</h2>
                 <p className="text-xs text-muted-foreground">
-                  Live preview of the generated contract. This is a draft only and must be reviewed by a qualified lawyer before use.
+                  {t("contracts.preview.subtitle")}
                 </p>
                 <div className="mt-2 rounded-md border bg-background p-3">
                   {generatedContent ? (
@@ -1220,7 +1278,7 @@ export default function ContractsWizardPage({ selectedId }: ContractsWizardPageP
                     </pre>
                   ) : (
                     <p className="text-sm text-muted-foreground">
-                      Once you generate a contract, the full text will appear here. You can then download it as PDF/DOCX or save it to your Legantis contracts.
+                      {t("contracts.preview.empty")}
                     </p>
                   )}
                 </div>
@@ -1230,15 +1288,20 @@ export default function ContractsWizardPage({ selectedId }: ContractsWizardPageP
         </div>
 
         <Card className="h-fit space-y-4 p-6">
-          <h2 className="text-lg font-semibold">Contract details</h2>
+          <h2 className="text-lg font-semibold">{t("contracts.sidebar.title")}</h2>
           {!selectedId ? (
-            <p className="text-sm text-muted-foreground">
-              Select a contract from recent activity to see details here.
-            </p>
+            <div className="space-y-3">
+              <p className="text-sm text-muted-foreground">
+                {t("contracts.sidebar.empty")}
+              </p>
+              <Button asChild variant="outline" size="sm">
+                <Link href="/dashboard/activity">{t("contracts.sidebar.viewActivity")}</Link>
+              </Button>
+            </div>
           ) : detailLoading ? (
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <Loader2 className="h-4 w-4 animate-spin" />
-              <span>Loading contract…</span>
+              <span>{t("contracts.sidebar.loading")}</span>
             </div>
           ) : detailError ? (
             <p className="text-sm text-destructive">{detailError}</p>
@@ -1247,18 +1310,21 @@ export default function ContractsWizardPage({ selectedId }: ContractsWizardPageP
               <div>
                 <p className="font-medium">{detail.title}</p>
                 <p className="text-xs text-muted-foreground">
-                  {labelForContractType(detail.contract_type)} ·{" "}
-                  {labelForJurisdiction(detail.jurisdiction)}
+                  {uiLabelForContractType(detail.contract_type)} ·{" "}
+                  {uiLabelForJurisdiction(detail.jurisdiction)}
                 </p>
                 <p className="text-xs text-muted-foreground">
-                  Status: {detail.status}
+                  {t("contracts.sidebar.status")} {detail.status}
                 </p>
                 <p className="text-xs text-muted-foreground">
-                  Created {new Date(detail.created_at).toLocaleDateString()}
+                  {t("contracts.sidebar.created")}{" "}
+                  {new Date(detail.created_at).toLocaleDateString()}
                 </p>
               </div>
               <div className="space-y-1 text-xs text-muted-foreground">
-                <p className="font-medium text-foreground">Content</p>
+                <p className="font-medium text-foreground">
+                  {t("contracts.sidebar.content")}
+                </p>
                 <div className="max-h-64 overflow-y-auto rounded-md border bg-muted/40 p-3">
                   <pre className="whitespace-pre-wrap">{detail.content}</pre>
                 </div>

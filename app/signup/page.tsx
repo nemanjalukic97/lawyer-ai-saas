@@ -8,14 +8,31 @@ import { Label } from "@/components/ui/label"
 import JurisdictionSelect from "@/components/JurisdictionSelect"
 import { authCopy } from "@/lib/copy"
 
+type SignupSearchParams = {
+  error?: string
+  success?: string
+  plan?: string
+}
+
+const PLAN_LABELS: Record<string, string> = {
+  solo: "Solo",
+  professional: "Professional",
+  firm: "Firm",
+}
+
 export default async function SignupPage({
   searchParams,
 }: {
-  searchParams: Promise<{ error?: string; success?: string }>
+  searchParams: Promise<SignupSearchParams>
 }) {
   const params = await searchParams
   const errorCode = params?.error
   const hasSuccess = params?.success === "true"
+  const selectedPlanKey = params?.plan
+  const selectedPlanLabel =
+    selectedPlanKey && PLAN_LABELS[selectedPlanKey]
+      ? PLAN_LABELS[selectedPlanKey]
+      : null
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background px-4">
@@ -60,6 +77,15 @@ export default async function SignupPage({
               <p className="text-sm text-muted-foreground">
                 {authCopy.signupDescription}
               </p>
+              {selectedPlanLabel && (
+                <p className="text-xs text-muted-foreground">
+                  You selected the{" "}
+                  <span className="font-medium text-foreground">
+                    {selectedPlanLabel}
+                  </span>{" "}
+                  plan. You can change this later from your dashboard.
+                </p>
+              )}
             </div>
 
             <form className="space-y-4" action={signup}>
@@ -126,8 +152,6 @@ export default async function SignupPage({
                   autoComplete="new-password"
                   required
                   minLength={6}
-                  pattern="^(?=.*[A-Z])(?=.*\\d)(?=.*[.,$#@!%&*?]).{6,}$"
-                  title="Password must be at least 6 characters and include one uppercase letter, one number, and one special character (such as ., $ or #)."
                 />
                 {errorCode === "weak_password" ? (
                   <p className="mt-1 text-sm text-red-500">

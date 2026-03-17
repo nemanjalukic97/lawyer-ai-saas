@@ -9,7 +9,42 @@ export const FEATURES = [
 ] as const;
 
 export const PRICING_TIERS = [
-  { id: "solo", name: "Solo", price: 29, features: ["Features 1, 3, 4, 9"], recommended: false },
-  { id: "professional", name: "Professional", price: 59, features: ["All 10 features"], recommended: true },
-  { id: "firm", name: "Firm", price: 79, features: ["All features", "Priority support"], recommended: false },
+  {
+    id: "solo",
+    name: "Solo",
+    price: 29,
+    features: [
+      "Document generation",
+      "Contract drafting",
+      "Template library",
+      "20 AI calls/day",
+    ],
+    recommended: false,
+  },
+  {
+    id: "professional",
+    name: "Professional",
+    price: 59,
+    features: [
+      "Everything in Solo",
+      "Case outcome predictions",
+      "Document analysis",
+      "Time tracking & billing",
+      "Client portal",
+      "100 AI calls/day",
+    ],
+    recommended: true,
+  },
+  {
+    id: "firm",
+    name: "Firm",
+    price: 79,
+    features: [
+      "Everything in Professional",
+      "Priority support",
+      "300 AI calls/day",
+      "Multiple team members",
+    ],
+    recommended: false,
+  },
 ] as const;

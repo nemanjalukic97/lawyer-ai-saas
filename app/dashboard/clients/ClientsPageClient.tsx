@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { ArrowDown, ArrowUp, Loader2, Trash2 } from "lucide-react"
 import { createClient } from "@/lib/supabase/client"
+import { useLanguage } from "@/components/LanguageProvider"
 
 type Client = {
   id: string
@@ -45,6 +46,7 @@ type Props = {
 
 export default function ClientsPageClient({ selectedId }: Props) {
   const supabase = useMemo(() => createClient(), [])
+  const { t } = useLanguage()
 
   const [clients, setClients] = useState<Client[]>([])
   const [loadingClients, setLoadingClients] = useState(true)
@@ -86,7 +88,7 @@ export default function ClientsPageClient({ selectedId }: Props) {
 
         if (!user) {
           if (!isMounted) return
-          setListError("You must be logged in to view clients.")
+          setListError(t("clients.errors.mustBeLoggedInToView"))
           return
         }
 
@@ -124,7 +126,7 @@ export default function ClientsPageClient({ selectedId }: Props) {
           // eslint-disable-next-line no-console
           console.error("Failed to load clients:", error)
         }
-        setListError("Failed to load clients. Please try again.")
+        setListError(t("clients.errors.loadFailed"))
       } finally {
         if (isMounted) {
           setLoadingClients(false)
@@ -170,7 +172,7 @@ export default function ClientsPageClient({ selectedId }: Props) {
 
         if (!data) {
           setSelectedClient(null)
-          setSelectedError("Record not found")
+          setSelectedError(t("clients.sidebar.recordNotFound"))
           return
         }
 
@@ -197,7 +199,7 @@ export default function ClientsPageClient({ selectedId }: Props) {
           console.error("Failed to load client detail:", error)
         }
         setSelectedClient(null)
-        setSelectedError("Record not found")
+        setSelectedError(t("clients.sidebar.recordNotFound"))
       } finally {
         if (isMounted) {
           setSelectedLoading(false)
@@ -227,7 +229,7 @@ export default function ClientsPageClient({ selectedId }: Props) {
     setSuccessMessage(null)
 
     if (!fullName.trim() || !email.trim()) {
-      setFormError("Full name and email are required.")
+      setFormError(t("clients.form.errors.nameAndEmailRequired"))
       return
     }
 
@@ -239,7 +241,7 @@ export default function ClientsPageClient({ selectedId }: Props) {
       } = await supabase.auth.getUser()
 
       if (!user) {
-        setFormError("You must be logged in to add clients.")
+        setFormError(t("clients.form.errors.mustBeLoggedInToAdd"))
         return
       }
 
@@ -279,13 +281,13 @@ export default function ClientsPageClient({ selectedId }: Props) {
       setClients((prev) => [newClient, ...prev])
       resetForm()
       setIsAdding(false)
-      setSuccessMessage("Client added successfully.")
+      setSuccessMessage(t("clients.messages.added"))
     } catch (error) {
       if (process.env.NODE_ENV !== "production") {
         // eslint-disable-next-line no-console
         console.error("Failed to add client:", error)
       }
-      setFormError("Failed to add client. Please try again.")
+      setFormError(t("clients.form.errors.createFailed"))
     } finally {
       setCreating(false)
     }
@@ -339,14 +341,13 @@ export default function ClientsPageClient({ selectedId }: Props) {
           <header className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
             <div>
               <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                Legantis · Clients
+                {t("clients.header.kicker")}
               </p>
               <h1 className="mt-1 text-3xl font-semibold tracking-tight text-foreground">
-                Clients
+                {t("clients.header.title")}
               </h1>
               <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
-                Manage your client list, store key contact details, and prepare
-                for secure client-portal access.
+                {t("clients.header.subtitle")}
               </p>
               {successMessage && (
                 <p className="mt-2 text-sm text-emerald-600">
@@ -356,7 +357,7 @@ export default function ClientsPageClient({ selectedId }: Props) {
             </div>
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
               <Button asChild variant="outline" size="sm">
-                <Link href="/dashboard">Back to dashboard</Link>
+                <Link href="/dashboard">{t("clients.header.back")}</Link>
               </Button>
               <Button
                 type="button"
@@ -366,7 +367,7 @@ export default function ClientsPageClient({ selectedId }: Props) {
                   setFormError(null)
                 }}
               >
-                {isAdding ? "Cancel" : "Add client"}
+                {isAdding ? t("clients.actions.cancel") : t("clients.actions.addClient")}
               </Button>
             </div>
           </header>
@@ -376,23 +377,23 @@ export default function ClientsPageClient({ selectedId }: Props) {
               <form onSubmit={handleCreate} className="space-y-6">
                 <div className="grid gap-4 md:grid-cols-2">
                   <div className="space-y-2">
-                    <Label htmlFor="fullName">Full name</Label>
+                    <Label htmlFor="fullName">{t("clients.form.fullName.label")}</Label>
                     <Input
                       id="fullName"
                       value={fullName}
                       onChange={(event) => setFullName(event.target.value)}
-                      placeholder="e.g. Ana Kovač"
+                      placeholder={t("clients.form.fullName.placeholder")}
                       required
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="email">Email address</Label>
+                    <Label htmlFor="email">{t("clients.form.email.label")}</Label>
                     <Input
                       id="email"
                       type="email"
                       value={email}
                       onChange={(event) => setEmail(event.target.value)}
-                      placeholder="ana.kovac@example.com"
+                      placeholder={t("clients.form.email.placeholder")}
                       required
                     />
                   </div>
@@ -400,33 +401,33 @@ export default function ClientsPageClient({ selectedId }: Props) {
 
                 <div className="grid gap-4 md:grid-cols-2">
                   <div className="space-y-2">
-                    <Label htmlFor="phone">Phone number</Label>
+                    <Label htmlFor="phone">{t("clients.form.phone.label")}</Label>
                     <Input
                       id="phone"
                       value={phone}
                       onChange={(event) => setPhone(event.target.value)}
-                      placeholder="+387 61 000 000"
+                      placeholder={t("clients.form.phone.placeholder")}
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="companyName">Company name</Label>
+                    <Label htmlFor="companyName">{t("clients.form.companyName.label")}</Label>
                     <Input
                       id="companyName"
                       value={companyName}
                       onChange={(event) => setCompanyName(event.target.value)}
-                      placeholder="e.g. ACME d.o.o."
+                      placeholder={t("clients.form.companyName.placeholder")}
                     />
                   </div>
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="notes">Notes</Label>
+                  <Label htmlFor="notes">{t("clients.form.notes.label")}</Label>
                   <Textarea
                     id="notes"
                     value={notes}
                     onChange={(event) => setNotes(event.target.value)}
                     rows={3}
-                    placeholder="Key information about this client, typical matters, preferences..."
+                    placeholder={t("clients.form.notes.placeholder")}
                   />
                 </div>
 
@@ -441,7 +442,7 @@ export default function ClientsPageClient({ selectedId }: Props) {
                     {creating && (
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     )}
-                    {creating ? "Saving client..." : "Save client"}
+                    {creating ? t("clients.form.actions.saving") : t("clients.form.actions.save")}
                   </Button>
                   <Button
                     type="button"
@@ -451,7 +452,7 @@ export default function ClientsPageClient({ selectedId }: Props) {
                       setIsAdding(false)
                     }}
                   >
-                    Cancel
+                    {t("clients.actions.cancel")}
                   </Button>
                 </div>
               </form>
@@ -461,15 +462,15 @@ export default function ClientsPageClient({ selectedId }: Props) {
           <Card className="space-y-4 p-6">
             <div className="flex items-center justify-between gap-4">
               <div>
-                <h2 className="text-lg font-semibold">Client list</h2>
+                <h2 className="text-lg font-semibold">{t("clients.list.title")}</h2>
                 <p className="mt-1 text-sm text-muted-foreground">
-                  All clients you have added to your workspace.
+                  {t("clients.list.subtitle")}
                 </p>
               </div>
 
               <div className="flex items-center gap-2 text-xs">
                 <label className="flex items-center gap-1 text-muted-foreground">
-                  <span>Sort by</span>
+                  <span>{t("clients.list.sortBy")}</span>
                   <select
                     className="rounded-md border bg-background px-2 py-1 text-xs"
                     value={sortField}
@@ -479,8 +480,8 @@ export default function ClientsPageClient({ selectedId }: Props) {
                       )
                     }
                   >
-                    <option value="name">Name</option>
-                    <option value="created_at">Date added</option>
+                    <option value="name">{t("clients.list.sort.name")}</option>
+                    <option value="created_at">{t("clients.list.sort.dateAdded")}</option>
                   </select>
                 </label>
                 <Button
@@ -493,8 +494,8 @@ export default function ClientsPageClient({ selectedId }: Props) {
                   }
                   aria-label={
                     sortDirection === "asc"
-                      ? "Sort descending"
-                      : "Sort ascending"
+                      ? t("clients.list.sortDescending")
+                      : t("clients.list.sortAscending")
                   }
                 >
                   {sortDirection === "asc" ? (
@@ -516,13 +517,13 @@ export default function ClientsPageClient({ selectedId }: Props) {
               {loadingClients ? (
                 <div className="flex items-center gap-2 p-4 text-sm text-muted-foreground">
                   <Loader2 className="h-4 w-4 animate-spin" />
-                  <span>Loading clients...</span>
+                  <span>{t("clients.list.loading")}</span>
                 </div>
               ) : sortedClients.length === 0 ? (
                 <div className="space-y-2 p-4 text-sm text-muted-foreground">
-                  <p>No clients yet.</p>
+                  <p>{t("clients.list.emptyTitle")}</p>
                   <p>
-                    Add your first client using the “Add client” button above.
+                    {t("clients.list.emptySubtitle")}
                   </p>
                 </div>
               ) : (
@@ -546,7 +547,7 @@ export default function ClientsPageClient({ selectedId }: Props) {
                           {client.phone && <span>{client.phone}</span>}
                         </div>
                         <p className="text-xs text-muted-foreground">
-                          Added {formatDisplayDate(client.created_at)}
+                          {t("clients.list.added")} {formatDisplayDate(client.created_at)}
                         </p>
                         {client.notes && (
                           <p className="max-w-xl text-xs text-muted-foreground line-clamp-2">
@@ -562,7 +563,7 @@ export default function ClientsPageClient({ selectedId }: Props) {
                           size="icon"
                           onClick={() => void handleDelete(client.id)}
                           disabled={deletingId === client.id}
-                          aria-label="Delete client"
+                          aria-label={t("clients.actions.deleteAria")}
                         >
                           {deletingId === client.id ? (
                             <Loader2 className="h-4 w-4 animate-spin" />
@@ -580,15 +581,20 @@ export default function ClientsPageClient({ selectedId }: Props) {
         </div>
 
         <Card className="h-fit space-y-4 p-6">
-          <h2 className="text-lg font-semibold">Client details</h2>
+          <h2 className="text-lg font-semibold">{t("clients.sidebar.title")}</h2>
           {!selectedId ? (
-            <p className="text-sm text-muted-foreground">
-              Select a client from recent activity to see details here.
-            </p>
+            <div className="space-y-3">
+              <p className="text-sm text-muted-foreground">
+                {t("clients.sidebar.empty")}
+              </p>
+              <Button asChild variant="outline" size="sm">
+                <Link href="/dashboard/activity">{t("clients.sidebar.viewActivity")}</Link>
+              </Button>
+            </div>
           ) : selectedLoading ? (
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <Loader2 className="h-4 w-4 animate-spin" />
-              <span>Loading client…</span>
+              <span>{t("clients.sidebar.loading")}</span>
             </div>
           ) : selectedError ? (
             <p className="text-sm text-destructive">{selectedError}</p>
@@ -606,33 +612,43 @@ export default function ClientsPageClient({ selectedId }: Props) {
                 </p>
               </div>
               <div className="space-y-1 text-xs text-muted-foreground">
-                <p>Email: {selectedClient.email}</p>
-                {selectedClient.phone && <p>Phone: {selectedClient.phone}</p>}
+                <p>
+                  {t("clients.sidebar.email")} {selectedClient.email}
+                </p>
+                {selectedClient.phone && (
+                  <p>
+                    {t("clients.sidebar.phone")} {selectedClient.phone}
+                  </p>
+                )}
                 {selectedClient.address && (
-                  <p>Address: {selectedClient.address}</p>
+                  <p>
+                    {t("clients.sidebar.address")} {selectedClient.address}
+                  </p>
                 )}
               </div>
               {(selectedClient.default_hourly_rate ||
                 selectedClient.currency) && (
                 <div className="space-y-1 text-xs text-muted-foreground">
                   <p>
-                    Default rate:{" "}
+                    {t("clients.sidebar.defaultRate")}{" "}
                     {selectedClient.default_hourly_rate
                       ? `${selectedClient.default_hourly_rate} ${
                           selectedClient.currency ?? "EUR"
                         }/h`
-                      : "Not set"}
+                      : t("clients.common.notSet")}
                   </p>
                 </div>
               )}
               {selectedClient.status && (
                 <p className="text-xs text-muted-foreground">
-                  Status: {selectedClient.status}
+                  {t("clients.sidebar.status")} {selectedClient.status}
                 </p>
               )}
               {selectedClient.notes && (
                 <div className="space-y-1 text-xs text-muted-foreground">
-                  <p className="font-medium text-foreground">Notes</p>
+                  <p className="font-medium text-foreground">
+                    {t("clients.form.notes.label")}
+                  </p>
                   <p className="whitespace-pre-wrap">{selectedClient.notes}</p>
                 </div>
               )}

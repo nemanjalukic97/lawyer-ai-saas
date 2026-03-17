@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/select"
 import { Loader2 } from "lucide-react"
 import { createClient } from "@/lib/supabase/client"
+import { useLanguage } from "@/components/LanguageProvider"
 
 type CaseType =
   | "civil"
@@ -42,6 +43,8 @@ interface Option<T extends string> {
   label: string
 }
 
+type LocalizedOption<T extends string> = Option<T> & { translationKey: string }
+
 type PredictionDetail = {
   id: string
   case_name: string | null
@@ -55,38 +58,41 @@ type PredictionDetail = {
   created_at: string
 }
 
-const CASE_TYPE_OPTIONS: Option<CaseType>[] = [
-  { value: "civil", label: "Civil Law" },
-  { value: "commercial", label: "Commercial Law" },
-  { value: "labor", label: "Labor Law" },
-  { value: "family", label: "Family Law" },
-  { value: "criminal", label: "Criminal Law" },
-  { value: "administrative", label: "Administrative Law" },
+const CASE_TYPE_OPTIONS: LocalizedOption<CaseType>[] = [
+  { value: "civil", label: "Civil Law", translationKey: "predictions.caseTypes.civil" },
+  { value: "commercial", label: "Commercial Law", translationKey: "predictions.caseTypes.commercial" },
+  { value: "labor", label: "Labor Law", translationKey: "predictions.caseTypes.labor" },
+  { value: "family", label: "Family Law", translationKey: "predictions.caseTypes.family" },
+  { value: "criminal", label: "Criminal Law", translationKey: "predictions.caseTypes.criminal" },
+  { value: "administrative", label: "Administrative Law", translationKey: "predictions.caseTypes.administrative" },
 ]
 
-const JURISDICTION_OPTIONS: Option<Jurisdiction>[] = [
-  { value: "serbia", label: "Serbia" },
-  { value: "croatia", label: "Croatia" },
+const JURISDICTION_OPTIONS: LocalizedOption<Jurisdiction>[] = [
+  { value: "serbia", label: "Serbia", translationKey: "predictions.jurisdictions.serbia" },
+  { value: "croatia", label: "Croatia", translationKey: "predictions.jurisdictions.croatia" },
   {
     value: "bih_fbih",
     label: "Bosnia & Herzegovina - Federation",
+    translationKey: "predictions.jurisdictions.bih_fbih",
   },
   {
     value: "bih_rs",
     label: "Bosnia & Herzegovina - Republika Srpska",
+    translationKey: "predictions.jurisdictions.bih_rs",
   },
   {
     value: "bih_brcko",
     label: "Bosnia & Herzegovina - Brcko District",
+    translationKey: "predictions.jurisdictions.bih_brcko",
   },
-  { value: "montenegro", label: "Montenegro" },
-  { value: "slovenia", label: "Slovenia" },
+  { value: "montenegro", label: "Montenegro", translationKey: "predictions.jurisdictions.montenegro" },
+  { value: "slovenia", label: "Slovenia", translationKey: "predictions.jurisdictions.slovenia" },
 ]
 
-const EVIDENCE_QUALITY_OPTIONS: Option<EvidenceQuality>[] = [
-  { value: "strong", label: "Strong" },
-  { value: "medium", label: "Medium" },
-  { value: "weak", label: "Weak" },
+const EVIDENCE_QUALITY_OPTIONS: LocalizedOption<EvidenceQuality>[] = [
+  { value: "strong", label: "Strong", translationKey: "predictions.evidenceQuality.strong" },
+  { value: "medium", label: "Medium", translationKey: "predictions.evidenceQuality.medium" },
+  { value: "weak", label: "Weak", translationKey: "predictions.evidenceQuality.weak" },
 ]
 
 function cleanMarkdown(text: string): string {
@@ -96,22 +102,112 @@ function cleanMarkdown(text: string): string {
     .replace(/#{1,6}\s/g, "")
 }
 
-function labelForCaseType(caseType: CaseType): string {
-  const option = CASE_TYPE_OPTIONS.find((opt) => opt.value === caseType)
-  return option?.label ?? caseType
-}
-
 function labelForJurisdiction(jurisdiction: Jurisdiction): string {
   const option = JURISDICTION_OPTIONS.find((opt) => opt.value === jurisdiction)
   return option?.label ?? jurisdiction
 }
 
-function labelForEvidenceQuality(evidence: EvidenceQuality): string {
-  const option = EVIDENCE_QUALITY_OPTIONS.find((opt) => opt.value === evidence)
-  return option?.label ?? evidence
+type PredictionSectionConfig = {
+  outcomeTitle: string
+  confidenceTitle: string
+  keyFactorsTitle: string
+  precedentsTitle: string
+  recommendationsTitle: string
+  risksTitle: string
+  disclaimerTitle: string
+  confidenceHigh: string
+  confidenceMedium: string
+  confidenceLow: string
 }
 
-function buildSystemPrompt(jurisdiction: Jurisdiction): string {
+function sectionConfigForLanguage(language: string): PredictionSectionConfig {
+  switch (language) {
+    case "sr":
+      return {
+        outcomeTitle: "VJEROVATNOĆA ISHODA",
+        confidenceTitle: "NIVO POUZDANOSTI",
+        keyFactorsTitle: "KLJUČNI FAKTORI",
+        precedentsTitle: "RELEVANTNI PRESEDANI",
+        recommendationsTitle: "STRATEŠKE PREPORUKE",
+        risksTitle: "KLJUČNI RIZICI",
+        disclaimerTitle: "ODRICANJE ODGOVORNOSTI",
+        confidenceHigh: "Visok",
+        confidenceMedium: "Srednji",
+        confidenceLow: "Nizak",
+      }
+    case "bs":
+      return {
+        outcomeTitle: "VJEROVATNOĆA ISHODA",
+        confidenceTitle: "NIVO POUZDANOSTI",
+        keyFactorsTitle: "KLJUČNI FAKTORI",
+        precedentsTitle: "RELEVANTNI PRESEDANI",
+        recommendationsTitle: "STRATEŠKE PREPORUKE",
+        risksTitle: "KLJUČNI RIZICI",
+        disclaimerTitle: "ODRICANJE ODGOVORNOSTI",
+        confidenceHigh: "Visok",
+        confidenceMedium: "Srednji",
+        confidenceLow: "Nizak",
+      }
+    case "hr":
+      return {
+        outcomeTitle: "VJEROJATNOST ISHODA",
+        confidenceTitle: "RAZINA POUZDANOSTI",
+        keyFactorsTitle: "KLJUČNI ČIMBENICI",
+        precedentsTitle: "RELEVANTNI PRESEDANI",
+        recommendationsTitle: "STRATEŠKE PREPORUKE",
+        risksTitle: "KLJUČNI RIZICI",
+        disclaimerTitle: "ODRICANJE ODGOVORNOSTI",
+        confidenceHigh: "Visoka",
+        confidenceMedium: "Srednja",
+        confidenceLow: "Niska",
+      }
+    case "sl":
+      return {
+        outcomeTitle: "VERJETNOST IZIDA",
+        confidenceTitle: "STOPNJA ZAUPANJA",
+        keyFactorsTitle: "KLJUČNI DEJAVNIKI",
+        precedentsTitle: "RELEVANTNI PRECEDENSI",
+        recommendationsTitle: "STRATEŠKA PRIPOROČILA",
+        risksTitle: "KLJUČNA TVEGANJA",
+        disclaimerTitle: "ODPOVED ODGOVORNOSTI",
+        confidenceHigh: "Visoka",
+        confidenceMedium: "Srednja",
+        confidenceLow: "Nizka",
+      }
+    case "me":
+      return {
+        outcomeTitle: "VJEROVATNOĆA ISHODA",
+        confidenceTitle: "NIVO POUZDANOSTI",
+        keyFactorsTitle: "KLJUČNI FAKTORI",
+        precedentsTitle: "RELEVANTNI PRESEDANI",
+        recommendationsTitle: "STRATEŠKE PREPORUKE",
+        risksTitle: "KLJUČNI RIZICI",
+        disclaimerTitle: "ODRICANJE ODGOVORNOSTI",
+        confidenceHigh: "Visok",
+        confidenceMedium: "Srednji",
+        confidenceLow: "Nizak",
+      }
+    default:
+      return {
+        outcomeTitle: "OUTCOME PROBABILITY",
+        confidenceTitle: "CONFIDENCE LEVEL",
+        keyFactorsTitle: "KEY FACTORS",
+        precedentsTitle: "RELEVANT PRECEDENTS",
+        recommendationsTitle: "STRATEGIC RECOMMENDATIONS",
+        risksTitle: "KEY RISKS",
+        disclaimerTitle: "DISCLAIMER",
+        confidenceHigh: "High",
+        confidenceMedium: "Medium",
+        confidenceLow: "Low",
+      }
+  }
+}
+
+function buildSystemPrompt(
+  jurisdiction: Jurisdiction,
+  outputLanguageName: string,
+  sections: PredictionSectionConfig
+): string {
   const jurisdictionLabel = labelForJurisdiction(jurisdiction)
 
   return `
@@ -123,16 +219,22 @@ Analyze this case and predict the outcome based on:
 - Evidence quality
 - Current judicial trends in ${jurisdictionLabel}
 
-Structure your response with these sections:
-1. OUTCOME PROBABILITY - percentage chance and direction
-2. CONFIDENCE LEVEL - High/Medium/Low with explanation
-3. KEY FACTORS - bullet points of factors affecting outcome
-4. RELEVANT PRECEDENTS - similar cases in ${jurisdictionLabel}
-5. STRATEGIC RECOMMENDATIONS - actionable advice
-6. KEY RISKS - what could change the outcome
-7. DISCLAIMER - that this is AI analysis only
+Write the response in ${outputLanguageName}. Do not use English words like "Medium/High/Low" unless the output language is English.
+Use these EXACT section titles (all caps), in this order, each on its own line:
+1) ${sections.outcomeTitle}
+2) ${sections.confidenceTitle}
+3) ${sections.keyFactorsTitle}
+4) ${sections.precedentsTitle}
+5) ${sections.recommendationsTitle}
+6) ${sections.risksTitle}
+7) ${sections.disclaimerTitle}
 
 Use formal but clear language suitable for lawyers.
+
+At the very end, append a machine footer exactly like this (for parsing; it will be hidden from the user):
+---META---
+OUTCOME_PROBABILITY_PERCENT: <number 0-100>
+CONFIDENCE_LEVEL: <high|medium|low>
 `.trim()
 }
 
@@ -144,9 +246,9 @@ function buildUserPrompt(
   amountInDispute: string,
   additionalContext: string
 ): string {
-  const caseTypeLabel = labelForCaseType(caseType)
   const jurisdictionLabel = labelForJurisdiction(jurisdiction)
-  const evidenceLabel = labelForEvidenceQuality(evidenceQuality)
+  const caseTypeLabel = caseType
+  const evidenceLabel = evidenceQuality
 
   const normalizedAmount =
     amountInDispute && amountInDispute.trim().length > 0
@@ -203,6 +305,32 @@ function extractOutcomeProbability(text: string): number | null {
   return value
 }
 
+function splitMeta(raw: string): { visible: string; meta: string | null } {
+  const marker = "\n---META---\n"
+  const idx = raw.indexOf(marker)
+  if (idx === -1) return { visible: raw, meta: null }
+  return {
+    visible: raw.slice(0, idx).trimEnd(),
+    meta: raw.slice(idx + marker.length).trim(),
+  }
+}
+
+function parseMeta(meta: string | null): {
+  outcomeProbability: number | null
+  confidenceLevel: "high" | "medium" | "low" | null
+} {
+  if (!meta) return { outcomeProbability: null, confidenceLevel: null }
+  const probMatch = meta.match(/OUTCOME_PROBABILITY_PERCENT:\s*(\d{1,3})/i)
+  const confMatch = meta.match(/CONFIDENCE_LEVEL:\s*(high|medium|low)/i)
+  const prob = probMatch ? Number.parseInt(probMatch[1], 10) : null
+  const outcomeProbability =
+    prob != null && Number.isFinite(prob) && prob >= 0 && prob <= 100 ? prob : null
+  const confidenceLevel = confMatch
+    ? (confMatch[1].toLowerCase() as "high" | "medium" | "low")
+    : null
+  return { outcomeProbability, confidenceLevel }
+}
+
 function parseAmountInDispute(raw: string): number | null {
   if (!raw.trim()) return null
 
@@ -218,6 +346,26 @@ type ClientProps = {
 
 export default function PredictionsPageClient({ selectedId }: ClientProps) {
   const supabase = useMemo(() => createClient(), [])
+  const { t, language } = useLanguage()
+
+  const outputLanguageName = useMemo(() => {
+    switch (language) {
+      case "sr":
+        return "Serbian"
+      case "bs":
+        return "Bosnian"
+      case "hr":
+        return "Croatian"
+      case "sl":
+        return "Slovenian"
+      case "me":
+        return "Montenegrin"
+      default:
+        return "English"
+    }
+  }, [language])
+
+  const sections = useMemo(() => sectionConfigForLanguage(language), [language])
 
   const [caseType, setCaseType] = useState<CaseType>("civil")
   const [jurisdiction, setJurisdiction] = useState<Jurisdiction>("serbia")
@@ -245,7 +393,7 @@ export default function PredictionsPageClient({ selectedId }: ClientProps) {
 
     if (!caseType || !jurisdiction || !keyFacts.trim()) {
       setError(
-        "Please select a case type and jurisdiction, and provide the key facts of the case."
+        t("predictions.errors.missingRequired")
       )
       return
     }
@@ -253,7 +401,7 @@ export default function PredictionsPageClient({ selectedId }: ClientProps) {
     setIsLoading(true)
 
     try {
-      const systemPrompt = buildSystemPrompt(jurisdiction)
+      const systemPrompt = buildSystemPrompt(jurisdiction, outputLanguageName, sections)
       const userPrompt = buildUserPrompt(
         caseType,
         jurisdiction,
@@ -291,7 +439,8 @@ export default function PredictionsPageClient({ selectedId }: ClientProps) {
       }
 
       const data = (await response.json()) as { content?: string }
-      const content = data.content ?? ""
+      const raw = data.content ?? ""
+      const { visible: content, meta } = splitMeta(raw)
 
       setPredictionContent(content)
 
@@ -301,15 +450,30 @@ export default function PredictionsPageClient({ selectedId }: ClientProps) {
         } = await supabase.auth.getUser()
 
         if (!user) {
-          setError("You must be logged in to save predictions.")
+          setError(t("predictions.errors.mustBeLoggedInToSave"))
           return
         }
 
         const amountValue = parseAmountInDispute(amountInDispute)
-        const confidenceLevel = extractConfidenceLevel(content)
-        const outcomeProbability = extractOutcomeProbability(content)
+        const parsed = parseMeta(meta)
+        const confidenceLevel =
+          parsed.confidenceLevel ?? extractConfidenceLevel(content)
+        const outcomeProbability =
+          parsed.outcomeProbability ?? extractOutcomeProbability(content)
 
-        await supabase.from("case_predictions").insert({
+        type CasePredictionInsert = {
+          user_id: string
+          case_type: CaseType
+          jurisdiction: Jurisdiction
+          case_facts: string
+          amount_in_dispute: number | null
+          evidence_quality: EvidenceQuality
+          outcome_probability: number | null
+          confidence_level: "high" | "medium" | "low"
+          full_analysis: string
+        }
+
+        const insertRow: CasePredictionInsert = {
           user_id: user.id,
           case_type: caseType,
           jurisdiction,
@@ -319,7 +483,9 @@ export default function PredictionsPageClient({ selectedId }: ClientProps) {
           outcome_probability: outcomeProbability,
           confidence_level: confidenceLevel,
           full_analysis: content,
-        } as any)
+        }
+
+        await supabase.from("case_predictions").insert(insertRow)
 
         setSaveSuccess(true)
       } catch (saveError) {
@@ -335,7 +501,7 @@ export default function PredictionsPageClient({ selectedId }: ClientProps) {
       setError(
         err instanceof Error
           ? err.message
-          : "Failed to generate prediction. Please try again."
+          : t("predictions.errors.generateFailed")
       )
     } finally {
       setIsLoading(false)
@@ -418,7 +584,7 @@ export default function PredictionsPageClient({ selectedId }: ClientProps) {
 
         if (!data) {
           setDetail(null)
-          setDetailError("Record not found")
+          setDetailError(t("predictions.sidebar.recordNotFound"))
           return
         }
 
@@ -444,7 +610,7 @@ export default function PredictionsPageClient({ selectedId }: ClientProps) {
           console.error("Failed to load prediction detail:", error)
         }
         setDetail(null)
-        setDetailError("Record not found")
+        setDetailError(t("predictions.sidebar.recordNotFound"))
       } finally {
         if (isMounted) {
           setDetailLoading(false)
@@ -457,7 +623,7 @@ export default function PredictionsPageClient({ selectedId }: ClientProps) {
     return () => {
       isMounted = false
     }
-  }, [selectedId, supabase])
+  }, [selectedId, supabase, t])
 
   return (
     <div className="min-h-screen bg-background px-4 py-10">
@@ -466,19 +632,17 @@ export default function PredictionsPageClient({ selectedId }: ClientProps) {
           <header className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
             <div>
               <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                Legantis · Case prediction
+                {t("predictions.header.kicker")}
               </p>
               <h1 className="mt-1 text-3xl font-semibold tracking-tight text-foreground">
-                AI case outcome prediction
+                {t("predictions.header.title")}
               </h1>
               <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
-                Analyze case facts, evidence strength, and dispute size to get an
-                AI-generated prediction and strategic recommendations for your
-                matters across the Balkans.
+                {t("predictions.header.subtitle")}
               </p>
             </div>
             <Button asChild variant="outline" size="sm">
-              <Link href="/dashboard">Back to dashboard</Link>
+              <Link href="/dashboard">{t("predictions.header.back")}</Link>
             </Button>
           </header>
 
@@ -487,18 +651,21 @@ export default function PredictionsPageClient({ selectedId }: ClientProps) {
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid gap-4 md:grid-cols-2">
                   <div className="space-y-2">
-                    <Label>Case type</Label>
+                    <Label>{t("predictions.form.caseType.label")}</Label>
                     <Select
                       value={caseType}
                       onValueChange={(value) => setCaseType(value as CaseType)}
                     >
                       <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Select case type" />
+                        <SelectValue placeholder={t("predictions.form.caseType.placeholder")} />
                       </SelectTrigger>
                       <SelectContent>
                         {CASE_TYPE_OPTIONS.map((option) => (
                           <SelectItem key={option.value} value={option.value}>
-                            {option.label}
+                            {(() => {
+                              const translated = t(option.translationKey)
+                              return translated === option.translationKey ? option.label : translated
+                            })()}
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -506,7 +673,7 @@ export default function PredictionsPageClient({ selectedId }: ClientProps) {
                   </div>
 
                   <div className="space-y-2">
-                    <Label>Jurisdiction</Label>
+                    <Label>{t("predictions.form.jurisdiction.label")}</Label>
                     <Select
                       value={jurisdiction}
                       onValueChange={(value) =>
@@ -514,12 +681,15 @@ export default function PredictionsPageClient({ selectedId }: ClientProps) {
                       }
                     >
                       <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Select jurisdiction" />
+                        <SelectValue placeholder={t("predictions.form.jurisdiction.placeholder")} />
                       </SelectTrigger>
                       <SelectContent>
                         {JURISDICTION_OPTIONS.map((option) => (
                           <SelectItem key={option.value} value={option.value}>
-                            {option.label}
+                            {(() => {
+                              const translated = t(option.translationKey)
+                              return translated === option.translationKey ? option.label : translated
+                            })()}
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -528,24 +698,22 @@ export default function PredictionsPageClient({ selectedId }: ClientProps) {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="keyFacts">Key facts of the case</Label>
+                  <Label htmlFor="keyFacts">{t("predictions.form.keyFacts.label")}</Label>
                   <Textarea
                     id="keyFacts"
                     value={keyFacts}
                     onChange={(event) => setKeyFacts(event.target.value)}
                     rows={4}
-                    placeholder="Describe the key facts of the case, including relevant events, timeline, and circumstances..."
+                    placeholder={t("predictions.form.keyFacts.placeholder")}
                   />
                   <p className="text-xs text-muted-foreground">
-                    Do not include confidential details that cannot be shared.
-                    Focus on the legally relevant facts, procedure, and current
-                    status.
+                    {t("predictions.form.keyFacts.help")}
                   </p>
                 </div>
 
                 <div className="grid gap-4 md:grid-cols-3">
                   <div className="space-y-2">
-                    <Label>Evidence quality</Label>
+                    <Label>{t("predictions.form.evidenceQuality.label")}</Label>
                     <Select
                       value={evidenceQuality}
                       onValueChange={(value) =>
@@ -553,12 +721,15 @@ export default function PredictionsPageClient({ selectedId }: ClientProps) {
                       }
                     >
                       <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Select evidence quality" />
+                        <SelectValue placeholder={t("predictions.form.evidenceQuality.placeholder")} />
                       </SelectTrigger>
                       <SelectContent>
                         {EVIDENCE_QUALITY_OPTIONS.map((option) => (
                           <SelectItem key={option.value} value={option.value}>
-                            {option.label}
+                            {(() => {
+                              const translated = t(option.translationKey)
+                              return translated === option.translationKey ? option.label : translated
+                            })()}
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -566,20 +737,24 @@ export default function PredictionsPageClient({ selectedId }: ClientProps) {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="amountInDispute">Amount in dispute</Label>
+                    <Label htmlFor="amountInDispute">
+                      {t("predictions.form.amountInDispute.label")}
+                    </Label>
                     <Input
                       id="amountInDispute"
                       value={amountInDispute}
                       onChange={(event) => setAmountInDispute(event.target.value)}
-                      placeholder="e.g. €50,000"
+                      placeholder={t("predictions.form.amountInDispute.placeholder")}
                     />
                     <p className="text-xs text-muted-foreground">
-                      Optional, but helps contextualize risk and strategy.
+                      {t("predictions.form.amountInDispute.help")}
                     </p>
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="additionalContext">Additional context</Label>
+                    <Label htmlFor="additionalContext">
+                      {t("predictions.form.additionalContext.label")}
+                    </Label>
                     <Textarea
                       id="additionalContext"
                       value={additionalContext}
@@ -587,7 +762,7 @@ export default function PredictionsPageClient({ selectedId }: ClientProps) {
                         setAdditionalContext(event.target.value)
                       }
                       rows={3}
-                      placeholder="Any additional context, procedural history, or specific questions you want addressed..."
+                      placeholder={t("predictions.form.additionalContext.placeholder")}
                     />
                   </div>
                 </div>
@@ -603,11 +778,10 @@ export default function PredictionsPageClient({ selectedId }: ClientProps) {
                     {isLoading && (
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     )}
-                    {isLoading ? "Predicting outcome..." : "Predict outcome"}
+                    {isLoading ? t("predictions.form.actions.loading") : t("predictions.form.actions.submit")}
                   </Button>
                   <p className="text-xs text-muted-foreground">
-                    Uses your plan&apos;s AI quota. This is AI analysis only and
-                    does not replace independent legal judgment.
+                    {t("predictions.form.actions.note")}
                   </p>
                 </div>
               </form>
@@ -616,10 +790,11 @@ export default function PredictionsPageClient({ selectedId }: ClientProps) {
             <Card className="flex min-h-[420px] flex-col p-6">
               <div className="flex items-center justify-between gap-4">
                 <div>
-                  <h2 className="text-lg font-semibold">Prediction analysis</h2>
+                  <h2 className="text-lg font-semibold">
+                    {t("predictions.result.title")}
+                  </h2>
                   <p className="mt-1 text-sm text-muted-foreground">
-                    Outcome probability, key factors, precedents, recommendations,
-                    and risks based on the information you provided.
+                    {t("predictions.result.subtitle")}
                   </p>
                 </div>
                 {predictionContent && (
@@ -630,14 +805,14 @@ export default function PredictionsPageClient({ selectedId }: ClientProps) {
                     onClick={handleDownloadPdf}
                     disabled={!predictionContent}
                   >
-                    Download PDF
+                    {t("predictions.result.downloadPdf")}
                   </Button>
                 )}
               </div>
 
               {saveSuccess && (
                 <p className="mt-3 text-xs font-medium text-emerald-600">
-                  Prediction saved to workspace.
+                  {t("predictions.result.saved")}
                 </p>
               )}
 
@@ -648,10 +823,7 @@ export default function PredictionsPageClient({ selectedId }: ClientProps) {
                   </pre>
                 ) : (
                   <p className="text-sm text-muted-foreground">
-                    Your case prediction will appear here after you run an
-                    analysis. You will see outcome probability, confidence level,
-                    key factors, relevant precedents, strategic recommendations,
-                    and risks, together with a clear disclaimer.
+                    {t("predictions.result.empty")}
                   </p>
                 )}
               </div>
@@ -660,15 +832,20 @@ export default function PredictionsPageClient({ selectedId }: ClientProps) {
         </div>
 
         <Card className="h-fit space-y-4 p-6">
-          <h2 className="text-lg font-semibold">Prediction details</h2>
+          <h2 className="text-lg font-semibold">{t("predictions.sidebar.title")}</h2>
           {!selectedId ? (
-            <p className="text-sm text-muted-foreground">
-              Select a prediction from recent activity to see details here.
-            </p>
+            <div className="space-y-3">
+              <p className="text-sm text-muted-foreground">
+                {t("predictions.sidebar.empty")}
+              </p>
+              <Button asChild variant="outline" size="sm">
+                <Link href="/dashboard/activity">{t("predictions.sidebar.viewActivity")}</Link>
+              </Button>
+            </div>
           ) : detailLoading ? (
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <Loader2 className="h-4 w-4 animate-spin" />
-              <span>Loading prediction…</span>
+              <span>{t("predictions.sidebar.loading")}</span>
             </div>
           ) : detailError ? (
             <p className="text-sm text-destructive">{detailError}</p>
@@ -676,28 +853,41 @@ export default function PredictionsPageClient({ selectedId }: ClientProps) {
             <div className="space-y-3 text-sm">
               <div>
                 <p className="font-medium">
-                  {detail.case_name || "Case prediction"}
+                  {detail.case_name || t("predictions.sidebar.fallbackCaseName")}
                 </p>
                 <p className="text-xs text-muted-foreground">
-                  {labelForCaseType(detail.case_type)} ·{" "}
-                  {labelForJurisdiction(detail.jurisdiction)}
+                  {(() => {
+                    const opt = CASE_TYPE_OPTIONS.find((o) => o.value === detail.case_type)
+                    const translated = opt ? t(opt.translationKey) : detail.case_type
+                    const caseLabel = opt && translated !== opt.translationKey ? translated : (opt?.label ?? detail.case_type)
+                    const jOpt = JURISDICTION_OPTIONS.find((o) => o.value === detail.jurisdiction)
+                    const jTranslated = jOpt ? t(jOpt.translationKey) : detail.jurisdiction
+                    const jurLabel = jOpt && jTranslated !== jOpt.translationKey ? jTranslated : (jOpt?.label ?? detail.jurisdiction)
+                    return `${caseLabel} · ${jurLabel}`
+                  })()}
                 </p>
                 <p className="text-xs text-muted-foreground">
-                  Created {new Date(detail.created_at).toLocaleDateString()}
+                  {t("predictions.sidebar.created")}{" "}
+                  {new Date(detail.created_at).toLocaleDateString()}
                 </p>
               </div>
               <div className="space-y-1 text-xs text-muted-foreground">
                 <p>
-                  Outcome probability:{" "}
+                  {t("predictions.sidebar.outcomeProbability")}{" "}
                   {detail.outcome_probability != null
                     ? `${detail.outcome_probability}%`
-                    : "Not specified"}
+                    : t("predictions.common.notSpecified")}
                 </p>
-                <p>Confidence level: {detail.confidence_level}</p>
+                <p>
+                  {t("predictions.sidebar.confidenceLevel")}{" "}
+                  {t(`predictions.confidenceLevels.${detail.confidence_level}`)}
+                </p>
               </div>
               {detail.key_factors && detail.key_factors.length > 0 && (
                 <div className="space-y-1 text-xs text-muted-foreground">
-                  <p className="font-medium text-foreground">Key factors</p>
+                  <p className="font-medium text-foreground">
+                    {t("predictions.sidebar.keyFactors")}
+                  </p>
                   <ul className="list-inside list-disc space-y-1">
                     {detail.key_factors.map((factor, index) => (
                       <li key={index}>{factor}</li>
@@ -709,7 +899,7 @@ export default function PredictionsPageClient({ selectedId }: ClientProps) {
                 detail.strategic_recommendations.length > 0 && (
                   <div className="space-y-1 text-xs text-muted-foreground">
                     <p className="font-medium text-foreground">
-                      Strategic recommendations
+                      {t("predictions.sidebar.recommendations")}
                     </p>
                     <ul className="list-inside list-disc space-y-1">
                       {detail.strategic_recommendations.map((rec, index) => (
@@ -721,7 +911,7 @@ export default function PredictionsPageClient({ selectedId }: ClientProps) {
               {detail.full_analysis && (
                 <div className="space-y-1 text-xs text-muted-foreground">
                   <p className="font-medium text-foreground">
-                    Full analysis
+                    {t("predictions.sidebar.fullAnalysis")}
                   </p>
                   <div className="max-h-64 overflow-y-auto rounded-md border bg-muted/40 p-3">
                     <pre className="whitespace-pre-wrap">

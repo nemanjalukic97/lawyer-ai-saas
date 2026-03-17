@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "next/link"
 import {
   Card,
   CardContent,
@@ -6,16 +6,17 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+} from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/utils"
 
 interface PricingCardProps {
-  name: string;
-  price: number;
-  features: readonly string[];
-  ctaLabel: string;
-  recommended?: boolean;
+  name: string
+  price: number
+  features: readonly string[]
+  ctaLabel: string
+  recommended?: boolean
+  planId: "solo" | "professional" | "firm"
 }
 
 export function PricingCard({
@@ -24,7 +25,10 @@ export function PricingCard({
   features,
   ctaLabel,
   recommended = false,
+  planId,
 }: PricingCardProps) {
+  const href = `/signup?plan=${encodeURIComponent(planId)}`
+
   return (
     <Card
       className={cn(
@@ -59,9 +63,9 @@ export function PricingCard({
           variant={recommended ? "default" : "outline"}
           className="w-full"
         >
-          <Link href="#pricing">{ctaLabel}</Link>
+          <Link href={href}>{ctaLabel}</Link>
         </Button>
       </CardFooter>
     </Card>
-  );
+  )
 }

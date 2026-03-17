@@ -18,6 +18,7 @@ import { Loader2 } from "lucide-react"
 import { createClient } from "@/lib/supabase/client"
 import { saveAs } from "file-saver"
 import { Document as DocxDocument, Packer, Paragraph } from "docx"
+import { useLanguage } from "@/components/LanguageProvider"
 
 type DocumentType =
   | "nda"
@@ -57,6 +58,15 @@ type DocumentDetail = {
   status: string
   content: string
   created_at: string
+}
+
+type TemplateDetail = {
+  id: string
+  title: string
+  contract_type: DocumentType | null
+  document_type: "power_of_attorney" | "other" | null
+  jurisdiction: Jurisdiction | null
+  content: string
 }
 
 const DOCUMENT_TYPE_OPTIONS: Option<DocumentType>[] = [
@@ -100,12 +110,26 @@ type FieldConfig = {
   name: string
   label: string
   type?: "text" | "date"
+  translationKey?: string
 }
 
 const BASE_FIELDS: FieldConfig[] = [
-  { name: "party1", label: "Party 1 Name" },
-  { name: "party2", label: "Party 2 Name" },
-  { name: "date", label: "Date", type: "date" },
+  {
+    name: "party1",
+    label: "Party 1 Name",
+    translationKey: "generate.form.fields.party1",
+  } as FieldConfig,
+  {
+    name: "party2",
+    label: "Party 2 Name",
+    translationKey: "generate.form.fields.party2",
+  } as FieldConfig,
+  {
+    name: "date",
+    label: "Date",
+    type: "date",
+    translationKey: "generate.form.fields.date",
+  } as FieldConfig,
 ]
 
 const ADDITIONAL_FIELDS: Record<DocumentType, FieldConfig[]> = {
@@ -118,8 +142,13 @@ const ADDITIONAL_FIELDS: Record<DocumentType, FieldConfig[]> = {
     {
       name: "confidentialDescription",
       label: "Confidential Information Description",
+      translationKey: "generate.form.fields.confidentialDescription",
     },
-    { name: "ndaDuration", label: "Duration" },
+    {
+      name: "ndaDuration",
+      label: "Duration",
+      translationKey: "generate.form.fields.ndaDuration",
+    },
   ],
   lease: [
     { name: "propertyAddress", label: "Property Address" },
@@ -231,10 +260,12 @@ function buildUserPrompt(
 
 type Props = {
   selectedId: string | null
+  templateId?: string | null
 }
 
-export default function GeneratePageClient({ selectedId }: Props) {
+export default function GeneratePageClient({ selectedId, templateId }: Props) {
   const supabase = useMemo(() => createClient(), [])
+  const { t } = useLanguage()
 
   const [documentType, setDocumentType] = useState<DocumentType>("nda")
   const [jurisdiction, setJurisdiction] = useState<Jurisdiction>("serbia")
@@ -246,9 +277,69 @@ export default function GeneratePageClient({ selectedId }: Props) {
   const [generatedContent, setGeneratedContent] = useState<string>("")
   const [saveSuccess, setSaveSuccess] = useState(false)
 
+  const [loadedTemplateTitle, setLoadedTemplateTitle] = useState<string | null>(
+    null
+  )
+
   const [detail, setDetail] = useState<DocumentDetail | null>(null)
   const [detailLoading, setDetailLoading] = useState(false)
   const [detailError, setDetailError] = useState<string | null>(null)
+
+  useEffect(() => {
+    let isMounted = true
+
+    async function loadTemplate() {
+      if (!templateId) return
+
+      try {
+        const { data, error } = await supabase
+          .from("templates")
+          .select(
+            "id, title, contract_type, document_type, jurisdiction, content"
+          )
+          .eq("id", templateId)
+          .is("deleted_at", null)
+          .maybeSingle()
+
+        if (error) {
+          throw error
+        }
+
+        if (!isMounted || !data) return
+
+        const template: TemplateDetail = {
+          id: data.id,
+          title: data.title,
+          contract_type: (data.contract_type as DocumentType | null) ?? null,
+          document_type:
+            (data.document_type as TemplateDetail["document_type"]) ?? null,
+          jurisdiction: (data.jurisdiction as Jurisdiction | null) ?? null,
+          content: data.content,
+        }
+
+        if (template.document_type === "power_of_attorney") {
+          setDocumentType("power_of_attorney")
+        } else if (template.contract_type) {
+          setDocumentType(template.contract_type)
+        }
+        if (template.jurisdiction) {
+          setJurisdiction(template.jurisdiction)
+        }
+        setLoadedTemplateTitle(template.title)
+      } catch (error) {
+        if (process.env.NODE_ENV !== "production") {
+          // eslint-disable-next-line no-console
+          console.error("Failed to load template:", error)
+        }
+      }
+    }
+
+    void loadTemplate()
+
+    return () => {
+      isMounted = false
+    }
+  }, [supabase, templateId])
 
   const additionalFields = useMemo(
     () => ADDITIONAL_FIELDS[documentType],
@@ -538,19 +629,17 @@ export default function GeneratePageClient({ selectedId }: Props) {
           <header className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
             <div>
               <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                Legantis · Document generation
+                {t("generate.header.kicker")}
               </p>
               <h1 className="mt-1 text-3xl font-semibold tracking-tight text-foreground">
-                AI legal document generator
+                {t("generate.header.title")}
               </h1>
               <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
-                Generate jurisdiction-specific NDAs, employment contracts, powers
-                of attorney, sales contracts, leases, and service agreements for
-                your clients across the Balkans.
+                {t("generate.header.subtitle")}
               </p>
             </div>
             <Button asChild variant="outline" size="sm">
-              <Link href="/dashboard">Back to dashboard</Link>
+              <Link href="/dashboard">{t("generate.header.back")}</Link>
             </Button>
           </header>
 
@@ -559,7 +648,7 @@ export default function GeneratePageClient({ selectedId }: Props) {
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid gap-4 md:grid-cols-3">
                   <div className="space-y-2">
-                    <Label>Document type</Label>
+                    <Label>{t("generate.form.documentType.label")}</Label>
                     <Select
                       value={documentType}
                       onValueChange={(value) =>
@@ -567,7 +656,11 @@ export default function GeneratePageClient({ selectedId }: Props) {
                       }
                     >
                       <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Select document type" />
+                        <SelectValue
+                          placeholder={t(
+                            "generate.form.documentType.placeholder"
+                          )}
+                        />
                       </SelectTrigger>
                       <SelectContent>
                         {DOCUMENT_TYPE_OPTIONS.map((option) => (
@@ -580,7 +673,7 @@ export default function GeneratePageClient({ selectedId }: Props) {
                   </div>
 
                   <div className="space-y-2">
-                    <Label>Jurisdiction</Label>
+                    <Label>{t("generate.form.jurisdiction.label")}</Label>
                     <Select
                       value={jurisdiction}
                       onValueChange={(value) =>
@@ -588,7 +681,11 @@ export default function GeneratePageClient({ selectedId }: Props) {
                       }
                     >
                       <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Select jurisdiction" />
+                        <SelectValue
+                          placeholder={t(
+                            "generate.form.jurisdiction.placeholder"
+                          )}
+                        />
                       </SelectTrigger>
                       <SelectContent>
                         {JURISDICTION_OPTIONS.map((option) => (
@@ -601,13 +698,17 @@ export default function GeneratePageClient({ selectedId }: Props) {
                   </div>
 
                   <div className="space-y-2">
-                    <Label>Language</Label>
+                    <Label>{t("generate.form.language.label")}</Label>
                     <Select
                       value={language}
                       onValueChange={(value) => setLanguage(value as Language)}
                     >
                       <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Select language" />
+                        <SelectValue
+                          placeholder={t(
+                            "generate.form.language.placeholder"
+                          )}
+                        />
                       </SelectTrigger>
                       <SelectContent>
                         {LANGUAGE_OPTIONS.map((option) => (
@@ -622,13 +723,17 @@ export default function GeneratePageClient({ selectedId }: Props) {
 
                 <div className="space-y-4">
                   <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                    Document details
+                    {t("generate.form.details.title")}
                   </p>
 
                   <div className="grid gap-4 md:grid-cols-2">
                     {baseAndAdditionalFields.map((field) => (
                       <div key={field.name} className="space-y-1.5">
-                        <Label htmlFor={field.name}>{field.label}</Label>
+                        <Label htmlFor={field.name}>
+                          {field.translationKey
+                            ? t(field.translationKey)
+                            : field.label}
+                        </Label>
                         <Input
                           id={field.name}
                           type={field.type ?? "text"}
@@ -642,9 +747,7 @@ export default function GeneratePageClient({ selectedId }: Props) {
                   </div>
 
                   <p className="text-xs text-muted-foreground">
-                    Fields can be left blank if not applicable. The AI will fill
-                    in standard clauses for the selected jurisdiction and document
-                    type, but you must always review the output before use.
+                    {t("generate.form.details.help")}
                   </p>
                 </div>
 
@@ -659,11 +762,12 @@ export default function GeneratePageClient({ selectedId }: Props) {
                     {isGenerating && (
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     )}
-                    {isGenerating ? "Generating document..." : "Generate document"}
+                    {isGenerating
+                      ? t("generate.form.actions.generating")
+                      : t("generate.form.actions.generate")}
                   </Button>
                   <p className="text-xs text-muted-foreground">
-                    Uses your plan&apos;s AI quota. Results are drafts only and do
-                    not constitute legal advice.
+                    {t("generate.form.actions.note")}
                   </p>
                 </div>
               </form>
@@ -672,10 +776,11 @@ export default function GeneratePageClient({ selectedId }: Props) {
             <Card className="flex min-h-[420px] flex-col p-6">
               <div className="flex items-center justify-between gap-4">
                 <div>
-                  <h2 className="text-lg font-semibold">Generated document</h2>
+                  <h2 className="text-lg font-semibold">
+                    {t("generate.result.title")}
+                  </h2>
                   <p className="mt-1 text-sm text-muted-foreground">
-                    Review, adjust, and localize the generated text before
-                    sending to clients or filing with authorities.
+                    {t("generate.result.subtitle")}
                   </p>
                 </div>
                 {generatedContent && (
@@ -687,7 +792,7 @@ export default function GeneratePageClient({ selectedId }: Props) {
                       onClick={handleDownloadPdf}
                       disabled={!generatedContent}
                     >
-                      Download PDF
+                      {t("generate.result.downloadPdf")}
                     </Button>
                     <Button
                       type="button"
@@ -696,7 +801,7 @@ export default function GeneratePageClient({ selectedId }: Props) {
                       onClick={handleDownloadDocx}
                       disabled={!generatedContent}
                     >
-                      Download DOCX
+                      {t("generate.result.downloadDocx")}
                     </Button>
                   </div>
                 )}
@@ -704,21 +809,24 @@ export default function GeneratePageClient({ selectedId }: Props) {
 
               {saveSuccess && (
                 <p className="mt-3 text-xs font-medium text-emerald-600">
-                  Document saved to your workspace.
+                  {t("generate.result.saved")}
                 </p>
               )}
 
               <div className="mt-4 flex-1 rounded-md border bg-muted/40 p-4">
                 {generatedContent ? (
                   <pre className="max-h-[560px] overflow-y-auto whitespace-pre-wrap text-sm font-serif leading-relaxed text-foreground">
-                    {generatedContent}
+                    {generatedContent.replace(/\\n/g, "\n")}
                   </pre>
+                ) : loadedTemplateTitle ? (
+                  <p className="text-sm text-muted-foreground">
+                    {t("generate.result.templateLoaded.prefix")}{" "}
+                    <span className="font-medium">{loadedTemplateTitle}</span>.{" "}
+                    {t("generate.result.templateLoaded.suffix")}
+                  </p>
                 ) : (
                   <p className="text-sm text-muted-foreground">
-                    Your generated document will appear here. Select the document
-                    type, jurisdiction, and language, fill in the key details, and
-                    click &quot;Generate document&quot; to create a draft tailored
-                    to your case.
+                    {t("generate.result.empty")}
                   </p>
                 )}
               </div>
@@ -727,15 +835,24 @@ export default function GeneratePageClient({ selectedId }: Props) {
         </div>
 
         <Card className="h-fit space-y-4 p-6">
-          <h2 className="text-lg font-semibold">Document details</h2>
+          <h2 className="text-lg font-semibold">
+            {t("generate.sidebar.title")}
+          </h2>
           {!selectedId ? (
-            <p className="text-sm text-muted-foreground">
-              Select a document from recent activity to see details here.
-            </p>
+            <div className="space-y-3">
+              <p className="text-sm text-muted-foreground">
+                {t("generate.sidebar.empty")}
+              </p>
+              <Button asChild variant="outline" size="sm">
+                <Link href="/dashboard/activity">
+                  {t("generate.sidebar.viewActivity")}
+                </Link>
+              </Button>
+            </div>
           ) : detailLoading ? (
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <Loader2 className="h-4 w-4 animate-spin" />
-              <span>Loading document…</span>
+              <span>{t("generate.sidebar.loading")}</span>
             </div>
           ) : detailError ? (
             <p className="text-sm text-destructive">{detailError}</p>
@@ -748,10 +865,11 @@ export default function GeneratePageClient({ selectedId }: Props) {
                   {labelForJurisdiction(detail.jurisdiction)}
                 </p>
                 <p className="text-xs text-muted-foreground">
-                  Status: {detail.status}
+                  {t("generate.sidebar.status")} {detail.status}
                 </p>
                 <p className="text-xs text-muted-foreground">
-                  Created {new Date(detail.created_at).toLocaleDateString()}
+                  {t("generate.sidebar.created")}{" "}
+                  {new Date(detail.created_at).toLocaleDateString()}
                 </p>
               </div>
               <div className="space-y-1 text-xs text-muted-foreground">

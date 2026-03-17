@@ -18,6 +18,7 @@ import {
 import { Badge } from "@/components/ui/badge"
 import { Loader2, Trash2 } from "lucide-react"
 import { createClient } from "@/lib/supabase/client"
+import { useLanguage } from "@/components/LanguageProvider"
 
 type TimeEntryStatus = "pending" | "approved" | "billed"
 
@@ -94,6 +95,7 @@ function extractWorkDescription(notes: string | null): string {
 
 export default function TimeTrackingPage() {
   const supabase = useMemo(() => createClient(), [])
+  const { t } = useLanguage()
 
   const [matterName, setMatterName] = useState("")
   const [description, setDescription] = useState("")
@@ -134,7 +136,7 @@ export default function TimeTrackingPage() {
         } = await supabase.auth.getUser()
 
         if (!user) {
-          setListError("You must be logged in to view time entries.")
+          setListError(t("time.errors.mustBeLoggedInToView"))
           return
         }
 
@@ -204,18 +206,18 @@ export default function TimeTrackingPage() {
     setSuccessMessage(null)
 
     if (!matterName.trim() || !description.trim()) {
-      setFormError("Matter name and description are required.")
+      setFormError(t("time.errors.matterAndDescriptionRequired"))
       return
     }
 
     if (!date) {
-      setFormError("Date is required.")
+      setFormError(t("time.errors.dateRequired"))
       return
     }
 
     if (!isValidHours || !isValidRate || computedTotal === null) {
       setFormError(
-        "Please provide valid hours (0.25–24) and a non-negative hourly rate."
+        t("time.errors.invalidHoursOrRate")
       )
       return
     }
@@ -228,7 +230,7 @@ export default function TimeTrackingPage() {
       } = await supabase.auth.getUser()
 
       if (!user) {
-        setFormError("You must be logged in to log time entries.")
+        setFormError(t("time.errors.mustBeLoggedInToCreate"))
         return
       }
 
@@ -274,13 +276,13 @@ export default function TimeTrackingPage() {
 
       setEntries((prev) => [newEntry, ...prev])
       resetForm()
-      setSuccessMessage("Time entry logged successfully.")
+      setSuccessMessage(t("time.messages.logged"))
     } catch (error) {
       if (process.env.NODE_ENV !== "production") {
         // eslint-disable-next-line no-console
         console.error("Failed to log time entry:", error)
       }
-      setFormError("Failed to log time entry. Please try again.")
+      setFormError(t("time.errors.createFailed"))
     } finally {
       setCreating(false)
     }
@@ -349,49 +351,48 @@ export default function TimeTrackingPage() {
         <header className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
           <div>
             <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-              Legantis · Time tracking
+              {t("time.header.kicker")}
             </p>
             <h1 className="mt-1 text-3xl font-semibold tracking-tight text-foreground">
-              Time tracking & billing
+              {t("time.header.title")}
             </h1>
             <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
-              Log billable hours by client and matter, and keep track of your
-              unbilled time and billable amounts in one place.
+              {t("time.header.subtitle")}
             </p>
           </div>
           <Button asChild variant="outline" size="sm">
-            <Link href="/dashboard">Back to dashboard</Link>
+            <Link href="/dashboard">{t("time.header.back")}</Link>
           </Button>
         </header>
 
         <Card className="p-6">
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="matterName">Client / Matter name</Label>
+              <Label htmlFor="matterName">{t("time.form.matterName.label")}</Label>
               <Input
                 id="matterName"
                 value={matterName}
                 onChange={(event) => setMatterName(event.target.value)}
-                placeholder="e.g. ACME d.o.o. – Employment dispute"
+                placeholder={t("time.form.matterName.placeholder")}
                 required
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="description">Description of work</Label>
+              <Label htmlFor="description">{t("time.form.description.label")}</Label>
               <Textarea
                 id="description"
                 value={description}
                 onChange={(event) => setDescription(event.target.value)}
                 rows={3}
                 required
-                placeholder="e.g. Drafting statement of claim, reviewing evidence, preparing for hearing..."
+                placeholder={t("time.form.description.placeholder")}
               />
             </div>
 
             <div className="grid gap-4 md:grid-cols-4">
               <div className="space-y-2">
-                <Label htmlFor="date">Date</Label>
+                <Label htmlFor="date">{t("time.form.date.label")}</Label>
                 <Input
                   id="date"
                   type="date"
@@ -402,7 +403,7 @@ export default function TimeTrackingPage() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="hoursWorked">Hours worked</Label>
+                <Label htmlFor="hoursWorked">{t("time.form.hoursWorked.label")}</Label>
                 <Input
                   id="hoursWorked"
                   type="number"
@@ -412,15 +413,15 @@ export default function TimeTrackingPage() {
                   value={hoursWorked}
                   onChange={(event) => setHoursWorked(event.target.value)}
                   required
-                  placeholder="e.g. 1.5"
+                  placeholder={t("time.form.hoursWorked.placeholder")}
                 />
                 <p className="text-xs text-muted-foreground">
-                  Use 0.25 increments (15 minutes).
+                  {t("time.form.hoursWorked.help")}
                 </p>
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="hourlyRate">Hourly rate</Label>
+                <Label htmlFor="hourlyRate">{t("time.form.hourlyRate.label")}</Label>
                 <Input
                   id="hourlyRate"
                   type="number"
@@ -429,12 +430,12 @@ export default function TimeTrackingPage() {
                   value={hourlyRate}
                   onChange={(event) => setHourlyRate(event.target.value)}
                   required
-                  placeholder="e.g. 150"
+                  placeholder={t("time.form.hourlyRate.placeholder")}
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="activityType">Activity type</Label>
+                <Label htmlFor="activityType">{t("time.form.activityType.label")}</Label>
                 <Select
                   value={activityType}
                   onValueChange={(value) =>
@@ -445,19 +446,19 @@ export default function TimeTrackingPage() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="drafting">Drafting</SelectItem>
-                    <SelectItem value="reviewing">Reviewing</SelectItem>
-                    <SelectItem value="research">Research</SelectItem>
-                    <SelectItem value="meeting">Meeting</SelectItem>
-                    <SelectItem value="court">Court appearance</SelectItem>
-                    <SelectItem value="admin">Administrative</SelectItem>
-                    <SelectItem value="other">Other</SelectItem>
+                    <SelectItem value="drafting">{t("time.activityTypes.drafting")}</SelectItem>
+                    <SelectItem value="reviewing">{t("time.activityTypes.reviewing")}</SelectItem>
+                    <SelectItem value="research">{t("time.activityTypes.research")}</SelectItem>
+                    <SelectItem value="meeting">{t("time.activityTypes.meeting")}</SelectItem>
+                    <SelectItem value="court">{t("time.activityTypes.court")}</SelectItem>
+                    <SelectItem value="admin">{t("time.activityTypes.admin")}</SelectItem>
+                    <SelectItem value="other">{t("time.activityTypes.other")}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
 
               <div className="space-y-2">
-                <Label>Currency</Label>
+                <Label>{t("time.form.currency.label")}</Label>
                 <Select
                   value={currency}
                   onValueChange={(value) => setCurrency(value as CurrencyCode)}
@@ -466,11 +467,11 @@ export default function TimeTrackingPage() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="EUR">EUR – Euro</SelectItem>
-                    <SelectItem value="USD">USD – US Dollar</SelectItem>
-                    <SelectItem value="BAM">BAM – Convertible Mark</SelectItem>
-                    <SelectItem value="RSD">RSD – Serbian Dinar</SelectItem>
-                    <SelectItem value="HRK">HRK – Croatian Kuna</SelectItem>
+                    <SelectItem value="EUR">{t("time.currencies.eur")}</SelectItem>
+                    <SelectItem value="USD">{t("time.currencies.usd")}</SelectItem>
+                    <SelectItem value="BAM">{t("time.currencies.bam")}</SelectItem>
+                    <SelectItem value="RSD">{t("time.currencies.rsd")}</SelectItem>
+                    <SelectItem value="HRK">{t("time.currencies.hrk")}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -479,19 +480,18 @@ export default function TimeTrackingPage() {
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
                 <p className="text-sm font-medium text-foreground">
-                  Total:{" "}
+                  {t("time.form.total")}{" "}
                   {computedTotal !== null ? (
                     <>
                       {formatCurrencySymbol(currency)}{" "}
                       {computedTotal.toFixed(2)}
                     </>
                   ) : (
-                    "—"
+                    t("time.common.emptyValue")
                   )}
                 </p>
                 <p className="text-xs text-muted-foreground">
-                  Calculated as hours × hourly rate. Amount is stored as a
-                  numeric value.
+                  {t("time.form.totalHelp")}
                 </p>
               </div>
 
@@ -508,7 +508,7 @@ export default function TimeTrackingPage() {
                   {creating && (
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   )}
-                  {creating ? "Logging time..." : "Log time"}
+                  {creating ? t("time.form.actions.loading") : t("time.form.actions.submit")}
                 </Button>
               </div>
             </div>
@@ -518,17 +518,16 @@ export default function TimeTrackingPage() {
         <Card className="space-y-6 p-6">
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div>
-              <h2 className="text-lg font-semibold">Time entries</h2>
+              <h2 className="text-lg font-semibold">{t("time.list.title")}</h2>
               <p className="mt-1 text-sm text-muted-foreground">
-                Review your logged time, track unbilled hours, and prepare for
-                invoicing.
+                {t("time.list.subtitle")}
               </p>
             </div>
 
             <div className="grid gap-2 text-sm sm:grid-cols-3 sm:text-right">
               <div>
                 <p className="text-xs uppercase tracking-wide text-muted-foreground">
-                  Total unbilled hours
+                  {t("time.stats.unbilledHours")}
                 </p>
                 <p className="text-sm font-semibold">
                   {totalUnbilledHours.toFixed(2)} h
@@ -536,7 +535,7 @@ export default function TimeTrackingPage() {
               </div>
               <div>
                 <p className="text-xs uppercase tracking-wide text-muted-foreground">
-                  Unbilled amount (EUR)
+                  {t("time.stats.unbilledAmountEur")}
                 </p>
                 <p className="text-sm font-semibold">
                   €{totalUnbilledAmountEUR.toFixed(2)}
@@ -544,7 +543,7 @@ export default function TimeTrackingPage() {
               </div>
               <div>
                 <p className="text-xs uppercase tracking-wide text-muted-foreground">
-                  Entries this month
+                  {t("time.stats.entriesThisMonth")}
                 </p>
                 <p className="text-sm font-semibold">{totalEntriesThisMonth}</p>
               </div>
@@ -560,12 +559,12 @@ export default function TimeTrackingPage() {
           <div className="rounded-md border">
             {loadingEntries ? (
               <div className="space-y-2 p-4 text-sm text-muted-foreground">
-                <p>Loading time entries...</p>
+                <p>{t("time.list.loading")}</p>
               </div>
             ) : entries.length === 0 ? (
               <div className="space-y-2 p-4 text-sm text-muted-foreground">
-                <p>No time entries yet.</p>
-                <p>Log your first time entry using the form above.</p>
+                <p>{t("time.list.emptyTitle")}</p>
+                <p>{t("time.list.emptySubtitle")}</p>
               </div>
             ) : (
               <div className="divide-y">
@@ -594,13 +593,7 @@ export default function TimeTrackingPage() {
                         </span>
                         <span>·</span>
                         <span>
-                          {entry.activity_type === "drafting" && "Drafting"}
-                          {entry.activity_type === "reviewing" && "Reviewing"}
-                          {entry.activity_type === "research" && "Research"}
-                          {entry.activity_type === "meeting" && "Meeting"}
-                          {entry.activity_type === "court" && "Court appearance"}
-                          {entry.activity_type === "admin" && "Administrative"}
-                          {entry.activity_type === "other" && "Other"}
+                          {t(`time.activityTypes.${entry.activity_type}`)}
                         </span>
                         <span>·</span>
                         <span>
@@ -619,7 +612,9 @@ export default function TimeTrackingPage() {
                             : "border-amber-500/60 bg-amber-500/10 text-amber-700"
                         }
                       >
-                        {entry.status === "billed" ? "Billed" : "Unbilled"}
+                        {entry.status === "billed"
+                          ? t("time.status.billed")
+                          : t("time.status.unbilled")}
                       </Badge>
                       <Button
                         type="button"
@@ -627,7 +622,7 @@ export default function TimeTrackingPage() {
                         size="icon"
                         onClick={() => void handleDelete(entry.id)}
                         disabled={deletingId === entry.id}
-                        aria-label="Delete time entry"
+                        aria-label={t("time.actions.deleteAria")}
                       >
                         {deletingId === entry.id ? (
                           <Loader2 className="h-4 w-4 animate-spin" />

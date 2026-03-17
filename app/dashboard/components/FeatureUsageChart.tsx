@@ -10,6 +10,7 @@ import {
   YAxis,
 } from "recharts"
 
+import { useLanguage } from "@/components/LanguageProvider"
 import {
   Card,
   CardContent,
@@ -34,6 +35,7 @@ function formatFeatureLabel(key: string): string {
 }
 
 export function FeatureUsageChart({ data }: Props) {
+  const { t } = useLanguage()
   const chartData = data.map((d) => ({
     feature: formatFeatureLabel(d.feature_type),
     Count: d.usage_count,
@@ -42,12 +44,12 @@ export function FeatureUsageChart({ data }: Props) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Feature usage (recent)</CardTitle>
+        <CardTitle>{t("dashboard.usage.featuresTitle")}</CardTitle>
       </CardHeader>
       <CardContent className="h-64">
         {chartData.length === 0 ? (
           <p className="text-sm text-muted-foreground">
-            No feature usage recorded yet.
+            {t("dashboard.usage.featuresEmpty")}
           </p>
         ) : (
           <ResponsiveContainer width="100%" height="100%">

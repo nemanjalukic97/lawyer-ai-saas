@@ -19,11 +19,6 @@ export async function signup(formData: FormData) {
     redirect("/signup?error=invalid_email")
   }
 
-  const strongPasswordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[.,$#@!%&*?]).{6,}$/
-  if (!strongPasswordRegex.test(password)) {
-    redirect("/signup?error=weak_password")
-  }
-
   const { data, error } = await supabase.auth.signUp({
     email,
     password,

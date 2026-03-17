@@ -18,6 +18,7 @@ import {
 import { Loader2, UploadCloud } from "lucide-react"
 import { createClient } from "@/lib/supabase/client"
 import type { Json } from "@/database.types"
+import { useLanguage } from "@/components/LanguageProvider"
 
 type Jurisdiction =
   | "serbia"
@@ -39,30 +40,35 @@ interface Option<T extends string> {
   label: string
 }
 
-const JURISDICTION_OPTIONS: Option<Jurisdiction>[] = [
-  { value: "serbia", label: "Serbia" },
-  { value: "croatia", label: "Croatia" },
+type LocalizedOption<T extends string> = Option<T> & { translationKey: string }
+
+const JURISDICTION_OPTIONS: LocalizedOption<Jurisdiction>[] = [
+  { value: "serbia", label: "Serbia", translationKey: "analyze.jurisdictions.serbia" },
+  { value: "croatia", label: "Croatia", translationKey: "analyze.jurisdictions.croatia" },
   {
     value: "bih_fbih",
     label: "Bosnia & Herzegovina - Federation",
+    translationKey: "analyze.jurisdictions.bih_fbih",
   },
   {
     value: "bih_rs",
     label: "Bosnia & Herzegovina - Republika Srpska",
+    translationKey: "analyze.jurisdictions.bih_rs",
   },
   {
     value: "bih_brcko",
     label: "Bosnia & Herzegovina - Brcko District",
+    translationKey: "analyze.jurisdictions.bih_brcko",
   },
-  { value: "montenegro", label: "Montenegro" },
-  { value: "slovenia", label: "Slovenia" },
+  { value: "montenegro", label: "Montenegro", translationKey: "analyze.jurisdictions.montenegro" },
+  { value: "slovenia", label: "Slovenia", translationKey: "analyze.jurisdictions.slovenia" },
 ]
 
-const ANALYSIS_FOCUS_OPTIONS: Option<AnalysisFocus>[] = [
-  { value: "General Review", label: "General Review" },
-  { value: "Risk Assessment", label: "Risk Assessment" },
-  { value: "Compliance Check", label: "Compliance Check" },
-  { value: "Missing Clauses", label: "Missing Clauses" },
+const ANALYSIS_FOCUS_OPTIONS: LocalizedOption<AnalysisFocus>[] = [
+  { value: "General Review", label: "General Review", translationKey: "analyze.focus.general" },
+  { value: "Risk Assessment", label: "Risk Assessment", translationKey: "analyze.focus.risk" },
+  { value: "Compliance Check", label: "Compliance Check", translationKey: "analyze.focus.compliance" },
+  { value: "Missing Clauses", label: "Missing Clauses", translationKey: "analyze.focus.missing" },
 ]
 
 function cleanMarkdown(text: string): string {
@@ -79,7 +85,8 @@ function getJurisdictionLabel(jurisdiction: Jurisdiction): string {
 
 function buildSystemPrompt(
   jurisdiction: Jurisdiction,
-  analysisFocus: AnalysisFocus
+  analysisFocus: AnalysisFocus,
+  outputLanguageName: string
 ): string {
   const jurisdictionLabel = getJurisdictionLabel(jurisdiction)
 
@@ -99,6 +106,7 @@ Analyze this document and identify:
 7. RECOMMENDATIONS - Actionable improvements
 
 Focus: ${analysisFocus}
+Write the response in ${outputLanguageName}, but keep the labels "RISK SCORE" and the phrase "Risk score:" in English and include a clear line like "Risk score: X/10" so the app can parse it.
 Use formal but clear language suitable for lawyers.
 `.trim()
 }
@@ -190,7 +198,7 @@ async function parsePdfFile(file: File): Promise<string> {
     const arrayBuffer = await file.arrayBuffer()
     const pdfjsLib = await import("pdfjs-dist/legacy/build/pdf.js")
 
-    // @ts-expect-error - workerSrc is not typed on default export
+    // @ts-expect-error - workerSrc is not typed on default export 
     pdfjsLib.GlobalWorkerOptions.workerSrc =
       "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"
 
@@ -235,6 +243,24 @@ type DocumentAnalysisPageProps = {
 
 export default function DocumentAnalysisPage({ selectedId }: DocumentAnalysisPageProps) {
   const supabase = useMemo(() => createClient(), [])
+  const { t, language } = useLanguage()
+
+  const outputLanguageName = useMemo(() => {
+    switch (language) {
+      case "sr":
+        return "Serbian"
+      case "bs":
+        return "Bosnian"
+      case "hr":
+        return "Croatian"
+      case "sl":
+        return "Slovenian"
+      case "me":
+        return "Montenegrin"
+      default:
+        return "English"
+    }
+  }, [language])
   const [file, setFile] = useState<File | null>(null)
   const [fileName, setFileName] = useState<string | null>(null)
   const [fileSize, setFileSize] = useState<number | null>(null)
@@ -275,7 +301,7 @@ export default function DocumentAnalysisPage({ selectedId }: DocumentAnalysisPag
 
       const maxSizeBytes = 5 * 1024 * 1024
       if (selectedFile.size > maxSizeBytes) {
-        setError("File is too large. Maximum allowed size is 5MB.")
+        setError(t("analyze.errors.fileTooLarge"))
         setFile(null)
         setFileName(null)
         setFileSize(null)
@@ -288,7 +314,7 @@ export default function DocumentAnalysisPage({ selectedId }: DocumentAnalysisPag
       const isDocx = lowerName.endsWith(".docx") || lowerName.endsWith(".doc")
 
       if (!isPdf && !isTxt && !isDocx) {
-        setError("Unsupported file type. Please upload a PDF, DOCX, or TXT file.")
+        setError(t("analyze.errors.unsupportedFileType"))
         setFile(null)
         setFileName(null)
         setFileSize(null)
@@ -315,7 +341,7 @@ export default function DocumentAnalysisPage({ selectedId }: DocumentAnalysisPag
 
         if (!normalized) {
           setError(
-            "We couldn't extract any readable text from this document. Please try a different file or convert it to TXT/DOCX."
+            t("analyze.errors.noReadableText")
           )
           setExtractedText("")
           return
@@ -336,7 +362,7 @@ export default function DocumentAnalysisPage({ selectedId }: DocumentAnalysisPag
         setError(
           parseError instanceof Error
             ? parseError.message
-            : "Failed to extract text from the selected file."
+            : t("analyze.errors.extractFailed")
         )
       } finally {
         setIsParsing(false)
@@ -376,7 +402,7 @@ export default function DocumentAnalysisPage({ selectedId }: DocumentAnalysisPag
 
         if (!data) {
           setDetail(null)
-          setDetailError("Record not found")
+          setDetailError(t("analyze.sidebar.recordNotFound"))
           return
         }
 
@@ -409,7 +435,7 @@ export default function DocumentAnalysisPage({ selectedId }: DocumentAnalysisPag
           console.error("Failed to load analysis detail:", error)
         }
         setDetail(null)
-        setDetailError("Record not found")
+        setDetailError(t("analyze.sidebar.recordNotFound"))
       } finally {
         if (isMounted) {
           setDetailLoading(false)
@@ -422,7 +448,7 @@ export default function DocumentAnalysisPage({ selectedId }: DocumentAnalysisPag
     return () => {
       isMounted = false
     }
-  }, [selectedId, supabase])
+  }, [selectedId, supabase, t])
 
   function onFileInputChange(event: React.ChangeEvent<HTMLInputElement>) {
     const selectedFile = event.target.files?.[0] ?? null
@@ -449,7 +475,7 @@ export default function DocumentAnalysisPage({ selectedId }: DocumentAnalysisPag
 
     if (!file || !extractedText.trim()) {
       setError(
-        "Please upload a supported document and wait for text extraction before running analysis."
+        t("analyze.errors.uploadAndWait")
       )
       return
     }
@@ -457,7 +483,7 @@ export default function DocumentAnalysisPage({ selectedId }: DocumentAnalysisPag
     setIsAnalyzing(true)
 
     try {
-      const systemPrompt = buildSystemPrompt(jurisdiction, analysisFocus)
+      const systemPrompt = buildSystemPrompt(jurisdiction, analysisFocus, outputLanguageName)
       const userPrompt = buildUserPrompt(
         jurisdiction,
         analysisFocus,
@@ -505,7 +531,7 @@ export default function DocumentAnalysisPage({ selectedId }: DocumentAnalysisPag
         } = await supabase.auth.getUser()
 
         if (!user) {
-          setError("You must be logged in to save analyses.")
+          setError(t("analyze.errors.mustBeLoggedInToSave"))
           return
         }
 
@@ -519,7 +545,7 @@ export default function DocumentAnalysisPage({ selectedId }: DocumentAnalysisPag
           status: "completed",
         } as any)
 
-        setSuccessMessage("Analysis saved to workspace.")
+        setSuccessMessage(t("analyze.result.saved"))
       } catch (saveError) {
         if (process.env.NODE_ENV !== "production") {
           // eslint-disable-next-line no-console
@@ -533,7 +559,7 @@ export default function DocumentAnalysisPage({ selectedId }: DocumentAnalysisPag
       setError(
         err instanceof Error
           ? err.message
-          : "Failed to analyze document. Please try again."
+          : t("analyze.errors.analyzeFailed")
       )
     } finally {
       setIsAnalyzing(false)
@@ -599,19 +625,17 @@ export default function DocumentAnalysisPage({ selectedId }: DocumentAnalysisPag
           <header className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
             <div>
               <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                Legantis · Document analysis
+                {t("analyze.header.kicker")}
               </p>
               <h1 className="mt-1 text-3xl font-semibold tracking-tight text-foreground">
-                AI contract analysis & review
+                {t("analyze.header.title")}
               </h1>
               <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
-                Upload contracts or legal documents for automated review. The AI
-                highlights risky clauses, missing provisions, compliance issues,
-                and provides a clear risk score with actionable recommendations.
+                {t("analyze.header.subtitle")}
               </p>
             </div>
             <Button asChild variant="outline" size="sm">
-              <Link href="/dashboard">Back to dashboard</Link>
+              <Link href="/dashboard">{t("analyze.header.back")}</Link>
             </Button>
           </header>
 
@@ -632,10 +656,10 @@ export default function DocumentAnalysisPage({ selectedId }: DocumentAnalysisPag
                   />
                   <UploadCloud className="mb-2 h-8 w-8 text-muted-foreground" />
                   <p className="text-sm font-medium text-foreground">
-                    Drag & drop a document here
+                    {t("analyze.uploader.title")}
                   </p>
                   <p className="mt-1 text-xs text-muted-foreground">
-                    PDF, DOCX, or TXT up to 5MB.
+                    {t("analyze.uploader.subtitle")}
                   </p>
                   <Button
                     type="button"
@@ -650,7 +674,7 @@ export default function DocumentAnalysisPage({ selectedId }: DocumentAnalysisPag
                     }}
                     disabled={isParsing || isAnalyzing}
                   >
-                    Choose file
+                    {t("analyze.uploader.chooseFile")}
                   </Button>
 
                   {fileName && fileSize != null && (
@@ -662,7 +686,7 @@ export default function DocumentAnalysisPage({ selectedId }: DocumentAnalysisPag
                       {isParsing && (
                         <span className="ml-2 inline-flex items-center gap-1">
                           <Loader2 className="h-3 w-3 animate-spin" />
-                          Extracting text...
+                          {t("analyze.uploader.extracting")}
                         </span>
                       )}
                     </div>
@@ -671,7 +695,7 @@ export default function DocumentAnalysisPage({ selectedId }: DocumentAnalysisPag
 
                 <div className="grid gap-4 md:grid-cols-2">
                   <div className="space-y-2">
-                    <Label>Jurisdiction</Label>
+                    <Label>{t("analyze.form.jurisdiction.label")}</Label>
                     <Select
                       value={jurisdiction}
                       onValueChange={(value) =>
@@ -679,12 +703,15 @@ export default function DocumentAnalysisPage({ selectedId }: DocumentAnalysisPag
                       }
                     >
                       <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Select jurisdiction" />
+                        <SelectValue placeholder={t("analyze.form.jurisdiction.placeholder")} />
                       </SelectTrigger>
                       <SelectContent>
                         {JURISDICTION_OPTIONS.map((option) => (
                           <SelectItem key={option.value} value={option.value}>
-                            {option.label}
+                            {(() => {
+                              const translated = t(option.translationKey)
+                              return translated === option.translationKey ? option.label : translated
+                            })()}
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -692,7 +719,7 @@ export default function DocumentAnalysisPage({ selectedId }: DocumentAnalysisPag
                   </div>
 
                   <div className="space-y-2">
-                    <Label>Analysis focus (optional)</Label>
+                    <Label>{t("analyze.form.focus.label")}</Label>
                     <Select
                       value={analysisFocus}
                       onValueChange={(value) =>
@@ -700,36 +727,38 @@ export default function DocumentAnalysisPage({ selectedId }: DocumentAnalysisPag
                       }
                     >
                       <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Select analysis type" />
+                        <SelectValue placeholder={t("analyze.form.focus.placeholder")} />
                       </SelectTrigger>
                       <SelectContent>
                         {ANALYSIS_FOCUS_OPTIONS.map((option) => (
                           <SelectItem key={option.value} value={option.value}>
-                            {option.label}
+                            {(() => {
+                              const translated = t(option.translationKey)
+                              return translated === option.translationKey ? option.label : translated
+                            })()}
                           </SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
                     <p className="text-xs text-muted-foreground">
-                      General Review is a balanced overview. Other options steer
-                      the AI toward specific types of issues.
+                      {t("analyze.form.focus.help")}
                     </p>
                   </div>
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="extractedPreview">Extracted text preview</Label>
+                  <Label htmlFor="extractedPreview">
+                    {t("analyze.form.extractedPreview.label")}
+                  </Label>
                   <Textarea
                     id="extractedPreview"
                     value={extractedText}
                     onChange={(event) => setExtractedText(event.target.value)}
                     rows={5}
-                    placeholder="Once you upload a document, its extracted text will appear here. You can edit it before analysis if needed."
+                    placeholder={t("analyze.form.extractedPreview.placeholder")}
                   />
                   <p className="text-xs text-muted-foreground">
-                    Do not paste or upload documents containing information you
-                    are not permitted to share. Remove client-identifying details
-                    where required.
+                    {t("analyze.form.extractedPreview.help")}
                   </p>
                 </div>
 
@@ -744,11 +773,10 @@ export default function DocumentAnalysisPage({ selectedId }: DocumentAnalysisPag
                     {(isAnalyzing || isParsing) && (
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     )}
-                    {isAnalyzing ? "Analyzing document..." : "Analyze document"}
+                    {isAnalyzing ? t("analyze.form.actions.loading") : t("analyze.form.actions.submit")}
                   </Button>
                   <p className="text-xs text-muted-foreground">
-                    Uses your plan&apos;s AI quota. This is AI analysis only and
-                    does not replace independent legal judgment.
+                    {t("analyze.form.actions.note")}
                   </p>
                 </div>
               </form>
@@ -757,11 +785,9 @@ export default function DocumentAnalysisPage({ selectedId }: DocumentAnalysisPag
             <Card className="flex min-h-[420px] flex-col p-6">
               <div className="flex items-center justify-between gap-4">
                 <div>
-                  <h2 className="text-lg font-semibold">Analysis report</h2>
+                  <h2 className="text-lg font-semibold">{t("analyze.result.title")}</h2>
                   <p className="mt-1 text-sm text-muted-foreground">
-                    Executive summary, risk score, risky clauses, missing
-                    provisions, compliance issues, and recommendations for the
-                    uploaded document.
+                    {t("analyze.result.subtitle")}
                   </p>
                 </div>
                 {analysisContent && (
@@ -778,7 +804,7 @@ export default function DocumentAnalysisPage({ selectedId }: DocumentAnalysisPag
                       onClick={handleDownloadPdf}
                       disabled={!analysisContent}
                     >
-                      Download PDF
+                      {t("analyze.result.downloadPdf")}
                     </Button>
                   </div>
                 )}
@@ -797,11 +823,7 @@ export default function DocumentAnalysisPage({ selectedId }: DocumentAnalysisPag
                   </pre>
                 ) : (
                   <p className="text-sm text-muted-foreground">
-                    Your document analysis will appear here after you upload a
-                    file and run an analysis. You&apos;ll see an executive
-                    summary, overall risk score, and a breakdown of risky clauses,
-                    missing provisions, compliance issues, and recommended
-                    changes, presented in clear language suitable for lawyers.
+                    {t("analyze.result.empty")}
                   </p>
                 )}
               </div>
@@ -810,15 +832,20 @@ export default function DocumentAnalysisPage({ selectedId }: DocumentAnalysisPag
         </div>
 
         <Card className="h-fit space-y-4 p-6">
-          <h2 className="text-lg font-semibold">Analysis details</h2>
+          <h2 className="text-lg font-semibold">{t("analyze.sidebar.title")}</h2>
           {!selectedId ? (
-            <p className="text-sm text-muted-foreground">
-              Select an analysis from recent activity to see details here.
-            </p>
+            <div className="space-y-3">
+              <p className="text-sm text-muted-foreground">
+                {t("analyze.sidebar.empty")}
+              </p>
+              <Button asChild variant="outline" size="sm">
+                <Link href="/dashboard/activity">{t("analyze.sidebar.viewActivity")}</Link>
+              </Button>
+            </div>
           ) : detailLoading ? (
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <Loader2 className="h-4 w-4 animate-spin" />
-              <span>Loading analysis…</span>
+              <span>{t("analyze.sidebar.loading")}</span>
             </div>
           ) : detailError ? (
             <p className="text-sm text-destructive">{detailError}</p>
@@ -827,19 +854,21 @@ export default function DocumentAnalysisPage({ selectedId }: DocumentAnalysisPag
               <div>
                 <p className="font-medium">{detail.original_filename}</p>
                 <p className="text-xs text-muted-foreground">
-                  Risk score:{" "}
-                  {detail.risk_score != null ? `${detail.risk_score}/10` : "Not specified"}
+                  {t("analyze.sidebar.riskScore")}{" "}
+                  {detail.risk_score != null
+                    ? `${detail.risk_score}/10`
+                    : t("analyze.common.notSpecified")}
                 </p>
                 <p className="text-xs text-muted-foreground">
-                  Analyzed{" "}
+                  {t("analyze.sidebar.analyzed")}{" "}
                   {detail.analyzed_at
                     ? new Date(detail.analyzed_at).toLocaleDateString()
-                    : "Not available"}
+                    : t("analyze.common.notAvailable")}
                 </p>
               </div>
               {detail.executive_summary && (
                 <div className="space-y-1 text-xs text-muted-foreground">
-                  <p className="font-medium text-foreground">Executive summary</p>
+                  <p className="font-medium text-foreground">{t("analyze.sidebar.executiveSummary")}</p>
                   <div className="max-h-40 overflow-y-auto rounded-md border bg-muted/40 p-3">
                     <pre className="whitespace-pre-wrap">
                       {String(detail.executive_summary)}
@@ -849,7 +878,7 @@ export default function DocumentAnalysisPage({ selectedId }: DocumentAnalysisPag
               )}
               {Array.isArray(detail.risky_clauses) && detail.risky_clauses.length > 0 && (
                 <div className="space-y-1 text-xs text-muted-foreground">
-                  <p className="font-medium text-foreground">Risky clauses</p>
+                  <p className="font-medium text-foreground">{t("analyze.sidebar.riskyClauses")}</p>
                   <ul className="list-inside list-disc space-y-1 max-h-40 overflow-y-auto">
                     {detail.risky_clauses.map((clause, index) => (
                       <li key={index}>{String(clause)}</li>
@@ -860,7 +889,7 @@ export default function DocumentAnalysisPage({ selectedId }: DocumentAnalysisPag
               {Array.isArray(detail.recommendations) &&
                 detail.recommendations.length > 0 && (
                   <div className="space-y-1 text-xs text-muted-foreground">
-                    <p className="font-medium text-foreground">Recommendations</p>
+                    <p className="font-medium text-foreground">{t("analyze.sidebar.recommendations")}</p>
                     <ul className="list-inside list-disc space-y-1 max-h-40 overflow-y-auto">
                       {detail.recommendations.map((rec, index) => (
                         <li key={index}>{String(rec)}</li>
