@@ -164,7 +164,7 @@ export default function BillingPageClient({ billing, success }: BillingProps) {
     if (!inferredEnv) return
 
     initializePaddle({ environment: inferredEnv, token })
-      .then((instance) => setPaddle(instance))
+      .then((instance) => setPaddle(instance ?? null))
       .catch(() => setPaddle(null))
   }, [])
 
