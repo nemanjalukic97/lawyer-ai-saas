@@ -46,15 +46,17 @@ export default async function ActivityPage({
     .is("deleted_at", null)
     .maybeSingle()
 
+  const law_firm_id = (profile as { law_firm_id: string | null } | null)?.law_firm_id ?? null
+
   const scope = getScopeFromProfile(user.id, {
-    law_firm_id: profile?.law_firm_id ?? null,
+    law_firm_id,
   })
 
   const params = await searchParams
   const filterType = parseType(params.type)
   const typeForFetch = filterType === "all" ? undefined : filterType
 
-  const items = await getRecentActivity(supabase, scope, {
+  const items = await getRecentActivity(supabase as any, scope, {
     type: typeForFetch,
     limit: 50,
   })
