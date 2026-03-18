@@ -3,7 +3,6 @@
 import Link from "next/link"
 
 import { FeatureCard } from "@/components/FeatureCard"
-import { Footer } from "@/components/Footer"
 import { Header } from "@/components/Header"
 import { PricingCard } from "@/components/PricingCard"
 import { SignupSuccessToast } from "@/components/SignupSuccessToast"
@@ -19,7 +18,7 @@ export function HomeClient({ signupStatus }: Props) {
   const { t } = useLanguage()
 
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex flex-col">
       <Header />
 
       <main className="flex-1">
@@ -105,8 +104,6 @@ export function HomeClient({ signupStatus }: Props) {
           </div>
         </section>
       </main>
-
-      <Footer />
 
       {signupStatus === "success" && <SignupSuccessToast />}
     </div>

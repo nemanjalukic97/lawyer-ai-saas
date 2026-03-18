@@ -141,15 +141,29 @@ export default function BillingPageClient({ billing, success }: BillingProps) {
   }, [])
 
   useEffect(() => {
-    const environment = process.env.NEXT_PUBLIC_PADDLE_ENV as
-      | "sandbox"
-      | "production"
-      | undefined
     const token = process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN
 
-    if (!environment || !token) return
+    if (!token) return
 
-    initializePaddle({ environment, token })
+    const explicitEnv = (process.env.NEXT_PUBLIC_PADDLE_ENV ?? "").toLowerCase()
+    const explicit: "sandbox" | "production" | undefined =
+      explicitEnv === "sandbox" || explicitEnv === "production"
+        ? (explicitEnv as "sandbox" | "production")
+        : undefined
+    const inferredFromToken: "sandbox" | "production" | undefined = token.startsWith("live_")
+      ? "production"
+      : token.startsWith("test_")
+        ? "sandbox"
+        : undefined
+
+    const inferredEnv =
+      explicit && inferredFromToken && explicit !== inferredFromToken
+        ? inferredFromToken
+        : (explicit ?? inferredFromToken)
+
+    if (!inferredEnv) return
+
+    initializePaddle({ environment: inferredEnv, token })
       .then((instance) => setPaddle(instance))
       .catch(() => setPaddle(null))
   }, [])

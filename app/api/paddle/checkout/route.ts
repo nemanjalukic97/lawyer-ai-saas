@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
       return Response.json(
         {
           error:
-            "Paddle is not configured. Set PADDLE_API_KEY, NEXT_PUBLIC_PADDLE_ENV, and price IDs in .env.local.",
+            "Paddle is not configured. Set PADDLE_API_KEY (and optionally PADDLE_ENV) plus price IDs in .env.local.",
         },
         { status: 400 }
       )

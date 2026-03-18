@@ -170,7 +170,7 @@ export async function POST(req: NextRequest) {
       case "subscription.updated": {
         if (!subscriptionId) break
 
-        const mapped = mapPaddleStatusToAppStatus(data?.status)
+        const mapped = mapPaddleStatusToAppStatus(pickString(data, ["status"]))
         const update: Record<string, unknown> = {}
         if (mapped) update.subscription_status = mapped
         if (tier) update.subscription_tier = tier

@@ -8,27 +8,37 @@ export function Footer() {
     <footer className="border-t border-border bg-muted/30">
       <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-sm text-muted-foreground">
-            {t("footer.tagline")}
-          </p>
+          <div className="space-y-2">
+            <p className="text-sm text-muted-foreground">{t("footer.tagline")}</p>
+            <div className="flex flex-col gap-1 text-xs text-muted-foreground">
+              <a
+                href="https://maps.google.com/?q=Karadjordjeva%2013%2C%20Ugljevik%2C%20Bosnia%20and%20Herzegovina"
+                target="_blank"
+                rel="noreferrer"
+                className="w-fit transition-colors hover:text-foreground"
+              >
+                Karadjordjeva 13, Ugljevik, Bosnia and Herzegovina
+              </a>
+              <a
+                href="tel:+38766081218"
+                className="w-fit transition-colors hover:text-foreground"
+              >
+                +38766081218
+              </a>
+            </div>
+          </div>
           <div className="flex gap-6 text-sm">
             <Link
-              href="#"
+              href="/privacy"
               className="text-muted-foreground transition-colors hover:text-foreground"
             >
               {t("footer.privacy")}
             </Link>
             <Link
-              href="#"
+              href="/terms"
               className="text-muted-foreground transition-colors hover:text-foreground"
             >
               {t("footer.terms")}
-            </Link>
-            <Link
-              href="#"
-              className="text-muted-foreground transition-colors hover:text-foreground"
-            >
-              {t("footer.contact")}
             </Link>
           </div>
         </div>
