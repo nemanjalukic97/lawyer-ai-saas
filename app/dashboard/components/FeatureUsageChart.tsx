@@ -56,7 +56,7 @@ export function FeatureUsageChart({ data }: Props) {
             <BarChart data={chartData}>
               <XAxis dataKey="feature" />
               <YAxis allowDecimals={false} />
-              <Tooltip />
+              <Tooltip cursor={false} />
               <Legend />
               <Bar dataKey="Count" fill="#0EA5E9" />
             </BarChart>
