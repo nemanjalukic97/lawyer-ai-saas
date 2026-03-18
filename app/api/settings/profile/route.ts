@@ -1,11 +1,13 @@
 import { NextRequest } from "next/server"
 
 import { createClient } from "@/lib/supabase/server"
-import type { Tables } from "@/lib/supabase/types"
+import type { Tables, TablesUpdate } from "@/lib/supabase/types"
+
+type Jurisdiction = NonNullable<Tables<"user_profiles">["preferred_jurisdiction"]>
 
 type ProfileBody = {
   fullName?: string | null
-  preferredJurisdiction?: string | null
+  preferredJurisdiction?: Jurisdiction | null
   preferredLanguage?: string | null
   lawFirmName?: string | null
 }
@@ -46,7 +48,8 @@ export async function POST(req: NextRequest) {
 
     const { fullName, preferredJurisdiction, preferredLanguage, lawFirmName } = body
 
-    const updatePayload: Record<string, unknown> = {}
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const updatePayload: any = {}
     if (typeof fullName === "string" && fullName.trim()) {
       updatePayload.full_name = fullName.trim()
     }
@@ -58,7 +61,9 @@ export async function POST(req: NextRequest) {
     }
 
     if (Object.keys(updatePayload).length > 0) {
-      const { error: profileError } = await supabase
+      // Supabase's generated types occasionally resolve `update(...)` as `never`
+      // in this code path; cast the builder to keep runtime behavior intact.
+      const { error: profileError } = await (supabase as any)
         .from("user_profiles")
         .update(updatePayload)
         .eq("id", user.id)
@@ -94,7 +99,7 @@ export async function POST(req: NextRequest) {
       const lawFirmId = typedProfile?.law_firm_id ?? null
 
       if (lawFirmId) {
-        const { error: firmError } = await supabase
+        const { error: firmError } = await (supabase as any)
           .from("law_firms")
           .update({ name: lawFirmName.trim() })
           .eq("id", lawFirmId)
