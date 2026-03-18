@@ -196,11 +196,10 @@ async function parseDocxFile(file: File): Promise<string> {
 async function parsePdfFile(file: File): Promise<string> {
   try {
     const arrayBuffer = await file.arrayBuffer()
-    const pdfjsLib = await import("pdfjs-dist/legacy/build/pdf.js")
+    const pdfjsLib = await import("pdfjs-dist")
 
-    // @ts-expect-error - workerSrc is not typed on default export 
     pdfjsLib.GlobalWorkerOptions.workerSrc =
-      "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"
+      `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`
 
     const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer })
     const pdf = await loadingTask.promise
