@@ -112,8 +112,9 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       },
     },
     footer: {
-      tagline:
-        "Legantis – AI legal assistant for Bosnia & Herzegovina, Serbia, Croatia, Montenegro, and Slovenia.",
+      taglineLine1:
+        "Legantis – AI legal assistant for Bosnia & Herzegovina,",
+      taglineLine2: "Serbia, Croatia, Montenegro, and Slovenia.",
       privacy: "Privacy",
       terms: "Terms",
       contact: "Contact",
@@ -1209,8 +1210,9 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       },
     },
     footer: {
-      tagline:
-        "Legantis – AI pravni asistent za Bosnu i Hercegovinu, Srbiju, Hrvatsku, Crnu Goru i Sloveniju.",
+      taglineLine1:
+        "Legantis – AI pravni asistent za Bosnu i Hercegovinu,",
+      taglineLine2: "Srbiju, Hrvatsku, Crnu Goru i Sloveniju.",
       privacy: "Privatnost",
       terms: "Uslovi korišćenja",
       contact: "Kontakt",
@@ -2308,8 +2310,9 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       },
     },
     footer: {
-      tagline:
-        "Legantis – AI pravni asistent za Bosnu i Hercegovinu, Srbiju, Hrvatsku, Crnu Goru i Sloveniju.",
+      taglineLine1:
+        "Legantis – AI pravni asistent za Bosnu i Hercegovinu,",
+      taglineLine2: "Srbiju, Hrvatsku, Crnu Goru i Sloveniju.",
       privacy: "Privatnost",
       terms: "Uslovi korištenja",
       contact: "Kontakt",
@@ -3410,8 +3413,9 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       },
     },
     footer: {
-      tagline:
-        "Legantis – AI pravni asistent za Bosnu i Hercegovinu, Srbiju, Hrvatsku, Crnu Goru i Sloveniju.",
+      taglineLine1:
+        "Legantis – AI pravni asistent za Bosnu i Hercegovinu,",
+      taglineLine2: "Srbiju, Hrvatsku, Crnu Goru i Sloveniju.",
       privacy: "Privatnost",
       terms: "Uvjeti korištenja",
       contact: "Kontakt",
@@ -4623,8 +4627,9 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       },
     },
     footer: {
-      tagline:
-        "Legantis – AI pravni asistent za Bosno in Hercegovino, Srbijo, Hrvaško, Črno goro in Slovenijo.",
+      taglineLine1:
+        "Legantis – AI pravni asistent za Bosno in Hercegovino,",
+      taglineLine2: "Srbijo, Hrvaško, Črno goro, Slovenijo.",
       privacy: "Zasebnost",
       terms: "Pogoji uporabe",
       contact: "Kontakt",
@@ -5721,8 +5726,9 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       },
     },
     footer: {
-      tagline:
-        "Legantis – AI pravni asistent za Bosnu i Hercegovinu, Srbiju, Hrvatsku, Crnu Goru i Sloveniju.",
+      taglineLine1:
+        "Legantis – AI pravni asistent za Bosnu i Hercegovinu,",
+      taglineLine2: "Srbiju, Hrvatsku, Crnu Goru i Sloveniju.",
       privacy: "Privatnost",
       terms: "Uslovi korišćenja",
       contact: "Kontakt",

@@ -6,8 +6,9 @@ import { usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { LanguageSwitcher } from "@/components/LanguageSwitcher"
 import { useLanguage } from "@/components/LanguageProvider"
+import { HamburgerIcon } from "@/components/HamburgerIcon"
 import { cn } from "@/lib/utils"
-import { ChevronDown, Menu, X } from "lucide-react"
+import { ChevronDown } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 
 const MAIN_LINKS = [
@@ -40,17 +41,21 @@ function NavLinks({
   pathname,
   onLinkClick,
   className,
+  interactionMode = "hover",
 }: {
   pathname: string
   onLinkClick?: () => void
   className?: string
+  interactionMode?: "hover" | "tap"
 }) {
   const { t } = useLanguage()
+  const isTap = interactionMode === "tap"
   const actionsActive = ACTION_LINKS.some(({ href }) => isActive(pathname, href))
   const [actionsOpen, setActionsOpen] = useState(false)
   const [actionsVisible, setActionsVisible] = useState(false)
   const closeTimerRef = useRef<number | null>(null)
   const hideTimerRef = useRef<number | null>(null)
+  const tapActionsRef = useRef<HTMLDivElement | null>(null)
 
   const cancelCloseTimer = () => {
     if (closeTimerRef.current) {
@@ -69,13 +74,10 @@ function NavLinks({
   const scheduleClose = () => {
     cancelCloseTimer()
     cancelHideTimer()
-    // Small delay prevents flicker when moving mouse
-    // from the trigger into the menu.
     closeTimerRef.current = window.setTimeout(() => {
       setActionsOpen(false)
       closeTimerRef.current = null
 
-      // Allow opacity transition to play before unmounting.
       hideTimerRef.current = window.setTimeout(() => {
         setActionsVisible(false)
         hideTimerRef.current = null
@@ -90,8 +92,44 @@ function NavLinks({
     }
   }, [])
 
+  useEffect(() => {
+    if (!isTap || !actionsOpen) return
+    const handler = (e: MouseEvent) => {
+      if (
+        tapActionsRef.current &&
+        !tapActionsRef.current.contains(e.target as Node)
+      ) {
+        setActionsOpen(false)
+      }
+    }
+    document.addEventListener("mousedown", handler)
+    return () => document.removeEventListener("mousedown", handler)
+  }, [isTap, actionsOpen])
+
+  const actionsButtonClass = (tap: boolean) =>
+    cn(
+      "flex min-w-0 items-center gap-1 rounded-md px-3 py-2 text-sm font-medium cursor-pointer select-none transition-[background-color,color,box-shadow] duration-200 ease-out",
+      tap && "w-full text-left",
+      actionsActive
+        ? "bg-accent text-accent-foreground"
+        : "text-muted-foreground hover:bg-accent/50 hover:text-foreground"
+    )
+
+  const actionLinkClass = (href: string) =>
+    cn(
+      "block rounded-sm px-3 py-2 text-sm transition-colors",
+      isActive(pathname, href)
+        ? "bg-accent text-accent-foreground"
+        : "text-muted-foreground hover:bg-accent/50 hover:text-foreground"
+    )
+
   return (
-    <div className={cn("flex flex-col gap-1 md:flex-row md:items-center md:gap-1", className)}>
+    <div
+      className={cn(
+        "flex flex-col gap-1 min-[992px]:flex-row min-[992px]:items-center min-[992px]:gap-1",
+        className
+      )}
+    >
       {MAIN_LINKS.map(({ href, key }) => (
         <Link
           key={key}
@@ -108,79 +146,110 @@ function NavLinks({
         </Link>
       ))}
 
-      <div
-        className="relative"
-        onMouseEnter={() => {
-          cancelCloseTimer()
-          cancelHideTimer()
-          setActionsVisible(true)
-          setActionsOpen(true)
-        }}
-        onMouseLeave={() => {
-          scheduleClose()
-        }}
-      >
-        <button
-          type="button"
-          aria-haspopup="menu"
-          aria-expanded={actionsOpen}
-          onFocus={() => setActionsOpen(true)}
-          onBlur={() => scheduleClose()}
-          className={cn(
-            "flex items-center gap-1 rounded-md px-3 py-2 text-sm font-medium cursor-pointer select-none transition-[background-color,color,box-shadow] duration-200 ease-out",
-            actionsActive
-              ? "bg-accent text-accent-foreground"
-              : "text-muted-foreground hover:bg-accent/50 hover:text-foreground"
-          )}
-        >
-          {t("nav.actions")}
-          <ChevronDown
-            className={cn(
-              "h-4 w-4 transition-transform",
-              actionsOpen ? "rotate-180" : "rotate-0"
-            )}
-          />
-        </button>
-
-        {actionsVisible && (
-          <div
-            role="menu"
-            className={cn(
-              "absolute left-0 mt-1 w-56 rounded-md border border-border bg-background p-1 shadow-lg transition-opacity duration-150 ease-out",
-              actionsOpen ? "opacity-100" : "pointer-events-none opacity-0"
-            )}
-            onMouseEnter={() => {
-              cancelCloseTimer()
-              cancelHideTimer()
-              setActionsOpen(true)
-            }}
-            onMouseLeave={() => scheduleClose()}
+      {isTap ? (
+        <div ref={tapActionsRef} className="relative min-w-0">
+          <button
+            type="button"
+            aria-haspopup="menu"
+            aria-expanded={actionsOpen}
+            onClick={() => setActionsOpen((o) => !o)}
+            className={actionsButtonClass(true)}
           >
-            {ACTION_LINKS.map(({ href, key }) => (
-              <Link
-                key={key}
-                href={href}
-                role="menuitem"
-                onClick={() => {
-                  cancelCloseTimer()
-                  cancelHideTimer()
-                  setActionsOpen(false)
-                  setActionsVisible(false)
-                  onLinkClick?.()
-                }}
-                className={cn(
-                  "block rounded-sm px-3 py-2 text-sm transition-colors",
-                  isActive(pathname, href)
-                    ? "bg-accent text-accent-foreground"
-                    : "text-muted-foreground hover:bg-accent/50 hover:text-foreground"
-                )}
-              >
-                {t(`nav.${key}`)}
-              </Link>
-            ))}
-          </div>
-        )}
-      </div>
+            {t("nav.actions")}
+            <ChevronDown
+              className={cn(
+                "ml-auto h-4 w-4 shrink-0 transition-transform",
+                actionsOpen ? "rotate-180" : "rotate-0"
+              )}
+            />
+          </button>
+          {actionsOpen && (
+            <div
+              role="menu"
+              className="mt-1 flex flex-col gap-0 rounded-md border border-border bg-background p-1"
+            >
+              {ACTION_LINKS.map(({ href, key }) => (
+                <Link
+                  key={key}
+                  href={href}
+                  role="menuitem"
+                  onClick={() => {
+                    setActionsOpen(false)
+                    onLinkClick?.()
+                  }}
+                  className={actionLinkClass(href)}
+                >
+                  {t(`nav.${key}`)}
+                </Link>
+              ))}
+            </div>
+          )}
+        </div>
+      ) : (
+        <div
+          className="relative"
+          onMouseEnter={() => {
+            cancelCloseTimer()
+            cancelHideTimer()
+            setActionsVisible(true)
+            setActionsOpen(true)
+          }}
+          onMouseLeave={() => {
+            scheduleClose()
+          }}
+        >
+          <button
+            type="button"
+            aria-haspopup="menu"
+            aria-expanded={actionsOpen}
+            onFocus={() => setActionsOpen(true)}
+            onBlur={() => scheduleClose()}
+            className={actionsButtonClass(false)}
+          >
+            {t("nav.actions")}
+            <ChevronDown
+              className={cn(
+                "h-4 w-4 transition-transform",
+                actionsOpen ? "rotate-180" : "rotate-0"
+              )}
+            />
+          </button>
+
+          {actionsVisible && (
+            <div
+              role="menu"
+              className={cn(
+                "absolute left-0 z-10 mt-1 w-56 rounded-md border border-border bg-background p-1 shadow-lg transition-opacity duration-150 ease-out",
+                actionsOpen ? "opacity-100" : "pointer-events-none opacity-0"
+              )}
+              onMouseEnter={() => {
+                cancelCloseTimer()
+                cancelHideTimer()
+                setActionsOpen(true)
+              }}
+              onMouseLeave={() => scheduleClose()}
+            >
+              {ACTION_LINKS.map(({ href, key }) => (
+                <Link
+                  key={key}
+                  href={href}
+                  role="menuitem"
+                  onClick={() => {
+                    cancelCloseTimer()
+                    cancelHideTimer()
+                    setActionsOpen(false)
+                    setActionsVisible(false)
+                    onLinkClick?.()
+                  }}
+                  className={actionLinkClass(href)}
+                >
+                  {t(`nav.${key}`)}
+                </Link>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
 
       {AFTER_ACTIONS_LINKS.map(({ href, key }) => (
         <Link
@@ -206,9 +275,18 @@ export function DashboardNavbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const { t } = useLanguage()
 
+  useEffect(() => {
+    if (!mobileOpen) return
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMobileOpen(false)
+    }
+    window.addEventListener("keydown", onKeyDown)
+    return () => window.removeEventListener("keydown", onKeyDown)
+  }, [mobileOpen])
+
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <nav className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4 sm:px-6">
+    <header className="relative sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <nav className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4 sm:px-6 max-[479px]:px-3">
         <Link
           href="/dashboard"
           className="text-lg font-semibold text-foreground hover:text-foreground/90"
@@ -216,13 +294,11 @@ export function DashboardNavbar() {
           Legantis
         </Link>
 
-        {/* Desktop nav: visible from md up */}
-        <div className="hidden md:flex">
-          <NavLinks pathname={pathname} className="flex-row" />
+        <div className="hidden min-[992px]:flex">
+          <NavLinks pathname={pathname} className="flex-row" interactionMode="hover" />
         </div>
 
-        {/* Right: language + logout on desktop */}
-        <div className="hidden items-center gap-4 md:flex">
+        <div className="hidden items-center gap-4 min-[992px]:flex">
           <LanguageSwitcher />
           <form action="/auth/signout" method="post">
             <Button type="submit" variant="outline" size="sm">
@@ -231,8 +307,7 @@ export function DashboardNavbar() {
           </form>
         </div>
 
-        {/* Mobile: language, logout, hamburger */}
-        <div className="flex items-center gap-2 md:hidden">
+        <div className="flex items-center gap-2 min-[992px]:hidden">
           <LanguageSwitcher />
           <form action="/auth/signout" method="post">
             <Button type="submit" variant="outline" size="sm">
@@ -243,27 +318,24 @@ export function DashboardNavbar() {
             type="button"
             variant="ghost"
             size="icon"
+            aria-expanded={mobileOpen}
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
             onClick={() => setMobileOpen((o) => !o)}
           >
-            {mobileOpen ? (
-              <X className="h-5 w-5" />
-            ) : (
-              <Menu className="h-5 w-5" />
-            )}
+            <HamburgerIcon open={mobileOpen} />
           </Button>
         </div>
       </nav>
 
-      {/* Mobile menu panel: shown below nav when open */}
       {mobileOpen && (
         <div
-          className="absolute left-0 right-0 top-14 z-50 border-b border-border bg-background px-4 py-3 shadow-lg md:hidden"
+          className="absolute left-0 right-0 top-14 z-50 max-h-[calc(100vh-3.5rem)] min-[992px]:hidden overflow-y-auto border-b border-border bg-background px-4 py-3 shadow-lg max-[479px]:px-3"
           role="dialog"
           aria-label="Navigation menu"
         >
           <NavLinks
             pathname={pathname}
+            interactionMode="tap"
             onLinkClick={() => setMobileOpen(false)}
           />
         </div>
