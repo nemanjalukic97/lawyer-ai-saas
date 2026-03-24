@@ -24,6 +24,7 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog"
 import { Switch } from "@/components/ui/switch"
+import { ThemeToggle } from "@/components/theme-toggle"
 import type { Tables } from "@/lib/supabase/types"
 import { createClient as createBrowserClient } from "@/lib/supabase/client"
 import { useLanguage } from "@/components/LanguageProvider"
@@ -36,6 +37,7 @@ type ProfileSettings = Pick<
   | "preferred_language"
   | "subscription_tier"
   | "subscription_status"
+  | "theme_preference"
 >
 
 type FirmSettings = Pick<
@@ -75,6 +77,14 @@ const LANGUAGE_OPTIONS = [
 
 const CURRENCY_OPTIONS = ["EUR", "BAM", "RSD", "HRK"] as const
 
+const THEME_OPTIONS = ["light", "dark"] as const
+
+function normalizeThemePreference(
+  value: string | null | undefined
+): (typeof THEME_OPTIONS)[number] {
+  return value === "dark" ? "dark" : "light"
+}
+
 export default function SettingsPageClient({
   user,
   profile,
@@ -104,6 +114,9 @@ export default function SettingsPageClient({
   )
   const [currency, setCurrency] = useState<(typeof CURRENCY_OPTIONS)[number]>("EUR")
   const [emailNotifications, setEmailNotifications] = useState<boolean>(true)
+  const [themePreference, setThemePreference] = useState<
+    (typeof THEME_OPTIONS)[number]
+  >(() => normalizeThemePreference(profile?.theme_preference))
   const [preferencesSaving, setPreferencesSaving] = useState(false)
   const [preferencesMessage, setPreferencesMessage] = useState<string | null>(null)
   const [preferencesError, setPreferencesError] = useState<string | null>(null)
@@ -170,6 +183,7 @@ export default function SettingsPageClient({
           defaultJurisdiction,
           currency,
           emailNotifications,
+          theme: themePreference,
         }),
       })
       const json: unknown = await res.json().catch(() => ({}))
@@ -513,6 +527,22 @@ export default function SettingsPageClient({
                       </Button>
                     ))}
                   </div>
+                </div>
+              </div>
+
+              <div className="grid gap-4 sm:max-w-xs">
+                <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+                  <Label htmlFor="theme_preference" className="shrink-0">
+                    {t("settings.preferences.theme.label")}
+                  </Label>
+                  <ThemeToggle
+                    id="theme_preference"
+                    onThemeChange={(next) => {
+                      setThemePreference(next)
+                      setPreferencesError(null)
+                    }}
+                    onPersistError={(msg) => setPreferencesError(msg)}
+                  />
                 </div>
               </div>
 

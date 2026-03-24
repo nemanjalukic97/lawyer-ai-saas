@@ -1,0 +1,13 @@
+Add these at your DNS provider for the domain you send mail from (replace placeholders).
+
+SPF (one TXT record on the sending domain or subdomain your provider specifies):
+  v=spf1 include:_spf.example-provider.com ~all
+
+DKIM:
+  Follow your transactional email provider (Resend, SendGrid, Postmark, SES, etc.) — they give
+  CNAME or TXT hostnames and values to publish.
+
+DMARC (TXT on _dmarc.yourdomain.com):
+  v=DMARC1; p=none; rua=mailto:dmarc@yourdomain.com
+
+Start with p=none while monitoring, then move to quarantine/reject once reports look good.

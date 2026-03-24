@@ -5,6 +5,7 @@ import { useEffect, useState } from "react"
 
 import { HamburgerIcon } from "@/components/HamburgerIcon"
 import { LanguageSwitcher } from "@/components/LanguageSwitcher"
+import { ThemeToggle } from "@/components/theme-toggle"
 import { useLanguage } from "@/components/LanguageProvider"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
@@ -45,6 +46,7 @@ export function Header() {
           <Link href="#pricing" className={navLinkClass}>
             {t("nav.pricing")}
           </Link>
+          <ThemeToggle />
           <LanguageSwitcher />
           <Link href="/login" className={navLinkClass}>
             {t("nav.login")}
@@ -55,6 +57,7 @@ export function Header() {
         </div>
 
         <div className="flex items-center gap-2 min-[992px]:hidden">
+          <ThemeToggle />
           <LanguageSwitcher />
           <Button
             type="button"

@@ -35,6 +35,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       templates: "Templates",
       actions: "Actions",
       logout: "Log out",
+      themeToggle: "Toggle light and dark theme",
     },
     language: {
       label: "Language",
@@ -853,13 +854,18 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         currency: {
           label: "Default currency",
         },
+        theme: {
+          label: "Theme",
+          light: "Light",
+          dark: "Dark",
+        },
         emailNotifications: {
           title: "Email notifications",
           subtitle:
             "Receive important updates about billing, activity, and product changes.",
         },
         note:
-          "Currency and notification preferences are being wired into billing and activity alerts. Some options are currently informational only and may not affect existing behavior yet.",
+          "Theme is saved as soon as you change it. Currency and notification preferences are being wired into billing and activity alerts. Some options are currently informational only and may not affect existing behavior yet.",
         actions: {
           save: "Save preferences",
         },
@@ -1133,6 +1139,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       templates: "Predlozi",
       actions: "Radnje",
       logout: "Odjava",
+      themeToggle: "Prebacivanje svetle i tamne teme",
     },
     language: {
       label: "Jezik",
@@ -2050,13 +2057,18 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         currency: {
           label: "Podrazumijevana valuta",
         },
+        theme: {
+          label: "Tema",
+          light: "Svijetla",
+          dark: "Tamna",
+        },
         emailNotifications: {
           title: "Email obavještenja",
           subtitle:
-            "Primajte važne novosti o naplati, aktivnosti i promjenama proizvoda.",
+            "Primajte važne novosti o naplati, aktivnostima i promjenama proizvoda.",
         },
         note:
-          "Preference valute i obavještenja se povezuju sa naplatom i upozorenjima aktivnosti. Neke opcije su trenutno informativne i možda još ne utiču na ponašanje aplikacije.",
+          "Tema se čuva čim je promijenite. Preference valute i obavještenja se povezuju sa naplatom i upozorenjima aktivnosti. Neke opcije su trenutno informativne i možda još ne utiču na ponašanje aplikacije.",
         actions: {
           save: "Sačuvaj preference",
         },
@@ -2233,6 +2245,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       templates: "Prijedlozi",
       actions: "Radnje",
       logout: "Odjava",
+      themeToggle: "Prebacivanje svijetle i tamne teme",
     },
     language: {
       label: "Jezik",
@@ -3153,13 +3166,18 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         currency: {
           label: "Podrazumijevana valuta",
         },
+        theme: {
+          label: "Tema",
+          light: "Svijetla",
+          dark: "Tamna",
+        },
         emailNotifications: {
           title: "Email obavještenja",
           subtitle:
             "Primajte važne novosti o naplati, aktivnosti i promjenama proizvoda.",
         },
         note:
-          "Postavke valute i obavještenja povezujemo s naplatom i upozorenjima aktivnosti. Neke opcije su trenutno samo informativne i možda još ne utiču na ponašanje aplikacije.",
+          "Tema se čuva čim je promijenite. Postavke valute i obavještenja povezujemo s naplatom i upozorenjima aktivnosti. Neke opcije su trenutno samo informativne i možda još ne utiču na ponašanje aplikacije.",
         actions: {
           save: "Sačuvaj preferencije",
         },
@@ -3336,6 +3354,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       templates: "Prijedlozi",
       actions: "Radnje",
       logout: "Odjava",
+      themeToggle: "Prebacivanje svijetle i tamne teme",
     },
     language: {
       label: "Jezik",
@@ -3639,13 +3658,18 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         currency: {
           label: "Zadana valuta",
         },
+        theme: {
+          label: "Tema",
+          light: "Svijetla",
+          dark: "Tamna",
+        },
         emailNotifications: {
           title: "Email obavijesti",
           subtitle:
             "Primajte važne novosti o naplati, aktivnosti i promjenama proizvoda.",
         },
         note:
-          "Postavke valute i obavijesti povezujemo s naplatom i upozorenjima aktivnosti. Neke opcije su trenutno samo informativne i možda još ne utječu na ponašanje aplikacije.",
+          "Tema se sprema čim je promijenite. Postavke valute i obavijesti povezujemo s naplatom i upozorenjima aktivnosti. Neke opcije su trenutno samo informativne i možda još ne utječu na ponašanje aplikacije.",
         actions: {
           save: "Spremi preferencije",
         },
@@ -4550,6 +4574,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       templates: "Predlogi",
       actions: "Dejanja",
       logout: "Odjava",
+      themeToggle: "Preklopi svetlo in temno temo",
     },
     language: {
       label: "Jezik",
@@ -5468,12 +5493,17 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         currency: {
           label: "Privzeta valuta",
         },
+        theme: {
+          label: "Tema",
+          light: "Svetla",
+          dark: "Temna",
+        },
         emailNotifications: {
           title: "E-poštna obvestila",
           subtitle: "Prejemajte pomembne posodobitve o obračunu, aktivnosti in spremembah.",
         },
         note:
-          "Nastavitve valute in obvestil povezujemo z obračunom in opozorili aktivnosti. Nekatere možnosti so trenutno le informativne in morda še ne vplivajo na delovanje.",
+          "Tema se shrani takoj, ko jo spremenite. Nastavitve valute in obvestil povezujemo z obračunom in opozorili aktivnosti. Nekatere možnosti so trenutno le informativne in morda še ne vplivajo na delovanje.",
         actions: {
           save: "Shrani nastavitve",
         },
@@ -5649,6 +5679,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       templates: "Prijedlozi",
       actions: "Radnje",
       logout: "Odjava",
+      themeToggle: "Prebacivanje svijetle i tamne teme",
     },
     language: {
       label: "Jezik",
@@ -6567,13 +6598,18 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         currency: {
           label: "Podrazumijevana valuta",
         },
+        theme: {
+          label: "Tema",
+          light: "Svijetla",
+          dark: "Tamna",
+        },
         emailNotifications: {
           title: "Email obavještenja",
           subtitle:
             "Primajte važne novosti o naplati, aktivnostima i promjenama proizvoda.",
         },
         note:
-          "Preference valute i obavještenja se povezuju sa naplatom i upozorenjima aktivnosti. Neke opcije su trenutno informativne i možda još ne utiču na ponašanje aplikacije.",
+          "Tema se čuva čim je promijenite. Preference valute i obavještenja se povezuju sa naplatom i upozorenjima aktivnosti. Neke opcije su trenutno informativne i možda još ne utiču na ponašanje aplikacije.",
         actions: {
           save: "Sačuvaj preference",
         },

@@ -23,8 +23,8 @@ export function HomeClient({ signupStatus }: Props) {
 
       <main className="flex-1">
         {/* Hero */}
-        <section className="border-b border-border bg-muted/20 py-16 sm:py-24">
-          <div className="mx-auto max-w-6xl px-4 text-center sm:px-6">
+        <section className="flex min-h-[85dvh] flex-col justify-center border-b border-border bg-muted/20 py-16 sm:py-24 md:min-h-[90dvh]">
+          <div className="mx-auto w-full max-w-6xl px-4 text-center sm:px-6">
             <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">
               {t("home.hero.title")}
             </h1>

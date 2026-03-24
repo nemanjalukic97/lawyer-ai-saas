@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { LanguageSwitcher } from "@/components/LanguageSwitcher"
 import { useLanguage } from "@/components/LanguageProvider"
 import { HamburgerIcon } from "@/components/HamburgerIcon"
+import { ThemeToggle } from "@/components/theme-toggle"
 import { cn } from "@/lib/utils"
 import { ChevronDown } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
@@ -299,6 +300,7 @@ export function DashboardNavbar() {
         </div>
 
         <div className="hidden items-center gap-4 min-[992px]:flex">
+          <ThemeToggle />
           <LanguageSwitcher />
           <form action="/auth/signout" method="post">
             <Button type="submit" variant="outline" size="sm">
@@ -308,6 +310,7 @@ export function DashboardNavbar() {
         </div>
 
         <div className="flex items-center gap-2 min-[992px]:hidden">
+          <ThemeToggle />
           <LanguageSwitcher />
           <form action="/auth/signout" method="post">
             <Button type="submit" variant="outline" size="sm">

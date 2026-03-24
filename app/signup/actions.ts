@@ -4,15 +4,18 @@ import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
 
 import { createClient } from "@/lib/supabase/server"
+import { getSiteUrl } from "@/lib/site-url"
 
 export async function signup(formData: FormData) {
   const supabase = await createClient()
+  const siteUrl = await getSiteUrl()
+  const emailRedirectTo = `${siteUrl}/auth/confirm`
 
   const email = String(formData.get("email") ?? "")
   const password = String(formData.get("password") ?? "")
   const fullName = String(formData.get("full_name") ?? "")
   const lawFirmName = String(formData.get("law_firm_name") ?? "")
-   const jurisdiction = String(formData.get("jurisdiction") ?? "serbia")
+  const jurisdiction = String(formData.get("jurisdiction") ?? "serbia")
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
   if (!emailRegex.test(email)) {
@@ -23,6 +26,7 @@ export async function signup(formData: FormData) {
     email,
     password,
     options: {
+      emailRedirectTo,
       data: {
         full_name: fullName,
         law_firm_name: lawFirmName,

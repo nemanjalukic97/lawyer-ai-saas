@@ -12,6 +12,7 @@ type ProfileSettings = Pick<
   | "preferred_language"
   | "subscription_tier"
   | "subscription_status"
+  | "theme_preference"
 >
 
 type FirmSettings = Pick<
@@ -32,7 +33,7 @@ export default async function SettingsPage() {
   const { data: profile } = await supabase
     .from("user_profiles")
     .select(
-      "full_name, law_firm_id, preferred_jurisdiction, preferred_language, subscription_tier, subscription_status"
+      "full_name, law_firm_id, preferred_jurisdiction, preferred_language, subscription_tier, subscription_status, theme_preference"
     )
     .eq("id", user.id)
     .is("deleted_at", null)

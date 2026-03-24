@@ -989,6 +989,7 @@ export type Database = {
           subscription_tier:
             | Database["public"]["Enums"]["subscription_tier"]
             | null
+          theme_preference: string
           trial_ends_at: string | null
           updated_at: string | null
         }
@@ -1013,6 +1014,7 @@ export type Database = {
           subscription_tier?:
             | Database["public"]["Enums"]["subscription_tier"]
             | null
+          theme_preference?: string
           trial_ends_at?: string | null
           updated_at?: string | null
         }
@@ -1037,6 +1039,7 @@ export type Database = {
           subscription_tier?:
             | Database["public"]["Enums"]["subscription_tier"]
             | null
+          theme_preference?: string
           trial_ends_at?: string | null
           updated_at?: string | null
         }

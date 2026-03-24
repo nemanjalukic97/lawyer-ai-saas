@@ -1,0 +1,31 @@
+Production auth email (hosted Supabase) — Legantis
+===================================================
+
+1) Custom SMTP (Dashboard: Project → Authentication → SMTP Settings)
+   - Enable custom SMTP and enter host, port, user, password from your provider.
+   - Sender name: Legantis
+   - From / admin email: no-reply@your-domain (must match DNS in dns-records.example.txt)
+
+   Optional — Management API (replace PROJECT_REF, token, and SMTP values):
+   curl -X PATCH "https://api.supabase.com/v1/projects/PROJECT_REF/config/auth" ^
+     -H "Authorization: Bearer YOUR_SUPABASE_ACCESS_TOKEN" ^
+     -H "Content-Type: application/json" ^
+     -d "{\"external_email_enabled\":true,\"smtp_admin_email\":\"no-reply@yourdomain.com\",\"smtp_host\":\"smtp.example.com\",\"smtp_port\":587,\"smtp_user\":\"YOUR_SMTP_USER\",\"smtp_pass\":\"YOUR_SMTP_PASSWORD\",\"smtp_sender_name\":\"Legantis\"}"
+
+2) Email templates (Dashboard: Authentication → Email Templates)
+   - Open "Confirm signup" and paste the HTML from: supabase/templates/confirmation.html
+   - Subject: Confirm your Legantis account (or match what you use in config.toml)
+
+3) Redirect URLs (Dashboard: Authentication → URL Configuration)
+   - Site URL: your app origin (e.g. https://your-production-domain.com)
+   - Additional Redirect URLs must include:
+       https://your-production-domain.com/auth/confirm
+     (The app sets emailRedirectTo to {NEXT_PUBLIC_SITE_URL}/auth/confirm in app/signup/actions.ts.)
+
+4) Send Email Auth Hook
+   - Not required for Legantis branding: custom SMTP + template above is enough.
+   - Use the hook only if you need non-SMTP APIs, queues, or custom pipelines:
+     https://supabase.com/docs/guides/auth/auth-hooks/send-email-hook
+
+5) Optional — Supabase custom domain for API/auth links
+   - Can improve trust of links in email; see Platform → Custom Domains in docs.
