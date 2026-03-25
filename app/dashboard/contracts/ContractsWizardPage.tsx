@@ -554,9 +554,65 @@ export default function ContractsWizardPage({ selectedId }: ContractsWizardPageP
     return {
       contractLabel,
       jurisdictionLabel,
+      labels: (() => {
+        const map: Record<string, string> = {}
+        if (!details) return map
+        switch (details.type) {
+          case "employment":
+            map.employerName = t("contracts.fields.employerName")
+            map.employeeName = t("contracts.fields.employeeName")
+            map.jobTitle = t("contracts.fields.jobTitle")
+            map.startDate = t("contracts.fields.startDate")
+            map.salary = t("contracts.fields.salary")
+            map.workLocation = t("contracts.fields.workLocation")
+            map.contractDuration = t("contracts.fields.contractDuration")
+            break
+          case "service":
+            map.clientName = t("contracts.fields.clientName")
+            map.serviceProviderName = t("contracts.fields.serviceProviderName")
+            map.serviceDescription = t("contracts.fields.serviceDescription")
+            map.paymentAmount = t("contracts.fields.paymentAmount")
+            map.paymentSchedule = t("contracts.fields.paymentSchedule")
+            map.startDate = t("contracts.fields.startDate")
+            map.endDate = t("contracts.fields.endDate")
+            break
+          case "sales":
+            map.sellerName = t("contracts.fields.sellerName")
+            map.buyerName = t("contracts.fields.buyerName")
+            map.itemDescription = t("contracts.fields.itemDescription")
+            map.purchasePrice = t("contracts.fields.purchasePrice")
+            map.paymentTerms = t("contracts.fields.paymentTerms")
+            map.deliveryDate = t("contracts.fields.deliveryDate")
+            break
+          case "lease":
+            map.landlordName = t("contracts.fields.landlordName")
+            map.tenantName = t("contracts.fields.tenantName")
+            map.propertyAddress = t("contracts.fields.propertyAddress")
+            map.monthlyRent = t("contracts.fields.monthlyRent")
+            map.depositAmount = t("contracts.fields.depositAmount")
+            map.leaseStartDate = t("contracts.fields.leaseStartDate")
+            map.leaseDuration = t("contracts.fields.leaseDuration")
+            break
+          case "nda":
+            map.disclosingParty = t("contracts.fields.disclosingParty")
+            map.receivingParty = t("contracts.fields.receivingParty")
+            map.purpose = t("contracts.fields.purpose")
+            map.confidentialInfoDescription = t("contracts.fields.confidentialInfoDescription")
+            map.duration = t("contracts.fields.duration")
+            break
+          case "partnership":
+            map.partner1Name = t("contracts.fields.partner1Name")
+            map.partner2Name = t("contracts.fields.partner2Name")
+            map.businessPurpose = t("contracts.fields.businessPurpose")
+            map.profitSplit = t("contracts.fields.profitSplit")
+            map.startDate = t("contracts.fields.startDate")
+            break
+        }
+        return map
+      })(),
       fields: Object.entries(data),
     }
-  }, [contractType, jurisdiction, details, uiLabelForContractType, uiLabelForJurisdiction])
+  }, [contractType, jurisdiction, details, t, uiLabelForContractType, uiLabelForJurisdiction])
 
   async function handleGenerate() {
     if (!contractType || !jurisdiction || !details) {
@@ -1078,9 +1134,11 @@ export default function ContractsWizardPage({ selectedId }: ContractsWizardPageP
                     {summary.fields.map(([key, value]) => (
                       <li key={key}>
                         <span className="font-medium">
-                          {key
-                            .replace(/([A-Z])/g, " $1")
-                            .replace(/^./, (c) => c.toUpperCase())}
+                          {summary.labels[key] && summary.labels[key] !== `contracts.fields.${key}`
+                            ? summary.labels[key]
+                            : key
+                                .replace(/([A-Z])/g, " $1")
+                                .replace(/^./, (c) => c.toUpperCase())}
                           :
                         </span>{" "}
                         {value || t("contracts.common.emptyValue")}

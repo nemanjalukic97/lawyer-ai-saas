@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/select"
 import { Loader2 } from "lucide-react"
 import { createClient } from "@/lib/supabase/client"
+import type { TablesInsert } from "@/lib/supabase/types"
 import { saveAs } from "file-saver"
 import { Document as DocxDocument, Packer, Paragraph } from "docx"
 import { useLanguage } from "@/components/LanguageProvider"
@@ -181,6 +182,16 @@ function humanizeDocumentType(documentType: DocumentType): string {
   return option?.label ?? "Legal Document"
 }
 
+function labelForDocumentType(
+  documentType: DocumentType,
+  t: (key: string) => string
+): string {
+  const key = `generate.documentTypes.${documentType}`
+  const translated = t(key)
+  if (translated && translated !== key) return translated
+  return humanizeDocumentType(documentType)
+}
+
 function labelForJurisdiction(jurisdiction: Jurisdiction): string {
   const option = JURISDICTION_OPTIONS.find((opt) => opt.value === jurisdiction)
   return option?.label ?? jurisdiction
@@ -265,7 +276,7 @@ type Props = {
 
 export default function GeneratePageClient({ selectedId, templateId }: Props) {
   const supabase = useMemo(() => createClient(), [])
-  const { t } = useLanguage()
+  const { t, language: uiLanguage } = useLanguage()
 
   const [documentType, setDocumentType] = useState<DocumentType>("nda")
   const [jurisdiction, setJurisdiction] = useState<Jurisdiction>("serbia")
@@ -295,7 +306,7 @@ export default function GeneratePageClient({ selectedId, templateId }: Props) {
         const { data, error } = await supabase
           .from("templates")
           .select(
-            "id, title, contract_type, document_type, jurisdiction, content"
+            "id, title, contract_type, document_type, jurisdiction, content, template_translations(language_code,title,description,content,content_html)"
           )
           .eq("id", templateId)
           .is("deleted_at", null)
@@ -307,14 +318,22 @@ export default function GeneratePageClient({ selectedId, templateId }: Props) {
 
         if (!isMounted || !data) return
 
+        const raw = data as any
+        const tr =
+          uiLanguage !== "en" && Array.isArray(raw.template_translations)
+            ? raw.template_translations.find(
+                (t: any) => t.language_code === uiLanguage
+              )
+            : null
+
         const template: TemplateDetail = {
-          id: data.id,
-          title: data.title,
-          contract_type: (data.contract_type as DocumentType | null) ?? null,
+          id: raw.id,
+          title: (tr?.title as string | undefined) ?? raw.title,
+          contract_type: (raw.contract_type as DocumentType | null) ?? null,
           document_type:
-            (data.document_type as TemplateDetail["document_type"]) ?? null,
-          jurisdiction: (data.jurisdiction as Jurisdiction | null) ?? null,
-          content: data.content,
+            (raw.document_type as TemplateDetail["document_type"]) ?? null,
+          jurisdiction: (raw.jurisdiction as Jurisdiction | null) ?? null,
+          content: (tr?.content as string | undefined) ?? raw.content,
         }
 
         if (template.document_type === "power_of_attorney") {
@@ -339,7 +358,7 @@ export default function GeneratePageClient({ selectedId, templateId }: Props) {
     return () => {
       isMounted = false
     }
-  }, [supabase, templateId])
+  }, [supabase, templateId, uiLanguage])
 
   const additionalFields = useMemo(
     () => ADDITIONAL_FIELDS[documentType],
@@ -410,7 +429,7 @@ export default function GeneratePageClient({ selectedId, templateId }: Props) {
           const documentTypeLabel = humanizeDocumentType(documentType)
           const jurisdictionLabel = labelForJurisdiction(jurisdiction)
 
-          await supabase.from("documents").insert({
+          const insertPayload: TablesInsert<"documents"> = {
             user_id: user.id,
             title: `${documentTypeLabel} - ${jurisdictionLabel}`,
             document_type: documentType,
@@ -423,7 +442,9 @@ export default function GeneratePageClient({ selectedId, templateId }: Props) {
               language,
               formValues,
             },
-          } as any)
+          }
+
+          await supabase.from("documents").insert(insertPayload)
 
           setSaveSuccess(true)
         }
@@ -665,7 +686,7 @@ export default function GeneratePageClient({ selectedId, templateId }: Props) {
                       <SelectContent>
                         {DOCUMENT_TYPE_OPTIONS.map((option) => (
                           <SelectItem key={option.value} value={option.value}>
-                            {option.label}
+                            {labelForDocumentType(option.value, t)}
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -861,7 +882,7 @@ export default function GeneratePageClient({ selectedId, templateId }: Props) {
               <div>
                 <p className="font-medium">{detail.title}</p>
                 <p className="text-xs text-muted-foreground">
-                  {humanizeDocumentType(detail.document_type)} ·{" "}
+                  {labelForDocumentType(detail.document_type, t)} ·{" "}
                   {labelForJurisdiction(detail.jurisdiction)}
                 </p>
                 <p className="text-xs text-muted-foreground">

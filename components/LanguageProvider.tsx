@@ -129,6 +129,14 @@ const MESSAGES: Record<LanguageCode, Messages> = {
           "Generate jurisdiction-specific NDAs, employment contracts, powers of attorney, sales contracts, leases, and service agreements for your clients across the Balkans.",
         back: "Back to dashboard",
       },
+      documentTypes: {
+        nda: "NDA (Non-Disclosure Agreement)",
+        employment: "Employment Contract",
+        power_of_attorney: "Power of Attorney",
+        sales: "Sales Contract",
+        lease: "Lease Agreement",
+        service: "Service Agreement",
+      },
       form: {
         documentType: {
           label: "Document type",
@@ -1331,6 +1339,14 @@ const MESSAGES: Record<LanguageCode, Messages> = {
           "Generišite ugovore o povjerljivosti (NDA), ugovore o radu, punomoćja, ugovore o prodaji, zakup i ugovore o pružanju usluga za klijente širom Balkana.",
         back: "Nazad na kontrolnu tablu",
       },
+      documentTypes: {
+        nda: "Ugovor o povjerljivosti",
+        employment: "Ugovor o radu",
+        power_of_attorney: "Punomoć",
+        sales: "Ugovor o prodaji",
+        lease: "Ugovor o zakupu",
+        service: "Ugovor o pružanju usluga",
+      },
       form: {
         documentType: {
           label: "Vrsta dokumenta",
@@ -1404,7 +1420,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         service: "Ugovor o pružanju usluga",
         sales: "Ugovor o prodaji",
         lease: "Ugovor o zakupu",
-        nda: "NDA",
+        nda: "Ugovor o povjerljivosti",
         partnership: "Ugovor o partnerstvu",
       },
       jurisdictions: {
@@ -2437,6 +2453,14 @@ const MESSAGES: Record<LanguageCode, Messages> = {
           "Generišite NDA ugovore, ugovore o radu, punomoćja, ugovore o prodaji, zakupu i ugovore o pružanju usluga za klijente širom Balkana.",
         back: "Nazad na kontrolnu ploču",
       },
+      documentTypes: {
+        nda: "Ugovor o povjerljivosti",
+        employment: "Ugovor o radu",
+        power_of_attorney: "Punomoć",
+        sales: "Ugovor o prodaji",
+        lease: "Ugovor o zakupu",
+        service: "Ugovor o pružanju usluga",
+      },
       form: {
         documentType: {
           label: "Vrsta dokumenta",
@@ -2510,7 +2534,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         service: "Ugovor o pružanju usluga",
         sales: "Ugovor o prodaji",
         lease: "Ugovor o zakupu",
-        nda: "NDA",
+        nda: "Ugovor o povjerljivosti",
         partnership: "Ugovor o partnerstvu",
       },
       jurisdictions: {
@@ -3932,6 +3956,14 @@ const MESSAGES: Record<LanguageCode, Messages> = {
           "Generirajte NDA ugovore, ugovore o radu, punomoćja, ugovore o prodaji, zakupu i ugovore o pružanju usluga za klijente širom Balkana.",
         back: "Natrag na nadzornu ploču",
       },
+      documentTypes: {
+        nda: "Ugovor o povjerljivosti",
+        employment: "Ugovor o radu",
+        power_of_attorney: "Punomoć",
+        sales: "Ugovor o prodaji",
+        lease: "Ugovor o zakupu",
+        service: "Ugovor o pružanju usluga",
+      },
       form: {
         documentType: {
           label: "Vrsta dokumenta",
@@ -4005,7 +4037,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         service: "Ugovor o pružanju usluga",
         sales: "Ugovor o prodaji",
         lease: "Ugovor o najmu/zakupu",
-        nda: "NDA",
+        nda: "Ugovor o povjerljivosti",
         partnership: "Ugovor o partnerstvu",
       },
       jurisdictions: {
@@ -4766,6 +4798,14 @@ const MESSAGES: Record<LanguageCode, Messages> = {
           "Ustvarite pogodbe o nerazkritju (NDA), pogodbe o zaposlitvi, pooblastila, prodajne pogodbe, najemne pogodbe in pogodbe o storitvah za stranke po celotnem Balkanu.",
         back: "Nazaj na nadzorno ploščo",
       },
+      documentTypes: {
+        nda: "Pogodba o nerazkritju",
+        employment: "Pogodba o zaposlitvi",
+        power_of_attorney: "Pooblastilo",
+        sales: "Prodajna pogodba",
+        lease: "Najemna pogodba",
+        service: "Pogodba o storitvah",
+      },
       form: {
         documentType: {
           label: "Vrsta dokumenta",
@@ -4839,7 +4879,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         service: "Pogodba o storitvah",
         sales: "Prodajna pogodba",
         lease: "Najemna/zakupna pogodba",
-        nda: "NDA",
+        nda: "Pogodba o nerazkritju",
         partnership: "Partnerska pogodba",
       },
       jurisdictions: {
@@ -5871,6 +5911,14 @@ const MESSAGES: Record<LanguageCode, Messages> = {
           "Generišite NDA ugovore, ugovore o radu, punomoćja, ugovore o prodaji, zakupu i ugovore o pružanju usluga za klijente širom Balkana.",
         back: "Nazad na kontrolnu tablu",
       },
+      documentTypes: {
+        nda: "Ugovor o povjerljivosti",
+        employment: "Ugovor o radu",
+        power_of_attorney: "Punomoć",
+        sales: "Ugovor o prodaji",
+        lease: "Ugovor o zakupu",
+        service: "Ugovor o pružanju usluga",
+      },
       form: {
         documentType: {
           label: "Vrsta dokumenta",
@@ -5944,7 +5992,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         service: "Ugovor o pružanju usluga",
         sales: "Ugovor o prodaji",
         lease: "Ugovor o zakupu",
-        nda: "NDA",
+        nda: "Ugovor o povjerljivosti",
         partnership: "Ugovor o partnerstvu",
       },
       jurisdictions: {
@@ -6809,13 +6857,17 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     if (next === language) return
 
     // Schedule to avoid triggering the set-state-in-effect lint rule.
-    queueMicrotask(() => setLanguageState(next))
+    queueMicrotask(() => {
+      setLanguageState(next)
+      document.cookie = `${STORAGE_KEY}=${next}; Path=/; Max-Age=31536000; SameSite=Lax`
+    })
   }, [language])
 
   const setLanguage = useCallback((code: LanguageCode) => {
     setLanguageState(code)
     if (typeof window !== "undefined") {
       window.localStorage.setItem(STORAGE_KEY, code)
+      document.cookie = `${STORAGE_KEY}=${code}; Path=/; Max-Age=31536000; SameSite=Lax`
     }
   }, [])
 

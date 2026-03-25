@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useMemo, useState } from "react"
+import { useMemo, useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 
@@ -109,37 +109,7 @@ type Props = {
 
 export function TemplatesPageClient({ templates }: Props) {
   const router = useRouter()
-  const { t, language } = useLanguage()
-
-  const tf = (key: string, fallback: string) => {
-    const value = t(key)
-    return value === key ? fallback : value
-  }
-
-  const [translatedByKey, setTranslatedByKey] = useState<
-    Record<string, { title?: string; description?: string; content?: string }>
-  >({})
-  const [translatingKey, setTranslatingKey] = useState<string | null>(null)
-
-  const languageName = useMemo(() => {
-    switch (language) {
-      case "sr":
-        return "Serbian"
-      case "bs":
-        return "Bosnian"
-      case "hr":
-        return "Croatian"
-      case "sl":
-        return "Slovenian"
-      case "me":
-        return "Montenegrin"
-      default:
-        return "English"
-    }
-  }, [language])
-
-  const templateKeyForTranslation = (template: TemplateSummary) =>
-    `id:${template.id}`
+  const { t } = useLanguage()
 
   const [typeFilter, setTypeFilter] =
     useState<(typeof DOCUMENT_TYPE_FILTERS)[number]["value"]>("all")
@@ -154,85 +124,6 @@ export function TemplatesPageClient({ templates }: Props) {
     () => templates.find((t) => t.id === selectedId) ?? null,
     [templates, selectedId]
   )
-
-  useEffect(() => {
-    if (!selectedTemplate) return
-    if (language === "en") return
-
-    const key = templateKeyForTranslation(selectedTemplate)
-    const existing = translatedByKey[key]
-    if (
-      existing?.content &&
-      existing?.title &&
-      (selectedTemplate.description ? existing?.description : true)
-    ) {
-      return
-    }
-
-    let cancelled = false
-    setTranslatingKey(key)
-
-    const systemPrompt =
-      "You are a legal translation engine. Translate the provided text to the requested language.\n" +
-      "- Preserve all placeholders exactly (e.g. {{effective_date}}, {{tenant_name}}).\n" +
-      "- Preserve numbering and headings.\n" +
-      "- Keep formatting and line breaks.\n" +
-      "- Do not add commentary, only output the translated text."
-
-    const translate = async (
-      label: "title" | "description" | "content",
-      text: string
-    ) => {
-      const res = await fetch("/api/ai", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          systemPrompt,
-          userPrompt: `Translate to ${languageName}.\n\n${text}`,
-          featureType: "template_generation",
-          entityType: "template_translation",
-          entityId: selectedTemplate.id,
-        }),
-      })
-      const json: unknown = await res.json()
-      if (!res.ok) {
-        const message =
-          json && typeof json === "object" && "error" in json
-            ? String((json as Record<string, unknown>).error)
-            : "Translation failed"
-        throw new Error(message)
-      }
-      const content =
-        json && typeof json === "object" && "content" in json
-          ? String((json as Record<string, unknown>).content ?? "")
-          : ""
-      setTranslatedByKey((prev) => ({
-        ...prev,
-        [key]: {
-          ...prev[key],
-          [label]: content.trim() || text,
-        },
-      }))
-    }
-
-    ;(async () => {
-      try {
-        await translate("title", selectedTemplate.title)
-        if (selectedTemplate.description) {
-          await translate("description", selectedTemplate.description)
-        }
-        await translate("content", selectedTemplate.content)
-      } catch {
-        // keep fallbacks on error
-      } finally {
-        if (!cancelled) setTranslatingKey(null)
-      }
-    })()
-
-    return () => {
-      cancelled = true
-    }
-  }, [language, languageName, selectedTemplate, translatedByKey])
 
   const filteredTemplates = useMemo(() => {
     const searchTerm = search.trim().toLowerCase()
@@ -354,12 +245,8 @@ export function TemplatesPageClient({ templates }: Props) {
             <div className="grid gap-4 md:grid-cols-2">
               {filteredTemplates.map((template) => (
                 (() => {
-                  const key = templateKeyForTranslation(template)
-                  const tr = translatedByKey[key]
-                  const uiTitle = tr?.title ?? template.title
+                  const uiTitle = template.title
                   const uiDesc = template.description
-                    ? tr?.description ?? template.description
-                    : null
                   return (
                 <Card
                   key={template.id}
@@ -455,8 +342,7 @@ export function TemplatesPageClient({ templates }: Props) {
                 <div className="flex h-full flex-col gap-3">
                   <div className="space-y-1">
                     <p className="text-sm font-medium text-foreground">
-                      {translatedByKey[templateKeyForTranslation(selectedTemplate)]?.title ??
-                        selectedTemplate.title}
+                      {selectedTemplate.title}
                     </p>
                     <p className="text-xs text-muted-foreground">
                       {t(
@@ -472,23 +358,15 @@ export function TemplatesPageClient({ templates }: Props) {
                     </p>
                     {selectedTemplate.description && (
                       <p className="mt-1 text-xs text-muted-foreground">
-                        {translatedByKey[templateKeyForTranslation(selectedTemplate)]?.description ??
-                          selectedTemplate.description}
+                        {selectedTemplate.description}
                       </p>
                     )}
                   </div>
                   <div className="flex-1 overflow-y-auto rounded border bg-background/60 p-3">
                     <pre className="whitespace-pre-wrap">
-                      {(translatedByKey[templateKeyForTranslation(selectedTemplate)]?.content ??
-                        selectedTemplate.content
-                      ).replace(/\\n/g, "\n")}
+                      {selectedTemplate.content.replace(/\\n/g, "\n")}
                     </pre>
                   </div>
-                  {translatingKey === templateKeyForTranslation(selectedTemplate) && (
-                    <p className="text-[11px] text-muted-foreground">
-                      {t("templates.common.translating")}
-                    </p>
-                  )}
                 </div>
               ) : (
                 <div className="flex h-full items-center justify-center px-4 text-center text-xs text-muted-foreground">
