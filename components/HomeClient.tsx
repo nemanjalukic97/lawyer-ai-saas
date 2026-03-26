@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 import { FeatureCard } from "@/components/FeatureCard"
 import { Header } from "@/components/Header"
@@ -18,6 +18,10 @@ type Props = {
 export function HomeClient({ signupStatus }: Props) {
   const { t } = useLanguage()
   const [openFaqItem, setOpenFaqItem] = useState<number | null>(null)
+
+  useEffect(() => {
+    setOpenFaqItem(null)
+  }, [])
 
   return (
     <div className="flex flex-col">
