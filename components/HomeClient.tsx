@@ -17,7 +17,7 @@ type Props = {
 
 export function HomeClient({ signupStatus }: Props) {
   const { t } = useLanguage()
-  const [openFaqItem, setOpenFaqItem] = useState<number | null>(1)
+  const [openFaqItem, setOpenFaqItem] = useState<number | null>(null)
 
   return (
     <div className="flex flex-col">
