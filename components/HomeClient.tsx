@@ -41,11 +41,16 @@ export function HomeClient({ signupStatus }: Props) {
             <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground">
               {t("home.hero.subtitle")}
             </p>
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-              <Button asChild size="lg">
+            <div className="mt-8 flex flex-col items-center justify-center gap-5 sm:flex-row sm:flex-wrap sm:gap-4">
+              <Button asChild size="lg" className="h-10 text-base sm:h-10 sm:text-sm">
                 <Link href="/signup">{t("nav.getStarted")}</Link>
               </Button>
-              <Button asChild variant="outline" size="lg">
+              <Button
+                asChild
+                variant="outline"
+                size="lg"
+                className="h-10 text-base sm:h-10 sm:text-sm"
+              >
                 <Link href="#pricing">{t("home.hero.pricingCta")}</Link>
               </Button>
             </div>
