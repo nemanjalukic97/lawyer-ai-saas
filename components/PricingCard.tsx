@@ -32,7 +32,7 @@ export function PricingCard({
   return (
     <Card
       className={cn(
-        "flex flex-col",
+        "mx-auto w-full min-h-[382px] min-[425px]:max-[639px]:w-[90%] min-[640px]:max-[766px]:w-3/4 min-[767px]:min-h-0 min-[767px]:w-full flex flex-col transition-colors dark:border-primary/40 dark:bg-[linear-gradient(155deg,rgba(88,123,198,0.14)_0%,rgba(47,69,114,0.56)_2.5%,rgba(26,38,61,0.96)_24%,rgba(14,21,36,1)_100%)] dark:shadow-md dark:hover:border-primary/60",
         recommended && "border-primary shadow-md ring-1 ring-primary/20"
       )}
     >
@@ -51,7 +51,7 @@ export function PricingCard({
         </CardDescription>
       </CardHeader>
       <CardContent className="flex-1">
-        <ul className="space-y-2 text-sm text-muted-foreground">
+        <ul className="space-y-2 text-sm text-muted-foreground dark:text-white">
           {features.map((f) => (
             <li key={f}>• {f}</li>
           ))}

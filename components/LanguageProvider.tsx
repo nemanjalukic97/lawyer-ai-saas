@@ -42,7 +42,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
     },
     home: {
       hero: {
-        title: "Legantis – AI legal assistant for Balkan lawyers",
+        title: "Legantis – AI Legal Assistant for Balkan lawyers",
         subtitle:
           "Draft contracts, predict case outcomes, analyze documents, and manage clients—built for Bosnia & Herzegovina, Serbia, Croatia, Montenegro, and Slovenia.",
         pricingCta: "See pricing",
@@ -54,23 +54,28 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         items: {
           contracts: {
             title: "AI Contract Drafting",
-            description: "Draft and customize contracts with jurisdiction-specific clauses.",
+            description:
+              "Draft and customize contracts with jurisdiction-specific clauses. Get real-time suggestions based on local legal patterns so every version is ready for review faster.",
           },
           prediction: {
             title: "Case Prediction",
-            description: "Estimate case outcomes using precedent and local law.",
+            description:
+              "Estimate case outcomes using precedent and local law. Compare strategy scenarios with confidence signals and explain options clearly to clients.",
           },
           analysis: {
             title: "Document Analysis",
-            description: "Upload documents for risk and compliance review.",
+            description:
+              "Upload documents for risk and compliance review. Detect missing clauses, conflicting terms, and exposure points in minutes with structured findings.",
           },
           time: {
             title: "Time Tracking",
-            description: "Track billable time and generate invoices.",
+            description:
+              "Track billable time and generate invoices. Capture work from daily activity to reduce missed hours and keep billing records accurate.",
           },
           portal: {
             title: "Client Portal",
-            description: "Secure file sharing and messaging with clients.",
+            description:
+              "Secure file sharing and messaging with clients. Keep conversations, documents, and status updates in one protected workspace.",
           },
         },
       },
@@ -110,6 +115,41 @@ const MESSAGES: Record<LanguageCode, Messages> = {
           },
         },
         cta: "Get started",
+      },
+      faq: {
+        title: "Frequently asked questions",
+        subtitle:
+          "Everything you need to know before getting started with Legantis.",
+        panelTitle: "Questions about getting started?",
+        panelDescription:
+          "Have questions about our AI Legal Assistant? Find answers to the most common questions and discover how our platform can streamline your workflow, enhance decision-making, and improve overall efficiency.",
+        items: {
+          q1: {
+            question: "Is there a free trial available?",
+            answer:
+              "Yes. You can start with a free trial to explore core features before committing to a paid plan.",
+          },
+          q2: {
+            question: "Which jurisdictions are currently supported?",
+            answer:
+              "Legantis is tailored for Bosnia and Herzegovina, Serbia, Croatia, Montenegro, and Slovenia.",
+          },
+          q3: {
+            question: "Can I export generated documents?",
+            answer:
+              "Yes. You can export generated documents in practical formats for internal review and client delivery.",
+          },
+          q4: {
+            question: "How is client data protected?",
+            answer:
+              "We use secure access controls and encrypted storage practices to protect legal data and communication.",
+          },
+          q5: {
+            question: "Can I cancel or change my plan anytime?",
+            answer:
+              "Yes. You can upgrade, downgrade, or cancel your plan from billing settings at any time.",
+          },
+        },
       },
     },
     footer: {
@@ -1154,7 +1194,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
     },
     home: {
       hero: {
-        title: "Legantis – AI pravni asistent za balkanske advokate",
+        title: "Legantis – AI Pravni Asistent za balkanske advokate",
         subtitle:
           "Pripremite ugovore, predvidite ishod sporova, analizirajte dokumenta i vodite klijente – posebno prilagođeno za zemlje Balkana.",
         pricingCta: "Pogledaj cene",
@@ -1166,23 +1206,28 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         items: {
           contracts: {
             title: "AI izrada ugovora",
-            description: "Pripremite ugovore sa klauzulama prilagođenim jurisdikciji.",
+            description:
+              "Pripremite ugovore sa klauzulama prilagođenim jurisdikciji. Dobijte pravovremene predloge na osnovu lokalne prakse i brže završite finalnu verziju.",
           },
           prediction: {
             title: "Predviđanje sporova",
-            description: "Procijenite ishod predmeta na osnovu prakse i lokalnog prava.",
+            description:
+              "Procijenite ishod predmeta na osnovu prakse i lokalnog prava. Uporedite više strategija uz jasne indikatore rizika i sigurnije savetujte klijente.",
           },
           analysis: {
             title: "Analiza dokumenata",
-            description: "Otpremite dokumenta za provjeru rizika i usklađenosti.",
+            description:
+              "Otpremite dokumenta za proveru rizika i usklađenosti. Brzo otkrijte sporne klauzule i dobijte strukturisane preporuke za izmene.",
           },
           time: {
             title: "Praćenje vremena",
-            description: "Evidentirajte naplativo vreme i kreirajte račune.",
+            description:
+              "Evidentirajte naplativo vreme i kreirajte račune. Zabeležite rad kroz svakodnevne aktivnosti i smanjite gubitak naplativih sati.",
           },
           portal: {
             title: "Klijentski portal",
-            description: "Sigurna razmena dokumenata i komunikacija sa klijentima.",
+            description:
+              "Sigurna razmena dokumenata i komunikacija sa klijentima. Sve poruke, fajlovi i statusi ostaju pregledni na jednom zaštićenom mestu.",
           },
         },
       },
@@ -1222,6 +1267,41 @@ const MESSAGES: Record<LanguageCode, Messages> = {
           },
         },
         cta: "Započni",
+      },
+      faq: {
+        title: "Često postavljana pitanja",
+        subtitle:
+          "Sve što treba da znate pre početka rada sa platformom Legantis.",
+        panelTitle: "Pitanja o početku rada?",
+        panelDescription:
+          "Imate pitanja o našem AI Pravnom Asistentu? Pronađite odgovore na najčešća pitanja i otkrijte kako naša platforma može pojednostaviti vaš tok rada, unaprediti donošenje odluka i poboljšati ukupnu efikasnost.",
+        items: {
+          q1: {
+            question: "Da li postoji besplatan probni period?",
+            answer:
+              "Da. Možete započeti sa besplatnim probnim periodom i isprobati ključne funkcionalnosti pre plaćenog paketa.",
+          },
+          q2: {
+            question: "Koje jurisdikcije su trenutno podržane?",
+            answer:
+              "Legantis je prilagođen za Bosnu i Hercegovinu, Srbiju, Hrvatsku, Crnu Goru i Sloveniju.",
+          },
+          q3: {
+            question: "Da li mogu izvesti generisane dokumente?",
+            answer:
+              "Da. Generisane dokumente možete izvesti u praktičnim formatima za internu proveru i slanje klijentima.",
+          },
+          q4: {
+            question: "Kako su zaštićeni podaci klijenata?",
+            answer:
+              "Koristimo sigurne kontrole pristupa i enkriptovane načine čuvanja podataka kako bismo zaštitili pravnu dokumentaciju.",
+          },
+          q5: {
+            question: "Mogu li promeniti ili otkazati paket u bilo kom trenutku?",
+            answer:
+              "Da. Paket možete unaprediti, smanjiti ili otkazati u svakom trenutku kroz podešavanja naplate.",
+          },
+        },
       },
     },
     footer: {
@@ -2268,7 +2348,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
     },
     home: {
       hero: {
-        title: "Legantis – AI pravni asistent za odvjetnike na Balkanu",
+        title: "Legantis – AI Pravni Asistent za odvjetnike na Balkanu",
         subtitle:
           "Pripremite ugovore, predvidite ishod sporova, analizirajte dokumente i vodite klijente – prilagođeno za zemlje Balkana.",
         pricingCta: "Pogledaj cijene",
@@ -2280,23 +2360,28 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         items: {
           contracts: {
             title: "AI izrada ugovora",
-            description: "Pripremite ugovore sa klauzulama prilagođenim jurisdikciji.",
+            description:
+              "Pripremite ugovore sa klauzulama prilagođenim jurisdikciji. Dobijte prijedloge zasnovane na lokalnoj praksi i brže završite finalnu verziju.",
           },
           prediction: {
             title: "Predviđanje sporova",
-            description: "Procijenite ishod predmeta na osnovu prakse i lokalnog prava.",
+            description:
+              "Procijenite ishod predmeta na osnovu prakse i lokalnog prava. Uporedite više strategija uz jasne pokazatelje rizika i sigurnije savjetujte klijente.",
           },
           analysis: {
             title: "Analiza dokumenata",
-            description: "Otpremite dokumente za provjeru rizika i usklađenosti.",
+            description:
+              "Otpremite dokumente za provjeru rizika i usklađenosti. Brzo otkrijte sporne klauzule i dobijte strukturirane preporuke za izmjene.",
           },
           time: {
             title: "Praćenje vremena",
-            description: "Evidentirajte naplativo vrijeme i kreirajte račune.",
+            description:
+              "Evidentirajte naplativo vrijeme i kreirajte račune. Bilježite rad kroz svakodnevne aktivnosti i smanjite gubitak naplativih sati.",
           },
           portal: {
             title: "Klijentski portal",
-            description: "Sigurna razmjena dokumenata i komunikacija s klijentima.",
+            description:
+              "Sigurna razmjena dokumenata i komunikacija s klijentima. Sve poruke, datoteke i statusi ostaju pregledni na jednom zaštićenom mjestu.",
           },
         },
       },
@@ -2336,6 +2421,41 @@ const MESSAGES: Record<LanguageCode, Messages> = {
           },
         },
         cta: "Započni",
+      },
+      faq: {
+        title: "Često postavljana pitanja",
+        subtitle:
+          "Sve što trebate znati prije početka rada sa platformom Legantis.",
+        panelTitle: "Pitanja o početku korištenja?",
+        panelDescription:
+          "Imate pitanja o našem AI Pravnom Asistentu? Pronađite odgovore na najčešća pitanja i otkrijte kako naša platforma može pojednostaviti vaš tok rada, unaprijediti donošenje odluka i poboljšati ukupnu efikasnost.",
+        items: {
+          q1: {
+            question: "Da li postoji besplatan probni period?",
+            answer:
+              "Da. Možete početi s besplatnim probnim periodom i isprobati ključne funkcije prije prelaska na plaćeni paket.",
+          },
+          q2: {
+            question: "Koje jurisdikcije su trenutno podržane?",
+            answer:
+              "Legantis je prilagođen za Bosnu i Hercegovinu, Srbiju, Hrvatsku, Crnu Goru i Sloveniju.",
+          },
+          q3: {
+            question: "Mogu li izvesti generirane dokumente?",
+            answer:
+              "Da. Generirane dokumente možete izvesti u praktičnim formatima za internu provjeru i slanje klijentima.",
+          },
+          q4: {
+            question: "Kako su zaštićeni podaci klijenata?",
+            answer:
+              "Koristimo sigurne kontrole pristupa i enkriptovane načine pohrane podataka za zaštitu pravne dokumentacije.",
+          },
+          q5: {
+            question: "Mogu li promijeniti ili otkazati paket u bilo kojem trenutku?",
+            answer:
+              "Da. Paket možete nadograditi, smanjiti ili otkazati u svakom trenutku kroz postavke naplate.",
+          },
+        },
       },
     },
     footer: {
@@ -3385,7 +3505,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
     },
     home: {
       hero: {
-        title: "Legantis – AI pravni asistent za odvjetnike na Balkanu",
+        title: "Legantis – AI Pravni Asistent za odvjetnike na Balkanu",
         subtitle:
           "Pripremite ugovore, predvidite ishod sporova, analizirajte dokumente i vodite klijente – prilagođeno za zemlje Balkana.",
         pricingCta: "Pogledaj cijene",
@@ -3397,23 +3517,28 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         items: {
           contracts: {
             title: "AI izrada ugovora",
-            description: "Pripremite ugovore s klauzulama prilagođenima jurisdikciji.",
+            description:
+              "Pripremite ugovore s klauzulama prilagođenima jurisdikciji. Dobijte prijedloge temeljene na lokalnoj praksi i brže završite konačnu verziju.",
           },
           prediction: {
             title: "Predviđanje sporova",
-            description: "Procijenite ishod predmeta na temelju prakse i lokalnog prava.",
+            description:
+              "Procijenite ishod predmeta na temelju prakse i lokalnog prava. Usporedite više strategija uz jasne pokazatelje rizika i sigurnije savjetujte klijente.",
           },
           analysis: {
             title: "Analiza dokumenata",
-            description: "Otpremite dokumente za provjeru rizika i usklađenosti.",
+            description:
+              "Otpremite dokumente za provjeru rizika i usklađenosti. Brzo otkrijte sporne klauzule i dobijte strukturirane preporuke za izmjene.",
           },
           time: {
             title: "Praćenje vremena",
-            description: "Evidentirajte naplativo vrijeme i kreirajte račune.",
+            description:
+              "Evidentirajte naplativo vrijeme i kreirajte račune. Bilježite rad kroz svakodnevne aktivnosti i smanjite gubitak naplativih sati.",
           },
           portal: {
             title: "Klijentski portal",
-            description: "Sigurna razmjena dokumenata i komunikacija s klijentima.",
+            description:
+              "Sigurna razmjena dokumenata i komunikacija s klijentima. Sve poruke, datoteke i statusi ostaju pregledni na jednom zaštićenom mjestu.",
           },
         },
       },
@@ -3453,6 +3578,41 @@ const MESSAGES: Record<LanguageCode, Messages> = {
           },
         },
         cta: "Započni",
+      },
+      faq: {
+        title: "Često postavljana pitanja",
+        subtitle:
+          "Sve što trebate znati prije početka rada s platformom Legantis.",
+        panelTitle: "Pitanja o početku korištenja?",
+        panelDescription:
+          "Imate pitanja o našem AI Pravnom Asistentu? Pronađite odgovore na najčešća pitanja i otkrijte kako naša platforma može pojednostaviti vaš tijek rada, unaprijediti donošenje odluka i poboljšati ukupnu učinkovitost.",
+        items: {
+          q1: {
+            question: "Postoji li besplatno probno razdoblje?",
+            answer:
+              "Da. Možete započeti s besplatnim probnim razdobljem i isprobati ključne funkcije prije odabira plaćenog paketa.",
+          },
+          q2: {
+            question: "Koje su jurisdikcije trenutno podržane?",
+            answer:
+              "Legantis je prilagođen za Bosnu i Hercegovinu, Srbiju, Hrvatsku, Crnu Goru i Sloveniju.",
+          },
+          q3: {
+            question: "Mogu li izvesti generirane dokumente?",
+            answer:
+              "Da. Generirane dokumente možete izvesti u praktičnim formatima za internu provjeru i slanje klijentima.",
+          },
+          q4: {
+            question: "Kako su zaštićeni podaci klijenata?",
+            answer:
+              "Koristimo sigurne kontrole pristupa i enkriptirane načine pohrane podataka kako bismo zaštitili pravnu dokumentaciju.",
+          },
+          q5: {
+            question: "Mogu li promijeniti ili otkazati paket u bilo kojem trenutku?",
+            answer:
+              "Da. Paket možete nadograditi, smanjiti ili otkazati u bilo kojem trenutku kroz postavke naplate.",
+          },
+        },
       },
     },
     footer: {
@@ -4613,7 +4773,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
     },
     home: {
       hero: {
-        title: "Legantis – AI pravni asistent za odvetnike na Balkanu",
+        title: "Legantis – AI Pravni Asistent za odvetnike na Balkanu",
         subtitle:
           "Pripravite pogodbe, napoveste izid sporov, analizirajte dokumente in upravljajte stranke – prilagojeno za države Balkana.",
         pricingCta: "Poglej cene",
@@ -4625,23 +4785,28 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         items: {
           contracts: {
             title: "AI priprava pogodb",
-            description: "Pripravite pogodbe s klavzulami, prilagojenimi jurisdikciji.",
+            description:
+              "Pripravite pogodbe s klavzulami, prilagojenimi jurisdikciji. Prejmite predloge na podlagi lokalne prakse in hitreje dokončajte končno različico.",
           },
           prediction: {
             title: "Napoved sporov",
-            description: "Ocenite izid zadev na podlagi prakse in lokalnega prava.",
+            description:
+              "Ocenite izid zadev na podlagi prakse in lokalnega prava. Primerjajte več strategij z jasnimi kazalniki tveganja in samozavestneje svetujte strankam.",
           },
           analysis: {
             title: "Analiza dokumentov",
-            description: "Naložite dokumente za preverjanje tveganj in skladnosti.",
+            description:
+              "Naložite dokumente za preverjanje tveganj in skladnosti. Hitro odkrijte sporne klavzule in prejmite strukturirana priporočila za popravke.",
           },
           time: {
             title: "Spremljanje časa",
-            description: "Beležite obračunljivi čas in ustvarjajte račune.",
+            description:
+              "Beležite obračunljivi čas in ustvarjajte račune. Delo zajemajte skozi vsakodnevne aktivnosti ter zmanjšajte izgubo obračunljivih ur.",
           },
           portal: {
             title: "Portal za stranke",
-            description: "Varno deljenje datotek in komunikacija s strankami.",
+            description:
+              "Varno deljenje datotek in komunikacija s strankami. Sporočila, dokumenti in statusi ostanejo urejeni v enem zaščitenem prostoru.",
           },
         },
       },
@@ -4681,6 +4846,41 @@ const MESSAGES: Record<LanguageCode, Messages> = {
           },
         },
         cta: "Začni",
+      },
+      faq: {
+        title: "Pogosta vprašanja",
+        subtitle:
+          "Vse, kar morate vedeti pred začetkom uporabe platforme Legantis.",
+        panelTitle: "Vprašanja pred začetkom?",
+        panelDescription:
+          "Imate vprašanja o našem AI Pravnem Asistentu? Poiščite odgovore na najpogostejša vprašanja in odkrijte, kako lahko naša platforma poenostavi vaš potek dela, izboljša odločanje in poveča splošno učinkovitost.",
+        items: {
+          q1: {
+            question: "Ali je na voljo brezplačno preizkusno obdobje?",
+            answer:
+              "Da. Začnete lahko z brezplačnim preizkusom in preizkusite ključne funkcije pred izbiro plačljivega paketa.",
+          },
+          q2: {
+            question: "Katere jurisdikcije so trenutno podprte?",
+            answer:
+              "Legantis je prilagojen za Bosno in Hercegovino, Srbijo, Hrvaško, Črno goro in Slovenijo.",
+          },
+          q3: {
+            question: "Ali lahko izvozim ustvarjene dokumente?",
+            answer:
+              "Da. Ustvarjene dokumente lahko izvozite v praktičnih formatih za interno preverjanje in pošiljanje strankam.",
+          },
+          q4: {
+            question: "Kako so zaščiteni podatki strank?",
+            answer:
+              "Uporabljamo varne nadzore dostopa in šifrirane načine hrambe podatkov za zaščito pravne dokumentacije.",
+          },
+          q5: {
+            question: "Ali lahko kadarkoli spremenim ali prekličem paket?",
+            answer:
+              "Da. Paket lahko kadarkoli nadgradite, znižate ali prekličete v nastavitvah obračunavanja.",
+          },
+        },
       },
     },
     footer: {
@@ -5726,7 +5926,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
     },
     home: {
       hero: {
-        title: "Legantis – AI pravni asistent za advokate na Balkanu",
+        title: "Legantis – AI Pravni Asistent za advokate na Balkanu",
         subtitle:
           "Pripremite ugovore, predvidite ishod sporova, analizirajte dokumenta i vodite klijente – prilagođeno za zemlje Balkana.",
         pricingCta: "Pogledaj cijene",
@@ -5738,23 +5938,28 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         items: {
           contracts: {
             title: "AI izrada ugovora",
-            description: "Pripremite ugovore sa klauzulama prilagođenim jurisdikciji.",
+            description:
+              "Pripremite ugovore sa klauzulama prilagođenim jurisdikciji. Dobijte prijedloge zasnovane na lokalnoj praksi i brže završite finalnu verziju.",
           },
           prediction: {
             title: "Predviđanje sporova",
-            description: "Procijenite ishod predmeta na osnovu prakse i lokalnog prava.",
+            description:
+              "Procijenite ishod predmeta na osnovu prakse i lokalnog prava. Uporedite više strategija uz jasne pokazatelje rizika i sigurnije savjetujte klijente.",
           },
           analysis: {
             title: "Analiza dokumenata",
-            description: "Otpremite dokumenta za provjeru rizika i usklađenosti.",
+            description:
+              "Otpremite dokumenta za provjeru rizika i usklađenosti. Brzo otkrijte sporne klauzule i dobijte strukturirane preporuke za izmjene.",
           },
           time: {
             title: "Praćenje vremena",
-            description: "Evidentirajte naplativo vrijeme i kreirajte račune.",
+            description:
+              "Evidentirajte naplativo vrijeme i kreirajte račune. Bilježite rad kroz svakodnevne aktivnosti i smanjite gubitak naplativih sati.",
           },
           portal: {
             title: "Klijentski portal",
-            description: "Sigurna razmjena dokumenata i komunikacija sa klijentima.",
+            description:
+              "Sigurna razmjena dokumenata i komunikacija sa klijentima. Sve poruke, fajlovi i statusi ostaju pregledni na jednom zaštićenom mjestu.",
           },
         },
       },
@@ -5794,6 +5999,41 @@ const MESSAGES: Record<LanguageCode, Messages> = {
           },
         },
         cta: "Započni",
+      },
+      faq: {
+        title: "Često postavljana pitanja",
+        subtitle:
+          "Sve što treba da znate prije početka rada sa platformom Legantis.",
+        panelTitle: "Pitanja o početku korišćenja?",
+        panelDescription:
+          "Imate pitanja o našem AI Pravnom Asistentu? Pronađite odgovore na najčešća pitanja i otkrijte kako naša platforma može pojednostaviti vaš tok rada, unaprijediti donošenje odluka i poboljšati ukupnu efikasnost.",
+        items: {
+          q1: {
+            question: "Da li postoji besplatan probni period?",
+            answer:
+              "Da. Možete početi sa besplatnim probnim periodom i isprobati ključne funkcije prije odabira plaćenog paketa.",
+          },
+          q2: {
+            question: "Koje jurisdikcije su trenutno podržane?",
+            answer:
+              "Legantis je prilagođen za Bosnu i Hercegovinu, Srbiju, Hrvatsku, Crnu Goru i Sloveniju.",
+          },
+          q3: {
+            question: "Mogu li izvesti generisane dokumente?",
+            answer:
+              "Da. Generisane dokumente možete izvesti u praktičnim formatima za internu provjeru i slanje klijentima.",
+          },
+          q4: {
+            question: "Kako su zaštićeni podaci klijenata?",
+            answer:
+              "Koristimo sigurne kontrole pristupa i enkriptovane načine čuvanja podataka za zaštitu pravne dokumentacije.",
+          },
+          q5: {
+            question: "Mogu li promijeniti ili otkazati paket u bilo kom trenutku?",
+            answer:
+              "Da. Paket možete nadograditi, smanjiti ili otkazati u svakom trenutku kroz podešavanja naplate.",
+          },
+        },
       },
     },
     footer: {
