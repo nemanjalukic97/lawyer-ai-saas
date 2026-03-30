@@ -65,7 +65,7 @@ export function HomeClient({ signupStatus }: Props) {
         >
           <div
             aria-hidden
-            className="pointer-events-none absolute left-0 top-[56%] -z-10 h-[70%] w-[60%] -translate-y-1/2 rounded-full bg-white/[0.05] blur-[15px]"
+            className="pointer-events-none absolute left-0 top-[56%] -z-10 h-[70%] w-[60%] -translate-y-1/2 rounded-full bg-white/[0.05] blur-[15px] min-[1440px]:h-[50%] min-[1440px]:w-[30%] min-[1440px]:blur-[6px]"
           />
           <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6">
             <h2
@@ -152,7 +152,7 @@ export function HomeClient({ signupStatus }: Props) {
         >
           <div
             aria-hidden
-            className="pointer-events-none absolute left-0 top-[56%] -z-10 h-[70%] w-[60%] -translate-y-1/2 rounded-full bg-white/[0.05] blur-[15px]"
+            className="pointer-events-none absolute left-0 top-[56%] -z-10 h-[70%] w-[60%] -translate-y-1/2 rounded-full bg-white/[0.05] blur-[15px] min-[1440px]:h-[50%] min-[1440px]:w-[30%] min-[1440px]:blur-[6px]"
           />
           <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6">
             <div className="mx-auto mb-10 max-w-2xl text-center">

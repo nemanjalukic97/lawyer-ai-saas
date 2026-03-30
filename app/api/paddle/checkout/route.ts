@@ -118,8 +118,29 @@ export async function POST(req: NextRequest) {
   } catch (error) {
     // Detailed logging for debugging 500s in the checkout flow
     console.error("Paddle checkout route error:", error)
-    const errorMessage =
-      error instanceof Error ? error.message : "Unknown Paddle error"
+    const errRecord = (error && typeof error === "object" ? (error as Record<string, unknown>) : null) ?? null
+    const errorCode = typeof errRecord?.code === "string" ? (errRecord.code as string) : null
+    const errorDetail =
+      typeof errRecord?.detail === "string"
+        ? (errRecord.detail as string)
+        : error instanceof Error
+          ? error.message
+          : null
+
+    // Paddle returns this when the vendor account has not set checkout settings yet.
+    if (errorCode === "transaction_default_checkout_url_not_set") {
+      return Response.json(
+        {
+          error:
+            "Paddle sandbox is missing a Default Payment Link. In Paddle sandbox go to https://sandbox-vendors.paddle.com/checkout-settings and set a Default payment link (localhost is allowed), then try again.",
+          code: errorCode,
+          detail: errorDetail,
+        },
+        { status: 400 }
+      )
+    }
+
+    const errorMessage = errorDetail ?? "Unknown Paddle error"
 
     return Response.json(
       { error: `Paddle checkout failed: ${errorMessage}` },

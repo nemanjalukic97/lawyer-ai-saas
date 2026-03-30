@@ -815,6 +815,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       },
       actions: {
         manageSubscription: "Manage subscription",
+        openingPortal: "Opening portal...",
         reactivate: "Reactivate",
         currentPlan: "Current plan",
         upgrade: "Upgrade",
@@ -852,6 +853,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         paddleNotInitialized: "Paddle is not initialized",
         paddleCheckoutUnavailable: "Paddle checkout is unavailable",
         checkoutFailed: "Checkout failed",
+        portalOpenFailed: "Could not open the billing portal.",
       },
       common: {
         unknown: "unknown",
@@ -2066,6 +2068,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       },
       actions: {
         manageSubscription: "Upravljaj pretplatom",
+        openingPortal: "Otvaram portal...",
         reactivate: "Reaktiviraj",
         currentPlan: "Trenutni plan",
         upgrade: "Nadogradi",
@@ -2103,6 +2106,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         paddleNotInitialized: "Paddle nije inicijalizovan",
         paddleCheckoutUnavailable: "Paddle checkout nije dostupan",
         checkoutFailed: "Plaćanje nije uspjelo",
+        portalOpenFailed: "Nije moguće otvoriti portal za naplatu.",
       },
       common: {
         unknown: "nepoznato",
@@ -3223,6 +3227,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       },
       actions: {
         manageSubscription: "Upravljaj pretplatom",
+        openingPortal: "Otvaram portal...",
         reactivate: "Reaktiviraj",
         currentPlan: "Trenutni plan",
         upgrade: "Nadogradi",
@@ -3260,6 +3265,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         paddleNotInitialized: "Paddle nije inicijalizovan",
         paddleCheckoutUnavailable: "Paddle checkout nije dostupan",
         checkoutFailed: "Plaćanje nije uspjelo",
+        portalOpenFailed: "Nije moguće otvoriti portal za naplatu.",
       },
       common: {
         unknown: "nepoznato",
@@ -3755,6 +3761,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       },
       actions: {
         manageSubscription: "Upravljaj pretplatom",
+        openingPortal: "Otvaram portal...",
         reactivate: "Reaktiviraj",
         currentPlan: "Trenutni plan",
         upgrade: "Nadogradi",
@@ -3792,6 +3799,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         paddleNotInitialized: "Paddle nije inicijaliziran",
         paddleCheckoutUnavailable: "Paddle checkout nije dostupan",
         checkoutFailed: "Plaćanje nije uspjelo",
+        portalOpenFailed: "Nije moguće otvoriti portal za naplatu.",
       },
       common: {
         unknown: "nepoznato",
@@ -5646,6 +5654,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       },
       actions: {
         manageSubscription: "Upravljaj naročnino",
+        openingPortal: "Odpiram portal...",
         reactivate: "Ponovno aktiviraj",
         currentPlan: "Trenutni paket",
         upgrade: "Nadgradi",
@@ -5683,6 +5692,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         paddleNotInitialized: "Paddle ni inicializiran",
         paddleCheckoutUnavailable: "Paddle checkout ni na voljo",
         checkoutFailed: "Plačilo ni uspelo",
+        portalOpenFailed: "Portala za obračun ni mogoče odpreti.",
       },
       common: {
         unknown: "neznano",
@@ -6799,6 +6809,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       },
       actions: {
         manageSubscription: "Upravljaj pretplatom",
+        openingPortal: "Otvaram portal...",
         reactivate: "Reaktiviraj",
         currentPlan: "Trenutni plan",
         upgrade: "Nadogradi",
@@ -6836,6 +6847,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         paddleNotInitialized: "Paddle nije inicijalizovan",
         paddleCheckoutUnavailable: "Paddle checkout nije dostupan",
         checkoutFailed: "Plaćanje nije uspjelo",
+        portalOpenFailed: "Nije moguće otvoriti portal za naplatu.",
       },
       common: {
         unknown: "nepoznato",

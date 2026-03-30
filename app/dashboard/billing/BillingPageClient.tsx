@@ -1,7 +1,7 @@
 "use client"
 
 import { initializePaddle, type Paddle } from "@paddle/paddle-js"
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -124,7 +124,9 @@ export default function BillingPageClient({ billing, success }: BillingProps) {
   const { t } = useLanguage()
   const [paddle, setPaddle] = useState<Paddle | null>(null)
   const [loadingTier, setLoadingTier] = useState<Tier | null>(null)
+  const [managingPortal, setManagingPortal] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const pendingTierRef = useRef<Tier | null>(null)
 
   const entity = billing.firm ?? billing.profile
   const currentTier: Tier = (entity?.subscription_tier ?? "professional") as Tier
@@ -163,7 +165,48 @@ export default function BillingPageClient({ billing, success }: BillingProps) {
 
     if (!inferredEnv) return
 
-    initializePaddle({ environment: inferredEnv, token })
+    initializePaddle({
+      environment: inferredEnv,
+      token,
+      // `@paddle/paddle-js` forwards options to Paddle.Initialize()
+      // so we can listen for checkout completion and provision immediately.
+      eventCallback: async (evt: unknown) => {
+        if (!evt || typeof evt !== "object") return
+        const e = evt as { name?: unknown; data?: unknown }
+        if (e.name !== "checkout.completed") return
+        if (!e.data || typeof e.data !== "object") return
+        const data = e.data as Record<string, unknown>
+        const transactionId = typeof data.transaction_id === "string" ? data.transaction_id : null
+        if (!transactionId) return
+
+        // We provision in-app on success because Paddle webhooks can't reach localhost
+        // without a tunnel. Webhooks remain the source of truth in production.
+        try {
+          const res = await fetch("/api/paddle/confirm", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              transactionId,
+              tier: pendingTierRef.current,
+            }),
+          })
+          if (!res.ok) {
+            const j: unknown = await res.json().catch(() => null)
+            const msg =
+              j && typeof j === "object" && typeof (j as Record<string, unknown>).error === "string"
+                ? ((j as Record<string, unknown>).error as string)
+                : null
+            throw new Error(msg ?? "Failed to confirm purchase")
+          }
+
+          window.location.href = `${window.location.origin}/dashboard/billing?success=true`
+        } catch (err) {
+          setError(err instanceof Error ? err.message : t("billing.errors.checkoutFailed"))
+        } finally {
+          pendingTierRef.current = null
+        }
+      },
+    } as unknown as Parameters<typeof initializePaddle>[0])
       .then((instance) => setPaddle(instance ?? null))
       .catch(() => setPaddle(null))
   }, [])
@@ -208,11 +251,9 @@ export default function BillingPageClient({ billing, success }: BillingProps) {
 
       if (!checkout) throw new Error(t("billing.errors.paddleCheckoutUnavailable"))
 
+      pendingTierRef.current = tier
       checkout.open({
         transactionId,
-        settings: {
-          successUrl: `${window.location.origin}/dashboard/billing?success=true`,
-        },
       })
     } catch (e) {
       setError(e instanceof Error ? e.message : t("billing.errors.checkoutFailed"))
@@ -223,6 +264,32 @@ export default function BillingPageClient({ billing, success }: BillingProps) {
 
   const canManage = currentStatus === "active"
   const canReactivate = currentStatus === "cancelled" || currentStatus === "past_due"
+
+  async function openManagePortal() {
+    setError(null)
+    setManagingPortal(true)
+    try {
+      const res = await fetch("/api/paddle/portal", { method: "POST" })
+      const json: unknown = await res.json().catch(() => null)
+      const message =
+        json && typeof json === "object" && typeof (json as Record<string, unknown>).error === "string"
+          ? ((json as Record<string, unknown>).error as string)
+          : null
+      if (!res.ok) {
+        throw new Error(message ?? t("billing.errors.portalOpenFailed"))
+      }
+      const url =
+        json && typeof json === "object" && typeof (json as Record<string, unknown>).url === "string"
+          ? ((json as Record<string, unknown>).url as string)
+          : null
+      if (!url) throw new Error(t("billing.errors.portalOpenFailed"))
+      window.open(url, "_blank", "noopener,noreferrer")
+    } catch (e) {
+      setError(e instanceof Error ? e.message : t("billing.errors.portalOpenFailed"))
+    } finally {
+      setManagingPortal(false)
+    }
+  }
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
@@ -294,9 +361,10 @@ export default function BillingPageClient({ billing, success }: BillingProps) {
               <Button
                 type="button"
                 variant={canManage ? "default" : "outline"}
-                disabled={!canManage}
+                disabled={!canManage || managingPortal}
+                onClick={() => void openManagePortal()}
               >
-                {t("billing.actions.manageSubscription")}
+                {managingPortal ? t("billing.actions.openingPortal") : t("billing.actions.manageSubscription")}
               </Button>
               <Button
                 type="button"

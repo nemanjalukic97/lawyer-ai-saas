@@ -34,14 +34,47 @@ function getSignatureHeader(req: NextRequest): string | null {
   )
 }
 
-function verifySignature(rawBody: string, signature: string, secret: string): boolean {
-  const computed = createHmac("sha256", secret).update(rawBody).digest("hex")
+function parsePaddleSignatureHeader(
+  header: string
+): { ts: string; h1: string[] } | null {
+  // Format: ts=1671552777;h1=<hex>;h1=<hex2>...
+  const parts = header.split(";").map((p) => p.trim()).filter(Boolean)
+  const tsPart = parts.find((p) => p.startsWith("ts="))
+  if (!tsPart) return null
+  const ts = tsPart.slice(3)
+  const h1 = parts
+    .filter((p) => p.startsWith("h1="))
+    .map((p) => p.slice(3))
+    .filter(Boolean)
+  if (!ts || h1.length === 0) return null
+  return { ts, h1 }
+}
 
+function timingSafeEqualHex(aHex: string, bHex: string): boolean {
   try {
-    const a = Buffer.from(computed, "hex")
-    const b = Buffer.from(signature, "hex")
+    const a = Buffer.from(aHex, "hex")
+    const b = Buffer.from(bHex, "hex")
     if (a.length !== b.length) return false
     return timingSafeEqual(a, b)
+  } catch {
+    return false
+  }
+}
+
+function verifySignature(rawBody: string, header: string, secret: string): boolean {
+  const parsed = parsePaddleSignatureHeader(header)
+  if (!parsed) return false
+
+  // Paddle signs: `${ts}:${rawBody}` with HMAC-SHA256(secret)
+  const signedPayload = `${parsed.ts}:${rawBody}`
+  const computed = createHmac("sha256", secret).update(signedPayload).digest("hex")
+
+  try {
+    // Paddle may include multiple `h1` values (e.g. during secret rotation)
+    for (const sig of parsed.h1) {
+      if (timingSafeEqualHex(computed, sig)) return true
+    }
+    return false
   } catch {
     return false
   }
