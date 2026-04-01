@@ -1,11 +1,10 @@
 import { redirect } from "next/navigation"
 
 import { createClient } from "@/lib/supabase/server"
+import { normalizePlanId, type PlanId } from "./lib/entitlements"
 import {
-  ACTIVITY_HREF_BY_TYPE,
   getRecentActivity,
   getScopeFromProfile,
-  type ActivityItem,
   type DashboardScope,
 } from "./lib/activity"
 import { DashboardClient } from "./DashboardClient"
@@ -64,12 +63,16 @@ async function getRoiData(
     .is("deleted_at", null)
     .gte("work_date", startOfMonth.toISOString())
 
-  const relevant = (timeEntries ?? []).filter((t: any) =>
-    ["approved", "billed"].includes(t.status)
-  )
+  const relevant = (
+    (timeEntries ?? []) as Array<{
+      duration_minutes: number | null
+      hourly_rate: number | null
+      status: string | null
+    }>
+  ).filter((t) => ["approved", "billed"].includes(t.status ?? ""))
 
   const totalHoursTracked = relevant.reduce(
-    (sum: number, t: any) => sum + ((t.duration_minutes ?? 0) / 60),
+    (sum: number, t) => sum + ((t.duration_minutes ?? 0) / 60),
     0
   )
 
@@ -81,8 +84,9 @@ async function getRoiData(
 
   const avgClientRate =
     clients && clients.length
-      ? clients.reduce(
-          (sum: number, c: any) => sum + Number(c.default_hourly_rate ?? 0),
+      ? (clients as Array<{ default_hourly_rate: number | null }>).reduce(
+          (sum: number, c: { default_hourly_rate: number | null }) =>
+            sum + Number(c.default_hourly_rate ?? 0),
           0
         ) / clients.length
       : 60
@@ -206,6 +210,9 @@ export default async function DashboardPage() {
   const subscriptionTier = TIER_LABELS[tierKey] || "Solo"
   const subscriptionStatus =
     profile?.subscription_status || firm?.subscription_status || "trial"
+  const planId: PlanId = normalizePlanId(
+    (firm?.subscription_tier ?? profile?.subscription_tier) ?? tierKey
+  )
 
   const totalContracts = contractsCountResult.count ?? 0
   const totalDocuments = documentsCountResult.count ?? 0
@@ -255,6 +262,7 @@ export default async function DashboardPage() {
       displayName={displayName}
       roleLabel={roleLabel}
       jurisdictionLabel={jurisdictionLabel}
+      planId={planId}
       subscriptionTier={subscriptionTier}
       subscriptionStatus={subscriptionStatus}
       firmName={firm?.name ?? null}

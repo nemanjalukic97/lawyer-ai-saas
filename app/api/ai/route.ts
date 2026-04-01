@@ -1,3 +1,10 @@
+import {
+  retrieveLegalContext,
+  buildRagSystemPrompt,
+  validateCitations,
+  getAnswerMode,
+  type RagResult,
+} from "@/lib/legalRag"
 import { NextRequest } from "next/server"
 
 import { callAI, OpenAIConfigError, OpenAICallError } from "@/lib/openai"
@@ -16,12 +23,50 @@ const DAILY_LIMITS: Record<string, number> = {
   firm: 300,
 }
 
+const JURISDICTION_FEATURES = new Set([
+  "case_prediction",
+  "document_analysis",
+  "contract_generation",
+  "document_generation",
+])
+
+const FEATURE_K: Record<string, number> = {
+  case_prediction: 8,
+  document_analysis: 8,
+  contract_generation: 7,
+  document_generation: 6,
+}
+
 interface AiRequestBody {
   systemPrompt: string
   userPrompt: string
   featureType: FeatureType
   entityType?: string
   entityId?: string
+  jurisdiction?: string
+  category?: string
+  outputLanguage?: string
+}
+
+type RagMetadata = {
+  confidence: string
+  topSimilarity: number
+  hasStrongMatch: boolean
+  chunksRetrieved: number
+  answerMode: string
+  validation: {
+    valid: boolean
+    invalidCitations: string[]
+    missingCitations: string[]
+    citedArticles: string[]
+  } | null
+  sources: Array<{
+    law_name_local: string
+    article_num: string
+    paragraph_num: string | null
+    text_preview: string
+    similarity: number
+  }>
 }
 
 export async function POST(req: NextRequest) {
@@ -43,6 +88,11 @@ export async function POST(req: NextRequest) {
   }
 
   const { systemPrompt, userPrompt, featureType, entityType, entityId } = body
+
+  console.log("[DEBUG] featureType:", featureType,
+            "| jurisdiction:", body.jurisdiction,
+            "| JURISDICTION_FEATURES has it:",
+            JURISDICTION_FEATURES.has(featureType))
 
   const validFeatureTypes: FeatureType[] = [
     "contract_generation",
@@ -93,10 +143,109 @@ export async function POST(req: NextRequest) {
       )
     }
 
+    let finalSystemPrompt = systemPrompt
+    let ragMetadata: RagMetadata = {
+      confidence: "none",
+      topSimilarity: 0,
+      hasStrongMatch: false,
+      chunksRetrieved: 0,
+      answerMode: "none",
+      validation: null,
+      sources: [],
+    }
+
+    if (JURISDICTION_FEATURES.has(featureType) && body.jurisdiction) {
+      try {
+        const ragResult = await retrieveLegalContext(
+          userPrompt,
+          body.jurisdiction,
+          {
+            category: undefined,
+            k: FEATURE_K[featureType] ?? 6,
+          }
+        )
+
+        if (ragResult.chunks.length > 0) {
+          const answerMode = getAnswerMode(featureType, ragResult.confidence)
+
+          finalSystemPrompt = buildRagSystemPrompt(
+            systemPrompt,
+            ragResult,
+            body.jurisdiction,
+            body.outputLanguage ?? "English",
+            answerMode
+          )
+
+          ragMetadata = {
+            confidence: ragResult.confidence,
+            topSimilarity: ragResult.topSimilarity,
+            hasStrongMatch: ragResult.hasStrongMatch,
+            chunksRetrieved: ragResult.chunks.length,
+            answerMode,
+            validation: null,
+            sources: ragResult.chunks.map(c => ({
+              law_name_local: c.law_name_local,
+              article_num: c.article_num,
+              paragraph_num: c.paragraph_num,
+              text_preview: c.text.slice(0, 200) +
+                (c.text.length > 200 ? "..." : ""),
+              similarity: Math.round(c.similarity * 1000) / 1000,
+            })),
+          }
+
+          if (process.env.NODE_ENV !== "production") {
+            console.log(
+              `[RAG] ${body.jurisdiction} | chunks: ${ragResult.chunks.length}` +
+              ` | confidence: ${ragResult.confidence}` +
+              ` | top: ${ragResult.topSimilarity.toFixed(3)}` +
+              ` | mode: ${answerMode}`
+            )
+          }
+        }
+      } catch (ragError) {
+        if (process.env.NODE_ENV !== "production") {
+          console.error(
+            "[RAG] retrieval failed (non-blocking):",
+            ragError instanceof Error ? ragError.message : String(ragError)
+          )
+        }
+        // RAG failure is non-blocking. Continue with base prompt.
+      }
+    }
+
     const { content, tokensUsed, costUsd } = await callAI({
-      systemPrompt,
+      systemPrompt: finalSystemPrompt,
       userPrompt,
     })
+
+    if (ragMetadata.chunksRetrieved > 0) {
+      const chunksForValidation = ragMetadata.sources.map(s => ({
+        id: "",
+        jurisdiction: body.jurisdiction ?? "",
+        law_name: s.law_name_local,
+        law_name_local: s.law_name_local,
+        law_category: "",
+        article_num: s.article_num,
+        paragraph_num: s.paragraph_num,
+        text: s.text_preview,
+        text_local: null,
+        source_url: null,
+        similarity: s.similarity,
+      }))
+
+      ragMetadata.validation = validateCitations(
+        content,
+        chunksForValidation
+      )
+
+      if (process.env.NODE_ENV !== "production") {
+        console.log(
+          `[RAG] validation: valid=${ragMetadata.validation.valid}` +
+          ` | invalid: [${ragMetadata.validation.invalidCitations.join(", ")}]` +
+          ` | missing: [${ragMetadata.validation.missingCitations.join(", ")}]`
+        )
+      }
+    }
 
     try {
       await supabase.from("usage_stats").insert(
@@ -120,6 +269,7 @@ export async function POST(req: NextRequest) {
         content,
         tokensUsed,
         costUsd,
+        rag: ragMetadata,
       },
       { status: 200 }
     )

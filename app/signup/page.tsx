@@ -35,7 +35,7 @@ export default async function SignupPage({
       : null
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background px-4">
+    <div className="min-h-screen flex items-center justify-center bg-background px-4 py-12 sm:py-16">
       <div className="w-full max-w-md space-y-4">
         <Link
           href="/"

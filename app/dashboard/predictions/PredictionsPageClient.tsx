@@ -18,6 +18,8 @@ import {
 import { Loader2 } from "lucide-react"
 import { createClient } from "@/lib/supabase/client"
 import { useLanguage } from "@/components/LanguageProvider"
+import { RagSourcesPanel } from "@/components/RagSourcesPanel"
+import type { RagMetadata } from "@/types/rag"
 
 type CaseType =
   | "civil"
@@ -379,6 +381,7 @@ export default function PredictionsPageClient({ selectedId }: ClientProps) {
   const [error, setError] = useState<string | null>(null)
   const [predictionContent, setPredictionContent] = useState("")
   const [saveSuccess, setSaveSuccess] = useState(false)
+  const [ragData, setRagData] = useState<RagMetadata | null>(null)
 
   const [detail, setDetail] = useState<PredictionDetail | null>(null)
   const [detailLoading, setDetailLoading] = useState(false)
@@ -387,6 +390,7 @@ export default function PredictionsPageClient({ selectedId }: ClientProps) {
   async function handleSubmit(event: FormEvent) {
     event.preventDefault()
 
+    setRagData(null)
     setError(null)
     setSaveSuccess(false)
     setPredictionContent("")
@@ -411,16 +415,21 @@ export default function PredictionsPageClient({ selectedId }: ClientProps) {
         additionalContext
       )
 
+      const body = {
+        systemPrompt,
+        userPrompt,
+        featureType: "case_prediction",
+        jurisdiction: jurisdiction,
+        category: caseType,
+        outputLanguage: outputLanguageName,
+      }
+      console.log("[DEBUG] fetch body:", JSON.stringify(body))
       const response = await fetch("/api/ai", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          systemPrompt,
-          userPrompt,
-          featureType: "case_prediction",
-        }),
+        body: JSON.stringify(body),
       })
 
       if (!response.ok) {
@@ -438,8 +447,12 @@ export default function PredictionsPageClient({ selectedId }: ClientProps) {
         throw new Error(message)
       }
 
-      const data = (await response.json()) as { content?: string }
+      const data = (await response.json()) as {
+        content?: string
+        rag?: RagMetadata
+      }
       const raw = data.content ?? ""
+      if (data.rag) setRagData(data.rag)
       const { visible: content, meta } = splitMeta(raw)
 
       setPredictionContent(content)
@@ -826,6 +839,7 @@ export default function PredictionsPageClient({ selectedId }: ClientProps) {
                     {t("predictions.result.empty")}
                   </p>
                 )}
+                {ragData && <RagSourcesPanel ragData={ragData} />}
               </div>
             </Card>
           </div>

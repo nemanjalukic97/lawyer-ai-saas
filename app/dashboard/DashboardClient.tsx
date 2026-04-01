@@ -15,6 +15,7 @@ import { cn } from "@/lib/utils"
 import type { ActivityItem } from "./lib/activity"
 import { ACTIVITY_HREF_BY_TYPE } from "./lib/activity"
 import { FeatureUsageChart } from "./components/FeatureUsageChart"
+import { hasFeature, type PlanId } from "./lib/entitlements"
 
 type FeatureUsagePoint = {
   feature_type: string
@@ -32,6 +33,7 @@ type Props = {
   displayName: string
   roleLabel: string
   jurisdictionLabel: string
+  planId: PlanId
   subscriptionTier: string
   subscriptionStatus: string
   firmName: string | null
@@ -58,6 +60,7 @@ export function DashboardClient({
   displayName,
   roleLabel,
   jurisdictionLabel,
+  planId,
   subscriptionTier,
   subscriptionStatus,
   firmName,
@@ -72,6 +75,9 @@ export function DashboardClient({
   const { t } = useLanguage()
 
   const trialEndsIso = firmTrialEndsAt ?? profileTrialEndsAt
+  const canPredict = hasFeature(planId, "case_prediction")
+  const canAnalyze = hasFeature(planId, "document_analysis")
+  const canUseClients = hasFeature(planId, "client_portal")
 
   return (
     <div className="min-h-screen bg-background px-4 py-10">
@@ -123,22 +129,24 @@ export function DashboardClient({
               {t("dashboard.stats.documents.title")}
             </p>
             <p className="mt-2 text-2xl font-semibold">
-              {totals.documents + totals.analyses}
+              {totals.documents + (canAnalyze ? totals.analyses : 0)}
             </p>
             <p className="mt-1 text-xs text-muted-foreground">
               {t("dashboard.stats.documents.subtitle")}
             </p>
           </Card>
 
-          <Card className="p-4">
-            <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-              {t("dashboard.stats.predictions.title")}
-            </p>
-            <p className="mt-2 text-2xl font-semibold">{totals.predictions}</p>
-            <p className="mt-1 text-xs text-muted-foreground">
-              {t("dashboard.stats.predictions.subtitle")}
-            </p>
-          </Card>
+          {canPredict && (
+            <Card className="p-4">
+              <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                {t("dashboard.stats.predictions.title")}
+              </p>
+              <p className="mt-2 text-2xl font-semibold">{totals.predictions}</p>
+              <p className="mt-1 text-xs text-muted-foreground">
+                {t("dashboard.stats.predictions.subtitle")}
+              </p>
+            </Card>
+          )}
         </section>
 
         <section className="space-y-3">
@@ -168,21 +176,25 @@ export function DashboardClient({
               href="/dashboard/contracts"
             />
 
-            <QuickActionCard
-              icon="muted"
-              Icon={Scale}
-              title={t("dashboard.actions.predict.title")}
-              description={t("dashboard.actions.predict.description")}
-              href="/dashboard/predictions"
-            />
+            {canPredict && (
+              <QuickActionCard
+                icon="muted"
+                Icon={Scale}
+                title={t("dashboard.actions.predict.title")}
+                description={t("dashboard.actions.predict.description")}
+                href="/dashboard/predictions"
+              />
+            )}
 
-            <QuickActionCard
-              icon="muted"
-              Icon={Users}
-              title={t("dashboard.actions.clients.title")}
-              description={t("dashboard.actions.clients.description")}
-              href="/dashboard/clients"
-            />
+            {canUseClients && (
+              <QuickActionCard
+                icon="muted"
+                Icon={Users}
+                title={t("dashboard.actions.clients.title")}
+                description={t("dashboard.actions.clients.description")}
+                href="/dashboard/clients"
+              />
+            )}
 
             <Card className="flex flex-col justify-between p-4 lg:col-span-4">
               <div className="space-y-2">

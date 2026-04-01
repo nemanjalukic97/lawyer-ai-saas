@@ -19,6 +19,8 @@ import { Loader2, UploadCloud } from "lucide-react"
 import { createClient } from "@/lib/supabase/client"
 import type { Json } from "@/database.types"
 import { useLanguage } from "@/components/LanguageProvider"
+import { RagSourcesPanel } from "@/components/RagSourcesPanel"
+import type { RagMetadata } from "@/types/rag"
 
 type Jurisdiction =
   | "serbia"
@@ -273,6 +275,7 @@ export default function DocumentAnalysisPage({ selectedId }: DocumentAnalysisPag
   const [isParsing, setIsParsing] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [successMessage, setSuccessMessage] = useState<string | null>(null)
+  const [ragData, setRagData] = useState<RagMetadata | null>(null)
 
   const [detail, setDetail] = useState<AnalysisDetail | null>(null)
   const [detailLoading, setDetailLoading] = useState(false)
@@ -467,6 +470,7 @@ export default function DocumentAnalysisPage({ selectedId }: DocumentAnalysisPag
   async function handleSubmit(event: FormEvent) {
     event.preventDefault()
 
+    setRagData(null)
     setError(null)
     setSuccessMessage(null)
     setAnalysisContent("")
@@ -498,6 +502,8 @@ export default function DocumentAnalysisPage({ selectedId }: DocumentAnalysisPag
           systemPrompt,
           userPrompt,
           featureType: "document_analysis",
+          jurisdiction: jurisdiction,
+          outputLanguage: outputLanguageName,
         }),
       })
 
@@ -516,8 +522,12 @@ export default function DocumentAnalysisPage({ selectedId }: DocumentAnalysisPag
         throw new Error(message)
       }
 
-      const data = (await response.json()) as { content?: string }
+      const data = (await response.json()) as {
+        content?: string
+        rag?: RagMetadata
+      }
       const content = data.content ?? ""
+      if (data.rag) setRagData(data.rag)
 
       setAnalysisContent(cleanMarkdown(content))
       const score = extractRiskScore(content)
@@ -826,6 +836,12 @@ export default function DocumentAnalysisPage({ selectedId }: DocumentAnalysisPag
                   </p>
                 )}
               </div>
+              {ragData && (
+                <RagSourcesPanel 
+                  ragData={ragData} 
+                  showSimilarity={true}
+                />
+              )}
             </Card>
           </div>
         </div>

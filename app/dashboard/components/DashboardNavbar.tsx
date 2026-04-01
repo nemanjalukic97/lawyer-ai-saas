@@ -11,18 +11,19 @@ import { ThemeToggle } from "@/components/theme-toggle"
 import { cn } from "@/lib/utils"
 import { ChevronDown } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
+import { hasFeature, type PlanId } from "../lib/entitlements"
 
 const MAIN_LINKS = [
   { href: "/dashboard", key: "dashboard" },
 ] as const
 
 const ACTION_LINKS = [
-  { href: "/dashboard/generate", key: "generate" },
-  { href: "/dashboard/contracts", key: "contracts" },
-  { href: "/dashboard/predictions", key: "predictions" },
-  { href: "/dashboard/analyze", key: "analyze" },
-  { href: "/dashboard/time", key: "time" },
-  { href: "/dashboard/clients", key: "clients" },
+  { href: "/dashboard/generate", key: "generate", feature: "document_generation" },
+  { href: "/dashboard/contracts", key: "contracts", feature: "contract_drafting" },
+  { href: "/dashboard/predictions", key: "predictions", feature: "case_prediction" },
+  { href: "/dashboard/analyze", key: "analyze", feature: "document_analysis" },
+  { href: "/dashboard/time", key: "time", feature: "time_tracking" },
+  { href: "/dashboard/clients", key: "clients", feature: "client_portal" },
   { href: "/dashboard/activity", key: "activity" },
   { href: "/dashboard/templates", key: "templates" },
 ] as const
@@ -43,15 +44,21 @@ function NavLinks({
   onLinkClick,
   className,
   interactionMode = "hover",
+  planId,
 }: {
   pathname: string
   onLinkClick?: () => void
   className?: string
   interactionMode?: "hover" | "tap"
+  planId: PlanId
 }) {
   const { t } = useLanguage()
   const isTap = interactionMode === "tap"
-  const actionsActive = ACTION_LINKS.some(({ href }) => isActive(pathname, href))
+  const allowedActionLinks = ACTION_LINKS.filter((link) => {
+    if (!("feature" in link)) return true
+    return hasFeature(planId, link.feature)
+  })
+  const actionsActive = allowedActionLinks.some(({ href }) => isActive(pathname, href))
   const [actionsOpen, setActionsOpen] = useState(false)
   const [actionsVisible, setActionsVisible] = useState(false)
   const closeTimerRef = useRef<number | null>(null)
@@ -169,7 +176,7 @@ function NavLinks({
               role="menu"
               className="mt-1 flex flex-col gap-0 rounded-md border border-border bg-background p-1"
             >
-              {ACTION_LINKS.map(({ href, key }) => (
+              {allowedActionLinks.map(({ href, key }) => (
                 <Link
                   key={key}
                   href={href}
@@ -230,7 +237,7 @@ function NavLinks({
               }}
               onMouseLeave={() => scheduleClose()}
             >
-              {ACTION_LINKS.map(({ href, key }) => (
+              {allowedActionLinks.map(({ href, key }) => (
                 <Link
                   key={key}
                   href={href}
@@ -271,7 +278,7 @@ function NavLinks({
   )
 }
 
-export function DashboardNavbar() {
+export function DashboardNavbar({ planId }: { planId: PlanId }) {
   const pathname = usePathname()
   const [mobileOpen, setMobileOpen] = useState(false)
   const { t } = useLanguage()
@@ -296,7 +303,12 @@ export function DashboardNavbar() {
         </Link>
 
         <div className="hidden min-[992px]:flex">
-          <NavLinks pathname={pathname} className="flex-row" interactionMode="hover" />
+          <NavLinks
+            pathname={pathname}
+            className="flex-row"
+            interactionMode="hover"
+            planId={planId}
+          />
         </div>
 
         <div className="hidden items-center gap-4 min-[992px]:flex">
@@ -340,6 +352,7 @@ export function DashboardNavbar() {
             pathname={pathname}
             interactionMode="tap"
             onLinkClick={() => setMobileOpen(false)}
+            planId={planId}
           />
         </div>
       )}

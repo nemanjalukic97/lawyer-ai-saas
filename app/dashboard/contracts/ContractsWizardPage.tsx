@@ -20,6 +20,8 @@ import { createClient } from "@/lib/supabase/client"
 import { saveAs } from "file-saver"
 import { Document as DocxDocument, Packer, Paragraph } from "docx"
 import { useLanguage } from "@/components/LanguageProvider"
+import { RagSourcesPanel } from "@/components/RagSourcesPanel"
+import type { RagMetadata } from "@/types/rag"
 
 type ContractType =
   | "employment"
@@ -382,6 +384,7 @@ export default function ContractsWizardPage({ selectedId }: ContractsWizardPageP
   const [saveSuccess, setSaveSuccess] = useState(false)
   const [saveError, setSaveError] = useState<string | null>(null)
   const [generateError, setGenerateError] = useState<string | null>(null)
+  const [ragData, setRagData] = useState<RagMetadata | null>(null)
 
   const [detail, setDetail] = useState<ContractDetail | null>(null)
   const [detailLoading, setDetailLoading] = useState(false)
@@ -620,6 +623,7 @@ export default function ContractsWizardPage({ selectedId }: ContractsWizardPageP
       return
     }
 
+    setRagData(null)
     resetErrors()
     setIsGenerating(true)
     setGeneratedContent("")
@@ -644,6 +648,8 @@ export default function ContractsWizardPage({ selectedId }: ContractsWizardPageP
           systemPrompt,
           userPrompt,
           featureType: "contract_generation",
+          jurisdiction: jurisdiction,
+          outputLanguage: outputLanguageName,
         }),
       })
 
@@ -662,8 +668,12 @@ export default function ContractsWizardPage({ selectedId }: ContractsWizardPageP
         throw new Error(message)
       }
 
-      const data = (await response.json()) as { content?: string }
+      const data = (await response.json()) as {
+        content?: string
+        rag?: RagMetadata
+      }
       const content = data.content ?? ""
+      if (data.rag) setRagData(data.rag)
       setGeneratedContent(content)
       setCurrentStep(5)
     } catch (error) {
@@ -1257,6 +1267,7 @@ export default function ContractsWizardPage({ selectedId }: ContractsWizardPageP
             </p>
           )}
         </div>
+        {ragData && <RagSourcesPanel ragData={ragData} />}
       </div>
     )
   }
