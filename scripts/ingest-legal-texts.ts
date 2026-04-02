@@ -4,6 +4,8 @@ import OpenAI from "openai"
 
 import { ADDITIONAL_LEGAL_ARTICLES } from "./legal-articles-append"
 import { CRIMINAL_ARTICLES } from "./legal-articles-criminal"
+import { FAMILY_ARTICLES } from "./legal-articles-family"
+import { ADMINISTRATIVE_ARTICLES } from "./legal-articles-administrative"
 
 dotenv.config({ path: ".env.local" })
 
@@ -123,6 +125,8 @@ const SAMPLE_ARTICLES: LegalArticleInput[] = [
   },
   ...(ADDITIONAL_LEGAL_ARTICLES as LegalArticleInput[]),
   ...(CRIMINAL_ARTICLES as LegalArticleInput[]),
+  ...(FAMILY_ARTICLES as LegalArticleInput[]),
+  ...(ADMINISTRATIVE_ARTICLES as LegalArticleInput[]),
 ]
 
 function sleep(ms: number) {
