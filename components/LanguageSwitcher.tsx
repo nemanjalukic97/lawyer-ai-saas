@@ -4,7 +4,7 @@ import { Globe2 } from "lucide-react"
 import { useRouter } from "next/navigation"
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { useLanguage } from "@/components/LanguageProvider"
+import { useLanguage, type LanguageCode } from "@/components/LanguageProvider"
 
 const LANGUAGES: { code: LanguageCode; label: string }[] = [
   { code: "en", label: "EN" },

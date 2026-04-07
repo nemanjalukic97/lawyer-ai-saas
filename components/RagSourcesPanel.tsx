@@ -1,6 +1,9 @@
 "use client"
 
 import type { RagMetadata } from "@/types/rag"
+import { useLanguage } from "@/components/LanguageProvider"
+import { useEffect, useState } from "react"
+import { ChevronDown } from "lucide-react"
 
 type Props = {
   ragData: RagMetadata
@@ -8,53 +11,84 @@ type Props = {
 }
 
 export function RagSourcesPanel({ ragData, showSimilarity = true }: Props) {
+  const { language, t } = useLanguage()
+  const [translatedPreviews, setTranslatedPreviews] = useState<string[] | null>(
+    null
+  )
+  const [translatePending, setTranslatePending] = useState(false)
+
+  const previewKey = ragData.sources.map((s) => s.text_preview).join("\u0000")
+
+  useEffect(() => {
+    const texts = ragData.sources.map((s) => s.text_preview)
+    if (texts.length === 0) return
+
+    if (language === "en") {
+      setTranslatedPreviews(texts)
+      setTranslatePending(false)
+      return
+    }
+
+    let cancelled = false
+    setTranslatedPreviews(null)
+    setTranslatePending(true)
+
+    ;(async () => {
+      try {
+        const res = await fetch("/api/translate-rag-previews", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ texts, targetLanguage: language }),
+        })
+        const data = (await res.json()) as { translations?: string[] }
+        if (cancelled) return
+        if (
+          res.ok &&
+          Array.isArray(data.translations) &&
+          data.translations.length === texts.length
+        ) {
+          setTranslatedPreviews(data.translations)
+        } else {
+          setTranslatedPreviews(texts)
+        }
+      } catch {
+        if (!cancelled) setTranslatedPreviews(texts)
+      } finally {
+        if (!cancelled) setTranslatePending(false)
+      }
+    })()
+
+    return () => {
+      cancelled = true
+    }
+    // previewKey ties this to retrieved excerpt text; language switches target locale.
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- ragData identity changes each parent render
+  }, [previewKey, language])
+
   if (!ragData || ragData.sources.length === 0) return null
 
-  const confidenceColor = {
-    high: "text-emerald-600",
-    medium: "text-amber-600",
-    low: "text-red-600",
-    none: "text-muted-foreground",
-  }[ragData.confidence]
+  const n = ragData.sources.length
+  const articleWord =
+    n === 1 ? t("rag.articleSingular") : t("rag.articlePlural")
 
   return (
     <div className="mt-4 rounded-md border border-border bg-muted/30 p-4">
-      <details>
+      <details className="group">
         <summary
           className="cursor-pointer select-none text-sm 
           font-medium text-foreground list-none flex items-center 
           justify-between"
         >
           <span>
-            Legal sources retrieved
+            {t("rag.title")}
             <span className="ml-2 text-muted-foreground font-normal">
-              ({ragData.sources.length} article
-              {ragData.sources.length !== 1 ? "s" : ""})
+              ({n} {articleWord})
             </span>
           </span>
-          <span className="flex items-center gap-3 text-xs">
-            <span className={confidenceColor}>
-              confidence: {ragData.confidence}
-            </span>
-            {ragData.answerMode && ragData.answerMode !== "none" && (
-              <span
-                className={
-                  ragData.answerMode === "extracted"
-                    ? "text-blue-600 dark:text-blue-400"
-                    : ragData.answerMode === "analytical"
-                      ? "text-purple-600 dark:text-purple-400"
-                      : "text-muted-foreground"
-                }
-              >
-                mode: {ragData.answerMode}
-              </span>
-            )}
-            {ragData.validation && !ragData.validation.valid && (
-              <span className="text-amber-600">
-                ⚠ citation issues detected
-              </span>
-            )}
-          </span>
+          <ChevronDown
+            aria-hidden="true"
+            className="h-4 w-4 text-muted-foreground transition-transform group-open:rotate-180"
+          />
         </summary>
 
         <ul className="mt-3 space-y-3">
@@ -67,15 +101,24 @@ export function RagSourcesPanel({ ragData, showSimilarity = true }: Props) {
               <div className="flex items-center gap-2">
                 <span className="font-medium text-foreground">
                   {s.law_name_local}, {s.article_num}
-                  {s.paragraph_num ? ` §${s.paragraph_num}` : ""}
+                  {s.paragraph_num
+                    ? ` ${t("rag.paragraphLabel")} ${s.paragraph_num}`
+                    : ""}
                 </span>
                 {showSimilarity && (
                   <span className="text-muted-foreground/60">
-                    {(s.similarity * 100).toFixed(0)}% match
+                    {t("rag.matchPercent").replace(
+                      "{pct}",
+                      (s.similarity * 100).toFixed(0)
+                    )}
                   </span>
                 )}
               </div>
-              <p className="mt-1 leading-relaxed">{s.text_preview}</p>
+              <p className="mt-1 leading-relaxed">
+                {translatePending && translatedPreviews === null
+                  ? t("rag.translating")
+                  : (translatedPreviews?.[i] ?? s.text_preview)}
+              </p>
             </li>
           ))}
         </ul>
@@ -87,9 +130,7 @@ export function RagSourcesPanel({ ragData, showSimilarity = true }: Props) {
             bg-amber-500/5 px-3 py-2 text-xs text-amber-700 
             dark:border-amber-800 dark:text-amber-400"
             >
-              ⚠ The following citations in the AI response were not
-              found in the retrieved legal database and may be
-              inaccurate:{" "}
+              {t("rag.invalidCitations")}{" "}
               <strong>
                 {ragData.validation.invalidCitations.join(", ")}
               </strong>
@@ -101,13 +142,10 @@ export function RagSourcesPanel({ ragData, showSimilarity = true }: Props) {
             className="mt-3 rounded border border-border 
             bg-muted/60 px-3 py-2 text-xs text-muted-foreground"
           >
-            Low confidence: the retrieved provisions had weak
-            relevance to this query. The applicable law may not
-            yet be in the database.
+            {t("rag.lowConfidence")}
           </div>
         )}
       </details>
     </div>
   )
 }
-

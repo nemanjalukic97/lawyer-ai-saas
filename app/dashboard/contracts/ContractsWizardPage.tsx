@@ -639,6 +639,21 @@ export default function ContractsWizardPage({ selectedId }: ContractsWizardPageP
         additionalInstructions
       )
 
+      const selectedContractType = labelForContractType(contractType)
+
+      const contractCategoryMap: Record<string, string> = {
+        "Employment Contract": "labor",
+        "Sales Contract": "civil",
+        "NDA": "confidentiality",
+        "Service Agreement": "civil",
+        "Lease/Rental Agreement": "civil",
+        "Partnership Agreement": "commercial",
+      }
+
+      const mappedCategory = contractCategoryMap[
+        selectedContractType
+      ] ?? "civil"
+
       const response = await fetch("/api/ai", {
         method: "POST",
         headers: {
@@ -649,6 +664,7 @@ export default function ContractsWizardPage({ selectedId }: ContractsWizardPageP
           userPrompt,
           featureType: "contract_generation",
           jurisdiction: jurisdiction,
+          category: mappedCategory,
           outputLanguage: outputLanguageName,
         }),
       })

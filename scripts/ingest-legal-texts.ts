@@ -6,6 +6,12 @@ import { ADDITIONAL_LEGAL_ARTICLES } from "./legal-articles-append"
 import { CRIMINAL_ARTICLES } from "./legal-articles-criminal"
 import { FAMILY_ARTICLES } from "./legal-articles-family"
 import { ADMINISTRATIVE_ARTICLES } from "./legal-articles-administrative"
+import { PROPERTY_ARTICLES } from "./legal-articles-property"
+import { INHERITANCE_ARTICLES } from "./legal-articles-inheritance"
+import { COMMERCIAL_ARTICLES } from "./legal-articles-commercial"
+import { SERVICES_ARTICLES } from "./legal-articles-services"
+import { NDA_ARTICLES } from "./legal-articles-nda"
+import { PARTNERSHIP_ARTICLES } from "./legal-articles-partnership"
 
 dotenv.config({ path: ".env.local" })
 
@@ -22,7 +28,7 @@ export type LegalArticleInput = {
   effective_date?: string
 }
 
-const SAMPLE_ARTICLES: LegalArticleInput[] = [
+export const SAMPLE_ARTICLES: LegalArticleInput[] = [
   {
     jurisdiction: "serbia",
     law_name: "Labor Law",
@@ -127,6 +133,12 @@ const SAMPLE_ARTICLES: LegalArticleInput[] = [
   ...(CRIMINAL_ARTICLES as LegalArticleInput[]),
   ...(FAMILY_ARTICLES as LegalArticleInput[]),
   ...(ADMINISTRATIVE_ARTICLES as LegalArticleInput[]),
+  ...(PROPERTY_ARTICLES as LegalArticleInput[]),
+  ...(INHERITANCE_ARTICLES as LegalArticleInput[]),
+  ...(COMMERCIAL_ARTICLES as LegalArticleInput[]),
+  ...(SERVICES_ARTICLES as LegalArticleInput[]),
+  ...(NDA_ARTICLES as LegalArticleInput[]),
+  ...(PARTNERSHIP_ARTICLES as LegalArticleInput[]),
 ]
 
 function sleep(ms: number) {
@@ -172,10 +184,13 @@ export async function embed(article: LegalArticleInput): Promise<number[]> {
     input,
   })
 
-  const embedding = res.data?.[0]?.embedding
+  const embedding = res.data[0].embedding
+
   if (!embedding || embedding.length !== 1536) {
     throw new Error(
-      `Unexpected embedding length: ${embedding ? embedding.length : "missing"}`,
+      `Invalid embedding for ${article.law_name_local} ` +
+        `${article.article_num}: expected 1536 dimensions, ` +
+        `got ${embedding?.length ?? 0}`,
     )
   }
 

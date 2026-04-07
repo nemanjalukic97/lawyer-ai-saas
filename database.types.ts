@@ -764,6 +764,54 @@ export type Database = {
           },
         ]
       }
+      rag_query_logs: {
+        Row: {
+          id: string
+          created_at: string | null
+          user_id: string | null
+          jurisdiction: string | null
+          feature_type: string | null
+          query_preview: string | null
+          top_similarity: number | null
+          confidence: string | null
+          answer_mode: string | null
+          chunks_retrieved: number | null
+          valid_citations: boolean | null
+          invalid_citations: string[] | null
+          response_time_ms: number | null
+        }
+        Insert: {
+          id?: string
+          created_at?: string | null
+          user_id?: string | null
+          jurisdiction?: string | null
+          feature_type?: string | null
+          query_preview?: string | null
+          top_similarity?: number | null
+          confidence?: string | null
+          answer_mode?: string | null
+          chunks_retrieved?: number | null
+          valid_citations?: boolean | null
+          invalid_citations?: string[] | null
+          response_time_ms?: number | null
+        }
+        Update: {
+          id?: string
+          created_at?: string | null
+          user_id?: string | null
+          jurisdiction?: string | null
+          feature_type?: string | null
+          query_preview?: string | null
+          top_similarity?: number | null
+          confidence?: string | null
+          answer_mode?: string | null
+          chunks_retrieved?: number | null
+          valid_citations?: boolean | null
+          invalid_citations?: string[] | null
+          response_time_ms?: number | null
+        }
+        Relationships: []
+      }
       templates: {
         Row: {
           ai_generated: boolean | null
@@ -1058,6 +1106,16 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      match_legal_articles: {
+        Args: {
+          query_embedding: number[]
+          filter_jurisdiction: string
+          filter_category: string | null
+          match_count: number
+          similarity_threshold: number
+        }
+        Returns: Json
+      }
       user_has_firm: { Args: never; Returns: boolean }
       user_law_firm_id: { Args: never; Returns: string }
     }

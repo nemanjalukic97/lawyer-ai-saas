@@ -415,15 +415,16 @@ export default function PredictionsPageClient({ selectedId }: ClientProps) {
         additionalContext
       )
 
+      const mappedCategory = caseType
+
       const body = {
         systemPrompt,
         userPrompt,
         featureType: "case_prediction",
         jurisdiction: jurisdiction,
-        category: caseType,
+        category: mappedCategory,
         outputLanguage: outputLanguageName,
       }
-      console.log("[DEBUG] fetch body:", JSON.stringify(body))
       const response = await fetch("/api/ai", {
         method: "POST",
         headers: {

@@ -389,6 +389,18 @@ export default function GeneratePageClient({ selectedId, templateId }: Props) {
         formValues
       )
 
+      const documentCategoryMap: Record<string, string> = {
+        "nda": "confidentiality",
+        "employment": "labor",
+        "power_of_attorney": "civil",
+        "sales": "civil",
+        "lease": "civil",
+        "service": "civil",
+      }
+
+      const mappedCategory = documentCategoryMap[documentType] 
+        ?? "civil"
+
       const response = await fetch("/api/ai", {
         method: "POST",
         headers: {
@@ -398,6 +410,8 @@ export default function GeneratePageClient({ selectedId, templateId }: Props) {
           systemPrompt,
           userPrompt,
           featureType: "document_generation",
+          jurisdiction: jurisdiction,
+          category: mappedCategory,
         }),
       })
 

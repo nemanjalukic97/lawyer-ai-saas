@@ -9,7 +9,7 @@ import {
   useState,
 } from "react"
 
-type LanguageCode = "en" | "sr" | "bs" | "hr" | "sl" | "me"
+export type LanguageCode = "en" | "sr" | "bs" | "hr" | "sl" | "me"
 
 const STORAGE_KEY = "legantis-language"
 
@@ -39,6 +39,18 @@ const MESSAGES: Record<LanguageCode, Messages> = {
     },
     language: {
       label: "Language",
+    },
+    rag: {
+      title: "Legal sources retrieved",
+      articleSingular: "article",
+      articlePlural: "articles",
+      matchPercent: "{pct}% match",
+      translating: "Translating excerpts…",
+      paragraphLabel: "para.",
+      invalidCitations:
+        "⚠ The following citations in the AI response were not found in the retrieved legal database and may be inaccurate:",
+      lowConfidence:
+        "Low confidence: the retrieved provisions had weak relevance to this query. The applicable law may not yet be in the database.",
     },
     home: {
       hero: {
@@ -1193,6 +1205,18 @@ const MESSAGES: Record<LanguageCode, Messages> = {
     },
     language: {
       label: "Jezik",
+    },
+    rag: {
+      title: "Preuzeti pravni izvori",
+      articleSingular: "članak",
+      articlePlural: "članaka",
+      matchPercent: "{pct}% podudaranja",
+      translating: "Prevod uzoraka…",
+      paragraphLabel: "stav",
+      invalidCitations:
+        "⚠ Sledeći citati u odgovoru veštačke inteligencije nisu pronađeni u preuzetoj pravnoj bazi i mogu biti netačni:",
+      lowConfidence:
+        "Nisko poverenje: preuzete odredbe su slabo relevantne za ovaj upit. Primenjivi zakon možda još nije u bazi.",
     },
     home: {
       hero: {
@@ -2349,6 +2373,18 @@ const MESSAGES: Record<LanguageCode, Messages> = {
     },
     language: {
       label: "Jezik",
+    },
+    rag: {
+      title: "Dobavljeni pravni izvori",
+      articleSingular: "članak",
+      articlePlural: "članka",
+      matchPercent: "{pct}% podudarnosti",
+      translating: "Prevođenje odlomaka…",
+      paragraphLabel: "stav",
+      invalidCitations:
+        "⚠ Sljedeći citati u odgovoru umjetne inteligencije nisu pronađeni u preuzetoj pravnoj bazi i mogu biti netočni:",
+      lowConfidence:
+        "Nisko povjerenje: preuzete odredbe slabo odgovaraju ovom upitu. Primjenjivi zakon možda još nije u bazi.",
     },
     home: {
       hero: {
@@ -3509,6 +3545,18 @@ const MESSAGES: Record<LanguageCode, Messages> = {
     language: {
       label: "Jezik",
     },
+    rag: {
+      title: "Dohvaćeni pravni izvori",
+      articleSingular: "članak",
+      articlePlural: "članaka",
+      matchPercent: "{pct}% podudarnosti",
+      translating: "Prevođenje odlomaka…",
+      paragraphLabel: "stavak",
+      invalidCitations:
+        "⚠ Sljedeći citati u odgovoru umjetne inteligencije nisu pronađeni u preuzetoj pravnoj bazi i mogu biti netočni:",
+      lowConfidence:
+        "Nisko povjerenje: preuzete odredbe slabo odgovaraju ovom upitu. Primjenjivi zakon možda još nije u bazi.",
+    },
     home: {
       hero: {
         title: "Legantis – AI Pravni Asistent za odvjetnike na Balkanu",
@@ -4642,118 +4690,6 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         emptyValue: "—",
       },
     },
-    clients: {
-      header: {
-        kicker: "Legantis · Klijenti",
-        title: "Klijenti",
-        subtitle:
-          "Upravljajte popisom klijenata, spremite ključne kontakt podatke i pripremite siguran pristup klijentskom portalu.",
-        back: "Natrag na nadzornu ploču",
-      },
-      actions: {
-        addClient: "Dodaj klijenta",
-        cancel: "Odustani",
-        deleteAria: "Izbriši klijenta",
-      },
-      form: {
-        fullName: {
-          label: "Ime i prezime",
-          placeholder: "npr. Ana Kovač",
-        },
-        email: {
-          label: "Email adresa",
-          placeholder: "ana.kovac@example.com",
-        },
-        phone: {
-          label: "Broj telefona",
-          placeholder: "+385 91 000 0000",
-        },
-        companyName: {
-          label: "Naziv tvrtke",
-          placeholder: "npr. ACME d.o.o.",
-        },
-        notes: {
-          label: "Bilješke",
-          placeholder:
-            "Ključne informacije o klijentu, tipični predmeti, preferencije...",
-        },
-        actions: {
-          saving: "Spremam klijenta...",
-          save: "Spremi klijenta",
-        },
-        errors: {
-          nameAndEmailRequired: "Ime i prezime i email su obavezni.",
-          mustBeLoggedInToAdd: "Morate biti prijavljeni kako biste dodali klijente.",
-          createFailed: "Neuspješno dodavanje klijenta. Pokušajte ponovno.",
-        },
-      },
-      list: {
-        title: "Popis klijenata",
-        subtitle: "Svi klijenti koje ste dodali u svoj radni prostor.",
-        sortBy: "Sortiraj po",
-        sort: {
-          name: "Imenu",
-          dateAdded: "Datumu dodavanja",
-        },
-        sortAscending: "Sortiraj uzlazno",
-        sortDescending: "Sortiraj silazno",
-        loading: "Učitavanje klijenata...",
-        emptyTitle: "Još nema klijenata.",
-        emptySubtitle:
-          "Dodajte prvog klijenta pomoću gumba „Dodaj klijenta” iznad.",
-        added: "Dodano",
-      },
-      sidebar: {
-        title: "Detalji klijenta",
-        empty: "Nije odabrana nijedna stavka.",
-        viewActivity: "Pogledaj nedavnu aktivnost",
-        loading: "Učitavanje klijenta…",
-        recordNotFound: "Zapis nije pronađen",
-        email: "Email:",
-        phone: "Telefon:",
-        address: "Adresa:",
-        defaultRate: "Zadana satnica:",
-        status: "Status:",
-      },
-      messages: {
-        added: "Klijent je uspješno dodan.",
-      },
-      errors: {
-        mustBeLoggedInToView: "Morate biti prijavljeni kako biste vidjeli klijente.",
-        loadFailed: "Neuspješno učitavanje klijenata. Pokušajte ponovno.",
-      },
-      common: {
-        notSet: "Nije postavljeno",
-      },
-    },
-    activity: {
-      header: {
-        title: "Nedavna aktivnost",
-        subtitle:
-          "Pregledajte i otvorite svoje nedavne dokumente, ugovore, predviđanja, analize i klijente.",
-      },
-      filters: {
-        all: "Sve",
-        documents: "Dokumenti",
-        contracts: "Ugovori",
-        predictions: "Predviđanja",
-        analyses: "Analize",
-        clients: "Klijenti",
-      },
-      types: {
-        contract: "Ugovor",
-        document: "Dokument",
-        analysis: "Analiza dokumenta",
-        prediction: "Predviđanje ishoda",
-        client: "Klijent",
-      },
-      list: {
-        empty: "Nema nedavne aktivnosti za ovaj filter.",
-      },
-      actions: {
-        loadMore: "Učitaj još",
-      },
-    },
   },
   sl: {
     nav: {
@@ -4778,6 +4714,18 @@ const MESSAGES: Record<LanguageCode, Messages> = {
     },
     language: {
       label: "Jezik",
+    },
+    rag: {
+      title: "Pridobljeni pravni viri",
+      articleSingular: "člen",
+      articlePlural: "členi",
+      matchPercent: "{pct}% ujemanja",
+      translating: "Prevajanje odlomkov…",
+      paragraphLabel: "odst.",
+      invalidCitations:
+        "⚠ Naslednji citati v odgovoru umetne inteligence niso bili najdeni v pridobljeni pravni bazi in so lahko netočni:",
+      lowConfidence:
+        "Nizka zaupanja vrednost: pridobljene določbe so slabo relevantne za to poizvedbo. Ustrezna zakonodaja morda še ni v bazi.",
     },
     home: {
       hero: {
@@ -5933,6 +5881,18 @@ const MESSAGES: Record<LanguageCode, Messages> = {
     },
     language: {
       label: "Jezik",
+    },
+    rag: {
+      title: "Preuzeti pravni izvori",
+      articleSingular: "članak",
+      articlePlural: "članaka",
+      matchPercent: "{pct}% podudaranja",
+      translating: "Prevod odlomaka…",
+      paragraphLabel: "stav",
+      invalidCitations:
+        "⚠ Sljedeći citati u odgovoru vještačke inteligencije nisu pronađeni u preuzetoj pravnoj bazi i mogu biti netačni:",
+      lowConfidence:
+        "Nisko povjerenje: preuzete odredbe slabo odgovaraju ovom upitu. Primjenjivi zakon možda još nije u bazi.",
     },
     home: {
       hero: {

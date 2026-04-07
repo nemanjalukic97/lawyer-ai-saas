@@ -8,6 +8,7 @@ import {
 import { NextRequest } from "next/server"
 
 import { callAI, OpenAIConfigError, OpenAICallError } from "@/lib/openai"
+import { supabaseAdmin } from "@/lib/supabase/admin"
 import { createClient } from "@/lib/supabase/server"
 
 type FeatureType =
@@ -89,11 +90,6 @@ export async function POST(req: NextRequest) {
 
   const { systemPrompt, userPrompt, featureType, entityType, entityId } = body
 
-  console.log("[DEBUG] featureType:", featureType,
-            "| jurisdiction:", body.jurisdiction,
-            "| JURISDICTION_FEATURES has it:",
-            JURISDICTION_FEATURES.has(featureType))
-
   const validFeatureTypes: FeatureType[] = [
     "contract_generation",
     "document_generation",
@@ -160,7 +156,7 @@ export async function POST(req: NextRequest) {
           userPrompt,
           body.jurisdiction,
           {
-            category: undefined,
+            category: body.category ?? undefined,
             k: FEATURE_K[featureType] ?? 6,
           }
         )
@@ -235,7 +231,8 @@ export async function POST(req: NextRequest) {
 
       ragMetadata.validation = validateCitations(
         content,
-        chunksForValidation
+        chunksForValidation as any,
+        ragMetadata.answerMode
       )
 
       if (process.env.NODE_ENV !== "production") {
@@ -244,6 +241,30 @@ export async function POST(req: NextRequest) {
           ` | invalid: [${ragMetadata.validation.invalidCitations.join(", ")}]` +
           ` | missing: [${ragMetadata.validation.missingCitations.join(", ")}]`
         )
+      }
+    }
+
+    if (ragMetadata.chunksRetrieved > 0) {
+      const startLog = Date.now()
+      try {
+        await supabaseAdmin.from("rag_query_logs").insert({
+          user_id: user.id,
+          jurisdiction: body.jurisdiction ?? null,
+          feature_type: featureType,
+          query_preview: userPrompt.slice(0, 200),
+          top_similarity: ragMetadata.topSimilarity,
+          confidence: ragMetadata.confidence,
+          answer_mode: ragMetadata.answerMode,
+          chunks_retrieved: ragMetadata.chunksRetrieved,
+          valid_citations: ragMetadata.validation?.valid ?? null,
+          invalid_citations:
+            ragMetadata.validation?.invalidCitations ?? [],
+          response_time_ms: Date.now() - startLog,
+        })
+      } catch (logError) {
+        if (process.env.NODE_ENV !== "production") {
+          console.error("[RAG] log write failed:", logError)
+        }
       }
     }
 

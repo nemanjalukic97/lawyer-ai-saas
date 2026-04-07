@@ -32,13 +32,15 @@ export type RagResult = {
   confidence: "high" | "medium" | "low"
 }
 
-export type AnswerMode = "extracted" | "analytical" | "auto"
+export type AnswerMode = "extracted" | "analytical" | "auto" | "drafting"
 
 const SIMILARITY_THRESHOLDS = {
-  HIGH: 0.70,
-  MEDIUM: 0.35,
-  LOW_RETRY: 0.28,
+  HIGH: 0.65,
+  MEDIUM: 0.30,
+  LOW_RETRY: 0.22,
 }
+
+const RPC_TIMEOUT_MS = 5000
 
 const MAX_CONTEXT_CHARS = 12000
 
@@ -96,11 +98,10 @@ export function formatContextBlock(chunks: LegalChunk[]): string {
 }
 
 export function extractArticleReferences(text: string): string[] {
-  const regex =
-    /(?:Article|Član|Člen|Artículo|Artikel|Čl\.|Art\.)\s*\.?\s*(\d+)/gi
-
   const matches: string[] = []
-  for (const match of text.matchAll(regex)) {
+  for (const match of text.matchAll(
+    /\b(?:Član|Člen|Čl\.|Art\.|Article|Artikkel)\s+(\d+)/gi,
+  )) {
     const value = (match[1] ?? "").trim()
     if (value) matches.push(value)
   }
@@ -117,7 +118,16 @@ function normalizeArticleNumber(raw: string): string {
 export function validateCitations(
   aiResponse: string,
   chunks: LegalChunk[],
+  mode?: string,
 ): CitationValidation {
+  if (mode === "drafting") {
+    return {
+      valid: true,
+      citedArticles: [],
+      invalidCitations: [],
+      missingCitations: [],
+    }
+  }
   if (chunks.length === 0) {
     return {
       valid: true,
@@ -127,7 +137,16 @@ export function validateCitations(
     }
   }
 
-  const citedArticles = extractArticleReferences(aiResponse)
+  const citedArticles = extractArticleReferences(aiResponse).filter((cited) => {
+    const n = Number.parseInt(cited, 10)
+    if (!Number.isFinite(n) || n < 1 || n > 9) return true
+
+    const re = new RegExp(
+      String.raw`\b(?:Član|Člen|Article)\b[\s\S]{0,20}\b${n}\b`,
+      "i",
+    )
+    return re.test(aiResponse)
+  })
 
   const validArticleNumbers = new Set<string>()
   for (const chunk of chunks) {
@@ -170,13 +189,25 @@ export async function retrieveLegalContext(
     options?.similarityThreshold ?? SIMILARITY_THRESHOLDS.MEDIUM
 
   const runRpc = async (similarityThreshold: number) => {
-    const { data, error } = await supabaseAdmin.rpc("match_legal_articles", {
+    const rpcCall = supabaseAdmin.rpc("match_legal_articles", {
       query_embedding: embedding,
       filter_jurisdiction: jurisdiction,
       filter_category: options?.category ?? null,
       match_count: options?.k ?? 6,
       similarity_threshold: similarityThreshold,
     })
+
+    const timeoutPromise = new Promise<never>((_, reject) =>
+      setTimeout(
+        () => reject(new Error("RAG RPC timeout after 5000ms")),
+        RPC_TIMEOUT_MS,
+      ),
+    )
+
+    const { data, error } = (await Promise.race([
+      rpcCall,
+      timeoutPromise,
+    ])) as { data: LegalChunk[] | null; error: { message: string } | null }
 
     if (error) {
       throw new Error(error.message)
@@ -222,10 +253,11 @@ export function getAnswerMode(
   featureType: string,
   confidence: RagResult["confidence"],
 ): AnswerMode {
+  if (featureType === "contract_generation") return "drafting"
+  if (featureType === "document_generation") return "drafting"
   if (confidence === "low") return "extracted"
   if (featureType === "case_prediction") return "extracted"
   if (featureType === "document_analysis") return "extracted"
-  if (featureType === "contract_generation") return "analytical"
   return "auto"
 }
 
@@ -240,15 +272,47 @@ export function buildRagSystemPrompt(
     ragResult.confidence === "high"
       ? ""
       : ragResult.confidence === "medium"
-      ? "⚠️ CONFIDENCE: MEDIUM — The retrieved provisions are a partial \n   match. State clearly which aspects of the question are and are \n   not covered by the retrieved provisions."
+      ? "⚠️ CONFIDENCE: MEDIUM — The retrieved provisions \nmay not directly address this specific question.\nOnly cite articles that are genuinely relevant to \nthe legal question asked. If an article is about \na completely different topic (e.g. administrative \nlaw, criminal law, trade secrets) and the question \nis about contract validity, do NOT cite it.\nState clearly which aspects are and are not covered \nby the retrieved provisions."
       : "⚠️ CONFIDENCE: LOW — The retrieved provisions have weak relevance \n   to this query. Do NOT provide a definitive legal conclusion. State \n   explicitly that the directly applicable provision may not be in \n   the database yet."
 
   const extractedBlock = `=== ANSWER FORMAT (EXTRACTED MODE) ===
 
+CRITICAL — MANDATORY CITATION FORMAT:
+Every sentence that states a legal fact or legal 
+rule MUST end with a citation in this exact format:
+(Član X, Law Name Local) — for Serbian/Bosnian/Croatian
+(Člen X, Law Name Local) — for Slovenian
+
+EXAMPLES OF CORRECT RESPONSES:
+✓ 'Ugovor o prodaji mora biti zaključen u pisanoj 
+   formi (Član 26, Zakon o obligacionim odnosima).'
+✓ 'Kupac je dužan da plati cenu u roku određenom 
+   ugovorom (Član 488, Zakon o obligacionim odnosima).'
+✓ 'Predmet ugovora mora biti u prometu (Član 458, 
+   Zakon o obligacionim odnosima).'
+
+EXAMPLES OF WRONG RESPONSES (NO CITATION = INVALID):
+✗ 'Ugovor o prodaji mora biti zaključen u pisanoj formi.'
+✗ 'Ne postoji zakonski zahtev za notarsku overu.'
+✗ 'Tužilac ima pravo na naknadu štete.'
+
+If you cannot find a retrieved article that supports 
+a legal claim, DO NOT make that claim.
+Every legal sentence needs its own citation.
+General statements without citations are forbidden.
 IMPORTANT: Every single legal claim in EVERY section must 
 include a citation in this format: (Član X, Law Name)
 If you cannot cite a retrieved article for a claim, 
 do not make that claim.
+
+RULE 5 — RELEVANCE CHECK:
+Before citing any article, verify it is actually 
+relevant to the specific legal question asked.
+Do NOT cite an article just because it was retrieved.
+Only cite articles whose content directly answers 
+the question.
+If no retrieved article is directly relevant to a 
+specific claim, do not make that claim.
 
 STEP 1 — IDENTIFY:
 State which articles apply. Format:
@@ -276,6 +340,37 @@ List ALL articles cited above:
 
   const analyticalBlock = `=== ANSWER FORMAT (ANALYTICAL MODE) ===
 
+CRITICAL — MANDATORY CITATION FORMAT:
+Every sentence that states a legal fact or legal 
+rule MUST end with a citation in this exact format:
+(Član X, Law Name Local) — for Serbian/Bosnian/Croatian
+(Člen X, Law Name Local) — for Slovenian
+
+EXAMPLES OF CORRECT RESPONSES:
+✓ 'Ugovor o prodaji mora biti zaključen u pisanoj 
+   formi (Član 26, Zakon o obligacionim odnosima).'
+✓ 'Kupac je dužan da plati cenu u roku određenom 
+   ugovorom (Član 488, Zakon o obligacionim odnosima).'
+✓ 'Predmet ugovora mora biti u prometu (Član 458, 
+   Zakon o obligacionim odnosima).'
+
+EXAMPLES OF WRONG RESPONSES (NO CITATION = INVALID):
+✗ 'Ugovor o prodaji mora biti zaključen u pisanoj formi.'
+✗ 'Ne postoji zakonski zahtev za notarsku overu.'
+✗ 'Tužilac ima pravo na naknadu štete.'
+
+If you cannot find a retrieved article that supports 
+a legal claim, DO NOT make that claim.
+Every legal sentence needs its own citation.
+General statements without citations are forbidden.
+RULE 5 — RELEVANCE CHECK:
+Before citing any article, verify it is actually 
+relevant to the specific legal question asked.
+Do NOT cite an article just because it was retrieved.
+Only cite articles whose content directly answers 
+the question.
+If no retrieved article is directly relevant to a 
+specific claim, do not make that claim.
 Structure your answer as:
 
 APPLICABLE PROVISION:
@@ -292,12 +387,37 @@ SOURCES:
 [List every article cited: law name local, article number, 
 paragraph if applicable]`
 
+  const draftingBlock = `=== DOCUMENT DRAFTING MODE ===
+
+You are drafting a legal document, NOT analyzing a case.
+
+DRAFTING RULES:
+1. Write proper contract clauses based on the 
+   legal provisions in the LEGAL KNOWLEDGE BASE above.
+2. Do NOT cite article numbers inline in contract 
+   clauses — contracts do not contain citations.
+3. DO include a LEGAL BASIS section at the end 
+   listing which laws this contract is based on:
+   Format: "Pravni osnov: [Law Name], [Law Name]"
+4. Ensure all clauses comply with the retrieved 
+   legal provisions.
+5. Write in the language specified by outputLanguage.
+6. Structure the document professionally with 
+   numbered clauses.`
+
   const useExtractedFormat =
     ragResult.confidence === "low" ||
     answerMode === "extracted" ||
     (answerMode === "auto" && ragResult.confidence !== "high")
 
-  const answerFormatBlock = useExtractedFormat ? extractedBlock : analyticalBlock
+  let answerFormatBlock: string
+  if (answerMode === "drafting") {
+    answerFormatBlock = draftingBlock
+  } else if (useExtractedFormat) {
+    answerFormatBlock = extractedBlock
+  } else {
+    answerFormatBlock = analyticalBlock
+  }
 
   return (
     basePrompt +
