@@ -1,7 +1,8 @@
 import { redirect } from "next/navigation"
 
 import { createClient } from "@/lib/supabase/server"
-import { hasFeature, normalizePlanId } from "../lib/entitlements"
+import { hasFeature } from "../lib/entitlements"
+import { getEntitlementPlanForUser } from "../lib/getEntitlementPlan"
 import PredictionsPageClient from "./PredictionsPageClient"
 
 export default async function Page({
@@ -16,24 +17,7 @@ export default async function Page({
 
   if (!user) redirect("/login")
 
-  const { data: profile } = await supabase
-    .from("user_profiles")
-    .select("subscription_tier, law_firm_id")
-    .eq("id", user.id)
-    .is("deleted_at", null)
-    .maybeSingle()
-
-  let tier = profile?.subscription_tier ?? null
-  if (profile?.law_firm_id) {
-    const { data: firm } = await supabase
-      .from("law_firms")
-      .select("subscription_tier")
-      .eq("id", profile.law_firm_id)
-      .maybeSingle()
-    tier = firm?.subscription_tier ?? tier
-  }
-
-  const planId = normalizePlanId(tier)
+  const planId = await getEntitlementPlanForUser(supabase, user.id)
   if (!hasFeature(planId, "case_prediction")) {
     redirect("/dashboard/billing")
   }

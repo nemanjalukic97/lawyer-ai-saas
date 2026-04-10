@@ -3,13 +3,16 @@ import {
   buildRagSystemPrompt,
   validateCitations,
   getAnswerMode,
-  type RagResult,
+  type LegalChunk,
 } from "@/lib/legalRag"
 import { NextRequest } from "next/server"
 
 import { callAI, OpenAIConfigError, OpenAICallError } from "@/lib/openai"
 import { supabaseAdmin } from "@/lib/supabase/admin"
 import { createClient } from "@/lib/supabase/server"
+import type { TablesInsert } from "@/lib/supabase/types"
+import { PLAN_ENTITLEMENTS } from "@/app/dashboard/lib/entitlements"
+import { getSubscriptionContextForUser } from "@/app/dashboard/lib/getEntitlementPlan"
 
 type FeatureType =
   | "contract_generation"
@@ -17,12 +20,6 @@ type FeatureType =
   | "case_prediction"
   | "document_analysis"
   | "template_generation"
-
-const DAILY_LIMITS: Record<string, number> = {
-  solo: 20,
-  professional: 100,
-  firm: 300,
-}
 
 const JURISDICTION_FEATURES = new Set([
   "case_prediction",
@@ -110,12 +107,25 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const { data: profile } = await supabase
-      .from("user_profiles")
-      .select("law_firm_id, subscription_tier")
-      .eq("id", user.id)
-      .is("deleted_at", null)
-      .maybeSingle()
+    const { planId, lawFirmId } = await getSubscriptionContextForUser(
+      supabase,
+      user.id
+    )
+
+    if (
+      planId === "free" &&
+      featureType !== "document_generation"
+    ) {
+      return Response.json(
+        {
+          error:
+            "This feature requires a paid plan. Upgrade from Billing to continue.",
+        },
+        { status: 403 }
+      )
+    }
+
+    const limit = PLAN_ENTITLEMENTS[planId].aiCallsPerDay
 
     const today = new Date().toISOString().split("T")[0]
 
@@ -124,9 +134,6 @@ export async function POST(req: NextRequest) {
       .select("*", { count: "exact", head: true })
       .eq("user_id", user.id)
       .eq("usage_date", today)
-
-    const tier = (profile as any)?.subscription_tier ?? "solo"
-    const limit = DAILY_LIMITS[tier] ?? 20
 
     if ((count ?? 0) >= limit) {
       return Response.json(
@@ -215,7 +222,7 @@ export async function POST(req: NextRequest) {
     })
 
     if (ragMetadata.chunksRetrieved > 0) {
-      const chunksForValidation = ragMetadata.sources.map(s => ({
+      const chunksForValidation: LegalChunk[] = ragMetadata.sources.map((s) => ({
         id: "",
         jurisdiction: body.jurisdiction ?? "",
         law_name: s.law_name_local,
@@ -231,7 +238,7 @@ export async function POST(req: NextRequest) {
 
       ragMetadata.validation = validateCitations(
         content,
-        chunksForValidation as any,
+        chunksForValidation,
         ragMetadata.answerMode
       )
 
@@ -269,18 +276,19 @@ export async function POST(req: NextRequest) {
     }
 
     try {
-      await supabase.from("usage_stats").insert(
-        {
-          user_id: user.id,
-          law_firm_id: (profile as any)?.law_firm_id ?? null,
-          feature_type: featureType,
-          tokens_used: tokensUsed,
-          cost_usd: costUsd,
-          entity_type: entityType ?? null,
-          entity_id: entityId ?? null,
-          model_used: "gpt-4o",
-        } as any
-      )
+      const usageRow: TablesInsert<"usage_stats"> = {
+        user_id: user.id,
+        law_firm_id: lawFirmId,
+        feature_type: featureType,
+        tokens_used: tokensUsed,
+        cost_usd: costUsd,
+        entity_type: entityType ?? null,
+        entity_id: entityId ?? null,
+        model_used: "gpt-4o",
+        usage_date: today,
+      }
+      // Insert is allowed at runtime; generated Insert typing can resolve to `never` for this table.
+      await supabase.from("usage_stats").insert(usageRow as never)
     } catch {
       // Ignore logging errors so they never block the response
     }
@@ -307,7 +315,6 @@ export async function POST(req: NextRequest) {
     }
 
     if (process.env.NODE_ENV !== "production") {
-      // eslint-disable-next-line no-console
       console.error(
         "Unexpected AI API error:",
         error instanceof Error ? error.message : String(error)

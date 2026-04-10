@@ -10,8 +10,16 @@ import type { Tables } from "@/lib/supabase/types"
 import { cn } from "@/lib/utils"
 import { useLanguage } from "@/components/LanguageProvider"
 
+import { isPaidPlanId } from "../lib/entitlements"
+
 type Tier = "solo" | "professional" | "firm"
-type SubscriptionStatus = "trial" | "active" | "cancelled" | "expired" | "past_due"
+type SubscriptionStatus =
+  | "trial"
+  | "active"
+  | "cancelled"
+  | "expired"
+  | "past_due"
+  | "none"
 
 type ProfileBilling = Pick<
   Tables<"user_profiles">,
@@ -46,6 +54,8 @@ const TIER_PRICES_EUR: Record<Tier, number> = {
 
 function getStatusBadgeClass(status: SubscriptionStatus) {
   switch (status) {
+    case "none":
+      return "border-border bg-muted text-foreground"
     case "trial":
       return "border-yellow-200 bg-yellow-500/10 text-yellow-800"
     case "active":
@@ -129,9 +139,12 @@ export default function BillingPageClient({ billing, success }: BillingProps) {
   const pendingTierRef = useRef<Tier | null>(null)
 
   const entity = billing.firm ?? billing.profile
-  const currentTier: Tier = (entity?.subscription_tier ?? "professional") as Tier
-  const currentStatus: SubscriptionStatus = (entity?.subscription_status ??
-    "trial") as SubscriptionStatus
+  const paidTierRaw = entity?.subscription_tier ?? null
+  const hasPaidPlan = isPaidPlanId(paidTierRaw)
+  const currentTier: Tier | null = hasPaidPlan ? paidTierRaw : null
+  const currentStatus: SubscriptionStatus = !hasPaidPlan
+    ? "none"
+    : ((entity?.subscription_status ?? "trial") as SubscriptionStatus)
   const trialDays = daysRemaining(entity?.trial_ends_at ?? null)
 
   const priceIdByTier = useMemo(() => {
@@ -209,7 +222,7 @@ export default function BillingPageClient({ billing, success }: BillingProps) {
     } as unknown as Parameters<typeof initializePaddle>[0])
       .then((instance) => setPaddle(instance ?? null))
       .catch(() => setPaddle(null))
-  }, [])
+  }, [t])
 
   async function startCheckout(tier: Tier) {
     setError(null)
@@ -262,8 +275,10 @@ export default function BillingPageClient({ billing, success }: BillingProps) {
     }
   }
 
-  const canManage = currentStatus === "active"
-  const canReactivate = currentStatus === "cancelled" || currentStatus === "past_due"
+  const canManage = hasPaidPlan && currentStatus === "active"
+  const canReactivate =
+    hasPaidPlan &&
+    (currentStatus === "cancelled" || currentStatus === "past_due")
 
   async function openManagePortal() {
     setError(null)
@@ -329,67 +344,100 @@ export default function BillingPageClient({ billing, success }: BillingProps) {
             </div>
 
             <div className="flex flex-wrap items-center gap-2">
-              <Badge variant="outline" className="border-border bg-muted text-foreground">
-                {TIER_LABELS[currentTier]} · €{TIER_PRICES_EUR[currentTier]}/mo
-              </Badge>
-              <Badge
-                variant="outline"
-                className={cn("capitalize", getStatusBadgeClass(currentStatus))}
-              >
-                {currentStatus}
-              </Badge>
+              {!hasPaidPlan ? (
+                <Badge
+                  variant="outline"
+                  className="border-border bg-muted text-foreground"
+                >
+                  {t("billing.currentPlan.noPaidPlanBadge")}
+                </Badge>
+              ) : (
+                <>
+                  <Badge
+                    variant="outline"
+                    className="border-border bg-muted text-foreground"
+                  >
+                    {TIER_LABELS[currentTier!]} · €
+                    {TIER_PRICES_EUR[currentTier!]}/mo
+                  </Badge>
+                  <Badge
+                    variant="outline"
+                    className={cn(
+                      "capitalize",
+                      getStatusBadgeClass(currentStatus),
+                    )}
+                  >
+                    {currentStatus}
+                  </Badge>
+                </>
+              )}
             </div>
           </CardHeader>
           <CardContent className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div className="text-sm text-muted-foreground">
-              {currentStatus === "trial" && trialDays !== null && (
+              {!hasPaidPlan && (
+                <span>{t("billing.currentPlan.freeHint")}</span>
+              )}
+              {hasPaidPlan && currentStatus === "trial" && trialDays !== null && (
                 <span>
                   {t("billing.currentPlan.trialEndsPrefix")}{" "}
                   <strong className="text-foreground">{trialDays}</strong>{" "}
-                  {t(trialDays === 1 ? "billing.currentPlan.dayOne" : "billing.currentPlan.dayMany")}
+                  {t(
+                    trialDays === 1
+                      ? "billing.currentPlan.dayOne"
+                      : "billing.currentPlan.dayMany",
+                  )}
                   .
                 </span>
               )}
-              {currentStatus !== "trial" && (
+              {hasPaidPlan && currentStatus !== "trial" && (
                 <span>
                   {t("billing.currentPlan.statusPrefix")} {currentStatus}.
                 </span>
               )}
             </div>
 
-            <div className="flex gap-2">
-              <Button
-                type="button"
-                variant={canManage ? "default" : "outline"}
-                disabled={!canManage || managingPortal}
-                onClick={() => void openManagePortal()}
-              >
-                {managingPortal ? t("billing.actions.openingPortal") : t("billing.actions.manageSubscription")}
-              </Button>
-              <Button
-                type="button"
-                variant={canReactivate ? "default" : "outline"}
-                disabled={!canReactivate}
-                onClick={() => startCheckout(currentTier)}
-              >
-                {t("billing.actions.reactivate")}
-              </Button>
-            </div>
+            {hasPaidPlan && (
+              <div className="flex gap-2">
+                <Button
+                  type="button"
+                  variant={canManage ? "default" : "outline"}
+                  disabled={!canManage || managingPortal}
+                  onClick={() => void openManagePortal()}
+                >
+                  {managingPortal ? t("billing.actions.openingPortal") : t("billing.actions.manageSubscription")}
+                </Button>
+                <Button
+                  type="button"
+                  variant={canReactivate ? "default" : "outline"}
+                  disabled={!canReactivate || !currentTier}
+                  onClick={() =>
+                    currentTier ? void startCheckout(currentTier) : undefined
+                  }
+                >
+                  {t("billing.actions.reactivate")}
+                </Button>
+              </div>
+            )}
           </CardContent>
         </Card>
 
         <div className="grid gap-6 md:grid-cols-3">
           {PRICING_CARDS.map((c) => {
-            const isCurrent = c.tier === currentTier
+            const isCurrent = hasPaidPlan && c.tier === paidTierRaw
             const isLoading = loadingTier === c.tier
             const isHigher =
-              (currentTier === "solo" && (c.tier === "professional" || c.tier === "firm")) ||
-              (currentTier === "professional" && c.tier === "firm")
+              !hasPaidPlan ||
+              (paidTierRaw === "solo" &&
+                (c.tier === "professional" || c.tier === "firm")) ||
+              (paidTierRaw === "professional" && c.tier === "firm")
             const buttonLabel = isCurrent
               ? t("billing.actions.currentPlan")
-              : isHigher
-                ? t("billing.actions.upgrade")
-                : t("billing.actions.downgrade")
+              : !hasPaidPlan
+                ? t("billing.actions.subscribe")
+                : isHigher
+                  ? t("billing.actions.upgrade")
+                  : t("billing.actions.downgrade")
 
             return (
               <Card

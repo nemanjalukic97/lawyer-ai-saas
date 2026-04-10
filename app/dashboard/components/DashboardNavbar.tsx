@@ -12,7 +12,7 @@ import { ThemeToggle } from "@/components/theme-toggle"
 import { cn } from "@/lib/utils"
 import { ChevronDown } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
-import { hasFeature, type PlanId } from "../lib/entitlements"
+import { hasFeature, type EntitlementPlanId } from "../lib/entitlements"
 
 const MAIN_LINKS = [
   { href: "/dashboard", key: "dashboard" },
@@ -25,8 +25,8 @@ const ACTION_LINKS = [
   { href: "/dashboard/analyze", key: "analyze", feature: "document_analysis" },
   { href: "/dashboard/time", key: "time", feature: "time_tracking" },
   { href: "/dashboard/clients", key: "clients", feature: "client_portal" },
-  { href: "/dashboard/activity", key: "activity" },
-  { href: "/dashboard/templates", key: "templates" },
+  { href: "/dashboard/activity", key: "activity", feature: "activity_feed" },
+  { href: "/dashboard/templates", key: "templates", feature: "template_library" },
 ] as const
 
 const AFTER_ACTIONS_LINKS = [
@@ -51,14 +51,13 @@ function NavLinks({
   onLinkClick?: () => void
   className?: string
   interactionMode?: "hover" | "tap"
-  planId: PlanId
+  planId: EntitlementPlanId
 }) {
   const { t } = useLanguage()
   const isTap = interactionMode === "tap"
-  const allowedActionLinks = ACTION_LINKS.filter((link) => {
-    if (!("feature" in link)) return true
-    return hasFeature(planId, link.feature)
-  })
+  const allowedActionLinks = ACTION_LINKS.filter((link) =>
+    hasFeature(planId, link.feature)
+  )
   const actionsActive = allowedActionLinks.some(({ href }) => isActive(pathname, href))
   const [actionsOpen, setActionsOpen] = useState(false)
   const [actionsVisible, setActionsVisible] = useState(false)
@@ -279,7 +278,7 @@ function NavLinks({
   )
 }
 
-export function DashboardNavbar({ planId }: { planId: PlanId }) {
+export function DashboardNavbar({ planId }: { planId: EntitlementPlanId }) {
   const pathname = usePathname()
   const [mobileOpen, setMobileOpen] = useState(false)
   const { t } = useLanguage()

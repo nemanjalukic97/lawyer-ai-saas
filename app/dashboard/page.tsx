@@ -1,7 +1,15 @@
 import { redirect } from "next/navigation"
 
-import { createClient } from "@/lib/supabase/server"
-import { normalizePlanId, type PlanId } from "./lib/entitlements"
+import { createClient, type ServerSupabaseClient } from "@/lib/supabase/server"
+import type { Tables } from "@/lib/supabase/types"
+import {
+  getEntitlementPlanForUser,
+} from "./lib/getEntitlementPlan"
+import {
+  isPaidPlanId,
+  resolveSubscriptionTier,
+  type EntitlementPlanId,
+} from "./lib/entitlements"
 import {
   getRecentActivity,
   getScopeFromProfile,
@@ -38,16 +46,13 @@ const ROLE_LABELS: Record<string, string> = {
   assistant: "Assistant",
 }
 
-const TIER_LABELS: Record<string, string> = {
-  solo: "Solo",
-  professional: "Professional",
-  firm: "Firm",
-}
-
 async function getRoiData(
-  supabase: ReturnType<typeof createClient>,
+  supabase: ServerSupabaseClient,
   scope: DashboardScope,
-  profile: { law_firm_id: string | null; subscription_tier?: string | null }
+  profile: {
+    law_firm_id: string | null
+    subscription_tier?: string | null
+  }
 ): Promise<RoiData> {
   const filterCol = scope.lawFirmId ? "law_firm_id" : "user_id"
   const filterVal = scope.lawFirmId ?? scope.userId
@@ -96,14 +101,19 @@ async function getRoiData(
   const hoursSaved = totalHoursTracked * 0.3
   const savingsEur = hoursSaved * effectiveRate
 
-  let tier = profile.subscription_tier ?? "professional"
+  let tier: string | null = profile?.subscription_tier ?? null
   if (scope.lawFirmId) {
-    const { data: firm } = await supabase
+    const { data: firmRowRaw } = await supabase
       .from("law_firms")
       .select("subscription_tier")
       .eq("id", scope.lawFirmId)
       .maybeSingle()
-    if (firm?.subscription_tier) tier = firm.subscription_tier
+    const firmRow = firmRowRaw as
+      | Pick<Tables<"law_firms">, "subscription_tier">
+      | null
+    if (firmRow) {
+      tier = firmRow.subscription_tier ?? tier
+    }
   }
 
   const tierPrices: Record<string, number> = {
@@ -111,13 +121,13 @@ async function getRoiData(
     professional: 59,
     firm: 79,
   }
-  const subscriptionCostEur = tierPrices[tier] ?? 59
+  const subscriptionCostEur = isPaidPlanId(tier) ? tierPrices[tier] : 0
 
   return {
     hoursSaved,
     savingsEur,
     subscriptionCostEur,
-    subscriptionTier: tier,
+    subscriptionTier: tier ?? "none",
   }
 }
 
@@ -133,7 +143,7 @@ export default async function DashboardPage() {
   }
 
   const [
-    { data: profile, error: profileError },
+    { data: profile },
     contractsCountResult,
     documentsCountResult,
     predictionsCountResult,
@@ -167,8 +177,20 @@ export default async function DashboardPage() {
       .limit(30),
   ])
 
-  console.log("Profile data:", profile)
-  console.log("Profile error:", profileError)
+  if (!profile) {
+    redirect("/login")
+  }
+
+  const userProfile = profile as Pick<
+    Tables<"user_profiles">,
+    | "full_name"
+    | "role"
+    | "preferred_jurisdiction"
+    | "subscription_tier"
+    | "subscription_status"
+    | "trial_ends_at"
+    | "law_firm_id"
+  >
 
   let firm: {
     name: string | null
@@ -178,40 +200,48 @@ export default async function DashboardPage() {
     default_jurisdiction: string | null
   } | null = null
 
-  if (profile?.law_firm_id) {
+  const profileLawFirmId = userProfile.law_firm_id ?? null
+  if (profileLawFirmId) {
     const { data: firmRow } = await supabase
       .from("law_firms")
       .select(
         "name, subscription_tier, subscription_status, trial_ends_at, default_jurisdiction"
       )
-      .eq("id", profile.law_firm_id)
+      .eq("id", profileLawFirmId)
       .maybeSingle()
 
     firm = firmRow ?? null
   }
 
   const displayName =
-    profile?.full_name ||
+    userProfile.full_name ||
     // fall back to auth user metadata full_name if profile row is not yet populated
     (user.user_metadata as { full_name?: string })?.full_name ||
     user.email ||
     "Your workspace"
   const roleLabel =
-    (profile?.role && ROLE_LABELS[profile.role]) || "Lawyer"
+    (userProfile.role && ROLE_LABELS[userProfile.role]) || "Lawyer"
 
   const jurisdictionKey =
-    profile?.preferred_jurisdiction ?? firm?.default_jurisdiction ?? null
+    userProfile.preferred_jurisdiction ?? firm?.default_jurisdiction ?? null
   const jurisdictionLabel = jurisdictionKey
     ? JURISDICTION_LABELS[jurisdictionKey] ?? jurisdictionKey
     : "Jurisdiction not set"
 
-  const tierKey =
-    profile?.subscription_tier || firm?.subscription_tier || "solo"
-  const subscriptionTier = TIER_LABELS[tierKey] || "Solo"
-  const subscriptionStatus =
-    profile?.subscription_status || firm?.subscription_status || "trial"
-  const planId: PlanId = normalizePlanId(
-    (firm?.subscription_tier ?? profile?.subscription_tier) ?? tierKey
+  const storedTier = resolveSubscriptionTier(
+    userProfile.subscription_tier ?? null,
+    userProfile.law_firm_id ?? null,
+    firm?.subscription_tier ?? null
+  )
+  const subscriptionStatusRaw =
+    firm?.subscription_status ?? userProfile.subscription_status ?? null
+  const subscriptionStatusForClient = isPaidPlanId(storedTier)
+    ? subscriptionStatusRaw ?? "trial"
+    : null
+
+  const planId: EntitlementPlanId = await getEntitlementPlanForUser(
+    supabase,
+    user.id
   )
 
   const totalContracts = contractsCountResult.count ?? 0
@@ -221,7 +251,14 @@ export default async function DashboardPage() {
   const totalClients = clientsCountResult.count ?? 0
   const totalInvoices = invoicesCountResult.count ?? 0
 
-  const usageSummary = (usageRows ?? []).reduce(
+  const usageRowsTyped = (usageRows ?? []) as Array<{
+    feature_type: string | null
+    tokens_used: number | null
+    cost_usd: number | null
+    created_at: string | null
+  }>
+
+  const usageSummary = usageRowsTyped.reduce(
     (acc, row) => {
       const tokens = row.tokens_used ?? 0
       const cost = Number(row.cost_usd ?? 0)
@@ -234,20 +271,21 @@ export default async function DashboardPage() {
   )
 
   const scope = getScopeFromProfile(user.id, {
-    law_firm_id: profile?.law_firm_id ?? null,
+    law_firm_id: userProfile.law_firm_id ?? null,
   })
 
   const [recentActivity, roiData] = await Promise.all([
     getRecentActivity(supabase, scope, { limit: 10 }),
     getRoiData(supabase, scope, {
-      law_firm_id: profile?.law_firm_id ?? null,
-      subscription_tier: profile?.subscription_tier ?? firm?.subscription_tier,
+      law_firm_id: userProfile.law_firm_id ?? null,
+      subscription_tier:
+        userProfile.subscription_tier ?? firm?.subscription_tier ?? null,
     }),
   ])
 
   const featureUsage: FeatureUsagePoint[] = (() => {
     const counts: Record<string, number> = {}
-    for (const row of usageRows ?? []) {
+    for (const row of usageRowsTyped) {
       const key = row.feature_type as string
       counts[key] = (counts[key] ?? 0) + 1
     }
@@ -263,11 +301,10 @@ export default async function DashboardPage() {
       roleLabel={roleLabel}
       jurisdictionLabel={jurisdictionLabel}
       planId={planId}
-      subscriptionTier={subscriptionTier}
-      subscriptionStatus={subscriptionStatus}
+      subscriptionStatus={subscriptionStatusForClient}
       firmName={firm?.name ?? null}
       firmTrialEndsAt={firm?.trial_ends_at ?? null}
-      profileTrialEndsAt={profile?.trial_ends_at ?? null}
+      profileTrialEndsAt={userProfile.trial_ends_at ?? null}
       totals={{
         clients: totalClients,
         contracts: totalContracts,

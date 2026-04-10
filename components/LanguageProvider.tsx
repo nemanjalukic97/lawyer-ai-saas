@@ -13,7 +13,10 @@ export type LanguageCode = "en" | "sr" | "bs" | "hr" | "sl" | "me"
 
 const STORAGE_KEY = "legantis-language"
 
-type Messages = Record<string, string | Messages>
+/** Nested string dictionaries for i18n (interface avoids TS circular type-alias errors). */
+export interface Messages {
+  [key: string]: string | Messages
+}
 
 const MESSAGES: Record<LanguageCode, Messages> = {
   en: {
@@ -824,6 +827,9 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         dayOne: "day",
         dayMany: "days",
         statusPrefix: "Your subscription status is",
+        noPaidPlanBadge: "No paid plan",
+        freeHint:
+          "You are on the free tier (document generation only). Choose a plan below to unlock the full product.",
       },
       actions: {
         manageSubscription: "Manage subscription",
@@ -833,6 +839,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         upgrade: "Upgrade",
         downgrade: "Downgrade",
         startingCheckout: "Starting checkout...",
+        subscribe: "Subscribe",
       },
       badges: {
         recommended: "Recommended",
@@ -961,6 +968,8 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         title: "Current plan",
         tierLabel: "Subscription tier:",
         statusLabel: "Status:",
+        tierNone: "None (free — documents only)",
+        statusNone: "Not subscribed",
         note: "Manage billing, invoices, and upgrades from the dedicated billing page.",
         actions: {
           manageBilling: "Manage billing",
@@ -1092,6 +1101,13 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         kicker: "Legantis dashboard",
         welcome: "Welcome back,",
         planSuffix: "plan",
+        noPaidPlan: "No paid plan (documents only)",
+        statusNotSubscribed: "not subscribed",
+      },
+      planTier: {
+        solo: "Solo",
+        professional: "Professional",
+        firm: "Firm",
       },
       stats: {
         clients: {
@@ -1145,6 +1161,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         billing: {
           title: "Billing & plans",
           trialPrefix: "Trial ends",
+          freeTierLine: "No paid plan — document generation only",
         },
         jurisdiction: {
           title: "Jurisdiction focus",
@@ -1175,6 +1192,8 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         valueMiddle: "compared to your",
         ratioPrefix: "Approximate ROI:",
         ratioSuffix: "your subscription.",
+        freeTierHint:
+          "Subscribe to a paid plan to compare savings with subscription cost.",
       },
       activity: {
         title: "Recent activity",
@@ -1344,6 +1363,13 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         kicker: "Legantis kontrolna tabla",
         welcome: "Dobro došli nazad,",
         planSuffix: "paket",
+        noPaidPlan: "Bez plaćenog paketa (samo dokumenti)",
+        statusNotSubscribed: "niste pretplaćeni",
+      },
+      planTier: {
+        solo: "Solo",
+        professional: "Professional",
+        firm: "Firm",
       },
       stats: {
         clients: {
@@ -1400,6 +1426,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         billing: {
           title: "Pretplata i paketi",
           trialPrefix: "Probni period traje do",
+          freeTierLine: "Bez plaćenog paketa — samo generisanje dokumenata",
         },
         jurisdiction: {
           title: "Fokus jurisdikcije",
@@ -1431,6 +1458,8 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         valueMiddle: "u poređenju sa",
         ratioPrefix: "Približan ROI:",
         ratioSuffix: "vaše pretplate.",
+        freeTierHint:
+          "Pretplatite se na plaćeni plan da biste uporedili uštedu sa cijenom pretplate.",
       },
       activity: {
         title: "Skorašnja aktivnost",
@@ -2089,6 +2118,9 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         dayOne: "dan",
         dayMany: "dana",
         statusPrefix: "Status vaše pretplate je",
+        noPaidPlanBadge: "Bez plaćenog paketa",
+        freeHint:
+          "Koristite besplatni nivo (samo generisanje dokumenata). Odaberite plan ispod da otključate ostale funkcije.",
       },
       actions: {
         manageSubscription: "Upravljaj pretplatom",
@@ -2098,6 +2130,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         upgrade: "Nadogradi",
         downgrade: "Smanji paket",
         startingCheckout: "Pokrećem plaćanje...",
+        subscribe: "Pretplati se",
       },
       badges: {
         recommended: "Preporučeno",
@@ -2226,6 +2259,8 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         title: "Trenutni plan",
         tierLabel: "Pretplatni paket:",
         statusLabel: "Status:",
+        tierNone: "Nema (besplatno — samo dokumenti)",
+        statusNone: "Niste pretplaćeni",
         note: "Upravljajte naplatom, računima i nadogradnjama na stranici naplate.",
         actions: {
           manageBilling: "Upravljaj naplatom",
@@ -2512,6 +2547,13 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         kicker: "Legantis kontrolna ploča",
         welcome: "Dobro došli nazad,",
         planSuffix: "paket",
+        noPaidPlan: "Bez plaćenog paketa (samo dokumenti)",
+        statusNotSubscribed: "niste pretplaćeni",
+      },
+      planTier: {
+        solo: "Solo",
+        professional: "Professional",
+        firm: "Firm",
       },
       stats: {
         clients: {
@@ -2568,6 +2610,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         billing: {
           title: "Pretplata i paketi",
           trialPrefix: "Probni period traje do",
+          freeTierLine: "Bez plaćenog paketa — samo generisanje dokumenata",
         },
         jurisdiction: {
           title: "Fokus jurisdikcije",
@@ -2599,6 +2642,8 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         valueMiddle: "u poređenju s",
         ratioPrefix: "Približan ROI:",
         ratioSuffix: "vaše pretplate.",
+        freeTierHint:
+          "Pretplatite se na plaćeni plan da biste uporedili uštedu sa cijenom pretplate.",
       },
       activity: {
         title: "Skorašnja aktivnost",
@@ -3260,6 +3305,9 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         dayOne: "dan",
         dayMany: "dana",
         statusPrefix: "Status vaše pretplate je",
+        noPaidPlanBadge: "Bez plaćenog paketa",
+        freeHint:
+          "Koristite besplatni nivo (samo generisanje dokumenata). Odaberite plan ispod da otključate ostale funkcije.",
       },
       actions: {
         manageSubscription: "Upravljaj pretplatom",
@@ -3269,6 +3317,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         upgrade: "Nadogradi",
         downgrade: "Smanji paket",
         startingCheckout: "Pokrećem plaćanje...",
+        subscribe: "Pretplati se",
       },
       badges: {
         recommended: "Preporučeno",
@@ -3397,6 +3446,8 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         title: "Trenutni plan",
         tierLabel: "Pretplatni paket:",
         statusLabel: "Status:",
+        tierNone: "Nema (besplatno — samo dokumenti)",
+        statusNone: "Niste pretplaćeni",
         note: "Upravljajte naplatom, računima i nadogradnjama na stranici naplate.",
         actions: {
           manageBilling: "Upravljaj naplatom",
@@ -3806,6 +3857,9 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         dayOne: "dan",
         dayMany: "dana",
         statusPrefix: "Status vaše pretplate je",
+        noPaidPlanBadge: "Bez plaćenog paketa",
+        freeHint:
+          "Koristite besplatnu razinu (samo generiranje dokumenata). Odaberite plan ispod da otključate ostale značajke.",
       },
       actions: {
         manageSubscription: "Upravljaj pretplatom",
@@ -3815,6 +3869,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         upgrade: "Nadogradi",
         downgrade: "Smanji paket",
         startingCheckout: "Pokrećem plaćanje...",
+        subscribe: "Pretplati se",
       },
       badges: {
         recommended: "Preporučeno",
@@ -3943,6 +3998,8 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         title: "Trenutni plan",
         tierLabel: "Pretplatni paket:",
         statusLabel: "Status:",
+        tierNone: "Nema (besplatno — samo dokumenti)",
+        statusNone: "Niste pretplaćeni",
         note: "Upravljajte naplatom, računima i nadogradnjama na stranici naplate.",
         actions: {
           manageBilling: "Upravljaj naplatom",
@@ -4071,6 +4128,13 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         kicker: "Legantis nadzorna ploča",
         welcome: "Dobrodošli natrag,",
         planSuffix: "paket",
+        noPaidPlan: "Bez plaćenog paketa (samo dokumenti)",
+        statusNotSubscribed: "niste pretplaćeni",
+      },
+      planTier: {
+        solo: "Solo",
+        professional: "Professional",
+        firm: "Firm",
       },
       stats: {
         clients: {
@@ -4127,6 +4191,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         billing: {
           title: "Pretplata i paketi",
           trialPrefix: "Probno razdoblje traje do",
+          freeTierLine: "Bez plaćenog paketa — samo generiranje dokumenata",
         },
         jurisdiction: {
           title: "Fokus jurisdikcije",
@@ -4158,6 +4223,8 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         valueMiddle: "u usporedbi s",
         ratioPrefix: "Približan ROI:",
         ratioSuffix: "vaše pretplate.",
+        freeTierHint:
+          "Pretplatite se na plaćeni plan da usporedite uštedu s cijenom pretplate.",
       },
       activity: {
         title: "Nedavna aktivnost",
@@ -4853,6 +4920,13 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         kicker: "Nadzorna plošča Legantis",
         welcome: "Dobrodošli nazaj,",
         planSuffix: "paket",
+        noPaidPlan: "Brez plačljivega paketa (samo dokumenti)",
+        statusNotSubscribed: "brez naročnine",
+      },
+      planTier: {
+        solo: "Solo",
+        professional: "Professional",
+        firm: "Firm",
       },
       stats: {
         clients: {
@@ -4909,6 +4983,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         billing: {
           title: "Naročnina in paketi",
           trialPrefix: "Preizkus traja do",
+          freeTierLine: "Brez plačljivega paketa — samo ustvarjanje dokumentov",
         },
         jurisdiction: {
           title: "Fokus jurisdikcije",
@@ -4940,6 +5015,8 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         valueMiddle: "v primerjavi z",
         ratioPrefix: "Približen ROI:",
         ratioSuffix: "vaše naročnine.",
+        freeTierHint:
+          "Naročite se na plačljiv paket, da primerjate prihranek s stroškom naročnine.",
       },
       activity: {
         title: "Nedavna aktivnost",
@@ -5599,6 +5676,9 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         dayOne: "dan",
         dayMany: "dni",
         statusPrefix: "Status vaše naročnine je",
+        noPaidPlanBadge: "Brez plačljivega paketa",
+        freeHint:
+          "Uporabljate brezplačno raven (samo ustvarjanje dokumentov). Spodaj izberite paket za vse funkcije.",
       },
       actions: {
         manageSubscription: "Upravljaj naročnino",
@@ -5608,6 +5688,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         upgrade: "Nadgradi",
         downgrade: "Znižaj paket",
         startingCheckout: "Začenjam plačilo...",
+        subscribe: "Naroči se",
       },
       badges: {
         recommended: "Priporočeno",
@@ -5735,6 +5816,8 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         title: "Trenutni paket",
         tierLabel: "Naročniški paket:",
         statusLabel: "Status:",
+        tierNone: "Brez paketa (brezplačno — samo dokumenti)",
+        statusNone: "Brez naročnine",
         note: "Upravljajte obračun, račune in nadgradnje na strani obračuna.",
         actions: {
           manageBilling: "Upravljaj obračun",
@@ -6020,6 +6103,13 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         kicker: "Legantis kontrolna tabla",
         welcome: "Dobrodošli nazad,",
         planSuffix: "paket",
+        noPaidPlan: "Bez plaćenog paketa (samo dokumenti)",
+        statusNotSubscribed: "niste pretplaćeni",
+      },
+      planTier: {
+        solo: "Solo",
+        professional: "Professional",
+        firm: "Firm",
       },
       stats: {
         clients: {
@@ -6076,6 +6166,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         billing: {
           title: "Pretplata i paketi",
           trialPrefix: "Probni period traje do",
+          freeTierLine: "Bez plaćenog paketa — samo generisanje dokumenata",
         },
         jurisdiction: {
           title: "Fokus jurisdikcije",
@@ -6107,6 +6198,8 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         valueMiddle: "u poređenju sa",
         ratioPrefix: "Približan ROI:",
         ratioSuffix: "vaše pretplate.",
+        freeTierHint:
+          "Pretplatite se na plaćeni plan da biste uporedili uštedu sa cijenom pretplate.",
       },
       activity: {
         title: "Skorašnja aktivnost",
@@ -6766,6 +6859,9 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         dayOne: "dan",
         dayMany: "dana",
         statusPrefix: "Status vaše pretplate je",
+        noPaidPlanBadge: "Bez plaćenog paketa",
+        freeHint:
+          "Koristite besplatni nivo (samo generisanje dokumenata). Odaberite plan ispod da otključate ostale funkcije.",
       },
       actions: {
         manageSubscription: "Upravljaj pretplatom",
@@ -6775,6 +6871,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         upgrade: "Nadogradi",
         downgrade: "Smanji paket",
         startingCheckout: "Pokrećem plaćanje...",
+        subscribe: "Pretplati se",
       },
       badges: {
         recommended: "Preporučeno",
@@ -6903,6 +7000,8 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         title: "Trenutni plan",
         tierLabel: "Pretplatni paket:",
         statusLabel: "Status:",
+        tierNone: "Nema (besplatno — samo dokumenti)",
+        statusNone: "Niste pretplaćeni",
         note: "Upravljajte naplatom, računima i nadogradnjama na stranici naplate.",
         actions: {
           manageBilling: "Upravljaj naplatom",

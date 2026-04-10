@@ -29,6 +29,11 @@ import type { Tables } from "@/lib/supabase/types"
 import { createClient as createBrowserClient } from "@/lib/supabase/client"
 import { useLanguage } from "@/components/LanguageProvider"
 
+import {
+  isPaidPlanId,
+  resolveSubscriptionTier,
+} from "../lib/entitlements"
+
 type ProfileSettings = Pick<
   Tables<"user_profiles">,
   | "full_name"
@@ -64,8 +69,6 @@ const JURISDICTION_VALUES = [
   "slovenia",
 ] as const
 
-type JurisdictionValue = (typeof JURISDICTION_VALUES)[number]
-
 const LANGUAGE_OPTIONS = [
   "Serbian",
   "Croatian",
@@ -77,11 +80,11 @@ const LANGUAGE_OPTIONS = [
 
 const CURRENCY_OPTIONS = ["EUR", "BAM", "RSD", "HRK"] as const
 
-const THEME_OPTIONS = ["light", "dark"] as const
+type ThemePreference = "light" | "dark"
 
 function normalizeThemePreference(
   value: string | null | undefined
-): (typeof THEME_OPTIONS)[number] {
+): ThemePreference {
   return value === "dark" ? "dark" : "light"
 }
 
@@ -114,9 +117,9 @@ export default function SettingsPageClient({
   )
   const [currency, setCurrency] = useState<(typeof CURRENCY_OPTIONS)[number]>("EUR")
   const [emailNotifications, setEmailNotifications] = useState<boolean>(true)
-  const [themePreference, setThemePreference] = useState<
-    (typeof THEME_OPTIONS)[number]
-  >(() => normalizeThemePreference(profile?.theme_preference))
+  const [themePreference, setThemePreference] = useState<ThemePreference>(() =>
+    normalizeThemePreference(profile?.theme_preference)
+  )
   const [preferencesSaving, setPreferencesSaving] = useState(false)
   const [preferencesMessage, setPreferencesMessage] = useState<string | null>(null)
   const [preferencesError, setPreferencesError] = useState<string | null>(null)
@@ -345,7 +348,10 @@ export default function SettingsPageClient({
     try {
       const { error } = await supabase
         .from("user_profiles")
-        .update({ deleted_at: new Date().toISOString() })
+        .update({
+          deleted_at: new Date().toISOString(),
+          // Browser Supabase client infers `.update()` as `never` here; payload matches `user_profiles` soft-delete.
+        } as never)
         .eq("id", user.id)
 
       if (error) {
@@ -362,10 +368,25 @@ export default function SettingsPageClient({
     }
   }
 
-  const subscriptionTier =
-    profile?.subscription_tier ?? firm?.subscription_tier ?? "solo"
-  const subscriptionStatus =
-    profile?.subscription_status ?? firm?.subscription_status ?? "trial"
+  const storedTier = resolveSubscriptionTier(
+    profile?.subscription_tier ?? null,
+    profile?.law_firm_id ?? null,
+    firm?.subscription_tier ?? null,
+  )
+  const hasPaidPlan = isPaidPlanId(storedTier)
+  const subscriptionTierLabel = hasPaidPlan
+    ? t(
+        `dashboard.planTier.${storedTier}` as
+          | "dashboard.planTier.solo"
+          | "dashboard.planTier.professional"
+          | "dashboard.planTier.firm",
+      )
+    : t("settings.plan.tierNone")
+  const subscriptionStatusLabel = hasPaidPlan
+    ? (profile?.subscription_status ??
+        firm?.subscription_status ??
+        "trial")
+    : t("settings.plan.statusNone")
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-10 sm:px-6">
@@ -656,13 +677,13 @@ export default function SettingsPageClient({
                 <p>
                   {t("settings.plan.tierLabel")}{" "}
                   <span className="font-medium capitalize">
-                    {String(subscriptionTier)}
+                    {subscriptionTierLabel}
                   </span>
                 </p>
                 <p>
                   {t("settings.plan.statusLabel")}{" "}
                   <span className="font-medium capitalize">
-                    {String(subscriptionStatus ?? "trial")}
+                    {subscriptionStatusLabel}
                   </span>
                 </p>
                 <p className="text-xs text-muted-foreground">

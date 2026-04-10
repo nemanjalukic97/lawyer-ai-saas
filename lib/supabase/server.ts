@@ -36,3 +36,5 @@ export async function createClient() {
   )
 }
 
+/** Same concrete type as `createClient()`; use for server helpers so query rows are not inferred as `never`. */
+export type ServerSupabaseClient = Awaited<ReturnType<typeof createClient>>

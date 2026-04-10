@@ -1,4 +1,5 @@
-import type { createClient } from "@/lib/supabase/server"
+import type { ServerSupabaseClient } from "@/lib/supabase/server"
+import type { Tables } from "@/lib/supabase/types"
 
 export type ActivityItemType =
   | "contract"
@@ -54,10 +55,8 @@ export function getScopeFromProfile(
   }
 }
 
-type SupabaseClient = ReturnType<typeof createClient>
-
 export async function getRecentActivity(
-  supabase: SupabaseClient,
+  supabase: ServerSupabaseClient,
   scope: DashboardScope,
   options: { type?: ActivityItemType; limit?: number } = {}
 ): Promise<ActivityItem[]> {
@@ -167,7 +166,7 @@ export async function getRecentActivity(
 }
 
 async function fetchSingleType(
-  supabase: SupabaseClient,
+  supabase: ServerSupabaseClient,
   filterCol: string,
   filterVal: string,
   type: ActivityItemType,
@@ -182,11 +181,15 @@ async function fetchSingleType(
         .is("deleted_at", null)
         .order("created_at", { ascending: false })
         .limit(limit)
-      return (data ?? []).map((c) => ({
+      const rows = (data ?? []) as Pick<
+        Tables<"contracts">,
+        "id" | "title" | "created_at"
+      >[]
+      return rows.map((c) => ({
         type: "contract" as const,
         id: c.id,
         title: c.title,
-        createdAt: c.created_at,
+        createdAt: c.created_at ?? "",
       }))
     }
     case "document": {
@@ -197,11 +200,15 @@ async function fetchSingleType(
         .is("deleted_at", null)
         .order("created_at", { ascending: false })
         .limit(limit)
-      return (data ?? []).map((d) => ({
+      const rows = (data ?? []) as Pick<
+        Tables<"documents">,
+        "id" | "title" | "created_at"
+      >[]
+      return rows.map((d) => ({
         type: "document" as const,
         id: d.id,
         title: d.title,
-        createdAt: d.created_at,
+        createdAt: d.created_at ?? "",
       }))
     }
     case "analysis": {
@@ -212,11 +219,15 @@ async function fetchSingleType(
         .is("deleted_at", null)
         .order("analyzed_at", { ascending: false })
         .limit(limit)
-      return (data ?? []).map((a) => ({
+      const rows = (data ?? []) as Pick<
+        Tables<"document_analyses">,
+        "id" | "original_filename" | "analyzed_at" | "created_at"
+      >[]
+      return rows.map((a) => ({
         type: "analysis" as const,
         id: a.id,
         title: a.original_filename,
-        createdAt: a.analyzed_at ?? a.created_at,
+        createdAt: a.analyzed_at ?? a.created_at ?? "",
       }))
     }
     case "prediction": {
@@ -227,11 +238,15 @@ async function fetchSingleType(
         .is("deleted_at", null)
         .order("created_at", { ascending: false })
         .limit(limit)
-      return (data ?? []).map((p) => ({
+      const rows = (data ?? []) as Pick<
+        Tables<"case_predictions">,
+        "id" | "case_name" | "created_at"
+      >[]
+      return rows.map((p) => ({
         type: "prediction" as const,
         id: p.id,
         title: p.case_name ?? "Case prediction",
-        createdAt: p.created_at,
+        createdAt: p.created_at ?? "",
       }))
     }
     case "client": {
@@ -242,11 +257,15 @@ async function fetchSingleType(
         .is("deleted_at", null)
         .order("created_at", { ascending: false })
         .limit(limit)
-      return (data ?? []).map((cl) => ({
+      const rows = (data ?? []) as Pick<
+        Tables<"clients">,
+        "id" | "name" | "created_at"
+      >[]
+      return rows.map((cl) => ({
         type: "client" as const,
         id: cl.id,
         title: cl.name,
-        createdAt: cl.created_at,
+        createdAt: cl.created_at ?? "",
       }))
     }
   }

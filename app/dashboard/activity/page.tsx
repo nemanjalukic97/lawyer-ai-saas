@@ -6,6 +6,8 @@ import {
   getScopeFromProfile,
   type ActivityItemType,
 } from "../lib/activity"
+import { hasFeature } from "../lib/entitlements"
+import { getEntitlementPlanForUser } from "../lib/getEntitlementPlan"
 import { ActivityPageClient } from "./ActivityPageClient"
 
 const VALID_TYPES: (ActivityItemType | "all")[] = [
@@ -39,6 +41,11 @@ export default async function ActivityPage({
     redirect("/login")
   }
 
+  const planId = await getEntitlementPlanForUser(supabase, user.id)
+  if (!hasFeature(planId, "activity_feed")) {
+    redirect("/dashboard/billing")
+  }
+
   const { data: profile } = await supabase
     .from("user_profiles")
     .select("law_firm_id")
@@ -56,7 +63,7 @@ export default async function ActivityPage({
   const filterType = parseType(params.type)
   const typeForFetch = filterType === "all" ? undefined : filterType
 
-  const items = await getRecentActivity(supabase as any, scope, {
+  const items = await getRecentActivity(supabase, scope, {
     type: typeForFetch,
     limit: 50,
   })

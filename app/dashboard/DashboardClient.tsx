@@ -15,7 +15,7 @@ import { cn } from "@/lib/utils"
 import type { ActivityItem } from "./lib/activity"
 import { ACTIVITY_HREF_BY_TYPE } from "./lib/activity"
 import { FeatureUsageChart } from "./components/FeatureUsageChart"
-import { hasFeature, type PlanId } from "./lib/entitlements"
+import { hasFeature, type EntitlementPlanId } from "./lib/entitlements"
 
 type FeatureUsagePoint = {
   feature_type: string
@@ -33,9 +33,8 @@ type Props = {
   displayName: string
   roleLabel: string
   jurisdictionLabel: string
-  planId: PlanId
-  subscriptionTier: string
-  subscriptionStatus: string
+  planId: EntitlementPlanId
+  subscriptionStatus: string | null
   firmName: string | null
   firmTrialEndsAt: string | null
   profileTrialEndsAt: string | null
@@ -61,7 +60,6 @@ export function DashboardClient({
   roleLabel,
   jurisdictionLabel,
   planId,
-  subscriptionTier,
   subscriptionStatus,
   firmName,
   firmTrialEndsAt,
@@ -78,6 +76,9 @@ export function DashboardClient({
   const canPredict = hasFeature(planId, "case_prediction")
   const canAnalyze = hasFeature(planId, "document_analysis")
   const canUseClients = hasFeature(planId, "client_portal")
+  const canDraftContracts = hasFeature(planId, "contract_drafting")
+  const canUseTemplates = hasFeature(planId, "template_library")
+  const canViewActivityFeed = hasFeature(planId, "activity_feed")
 
   return (
     <div className="min-h-screen bg-background px-4 py-10">
@@ -92,13 +93,33 @@ export function DashboardClient({
               <span className="text-primary">{displayName}</span>
             </h1>
             <p className="mt-1 text-sm text-muted-foreground">
-              {roleLabel} · {jurisdictionLabel} ·{" "}
-              <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2 py-0.5 text-xs font-medium text-foreground">
-                {subscriptionTier} {t("dashboard.header.planSuffix")}
-              </span>{" "}
-              <span className="text-muted-foreground">
-                ({subscriptionStatus.toLowerCase()})
-              </span>
+              {roleLabel} · {jurisdictionLabel}
+              {planId === "free" ? (
+                <>
+                  {" "}
+                  ·{" "}
+                  <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2 py-0.5 text-xs font-medium text-foreground">
+                    {t("dashboard.header.noPaidPlan")}
+                  </span>{" "}
+                  <span className="text-muted-foreground">
+                    ({t("dashboard.header.statusNotSubscribed")})
+                  </span>
+                </>
+              ) : (
+                <>
+                  {" "}
+                  ·{" "}
+                  <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2 py-0.5 text-xs font-medium text-foreground">
+                    {t(`dashboard.planTier.${planId}`)}{" "}
+                    {t("dashboard.header.planSuffix")}
+                  </span>{" "}
+                  {subscriptionStatus && (
+                    <span className="text-muted-foreground">
+                      ({subscriptionStatus.toLowerCase()})
+                    </span>
+                  )}
+                </>
+              )}
             </p>
           </div>
         </header>
@@ -168,13 +189,15 @@ export function DashboardClient({
               href="/dashboard/generate"
             />
 
-            <QuickActionCard
-              icon="muted"
-              Icon={FilePen}
-              title={t("dashboard.actions.contract.title")}
-              description={t("dashboard.actions.contract.description")}
-              href="/dashboard/contracts"
-            />
+            {canDraftContracts && (
+              <QuickActionCard
+                icon="muted"
+                Icon={FilePen}
+                title={t("dashboard.actions.contract.title")}
+                description={t("dashboard.actions.contract.description")}
+                href="/dashboard/contracts"
+              />
+            )}
 
             {canPredict && (
               <QuickActionCard
@@ -196,26 +219,28 @@ export function DashboardClient({
               />
             )}
 
-            <Card className="flex flex-col justify-between p-4 lg:col-span-4">
-              <div className="space-y-2">
-                <div className="inline-flex h-9 w-9 items-center justify-center rounded-md bg-muted text-muted-foreground">
-                  <FileText className="h-5 w-5" />
+            {canUseTemplates && (
+              <Card className="flex flex-col justify-between p-4 lg:col-span-4">
+                <div className="space-y-2">
+                  <div className="inline-flex h-9 w-9 items-center justify-center rounded-md bg-muted text-muted-foreground">
+                    <FileText className="h-5 w-5" />
+                  </div>
+                  <h3 className="text-sm font-medium">
+                    {t("dashboard.actions.templates.title")}
+                  </h3>
+                  <p className="text-xs text-muted-foreground">
+                    {t("dashboard.actions.templates.description")}
+                  </p>
                 </div>
-                <h3 className="text-sm font-medium">
-                  {t("dashboard.actions.templates.title")}
-                </h3>
-                <p className="text-xs text-muted-foreground">
-                  {t("dashboard.actions.templates.description")}
-                </p>
-              </div>
-              <div className="mt-4">
-                <Button size="sm" asChild>
-                  <Link href="/dashboard/templates">
-                    {t("dashboard.actions.open")}
-                  </Link>
-                </Button>
-              </div>
-            </Card>
+                <div className="mt-4">
+                  <Button size="sm" asChild>
+                    <Link href="/dashboard/templates">
+                      {t("dashboard.actions.open")}
+                    </Link>
+                  </Button>
+                </div>
+              </Card>
+            )}
           </div>
         </section>
 
@@ -238,12 +263,18 @@ export function DashboardClient({
                   {t("dashboard.workspace.billing.title")}
                 </p>
                 <p className="mt-1 text-sm font-medium text-foreground">
-                  {subscriptionTier} ·{" "}
-                  <span className="capitalize">
-                    {subscriptionStatus.toLowerCase()}
-                  </span>
+                  {planId === "free" ? (
+                    t("dashboard.workspace.billing.freeTierLine")
+                  ) : (
+                    <>
+                      {t(`dashboard.planTier.${planId}`)} ·{" "}
+                      <span className="capitalize">
+                        {(subscriptionStatus ?? "").toLowerCase()}
+                      </span>
+                    </>
+                  )}
                 </p>
-                {trialEndsIso && (
+                {planId !== "free" && trialEndsIso && (
                   <p className="mt-1 text-xs text-muted-foreground">
                     {t("dashboard.workspace.billing.trialPrefix")}{" "}
                     {new Date(trialEndsIso).toLocaleDateString()}
@@ -327,17 +358,24 @@ export function DashboardClient({
                 <strong>{roiData.hoursSaved.toFixed(1)}h</strong>{" "}
                 {t("dashboard.roi.hoursSuffix")}
               </p>
-              <p>
-                {t("dashboard.roi.valuePrefix")}{" "}
-                <strong>€{roiData.savingsEur.toFixed(0)}</strong>{" "}
-                {t("dashboard.roi.valueMiddle")}{" "}
-                <strong>
-                  {roiData.subscriptionTier} {t("dashboard.header.planSuffix")} €
-                  {roiData.subscriptionCostEur}/month
-                </strong>
-                .
-              </p>
-              {roiData.subscriptionCostEur > 0 && (
+              {planId === "free" ? (
+                <p className="text-muted-foreground">
+                  {t("dashboard.roi.freeTierHint")}
+                </p>
+              ) : (
+                <p>
+                  {t("dashboard.roi.valuePrefix")}{" "}
+                  <strong>€{roiData.savingsEur.toFixed(0)}</strong>{" "}
+                  {t("dashboard.roi.valueMiddle")}{" "}
+                  <strong>
+                    {t(`dashboard.planTier.${planId}`)}{" "}
+                    {t("dashboard.header.planSuffix")} €
+                    {roiData.subscriptionCostEur}/month
+                  </strong>
+                  .
+                </p>
+              )}
+              {planId !== "free" && roiData.subscriptionCostEur > 0 && (
                 <p className="text-xs text-muted-foreground">
                   {t("dashboard.roi.ratioPrefix")}{" "}
                   {(
@@ -350,41 +388,43 @@ export function DashboardClient({
           </Card>
         </section>
 
-        <section>
-          <Card>
-            <CardHeader>
-              <CardTitle>{t("dashboard.activity.title")}</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {recentActivity.length === 0 ? (
-                <p className="text-sm text-muted-foreground">
-                  {t("dashboard.activity.empty")}
-                </p>
-              ) : (
-                recentActivity.map((item) => (
-                  <div
-                    key={`${item.type}-${item.id}`}
-                    className="flex items-start justify-between"
-                  >
-                    <div>
-                      <Link
-                        href={`${ACTIVITY_HREF_BY_TYPE[item.type]}?id=${item.id}`}
-                        className={cn(
-                          "text-sm font-medium transition-colors hover:text-primary hover:underline",
-                        )}
-                      >
-                        {t(`activity.types.${item.type}`)}: {item.title}
-                      </Link>
-                      <p className="text-xs text-muted-foreground">
-                        {new Date(item.createdAt).toLocaleDateString()}
-                      </p>
+        {canViewActivityFeed && (
+          <section>
+            <Card>
+              <CardHeader>
+                <CardTitle>{t("dashboard.activity.title")}</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {recentActivity.length === 0 ? (
+                  <p className="text-sm text-muted-foreground">
+                    {t("dashboard.activity.empty")}
+                  </p>
+                ) : (
+                  recentActivity.map((item) => (
+                    <div
+                      key={`${item.type}-${item.id}`}
+                      className="flex items-start justify-between"
+                    >
+                      <div>
+                        <Link
+                          href={`${ACTIVITY_HREF_BY_TYPE[item.type]}?id=${item.id}`}
+                          className={cn(
+                            "text-sm font-medium transition-colors hover:text-primary hover:underline",
+                          )}
+                        >
+                          {t(`activity.types.${item.type}`)}: {item.title}
+                        </Link>
+                        <p className="text-xs text-muted-foreground">
+                          {new Date(item.createdAt).toLocaleDateString()}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                ))
-              )}
-            </CardContent>
-          </Card>
-        </section>
+                  ))
+                )}
+              </CardContent>
+            </Card>
+          </section>
+        )}
       </div>
     </div>
   )
