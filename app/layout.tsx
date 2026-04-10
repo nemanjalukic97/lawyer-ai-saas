@@ -31,18 +31,25 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Legantis | AI Legal Assistant for Balkan Lawyers",
     description:
-      "Legantis is an AI legal assistant for lawyers in Bosnia & Herzegovina, Serbia, Croatia, Montenegro, and Slovenia. Contract drafting, case prediction, document analysis, time tracking, and client portal.",
-    url: "/",
+      "AI-powered legal assistant for lawyers in Bosnia & Herzegovina, Serbia, Croatia, Montenegro and Slovenia.",
+    url: "https://legantis.app",
     siteName: "Legantis",
+    images: [
+      {
+        url: "https://legantis.app/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Legantis - AI Legal Assistant",
+      },
+    ],
     type: "website",
-    images: [{ url: "/opengraph-image" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Legantis | AI Legal Assistant for Balkan Lawyers",
     description:
-      "Legantis is an AI legal assistant for lawyers in Bosnia & Herzegovina, Serbia, Croatia, Montenegro, and Slovenia. Contract drafting, case prediction, document analysis, time tracking, and client portal.",
-    images: ["/twitter-image"],
+      "AI-powered legal assistant for lawyers in Bosnia & Herzegovina, Serbia, Croatia, Montenegro and Slovenia.",
+    images: ["https://legantis.app/og-image.png"],
   },
 };
 
