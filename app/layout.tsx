@@ -17,12 +17,32 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.legantis.app"),
   title: "Legantis | AI Legal Assistant for Balkan Lawyers",
   description:
     "Legantis is an AI legal assistant for lawyers in Bosnia & Herzegovina, Serbia, Croatia, Montenegro, and Slovenia. Contract drafting, case prediction, document analysis, time tracking, and client portal.",
   icons: {
-    icon: [{ url: "/logo.svg", type: "image/svg+xml" }],
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/favicon.svg", sizes: "any", type: "image/svg+xml" },
+    ],
     apple: [{ url: "/logo.svg" }],
+  },
+  openGraph: {
+    title: "Legantis | AI Legal Assistant for Balkan Lawyers",
+    description:
+      "Legantis is an AI legal assistant for lawyers in Bosnia & Herzegovina, Serbia, Croatia, Montenegro, and Slovenia. Contract drafting, case prediction, document analysis, time tracking, and client portal.",
+    url: "/",
+    siteName: "Legantis",
+    type: "website",
+    images: [{ url: "/opengraph-image" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Legantis | AI Legal Assistant for Balkan Lawyers",
+    description:
+      "Legantis is an AI legal assistant for lawyers in Bosnia & Herzegovina, Serbia, Croatia, Montenegro, and Slovenia. Contract drafting, case prediction, document analysis, time tracking, and client portal.",
+    images: ["/twitter-image"],
   },
 };
 
