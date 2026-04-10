@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react"
 import { HamburgerIcon } from "@/components/HamburgerIcon"
 import { LanguageSwitcher } from "@/components/LanguageSwitcher"
 import { useLanguage } from "@/components/LanguageProvider"
+import { NavbarBrand } from "@/components/NavbarBrand"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
@@ -54,13 +55,7 @@ export function Header() {
   return (
     <header className="relative sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <nav className="mx-auto flex h-[68px] max-w-6xl items-center justify-between px-4 sm:px-6 max-[479px]:px-3">
-        <Link
-          href="/"
-          className="text-lg font-semibold text-foreground"
-          onClick={closeMenu}
-        >
-          Legantis
-        </Link>
+        <NavbarBrand href="/" onClick={closeMenu} />
 
         <div className="hidden items-center gap-6 min-[992px]:flex">
           <Link href="#features" className={navLinkClass}>

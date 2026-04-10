@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { LanguageSwitcher } from "@/components/LanguageSwitcher"
 import { useLanguage } from "@/components/LanguageProvider"
 import { HamburgerIcon } from "@/components/HamburgerIcon"
+import { NavbarBrand } from "@/components/NavbarBrand"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { cn } from "@/lib/utils"
 import { ChevronDown } from "lucide-react"
@@ -295,12 +296,7 @@ export function DashboardNavbar({ planId }: { planId: PlanId }) {
   return (
     <header className="relative sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <nav className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4 sm:px-6 max-[479px]:px-3">
-        <Link
-          href="/dashboard"
-          className="text-lg font-semibold text-foreground hover:text-foreground/90"
-        >
-          Legantis
-        </Link>
+        <NavbarBrand href="/dashboard" />
 
         <div className="hidden min-[992px]:flex">
           <NavLinks

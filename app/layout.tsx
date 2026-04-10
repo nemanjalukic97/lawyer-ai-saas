@@ -20,6 +20,10 @@ export const metadata: Metadata = {
   title: "Legantis | AI Legal Assistant for Balkan Lawyers",
   description:
     "Legantis is an AI legal assistant for lawyers in Bosnia & Herzegovina, Serbia, Croatia, Montenegro, and Slovenia. Contract drafting, case prediction, document analysis, time tracking, and client portal.",
+  icons: {
+    icon: [{ url: "/logo.svg", type: "image/svg+xml" }],
+    apple: [{ url: "/logo.svg" }],
+  },
 };
 
 export default function RootLayout({
