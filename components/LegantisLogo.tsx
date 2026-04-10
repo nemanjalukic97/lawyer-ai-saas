@@ -11,7 +11,7 @@ export function LegantisLogo({ className, ...props }: LegantisLogoProps) {
       viewBox="0 0 1500 1500"
       aria-hidden="true"
       focusable="false"
-      className={cn("h-8 w-8 shrink-0", className)}
+      className={cn("h-8 w-8 shrink-0 text-foreground", className)}
       {...props}
     >
       <defs>
