@@ -142,27 +142,27 @@ const MESSAGES: Record<LanguageCode, Messages> = {
           q1: {
             question: "Is there a free trial available?",
             answer:
-              "Yes. You can start with a free trial to explore core features before committing to a paid plan.",
+              "Yes. You can start with a free trial to explore core features before committing to a paid plan. You do not need a credit card to begin. When the trial ends, you can pick a plan that fits your practice or stop using the service.",
           },
           q2: {
             question: "Which jurisdictions are currently supported?",
             answer:
-              "Legantis is tailored for Bosnia and Herzegovina, Serbia, Croatia, Montenegro, and Slovenia.",
+              "Legantis is tailored for Bosnia and Herzegovina, Serbia, Croatia, Montenegro, and Slovenia. Defaults and suggestions follow local legal practice patterns for those markets. We may add more coverage over time—check this page or your account settings for the latest list.",
           },
           q3: {
             question: "Can I export generated documents?",
             answer:
-              "Yes. You can export generated documents in practical formats for internal review and client delivery.",
+              "Yes. You can export generated documents in practical formats for internal review and client delivery. Save drafts locally to edit in Word or share PDFs with parties. A clear naming and versioning habit in your firm helps everyone stay aligned.",
           },
           q4: {
             question: "How is client data protected?",
             answer:
-              "We use secure access controls and encrypted storage practices to protect legal data and communication.",
+              "We use secure access controls and encrypted storage practices to protect legal data and communication. Our infrastructure partners host data in regions described in our Privacy Policy. You control what matter data you store and which team members can access it.",
           },
           q5: {
             question: "Can I cancel or change my plan anytime?",
             answer:
-              "Yes. You can upgrade, downgrade, or cancel your plan from billing settings at any time.",
+              "Yes. You can upgrade, downgrade, or cancel your plan from billing settings at any time. Plan changes usually apply from the next billing cycle unless we state otherwise. If you cancel, you typically keep access through the period you have already paid for.",
           },
         },
       },
@@ -1324,27 +1324,27 @@ const MESSAGES: Record<LanguageCode, Messages> = {
           q1: {
             question: "Da li postoji besplatan probni period?",
             answer:
-              "Da. Možete započeti sa besplatnim probnim periodom i isprobati ključne funkcionalnosti pre plaćenog paketa.",
+              "Da. Možete započeti sa besplatnim probnim periodom i isprobati ključne funkcionalnosti pre plaćenog paketa. Nije potrebna kreditna kartica da biste počeli. Kada probni period istekne, možete izabrati paket koji vam odgovara ili prestati sa korišćenjem usluge.",
           },
           q2: {
             question: "Koje jurisdikcije su trenutno podržane?",
             answer:
-              "Legantis je prilagođen za Bosnu i Hercegovinu, Srbiju, Hrvatsku, Crnu Goru i Sloveniju.",
+              "Legantis je prilagođen za Bosnu i Hercegovinu, Srbiju, Hrvatsku, Crnu Goru i Sloveniju. Podrazumevane predloge i klauzule prate lokalnu pravnu praksu na tim tržištima. Podrška se može proširiti tokom vremena—proverite ovu stranicu ili podešavanja naloga za najnoviji spisak.",
           },
           q3: {
             question: "Da li mogu izvesti generisane dokumente?",
             answer:
-              "Da. Generisane dokumente možete izvesti u praktičnim formatima za internu proveru i slanje klijentima.",
+              "Da. Generisane dokumente možete izvesti u praktičnim formatima za internu proveru i slanje klijentima. Možete sačuvati nacrte lokalno radi izmene u Wordu ili deliti PDF sa stranama. Dosledno imenovanje i verzije u kancelariji pomažu da svi budu usklađeni.",
           },
           q4: {
             question: "Kako su zaštićeni podaci klijenata?",
             answer:
-              "Koristimo sigurne kontrole pristupa i enkriptovane načine čuvanja podataka kako bismo zaštitili pravnu dokumentaciju.",
+              "Koristimo sigurne kontrole pristupa i enkriptovane načine čuvanja podataka kako bismo zaštitili pravnu dokumentaciju. Infrastrukturni partneri hostuju podatke u regionima opisanim u Politici privatnosti. Vi birate koje podatke o predmetima čuvate i ko iz tima može da im pristupi.",
           },
           q5: {
             question: "Mogu li promeniti ili otkazati paket u bilo kom trenutku?",
             answer:
-              "Da. Paket možete unaprediti, smanjiti ili otkazati u svakom trenutku kroz podešavanja naplate.",
+              "Da. Paket možete unaprediti, smanjiti ili otkazati u svakom trenutku kroz podešavanja naplate. Izmene se obično primenjuju od sledećeg obračunskog ciklusa, osim ako nije drugačije navedeno. Ako otkažete, obično zadržavate pristup do kraja već plaćenog perioda.",
           },
         },
       },
@@ -2508,27 +2508,27 @@ const MESSAGES: Record<LanguageCode, Messages> = {
           q1: {
             question: "Da li postoji besplatan probni period?",
             answer:
-              "Da. Možete početi s besplatnim probnim periodom i isprobati ključne funkcije prije prelaska na plaćeni paket.",
+              "Da. Možete početi s besplatnim probnim periodom i isprobati ključne funkcije prije prelaska na plaćeni paket. Nije potrebna kreditna kartica za početak. Kad probni period završi, možete odabrati paket koji vam odgovara ili prestati koristiti uslugu.",
           },
           q2: {
             question: "Koje jurisdikcije su trenutno podržane?",
             answer:
-              "Legantis je prilagođen za Bosnu i Hercegovinu, Srbiju, Hrvatsku, Crnu Goru i Sloveniju.",
+              "Legantis je prilagođen za Bosnu i Hercegovinu, Srbiju, Hrvatsku, Crnu Goru i Sloveniju. Zadane postavke i prijedlozi prate lokalnu pravnu praksu na tim tržištima. Podrška se može proširiti s vremenom—provjerite ovu stranicu ili postavke računa za najnoviji popis.",
           },
           q3: {
             question: "Mogu li izvesti generirane dokumente?",
             answer:
-              "Da. Generirane dokumente možete izvesti u praktičnim formatima za internu provjeru i slanje klijentima.",
+              "Da. Generirane dokumente možete izvesti u praktičnim formatima za internu provjeru i slanje klijentima. Možete spremiti nacrte lokalno za uređivanje u Wordu ili dijeliti PDF sa stranama. Dosljedno imenovanje i verzije u uredu pomažu da svi budu usklađeni.",
           },
           q4: {
             question: "Kako su zaštićeni podaci klijenata?",
             answer:
-              "Koristimo sigurne kontrole pristupa i enkriptovane načine pohrane podataka za zaštitu pravne dokumentacije.",
+              "Koristimo sigurne kontrole pristupa i enkriptovane načine pohrane podataka za zaštitu pravne dokumentacije. Infrastrukturni partneri hostaju podatke u regijama opisanim u Pravilima privatnosti. Vi odlučujete koje podatke o predmetima pohranjujete i tko iz tima im može pristupiti.",
           },
           q5: {
             question: "Mogu li promijeniti ili otkazati paket u bilo kojem trenutku?",
             answer:
-              "Da. Paket možete nadograditi, smanjiti ili otkazati u svakom trenutku kroz postavke naplate.",
+              "Da. Paket možete nadograditi, smanjiti ili otkazati u svakom trenutku kroz postavke naplate. Promjene se obično primjenjuju od sljedećeg obračunskog ciklusa osim ako nije drugačije navedeno. Ako otkažete, obično zadržavate pristup do kraja već plaćenog razdoblja.",
           },
         },
       },
@@ -3695,27 +3695,27 @@ const MESSAGES: Record<LanguageCode, Messages> = {
           q1: {
             question: "Postoji li besplatno probno razdoblje?",
             answer:
-              "Da. Možete započeti s besplatnim probnim razdobljem i isprobati ključne funkcije prije odabira plaćenog paketa.",
+              "Da. Možete započeti s besplatnim probnim razdobljem i isprobati ključne funkcije prije odabira plaćenog paketa. Nije potrebna kreditna kartica za početak. Kad probno razdoblje završi, možete odabrati paket koji vam odgovara ili prestati koristiti uslugu.",
           },
           q2: {
             question: "Koje su jurisdikcije trenutno podržane?",
             answer:
-              "Legantis je prilagođen za Bosnu i Hercegovinu, Srbiju, Hrvatsku, Crnu Goru i Sloveniju.",
+              "Legantis je prilagođen za Bosnu i Hercegovinu, Srbiju, Hrvatsku, Crnu Goru i Sloveniju. Zadane postavke i prijedlozi prate lokalnu pravnu praksu na tim tržištima. Podrška se može proširiti tijekom vremena—provjerite ovu stranicu ili postavke računa za najnoviji popis.",
           },
           q3: {
             question: "Mogu li izvesti generirane dokumente?",
             answer:
-              "Da. Generirane dokumente možete izvesti u praktičnim formatima za internu provjeru i slanje klijentima.",
+              "Da. Generirane dokumente možete izvesti u praktičnim formatima za internu provjeru i slanje klijentima. Možete spremiti nacrte lokalno za uređivanje u Wordu ili dijeliti PDF sa stranama. Dosljedno imenovanje i verzije u uredu pomažu da svi budu usklađeni.",
           },
           q4: {
             question: "Kako su zaštićeni podaci klijenata?",
             answer:
-              "Koristimo sigurne kontrole pristupa i enkriptirane načine pohrane podataka kako bismo zaštitili pravnu dokumentaciju.",
+              "Koristimo sigurne kontrole pristupa i enkriptirane načine pohrane podataka kako bismo zaštitili pravnu dokumentaciju. Infrastrukturni partneri hostaju podatke u regijama opisanim u Pravilima privatnosti. Vi odlučujete koje podatke o predmetima pohranjujete i tko iz tima im može pristupiti.",
           },
           q5: {
             question: "Mogu li promijeniti ili otkazati paket u bilo kojem trenutku?",
             answer:
-              "Da. Paket možete nadograditi, smanjiti ili otkazati u bilo kojem trenutku kroz postavke naplate.",
+              "Da. Paket možete nadograditi, smanjiti ili otkazati u bilo kojem trenutku kroz postavke naplate. Promjene se obično primjenjuju od sljedećeg obračunskog ciklusa osim ako nije drugačije navedeno. Ako otkažete, obično zadržavate pristup do kraja već plaćenog razdoblja.",
           },
         },
       },
@@ -4881,27 +4881,27 @@ const MESSAGES: Record<LanguageCode, Messages> = {
           q1: {
             question: "Ali je na voljo brezplačno preizkusno obdobje?",
             answer:
-              "Da. Začnete lahko z brezplačnim preizkusom in preizkusite ključne funkcije pred izbiro plačljivega paketa.",
+              "Da. Začnete lahko z brezplačnim preizkusom in preizkusite ključne funkcije pred izbiro plačljivega paketa. Za začetek kreditne kartice ne potrebujete. Ko preizkus poteče, lahko izberete paket, ki ustreza vaši praksi, ali prenehate z uporabo storitve.",
           },
           q2: {
             question: "Katere jurisdikcije so trenutno podprte?",
             answer:
-              "Legantis je prilagojen za Bosno in Hercegovino, Srbijo, Hrvaško, Črno goro in Slovenijo.",
+              "Legantis je prilagojen za Bosno in Hercegovino, Srbijo, Hrvaško, Črno goro in Slovenijo. Privzete nastavitve in predlogi sledijo lokalni pravni praksi na teh trgih. Podpora se lahko razširi skozi čas—preverite to stran ali nastavitve računa za najnovejši seznam.",
           },
           q3: {
             question: "Ali lahko izvozim ustvarjene dokumente?",
             answer:
-              "Da. Ustvarjene dokumente lahko izvozite v praktičnih formatih za interno preverjanje in pošiljanje strankam.",
+              "Da. Ustvarjene dokumente lahko izvozite v praktičnih formatih za interno preverjanje in pošiljanje strankam. Osnutke lahko shranite lokalno za urejanje v Wordu ali delite PDF s strankami. Dosledno poimenovanje in različice v pisarni pomagajo, da so vsi usklajeni.",
           },
           q4: {
             question: "Kako so zaščiteni podatki strank?",
             answer:
-              "Uporabljamo varne nadzore dostopa in šifrirane načine hrambe podatkov za zaščito pravne dokumentacije.",
+              "Uporabljamo varne nadzore dostopa in šifrirane načine hrambe podatkov za zaščito pravne dokumentacije. Infrastrukturni partnerji gostijo podatke v regijah, opisanih v pravilniku o zasebnosti. Vi odločate, katere podatke o zadevah shranjujete in kdo v ekipi ima dostop.",
           },
           q5: {
             question: "Ali lahko kadarkoli spremenim ali prekličem paket?",
             answer:
-              "Da. Paket lahko kadarkoli nadgradite, znižate ali prekličete v nastavitvah obračunavanja.",
+              "Da. Paket lahko kadarkoli nadgradite, znižate ali prekličete v nastavitvah obračunavanja. Spremembe se običajno uveljavijo od naslednjega obračunskega cikla, razen če ni drugače navedeno. Če prekličete, običajno obdržite dostop do konca že plačanega obdobja.",
           },
         },
       },
@@ -6064,27 +6064,27 @@ const MESSAGES: Record<LanguageCode, Messages> = {
           q1: {
             question: "Da li postoji besplatan probni period?",
             answer:
-              "Da. Možete početi sa besplatnim probnim periodom i isprobati ključne funkcije prije odabira plaćenog paketa.",
+              "Da. Možete početi sa besplatnim probnim periodom i isprobati ključne funkcije prije odabira plaćenog paketa. Nije potrebna kreditna kartica za početak. Kada probni period istekne, možete izabrati paket koji vam odgovara ili prestati sa korišćenjem usluge.",
           },
           q2: {
             question: "Koje jurisdikcije su trenutno podržane?",
             answer:
-              "Legantis je prilagođen za Bosnu i Hercegovinu, Srbiju, Hrvatsku, Crnu Goru i Sloveniju.",
+              "Legantis je prilagođen za Bosnu i Hercegovinu, Srbiju, Hrvatsku, Crnu Goru i Sloveniju. Podrazumijevane postavke i prijedlozi prate lokalnu pravnu praksu na tim tržištima. Podrška se može proširiti tokom vremena—provjerite ovu stranicu ili postavke računa za najnoviji spisak.",
           },
           q3: {
             question: "Mogu li izvesti generisane dokumente?",
             answer:
-              "Da. Generisane dokumente možete izvesti u praktičnim formatima za internu provjeru i slanje klijentima.",
+              "Da. Generisane dokumente možete izvesti u praktičnim formatima za internu provjeru i slanje klijentima. Možete sačuvati nacrte lokalno radi izmjene u Wordu ili dijeliti PDF sa stranama. Dosljedno imenovanje i verzije u kancelariji pomažu da svi budu usklađeni.",
           },
           q4: {
             question: "Kako su zaštićeni podaci klijenata?",
             answer:
-              "Koristimo sigurne kontrole pristupa i enkriptovane načine čuvanja podataka za zaštitu pravne dokumentacije.",
+              "Koristimo sigurne kontrole pristupa i enkriptovane načine čuvanja podataka za zaštitu pravne dokumentacije. Infrastrukturni partneri hostuju podatke u regionima opisanim u Pravilima privatnosti. Vi birate koje podatke o predmetima čuvate i ko iz tima može da im pristupi.",
           },
           q5: {
             question: "Mogu li promijeniti ili otkazati paket u bilo kom trenutku?",
             answer:
-              "Da. Paket možete nadograditi, smanjiti ili otkazati u svakom trenutku kroz podešavanja naplate.",
+              "Da. Paket možete nadograditi, smanjiti ili otkazati u svakom trenutku kroz podešavanja naplate. Izmjene se obično primjenjuju od sljedećeg obračunskog ciklusa osim ako nije drugačije navedeno. Ako otkažete, obično zadržavate pristup do kraja već plaćenog perioda.",
           },
         },
       },

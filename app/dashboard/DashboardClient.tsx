@@ -171,14 +171,9 @@ export function DashboardClient({
         </section>
 
         <section className="space-y-3">
-          <div className="flex items-baseline justify-between gap-2">
-            <h2 className="text-lg font-semibold">
-              {t("dashboard.actions.title")}
-            </h2>
-            <p className="text-xs text-muted-foreground">
-              {t("dashboard.actions.subtitle")}
-            </p>
-          </div>
+          <h2 className="text-lg font-semibold">
+            {t("dashboard.actions.title")}
+          </h2>
 
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
             <QuickActionCard
