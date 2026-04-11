@@ -485,6 +485,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         family: "Family Law",
         criminal: "Criminal Law",
         administrative: "Administrative Law",
+        misdemeanor: "Misdemeanor Law",
       },
       jurisdictions: {
         serbia: "Serbia",
@@ -1775,6 +1776,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         family: "Porodično pravo",
         criminal: "Krivično pravo",
         administrative: "Upravno pravo",
+        misdemeanor: "Prekršajno pravo",
       },
       jurisdictions: {
         serbia: "Srbija",
@@ -2959,6 +2961,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         family: "Porodično pravo",
         criminal: "Krivično pravo",
         administrative: "Upravno pravo",
+        misdemeanor: "Prekršajno pravo",
       },
       jurisdictions: {
         serbia: "Srbija",
@@ -4540,6 +4543,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         family: "Obiteljsko pravo",
         criminal: "Kazneno pravo",
         administrative: "Upravno pravo",
+        misdemeanor: "Prekršajno pravo",
       },
       jurisdictions: {
         serbia: "Srbija",
@@ -5332,6 +5336,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         family: "Družinsko pravo",
         criminal: "Kazensko pravo",
         administrative: "Upravno pravo",
+        misdemeanor: "Prekršajno pravo",
       },
       jurisdictions: {
         serbia: "Srbija",
@@ -6515,6 +6520,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         family: "Porodično pravo",
         criminal: "Krivično pravo",
         administrative: "Upravno pravo",
+        misdemeanor: "Prekršajno pravo",
       },
       jurisdictions: {
         serbia: "Srbija",

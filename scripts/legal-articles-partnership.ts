@@ -26,6 +26,26 @@ type P = {
   effective_date?: string
 }
 
+const MAX_ARTICLE_FIELD_CHARS = 20_000
+
+/** Defensive cleanup for fields that caused OpenAI embedding 400 (null bytes, separators, overlong text). */
+function cleanArticleField(value: string): string {
+  let s = value.replace(/\0/g, "")
+  s = s.replace(/\u2028/g, "\n").replace(/\u2029/g, "\n")
+  s = s.replace(/\ufeff/g, "")
+  s = [...s]
+    .filter((ch) => {
+      const cp = ch.codePointAt(0)!
+      if (cp < 32 && cp !== 9 && cp !== 10 && cp !== 13) return false
+      return true
+    })
+    .join("")
+  if (s.length > MAX_ARTICLE_FIELD_CHARS) {
+    s = s.slice(0, MAX_ARTICLE_FIELD_CHARS)
+  }
+  return s
+}
+
 const ZPD_RS_EFFECTIVE = "2011-05-21"
 
 /** Serbian (RS) ZPD — Paragraf.rs consolidated; same substantive text reused for harmonized entity laws in BiH/ME where applicable. */
@@ -419,9 +439,12 @@ const ME_ZOO: P[] = [
     law_category: "commercial",
     article_num: "730",
     source_url: "https://www.paragraf.me/propisi-crnegore/zakon-o-obligacionim-odnosima.html",
-    text_local:
+    text_local: cleanArticleField(
       "(1) Ako udjeli ortaka u dobiti i gubitku nijesu utvrđeni ugovorom o ortakluku, svaki ortak ima, nezavisno od vrste i veličine uloga, jednak udio u dobiti i gubitku.\n\n(2) Ako je određen samo udio u dobiti, ili samo u gubitku, u sumnji ta ugovorna odredba važi za dobit i za gubitak.",
-    text: "(1) If profit and loss shares are not fixed in the agreement, each partner has an equal share regardless of contributions.\n\n(2) If only profit or only loss share is set, in case of doubt it applies to both.",
+    ),
+    text: cleanArticleField(
+      "(1) If profit and loss shares are not fixed in the agreement, each partner has an equal share regardless of contributions.\n\n(2) If only profit or only loss share is set, in case of doubt it applies to both.",
+    ),
   },
   {
     jurisdiction: "montenegro",

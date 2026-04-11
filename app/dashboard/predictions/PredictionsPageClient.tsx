@@ -28,6 +28,7 @@ type CaseType =
   | "family"
   | "criminal"
   | "administrative"
+  | "misdemeanor"
 
 type Jurisdiction =
   | "serbia"
@@ -67,6 +68,7 @@ const CASE_TYPE_OPTIONS: LocalizedOption<CaseType>[] = [
   { value: "family", label: "Family Law", translationKey: "predictions.caseTypes.family" },
   { value: "criminal", label: "Criminal Law", translationKey: "predictions.caseTypes.criminal" },
   { value: "administrative", label: "Administrative Law", translationKey: "predictions.caseTypes.administrative" },
+  { value: "misdemeanor", label: "Misdemeanor Law", translationKey: "predictions.caseTypes.misdemeanor" },
 ]
 
 const JURISDICTION_OPTIONS: LocalizedOption<Jurisdiction>[] = [

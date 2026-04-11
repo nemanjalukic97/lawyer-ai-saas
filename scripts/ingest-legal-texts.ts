@@ -12,6 +12,7 @@ import { COMMERCIAL_ARTICLES } from "./legal-articles-commercial"
 import { SERVICES_ARTICLES } from "./legal-articles-services"
 import { NDA_ARTICLES } from "./legal-articles-nda"
 import { PARTNERSHIP_ARTICLES } from "./legal-articles-partnership"
+import { MISDEMEANOR_ARTICLES } from "./legal-articles-misdemeanor"
 
 dotenv.config({ path: ".env.local" })
 
@@ -139,6 +140,7 @@ export const SAMPLE_ARTICLES: LegalArticleInput[] = [
   ...(SERVICES_ARTICLES as LegalArticleInput[]),
   ...(NDA_ARTICLES as LegalArticleInput[]),
   ...(PARTNERSHIP_ARTICLES as LegalArticleInput[]),
+  ...(MISDEMEANOR_ARTICLES as LegalArticleInput[]),
 ]
 
 function sleep(ms: number) {
@@ -174,10 +176,35 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 })
 
+/** text-embedding-3-small rejects inputs over ~8192 tokens; long articles need truncation. */
+const MAX_EMBEDDING_INPUT_CHARS = 24_000
+
+/** Remove null bytes, BOM, C0 controls (except tab/LF/CR), and line/paragraph separators that can break JSON transport. */
+function sanitizeEmbeddingSource(raw: string): string {
+  let s = raw.replace(/\0/g, "")
+  s = s.replace(/\u2028/g, "\n").replace(/\u2029/g, "\n")
+  s = s.replace(/\ufeff/g, "")
+  return [...s]
+    .filter((ch) => {
+      const cp = ch.codePointAt(0)!
+      if (cp < 32 && cp !== 9 && cp !== 10 && cp !== 13) return false
+      return true
+    })
+    .join("")
+}
+
+function truncateEmbeddingInput(raw: string): string {
+  const cleaned = sanitizeEmbeddingSource(raw)
+  if (cleaned.length <= MAX_EMBEDDING_INPUT_CHARS) return cleaned
+  return cleaned.slice(0, MAX_EMBEDDING_INPUT_CHARS)
+}
+
 export async function embed(article: LegalArticleInput): Promise<number[]> {
-  const input = `${article.law_name_local} ${article.article_num}${
-    article.paragraph_num ? " §" + article.paragraph_num : ""
-  }: ${article.text_local ?? ""} ${article.text ?? ""}`
+  const input = truncateEmbeddingInput(
+    `${article.law_name_local} ${article.article_num}${
+      article.paragraph_num ? " §" + article.paragraph_num : ""
+    }: ${article.text_local ?? ""} ${article.text ?? ""}`,
+  )
 
   const res = await openai.embeddings.create({
     model: "text-embedding-3-small",

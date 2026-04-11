@@ -1142,6 +1142,7 @@ export type Database = {
         | "family"
         | "criminal"
         | "administrative"
+        | "misdemeanor"
       client_status: "active" | "inactive" | "archived"
       confidence_level: "high" | "medium" | "low"
       contract_status: "draft" | "final" | "signed" | "archived"
@@ -1333,6 +1334,7 @@ export const Constants = {
         "family",
         "criminal",
         "administrative",
+        "misdemeanor",
       ],
       client_status: ["active", "inactive", "archived"],
       confidence_level: ["high", "medium", "low"],

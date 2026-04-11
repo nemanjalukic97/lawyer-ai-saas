@@ -1,37 +1,29 @@
+/**
+ * One-off helper: extract plain text for Član N from Paragraf HTML (zp-rs.html in TEMP).
+ * Run: node scripts/_extract-paragraf-clan.mjs
+ */
 import fs from "fs"
+import path from "path"
+import { fileURLToPath } from "url"
 
-const file = process.argv[2]
-const nums = process.argv.slice(3).map(Number)
-const html = fs.readFileSync(file, "utf8")
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const htmlPath = process.argv[2] || path.join(process.env.TEMP || "/tmp", "zp-rs.html")
+const html = fs.readFileSync(htmlPath, "utf8")
 
 function extractArticle(n) {
-  const startRe = new RegExp(
-    `<p class="clan"><a name="clan_${n}[^"]*"></a>Član ${n}\\s*</p>`,
+  const re = new RegExp(
+    `<a name="clan_${n}"></a>Član ${n}\\s*</p>([\\s\\S]*?)(?=<p class="clan"><a name="clan_)`,
     "i",
   )
-  const start = html.search(startRe)
-  if (start < 0) return null
-  const rest = html.slice(start)
-  const rel = rest.slice(1).search(/<p class="clan"><a name="clan_/i)
-  const block =
-    rel >= 0 ? rest.slice(0, rel + 1) : rest.slice(0, 12000)
-  const normals = [...block.matchAll(/<p class="normal">([\s\S]*?)<\/p>/gi)]
-  let text = normals
-    .map((m) =>
-      m[1]
-        .replace(/<[^>]+>/g, "")
-        .replace(/&nbsp;/g, " ")
-        .replace(/&quot;/g, '"')
-        .replace(/\s+/g, " ")
-        .trim(),
-    )
-    .filter(Boolean)
-    .join("\n\n")
-  return text
+  const m = html.match(re)
+  if (!m) return null
+  const chunk = m[1]
+  const texts = [...chunk.matchAll(/<p class="normal">([^<]*)<\/p>/g)].map((x) => x[1].trim())
+  return texts.join("\n")
 }
 
+const nums = process.argv[3] ? process.argv[3].split(",").map(Number) : [1, 2, 6, 10, 14, 17, 55, 105, 168, 211]
 for (const n of nums) {
   const t = extractArticle(n)
-  console.log(`\n--- ČLAN ${n} ---\n`)
-  console.log(t ?? "(not found)")
+  console.log(JSON.stringify({ n, len: t?.length ?? 0, text: t ?? "" }))
 }
