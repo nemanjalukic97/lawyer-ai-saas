@@ -22,6 +22,7 @@ import { Document as DocxDocument, Packer, Paragraph } from "docx"
 import { useLanguage } from "@/components/LanguageProvider"
 import { RagSourcesPanel } from "@/components/RagSourcesPanel"
 import type { RagMetadata } from "@/types/rag"
+import ContractsListPanel from "./ContractsListPanel"
 
 type ContractType =
   | "employment"
@@ -1292,6 +1293,7 @@ export default function ContractsWizardPage({ selectedId }: ContractsWizardPageP
     <div className="min-h-screen bg-background px-4 py-10">
       <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[minmax(0,2fr),minmax(0,1.2fr)]">
         <div className="flex flex-col gap-8">
+          <ContractsListPanel />
           <header className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
             <div>
               <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">

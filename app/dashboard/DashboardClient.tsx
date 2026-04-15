@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { FilePen, FileText, Scale, Users } from "lucide-react"
+import { Calendar, FilePen, FileText, Scale, ShieldAlert, Users, Search } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -16,6 +16,9 @@ import type { ActivityItem } from "./lib/activity"
 import { ACTIVITY_HREF_BY_TYPE } from "./lib/activity"
 import { FeatureUsageChart } from "./components/FeatureUsageChart"
 import { hasFeature, type EntitlementPlanId } from "./lib/entitlements"
+import { getEffectiveStatus } from "./deadlines/lib/effectiveStatus"
+import { calendarDaysUntil, formatDueHeading } from "./deadlines/lib/dates"
+import type { Tables } from "@/lib/supabase/types"
 
 type FeatureUsagePoint = {
   feature_type: string
@@ -27,6 +30,13 @@ type RoiData = {
   savingsEur: number
   subscriptionCostEur: number
   subscriptionTier: string
+}
+
+type UpcomingDeadlinePreview = {
+  id: string
+  title: string
+  due_date: string
+  status: Tables<"deadlines">["status"]
 }
 
 type Props = {
@@ -46,6 +56,15 @@ type Props = {
     predictions: number
     invoices: number
   }
+  invoiceMetrics: {
+    outstandingTotalEur: number
+    paidThisMonthTotalEur: number
+    overdueCount: number
+  }
+  signatureMetrics: {
+    pendingCount: number
+    signedThisMonthCount: number
+  }
   usageSummary: {
     totalTokens: number
     totalCost: number
@@ -53,6 +72,7 @@ type Props = {
   featureUsage: FeatureUsagePoint[]
   recentActivity: ActivityItem[]
   roiData: RoiData
+  upcomingDeadlines: UpcomingDeadlinePreview[]
 }
 
 export function DashboardClient({
@@ -65,10 +85,13 @@ export function DashboardClient({
   firmTrialEndsAt,
   profileTrialEndsAt,
   totals,
+  invoiceMetrics,
+  signatureMetrics,
   usageSummary,
   featureUsage,
   recentActivity,
   roiData,
+  upcomingDeadlines,
 }: Props) {
   const { t } = useLanguage()
 
@@ -79,6 +102,16 @@ export function DashboardClient({
   const canDraftContracts = hasFeature(planId, "contract_drafting")
   const canUseTemplates = hasFeature(planId, "template_library")
   const canViewActivityFeed = hasFeature(planId, "activity_feed")
+  const canViewDeadlines = hasFeature(planId, "deadline_tracking")
+
+  function urgencyDotClass(deadline: UpcomingDeadlinePreview): string {
+    const eff = getEffectiveStatus(deadline)
+    if (eff === "completed" || eff === "cancelled") return "bg-muted-foreground"
+    if (eff === "overdue") return "bg-destructive"
+    const diff = calendarDaysUntil(deadline.due_date)
+    if (diff <= 3) return "bg-amber-500"
+    return "bg-emerald-500"
+  }
 
   return (
     <div className="min-h-screen bg-background px-4 py-10">
@@ -147,6 +180,20 @@ export function DashboardClient({
 
           <Card className="p-4">
             <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+              {t("signature.dashboard.statsTitle")}
+            </p>
+            <p className="mt-2 text-2xl font-semibold">{signatureMetrics.pendingCount}</p>
+            <p className="mt-1 text-xs text-muted-foreground">
+              {t("signature.dashboard.pendingSignatures")}
+            </p>
+            <p className="mt-3 text-sm font-medium">
+              {t("signature.dashboard.signedThisMonth")}:{" "}
+              <span className="font-semibold">{signatureMetrics.signedThisMonthCount}</span>
+            </p>
+          </Card>
+
+          <Card className="p-4">
+            <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
               {t("dashboard.stats.documents.title")}
             </p>
             <p className="mt-2 text-2xl font-semibold">
@@ -182,6 +229,22 @@ export function DashboardClient({
               title={t("dashboard.actions.generate.title")}
               description={t("dashboard.actions.generate.description")}
               href="/dashboard/generate"
+            />
+
+            <QuickActionCard
+              icon="muted"
+              Icon={ShieldAlert}
+              title={t("conflict.header.title")}
+              description={t("conflict.header.subtitle")}
+              href="/dashboard/conflict-check"
+            />
+
+            <QuickActionCard
+              icon="muted"
+              Icon={Search}
+              title={t("dashboard.actions.research.title")}
+              description={t("dashboard.actions.research.description")}
+              href="/dashboard/research"
             />
 
             {canDraftContracts && (
@@ -238,6 +301,63 @@ export function DashboardClient({
             )}
           </div>
         </section>
+
+        {canViewDeadlines && (
+          <section>
+            <Card className="p-6">
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                <div className="flex items-start gap-3">
+                  <div className="mt-0.5 inline-flex h-9 w-9 items-center justify-center rounded-md bg-muted text-muted-foreground">
+                    <Calendar className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <h2 className="text-lg font-semibold">
+                      {t("dashboard.upcomingDeadlines.title")}
+                    </h2>
+                    <p className="mt-1 text-sm text-muted-foreground">
+                      {t("dashboard.upcomingDeadlines.subtitle")}
+                    </p>
+                  </div>
+                </div>
+                <Button variant="outline" size="sm" asChild>
+                  <Link href="/dashboard/deadlines">
+                    {t("dashboard.upcomingDeadlines.viewAll")}
+                  </Link>
+                </Button>
+              </div>
+              <div className="mt-5 space-y-3">
+                {upcomingDeadlines.length === 0 ? (
+                  <p className="text-sm text-muted-foreground">
+                    {t("dashboard.upcomingDeadlines.empty")}
+                  </p>
+                ) : (
+                  upcomingDeadlines.map((d) => (
+                    <div
+                      key={d.id}
+                      className="flex items-start gap-3 rounded-lg border border-border px-3 py-2"
+                    >
+                      <span
+                        className={cn(
+                          "mt-1.5 size-2 shrink-0 rounded-full",
+                          urgencyDotClass(d)
+                        )}
+                        aria-hidden
+                      />
+                      <div className="min-w-0 flex-1">
+                        <p className="text-sm font-medium leading-snug">
+                          {d.title}
+                        </p>
+                        <p className="text-xs text-muted-foreground">
+                          {formatDueHeading(d.due_date)}
+                        </p>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+            </Card>
+          </section>
+        )}
 
         <section className="grid gap-4 lg:grid-cols-[minmax(0,2fr),minmax(0,1.2fr)]">
           <Card className="p-6">
@@ -297,9 +417,18 @@ export function DashboardClient({
                   {totals.invoices}{" "}
                   {t("dashboard.workspace.invoices.countSuffix",)}
                 </p>
-                <p className="mt-1 text-xs text-muted-foreground">
-                  {t("dashboard.workspace.invoices.subtitle")}
-                </p>
+                <div className="mt-2 space-y-1 text-xs text-muted-foreground">
+                  <p>{t("dashboard.workspace.invoices.subtitle")}</p>
+                  <p>
+                    Outstanding: <span className="font-medium text-foreground">€{invoiceMetrics.outstandingTotalEur.toFixed(2)}</span>
+                  </p>
+                  <p>
+                    Paid this month: <span className="font-medium text-foreground">€{invoiceMetrics.paidThisMonthTotalEur.toFixed(2)}</span>
+                  </p>
+                  <p>
+                    Overdue: <span className="font-medium text-foreground">{invoiceMetrics.overdueCount}</span>
+                  </p>
+                </div>
               </div>
             </div>
           </Card>

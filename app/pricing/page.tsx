@@ -3,11 +3,13 @@
 import Link from "next/link"
 
 import { Header } from "@/components/Header"
+import { useLanguage } from "@/components/LanguageProvider"
 import { PricingCard } from "@/components/PricingCard"
 import { Button } from "@/components/ui/button"
 import { PRICING_TIERS } from "@/types"
 
 export default function PricingPage() {
+  const { t } = useLanguage()
   return (
     <div className="flex flex-col">
       <Header />
@@ -52,6 +54,7 @@ export default function PricingPage() {
                   price={tier.price}
                   features={tier.features}
                   ctaLabel="Start free trial"
+                  pricePeriodLabel={t("home.pricing.perMonth")}
                   recommended={tier.recommended}
                   planId={tier.id}
                 />

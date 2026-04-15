@@ -6,6 +6,7 @@ import {
   getEntitlementPlanForUser,
 } from "./lib/getEntitlementPlan"
 import {
+  hasFeature,
   isPaidPlanId,
   resolveSubscriptionTier,
   type EntitlementPlanId,
@@ -213,6 +214,65 @@ export default async function DashboardPage() {
     firm = firmRow ?? null
   }
 
+  const scopeFilter = profileLawFirmId
+    ? `user_id.eq.${user.id},law_firm_id.eq.${profileLawFirmId}`
+    : null
+
+  const [outstandingInvoicesResult, overdueInvoicesCountResult, paidThisMonthInvoicesResult] =
+    await Promise.all([
+      (() => {
+        const q = supabase
+          .from("invoices")
+          .select("total_amount, status")
+          .in("status", ["sent", "overdue"])
+        return scopeFilter ? q.or(scopeFilter) : q.eq("user_id", user.id)
+      })(),
+      (() => {
+        const q = supabase
+          .from("invoices")
+          .select("*", { count: "exact", head: true })
+          .eq("status", "overdue")
+        return scopeFilter ? q.or(scopeFilter) : q.eq("user_id", user.id)
+      })(),
+      (() => {
+        const now = new Date()
+        const start = new Date(now.getFullYear(), now.getMonth(), 1)
+        const end = new Date(now.getFullYear(), now.getMonth() + 1, 1)
+        const q = supabase
+          .from("invoices")
+          .select("total_amount, paid_at, status")
+          .eq("status", "paid")
+          .gte("paid_at", start.toISOString())
+          .lt("paid_at", end.toISOString())
+        return scopeFilter ? q.or(scopeFilter) : q.eq("user_id", user.id)
+      })(),
+    ])
+
+  const [pendingSignaturesCountResult, signedThisMonthSignaturesCountResult] =
+    await Promise.all([
+      (() => {
+        const nowIso = new Date().toISOString()
+        const q = supabase
+          .from("signature_requests")
+          .select("*", { count: "exact", head: true })
+          .eq("status", "pending")
+          .gt("expires_at", nowIso)
+        return scopeFilter ? q.or(scopeFilter) : q.eq("user_id", user.id)
+      })(),
+      (() => {
+        const now = new Date()
+        const start = new Date(now.getFullYear(), now.getMonth(), 1)
+        const end = new Date(now.getFullYear(), now.getMonth() + 1, 1)
+        const q = supabase
+          .from("signature_requests")
+          .select("*", { count: "exact", head: true })
+          .eq("status", "signed")
+          .gte("signed_at", start.toISOString())
+          .lt("signed_at", end.toISOString())
+        return scopeFilter ? q.or(scopeFilter) : q.eq("user_id", user.id)
+      })(),
+    ])
+
   const displayName =
     userProfile.full_name ||
     // fall back to auth user metadata full_name if profile row is not yet populated
@@ -244,12 +304,68 @@ export default async function DashboardPage() {
     user.id
   )
 
+  let upcomingDeadlines: Array<{
+    id: string
+    title: string
+    due_date: string
+    status: Tables<"deadlines">["status"]
+  }> = []
+
+  if (hasFeature(planId, "deadline_tracking")) {
+    const { data: dlRows } = await supabase
+      .from("deadlines")
+      .select("id, title, due_date, status")
+      .eq("user_id", user.id)
+      .is("deleted_at", null)
+      .order("due_date", { ascending: true })
+      .limit(40)
+
+    const rows = (dlRows ?? []) as Array<{
+      id: string
+      title: string
+      due_date: string
+      status: string | null
+    }>
+
+    upcomingDeadlines = rows
+      .filter(
+        (d) => d.status !== "completed" && d.status !== "cancelled"
+      )
+      .slice(0, 5)
+      .map((d) => ({
+        id: d.id,
+        title: d.title,
+        due_date: d.due_date,
+        status: d.status as Tables<"deadlines">["status"],
+      }))
+  }
+
   const totalContracts = contractsCountResult.count ?? 0
   const totalDocuments = documentsCountResult.count ?? 0
   const totalPredictions = predictionsCountResult.count ?? 0
   const totalAnalyses = analysesCountResult.count ?? 0
   const totalClients = clientsCountResult.count ?? 0
   const totalInvoices = invoicesCountResult.count ?? 0
+  const pendingSignatureCount = pendingSignaturesCountResult.count ?? 0
+  const signedThisMonthSignatureCount =
+    signedThisMonthSignaturesCountResult.count ?? 0
+
+  const outstandingInvoices = (outstandingInvoicesResult.data ?? []) as Array<{
+    total_amount: number | null
+    status: string | null
+  }>
+  const outstandingTotalEur = outstandingInvoices.reduce(
+    (sum, inv) => sum + Number(inv.total_amount ?? 0),
+    0
+  )
+  const overdueCount = overdueInvoicesCountResult.count ?? 0
+  const paidThisMonthInvoices = (paidThisMonthInvoicesResult.data ?? []) as Array<{
+    total_amount: number | null
+  }>
+  const paidThisMonthTotalEur = paidThisMonthInvoices.reduce(
+    (sum, inv) => sum + Number(inv.total_amount ?? 0),
+    0
+  )
 
   const usageRowsTyped = (usageRows ?? []) as Array<{
     feature_type: string | null
@@ -313,10 +429,20 @@ export default async function DashboardPage() {
         predictions: totalPredictions,
         invoices: totalInvoices,
       }}
+      invoiceMetrics={{
+        outstandingTotalEur,
+        overdueCount,
+        paidThisMonthTotalEur,
+      }}
+      signatureMetrics={{
+        pendingCount: pendingSignatureCount,
+        signedThisMonthCount: signedThisMonthSignatureCount,
+      }}
       usageSummary={usageSummary}
       featureUsage={featureUsage}
       recentActivity={recentActivity}
       roiData={roiData}
+      upcomingDeadlines={upcomingDeadlines}
     />
   )
 }

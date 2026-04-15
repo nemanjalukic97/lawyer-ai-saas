@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { useEffect, useState } from "react"
+import { useEffect, useState, type ReactNode } from "react"
 
 import { FeatureCard } from "@/components/FeatureCard"
 import { Header } from "@/components/Header"
@@ -10,6 +10,81 @@ import { SignupSuccessToast } from "@/components/SignupSuccessToast"
 import { Button } from "@/components/ui/button"
 import { useLanguage } from "@/components/LanguageProvider"
 import { FEATURES, PRICING_TIERS } from "@/types"
+
+const FEATURE_CARD_ICONS: Record<(typeof FEATURES)[number]["id"], ReactNode> = {
+  prediction: (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+      <path
+        d="M3 17L8 12L12 15L17 8L21 11"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <circle cx="21" cy="11" r="1.5" fill="currentColor" />
+      <path d="M3 21H21" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.4" />
+      <path d="M3 3V21" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.4" />
+      <circle cx="8" cy="12" r="1.5" fill="currentColor" opacity="0.6" />
+      <circle cx="12" cy="15" r="1.5" fill="currentColor" opacity="0.6" />
+      <circle cx="17" cy="8" r="1.5" fill="currentColor" opacity="0.6" />
+    </svg>
+  ),
+  contracts: (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+      <path
+        d="M14 3H7C5.9 3 5 3.9 5 5V19C5 20.1 5.9 21 7 21H17C18.1 21 19 20.1 19 19V8L14 3Z"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path d="M14 3V8H19" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M9 13H15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.6" />
+      <path d="M9 16H13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.6" />
+      <path d="M13 10.5L14.5 12L17 9.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  ),
+  analysis: (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+      <circle cx="11" cy="11" r="6.5" stroke="currentColor" strokeWidth="1.8" />
+      <path d="M16 16L20 20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <path d="M8 11H14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.7" />
+      <path d="M8 8.5H13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.4" />
+      <path d="M8 13.5H11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.4" />
+    </svg>
+  ),
+  time: (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+      <circle cx="12" cy="13" r="7.5" stroke="currentColor" strokeWidth="1.8" />
+      <path
+        d="M12 9V13.5L14.5 15.5"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path d="M9.5 3H14.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+      <path d="M12 3V5.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+      <path d="M19 5.5L17.5 7" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" opacity="0.5" />
+    </svg>
+  ),
+  portal: (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+      <rect x="3" y="5" width="18" height="14" rx="2.5" stroke="currentColor" strokeWidth="1.8" />
+      <circle cx="9" cy="11" r="2" stroke="currentColor" strokeWidth="1.5" opacity="0.8" />
+      <path
+        d="M5.5 17.5C5.5 15.5 7 14 9 14C11 14 12.5 15.5 12.5 17.5"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        opacity="0.7"
+      />
+      <path d="M14.5 10H18.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.6" />
+      <path d="M14.5 13H17.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.4" />
+      <path d="M16.5 8.5L17.5 9.5L19.5 7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  ),
+}
 
 type Props = {
   signupStatus?: string
@@ -83,6 +158,7 @@ export function HomeClient({ signupStatus }: Props) {
                   key={f.id}
                   title={t(`home.features.items.${f.id}.title`)}
                   description={t(`home.features.items.${f.id}.description`)}
+                  icon={FEATURE_CARD_ICONS[f.id]}
                 />
               ))}
             </div>
@@ -91,10 +167,12 @@ export function HomeClient({ signupStatus }: Props) {
                 <FeatureCard
                   title={t(`home.features.items.${FEATURES[1].id}.title`)}
                   description={t(`home.features.items.${FEATURES[1].id}.description`)}
+                  icon={FEATURE_CARD_ICONS[FEATURES[1].id]}
                 />
                 <FeatureCard
                   title={t(`home.features.items.${FEATURES[0].id}.title`)}
                   description={t(`home.features.items.${FEATURES[0].id}.description`)}
+                  icon={FEATURE_CARD_ICONS[FEATURES[0].id]}
                 />
               </div>
               <div className="grid gap-6 lg:grid-cols-3">
@@ -103,6 +181,7 @@ export function HomeClient({ signupStatus }: Props) {
                     key={f.id}
                     title={t(`home.features.items.${f.id}.title`)}
                     description={t(`home.features.items.${f.id}.description`)}
+                    icon={FEATURE_CARD_ICONS[f.id]}
                   />
                 ))}
               </div>
@@ -136,6 +215,7 @@ export function HomeClient({ signupStatus }: Props) {
                     t(`home.pricing.tiers.${tier.id}.features.${feature}`)
                   )}
                   ctaLabel={t("home.pricing.cta")}
+                  pricePeriodLabel={t("home.pricing.perMonth")}
                   recommended={tier.recommended}
                   planId={tier.id as "solo" | "professional" | "firm"}
                 />

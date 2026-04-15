@@ -60,6 +60,89 @@ async function embedQuery(text: string): Promise<number[]> {
   }
 }
 
+async function runMatchLegalArticlesRpc(args: {
+  embedding: number[]
+  jurisdiction: string
+  category: string | null
+  matchCount: number
+  similarityThreshold: number
+}): Promise<LegalChunk[]> {
+  const rpcCall = supabaseAdmin.rpc("match_legal_articles", {
+    query_embedding: args.embedding,
+    filter_jurisdiction: args.jurisdiction,
+    filter_category: args.category,
+    match_count: args.matchCount,
+    similarity_threshold: args.similarityThreshold,
+  })
+
+  const timeoutPromise = new Promise<never>((_, reject) =>
+    setTimeout(
+      () => reject(new Error("RAG RPC timeout after 5000ms")),
+      RPC_TIMEOUT_MS,
+    ),
+  )
+
+  const { data, error } = (await Promise.race([
+    rpcCall,
+    timeoutPromise,
+  ])) as { data: LegalChunk[] | null; error: { message: string } | null }
+
+  if (error) {
+    throw new Error(error.message)
+  }
+
+  return (data ?? []) as LegalChunk[]
+}
+
+export async function matchLegalArticles(args: {
+  query: string
+  jurisdiction: string
+  category?: string | null
+  matchCount?: number
+  similarityThreshold?: number
+  retryIfEmpty?: boolean
+}): Promise<{
+  chunks: LegalChunk[]
+  usedThreshold: number
+  retried: boolean
+}> {
+  const embedding = await embedQuery(args.query)
+
+  const initialThreshold =
+    args.similarityThreshold ?? SIMILARITY_THRESHOLDS.MEDIUM
+  const shouldRetry =
+    args.retryIfEmpty !== false && initialThreshold > SIMILARITY_THRESHOLDS.LOW_RETRY
+
+  let usedThreshold = initialThreshold
+  let retried = false
+
+  let data = await runMatchLegalArticlesRpc({
+    embedding,
+    jurisdiction: args.jurisdiction,
+    category: args.category ?? null,
+    matchCount: args.matchCount ?? 6,
+    similarityThreshold: initialThreshold,
+  })
+
+  if (data.length === 0 && shouldRetry) {
+    // eslint-disable-next-line no-console
+    console.log(
+      `[RAG] no results at threshold ${initialThreshold}, retrying with 0.40`,
+    )
+    retried = true
+    usedThreshold = SIMILARITY_THRESHOLDS.LOW_RETRY
+    data = await runMatchLegalArticlesRpc({
+      embedding,
+      jurisdiction: args.jurisdiction,
+      category: args.category ?? null,
+      matchCount: args.matchCount ?? 6,
+      similarityThreshold: SIMILARITY_THRESHOLDS.LOW_RETRY,
+    })
+  }
+
+  return { chunks: data, usedThreshold, retried }
+}
+
 function deduplicateChunks(chunks: LegalChunk[]): LegalChunk[] {
   const map = new Map<string, LegalChunk>()
 
@@ -183,50 +266,16 @@ export async function retrieveLegalContext(
     similarityThreshold?: number
   },
 ): Promise<RagResult> {
-  const embedding = await embedQuery(query)
+  const { chunks: rawChunks } = await matchLegalArticles({
+    query,
+    jurisdiction,
+    category: options?.category ?? null,
+    matchCount: options?.k ?? 6,
+    similarityThreshold: options?.similarityThreshold,
+    retryIfEmpty: true,
+  })
 
-  const initialThreshold =
-    options?.similarityThreshold ?? SIMILARITY_THRESHOLDS.MEDIUM
-
-  const runRpc = async (similarityThreshold: number) => {
-    const rpcCall = supabaseAdmin.rpc("match_legal_articles", {
-      query_embedding: embedding,
-      filter_jurisdiction: jurisdiction,
-      filter_category: options?.category ?? null,
-      match_count: options?.k ?? 6,
-      similarity_threshold: similarityThreshold,
-    })
-
-    const timeoutPromise = new Promise<never>((_, reject) =>
-      setTimeout(
-        () => reject(new Error("RAG RPC timeout after 5000ms")),
-        RPC_TIMEOUT_MS,
-      ),
-    )
-
-    const { data, error } = (await Promise.race([
-      rpcCall,
-      timeoutPromise,
-    ])) as { data: LegalChunk[] | null; error: { message: string } | null }
-
-    if (error) {
-      throw new Error(error.message)
-    }
-
-    return data as LegalChunk[]
-  }
-
-  let data = await runRpc(initialThreshold)
-
-  if (data.length === 0 && initialThreshold > SIMILARITY_THRESHOLDS.LOW_RETRY) {
-    // eslint-disable-next-line no-console
-    console.log(
-      `[RAG] no results at threshold ${initialThreshold}, retrying with 0.40`,
-    )
-    data = await runRpc(SIMILARITY_THRESHOLDS.LOW_RETRY)
-  }
-
-  const chunks = deduplicateChunks(data)
+  const chunks = deduplicateChunks(rawChunks)
 
   const topSimilarity = chunks[0]?.similarity ?? 0
   const hasStrongMatch = topSimilarity >= SIMILARITY_THRESHOLDS.HIGH

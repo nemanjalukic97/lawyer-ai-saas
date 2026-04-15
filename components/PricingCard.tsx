@@ -15,6 +15,7 @@ interface PricingCardProps {
   price: number
   features: readonly string[]
   ctaLabel: string
+  pricePeriodLabel: string
   recommended?: boolean
   planId: "solo" | "professional" | "firm"
 }
@@ -24,6 +25,7 @@ export function PricingCard({
   price,
   features,
   ctaLabel,
+  pricePeriodLabel,
   recommended = false,
   planId,
 }: PricingCardProps) {
@@ -47,7 +49,7 @@ export function PricingCard({
           <span className="text-2xl font-semibold text-foreground">
             €{price}
           </span>
-          <span className="text-muted-foreground">/month</span>
+          <span className="text-muted-foreground">{pricePeriodLabel}</span>
         </CardDescription>
       </CardHeader>
       <CardContent className="flex-1">

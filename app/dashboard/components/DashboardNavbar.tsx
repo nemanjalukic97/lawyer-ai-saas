@@ -20,13 +20,17 @@ const MAIN_LINKS = [
 
 const ACTION_LINKS = [
   { href: "/dashboard/generate", key: "generate", feature: "document_generation" },
+  { href: "/dashboard/conflict-check", key: "conflict", feature: "conflict_check" },
+  { href: "/dashboard/research", key: "research", feature: "legal_research" },
   { href: "/dashboard/contracts", key: "contracts", feature: "contract_drafting" },
   { href: "/dashboard/predictions", key: "predictions", feature: "case_prediction" },
   { href: "/dashboard/analyze", key: "analyze", feature: "document_analysis" },
   { href: "/dashboard/time", key: "time", feature: "time_tracking" },
   { href: "/dashboard/clients", key: "clients", feature: "client_portal" },
+  { href: "/dashboard/intake", key: "intake", feature: "intake_forms" },
   { href: "/dashboard/activity", key: "activity", feature: "activity_feed" },
   { href: "/dashboard/templates", key: "templates", feature: "template_library" },
+  { href: "/dashboard/deadlines", key: "deadlines", feature: "deadline_tracking" },
 ] as const
 
 const AFTER_ACTIONS_LINKS = [

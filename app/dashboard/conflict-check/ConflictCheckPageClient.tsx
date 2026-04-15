@@ -1,0 +1,347 @@
+"use client"
+
+import { FormEvent, useEffect, useMemo, useState } from "react"
+
+import { Card } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { useLanguage } from "@/components/LanguageProvider"
+import { cn } from "@/lib/utils"
+import type { EntitlementPlanId } from "../lib/entitlements"
+
+type ConflictMatch = {
+  source: "clients" | "contracts" | "case_predictions"
+  id: string
+  title: string
+  subtitle?: string | null
+  createdAt?: string | null
+  context?: string | null
+}
+
+type ConflictCheckResults = {
+  status: "clear" | "conflict"
+  query: { raw: string; normalized: string }
+  matches: {
+    clients: ConflictMatch[]
+    contracts: ConflictMatch[]
+    case_predictions: ConflictMatch[]
+  }
+}
+
+type HistoryItem = {
+  id: string
+  created_at: string
+  search_query: string
+  results_summary: string
+  has_conflict: boolean
+  override: boolean
+  override_confirmed: boolean
+}
+
+function formatDate(value: string): string {
+  const d = new Date(value)
+  if (Number.isNaN(d.getTime())) return value
+  return d.toLocaleString(undefined, {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  })
+}
+
+function badgeClass(kind: "clear" | "conflict"): string {
+  return cn(
+    "inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium",
+    kind === "clear"
+      ? "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300"
+      : "bg-amber-500/15 text-amber-800 dark:text-amber-300"
+  )
+}
+
+export function ConflictCheckPageClient({ planId }: { planId: EntitlementPlanId }) {
+  const { t } = useLanguage()
+  const canViewHistory = planId === "professional" || planId === "firm"
+
+  const [query, setQuery] = useState("")
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [results, setResults] = useState<ConflictCheckResults | null>(null)
+
+  const [historyLoading, setHistoryLoading] = useState(false)
+  const [historyError, setHistoryError] = useState<string | null>(null)
+  const [history, setHistory] = useState<HistoryItem[]>([])
+
+  const totalMatches = useMemo(() => {
+    if (!results) return 0
+    return (
+      results.matches.clients.length +
+      results.matches.contracts.length +
+      results.matches.case_predictions.length
+    )
+  }, [results])
+
+  async function runCheck(input: string) {
+    setLoading(true)
+    setError(null)
+    setResults(null)
+    try {
+      const resp = await fetch("/api/conflict-check", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ query: input }),
+      })
+      const json = await resp.json().catch(() => null)
+      if (!resp.ok) {
+        setError(
+          (json && typeof json.error === "string" && json.error) ||
+            t("conflict.errors.searchFailed")
+        )
+        return
+      }
+      setResults((json as any).results as ConflictCheckResults)
+      if (canViewHistory) {
+        void loadHistory()
+      }
+    } catch {
+      setError(t("conflict.errors.searchFailed"))
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  async function loadHistory() {
+    setHistoryLoading(true)
+    setHistoryError(null)
+    try {
+      const resp = await fetch("/api/conflict-check", { method: "GET" })
+      const json = await resp.json().catch(() => null)
+      if (!resp.ok) {
+        setHistoryError(
+          (json && typeof json.error === "string" && json.error) ||
+            t("conflict.errors.historyFailed")
+        )
+        return
+      }
+      const items = Array.isArray((json as any).items) ? ((json as any).items as HistoryItem[]) : []
+      setHistory(items)
+    } catch {
+      setHistoryError(t("conflict.errors.historyFailed"))
+    } finally {
+      setHistoryLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    if (!canViewHistory) return
+    void loadHistory()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [canViewHistory])
+
+  function onSubmit(e: FormEvent) {
+    e.preventDefault()
+    const trimmed = query.trim()
+    if (!trimmed) {
+      setError(t("conflict.errors.queryRequired"))
+      return
+    }
+    void runCheck(trimmed)
+  }
+
+  return (
+    <div className="min-h-screen bg-background px-4 py-10">
+      <div className="mx-auto flex max-w-6xl flex-col gap-6">
+        <header className="space-y-1">
+          <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+            {t("conflict.header.kicker")}
+          </p>
+          <h1 className="text-3xl font-semibold tracking-tight text-foreground">
+            {t("conflict.header.title")}
+          </h1>
+          <p className="text-sm text-muted-foreground">
+            {t("conflict.header.subtitle")}
+          </p>
+        </header>
+
+        <Card className="p-6">
+          <form className="space-y-4" onSubmit={onSubmit}>
+            <div className="space-y-2">
+              <Label htmlFor="conflictQuery">{t("conflict.form.query.label")}</Label>
+              <Input
+                id="conflictQuery"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder={t("conflict.form.query.placeholder")}
+                autoComplete="off"
+              />
+              <p className="text-xs text-muted-foreground">
+                {t("conflict.form.query.help")}
+              </p>
+            </div>
+
+            {error && (
+              <p className="text-sm text-destructive" role="alert">
+                {error}
+              </p>
+            )}
+
+            <div className="flex items-center gap-3">
+              <Button type="submit" disabled={loading}>
+                {loading ? t("conflict.form.actions.checking") : t("conflict.form.actions.check")}
+              </Button>
+              {results && (
+                <span className="text-xs text-muted-foreground">
+                  {totalMatches} {t("conflict.results.matchCountSuffix")}
+                </span>
+              )}
+            </div>
+          </form>
+        </Card>
+
+        {results && (
+          <Card className="p-6">
+            {results.status === "clear" ? (
+              <div className="space-y-2">
+                <span className={badgeClass("clear")}>{t("conflict.results.clearBadge")}</span>
+                <h2 className="text-lg font-semibold">{t("conflict.results.clearTitle")}</h2>
+                <p className="text-sm text-muted-foreground">{t("conflict.results.clearBody")}</p>
+              </div>
+            ) : (
+              <div className="space-y-2">
+                <span className={badgeClass("conflict")}>{t("conflict.results.conflictBadge")}</span>
+                <h2 className="text-lg font-semibold">{t("conflict.results.conflictTitle")}</h2>
+                <p className="text-sm text-muted-foreground">
+                  {t("conflict.results.conflictBody")}
+                </p>
+              </div>
+            )}
+
+            {results.status === "conflict" && (
+              <div className="mt-5 grid gap-4 md:grid-cols-3">
+                <ResultGroup
+                  title={t("conflict.results.groups.clients")}
+                  items={results.matches.clients}
+                />
+                <ResultGroup
+                  title={t("conflict.results.groups.contracts")}
+                  items={results.matches.contracts}
+                />
+                <ResultGroup
+                  title={t("conflict.results.groups.cases")}
+                  items={results.matches.case_predictions}
+                />
+              </div>
+            )}
+          </Card>
+        )}
+
+        <section className="space-y-3">
+          <div className="flex items-baseline justify-between gap-4">
+            <h2 className="text-lg font-semibold">{t("conflict.history.title")}</h2>
+            {canViewHistory ? (
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => void loadHistory()}
+                disabled={historyLoading}
+              >
+                {historyLoading ? t("conflict.history.refreshing") : t("conflict.history.refresh")}
+              </Button>
+            ) : null}
+          </div>
+
+          {!canViewHistory ? (
+            <Card className="p-6">
+              <p className="text-sm text-muted-foreground">
+                {t("conflict.history.upgradeHint")}
+              </p>
+            </Card>
+          ) : (
+            <Card className="p-0 overflow-hidden">
+              {historyError ? (
+                <div className="p-6">
+                  <p className="text-sm text-destructive">{historyError}</p>
+                </div>
+              ) : historyLoading && history.length === 0 ? (
+                <div className="p-6">
+                  <p className="text-sm text-muted-foreground">{t("conflict.history.loading")}</p>
+                </div>
+              ) : history.length === 0 ? (
+                <div className="p-6">
+                  <p className="text-sm text-muted-foreground">{t("conflict.history.empty")}</p>
+                </div>
+              ) : (
+                <div className="divide-y">
+                  {history.map((item) => (
+                    <div key={item.id} className="p-4 sm:p-5">
+                      <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+                        <div className="space-y-1">
+                          <p className="text-sm font-medium text-foreground">
+                            {item.search_query}
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            {formatDate(item.created_at)}
+                          </p>
+                        </div>
+                        <span className={badgeClass(item.has_conflict ? "conflict" : "clear")}>
+                          {item.has_conflict
+                            ? t("conflict.history.badges.conflict")
+                            : t("conflict.history.badges.clear")}
+                        </span>
+                      </div>
+                      <p className="mt-2 text-sm text-muted-foreground">
+                        {item.results_summary}
+                      </p>
+                      {item.override && (
+                        <p className="mt-2 text-xs text-amber-700 dark:text-amber-300">
+                          {t("conflict.history.overrideLine")}
+                        </p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </Card>
+          )}
+        </section>
+      </div>
+    </div>
+  )
+}
+
+function ResultGroup({ title, items }: { title: string; items: ConflictMatch[] }) {
+  return (
+    <div className="rounded-lg border border-border p-4">
+      <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+        {title}
+      </p>
+      {items.length === 0 ? (
+        <p className="mt-2 text-sm text-muted-foreground">—</p>
+      ) : (
+        <div className="mt-3 space-y-3">
+          {items.map((m) => (
+            <div key={`${m.source}-${m.id}`} className="space-y-1">
+              <p className="text-sm font-medium text-foreground">{m.title}</p>
+              {m.subtitle && (
+                <p className="text-xs text-muted-foreground">{m.subtitle}</p>
+              )}
+              {m.context && (
+                <p className="text-xs text-muted-foreground line-clamp-3">
+                  {m.context}
+                </p>
+              )}
+              {m.createdAt && (
+                <p className="text-[11px] text-muted-foreground">
+                  {new Date(m.createdAt).toLocaleDateString()}
+                </p>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+

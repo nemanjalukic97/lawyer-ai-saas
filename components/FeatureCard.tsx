@@ -25,29 +25,15 @@ export function FeatureCard({ title, description, icon, className }: FeatureCard
     >
       <CardHeader className="gap-4">
         {icon && (
-          <div className="mb-2 text-primary" aria-hidden>
-            {icon}
-          </div>
-        )}
-        <CardAction>
-          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-sm">
-            <svg
-              aria-hidden="true"
-              viewBox="0 0 24 24"
-              className="h-6 w-6"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
+          <CardAction>
+            <span
+              className="flex h-9 w-9 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-sm"
+              aria-hidden
             >
-              <path
-                d="M7 12.5L10.2 15.7L17 9"
-                stroke="currentColor"
-                strokeWidth="2.4"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </span>
-        </CardAction>
+              {icon}
+            </span>
+          </CardAction>
+        )}
         <CardTitle className="text-base">{title}</CardTitle>
         <CardDescription className="text-foreground/90">{description}</CardDescription>
       </CardHeader>

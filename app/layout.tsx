@@ -5,6 +5,7 @@ import { LanguageProvider } from "@/components/LanguageProvider";
 import { AppFooter } from "@/components/AppFooter";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ThemeSync } from "@/components/theme-sync";
+import { Toaster } from "sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -77,6 +78,7 @@ export default function RootLayout({
               <div className="flex-1">{children}</div>
               <AppFooter />
             </div>
+            <Toaster richColors position="top-center" />
           </LanguageProvider>
         </ThemeProvider>
       </body>

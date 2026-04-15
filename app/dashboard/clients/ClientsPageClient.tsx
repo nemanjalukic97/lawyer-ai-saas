@@ -54,6 +54,24 @@ export default function ClientsPageClient({ selectedId }: Props) {
   const [deletingId, setDeletingId] = useState<string | null>(null)
 
   const [isAdding, setIsAdding] = useState(false)
+  const [addStep, setAddStep] = useState<"precheck" | "form">("precheck")
+  const [precheckName, setPrecheckName] = useState("")
+  const [precheckLoading, setPrecheckLoading] = useState(false)
+  const [precheckError, setPrecheckError] = useState<string | null>(null)
+  const [precheckResults, setPrecheckResults] = useState<
+    | {
+        status: "clear" | "conflict"
+        matches: {
+          clients: Array<{ title: string; subtitle?: string | null }>
+          contracts: Array<{ title: string; subtitle?: string | null }>
+          case_predictions: Array<{ title: string; subtitle?: string | null }>
+        }
+      }
+    | null
+  >(null)
+  const [overrideConfirmed, setOverrideConfirmed] = useState(false)
+
+  const [lawFirmId, setLawFirmId] = useState<string | null>(null)
   const [fullName, setFullName] = useState("")
   const [email, setEmail] = useState("")
   const [phone, setPhone] = useState("")
@@ -92,13 +110,31 @@ export default function ClientsPageClient({ selectedId }: Props) {
           return
         }
 
+        const { data: profile } = await supabase
+          .from("user_profiles")
+          .select("law_firm_id")
+          .eq("id", user.id)
+          .is("deleted_at", null)
+          .maybeSingle()
+
+        const firmId =
+          profile && typeof (profile as any).law_firm_id === "string"
+            ? ((profile as any).law_firm_id as string)
+            : null
+
+        if (isMounted) setLawFirmId(firmId)
+
+        const scopeOr = firmId
+          ? `user_id.eq.${user.id},law_firm_id.eq.${firmId}`
+          : `user_id.eq.${user.id}`
+
         const { data, error } = await supabase
           .from("clients")
           .select(
             "id, user_id, name, email, phone, company_name, notes, created_at"
           )
-          .eq("user_id", user.id)
           .is("deleted_at", null)
+          .or(scopeOr)
           .order("created_at", { ascending: false })
 
         if (error) {
@@ -223,6 +259,67 @@ export default function ClientsPageClient({ selectedId }: Props) {
     setFormError(null)
   }
 
+  function resetPrecheck() {
+    setPrecheckName("")
+    setPrecheckLoading(false)
+    setPrecheckError(null)
+    setPrecheckResults(null)
+    setOverrideConfirmed(false)
+    setAddStep("precheck")
+  }
+
+  async function runPrecheck(input: string) {
+    setPrecheckLoading(true)
+    setPrecheckError(null)
+    setPrecheckResults(null)
+
+    try {
+      const resp = await fetch("/api/conflict-check", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ query: input }),
+      })
+      const json = await resp.json().catch(() => null)
+      if (!resp.ok) {
+        setPrecheckError(
+          (json && typeof json.error === "string" && json.error) ||
+            t("conflict.errors.searchFailed")
+        )
+        return
+      }
+
+      const r = (json as any).results as any
+      const matches = (r?.matches ?? {}) as any
+      setPrecheckResults({
+        status: r?.status === "conflict" ? "conflict" : "clear",
+        matches: {
+          clients: Array.isArray(matches.clients)
+            ? matches.clients.map((m: any) => ({
+                title: m.title,
+                subtitle: m.subtitle ?? null,
+              }))
+            : [],
+          contracts: Array.isArray(matches.contracts)
+            ? matches.contracts.map((m: any) => ({
+                title: m.title,
+                subtitle: m.subtitle ?? null,
+              }))
+            : [],
+          case_predictions: Array.isArray(matches.case_predictions)
+            ? matches.case_predictions.map((m: any) => ({
+                title: m.title,
+                subtitle: m.subtitle ?? null,
+              }))
+            : [],
+        },
+      })
+    } catch {
+      setPrecheckError(t("conflict.errors.searchFailed"))
+    } finally {
+      setPrecheckLoading(false)
+    }
+  }
+
   async function handleCreate(event: FormEvent) {
     event.preventDefault()
     setFormError(null)
@@ -247,7 +344,7 @@ export default function ClientsPageClient({ selectedId }: Props) {
 
       const payload = {
         user_id: user.id,
-        law_firm_id: null,
+        law_firm_id: lawFirmId,
         name: fullName.trim(),
         email: email.trim(),
         phone: phone.trim() || null,
@@ -281,6 +378,7 @@ export default function ClientsPageClient({ selectedId }: Props) {
       setClients((prev) => [newClient, ...prev])
       resetForm()
       setIsAdding(false)
+      resetPrecheck()
       setSuccessMessage(t("clients.messages.added"))
     } catch (error) {
       if (process.env.NODE_ENV !== "production") {
@@ -365,6 +463,9 @@ export default function ClientsPageClient({ selectedId }: Props) {
                 onClick={() => {
                   setIsAdding((prev) => !prev)
                   setFormError(null)
+                  setPrecheckError(null)
+                  setSuccessMessage(null)
+                  setAddStep("precheck")
                 }}
               >
                 {isAdding ? t("clients.actions.cancel") : t("clients.actions.addClient")}
@@ -374,88 +475,297 @@ export default function ClientsPageClient({ selectedId }: Props) {
 
           {isAdding && (
             <Card className="p-6">
-              <form onSubmit={handleCreate} className="space-y-6">
-                <div className="grid gap-4 md:grid-cols-2">
+              {addStep === "precheck" ? (
+                <div className="space-y-5">
+                  <div className="space-y-1">
+                    <h2 className="text-lg font-semibold">
+                      {t("clients.conflictPrecheck.title")}
+                    </h2>
+                    <p className="text-sm text-muted-foreground">
+                      {t("clients.conflictPrecheck.subtitle")}
+                    </p>
+                  </div>
+
                   <div className="space-y-2">
-                    <Label htmlFor="fullName">{t("clients.form.fullName.label")}</Label>
+                    <Label htmlFor="precheckName">
+                      {t("clients.conflictPrecheck.name.label")}
+                    </Label>
                     <Input
-                      id="fullName"
-                      value={fullName}
-                      onChange={(event) => setFullName(event.target.value)}
-                      placeholder={t("clients.form.fullName.placeholder")}
-                      required
+                      id="precheckName"
+                      value={precheckName}
+                      onChange={(e) => setPrecheckName(e.target.value)}
+                      placeholder={t("clients.conflictPrecheck.name.placeholder")}
+                      autoComplete="off"
                     />
                   </div>
+
+                  {precheckError && (
+                    <p className="text-sm text-destructive" role="alert">
+                      {precheckError}
+                    </p>
+                  )}
+
+                  <div className="flex flex-wrap items-center gap-3">
+                    <Button
+                      type="button"
+                      disabled={precheckLoading || !precheckName.trim()}
+                      onClick={() => void runPrecheck(precheckName.trim())}
+                    >
+                      {precheckLoading ? (
+                        <>
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          {t("clients.conflictPrecheck.actions.checking")}
+                        </>
+                      ) : (
+                        t("clients.conflictPrecheck.actions.check")
+                      )}
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      onClick={() => {
+                        resetForm()
+                        resetPrecheck()
+                        setIsAdding(false)
+                      }}
+                    >
+                      {t("clients.actions.cancel")}
+                    </Button>
+                  </div>
+
+                  {precheckResults && (
+                    <div className="space-y-4">
+                      {precheckResults.status === "clear" ? (
+                        <div className="rounded-md border border-emerald-500/30 bg-emerald-500/10 p-4">
+                          <p className="text-sm font-medium text-emerald-800 dark:text-emerald-300">
+                            {t("clients.conflictPrecheck.clear.title")}
+                          </p>
+                          <p className="mt-1 text-sm text-muted-foreground">
+                            {t("clients.conflictPrecheck.clear.body")}
+                          </p>
+                          <div className="mt-3">
+                            <Button type="button" onClick={() => setAddStep("form")}>
+                              {t("clients.conflictPrecheck.actions.continue")}
+                            </Button>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="rounded-md border border-amber-500/30 bg-amber-500/10 p-4">
+                          <p className="text-sm font-medium text-amber-900 dark:text-amber-300">
+                            {t("clients.conflictPrecheck.conflict.title")}
+                          </p>
+                          <p className="mt-1 text-sm text-muted-foreground">
+                            {t("clients.conflictPrecheck.conflict.body")}
+                          </p>
+
+                          <div className="mt-4 grid gap-3 md:grid-cols-3">
+                            <div className="rounded-md border border-border bg-background/60 p-3">
+                              <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                                {t("conflict.results.groups.clients")}
+                              </p>
+                              <ul className="mt-2 space-y-2 text-sm">
+                                {precheckResults.matches.clients.length === 0 ? (
+                                  <li className="text-muted-foreground">—</li>
+                                ) : (
+                                  precheckResults.matches.clients.map((m, idx) => (
+                                    <li key={`c-${idx}`}>
+                                      <span className="font-medium">{m.title}</span>
+                                      {m.subtitle ? (
+                                        <span className="text-muted-foreground">
+                                          {" "}
+                                          · {m.subtitle}
+                                        </span>
+                                      ) : null}
+                                    </li>
+                                  ))
+                                )}
+                              </ul>
+                            </div>
+                            <div className="rounded-md border border-border bg-background/60 p-3">
+                              <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                                {t("conflict.results.groups.contracts")}
+                              </p>
+                              <ul className="mt-2 space-y-2 text-sm">
+                                {precheckResults.matches.contracts.length === 0 ? (
+                                  <li className="text-muted-foreground">—</li>
+                                ) : (
+                                  precheckResults.matches.contracts.map((m, idx) => (
+                                    <li key={`k-${idx}`}>
+                                      <span className="font-medium">{m.title}</span>
+                                      {m.subtitle ? (
+                                        <span className="text-muted-foreground">
+                                          {" "}
+                                          · {m.subtitle}
+                                        </span>
+                                      ) : null}
+                                    </li>
+                                  ))
+                                )}
+                              </ul>
+                            </div>
+                            <div className="rounded-md border border-border bg-background/60 p-3">
+                              <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                                {t("conflict.results.groups.cases")}
+                              </p>
+                              <ul className="mt-2 space-y-2 text-sm">
+                                {precheckResults.matches.case_predictions.length === 0 ? (
+                                  <li className="text-muted-foreground">—</li>
+                                ) : (
+                                  precheckResults.matches.case_predictions.map((m, idx) => (
+                                    <li key={`p-${idx}`}>
+                                      <span className="font-medium">{m.title}</span>
+                                      {m.subtitle ? (
+                                        <span className="text-muted-foreground">
+                                          {" "}
+                                          · {m.subtitle}
+                                        </span>
+                                      ) : null}
+                                    </li>
+                                  ))
+                                )}
+                              </ul>
+                            </div>
+                          </div>
+
+                          <label className="mt-4 flex items-start gap-2 text-sm">
+                            <input
+                              type="checkbox"
+                              className="mt-1"
+                              checked={overrideConfirmed}
+                              onChange={(e) => setOverrideConfirmed(e.target.checked)}
+                            />
+                            <span>{t("clients.conflictPrecheck.override.label")}</span>
+                          </label>
+
+                          <div className="mt-3 flex flex-wrap items-center gap-3">
+                            <Button
+                              type="button"
+                              disabled={!overrideConfirmed}
+                              onClick={async () => {
+                                const q = precheckName.trim()
+                                if (!q) return
+                                setPrecheckLoading(true)
+                                setPrecheckError(null)
+                                try {
+                                  await fetch("/api/conflict-check", {
+                                    method: "POST",
+                                    headers: { "Content-Type": "application/json" },
+                                    body: JSON.stringify({
+                                      query: q,
+                                      override: true,
+                                      overrideConfirmed: true,
+                                    }),
+                                  })
+                                } catch {
+                                  // ignore logging failure here; user can still proceed to form
+                                } finally {
+                                  setPrecheckLoading(false)
+                                  setAddStep("form")
+                                }
+                              }}
+                            >
+                              {t("clients.conflictPrecheck.actions.proceedAnyway")}
+                            </Button>
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              onClick={() => {
+                                resetPrecheck()
+                              }}
+                            >
+                              {t("clients.conflictPrecheck.actions.startOver")}
+                            </Button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <form onSubmit={handleCreate} className="space-y-6">
+                  <div className="grid gap-4 md:grid-cols-2">
+                    <div className="space-y-2">
+                      <Label htmlFor="fullName">{t("clients.form.fullName.label")}</Label>
+                      <Input
+                        id="fullName"
+                        value={fullName}
+                        onChange={(event) => setFullName(event.target.value)}
+                        placeholder={t("clients.form.fullName.placeholder")}
+                        required
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="email">{t("clients.form.email.label")}</Label>
+                      <Input
+                        id="email"
+                        type="email"
+                        value={email}
+                        onChange={(event) => setEmail(event.target.value)}
+                        placeholder={t("clients.form.email.placeholder")}
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid gap-4 md:grid-cols-2">
+                    <div className="space-y-2">
+                      <Label htmlFor="phone">{t("clients.form.phone.label")}</Label>
+                      <Input
+                        id="phone"
+                        value={phone}
+                        onChange={(event) => setPhone(event.target.value)}
+                        placeholder={t("clients.form.phone.placeholder")}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="companyName">{t("clients.form.companyName.label")}</Label>
+                      <Input
+                        id="companyName"
+                        value={companyName}
+                        onChange={(event) => setCompanyName(event.target.value)}
+                        placeholder={t("clients.form.companyName.placeholder")}
+                      />
+                    </div>
+                  </div>
+
                   <div className="space-y-2">
-                    <Label htmlFor="email">{t("clients.form.email.label")}</Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      value={email}
-                      onChange={(event) => setEmail(event.target.value)}
-                      placeholder={t("clients.form.email.placeholder")}
-                      required
+                    <Label htmlFor="notes">{t("clients.form.notes.label")}</Label>
+                    <Textarea
+                      id="notes"
+                      value={notes}
+                      onChange={(event) => setNotes(event.target.value)}
+                      rows={3}
+                      placeholder={t("clients.form.notes.placeholder")}
                     />
                   </div>
-                </div>
 
-                <div className="grid gap-4 md:grid-cols-2">
-                  <div className="space-y-2">
-                    <Label htmlFor="phone">{t("clients.form.phone.label")}</Label>
-                    <Input
-                      id="phone"
-                      value={phone}
-                      onChange={(event) => setPhone(event.target.value)}
-                      placeholder={t("clients.form.phone.placeholder")}
-                    />
+                  {formError && (
+                    <p className="text-sm text-destructive" role="alert">
+                      {formError}
+                    </p>
+                  )}
+
+                  <div className="flex flex-wrap items-center gap-3">
+                    <Button type="submit" disabled={creating}>
+                      {creating && (
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      )}
+                      {creating ? t("clients.form.actions.saving") : t("clients.form.actions.save")}
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      onClick={() => {
+                        resetForm()
+                        resetPrecheck()
+                        setIsAdding(false)
+                      }}
+                    >
+                      {t("clients.actions.cancel")}
+                    </Button>
                   </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="companyName">{t("clients.form.companyName.label")}</Label>
-                    <Input
-                      id="companyName"
-                      value={companyName}
-                      onChange={(event) => setCompanyName(event.target.value)}
-                      placeholder={t("clients.form.companyName.placeholder")}
-                    />
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="notes">{t("clients.form.notes.label")}</Label>
-                  <Textarea
-                    id="notes"
-                    value={notes}
-                    onChange={(event) => setNotes(event.target.value)}
-                    rows={3}
-                    placeholder={t("clients.form.notes.placeholder")}
-                  />
-                </div>
-
-                {formError && (
-                  <p className="text-sm text-destructive" role="alert">
-                    {formError}
-                  </p>
-                )}
-
-                <div className="flex flex-wrap items-center gap-3">
-                  <Button type="submit" disabled={creating}>
-                    {creating && (
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    )}
-                    {creating ? t("clients.form.actions.saving") : t("clients.form.actions.save")}
-                  </Button>
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    onClick={() => {
-                      resetForm()
-                      setIsAdding(false)
-                    }}
-                  >
-                    {t("clients.actions.cancel")}
-                  </Button>
-                </div>
-              </form>
+                </form>
+              )}
             </Card>
           )}
 

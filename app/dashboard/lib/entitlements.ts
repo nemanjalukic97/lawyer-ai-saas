@@ -5,18 +5,24 @@ export type EntitlementPlanId = "free" | PaidPlanId
 
 export type FeatureId =
   | "document_generation"
+  | "conflict_check"
+  | "legal_research"
   | "contract_drafting"
   | "template_library"
   | "case_prediction"
   | "document_analysis"
   | "time_tracking"
+  | "invoice_sending"
   | "client_portal"
   | "activity_feed"
+  | "intake_forms"
+  | "deadline_tracking"
 
 type PlanEntitlements = {
   id: EntitlementPlanId
   label: string
   aiCallsPerDay: number
+  maxActiveSignatureRequests: number | "unlimited"
   features: Record<FeatureId, boolean>
 }
 
@@ -25,60 +31,84 @@ export const PLAN_ENTITLEMENTS: Record<EntitlementPlanId, PlanEntitlements> = {
     id: "free",
     label: "Free",
     aiCallsPerDay: 10,
+    maxActiveSignatureRequests: 0,
     features: {
       document_generation: true,
+      conflict_check: true,
+      legal_research: true,
       contract_drafting: false,
       template_library: false,
       case_prediction: false,
       document_analysis: false,
       time_tracking: false,
+      invoice_sending: false,
       client_portal: false,
       activity_feed: false,
+      intake_forms: false,
+      deadline_tracking: false,
     },
   },
   solo: {
     id: "solo",
     label: "Solo",
     aiCallsPerDay: 20,
+    maxActiveSignatureRequests: 5,
     features: {
       document_generation: true,
+      conflict_check: true,
+      legal_research: true,
       contract_drafting: true,
       template_library: true,
       case_prediction: false,
       document_analysis: false,
       time_tracking: false,
+      invoice_sending: false,
       client_portal: false,
       activity_feed: true,
+      intake_forms: false,
+      deadline_tracking: false,
     },
   },
   professional: {
     id: "professional",
     label: "Professional",
     aiCallsPerDay: 100,
+    maxActiveSignatureRequests: "unlimited",
     features: {
       document_generation: true,
+      conflict_check: true,
+      legal_research: true,
       contract_drafting: true,
       template_library: true,
       case_prediction: true,
       document_analysis: true,
       time_tracking: true,
+      invoice_sending: true,
       client_portal: true,
       activity_feed: true,
+      intake_forms: true,
+      deadline_tracking: true,
     },
   },
   firm: {
     id: "firm",
     label: "Firm",
     aiCallsPerDay: 300,
+    maxActiveSignatureRequests: "unlimited",
     features: {
       document_generation: true,
+      conflict_check: true,
+      legal_research: true,
       contract_drafting: true,
       template_library: true,
       case_prediction: true,
       document_analysis: true,
       time_tracking: true,
+      invoice_sending: true,
       client_portal: true,
       activity_feed: true,
+      intake_forms: true,
+      deadline_tracking: true,
     },
   },
 }
@@ -106,6 +136,12 @@ export function hasFeature(
   feature: FeatureId
 ): boolean {
   return PLAN_ENTITLEMENTS[planId].features[feature] === true
+}
+
+export function getMaxActiveSignatureRequests(
+  planId: EntitlementPlanId
+): number | "unlimited" {
+  return PLAN_ENTITLEMENTS[planId].maxActiveSignatureRequests
 }
 
 export function isPaidPlanId(

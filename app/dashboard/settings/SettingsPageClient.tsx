@@ -1,6 +1,6 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import Link from "next/link"
 
 import { Button } from "@/components/ui/button"
@@ -96,6 +96,17 @@ export default function SettingsPageClient({
   const { t } = useLanguage()
   const supabase = useMemo(() => createBrowserClient(), [])
 
+  // Banking tab state
+  const [bankAccountId, setBankAccountId] = useState<string | null>(null)
+  const [bankName, setBankName] = useState("")
+  const [iban, setIban] = useState("")
+  const [accountHolderName, setAccountHolderName] = useState("")
+  const [swiftBic, setSwiftBic] = useState("")
+  const [bankingDefault, setBankingDefault] = useState(true)
+  const [bankingSaving, setBankingSaving] = useState(false)
+  const [bankingMessage, setBankingMessage] = useState<string | null>(null)
+  const [bankingError, setBankingError] = useState<string | null>(null)
+
   // Profile tab state
   const [fullName, setFullName] = useState<string>(profile?.full_name ?? "")
   const [lawFirmName, setLawFirmName] = useState<string>(firm?.name ?? "")
@@ -138,6 +149,90 @@ export default function SettingsPageClient({
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
   const [deleting, setDeleting] = useState(false)
   const [deleteError, setDeleteError] = useState<string | null>(null)
+
+  async function loadBanking() {
+    setBankingMessage(null)
+    setBankingError(null)
+    try {
+      const res = await fetch("/api/settings/banking", { method: "GET" })
+      const json: unknown = await res.json().catch(() => null)
+      if (!res.ok) {
+        const msg =
+          json &&
+          typeof json === "object" &&
+          typeof (json as Record<string, unknown>).error === "string"
+            ? ((json as Record<string, unknown>).error as string)
+            : t("settings.banking.errors.loadFailed")
+        throw new Error(msg)
+      }
+
+      const bankAccount =
+        json && typeof json === "object" && "bankAccount" in json
+          ? ((json as Record<string, unknown>).bankAccount as unknown)
+          : null
+
+      if (bankAccount && typeof bankAccount === "object") {
+        const b = bankAccount as Record<string, unknown>
+        setBankAccountId(typeof b.id === "string" ? b.id : null)
+        setBankName(typeof b.bankName === "string" ? b.bankName : "")
+        setIban(typeof b.iban === "string" ? b.iban : "")
+        setAccountHolderName(
+          typeof b.accountHolderName === "string" ? b.accountHolderName : ""
+        )
+        setSwiftBic(typeof b.swiftBic === "string" ? b.swiftBic : "")
+        setBankingDefault(typeof b.isDefault === "boolean" ? b.isDefault : true)
+      } else {
+        setBankAccountId(null)
+      }
+    } catch (err) {
+      setBankingError(
+        err instanceof Error ? err.message : t("settings.banking.errors.loadFailed")
+      )
+    }
+  }
+
+  useEffect(() => {
+    void loadBanking()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  async function handleSaveBanking() {
+    setBankingSaving(true)
+    setBankingMessage(null)
+    setBankingError(null)
+    try {
+      const res = await fetch("/api/settings/banking", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          id: bankAccountId,
+          bankName,
+          iban,
+          accountHolderName,
+          swiftBic,
+          setDefault: bankingDefault,
+        }),
+      })
+      const json: unknown = await res.json().catch(() => null)
+      if (!res.ok) {
+        const msg =
+          json &&
+          typeof json === "object" &&
+          typeof (json as Record<string, unknown>).error === "string"
+            ? ((json as Record<string, unknown>).error as string)
+            : t("settings.banking.errors.saveFailed")
+        throw new Error(msg)
+      }
+      setBankingMessage(t("settings.banking.messageSaved"))
+      await loadBanking()
+    } catch (err) {
+      setBankingError(
+        err instanceof Error ? err.message : t("settings.banking.errors.saveFailed")
+      )
+    } finally {
+      setBankingSaving(false)
+    }
+  }
 
   async function handleSaveProfile() {
     setProfileSaving(true)
@@ -401,6 +496,7 @@ export default function SettingsPageClient({
         <TabsList>
           <TabsTrigger value="profile">{t("settings.tabs.profile")}</TabsTrigger>
           <TabsTrigger value="preferences">{t("settings.tabs.preferences")}</TabsTrigger>
+          <TabsTrigger value="banking">{t("settings.tabs.banking")}</TabsTrigger>
           <TabsTrigger value="security">{t("settings.tabs.security")}</TabsTrigger>
           <TabsTrigger value="danger">{t("settings.tabs.danger")}</TabsTrigger>
         </TabsList>
@@ -602,6 +698,88 @@ export default function SettingsPageClient({
                   disabled={preferencesSaving}
                 >
                   {preferencesSaving ? t("settings.common.saving") : t("settings.preferences.actions.save")}
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="banking">
+          <Card>
+            <CardHeader>
+              <CardTitle>{t("settings.banking.title")}</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="text-sm text-muted-foreground">
+                {profile?.law_firm_id
+                  ? t("settings.banking.introFirm")
+                  : t("settings.banking.introAccount")}
+              </div>
+
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div className="space-y-2">
+                  <Label htmlFor="bank_name">{t("settings.banking.bankName.label")}</Label>
+                  <Input
+                    id="bank_name"
+                    value={bankName}
+                    onChange={(e) => setBankName(e.target.value)}
+                    placeholder={t("settings.banking.bankName.placeholder")}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="account_holder">{t("settings.banking.accountHolder.label")}</Label>
+                  <Input
+                    id="account_holder"
+                    value={accountHolderName}
+                    onChange={(e) => setAccountHolderName(e.target.value)}
+                    placeholder={t("settings.banking.accountHolder.placeholder")}
+                  />
+                </div>
+              </div>
+
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div className="space-y-2">
+                  <Label htmlFor="iban">{t("settings.banking.iban.label")}</Label>
+                  <Input
+                    id="iban"
+                    value={iban}
+                    onChange={(e) => setIban(e.target.value)}
+                    placeholder={t("settings.banking.iban.placeholder")}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="swift">{t("settings.banking.swift.label")}</Label>
+                  <Input
+                    id="swift"
+                    value={swiftBic}
+                    onChange={(e) => setSwiftBic(e.target.value)}
+                    placeholder={t("settings.banking.swift.placeholder")}
+                  />
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between rounded-md border p-4">
+                <div className="space-y-1">
+                  <p className="text-sm font-medium">
+                    {t("settings.banking.defaultForInvoices.title")}
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    {t("settings.banking.defaultForInvoices.subtitle")}
+                  </p>
+                </div>
+                <Switch checked={bankingDefault} onCheckedChange={setBankingDefault} />
+              </div>
+
+              {bankingMessage && (
+                <p className="text-sm text-emerald-600 dark:text-emerald-400">{bankingMessage}</p>
+              )}
+              {bankingError && (
+                <p className="text-sm text-red-600 dark:text-red-400">{bankingError}</p>
+              )}
+
+              <div className="flex justify-end">
+                <Button type="button" onClick={() => void handleSaveBanking()} disabled={bankingSaving}>
+                  {bankingSaving ? t("settings.banking.saving") : t("settings.banking.save")}
                 </Button>
               </div>
             </CardContent>

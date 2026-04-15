@@ -27,21 +27,92 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       getStarted: "Get started",
       dashboard: "Dashboard",
       generate: "Generate",
+      conflict: "Conflict check",
+      research: "Legal research",
       contracts: "Contracts",
       predictions: "Predictions",
       analyze: "Analyze",
       time: "Time",
       clients: "Clients",
+      intake: "Intake",
       activity: "Activity",
       billing: "Billing",
       settings: "Settings",
       templates: "Templates",
+      deadlines: "Deadlines",
       actions: "Actions",
       logout: "Log out",
       themeToggle: "Toggle light and dark theme",
     },
     language: {
       label: "Language",
+    },
+    signature: {
+      actions: {
+        sendForSignature: "Send for signature",
+        cancelRequest: "Cancel request",
+        resendEmail: "Resend email",
+        copySigningLink: "Copy signing link",
+        downloadSignedPdf: "Download signed PDF",
+        sendNewRequest: "Send new request",
+        signDocument: "Sign document",
+      },
+      status: {
+        none: "None",
+        pending: "Pending",
+        signed: "Signed",
+        expired: "Expired",
+        cancelled: "Cancelled",
+      },
+      dialog: {
+        title: "Send for signature",
+        signerName: "Signer name",
+        signerEmail: "Signer email",
+        message: "Message (optional)",
+        expiresDays: "Expiry (days)",
+        sending: "Sending…",
+        send: "Send",
+      },
+      dashboard: {
+        contractsTitle: "Contracts",
+        contractsSubtitle: "Send contracts for signature and track their status.",
+        refreshHint: "Refresh",
+        colContract: "Contract",
+        colSignatureStatus: "Signature",
+        colActions: "Actions",
+        loadingContracts: "Loading contracts…",
+        noContracts: "No contracts yet.",
+        failedToLoadContracts: "Failed to load contracts.",
+        failedToCreate: "Failed to create signature request.",
+        failedToCancel: "Failed to cancel request.",
+        failedToResend: "Failed to resend email.",
+        failedToCopyLink: "Failed to copy signing link.",
+        failedToDownload: "Failed to generate download link.",
+        statsTitle: "Signatures",
+        pendingSignatures: "Pending signatures",
+        signedThisMonth: "Signed this month",
+      },
+      public: {
+        loading: "Loading…",
+        notFoundTitle: "Signing link not found",
+        notFoundBody: "This signing link is invalid or no longer available.",
+        expiredTitle: "This signing link has expired",
+        expiredBody: "Please contact the sender to request a new signing link.",
+        alreadySignedTitle: "This document has already been signed",
+        alreadySignedBody: "No further action is required.",
+        cancelledTitle: "This signing request was cancelled",
+        cancelledBody: "Please contact the sender if you believe this is a mistake.",
+        successTitle: "Signed successfully",
+        successBody: "You can download your signed PDF below.",
+        sentBy: "Sent by",
+        unknownSender: "Unknown sender",
+        expiresOn: "Expires on",
+        reviewTitle: "Review the document",
+        checkboxAgree: "I have read and agree to the terms of this contract",
+        typedNameLabel: "Type your full name",
+        typedNamePlaceholder: "Full name",
+        signing: "Signing…",
+      },
     },
     rag: {
       title: "Legal sources retrieved",
@@ -54,6 +125,82 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         "⚠ The following citations in the AI response were not found in the retrieved legal database and may be inaccurate:",
       lowConfidence:
         "Low confidence: the retrieved provisions had weak relevance to this query. The applicable law may not yet be in the database.",
+    },
+    research: {
+      kicker: "Legantis · Research",
+      title: "Legal Research",
+      subtitle:
+        "Search the legal knowledge base directly and save research sessions for later.",
+      search: {
+        label: "Question or keywords",
+        placeholder: "e.g. rok zastare za naknadu štete",
+      },
+      filters: {
+        jurisdiction: "Jurisdiction",
+        category: "Category",
+        language: "Language",
+        summaryPrefix: "Filters:",
+      },
+      language: {
+        local: "Local",
+        english: "English",
+      },
+      jurisdictions: {
+        all: "All jurisdictions",
+        serbia: "Serbia",
+        croatia: "Croatia",
+        bihFederation: "BiH Federation",
+        bihRs: "BiH RS",
+        bihBrcko: "BiH Brčko",
+        montenegro: "Montenegro",
+        slovenia: "Slovenia",
+      },
+      categories: {
+        all: "All categories",
+        civil: "Civil",
+        commercial: "Commercial",
+        labor: "Labor",
+        family: "Family",
+        criminal: "Criminal",
+        administrative: "Administrative",
+        procedural: "Procedural",
+        constitutional: "Constitutional",
+        inheritance: "Inheritance",
+        property: "Property",
+        confidentiality: "Confidentiality",
+        misdemeanor: "Misdemeanor",
+      },
+      actions: {
+        search: "Search",
+        searching: "Searching…",
+        save: "Save research",
+        saving: "Saving…",
+      },
+      results: {
+        title: "Results",
+        hint: "Run a search to see the most relevant law articles.",
+        empty:
+          "No relevant articles found. Try different keywords or broader category.",
+        countSuffix: "results",
+        confidenceLabel: "Confidence",
+        articleLabel: "Article",
+      },
+      sessions: {
+        title: "Recent searches",
+        refresh: "Refresh",
+        refreshing: "Refreshing…",
+        loading: "Loading…",
+        empty: "No saved research sessions yet.",
+        upgradeHint:
+          "Saved research sessions are available on Professional and Firm plans.",
+      },
+      upgradePrompt: "Upgrade to save research sessions.",
+      errors: {
+        queryRequired: "Please enter a search query.",
+        searchFailed: "Search failed. Please try again.",
+        historyFailed: "Could not load recent searches.",
+        saveFailed: "Could not save research session.",
+      },
     },
     home: {
       hero: {
@@ -129,6 +276,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
             },
           },
         },
+        perMonth: "/month",
         cta: "Get started",
       },
       faq: {
@@ -615,6 +763,62 @@ const MESSAGES: Record<LanguageCode, Messages> = {
           "Log billable hours by client and matter, and keep track of your unbilled time and billable amounts in one place.",
         back: "Back to dashboard",
       },
+      tabs: {
+        entries: "Time entries",
+        invoices: "Invoices",
+      },
+      invoices: {
+        title: "Invoices",
+        subtitle:
+          "Send invoices by email and track bank-transfer payments.",
+        refresh: "Refresh",
+        loading: "Loading…",
+        loadingList: "Loading invoices…",
+        empty:
+          "No invoices yet. (Invoice creation will appear here once generated from time entries.)",
+        duePrefix: "Due",
+        clientFallback: "Client",
+        actions: {
+          downloadPdf: "Download PDF",
+          send: "Send to client",
+          sending: "Sending…",
+          markPaid: "Mark as paid",
+          markOverdue: "Mark overdue",
+        },
+        status: {
+          draft: "Draft",
+          sent: "Sent",
+          paid: "Paid",
+          overdue: "Overdue",
+          cancelled: "Cancelled",
+        },
+        errors: {
+          mustBeLoggedIn: "You must be logged in.",
+          loadFailed: "Failed to load invoices.",
+          actionFailed: "Action failed",
+        },
+      },
+      invoiceGenerate: {
+        button: "Generate invoice",
+        dialogTitle: "Generate invoice",
+        dueDate: "Due date",
+        notes: "Notes",
+        notesPlaceholder: "Optional notes for the invoice…",
+        paymentReference: "Payment reference",
+        bankAccount: "Bank account",
+        bankPlaceholder: "Select bank account",
+        totalLabel: "Total",
+        confirm: "Create invoice",
+        cancel: "Cancel",
+        generating: "Creating…",
+        successToast: "Invoice created.",
+        bankingWarningBefore: "Please add your bank details in",
+        bankingSettingsLink: "Settings → Banking",
+        bankingWarningAfter: " before sending invoices.",
+        errors: {
+          createFailed: "Could not create invoice. Please try again.",
+        },
+      },
       form: {
         matterName: {
           label: "Client / Matter name",
@@ -714,6 +918,34 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         cancel: "Cancel",
         deleteAria: "Delete client",
       },
+      conflictPrecheck: {
+        title: "Conflict of interest check",
+        subtitle:
+          "Before adding a new client, run a quick conflict check across your workspace.",
+        name: {
+          label: "Potential client name",
+          placeholder: "e.g. John Doe / Johnson Ltd",
+        },
+        actions: {
+          check: "Run conflict check",
+          checking: "Checking…",
+          continue: "Continue to client details",
+          proceedAnyway: "Proceed anyway",
+          startOver: "Start over",
+        },
+        clear: {
+          title: "No conflicts found — safe to proceed",
+          body: "No matching clients, contracts, or cases were found in your workspace.",
+        },
+        conflict: {
+          title: "Potential conflict found",
+          body: "Review the matches below. You can proceed only after confirming you have reviewed the potential conflict.",
+        },
+        override: {
+          label:
+            "I have reviewed the potential conflict and confirm it is safe to proceed.",
+        },
+      },
       form: {
         fullName: {
           label: "Full name",
@@ -782,6 +1014,60 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       },
       common: {
         notSet: "Not set",
+      },
+    },
+    conflict: {
+      header: {
+        kicker: "Legantis · Conflict check",
+        title: "Conflict of interest check",
+        subtitle:
+          "Search across clients, contracts, and case notes to identify potential conflicts before accepting a new client.",
+      },
+      form: {
+        query: {
+          label: "Person or company name",
+          placeholder: "Start typing a name…",
+          help:
+            "Matches are case-insensitive and support partial names (e.g. “John” matches “John Doe” and “Johnson Ltd”).",
+        },
+        actions: {
+          check: "Check conflicts",
+          checking: "Checking…",
+        },
+      },
+      errors: {
+        queryRequired: "Please enter a name to search.",
+        searchFailed: "Conflict check failed. Please try again.",
+        historyFailed: "Failed to load conflict check history.",
+      },
+      results: {
+        matchCountSuffix: "matches",
+        clearBadge: "Clear",
+        clearTitle: "No conflicts found",
+        clearBody: "No matches were found in your workspace. You can proceed.",
+        conflictBadge: "Review",
+        conflictTitle: "Potential conflict detected",
+        conflictBody:
+          "Matches were found in your workspace. Review the details before proceeding.",
+        groups: {
+          clients: "Clients",
+          contracts: "Contracts",
+          cases: "Cases",
+        },
+      },
+      history: {
+        title: "Recent checks",
+        refresh: "Refresh",
+        refreshing: "Refreshing…",
+        loading: "Loading history…",
+        empty: "No conflict checks yet.",
+        upgradeHint:
+          "Conflict check history is available on Professional and Firm plans.",
+        badges: {
+          clear: "Clear",
+          conflict: "Conflict",
+        },
+        overrideLine: "Proceeded despite potential conflict (override).",
       },
     },
     activity: {
@@ -887,8 +1173,44 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       tabs: {
         profile: "Profile",
         preferences: "Preferences",
+        banking: "Banking",
         security: "Security",
         danger: "Danger Zone",
+      },
+      banking: {
+        title: "Bank transfer details",
+        introAccount:
+          "These details will be used on invoices as payment instructions. Saved for your account.",
+        introFirm:
+          "These details will be used on invoices as payment instructions. Saved at firm level.",
+        bankName: {
+          label: "Bank name",
+          placeholder: "e.g. UniCredit Bank",
+        },
+        accountHolder: {
+          label: "Account holder",
+          placeholder: "e.g. Your firm name",
+        },
+        iban: {
+          label: "IBAN",
+          placeholder: "XX00 0000 0000 0000 0000",
+        },
+        swift: {
+          label: "SWIFT/BIC (optional)",
+          placeholder: "e.g. UNCRBA22",
+        },
+        defaultForInvoices: {
+          title: "Default for new invoices",
+          subtitle:
+            "When enabled, this account will be auto-filled on newly created invoices.",
+        },
+        save: "Save banking details",
+        saving: "Saving...",
+        messageSaved: "Banking details saved.",
+        errors: {
+          loadFailed: "Failed to load banking settings",
+          saveFailed: "Failed to save banking settings",
+        },
       },
       profile: {
         title: "Profile",
@@ -1136,6 +1458,15 @@ const MESSAGES: Record<LanguageCode, Messages> = {
           title: "Generate Document",
           description: "Create NDAs, contracts, and legal documents with AI.",
         },
+        conflict: {
+          title: "Conflict Check",
+          description:
+            "Check for conflicts of interest before taking a new client.",
+        },
+        research: {
+          title: "Legal Research",
+          description: "Search statutes across jurisdictions with confidence scores.",
+        },
         contract: {
           title: "Draft Contract",
           description:
@@ -1200,6 +1531,223 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         title: "Recent activity",
         empty: "No recent activity yet.",
       },
+      upcomingDeadlines: {
+        title: "Upcoming deadlines",
+        subtitle: "Your next obligations and events.",
+        viewAll: "View all",
+        empty: "No upcoming deadlines.",
+      },
+    },
+    intake: {
+      kicker: "Legantis · Intake",
+      title: "Client intake forms",
+      subtitle: "Share a link so new clients submit their details before you meet.",
+      loading: "Loading…",
+      empty: "No intake forms yet. Create one to get started.",
+      upgrade: {
+        body:
+          "Client intake forms are available on Professional and Firm plans. Upgrade to generate shareable forms and convert submissions into clients.",
+        cta: "View plans",
+      },
+      errors: {
+        mustBeLoggedIn: "You must be logged in.",
+        loadFailed: "Could not load intake forms.",
+        toggleFailed: "Could not update the form.",
+        formNotFound: "Form not found.",
+      },
+      list: {
+        submissions: "Submissions: {n}",
+        active: "Active",
+        copyLink: "Copy link",
+        copied: "Copied",
+        viewSubmissions: "Submissions",
+        edit: "Edit form",
+      },
+      actions: {
+        create: "Create new intake form",
+      },
+      editor: {
+        back: "Back to intake forms",
+        titleNew: "New intake form",
+        titleEdit: "Edit intake form",
+        subtitle:
+          "Set a title and choose optional fields. Core questions (name, email, case type, jurisdiction, matter summary) are always included on the public form.",
+        formTitle: "Form title",
+        description: "Description (optional)",
+        optionalTitle: "Optional extra fields",
+        optionalHint:
+          "When enabled, clients will see these fields on the public form.",
+        optional: {
+          company: "Company name",
+          address: "Address",
+          notes: "Notes",
+        },
+        save: "Save",
+        saving: "Saving…",
+        errors: {
+          titleRequired: "Please enter a form title.",
+          saveFailed: "Could not save the form.",
+        },
+      },
+      public: {
+        notFoundTitle: "Form not available",
+        notFoundBody: "This link may be inactive or incorrect.",
+        thankYouTitle: "Thank you",
+        thankYouBody:
+          "Your information has been submitted. Your lawyer will be in touch soon.",
+        fullName: "Full name",
+        email: "Email",
+        phone: "Phone (optional)",
+        caseType: "Case type",
+        jurisdiction: "Jurisdiction",
+        matterDescription: "Brief description of matter (optional)",
+        company: "Company name",
+        address: "Address",
+        notes: "Notes",
+        selectPlaceholder: "Select…",
+        submit: "Submit",
+        submitting: "Submitting…",
+        caseTypes: {
+          civil: "Civil",
+          criminal: "Criminal",
+          family: "Family",
+          commercial: "Commercial",
+          labor: "Labor",
+          administrative: "Administrative",
+          other: "Other",
+        },
+        jurisdictions: {
+          bih_fbih: "BiH – Federation",
+          bih_rs: "BiH – Republika Srpska",
+          bih_brcko: "BiH – Brčko District",
+          serbia: "Serbia",
+          croatia: "Croatia",
+          montenegro: "Montenegro",
+          slovenia: "Slovenia",
+        },
+        errors: {
+          nameEmail: "Please enter your full name and email.",
+          caseAndJurisdiction: "Please select case type and jurisdiction.",
+          submitFailed: "Could not submit. Please try again.",
+        },
+      },
+      submissions: {
+        title: "Intake submissions",
+        back: "Back to intake forms",
+        empty: "No submissions yet.",
+        convert: "Convert to client",
+        archive: "Archive",
+        openClient: "Open client",
+        col: {
+          submitted: "Submitted",
+          contact: "Client",
+          caseType: "Case type",
+          status: "Status",
+          actions: "Actions",
+        },
+        status: {
+          pending: "Pending",
+          converted: "Converted",
+          archived: "Archived",
+        },
+        messages: {
+          linkedExisting:
+            "This email already exists as a client. Submission linked to existing client record.",
+          created: "Client created successfully.",
+        },
+        errors: {
+          missingNameEmail: "Submission is missing name or email.",
+          convertFailed: "Could not create the client.",
+          archiveFailed: "Could not archive this submission.",
+        },
+      },
+    },
+    deadlines: {
+      kicker: "Legantis · Deadlines",
+      title: "Deadlines & calendar",
+      subtitle: "Track hearings, filings, and matter dates.",
+      loading: "Loading…",
+      upgrade: {
+        body:
+          "Deadline tracking is available on Professional and Firm plans. Upgrade to manage dates in a list and calendar.",
+        cta: "View plans",
+      },
+      errors: {
+        mustBeLoggedIn: "You must be logged in.",
+        loadFailed: "Could not load deadlines.",
+        updateFailed: "Could not update the deadline.",
+        deleteFailed: "Could not delete the deadline.",
+      },
+      tabs: {
+        list: "List view",
+        calendar: "Calendar view",
+      },
+      filters: {
+        all: "All",
+        upcoming: "Upcoming",
+        overdue: "Overdue",
+        completed: "Completed",
+      },
+      list: {
+        empty: "No deadlines match this filter.",
+        done: "Done",
+        overdueDays: "{n} days overdue",
+        dueToday: "Due today",
+        inDays: "in {n} days",
+      },
+      types: {
+        court_hearing: "Court hearing",
+        filing_deadline: "Filing deadline",
+        appeal_deadline: "Appeal deadline",
+        statute_of_limitations: "Statute of limitations",
+        contract_expiry: "Contract expiry",
+        client_meeting: "Client meeting",
+        payment_due: "Payment due",
+        other: "Other",
+      },
+      actions: {
+        add: "Add deadline",
+        complete: "Mark complete",
+        edit: "Edit",
+        delete: "Delete",
+      },
+      dialog: {
+        titleNew: "New deadline",
+        titleEdit: "Edit deadline",
+        cancel: "Cancel",
+        save: "Save",
+        saving: "Saving…",
+        fields: {
+          title: "Title",
+          type: "Deadline type",
+          dueDate: "Due date",
+          dueTime: "Due time (optional)",
+          client: "Client (optional)",
+          description: "Description (optional)",
+          reminder: "Reminder (days before)",
+        },
+        clientSearchPlaceholder: "Search clients…",
+        clientPlaceholder: "Select a client",
+        noClient: "No client",
+        errors: {
+          titleDate: "Title and due date are required.",
+          saveFailed: "Could not save the deadline.",
+        },
+      },
+      calendar: {
+        prev: "Previous month",
+        next: "Next month",
+        closeDay: "Close",
+        weekdayShort: {
+          sun: "Sun",
+          mon: "Mon",
+          tue: "Tue",
+          wed: "Wed",
+          thu: "Thu",
+          fri: "Fri",
+          sat: "Sat",
+        },
+      },
     },
   },
   sr: {
@@ -1210,21 +1758,226 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       getStarted: "Započni",
       dashboard: "Kontrolna tabla",
       generate: "Generisanje",
+      conflict: "Provera sukoba",
+      research: "Pravno istraživanje",
       contracts: "Ugovori",
       predictions: "Predviđanja",
       analyze: "Analiza",
       time: "Vreme",
       clients: "Klijenti",
+      intake: "Intake forme",
       activity: "Aktivnosti",
       billing: "Fakturisanje",
       settings: "Podešavanja",
       templates: "Predlozi",
+      deadlines: "Rokovi",
       actions: "Radnje",
       logout: "Odjava",
       themeToggle: "Prebacivanje svetle i tamne teme",
     },
     language: {
       label: "Jezik",
+    },
+    signature: {
+      actions: {
+        sendForSignature: "Pošalji na potpis",
+        cancelRequest: "Otkaži zahtjev",
+        resendEmail: "Ponovo pošalji email",
+        copySigningLink: "Kopiraj link za potpis",
+        downloadSignedPdf: "Preuzmi potpisani PDF",
+        sendNewRequest: "Pošalji novi zahtjev",
+        signDocument: "Potpiši dokument",
+      },
+      status: {
+        none: "Nema",
+        pending: "Na čekanju",
+        signed: "Potpisano",
+        expired: "Isteklo",
+        cancelled: "Otkazano",
+      },
+      dialog: {
+        title: "Pošalji na potpis",
+        signerName: "Ime potpisnika",
+        signerEmail: "Email potpisnika",
+        message: "Poruka (opciono)",
+        expiresDays: "Istek (dani)",
+        sending: "Slanje…",
+        send: "Pošalji",
+      },
+      dashboard: {
+        contractsTitle: "Ugovori",
+        contractsSubtitle: "Pošaljite ugovore na potpis i pratite status.",
+        refreshHint: "Osvježi",
+        colContract: "Ugovor",
+        colSignatureStatus: "Potpis",
+        colActions: "Radnje",
+        loadingContracts: "Učitavanje ugovora…",
+        noContracts: "Još nema ugovora.",
+        failedToLoadContracts: "Nije moguće učitati ugovore.",
+        failedToCreate: "Nije moguće kreirati zahtjev za potpis.",
+        failedToCancel: "Nije moguće otkazati zahtjev.",
+        failedToResend: "Nije moguće ponovo poslati email.",
+        failedToCopyLink: "Nije moguće kopirati link.",
+        failedToDownload: "Nije moguće generisati link za preuzimanje.",
+        statsTitle: "Potpisi",
+        pendingSignatures: "Potpisi na čekanju",
+        signedThisMonth: "Potpisano ovog mjeseca",
+      },
+      public: {
+        loading: "Učitavanje…",
+        notFoundTitle: "Link za potpis nije pronađen",
+        notFoundBody: "Ovaj link je nevažeći ili više nije dostupan.",
+        expiredTitle: "Ovaj link za potpis je istekao",
+        expiredBody: "Kontaktirajte pošiljaoca da zatražite novi link.",
+        alreadySignedTitle: "Ovaj dokument je već potpisan",
+        alreadySignedBody: "Nije potrebna dalja akcija.",
+        cancelledTitle: "Zahtjev za potpis je otkazan",
+        cancelledBody: "Kontaktirajte pošiljaoca ako mislite da je greška.",
+        successTitle: "Uspješno potpisano",
+        successBody: "Potpisani PDF možete preuzeti ispod.",
+        sentBy: "Poslao/la",
+        unknownSender: "Nepoznat pošiljalac",
+        expiresOn: "Ističe",
+        reviewTitle: "Pregled dokumenta",
+        checkboxAgree: "Pročitao/la sam i prihvatam uslove ovog ugovora",
+        typedNameLabel: "Upišite svoje puno ime",
+        typedNamePlaceholder: "Puno ime",
+        signing: "Potpisivanje…",
+      },
+    },
+    signature: {
+      actions: {
+        sendForSignature: "Pošlji v podpis",
+        cancelRequest: "Prekliči zahtevek",
+        resendEmail: "Ponovno pošlji e-pošto",
+        copySigningLink: "Kopiraj povezavo za podpis",
+        downloadSignedPdf: "Prenesi podpisani PDF",
+        sendNewRequest: "Pošlji nov zahtevek",
+        signDocument: "Podpiši dokument",
+      },
+      status: {
+        none: "Brez",
+        pending: "V teku",
+        signed: "Podpisano",
+        expired: "Poteklo",
+        cancelled: "Preklicano",
+      },
+      dialog: {
+        title: "Pošlji v podpis",
+        signerName: "Ime podpisnika",
+        signerEmail: "E-pošta podpisnika",
+        message: "Sporočilo (neobvezno)",
+        expiresDays: "Potek (dnevi)",
+        sending: "Pošiljanje…",
+        send: "Pošlji",
+      },
+      dashboard: {
+        contractsTitle: "Pogodbe",
+        contractsSubtitle: "Pošljite pogodbe v podpis in spremljajte status.",
+        refreshHint: "Osveži",
+        colContract: "Pogodba",
+        colSignatureStatus: "Podpis",
+        colActions: "Dejanja",
+        loadingContracts: "Nalaganje pogodb…",
+        noContracts: "Še ni pogodb.",
+        failedToLoadContracts: "Pogodb ni bilo mogoče naložiti.",
+        failedToCreate: "Zahtevka za podpis ni bilo mogoče ustvariti.",
+        failedToCancel: "Zahtevka ni bilo mogoče preklicati.",
+        failedToResend: "E-pošte ni bilo mogoče ponovno poslati.",
+        failedToCopyLink: "Povezave ni bilo mogoče kopirati.",
+        failedToDownload: "Povezave za prenos ni bilo mogoče ustvariti.",
+        statsTitle: "Podpisi",
+        pendingSignatures: "Podpisi v teku",
+        signedThisMonth: "Podpisano ta mesec",
+      },
+      public: {
+        loading: "Nalaganje…",
+        notFoundTitle: "Povezava za podpis ni najdena",
+        notFoundBody: "Ta povezava ni veljavna ali ni več na voljo.",
+        expiredTitle: "Ta povezava za podpis je potekla",
+        expiredBody: "Za novo povezavo se obrnite na pošiljatelja.",
+        alreadySignedTitle: "Ta dokument je že podpisan",
+        alreadySignedBody: "Nadaljnje dejanje ni potrebno.",
+        cancelledTitle: "Zahtevek za podpis je preklican",
+        cancelledBody: "Če menite, da je to napaka, se obrnite na pošiljatelja.",
+        successTitle: "Uspešno podpisano",
+        successBody: "Podpisani PDF lahko prenesete spodaj.",
+        sentBy: "Poslal/a",
+        unknownSender: "Neznan pošiljatelj",
+        expiresOn: "Poteče",
+        reviewTitle: "Pregled dokumenta",
+        checkboxAgree: "Prebral/a sem in se strinjam s pogoji te pogodbe",
+        typedNameLabel: "Vpišite svoje polno ime",
+        typedNamePlaceholder: "Polno ime",
+        signing: "Podpisovanje…",
+      },
+    },
+    signature: {
+      actions: {
+        sendForSignature: "Pošalji na potpis",
+        cancelRequest: "Otkaži zahtev",
+        resendEmail: "Ponovo pošalji email",
+        copySigningLink: "Kopiraj link za potpis",
+        downloadSignedPdf: "Preuzmi potpisani PDF",
+        sendNewRequest: "Pošalji novi zahtev",
+        signDocument: "Potpiši dokument",
+      },
+      status: {
+        none: "Nema",
+        pending: "Na čekanju",
+        signed: "Potpisano",
+        expired: "Isteklo",
+        cancelled: "Otkazano",
+      },
+      dialog: {
+        title: "Pošalji na potpis",
+        signerName: "Ime potpisnika",
+        signerEmail: "Email potpisnika",
+        message: "Poruka (opciono)",
+        expiresDays: "Istek (dani)",
+        sending: "Slanje…",
+        send: "Pošalji",
+      },
+      dashboard: {
+        contractsTitle: "Ugovori",
+        contractsSubtitle: "Pošaljite ugovore na potpis i pratite status.",
+        refreshHint: "Osveži",
+        colContract: "Ugovor",
+        colSignatureStatus: "Potpis",
+        colActions: "Radnje",
+        loadingContracts: "Učitavanje ugovora…",
+        noContracts: "Još nema ugovora.",
+        failedToLoadContracts: "Nije moguće učitati ugovore.",
+        failedToCreate: "Nije moguće kreirati zahtev za potpis.",
+        failedToCancel: "Nije moguće otkazati zahtev.",
+        failedToResend: "Nije moguće ponovo poslati email.",
+        failedToCopyLink: "Nije moguće kopirati link.",
+        failedToDownload: "Nije moguće generisati link za preuzimanje.",
+        statsTitle: "Potpisi",
+        pendingSignatures: "Potpisi na čekanju",
+        signedThisMonth: "Potpisano ovog meseca",
+      },
+      public: {
+        loading: "Učitavanje…",
+        notFoundTitle: "Link za potpis nije pronađen",
+        notFoundBody: "Ovaj link je nevažeći ili više nije dostupan.",
+        expiredTitle: "Ovaj link za potpis je istekao",
+        expiredBody: "Kontaktirajte pošiljaoca da zatražite novi link.",
+        alreadySignedTitle: "Ovaj dokument je već potpisan",
+        alreadySignedBody: "Nije potrebna dalja akcija.",
+        cancelledTitle: "Zahtev za potpis je otkazan",
+        cancelledBody: "Kontaktirajte pošiljaoca ako mislite da je greška.",
+        successTitle: "Uspešno potpisano",
+        successBody: "Potpisani PDF možete preuzeti ispod.",
+        sentBy: "Poslao/la",
+        unknownSender: "Nepoznat pošiljalac",
+        expiresOn: "Ističe",
+        reviewTitle: "Pregled dokumenta",
+        checkboxAgree: "Pročitao/la sam i prihvatam uslove ovog ugovora",
+        typedNameLabel: "Upišite svoje puno ime",
+        typedNamePlaceholder: "Puno ime",
+        signing: "Potpisivanje…",
+      },
     },
     rag: {
       title: "Preuzeti pravni izvori",
@@ -1237,6 +1990,82 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         "⚠ Sledeći citati u odgovoru veštačke inteligencije nisu pronađeni u preuzetoj pravnoj bazi i mogu biti netačni:",
       lowConfidence:
         "Nisko poverenje: preuzete odredbe su slabo relevantne za ovaj upit. Primenjivi zakon možda još nije u bazi.",
+    },
+    research: {
+      kicker: "Legantis · Istraživanje",
+      title: "Pravno istraživanje",
+      subtitle:
+        "Pretražite bazu pravnih propisa i sačuvajte istraživanja za kasnije.",
+      search: {
+        label: "Pitanje ili ključne reči",
+        placeholder: "npr. rok zastare za naknadu štete",
+      },
+      filters: {
+        jurisdiction: "Jurisdikcija",
+        category: "Kategorija",
+        language: "Jezik",
+        summaryPrefix: "Filteri:",
+      },
+      language: {
+        local: "Lokalno",
+        english: "Engleski",
+      },
+      jurisdictions: {
+        all: "Sve jurisdikcije",
+        serbia: "Srbija",
+        croatia: "Hrvatska",
+        bihFederation: "BiH Federacija",
+        bihRs: "BiH RS",
+        bihBrcko: "BiH Brčko",
+        montenegro: "Crna Gora",
+        slovenia: "Slovenija",
+      },
+      categories: {
+        all: "Sve kategorije",
+        civil: "Građansko",
+        commercial: "Privredno",
+        labor: "Radno",
+        family: "Porodično",
+        criminal: "Krivično",
+        administrative: "Upravno",
+        procedural: "Procesno",
+        constitutional: "Ustavno",
+        inheritance: "Nasledno",
+        property: "Stvarno",
+        confidentiality: "Poverljivost",
+        misdemeanor: "Prekršajno",
+      },
+      actions: {
+        search: "Pretraži",
+        searching: "Pretraživanje…",
+        save: "Sačuvaj istraživanje",
+        saving: "Čuvanje…",
+      },
+      results: {
+        title: "Rezultati",
+        hint: "Pokrenite pretragu da biste videli najrelevantnije članke zakona.",
+        empty:
+          "Nema relevantnih članaka. Pokušajte druge ključne reči ili širu kategoriju.",
+        countSuffix: "rezultata",
+        confidenceLabel: "Pouzdanost",
+        articleLabel: "Član",
+      },
+      sessions: {
+        title: "Nedavne pretrage",
+        refresh: "Osveži",
+        refreshing: "Osvežavanje…",
+        loading: "Učitavanje…",
+        empty: "Još nema sačuvanih istraživanja.",
+        upgradeHint:
+          "Čuvanje istraživanja je dostupno na Professional i Firm planovima.",
+      },
+      upgradePrompt: "Nadogradite plan da biste sačuvali istraživanja.",
+      errors: {
+        queryRequired: "Unesite upit za pretragu.",
+        searchFailed: "Pretraga nije uspela. Pokušajte ponovo.",
+        historyFailed: "Nije moguće učitati nedavne pretrage.",
+        saveFailed: "Nije moguće sačuvati istraživanje.",
+      },
     },
     home: {
       hero: {
@@ -1312,6 +2141,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
             },
           },
         },
+        perMonth: "/mesečno",
         cta: "Započni",
       },
       faq: {
@@ -1399,6 +2229,11 @@ const MESSAGES: Record<LanguageCode, Messages> = {
           description:
             "Kreirajte NDA ugovore i druga dokumenta uz pomoć AI-ja.",
         },
+        research: {
+          title: "Pravno istraživanje",
+          description:
+            "Pretražite propise kroz jurisdikcije uz skorove relevantnosti.",
+        },
         contract: {
           title: "Nacrtaj ugovor",
           description:
@@ -1465,6 +2300,224 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       activity: {
         title: "Skorašnja aktivnost",
         empty: "Još uvijek nema aktivnosti.",
+      },
+      upcomingDeadlines: {
+        title: "Predstojeći rokovi",
+        subtitle: "Vaši naredni obaveze i datumi.",
+        viewAll: "Prikaži sve",
+        empty: "Nema predstojećih rokova.",
+      },
+    },
+    intake: {
+      kicker: "Legantis · Prijem",
+      title: "Formulari za prijem klijenata",
+      subtitle:
+        "Podijelite link da novi klijenti sami unesu podatke prije sastanka.",
+      loading: "Učitavanje…",
+      empty: "Još nema formulara. Kreirajte jedan da počnete.",
+      upgrade: {
+        body:
+          "Formulari za prijem dostupni su na Professional i Firm planovima. Nadogradite da biste generisali linkove i pretvarali prijave u klijente.",
+        cta: "Pogledaj planove",
+      },
+      errors: {
+        mustBeLoggedIn: "Morate biti prijavljeni.",
+        loadFailed: "Nije moguće učitati formulare.",
+        toggleFailed: "Nije moguće ažurirati formular.",
+        formNotFound: "Formular nije pronađen.",
+      },
+      list: {
+        submissions: "Prijave: {n}",
+        active: "Aktivan",
+        copyLink: "Kopiraj link",
+        copied: "Kopirano",
+        viewSubmissions: "Prijave",
+        edit: "Uredi formular",
+      },
+      actions: {
+        create: "Novi formular za prijem",
+      },
+      editor: {
+        back: "Nazad na formulare",
+        titleNew: "Novi formular za prijem",
+        titleEdit: "Uredi formular za prijem",
+        subtitle:
+          "Unesite naslov i opcionalna polja. Osnovna pitanja (ime, email, vrsta predmeta, jurisdikcija, kratak opis) uvijek su na javnom formularu.",
+        formTitle: "Naslov formulara",
+        description: "Opis (opciono)",
+        optionalTitle: "Dodatna opcionalna polja",
+        optionalHint:
+          "Kada su uključena, klijenti ih vide na javnom formularu.",
+        optional: {
+          company: "Naziv kompanije",
+          address: "Adresa",
+          notes: "Napomene",
+        },
+        save: "Sačuvaj",
+        saving: "Čuvam…",
+        errors: {
+          titleRequired: "Unesite naslov formulara.",
+          saveFailed: "Nije moguće sačuvati formular.",
+        },
+      },
+      public: {
+        notFoundTitle: "Formular nije dostupan",
+        notFoundBody: "Link možda nije aktivan ili je netačan.",
+        thankYouTitle: "Hvala",
+        thankYouBody:
+          "Vaši podaci su poslati. Vaš advokat će vas uskoro kontaktirati.",
+        fullName: "Puno ime",
+        email: "Email",
+        phone: "Telefon (opciono)",
+        caseType: "Vrsta predmeta",
+        jurisdiction: "Jurisdikcija",
+        matterDescription: "Kratak opis predmeta (opciono)",
+        company: "Naziv kompanije",
+        address: "Adresa",
+        notes: "Napomene",
+        selectPlaceholder: "Izaberite…",
+        submit: "Pošalji",
+        submitting: "Šaljem…",
+        caseTypes: {
+          civil: "Građansko",
+          criminal: "Krivično",
+          family: "Porodično",
+          commercial: "Privredno",
+          labor: "Radno",
+          administrative: "Upravno",
+          other: "Ostalo",
+        },
+        jurisdictions: {
+          bih_fbih: "BiH – Federacija",
+          bih_rs: "BiH – Republika Srpska",
+          bih_brcko: "BiH – Distrikt Brčko",
+          serbia: "Srbija",
+          croatia: "Hrvatska",
+          montenegro: "Crna Gora",
+          slovenia: "Slovenija",
+        },
+        errors: {
+          nameEmail: "Unesite puno ime i email.",
+          caseAndJurisdiction: "Izaberite vrstu predmeta i jurisdikciju.",
+          submitFailed: "Slanje nije uspjelo. Pokušajte ponovo.",
+        },
+      },
+      submissions: {
+        title: "Prijave na formular",
+        back: "Nazad na formulare",
+        empty: "Još nema prijava.",
+        convert: "Pretvori u klijenta",
+        archive: "Arhiviraj",
+        openClient: "Otvori klijenta",
+        col: {
+          submitted: "Poslato",
+          contact: "Klijent",
+          caseType: "Vrsta predmeta",
+          status: "Status",
+          actions: "Akcije",
+        },
+        status: {
+          pending: "Na čekanju",
+          converted: "Pretvoreno",
+          archived: "Arhivirano",
+        },
+        messages: {
+          linkedExisting:
+            "Ovaj email već postoji kao klijent. Prijava je povezana sa postojećim zapisom.",
+          created: "Klijent je uspješno kreiran.",
+        },
+        errors: {
+          missingNameEmail: "U prijavi nedostaje ime ili email.",
+          convertFailed: "Nije moguće kreirati klijenta.",
+          archiveFailed: "Nije moguće arhivirati prijavu.",
+        },
+      },
+    },
+    deadlines: {
+      kicker: "Legantis · Rokovi",
+      title: "Rokovi i kalendar",
+      subtitle: "Pratite ročišta, podnošenja i datume predmeta.",
+      loading: "Učitavanje…",
+      upgrade: {
+        body:
+          "Praćenje rokova dostupno je na Professional i Firm planovima. Nadogradite za listu i kalendar.",
+        cta: "Pogledaj planove",
+      },
+      errors: {
+        mustBeLoggedIn: "Morate biti prijavljeni.",
+        loadFailed: "Nije moguće učitati rokove.",
+        updateFailed: "Nije moguće ažurirati rok.",
+        deleteFailed: "Nije moguće obrisati rok.",
+      },
+      tabs: {
+        list: "Lista",
+        calendar: "Kalendar",
+      },
+      filters: {
+        all: "Sve",
+        upcoming: "Predstojeće",
+        overdue: "Prekoračeno",
+        completed: "Završeno",
+      },
+      list: {
+        empty: "Nema rokova za ovaj filter.",
+        done: "Gotovo",
+        overdueDays: "Prekoračeno {n} dana",
+        dueToday: "Rok danas",
+        inDays: "za {n} dana",
+      },
+      types: {
+        court_hearing: "Ročište",
+        filing_deadline: "Rok za podnošenje",
+        appeal_deadline: "Rok za žalbu",
+        statute_of_limitations: "Zastarelost",
+        contract_expiry: "Istek ugovora",
+        client_meeting: "Sastanak sa klijentom",
+        payment_due: "Dospijeće plaćanja",
+        other: "Ostalo",
+      },
+      actions: {
+        add: "Dodaj rok",
+        complete: "Označi kao završeno",
+        edit: "Uredi",
+        delete: "Obriši",
+      },
+      dialog: {
+        titleNew: "Novi rok",
+        titleEdit: "Uredi rok",
+        cancel: "Otkaži",
+        save: "Sačuvaj",
+        saving: "Čuvam…",
+        fields: {
+          title: "Naslov",
+          type: "Vrsta roka",
+          dueDate: "Datum roka",
+          dueTime: "Vrijeme (opciono)",
+          client: "Klijent (opciono)",
+          description: "Opis (opciono)",
+          reminder: "Podsjetnik (dana prije)",
+        },
+        clientSearchPlaceholder: "Pretraži klijente…",
+        clientPlaceholder: "Izaberite klijenta",
+        noClient: "Bez klijenta",
+        errors: {
+          titleDate: "Naslov i datum su obavezni.",
+          saveFailed: "Nije moguće sačuvati rok.",
+        },
+      },
+      calendar: {
+        prev: "Prethodni mjesec",
+        next: "Sljedeći mjesec",
+        closeDay: "Zatvori",
+        weekdayShort: {
+          sun: "Ned",
+          mon: "Pon",
+          tue: "Uto",
+          wed: "Sre",
+          thu: "Čet",
+          fri: "Pet",
+          sat: "Sub",
+        },
       },
     },
     generate: {
@@ -1907,6 +2960,62 @@ const MESSAGES: Record<LanguageCode, Messages> = {
           "Evidentirajte naplative sate po klijentu i predmetu, i pratite nenaplaćeno vrijeme i iznose na jednom mjestu.",
         back: "Nazad na kontrolnu tablu",
       },
+      tabs: {
+        entries: "Unosi vremena",
+        invoices: "Fakture",
+      },
+      invoices: {
+        title: "Fakture",
+        subtitle:
+          "Šaljite fakture e-poštom i pratite plaćanja bankovnim transferom.",
+        refresh: "Osvježi",
+        loading: "Učitavanje…",
+        loadingList: "Učitavanje faktura…",
+        empty:
+          "Još nema faktura. (Kreiranje faktura pojaviće se ovdje kada se generišu iz unosa vremena.)",
+        duePrefix: "Rok",
+        clientFallback: "Klijent",
+        actions: {
+          downloadPdf: "Preuzmi PDF",
+          send: "Pošalji klijentu",
+          sending: "Slanje…",
+          markPaid: "Označi kao plaćeno",
+          markOverdue: "Označi kao dospjelo",
+        },
+        status: {
+          draft: "Nacrt",
+          sent: "Poslato",
+          paid: "Plaćeno",
+          overdue: "Dospjelo",
+          cancelled: "Otkazano",
+        },
+        errors: {
+          mustBeLoggedIn: "Morate biti prijavljeni.",
+          loadFailed: "Učitavanje faktura nije uspjelo.",
+          actionFailed: "Akcija nije uspjela",
+        },
+      },
+      invoiceGenerate: {
+        button: "Generiši fakturu",
+        dialogTitle: "Generiši fakturu",
+        dueDate: "Datum dospijeća",
+        notes: "Napomene",
+        notesPlaceholder: "Opcionalne napomene na fakturi…",
+        paymentReference: "Poziv na broj / referenca",
+        bankAccount: "Bankovni račun",
+        bankPlaceholder: "Izaberite račun",
+        totalLabel: "Ukupno",
+        confirm: "Kreiraj fakturu",
+        cancel: "Otkaži",
+        generating: "Kreiranje…",
+        successToast: "Faktura je kreirana.",
+        bankingWarningBefore: "Dodajte podatke o banci u",
+        bankingSettingsLink: "Podešavanja → Banka",
+        bankingWarningAfter: " prije slanja faktura.",
+        errors: {
+          createFailed: "Kreiranje fakture nije uspjelo. Pokušajte ponovo.",
+        },
+      },
       form: {
         matterName: {
           label: "Klijent / Naziv predmeta",
@@ -2006,6 +3115,36 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         cancel: "Otkaži",
         deleteAria: "Obriši klijenta",
       },
+      conflictPrecheck: {
+        title: "Provera sukoba interesa",
+        subtitle:
+          "Pre dodavanja novog klijenta, pokrenite brzu proveru sukoba kroz vaš radni prostor.",
+        name: {
+          label: "Ime/naziv potencijalnog klijenta",
+          placeholder: "npr. Marko Marković / ACME d.o.o.",
+        },
+        actions: {
+          check: "Pokreni proveru",
+          checking: "Proveravam…",
+          continue: "Nastavi na podatke o klijentu",
+          proceedAnyway: "Nastavi uprkos sukobu",
+          startOver: "Počni ispočetka",
+        },
+        clear: {
+          title: "Nema pronađenih sukoba — bezbedno je nastaviti",
+          body:
+            "Nisu pronađeni odgovarajući klijenti, ugovori ili predmeti u vašem radnom prostoru.",
+        },
+        conflict: {
+          title: "Pronađen je potencijalni sukob",
+          body:
+            "Pregledajte rezultate ispod. Možete nastaviti samo nakon potvrde da ste pregledali potencijalni sukob.",
+        },
+        override: {
+          label:
+            "Pregledao/la sam potencijalni sukob i potvrđujem da je bezbedno nastaviti.",
+        },
+      },
       form: {
         fullName: {
           label: "Ime i prezime",
@@ -2074,6 +3213,60 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       },
       common: {
         notSet: "Nije postavljeno",
+      },
+    },
+    conflict: {
+      header: {
+        kicker: "Legantis · Provera sukoba",
+        title: "Provera sukoba interesa",
+        subtitle:
+          "Pretražite klijente, ugovore i beleške o predmetima da biste identifikovali potencijalni sukob pre prihvatanja novog klijenta.",
+      },
+      form: {
+        query: {
+          label: "Ime osobe ili naziv firme",
+          placeholder: "Unesite ime…",
+          help:
+            "Pretraga nije osetljiva na velika/mala slova i podržava delimična imena (npr. „Marko” nalazi „Marko Marković” i „Marković d.o.o.”).",
+        },
+        actions: {
+          check: "Proveri sukobe",
+          checking: "Proveravam…",
+        },
+      },
+      errors: {
+        queryRequired: "Unesite ime za pretragu.",
+        searchFailed: "Provera sukoba nije uspela. Pokušajte ponovo.",
+        historyFailed: "Neuspelo učitavanje istorije provera.",
+      },
+      results: {
+        matchCountSuffix: "poklapanja",
+        clearBadge: "Čisto",
+        clearTitle: "Nema pronađenih sukoba",
+        clearBody: "Nema poklapanja u vašem radnom prostoru. Možete nastaviti.",
+        conflictBadge: "Proveriti",
+        conflictTitle: "Otkriven potencijalni sukob",
+        conflictBody:
+          "Pronađena su poklapanja u vašem radnom prostoru. Pregledajte detalje pre nastavka.",
+        groups: {
+          clients: "Klijenti",
+          contracts: "Ugovori",
+          cases: "Predmeti",
+        },
+      },
+      history: {
+        title: "Skorašnje provere",
+        refresh: "Osveži",
+        refreshing: "Osvežavam…",
+        loading: "Učitavanje istorije…",
+        empty: "Još nema provera sukoba.",
+        upgradeHint:
+          "Istorija provera sukoba dostupna je na Professional i Firm planovima.",
+        badges: {
+          clear: "Čisto",
+          conflict: "Sukob",
+        },
+        overrideLine: "Nastavljeno uprkos potencijalnom sukobu (override).",
       },
     },
     activity: {
@@ -2179,8 +3372,44 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       tabs: {
         profile: "Profil",
         preferences: "Preference",
+        banking: "Banka",
         security: "Sigurnost",
         danger: "Opasna zona",
+      },
+      banking: {
+        title: "Podaci za bankovni transfer",
+        introAccount:
+          "Ovi podaci će se koristiti na fakturama kao uputstvo za plaćanje. Sačuvano za vaš nalog.",
+        introFirm:
+          "Ovi podaci će se koristiti na fakturama kao uputstvo za plaćanje. Sačuvano na nivou kancelarije.",
+        bankName: {
+          label: "Naziv banke",
+          placeholder: "npr. UniCredit Bank",
+        },
+        accountHolder: {
+          label: "Vlasnik računa",
+          placeholder: "npr. naziv vaše kancelarije",
+        },
+        iban: {
+          label: "IBAN",
+          placeholder: "XX00 0000 0000 0000 0000",
+        },
+        swift: {
+          label: "SWIFT/BIC (opciono)",
+          placeholder: "npr. UNCRBA22",
+        },
+        defaultForInvoices: {
+          title: "Podrazumijevano za nove fakture",
+          subtitle:
+            "Kada je uključeno, ovaj račun će biti automatski popunjen na novim fakturama.",
+        },
+        save: "Sačuvaj bankovne podatke",
+        saving: "Čuvanje...",
+        messageSaved: "Bankovni podaci su sačuvani.",
+        errors: {
+          loadFailed: "Učitavanje bankovnih podataka nije uspjelo",
+          saveFailed: "Čuvanje bankovnih podataka nije uspjelo",
+        },
       },
       profile: {
         title: "Profil",
@@ -2395,21 +3624,92 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       getStarted: "Započni",
       dashboard: "Kontrolna ploča",
       generate: "Generisanje",
+      conflict: "Provjera sukoba",
+      research: "Pravno istraživanje",
       contracts: "Ugovori",
       predictions: "Predviđanja",
       analyze: "Analiza",
       time: "Vrijeme",
       clients: "Klijenti",
+      intake: "Intake forme",
       activity: "Aktivnosti",
       billing: "Fakturisanje",
       settings: "Postavke",
       templates: "Prijedlozi",
+      deadlines: "Rokovi",
       actions: "Radnje",
       logout: "Odjava",
       themeToggle: "Prebacivanje svijetle i tamne teme",
     },
     language: {
       label: "Jezik",
+    },
+    signature: {
+      actions: {
+        sendForSignature: "Pošalji na potpis",
+        cancelRequest: "Otkaži zahtjev",
+        resendEmail: "Ponovo pošalji email",
+        copySigningLink: "Kopiraj link za potpis",
+        downloadSignedPdf: "Preuzmi potpisani PDF",
+        sendNewRequest: "Pošalji novi zahtjev",
+        signDocument: "Potpiši dokument",
+      },
+      status: {
+        none: "Nema",
+        pending: "Na čekanju",
+        signed: "Potpisano",
+        expired: "Isteklo",
+        cancelled: "Otkazano",
+      },
+      dialog: {
+        title: "Pošalji na potpis",
+        signerName: "Ime potpisnika",
+        signerEmail: "Email potpisnika",
+        message: "Poruka (opciono)",
+        expiresDays: "Istek (dani)",
+        sending: "Slanje…",
+        send: "Pošalji",
+      },
+      dashboard: {
+        contractsTitle: "Ugovori",
+        contractsSubtitle: "Pošaljite ugovore na potpis i pratite status.",
+        refreshHint: "Osvježi",
+        colContract: "Ugovor",
+        colSignatureStatus: "Potpis",
+        colActions: "Radnje",
+        loadingContracts: "Učitavanje ugovora…",
+        noContracts: "Još nema ugovora.",
+        failedToLoadContracts: "Nije moguće učitati ugovore.",
+        failedToCreate: "Nije moguće kreirati zahtjev za potpis.",
+        failedToCancel: "Nije moguće otkazati zahtjev.",
+        failedToResend: "Nije moguće ponovo poslati email.",
+        failedToCopyLink: "Nije moguće kopirati link.",
+        failedToDownload: "Nije moguće generisati link za preuzimanje.",
+        statsTitle: "Potpisi",
+        pendingSignatures: "Potpisi na čekanju",
+        signedThisMonth: "Potpisano ovog mjeseca",
+      },
+      public: {
+        loading: "Učitavanje…",
+        notFoundTitle: "Link za potpis nije pronađen",
+        notFoundBody: "Ovaj link je nevažeći ili više nije dostupan.",
+        expiredTitle: "Ovaj link za potpis je istekao",
+        expiredBody: "Kontaktirajte pošiljaoca da zatražite novi link.",
+        alreadySignedTitle: "Ovaj dokument je već potpisan",
+        alreadySignedBody: "Nije potrebna daljnja akcija.",
+        cancelledTitle: "Zahtjev za potpis je otkazan",
+        cancelledBody: "Kontaktirajte pošiljaoca ako mislite da je greška.",
+        successTitle: "Uspješno potpisano",
+        successBody: "Potpisani PDF možete preuzeti ispod.",
+        sentBy: "Poslao/la",
+        unknownSender: "Nepoznat pošiljalac",
+        expiresOn: "Ističe",
+        reviewTitle: "Pregled dokumenta",
+        checkboxAgree: "Pročitao/la sam i prihvatam uslove ovog ugovora",
+        typedNameLabel: "Upišite svoje puno ime",
+        typedNamePlaceholder: "Puno ime",
+        signing: "Potpisivanje…",
+      },
     },
     rag: {
       title: "Dobavljeni pravni izvori",
@@ -2422,6 +3722,82 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         "⚠ Sljedeći citati u odgovoru umjetne inteligencije nisu pronađeni u preuzetoj pravnoj bazi i mogu biti netočni:",
       lowConfidence:
         "Nisko povjerenje: preuzete odredbe slabo odgovaraju ovom upitu. Primjenjivi zakon možda još nije u bazi.",
+    },
+    research: {
+      kicker: "Legantis · Istraživanje",
+      title: "Pravno istraživanje",
+      subtitle:
+        "Pretražite pravnu bazu i sačuvajte istraživanja za kasnije.",
+      search: {
+        label: "Pitanje ili ključne riječi",
+        placeholder: "npr. rok zastare za naknadu štete",
+      },
+      filters: {
+        jurisdiction: "Jurisdikcija",
+        category: "Kategorija",
+        language: "Jezik",
+        summaryPrefix: "Filteri:",
+      },
+      language: {
+        local: "Lokalno",
+        english: "Engleski",
+      },
+      jurisdictions: {
+        all: "Sve jurisdikcije",
+        serbia: "Srbija",
+        croatia: "Hrvatska",
+        bihFederation: "BiH Federacija",
+        bihRs: "BiH RS",
+        bihBrcko: "BiH Brčko",
+        montenegro: "Crna Gora",
+        slovenia: "Slovenija",
+      },
+      categories: {
+        all: "Sve kategorije",
+        civil: "Građansko",
+        commercial: "Privredno",
+        labor: "Radno",
+        family: "Porodično",
+        criminal: "Krivično",
+        administrative: "Upravno",
+        procedural: "Procesno",
+        constitutional: "Ustavno",
+        inheritance: "Nasljedno",
+        property: "Stvarno",
+        confidentiality: "Povjerljivost",
+        misdemeanor: "Prekršajno",
+      },
+      actions: {
+        search: "Pretraži",
+        searching: "Pretraživanje…",
+        save: "Sačuvaj istraživanje",
+        saving: "Čuvanje…",
+      },
+      results: {
+        title: "Rezultati",
+        hint: "Pokrenite pretragu da biste vidjeli najrelevantnije članke zakona.",
+        empty:
+          "Nema relevantnih članaka. Pokušajte druge ključne riječi ili širu kategoriju.",
+        countSuffix: "rezultata",
+        confidenceLabel: "Pouzdanost",
+        articleLabel: "Član",
+      },
+      sessions: {
+        title: "Nedavne pretrage",
+        refresh: "Osvježi",
+        refreshing: "Osvježavanje…",
+        loading: "Učitavanje…",
+        empty: "Još nema sačuvanih istraživanja.",
+        upgradeHint:
+          "Čuvanje istraživanja je dostupno na Professional i Firm planovima.",
+      },
+      upgradePrompt: "Nadogradite plan da biste sačuvali istraživanja.",
+      errors: {
+        queryRequired: "Unesite upit za pretragu.",
+        searchFailed: "Pretraga nije uspjela. Pokušajte ponovo.",
+        historyFailed: "Nije moguće učitati nedavne pretrage.",
+        saveFailed: "Nije moguće sačuvati istraživanje.",
+      },
     },
     home: {
       hero: {
@@ -2497,6 +3873,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
             },
           },
         },
+        perMonth: "/mjesečno",
         cta: "Započni",
       },
       faq: {
@@ -2584,6 +3961,11 @@ const MESSAGES: Record<LanguageCode, Messages> = {
           description:
             "Kreirajte NDA i druge ugovore uz pomoć AI-ja.",
         },
+        research: {
+          title: "Pravno istraživanje",
+          description:
+            "Pretražite propise kroz jurisdikcije uz skorove relevantnosti.",
+        },
         contract: {
           title: "Nacrtaj ugovor",
           description:
@@ -2650,6 +4032,224 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       activity: {
         title: "Skorašnja aktivnost",
         empty: "Još uvijek nema aktivnosti.",
+      },
+      upcomingDeadlines: {
+        title: "Predstojeći rokovi",
+        subtitle: "Vaši sljedeći obaveze i datumi.",
+        viewAll: "Prikaži sve",
+        empty: "Nema predstojećih rokova.",
+      },
+    },
+    intake: {
+      kicker: "Legantis · Prijem",
+      title: "Formulari za prijem klijenata",
+      subtitle:
+        "Podijelite link da novi klijenti sami unesu podatke prije sastanka.",
+      loading: "Učitavanje…",
+      empty: "Još nema formulara. Kreirajte jedan da počnete.",
+      upgrade: {
+        body:
+          "Formulari za prijem dostupni su na Professional i Firm planovima. Nadogradite da biste generisali linkove i pretvarali prijave u klijente.",
+        cta: "Pogledaj planove",
+      },
+      errors: {
+        mustBeLoggedIn: "Morate biti prijavljeni.",
+        loadFailed: "Nije moguće učitati formulare.",
+        toggleFailed: "Nije moguće ažurirati formular.",
+        formNotFound: "Formular nije pronađen.",
+      },
+      list: {
+        submissions: "Prijave: {n}",
+        active: "Aktivan",
+        copyLink: "Kopiraj link",
+        copied: "Kopirano",
+        viewSubmissions: "Prijave",
+        edit: "Uredi formular",
+      },
+      actions: {
+        create: "Novi formular za prijem",
+      },
+      editor: {
+        back: "Nazad na formulare",
+        titleNew: "Novi formular za prijem",
+        titleEdit: "Uredi formular za prijem",
+        subtitle:
+          "Unesite naslov i opcionalna polja. Osnovna pitanja (ime, email, vrsta predmeta, jurisdikcija, kratak opis) uvijek su na javnom formularu.",
+        formTitle: "Naslov formulara",
+        description: "Opis (opcionalno)",
+        optionalTitle: "Dodatna opcionalna polja",
+        optionalHint:
+          "Kada su uključena, klijenti ih vide na javnom formularu.",
+        optional: {
+          company: "Naziv kompanije",
+          address: "Adresa",
+          notes: "Napomene",
+        },
+        save: "Sačuvaj",
+        saving: "Čuvam…",
+        errors: {
+          titleRequired: "Unesite naslov formulara.",
+          saveFailed: "Nije moguće sačuvati formular.",
+        },
+      },
+      public: {
+        notFoundTitle: "Formular nije dostupan",
+        notFoundBody: "Link možda nije aktivan ili je netačan.",
+        thankYouTitle: "Hvala",
+        thankYouBody:
+          "Vaši podaci su poslati. Vaš advokat će vas uskoro kontaktirati.",
+        fullName: "Puno ime",
+        email: "Email",
+        phone: "Telefon (opcionalno)",
+        caseType: "Vrsta predmeta",
+        jurisdiction: "Jurisdikcija",
+        matterDescription: "Kratak opis predmeta (opcionalno)",
+        company: "Naziv kompanije",
+        address: "Adresa",
+        notes: "Napomene",
+        selectPlaceholder: "Izaberite…",
+        submit: "Pošalji",
+        submitting: "Šaljem…",
+        caseTypes: {
+          civil: "Građansko",
+          criminal: "Krivično",
+          family: "Porodično",
+          commercial: "Privredno",
+          labor: "Radno",
+          administrative: "Upravno",
+          other: "Ostalo",
+        },
+        jurisdictions: {
+          bih_fbih: "BiH – Federacija",
+          bih_rs: "BiH – Republika Srpska",
+          bih_brcko: "BiH – Distrikt Brčko",
+          serbia: "Srbija",
+          croatia: "Hrvatska",
+          montenegro: "Crna Gora",
+          slovenia: "Slovenija",
+        },
+        errors: {
+          nameEmail: "Unesite puno ime i email.",
+          caseAndJurisdiction: "Izaberite vrstu predmeta i jurisdikciju.",
+          submitFailed: "Slanje nije uspjelo. Pokušajte ponovo.",
+        },
+      },
+      submissions: {
+        title: "Prijave na formular",
+        back: "Nazad na formulare",
+        empty: "Još nema prijava.",
+        convert: "Pretvori u klijenta",
+        archive: "Arhiviraj",
+        openClient: "Otvori klijenta",
+        col: {
+          submitted: "Poslato",
+          contact: "Klijent",
+          caseType: "Vrsta predmeta",
+          status: "Status",
+          actions: "Akcije",
+        },
+        status: {
+          pending: "Na čekanju",
+          converted: "Pretvoreno",
+          archived: "Arhivirano",
+        },
+        messages: {
+          linkedExisting:
+            "Ovaj email već postoji kao klijent. Prijava je povezana sa postojećim zapisom.",
+          created: "Klijent je uspješno kreiran.",
+        },
+        errors: {
+          missingNameEmail: "U prijavi nedostaje ime ili email.",
+          convertFailed: "Nije moguće kreirati klijenta.",
+          archiveFailed: "Nije moguće arhivirati prijavu.",
+        },
+      },
+    },
+    deadlines: {
+      kicker: "Legantis · Rokovi",
+      title: "Rokovi i kalendar",
+      subtitle: "Pratite ročišta, podnošenja i datume predmeta.",
+      loading: "Učitavanje…",
+      upgrade: {
+        body:
+          "Praćenje rokova dostupno je na Professional i Firm planovima. Nadogradite za listu i kalendar.",
+        cta: "Pogledaj planove",
+      },
+      errors: {
+        mustBeLoggedIn: "Morate biti prijavljeni.",
+        loadFailed: "Nije moguće učitati rokove.",
+        updateFailed: "Nije moguće ažurirati rok.",
+        deleteFailed: "Nije moguće obrisati rok.",
+      },
+      tabs: {
+        list: "Lista",
+        calendar: "Kalendar",
+      },
+      filters: {
+        all: "Sve",
+        upcoming: "Predstojeće",
+        overdue: "Prekoračeno",
+        completed: "Završeno",
+      },
+      list: {
+        empty: "Nema rokova za ovaj filter.",
+        done: "Gotovo",
+        overdueDays: "Prekoračeno {n} dana",
+        dueToday: "Rok danas",
+        inDays: "za {n} dana",
+      },
+      types: {
+        court_hearing: "Ročište",
+        filing_deadline: "Rok za podnošenje",
+        appeal_deadline: "Rok za žalbu",
+        statute_of_limitations: "Zastarelost",
+        contract_expiry: "Istek ugovora",
+        client_meeting: "Sastanak s klijentom",
+        payment_due: "Dospijeće plaćanja",
+        other: "Ostalo",
+      },
+      actions: {
+        add: "Dodaj rok",
+        complete: "Označi kao završeno",
+        edit: "Uredi",
+        delete: "Obriši",
+      },
+      dialog: {
+        titleNew: "Novi rok",
+        titleEdit: "Uredi rok",
+        cancel: "Otkaži",
+        save: "Sačuvaj",
+        saving: "Čuvam…",
+        fields: {
+          title: "Naslov",
+          type: "Vrsta roka",
+          dueDate: "Datum roka",
+          dueTime: "Vrijeme (opcionalno)",
+          client: "Klijent (opcionalno)",
+          description: "Opis (opcionalno)",
+          reminder: "Podsjetnik (dana prije)",
+        },
+        clientSearchPlaceholder: "Pretraži klijente…",
+        clientPlaceholder: "Izaberite klijenta",
+        noClient: "Bez klijenta",
+        errors: {
+          titleDate: "Naslov i datum su obavezni.",
+          saveFailed: "Nije moguće sačuvati rok.",
+        },
+      },
+      calendar: {
+        prev: "Prethodni mjesec",
+        next: "Sljedeći mjesec",
+        closeDay: "Zatvori",
+        weekdayShort: {
+          sun: "Ned",
+          mon: "Pon",
+          tue: "Uto",
+          wed: "Sri",
+          thu: "Čet",
+          fri: "Pet",
+          sat: "Sub",
+        },
       },
     },
     generate: {
@@ -3092,6 +4692,62 @@ const MESSAGES: Record<LanguageCode, Messages> = {
           "Evidentirajte naplative sate po klijentu i predmetu, i pratite nenaplaćeno vrijeme i iznose na jednom mjestu.",
         back: "Nazad na kontrolnu ploču",
       },
+      tabs: {
+        entries: "Unosi vremena",
+        invoices: "Fakture",
+      },
+      invoices: {
+        title: "Fakture",
+        subtitle:
+          "Šaljite fakture e-poštom i pratite plaćanja bankovnim transferom.",
+        refresh: "Osvježi",
+        loading: "Učitavanje…",
+        loadingList: "Učitavanje faktura…",
+        empty:
+          "Još nema faktura. (Kreiranje faktura pojaviće se ovdje kada se generišu iz unosa vremena.)",
+        duePrefix: "Rok",
+        clientFallback: "Klijent",
+        actions: {
+          downloadPdf: "Preuzmi PDF",
+          send: "Pošalji klijentu",
+          sending: "Slanje…",
+          markPaid: "Označi kao plaćeno",
+          markOverdue: "Označi kao dospjelo",
+        },
+        status: {
+          draft: "Nacrt",
+          sent: "Poslano",
+          paid: "Plaćeno",
+          overdue: "Dospjelo",
+          cancelled: "Otkazano",
+        },
+        errors: {
+          mustBeLoggedIn: "Morate biti prijavljeni.",
+          loadFailed: "Učitavanje faktura nije uspjelo.",
+          actionFailed: "Akcija nije uspjela",
+        },
+      },
+      invoiceGenerate: {
+        button: "Generiši fakturu",
+        dialogTitle: "Generiši fakturu",
+        dueDate: "Datum dospijeća",
+        notes: "Napomene",
+        notesPlaceholder: "Opcionalne napomene na fakturi…",
+        paymentReference: "Poziv na broj / referenca",
+        bankAccount: "Bankovni račun",
+        bankPlaceholder: "Izaberite račun",
+        totalLabel: "Ukupno",
+        confirm: "Kreiraj fakturu",
+        cancel: "Otkaži",
+        generating: "Kreiranje…",
+        successToast: "Faktura je kreirana.",
+        bankingWarningBefore: "Dodajte podatke o banci u",
+        bankingSettingsLink: "Podešavanja → Banka",
+        bankingWarningAfter: " prije slanja faktura.",
+        errors: {
+          createFailed: "Kreiranje fakture nije uspjelo. Pokušajte ponovo.",
+        },
+      },
       form: {
         matterName: {
           label: "Klijent / Naziv predmeta",
@@ -3193,6 +4849,36 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         cancel: "Otkaži",
         deleteAria: "Obriši klijenta",
       },
+      conflictPrecheck: {
+        title: "Provjera sukoba interesa",
+        subtitle:
+          "Prije dodavanja novog klijenta, pokrenite brzu provjeru sukoba kroz vaš radni prostor.",
+        name: {
+          label: "Ime/naziv potencijalnog klijenta",
+          placeholder: "npr. John Doe / Johnson Ltd",
+        },
+        actions: {
+          check: "Pokreni provjeru",
+          checking: "Provjeravam…",
+          continue: "Nastavi na podatke klijenta",
+          proceedAnyway: "Nastavi uprkos sukobu",
+          startOver: "Počni ispočetka",
+        },
+        clear: {
+          title: "Nema pronađenih sukoba — sigurno je nastaviti",
+          body:
+            "Nisu pronađeni odgovarajući klijenti, ugovori ili predmeti u vašem radnom prostoru.",
+        },
+        conflict: {
+          title: "Pronađen je potencijalni sukob",
+          body:
+            "Pregledajte rezultate ispod. Možete nastaviti samo nakon potvrde da ste pregledali potencijalni sukob.",
+        },
+        override: {
+          label:
+            "Pregledao/la sam potencijalni sukob i potvrđujem da je sigurno nastaviti.",
+        },
+      },
       form: {
         fullName: {
           label: "Ime i prezime",
@@ -3262,6 +4948,60 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       },
       common: {
         notSet: "Nije postavljeno",
+      },
+    },
+    conflict: {
+      header: {
+        kicker: "Legantis · Provjera sukoba",
+        title: "Provjera sukoba interesa",
+        subtitle:
+          "Pretražite klijente, ugovore i bilješke o predmetima kako biste otkrili potencijalne sukobe prije prihvatanja novog klijenta.",
+      },
+      form: {
+        query: {
+          label: "Ime osobe ili naziv firme",
+          placeholder: "Unesite ime…",
+          help:
+            "Pretraga nije osjetljiva na velika/mala slova i podržava djelimična imena (npr. „John” nalazi „John Doe” i „Johnson Ltd”).",
+        },
+        actions: {
+          check: "Provjeri sukobe",
+          checking: "Provjeravam…",
+        },
+      },
+      errors: {
+        queryRequired: "Unesite ime za pretragu.",
+        searchFailed: "Provjera sukoba nije uspjela. Pokušajte ponovo.",
+        historyFailed: "Neuspjelo učitavanje historije provjera.",
+      },
+      results: {
+        matchCountSuffix: "poklapanja",
+        clearBadge: "Čisto",
+        clearTitle: "Nema pronađenih sukoba",
+        clearBody: "Nema poklapanja u vašem radnom prostoru. Možete nastaviti.",
+        conflictBadge: "Provjeriti",
+        conflictTitle: "Otkriven potencijalni sukob",
+        conflictBody:
+          "Pronađena su poklapanja u vašem radnom prostoru. Pregledajte detalje prije nastavka.",
+        groups: {
+          clients: "Klijenti",
+          contracts: "Ugovori",
+          cases: "Predmeti",
+        },
+      },
+      history: {
+        title: "Skorašnje provjere",
+        refresh: "Osvježi",
+        refreshing: "Osvježavam…",
+        loading: "Učitavanje historije…",
+        empty: "Još nema provjera sukoba.",
+        upgradeHint:
+          "Historija provjera sukoba dostupna je na Professional i Firm planovima.",
+        badges: {
+          clear: "Čisto",
+          conflict: "Sukob",
+        },
+        overrideLine: "Nastavljeno uprkos potencijalnom sukobu (override).",
       },
     },
     activity: {
@@ -3367,8 +5107,44 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       tabs: {
         profile: "Profil",
         preferences: "Preferencije",
+        banking: "Banka",
         security: "Sigurnost",
         danger: "Opasna zona",
+      },
+      banking: {
+        title: "Podaci za bankovni transfer",
+        introAccount:
+          "Ovi podaci će se koristiti na fakturama kao uputstvo za plaćanje. Sačuvano za vaš račun.",
+        introFirm:
+          "Ovi podaci će se koristiti na fakturama kao uputstvo za plaćanje. Sačuvano na nivou kancelarije.",
+        bankName: {
+          label: "Naziv banke",
+          placeholder: "npr. UniCredit Bank",
+        },
+        accountHolder: {
+          label: "Vlasnik računa",
+          placeholder: "npr. naziv vaše kancelarije",
+        },
+        iban: {
+          label: "IBAN",
+          placeholder: "XX00 0000 0000 0000 0000",
+        },
+        swift: {
+          label: "SWIFT/BIC (opcionalno)",
+          placeholder: "npr. UNCRBA22",
+        },
+        defaultForInvoices: {
+          title: "Podrazumijevano za nove fakture",
+          subtitle:
+            "Kada je uključeno, ovaj račun će biti automatski popunjen na novim fakturama.",
+        },
+        save: "Sačuvaj bankovne podatke",
+        saving: "Čuvanje...",
+        messageSaved: "Bankovni podaci su sačuvani.",
+        errors: {
+          loadFailed: "Učitavanje bankovnih podataka nije uspjelo",
+          saveFailed: "Čuvanje bankovnih podataka nije uspjelo",
+        },
       },
       profile: {
         title: "Profil",
@@ -3583,21 +5359,92 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       getStarted: "Započni",
       dashboard: "Nadzorna ploča",
       generate: "Generiranje",
+      conflict: "Provjera sukoba",
+      research: "Pravno istraživanje",
       contracts: "Ugovori",
       predictions: "Predviđanja",
       analyze: "Analiza",
       time: "Vrijeme",
       clients: "Klijenti",
+      intake: "Intake obrasci",
       activity: "Aktivnosti",
       billing: "Naplata",
       settings: "Postavke",
       templates: "Prijedlozi",
+      deadlines: "Rokovi",
       actions: "Radnje",
       logout: "Odjava",
       themeToggle: "Prebacivanje svijetle i tamne teme",
     },
     language: {
       label: "Jezik",
+    },
+    signature: {
+      actions: {
+        sendForSignature: "Pošalji na potpis",
+        cancelRequest: "Otkaži zahtjev",
+        resendEmail: "Ponovno pošalji email",
+        copySigningLink: "Kopiraj poveznicu za potpis",
+        downloadSignedPdf: "Preuzmi potpisani PDF",
+        sendNewRequest: "Pošalji novi zahtjev",
+        signDocument: "Potpiši dokument",
+      },
+      status: {
+        none: "Nema",
+        pending: "Na čekanju",
+        signed: "Potpisano",
+        expired: "Isteklo",
+        cancelled: "Otkazano",
+      },
+      dialog: {
+        title: "Pošalji na potpis",
+        signerName: "Ime potpisnika",
+        signerEmail: "Email potpisnika",
+        message: "Poruka (opcionalno)",
+        expiresDays: "Istek (dani)",
+        sending: "Slanje…",
+        send: "Pošalji",
+      },
+      dashboard: {
+        contractsTitle: "Ugovori",
+        contractsSubtitle: "Pošaljite ugovore na potpis i pratite status.",
+        refreshHint: "Osvježi",
+        colContract: "Ugovor",
+        colSignatureStatus: "Potpis",
+        colActions: "Radnje",
+        loadingContracts: "Učitavanje ugovora…",
+        noContracts: "Još nema ugovora.",
+        failedToLoadContracts: "Nije moguće učitati ugovore.",
+        failedToCreate: "Nije moguće kreirati zahtjev za potpis.",
+        failedToCancel: "Nije moguće otkazati zahtjev.",
+        failedToResend: "Nije moguće ponovno poslati email.",
+        failedToCopyLink: "Nije moguće kopirati poveznicu.",
+        failedToDownload: "Nije moguće generirati poveznicu za preuzimanje.",
+        statsTitle: "Potpisi",
+        pendingSignatures: "Potpisi na čekanju",
+        signedThisMonth: "Potpisano ovog mjeseca",
+      },
+      public: {
+        loading: "Učitavanje…",
+        notFoundTitle: "Poveznica za potpis nije pronađena",
+        notFoundBody: "Ova poveznica je nevažeća ili više nije dostupna.",
+        expiredTitle: "Ova poveznica za potpis je istekla",
+        expiredBody: "Kontaktirajte pošiljatelja da zatražite novu poveznicu.",
+        alreadySignedTitle: "Ovaj dokument je već potpisan",
+        alreadySignedBody: "Nije potrebna daljnja radnja.",
+        cancelledTitle: "Zahtjev za potpis je otkazan",
+        cancelledBody: "Kontaktirajte pošiljatelja ako mislite da je greška.",
+        successTitle: "Uspješno potpisano",
+        successBody: "Potpisani PDF možete preuzeti ispod.",
+        sentBy: "Poslao/la",
+        unknownSender: "Nepoznat pošiljatelj",
+        expiresOn: "Ističe",
+        reviewTitle: "Pregled dokumenta",
+        checkboxAgree: "Pročitao/la sam i prihvaćam uvjete ovog ugovora",
+        typedNameLabel: "Upišite svoje puno ime",
+        typedNamePlaceholder: "Puno ime",
+        signing: "Potpisivanje…",
+      },
     },
     rag: {
       title: "Dohvaćeni pravni izvori",
@@ -3610,6 +5457,82 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         "⚠ Sljedeći citati u odgovoru umjetne inteligencije nisu pronađeni u preuzetoj pravnoj bazi i mogu biti netočni:",
       lowConfidence:
         "Nisko povjerenje: preuzete odredbe slabo odgovaraju ovom upitu. Primjenjivi zakon možda još nije u bazi.",
+    },
+    research: {
+      kicker: "Legantis · Istraživanje",
+      title: "Pravno istraživanje",
+      subtitle:
+        "Pretražite pravnu bazu i spremite istraživanja za kasnije.",
+      search: {
+        label: "Pitanje ili ključne riječi",
+        placeholder: "npr. rok zastare za naknadu štete",
+      },
+      filters: {
+        jurisdiction: "Jurisdikcija",
+        category: "Kategorija",
+        language: "Jezik",
+        summaryPrefix: "Filteri:",
+      },
+      language: {
+        local: "Lokalno",
+        english: "Engleski",
+      },
+      jurisdictions: {
+        all: "Sve jurisdikcije",
+        serbia: "Srbija",
+        croatia: "Hrvatska",
+        bihFederation: "BiH Federacija",
+        bihRs: "BiH RS",
+        bihBrcko: "BiH Brčko",
+        montenegro: "Crna Gora",
+        slovenia: "Slovenija",
+      },
+      categories: {
+        all: "Sve kategorije",
+        civil: "Građansko",
+        commercial: "Trgovačko",
+        labor: "Radno",
+        family: "Obiteljsko",
+        criminal: "Kazneno",
+        administrative: "Upravno",
+        procedural: "Procesno",
+        constitutional: "Ustavno",
+        inheritance: "Nasljedno",
+        property: "Stvarno",
+        confidentiality: "Povjerljivost",
+        misdemeanor: "Prekršajno",
+      },
+      actions: {
+        search: "Pretraži",
+        searching: "Pretraživanje…",
+        save: "Spremi istraživanje",
+        saving: "Spremanje…",
+      },
+      results: {
+        title: "Rezultati",
+        hint: "Pokrenite pretragu da biste vidjeli najrelevantnije članke zakona.",
+        empty:
+          "Nema relevantnih članaka. Pokušajte druge ključne riječi ili širu kategoriju.",
+        countSuffix: "rezultata",
+        confidenceLabel: "Pouzdanost",
+        articleLabel: "Članak",
+      },
+      sessions: {
+        title: "Nedavne pretrage",
+        refresh: "Osvježi",
+        refreshing: "Osvježavanje…",
+        loading: "Učitavanje…",
+        empty: "Još nema spremljenih istraživanja.",
+        upgradeHint:
+          "Spremanje istraživanja dostupno je na Professional i Firm planovima.",
+      },
+      upgradePrompt: "Nadogradite plan da biste spremili istraživanja.",
+      errors: {
+        queryRequired: "Unesite upit za pretragu.",
+        searchFailed: "Pretraga nije uspjela. Pokušajte ponovo.",
+        historyFailed: "Nije moguće učitati nedavne pretrage.",
+        saveFailed: "Nije moguće spremiti istraživanje.",
+      },
     },
     home: {
       hero: {
@@ -3685,6 +5608,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
             },
           },
         },
+        perMonth: "/mjesečno",
         cta: "Započni",
       },
       faq: {
@@ -3732,6 +5656,60 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       contact: "Kontakt",
       rights: "Sva prava pridržana",
     },
+    conflict: {
+      header: {
+        kicker: "Legantis · Provjera sukoba",
+        title: "Provjera sukoba interesa",
+        subtitle:
+          "Pretražite klijente, ugovore i bilješke o predmetima kako biste otkrili potencijalne sukobe prije prihvaćanja novog klijenta.",
+      },
+      form: {
+        query: {
+          label: "Ime osobe ili naziv tvrtke",
+          placeholder: "Unesite ime…",
+          help:
+            "Pretraga nije osjetljiva na velika/mala slova i podržava djelomična imena (npr. „John” nalazi „John Doe” i „Johnson Ltd”).",
+        },
+        actions: {
+          check: "Provjeri sukobe",
+          checking: "Provjeravam…",
+        },
+      },
+      errors: {
+        queryRequired: "Unesite ime za pretragu.",
+        searchFailed: "Provjera sukoba nije uspjela. Pokušajte ponovno.",
+        historyFailed: "Neuspjelo učitavanje povijesti provjera.",
+      },
+      results: {
+        matchCountSuffix: "podudaranja",
+        clearBadge: "Čisto",
+        clearTitle: "Nema pronađenih sukoba",
+        clearBody: "Nema podudaranja u vašem radnom prostoru. Možete nastaviti.",
+        conflictBadge: "Provjeriti",
+        conflictTitle: "Otkriven potencijalni sukob",
+        conflictBody:
+          "Pronađena su podudaranja u vašem radnom prostoru. Pregledajte detalje prije nastavka.",
+        groups: {
+          clients: "Klijenti",
+          contracts: "Ugovori",
+          cases: "Predmeti",
+        },
+      },
+      history: {
+        title: "Nedavne provjere",
+        refresh: "Osvježi",
+        refreshing: "Osvježavam…",
+        loading: "Učitavanje povijesti…",
+        empty: "Još nema provjera sukoba.",
+        upgradeHint:
+          "Povijest provjera sukoba dostupna je na Professional i Firm planovima.",
+        badges: {
+          clear: "Čisto",
+          conflict: "Sukob",
+        },
+        overrideLine: "Nastavljeno unatoč potencijalnom sukobu (override).",
+      },
+    },
     clients: {
       header: {
         kicker: "Legantis · Klijenti",
@@ -3744,6 +5722,36 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         addClient: "Dodaj klijenta",
         cancel: "Otkaži",
         deleteAria: "Obriši klijenta",
+      },
+      conflictPrecheck: {
+        title: "Provjera sukoba interesa",
+        subtitle:
+          "Prije dodavanja novog klijenta, pokrenite brzu provjeru sukoba kroz vaš radni prostor.",
+        name: {
+          label: "Ime/naziv potencijalnog klijenta",
+          placeholder: "npr. John Doe / Johnson Ltd",
+        },
+        actions: {
+          check: "Pokreni provjeru",
+          checking: "Provjeravam…",
+          continue: "Nastavi na podatke klijenta",
+          proceedAnyway: "Nastavi unatoč sukobu",
+          startOver: "Počni ispočetka",
+        },
+        clear: {
+          title: "Nema pronađenih sukoba — sigurno je nastaviti",
+          body:
+            "Nisu pronađeni odgovarajući klijenti, ugovori ili predmeti u vašem radnom prostoru.",
+        },
+        conflict: {
+          title: "Pronađen je potencijalni sukob",
+          body:
+            "Pregledajte rezultate ispod. Možete nastaviti samo nakon potvrde da ste pregledali potencijalni sukob.",
+        },
+        override: {
+          label:
+            "Pregledao/la sam potencijalni sukob i potvrđujem da je sigurno nastaviti.",
+        },
       },
       form: {
         fullName: {
@@ -3919,8 +5927,44 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       tabs: {
         profile: "Profil",
         preferences: "Preferencije",
+        banking: "Banka",
         security: "Sigurnost",
         danger: "Opasna zona",
+      },
+      banking: {
+        title: "Podaci za bankovni prijenos",
+        introAccount:
+          "Ovi podaci koriste se na računima kao upute za plaćanje. Spremljeno za vaš račun.",
+        introFirm:
+          "Ovi podaci koriste se na računima kao upute za plaćanje. Spremljeno na razini ureda.",
+        bankName: {
+          label: "Naziv banke",
+          placeholder: "npr. Zagrebačka banka",
+        },
+        accountHolder: {
+          label: "Vlasnik računa",
+          placeholder: "npr. naziv vašeg ureda",
+        },
+        iban: {
+          label: "IBAN",
+          placeholder: "XX00 0000 0000 0000 0000",
+        },
+        swift: {
+          label: "SWIFT/BIC (opcionalno)",
+          placeholder: "npr. ZABAHR2X",
+        },
+        defaultForInvoices: {
+          title: "Zadano za nove račune",
+          subtitle:
+            "Kada je uključeno, ovaj račun bit će automatski popunjen na novim računima.",
+        },
+        save: "Spremi bankovne podatke",
+        saving: "Spremanje...",
+        messageSaved: "Bankovni podaci su spremljeni.",
+        errors: {
+          loadFailed: "Učitavanje bankovnih podataka nije uspjelo",
+          saveFailed: "Spremanje bankovnih podataka nije uspjelo",
+        },
       },
       profile: {
         title: "Profil",
@@ -4166,6 +6210,11 @@ const MESSAGES: Record<LanguageCode, Messages> = {
           description:
             "Kreirajte NDA i druge ugovore uz pomoć AI-ja.",
         },
+        research: {
+          title: "Pravno istraživanje",
+          description:
+            "Pretražite propise kroz jurisdikcije uz skorove relevantnosti.",
+        },
         contract: {
           title: "Izradi ugovor",
           description:
@@ -4232,6 +6281,224 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       activity: {
         title: "Nedavna aktivnost",
         empty: "Još nema aktivnosti.",
+      },
+      upcomingDeadlines: {
+        title: "Predstojeći rokovi",
+        subtitle: "Vaši sljedeći obveze i datumi.",
+        viewAll: "Prikaži sve",
+        empty: "Nema predstojećih rokova.",
+      },
+    },
+    intake: {
+      kicker: "Legantis · Prijem",
+      title: "Obrasci za prijem klijenata",
+      subtitle:
+        "Podijelite poveznicu da novi klijenti sami unesu podatke prije sastanka.",
+      loading: "Učitavanje…",
+      empty: "Još nema obrazaca. Kreirajte jedan da počnete.",
+      upgrade: {
+        body:
+          "Obrasci za prijem dostupni su na Professional i Firm planovima. Nadogradite da biste generirali poveznice i pretvarali prijave u klijente.",
+        cta: "Pogledaj planove",
+      },
+      errors: {
+        mustBeLoggedIn: "Morate biti prijavljeni.",
+        loadFailed: "Nije moguće učitati obrasce.",
+        toggleFailed: "Nije moguće ažurirati obrazac.",
+        formNotFound: "Obrazac nije pronađen.",
+      },
+      list: {
+        submissions: "Prijave: {n}",
+        active: "Aktivan",
+        copyLink: "Kopiraj poveznicu",
+        copied: "Kopirano",
+        viewSubmissions: "Prijave",
+        edit: "Uredi obrazac",
+      },
+      actions: {
+        create: "Novi obrazac za prijem",
+      },
+      editor: {
+        back: "Natrag na obrasce",
+        titleNew: "Novi obrazac za prijem",
+        titleEdit: "Uredi obrazac za prijem",
+        subtitle:
+          "Unesite naslov i opcionalna polja. Osnovna pitanja (ime, email, vrsta predmeta, jurisdikcija, kratak opis) uvijek su na javnom obrascu.",
+        formTitle: "Naslov obrasca",
+        description: "Opis (opcionalno)",
+        optionalTitle: "Dodatna opcionalna polja",
+        optionalHint:
+          "Kada su uključena, klijenti ih vide na javnom obrascu.",
+        optional: {
+          company: "Naziv tvrtke",
+          address: "Adresa",
+          notes: "Napomene",
+        },
+        save: "Spremi",
+        saving: "Spremam…",
+        errors: {
+          titleRequired: "Unesite naslov obrasca.",
+          saveFailed: "Nije moguće spremiti obrazac.",
+        },
+      },
+      public: {
+        notFoundTitle: "Obrazac nije dostupan",
+        notFoundBody: "Poveznica možda nije aktivna ili je netočna.",
+        thankYouTitle: "Hvala",
+        thankYouBody:
+          "Vaši podaci su poslani. Vaš će vas odvjetnik uskoro kontaktirati.",
+        fullName: "Puno ime",
+        email: "E-pošta",
+        phone: "Telefon (opcionalno)",
+        caseType: "Vrsta predmeta",
+        jurisdiction: "Jurisdikcija",
+        matterDescription: "Kratak opis predmeta (opcionalno)",
+        company: "Naziv tvrtke",
+        address: "Adresa",
+        notes: "Napomene",
+        selectPlaceholder: "Odaberite…",
+        submit: "Pošalji",
+        submitting: "Šaljem…",
+        caseTypes: {
+          civil: "Građansko",
+          criminal: "Kazneno",
+          family: "Obiteljsko",
+          commercial: "Gospodarsko",
+          labor: "Radno",
+          administrative: "Upravno",
+          other: "Ostalo",
+        },
+        jurisdictions: {
+          bih_fbih: "BiH – Federacija",
+          bih_rs: "BiH – Republika Srpska",
+          bih_brcko: "BiH – Distrikt Brčko",
+          serbia: "Srbija",
+          croatia: "Hrvatska",
+          montenegro: "Crna Gora",
+          slovenia: "Slovenija",
+        },
+        errors: {
+          nameEmail: "Unesite puno ime i e-poštu.",
+          caseAndJurisdiction: "Odaberite vrstu predmeta i jurisdikciju.",
+          submitFailed: "Slanje nije uspjelo. Pokušajte ponovno.",
+        },
+      },
+      submissions: {
+        title: "Prijave na obrazac",
+        back: "Natrag na obrasce",
+        empty: "Još nema prijava.",
+        convert: "Pretvori u klijenta",
+        archive: "Arhiviraj",
+        openClient: "Otvori klijenta",
+        col: {
+          submitted: "Poslano",
+          contact: "Klijent",
+          caseType: "Vrsta predmeta",
+          status: "Status",
+          actions: "Akcije",
+        },
+        status: {
+          pending: "Na čekanju",
+          converted: "Pretvoreno",
+          archived: "Arhivirano",
+        },
+        messages: {
+          linkedExisting:
+            "Ovaj e-mail već postoji kao klijent. Prijava je povezana s postojećim zapisom.",
+          created: "Klijent je uspješno stvoren.",
+        },
+        errors: {
+          missingNameEmail: "U prijavi nedostaje ime ili e-pošta.",
+          convertFailed: "Nije moguće stvoriti klijenta.",
+          archiveFailed: "Nije moguće arhivirati prijavu.",
+        },
+      },
+    },
+    deadlines: {
+      kicker: "Legantis · Rokovi",
+      title: "Rokovi i kalendar",
+      subtitle: "Pratite ročišta, podnošenja i datume predmeta.",
+      loading: "Učitavanje…",
+      upgrade: {
+        body:
+          "Praćenje rokova dostupno je na Professional i Firm planovima. Nadogradite za popis i kalendar.",
+        cta: "Pogledaj planove",
+      },
+      errors: {
+        mustBeLoggedIn: "Morate biti prijavljeni.",
+        loadFailed: "Nije moguće učitati rokove.",
+        updateFailed: "Nije moguće ažurirati rok.",
+        deleteFailed: "Nije moguće obrisati rok.",
+      },
+      tabs: {
+        list: "Popis",
+        calendar: "Kalendar",
+      },
+      filters: {
+        all: "Sve",
+        upcoming: "Predstojeće",
+        overdue: "Prekoračeno",
+        completed: "Završeno",
+      },
+      list: {
+        empty: "Nema rokova za ovaj filter.",
+        done: "Gotovo",
+        overdueDays: "Prekoračeno {n} dana",
+        dueToday: "Rok danas",
+        inDays: "za {n} dana",
+      },
+      types: {
+        court_hearing: "Ročište",
+        filing_deadline: "Rok za podnošenje",
+        appeal_deadline: "Rok za žalbu",
+        statute_of_limitations: "Zastara",
+        contract_expiry: "Istek ugovora",
+        client_meeting: "Sastanak s klijentom",
+        payment_due: "Dospijeće plaćanja",
+        other: "Ostalo",
+      },
+      actions: {
+        add: "Dodaj rok",
+        complete: "Označi kao završeno",
+        edit: "Uredi",
+        delete: "Obriši",
+      },
+      dialog: {
+        titleNew: "Novi rok",
+        titleEdit: "Uredi rok",
+        cancel: "Odustani",
+        save: "Spremi",
+        saving: "Spremam…",
+        fields: {
+          title: "Naslov",
+          type: "Vrsta roka",
+          dueDate: "Datum roka",
+          dueTime: "Vrijeme (opcionalno)",
+          client: "Klijent (opcionalno)",
+          description: "Opis (opcionalno)",
+          reminder: "Podsjetnik (dana prije)",
+        },
+        clientSearchPlaceholder: "Pretraži klijente…",
+        clientPlaceholder: "Odaberite klijenta",
+        noClient: "Bez klijenta",
+        errors: {
+          titleDate: "Naslov i datum su obavezni.",
+          saveFailed: "Nije moguće spremiti rok.",
+        },
+      },
+      calendar: {
+        prev: "Prethodni mjesec",
+        next: "Sljedeći mjesec",
+        closeDay: "Zatvori",
+        weekdayShort: {
+          sun: "Ned",
+          mon: "Pon",
+          tue: "Uto",
+          wed: "Sri",
+          thu: "Čet",
+          fri: "Pet",
+          sat: "Sub",
+        },
       },
     },
     generate: {
@@ -4673,6 +6940,62 @@ const MESSAGES: Record<LanguageCode, Messages> = {
           "Evidentirajte naplative sate po klijentu i predmetu te pratite nenaplaćeno vrijeme i iznose na jednom mjestu.",
         back: "Natrag na nadzornu ploču",
       },
+      tabs: {
+        entries: "Unosi vremena",
+        invoices: "Računi",
+      },
+      invoices: {
+        title: "Računi",
+        subtitle:
+          "Šaljite račune e-poštom i pratite plaćanja bankovnim prijenosom.",
+        refresh: "Osvježi",
+        loading: "Učitavanje…",
+        loadingList: "Učitavanje računa…",
+        empty:
+          "Još nema računa. (Stvaranje računa pojavit će se ovdje kada se generira iz unosa vremena.)",
+        duePrefix: "Dospijeće",
+        clientFallback: "Klijent",
+        actions: {
+          downloadPdf: "Preuzmi PDF",
+          send: "Pošalji klijentu",
+          sending: "Slanje…",
+          markPaid: "Označi kao plaćeno",
+          markOverdue: "Označi kao dospjelo",
+        },
+        status: {
+          draft: "Nacrt",
+          sent: "Poslano",
+          paid: "Plaćeno",
+          overdue: "Dospjelo",
+          cancelled: "Otkazano",
+        },
+        errors: {
+          mustBeLoggedIn: "Morate biti prijavljeni.",
+          loadFailed: "Učitavanje računa nije uspjelo.",
+          actionFailed: "Radnja nije uspjela",
+        },
+      },
+      invoiceGenerate: {
+        button: "Generiraj račun",
+        dialogTitle: "Generiraj račun",
+        dueDate: "Datum dospijeća",
+        notes: "Napomene",
+        notesPlaceholder: "Neobvezne napomene na računu…",
+        paymentReference: "Poziv na broj / referenca",
+        bankAccount: "Bankovni račun",
+        bankPlaceholder: "Odaberite račun",
+        totalLabel: "Ukupno",
+        confirm: "Stvori račun",
+        cancel: "Odustani",
+        generating: "Stvaranje…",
+        successToast: "Račun je stvoren.",
+        bankingWarningBefore: "Dodajte podatke o banci u",
+        bankingSettingsLink: "Postavke → Banka",
+        bankingWarningAfter: " prije slanja računa.",
+        errors: {
+          createFailed: "Stvaranje računa nije uspjelo. Pokušajte ponovno.",
+        },
+      },
       form: {
         matterName: {
           label: "Klijent / Naziv predmeta",
@@ -4770,15 +7093,19 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       getStarted: "Začni",
       dashboard: "Nadzorna plošča",
       generate: "Generiranje",
+      conflict: "Preverjanje konflikta",
+      research: "Pravno raziskovanje",
       contracts: "Pogodbe",
       predictions: "Napovedi",
       analyze: "Analiza",
       time: "Čas",
       clients: "Stranke",
+      intake: "Vnosni obrazci",
       activity: "Aktivnosti",
       billing: "Obračun",
       settings: "Nastavitve",
       templates: "Predlogi",
+      deadlines: "Roki",
       actions: "Dejanja",
       logout: "Odjava",
       themeToggle: "Preklopi svetlo in temno temo",
@@ -4797,6 +7124,82 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         "⚠ Naslednji citati v odgovoru umetne inteligence niso bili najdeni v pridobljeni pravni bazi in so lahko netočni:",
       lowConfidence:
         "Nizka zaupanja vrednost: pridobljene določbe so slabo relevantne za to poizvedbo. Ustrezna zakonodaja morda še ni v bazi.",
+    },
+    research: {
+      kicker: "Legantis · Raziskovanje",
+      title: "Pravno raziskovanje",
+      subtitle:
+        "Neposredno preiščite pravno bazo in shranite raziskave za kasneje.",
+      search: {
+        label: "Vprašanje ali ključne besede",
+        placeholder: "npr. rok zastare za naknadu štete",
+      },
+      filters: {
+        jurisdiction: "Jurisdikcija",
+        category: "Kategorija",
+        language: "Jezik",
+        summaryPrefix: "Filtri:",
+      },
+      language: {
+        local: "Lokalno",
+        english: "Angleško",
+      },
+      jurisdictions: {
+        all: "Vse jurisdikcije",
+        serbia: "Srbija",
+        croatia: "Hrvaška",
+        bihFederation: "BiH Federacija",
+        bihRs: "BiH RS",
+        bihBrcko: "BiH Brčko",
+        montenegro: "Črna gora",
+        slovenia: "Slovenija",
+      },
+      categories: {
+        all: "Vse kategorije",
+        civil: "Civilno",
+        commercial: "Gospodarsko",
+        labor: "Delovno",
+        family: "Družinsko",
+        criminal: "Kazensko",
+        administrative: "Upravno",
+        procedural: "Procesno",
+        constitutional: "Ustavno",
+        inheritance: "Dedno",
+        property: "Stvarno",
+        confidentiality: "Zaupnost",
+        misdemeanor: "Prekrškovno",
+      },
+      actions: {
+        search: "Išči",
+        searching: "Iskanje…",
+        save: "Shrani raziskavo",
+        saving: "Shranjevanje…",
+      },
+      results: {
+        title: "Rezultati",
+        hint: "Zaženite iskanje za najbolj relevantne člene zakona.",
+        empty:
+          "Ni najdenih relevantnih členov. Poskusite druge ključne besede ali širšo kategorijo.",
+        countSuffix: "rezultatov",
+        confidenceLabel: "Zanesljivost",
+        articleLabel: "Člen",
+      },
+      sessions: {
+        title: "Nedavna iskanja",
+        refresh: "Osveži",
+        refreshing: "Osveževanje…",
+        loading: "Nalaganje…",
+        empty: "Ni še shranjenih raziskav.",
+        upgradeHint:
+          "Shranjevanje raziskav je na voljo v paketih Professional in Firm.",
+      },
+      upgradePrompt: "Nadgradite paket za shranjevanje raziskav.",
+      errors: {
+        queryRequired: "Vnesite iskalni niz.",
+        searchFailed: "Iskanje ni uspelo. Poskusite znova.",
+        historyFailed: "Ni mogoče naložiti nedavnih iskanj.",
+        saveFailed: "Ni mogoče shraniti raziskave.",
+      },
     },
     home: {
       hero: {
@@ -4872,6 +7275,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
             },
           },
         },
+        perMonth: "/mesec",
         cta: "Začni",
       },
       faq: {
@@ -4959,6 +7363,11 @@ const MESSAGES: Record<LanguageCode, Messages> = {
           description:
             "Pripravite NDA in druge pogodbe s pomočjo AI-ja.",
         },
+        research: {
+          title: "Pravno raziskovanje",
+          description:
+            "Preiščite zakone po jurisdikcijah z ocenami relevantnosti.",
+        },
         contract: {
           title: "Pripravi pogodbo",
           description:
@@ -5025,6 +7434,223 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       activity: {
         title: "Nedavna aktivnost",
         empty: "Zaenkrat še ni aktivnosti.",
+      },
+      upcomingDeadlines: {
+        title: "Prihajajoči roki",
+        subtitle: "Vaše naslednje obveznosti in datumi.",
+        viewAll: "Prikaži vse",
+        empty: "Ni prihajajočih rokov.",
+      },
+    },
+    intake: {
+      kicker: "Legantis · Sprejem",
+      title: "Obrazci za sprejem strank",
+      subtitle:
+        "Delite povezavo, da nove stranke same vnesejo podatke pred sestankom.",
+      loading: "Nalaganje…",
+      empty: "Še ni obrazcev. Ustvarite prvega.",
+      upgrade: {
+        body:
+          "Obrazci za sprejem so na voljo pri paketih Professional in Firm. Nadgradite, da ustvarite povezave in pretvorite prijave v stranke.",
+        cta: "Poglej pakete",
+      },
+      errors: {
+        mustBeLoggedIn: "Biti morate prijavljeni.",
+        loadFailed: "Obrazcev ni mogoče naložiti.",
+        toggleFailed: "Obrazca ni mogoče posodobiti.",
+        formNotFound: "Obrazec ni najden.",
+      },
+      list: {
+        submissions: "Prijave: {n}",
+        active: "Aktiven",
+        copyLink: "Kopiraj povezavo",
+        copied: "Kopirano",
+        viewSubmissions: "Prijave",
+        edit: "Uredi obrazec",
+      },
+      actions: {
+        create: "Nov obrazec za sprejem",
+      },
+      editor: {
+        back: "Nazaj na obrazce",
+        titleNew: "Nov obrazec za sprejem",
+        titleEdit: "Uredi obrazec za sprejem",
+        subtitle:
+          "Vnesite naslov in neobvezna polja. Osnovna vprašanja (ime, e-pošta, vrsta zadeve, jurisdikcija, kratek opis) so vedno na javnem obrazcu.",
+        formTitle: "Naslov obrazca",
+        description: "Opis (neobvezno)",
+        optionalTitle: "Dodatna neobvezna polja",
+        optionalHint: "Če so vključena, jih stranke vidijo na javnem obrazcu.",
+        optional: {
+          company: "Ime podjetja",
+          address: "Naslov",
+          notes: "Opombe",
+        },
+        save: "Shrani",
+        saving: "Shranjujem…",
+        errors: {
+          titleRequired: "Vnesite naslov obrazca.",
+          saveFailed: "Obrazca ni mogoče shraniti.",
+        },
+      },
+      public: {
+        notFoundTitle: "Obrazec ni na voljo",
+        notFoundBody: "Povezava morda ni aktivna ali je napačna.",
+        thankYouTitle: "Hvala",
+        thankYouBody:
+          "Vaši podatki so poslani. Vaš odvetnik vas bo kmalu kontaktiral.",
+        fullName: "Polno ime",
+        email: "E-pošta",
+        phone: "Telefon (neobvezno)",
+        caseType: "Vrsta zadeve",
+        jurisdiction: "Jurisdikcija",
+        matterDescription: "Kratek opis zadeve (neobvezno)",
+        company: "Ime podjetja",
+        address: "Naslov",
+        notes: "Opombe",
+        selectPlaceholder: "Izberite…",
+        submit: "Pošlji",
+        submitting: "Pošiljam…",
+        caseTypes: {
+          civil: "Civilno",
+          criminal: "Kazensko",
+          family: "Družinsko",
+          commercial: "Gospodarsko",
+          labor: "Delovno",
+          administrative: "Upravno",
+          other: "Drugo",
+        },
+        jurisdictions: {
+          bih_fbih: "BiH – Federacija",
+          bih_rs: "BiH – Republika Srbska",
+          bih_brcko: "BiH – Distrikt Brčko",
+          serbia: "Srbija",
+          croatia: "Hrvaška",
+          montenegro: "Črna gora",
+          slovenia: "Slovenija",
+        },
+        errors: {
+          nameEmail: "Vnesite polno ime in e-pošto.",
+          caseAndJurisdiction: "Izberite vrsto zadeve in jurisdikcijo.",
+          submitFailed: "Pošiljanje ni uspelo. Poskusite znova.",
+        },
+      },
+      submissions: {
+        title: "Prijave na obrazec",
+        back: "Nazaj na obrazce",
+        empty: "Še ni prijav.",
+        convert: "Pretvori v stranko",
+        archive: "Arhiviraj",
+        openClient: "Odpri stranko",
+        col: {
+          submitted: "Poslano",
+          contact: "Stranka",
+          caseType: "Vrsta zadeve",
+          status: "Status",
+          actions: "Dejanja",
+        },
+        status: {
+          pending: "V čakanju",
+          converted: "Pretvorjeno",
+          archived: "Arhivirano",
+        },
+        messages: {
+          linkedExisting:
+            "Ta e-pošta že obstaja kot stranka. Prijava je povezana z obstoječim zapisom.",
+          created: "Stranka je uspešno ustvarjena.",
+        },
+        errors: {
+          missingNameEmail: "V prijavi manjka ime ali e-pošta.",
+          convertFailed: "Stranke ni mogoče ustvariti.",
+          archiveFailed: "Prijave ni mogoče arhivirati.",
+        },
+      },
+    },
+    deadlines: {
+      kicker: "Legantis · Roki",
+      title: "Roki in koledar",
+      subtitle: "Spremljajte obravnave, roke za vložitev in datume zadev.",
+      loading: "Nalaganje…",
+      upgrade: {
+        body:
+          "Spremljanje rokov je na voljo pri paketih Professional in Firm. Nadgradite za seznam in koledar.",
+        cta: "Poglej pakete",
+      },
+      errors: {
+        mustBeLoggedIn: "Biti morate prijavljeni.",
+        loadFailed: "Rokov ni mogoče naložiti.",
+        updateFailed: "Roka ni mogoče posodobiti.",
+        deleteFailed: "Roka ni mogoče izbrisati.",
+      },
+      tabs: {
+        list: "Seznam",
+        calendar: "Koledar",
+      },
+      filters: {
+        all: "Vse",
+        upcoming: "Prihajajoče",
+        overdue: "Zapadlo",
+        completed: "Končano",
+      },
+      list: {
+        empty: "Ni rokov za ta filter.",
+        done: "Končano",
+        overdueDays: "{n} dni zapadlo",
+        dueToday: "Rok danes",
+        inDays: "čez {n} dni",
+      },
+      types: {
+        court_hearing: "Narok",
+        filing_deadline: "Rok za vložitev",
+        appeal_deadline: "Rok za pritožbo",
+        statute_of_limitations: "Zastaralni rok",
+        contract_expiry: "Potek pogodbe",
+        client_meeting: "Sestanek s stranko",
+        payment_due: "Datum plačila",
+        other: "Drugo",
+      },
+      actions: {
+        add: "Dodaj rok",
+        complete: "Označi kot končano",
+        edit: "Uredi",
+        delete: "Izbriši",
+      },
+      dialog: {
+        titleNew: "Nov rok",
+        titleEdit: "Uredi rok",
+        cancel: "Prekliči",
+        save: "Shrani",
+        saving: "Shranjujem…",
+        fields: {
+          title: "Naslov",
+          type: "Vrsta roka",
+          dueDate: "Datum roka",
+          dueTime: "Čas (neobvezno)",
+          client: "Stranka (neobvezno)",
+          description: "Opis (neobvezno)",
+          reminder: "Opomnik (dni prej)",
+        },
+        clientSearchPlaceholder: "Iskanje strank…",
+        clientPlaceholder: "Izberite stranko",
+        noClient: "Brez stranke",
+        errors: {
+          titleDate: "Naslov in datum sta obvezna.",
+          saveFailed: "Roka ni mogoče shraniti.",
+        },
+      },
+      calendar: {
+        prev: "Prejšnji mesec",
+        next: "Naslednji mesec",
+        closeDay: "Zapri",
+        weekdayShort: {
+          sun: "Ned",
+          mon: "Pon",
+          tue: "Tor",
+          wed: "Sre",
+          thu: "Čet",
+          fri: "Pet",
+          sat: "Sob",
+        },
       },
     },
     generate: {
@@ -5466,6 +8092,62 @@ const MESSAGES: Record<LanguageCode, Messages> = {
           "Beležite obračunljive ure po stranki in zadevi ter spremljajte neobračunani čas in zneske na enem mestu.",
         back: "Nazaj na nadzorno ploščo",
       },
+      tabs: {
+        entries: "Časovni vnosi",
+        invoices: "Računi",
+      },
+      invoices: {
+        title: "Računi",
+        subtitle:
+          "Pošiljajte račune po e-pošti in spremljajte plačila z bančnim nakazilom.",
+        refresh: "Osveži",
+        loading: "Nalaganje…",
+        loadingList: "Nalaganje računov…",
+        empty:
+          "Še ni računov. (Ustvarjanje računov se bo prikazalo tukaj, ko bo generirano iz časovnih vnosov.)",
+        duePrefix: "Rok",
+        clientFallback: "Stranka",
+        actions: {
+          downloadPdf: "Prenesi PDF",
+          send: "Pošlji stranki",
+          sending: "Pošiljam…",
+          markPaid: "Označi kot plačano",
+          markOverdue: "Označi kot zapadlo",
+        },
+        status: {
+          draft: "Osnutek",
+          sent: "Poslano",
+          paid: "Plačano",
+          overdue: "Zapadlo",
+          cancelled: "Preklicano",
+        },
+        errors: {
+          mustBeLoggedIn: "Biti morate prijavljeni.",
+          loadFailed: "Nalaganje računov ni uspelo.",
+          actionFailed: "Dejanje ni uspelo",
+        },
+      },
+      invoiceGenerate: {
+        button: "Ustvari račun",
+        dialogTitle: "Ustvari račun",
+        dueDate: "Datum zapadlosti",
+        notes: "Opombe",
+        notesPlaceholder: "Neobvezne opombe na računu…",
+        paymentReference: "Sklic / referenca",
+        bankAccount: "Bančni račun",
+        bankPlaceholder: "Izberite račun",
+        totalLabel: "Skupaj",
+        confirm: "Ustvari račun",
+        cancel: "Prekliči",
+        generating: "Ustvarjam…",
+        successToast: "Račun je ustvarjen.",
+        bankingWarningBefore: "Pred pošiljanjem računov dodajte bančne podatke v",
+        bankingSettingsLink: "Nastavitve → Bančni podatki",
+        bankingWarningAfter: ".",
+        errors: {
+          createFailed: "Računa ni bilo mogoče ustvariti. Poskusite znova.",
+        },
+      },
       form: {
         matterName: {
           label: "Stranka / Naziv zadeve",
@@ -5553,6 +8235,60 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         emptyValue: "—",
       },
     },
+    conflict: {
+      header: {
+        kicker: "Legantis · Preverjanje konflikta",
+        title: "Preverjanje konflikta interesov",
+        subtitle:
+          "Preiščite stranke, pogodbe in zapiske o zadevah za morebitne konflikte pred sprejemom nove stranke.",
+      },
+      form: {
+        query: {
+          label: "Ime osebe ali podjetja",
+          placeholder: "Vnesite ime…",
+          help:
+            "Iskanje ni občutljivo na velike/male črke in podpira delna imena (npr. »John« najde »John Doe« in »Johnson Ltd«).",
+        },
+        actions: {
+          check: "Preveri konflikte",
+          checking: "Preverjam…",
+        },
+      },
+      errors: {
+        queryRequired: "Vnesite ime za iskanje.",
+        searchFailed: "Preverjanje konflikta ni uspelo. Poskusite znova.",
+        historyFailed: "Nalaganje zgodovine preverjanj ni uspelo.",
+      },
+      results: {
+        matchCountSuffix: "ujemanj",
+        clearBadge: "Čisto",
+        clearTitle: "Ni najdenih konfliktov",
+        clearBody: "Ni ujemanj v vašem delovnem prostoru. Lahko nadaljujete.",
+        conflictBadge: "Pregled",
+        conflictTitle: "Zaznan možen konflikt",
+        conflictBody:
+          "Najdena so ujemanja v vašem delovnem prostoru. Pred nadaljevanjem preglejte podrobnosti.",
+        groups: {
+          clients: "Stranke",
+          contracts: "Pogodbe",
+          cases: "Zadeve",
+        },
+      },
+      history: {
+        title: "Nedavna preverjanja",
+        refresh: "Osveži",
+        refreshing: "Osvežujem…",
+        loading: "Nalaganje zgodovine…",
+        empty: "Še ni preverjanj konfliktov.",
+        upgradeHint:
+          "Zgodovina preverjanj konfliktov je na voljo v paketih Professional in Firm.",
+        badges: {
+          clear: "Čisto",
+          conflict: "Konflikt",
+        },
+        overrideLine: "Nadaljevanje kljub možnemu konfliktu (override).",
+      },
+    },
     clients: {
       header: {
         kicker: "Legantis · Stranke",
@@ -5565,6 +8301,36 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         addClient: "Dodaj stranko",
         cancel: "Prekliči",
         deleteAria: "Izbriši stranko",
+      },
+      conflictPrecheck: {
+        title: "Preverjanje konflikta interesov",
+        subtitle:
+          "Pred dodajanjem nove stranke izvedite hitro preverjanje konflikta v vašem delovnem prostoru.",
+        name: {
+          label: "Ime/naziv potencialne stranke",
+          placeholder: "npr. John Doe / Johnson Ltd",
+        },
+        actions: {
+          check: "Zaženi preverjanje",
+          checking: "Preverjam…",
+          continue: "Nadaljuj na podatke stranke",
+          proceedAnyway: "Nadaljuj kljub konfliktu",
+          startOver: "Začni znova",
+        },
+        clear: {
+          title: "Ni najdenih konfliktov — varno nadaljujete",
+          body:
+            "Ni bilo najdenih ujemajočih se strank, pogodb ali zadev v vašem delovnem prostoru.",
+        },
+        conflict: {
+          title: "Najden je možen konflikt",
+          body:
+            "Preglejte zadetke spodaj. Nadaljujete lahko šele po potrditvi, da ste konflikt pregledali.",
+        },
+        override: {
+          label:
+            "Pregledal/a sem možen konflikt in potrjujem, da je varno nadaljevati.",
+        },
       },
       form: {
         fullName: {
@@ -5740,8 +8506,44 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       tabs: {
         profile: "Profil",
         preferences: "Nastavitve",
+        banking: "Bančni podatki",
         security: "Varnost",
         danger: "Nevarno območje",
+      },
+      banking: {
+        title: "Podatki za bančno nakazilo",
+        introAccount:
+          "Ti podatki bodo na računih prikazani kot navodila za plačilo. Shranjeno za vaš račun.",
+        introFirm:
+          "Ti podatki bodo na računih prikazani kot navodila za plačilo. Shranjeno na ravni pisarne.",
+        bankName: {
+          label: "Ime banke",
+          placeholder: "npr. NLB",
+        },
+        accountHolder: {
+          label: "Imetnik računa",
+          placeholder: "npr. ime vaše pisarne",
+        },
+        iban: {
+          label: "IBAN",
+          placeholder: "XX00 0000 0000 0000 0000",
+        },
+        swift: {
+          label: "SWIFT/BIC (neobvezno)",
+          placeholder: "npr. LJBASI2X",
+        },
+        defaultForInvoices: {
+          title: "Privzeto za nove račune",
+          subtitle:
+            "Če je vklopljeno, bo ta račun samodejno izpolnjen pri novih računih.",
+        },
+        save: "Shrani bančne podatke",
+        saving: "Shranjujem...",
+        messageSaved: "Bančni podatki so shranjeni.",
+        errors: {
+          loadFailed: "Nalaganje bančnih podatkov ni uspelo",
+          saveFailed: "Shranjevanje bančnih podatkov ni uspelo",
+        },
       },
       profile: {
         title: "Profil",
@@ -5954,15 +8756,19 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       getStarted: "Započni",
       dashboard: "Kontrolna tabla",
       generate: "Generisanje",
+      conflict: "Provjera sukoba",
+      research: "Pravno istraživanje",
       contracts: "Ugovori",
       predictions: "Predviđanja",
       analyze: "Analiza",
       time: "Vrijeme",
       clients: "Klijenti",
+      intake: "Intake forme",
       activity: "Aktivnosti",
       billing: "Fakturisanje",
       settings: "Podešavanja",
       templates: "Prijedlozi",
+      deadlines: "Rokovi",
       actions: "Radnje",
       logout: "Odjava",
       themeToggle: "Prebacivanje svijetle i tamne teme",
@@ -5981,6 +8787,82 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         "⚠ Sljedeći citati u odgovoru vještačke inteligencije nisu pronađeni u preuzetoj pravnoj bazi i mogu biti netačni:",
       lowConfidence:
         "Nisko povjerenje: preuzete odredbe slabo odgovaraju ovom upitu. Primjenjivi zakon možda još nije u bazi.",
+    },
+    research: {
+      kicker: "Legantis · Istraživanje",
+      title: "Pravno istraživanje",
+      subtitle:
+        "Pretražite pravnu bazu i sačuvajte istraživanja za kasnije.",
+      search: {
+        label: "Pitanje ili ključne riječi",
+        placeholder: "npr. rok zastare za naknadu štete",
+      },
+      filters: {
+        jurisdiction: "Jurisdikcija",
+        category: "Kategorija",
+        language: "Jezik",
+        summaryPrefix: "Filteri:",
+      },
+      language: {
+        local: "Lokalno",
+        english: "Engleski",
+      },
+      jurisdictions: {
+        all: "Sve jurisdikcije",
+        serbia: "Srbija",
+        croatia: "Hrvatska",
+        bihFederation: "BiH Federacija",
+        bihRs: "BiH RS",
+        bihBrcko: "BiH Brčko",
+        montenegro: "Crna Gora",
+        slovenia: "Slovenija",
+      },
+      categories: {
+        all: "Sve kategorije",
+        civil: "Građansko",
+        commercial: "Privredno",
+        labor: "Radno",
+        family: "Porodično",
+        criminal: "Krivično",
+        administrative: "Upravno",
+        procedural: "Procesno",
+        constitutional: "Ustavno",
+        inheritance: "Nasljedno",
+        property: "Stvarno",
+        confidentiality: "Povjerljivost",
+        misdemeanor: "Prekršajno",
+      },
+      actions: {
+        search: "Pretraži",
+        searching: "Pretraživanje…",
+        save: "Sačuvaj istraživanje",
+        saving: "Čuvanje…",
+      },
+      results: {
+        title: "Rezultati",
+        hint: "Pokrenite pretragu da biste vidjeli najrelevantnije članke zakona.",
+        empty:
+          "Nema relevantnih članaka. Pokušajte druge ključne riječi ili širu kategoriju.",
+        countSuffix: "rezultata",
+        confidenceLabel: "Pouzdanost",
+        articleLabel: "Član",
+      },
+      sessions: {
+        title: "Nedavne pretrage",
+        refresh: "Osvježi",
+        refreshing: "Osvježavanje…",
+        loading: "Učitavanje…",
+        empty: "Još nema sačuvanih istraživanja.",
+        upgradeHint:
+          "Čuvanje istraživanja je dostupno na Professional i Firm planovima.",
+      },
+      upgradePrompt: "Nadogradite plan da biste sačuvali istraživanja.",
+      errors: {
+        queryRequired: "Unesite upit za pretragu.",
+        searchFailed: "Pretraga nije uspjela. Pokušajte ponovo.",
+        historyFailed: "Nije moguće učitati nedavne pretrage.",
+        saveFailed: "Nije moguće sačuvati istraživanje.",
+      },
     },
     home: {
       hero: {
@@ -6056,6 +8938,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
             },
           },
         },
+        perMonth: "/mesečno",
         cta: "Započni",
       },
       faq: {
@@ -6143,6 +9026,11 @@ const MESSAGES: Record<LanguageCode, Messages> = {
           description:
             "Kreirajte NDA i druge ugovore uz pomoć AI-ja.",
         },
+        research: {
+          title: "Pravno istraživanje",
+          description:
+            "Pretražite propise kroz jurisdikcije uz skorove relevantnosti.",
+        },
         contract: {
           title: "Nacrtaj ugovor",
           description:
@@ -6209,6 +9097,224 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       activity: {
         title: "Skorašnja aktivnost",
         empty: "Još uvijek nema aktivnosti.",
+      },
+      upcomingDeadlines: {
+        title: "Predstojeći rokovi",
+        subtitle: "Vaši naredni obaveze i datumi.",
+        viewAll: "Prikaži sve",
+        empty: "Nema predstojećih rokova.",
+      },
+    },
+    intake: {
+      kicker: "Legantis · Prijem",
+      title: "Formulari za prijem klijenata",
+      subtitle:
+        "Podijelite link da novi klijenti sami unesu podatke prije sastanka.",
+      loading: "Učitavanje…",
+      empty: "Još nema formulara. Kreirajte jedan da počnete.",
+      upgrade: {
+        body:
+          "Formulari za prijem dostupni su na Professional i Firm planovima. Nadogradite da biste generisali linkove i pretvarali prijave u klijente.",
+        cta: "Pogledaj planove",
+      },
+      errors: {
+        mustBeLoggedIn: "Morate biti prijavljeni.",
+        loadFailed: "Nije moguće učitati formulare.",
+        toggleFailed: "Nije moguće ažurirati formular.",
+        formNotFound: "Formular nije pronađen.",
+      },
+      list: {
+        submissions: "Prijave: {n}",
+        active: "Aktivan",
+        copyLink: "Kopiraj link",
+        copied: "Kopirano",
+        viewSubmissions: "Prijave",
+        edit: "Uredi formular",
+      },
+      actions: {
+        create: "Novi formular za prijem",
+      },
+      editor: {
+        back: "Nazad na formulare",
+        titleNew: "Novi formular za prijem",
+        titleEdit: "Uredi formular za prijem",
+        subtitle:
+          "Unesite naslov i opcionalna polja. Osnovna pitanja (ime, email, vrsta predmeta, jurisdikcija, kratak opis) uvijek su na javnom formularu.",
+        formTitle: "Naslov formulara",
+        description: "Opis (opciono)",
+        optionalTitle: "Dodatna opcionalna polja",
+        optionalHint:
+          "Kada su uključena, klijenti ih vide na javnom formularu.",
+        optional: {
+          company: "Naziv kompanije",
+          address: "Adresa",
+          notes: "Napomene",
+        },
+        save: "Sačuvaj",
+        saving: "Čuvam…",
+        errors: {
+          titleRequired: "Unesite naslov formulara.",
+          saveFailed: "Nije moguće sačuvati formular.",
+        },
+      },
+      public: {
+        notFoundTitle: "Formular nije dostupan",
+        notFoundBody: "Link možda nije aktivan ili je netačan.",
+        thankYouTitle: "Hvala",
+        thankYouBody:
+          "Vaši podaci su poslati. Vaš advokat će vas uskoro kontaktirati.",
+        fullName: "Puno ime",
+        email: "Email",
+        phone: "Telefon (opciono)",
+        caseType: "Vrsta predmeta",
+        jurisdiction: "Jurisdikcija",
+        matterDescription: "Kratak opis predmeta (opciono)",
+        company: "Naziv kompanije",
+        address: "Adresa",
+        notes: "Napomene",
+        selectPlaceholder: "Izaberite…",
+        submit: "Pošalji",
+        submitting: "Šaljem…",
+        caseTypes: {
+          civil: "Građansko",
+          criminal: "Krivično",
+          family: "Porodično",
+          commercial: "Privredno",
+          labor: "Radno",
+          administrative: "Upravno",
+          other: "Ostalo",
+        },
+        jurisdictions: {
+          bih_fbih: "BiH – Federacija",
+          bih_rs: "BiH – Republika Srpska",
+          bih_brcko: "BiH – Distrikt Brčko",
+          serbia: "Srbija",
+          croatia: "Hrvatska",
+          montenegro: "Crna Gora",
+          slovenia: "Slovenija",
+        },
+        errors: {
+          nameEmail: "Unesite puno ime i email.",
+          caseAndJurisdiction: "Izaberite vrstu predmeta i jurisdikciju.",
+          submitFailed: "Slanje nije uspjelo. Pokušajte ponovo.",
+        },
+      },
+      submissions: {
+        title: "Prijave na formular",
+        back: "Nazad na formulare",
+        empty: "Još nema prijava.",
+        convert: "Pretvori u klijenta",
+        archive: "Arhiviraj",
+        openClient: "Otvori klijenta",
+        col: {
+          submitted: "Poslato",
+          contact: "Klijent",
+          caseType: "Vrsta predmeta",
+          status: "Status",
+          actions: "Akcije",
+        },
+        status: {
+          pending: "Na čekanju",
+          converted: "Pretvoreno",
+          archived: "Arhivirano",
+        },
+        messages: {
+          linkedExisting:
+            "Ovaj email već postoji kao klijent. Prijava je povezana sa postojećim zapisom.",
+          created: "Klijent je uspješno kreiran.",
+        },
+        errors: {
+          missingNameEmail: "U prijavi nedostaje ime ili email.",
+          convertFailed: "Nije moguće kreirati klijenta.",
+          archiveFailed: "Nije moguće arhivirati prijavu.",
+        },
+      },
+    },
+    deadlines: {
+      kicker: "Legantis · Rokovi",
+      title: "Rokovi i kalendar",
+      subtitle: "Pratite ročišta, podnošenja i datume predmeta.",
+      loading: "Učitavanje…",
+      upgrade: {
+        body:
+          "Praćenje rokova dostupno je na Professional i Firm planovima. Nadogradite za listu i kalendar.",
+        cta: "Pogledaj planove",
+      },
+      errors: {
+        mustBeLoggedIn: "Morate biti prijavljeni.",
+        loadFailed: "Nije moguće učitati rokove.",
+        updateFailed: "Nije moguće ažurirati rok.",
+        deleteFailed: "Nije moguće obrisati rok.",
+      },
+      tabs: {
+        list: "Lista",
+        calendar: "Kalendar",
+      },
+      filters: {
+        all: "Sve",
+        upcoming: "Predstojeće",
+        overdue: "Prekoračeno",
+        completed: "Završeno",
+      },
+      list: {
+        empty: "Nema rokova za ovaj filter.",
+        done: "Gotovo",
+        overdueDays: "Prekoračeno {n} dana",
+        dueToday: "Rok danas",
+        inDays: "za {n} dana",
+      },
+      types: {
+        court_hearing: "Ročište",
+        filing_deadline: "Rok za podnošenje",
+        appeal_deadline: "Rok za žalbu",
+        statute_of_limitations: "Zastarelost",
+        contract_expiry: "Istek ugovora",
+        client_meeting: "Sastanak sa klijentom",
+        payment_due: "Dospijeće plaćanja",
+        other: "Ostalo",
+      },
+      actions: {
+        add: "Dodaj rok",
+        complete: "Označi kao završeno",
+        edit: "Uredi",
+        delete: "Obriši",
+      },
+      dialog: {
+        titleNew: "Novi rok",
+        titleEdit: "Uredi rok",
+        cancel: "Otkaži",
+        save: "Sačuvaj",
+        saving: "Čuvam…",
+        fields: {
+          title: "Naslov",
+          type: "Vrsta roka",
+          dueDate: "Datum roka",
+          dueTime: "Vrijeme (opciono)",
+          client: "Klijent (opciono)",
+          description: "Opis (opciono)",
+          reminder: "Podsjetnik (dana prije)",
+        },
+        clientSearchPlaceholder: "Pretraži klijente…",
+        clientPlaceholder: "Izaberite klijenta",
+        noClient: "Bez klijenta",
+        errors: {
+          titleDate: "Naslov i datum su obavezni.",
+          saveFailed: "Nije moguće sačuvati rok.",
+        },
+      },
+      calendar: {
+        prev: "Prethodni mjesec",
+        next: "Sljedeći mjesec",
+        closeDay: "Zatvori",
+        weekdayShort: {
+          sun: "Ned",
+          mon: "Pon",
+          tue: "Uto",
+          wed: "Sre",
+          thu: "Čet",
+          fri: "Pet",
+          sat: "Sub",
+        },
       },
     },
     generate: {
@@ -6650,6 +9756,62 @@ const MESSAGES: Record<LanguageCode, Messages> = {
           "Evidentirajte naplative sate po klijentu i predmetu, i pratite nenaplaćeno vrijeme i iznose na jednom mjestu.",
         back: "Nazad na kontrolnu tablu",
       },
+      tabs: {
+        entries: "Unosi vremena",
+        invoices: "Računi",
+      },
+      invoices: {
+        title: "Računi",
+        subtitle:
+          "Šaljite račune e-poštom i pratite plaćanja bankovnim transferom.",
+        refresh: "Osvježi",
+        loading: "Učitavanje…",
+        loadingList: "Učitavanje računa…",
+        empty:
+          "Još nema računa. (Kreiranje računa pojaviće se ovdje kada se generišu iz unosa vremena.)",
+        duePrefix: "Rok",
+        clientFallback: "Klijent",
+        actions: {
+          downloadPdf: "Preuzmi PDF",
+          send: "Pošalji klijentu",
+          sending: "Slanje…",
+          markPaid: "Označi kao plaćeno",
+          markOverdue: "Označi kao dospjelo",
+        },
+        status: {
+          draft: "Nacrt",
+          sent: "Poslano",
+          paid: "Plaćeno",
+          overdue: "Dospjelo",
+          cancelled: "Otkazano",
+        },
+        errors: {
+          mustBeLoggedIn: "Morate biti prijavljeni.",
+          loadFailed: "Učitavanje računa nije uspjelo.",
+          actionFailed: "Akcija nije uspjela",
+        },
+      },
+      invoiceGenerate: {
+        button: "Generiši račun",
+        dialogTitle: "Generiši račun",
+        dueDate: "Datum dospijeća",
+        notes: "Napomene",
+        notesPlaceholder: "Opcionalne napomene na računu…",
+        paymentReference: "Poziv na broj / referenca",
+        bankAccount: "Bankovni račun",
+        bankPlaceholder: "Izaberite račun",
+        totalLabel: "Ukupno",
+        confirm: "Kreiraj račun",
+        cancel: "Otkaži",
+        generating: "Kreiranje…",
+        successToast: "Račun je kreiran.",
+        bankingWarningBefore: "Dodajte podatke o banci u",
+        bankingSettingsLink: "Podešavanja → Banka",
+        bankingWarningAfter: " prije slanja računa.",
+        errors: {
+          createFailed: "Kreiranje računa nije uspjelo. Pokušajte ponovo.",
+        },
+      },
       form: {
         matterName: {
           label: "Klijent / Naziv predmeta",
@@ -6738,6 +9900,60 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         emptyValue: "—",
       },
     },
+    conflict: {
+      header: {
+        kicker: "Legantis · Provjera sukoba",
+        title: "Provjera sukoba interesa",
+        subtitle:
+          "Pretražite klijente, ugovore i bilješke o predmetima kako biste otkrili potencijalne sukobe prije prihvatanja novog klijenta.",
+      },
+      form: {
+        query: {
+          label: "Ime osobe ili naziv firme",
+          placeholder: "Unesite ime…",
+          help:
+            "Pretraga nije osjetljiva na velika/mala slova i podržava djelimična imena (npr. „John” nalazi „John Doe” i „Johnson Ltd”).",
+        },
+        actions: {
+          check: "Provjeri sukobe",
+          checking: "Provjeravam…",
+        },
+      },
+      errors: {
+        queryRequired: "Unesite ime za pretragu.",
+        searchFailed: "Provjera sukoba nije uspjela. Pokušajte ponovo.",
+        historyFailed: "Neuspjelo učitavanje istorije provjera.",
+      },
+      results: {
+        matchCountSuffix: "poklapanja",
+        clearBadge: "Čisto",
+        clearTitle: "Nema pronađenih sukoba",
+        clearBody: "Nema poklapanja u vašem radnom prostoru. Možete nastaviti.",
+        conflictBadge: "Provjeriti",
+        conflictTitle: "Otkriven potencijalni sukob",
+        conflictBody:
+          "Pronađena su poklapanja u vašem radnom prostoru. Pregledajte detalje prije nastavka.",
+        groups: {
+          clients: "Klijenti",
+          contracts: "Ugovori",
+          cases: "Predmeti",
+        },
+      },
+      history: {
+        title: "Skorašnje provjere",
+        refresh: "Osvježi",
+        refreshing: "Osvježavam…",
+        loading: "Učitavanje istorije…",
+        empty: "Još nema provjera sukoba.",
+        upgradeHint:
+          "Istorija provjera sukoba dostupna je na Professional i Firm planovima.",
+        badges: {
+          clear: "Čisto",
+          conflict: "Sukob",
+        },
+        overrideLine: "Nastavljeno uprkos potencijalnom sukobu (override).",
+      },
+    },
     clients: {
       header: {
         kicker: "Legantis · Klijenti",
@@ -6750,6 +9966,36 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         addClient: "Dodaj klijenta",
         cancel: "Otkaži",
         deleteAria: "Obriši klijenta",
+      },
+      conflictPrecheck: {
+        title: "Provjera sukoba interesa",
+        subtitle:
+          "Prije dodavanja novog klijenta, pokrenite brzu provjeru sukoba kroz vaš radni prostor.",
+        name: {
+          label: "Ime/naziv potencijalnog klijenta",
+          placeholder: "npr. John Doe / Johnson Ltd",
+        },
+        actions: {
+          check: "Pokreni provjeru",
+          checking: "Provjeravam…",
+          continue: "Nastavi na podatke klijenta",
+          proceedAnyway: "Nastavi uprkos sukobu",
+          startOver: "Počni ispočetka",
+        },
+        clear: {
+          title: "Nema pronađenih sukoba — sigurno je nastaviti",
+          body:
+            "Nisu pronađeni odgovarajući klijenti, ugovori ili predmeti u vašem radnom prostoru.",
+        },
+        conflict: {
+          title: "Pronađen je potencijalni sukob",
+          body:
+            "Pregledajte rezultate ispod. Možete nastaviti samo nakon potvrde da ste pregledali potencijalni sukob.",
+        },
+        override: {
+          label:
+            "Pregledao/la sam potencijalni sukob i potvrđujem da je sigurno nastaviti.",
+        },
       },
       form: {
         fullName: {
@@ -6924,8 +10170,44 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       tabs: {
         profile: "Profil",
         preferences: "Preference",
+        banking: "Banka",
         security: "Bezbjednost",
         danger: "Opasna zona",
+      },
+      banking: {
+        title: "Podaci za bankovni transfer",
+        introAccount:
+          "Ovi podaci koriste se na računima kao upute za plaćanje. Sačuvano za vaš nalog.",
+        introFirm:
+          "Ovi podaci koriste se na računima kao upute za plaćanje. Sačuvano na nivou kancelarije.",
+        bankName: {
+          label: "Naziv banke",
+          placeholder: "npr. Crnogorska komercijalna banka",
+        },
+        accountHolder: {
+          label: "Vlasnik računa",
+          placeholder: "npr. naziv vaše kancelarije",
+        },
+        iban: {
+          label: "IBAN",
+          placeholder: "XX00 0000 0000 0000 0000",
+        },
+        swift: {
+          label: "SWIFT/BIC (opciono)",
+          placeholder: "npr. CKBAMEPG",
+        },
+        defaultForInvoices: {
+          title: "Podrazumijevano za nove račune",
+          subtitle:
+            "Kada je uključeno, ovaj račun će biti automatski popunjen na novim računima.",
+        },
+        save: "Sačuvaj bankovne podatke",
+        saving: "Čuvanje...",
+        messageSaved: "Bankovni podaci su sačuvani.",
+        errors: {
+          loadFailed: "Učitavanje bankovnih podataka nije uspjelo",
+          saveFailed: "Čuvanje bankovnih podataka nije uspjelo",
+        },
       },
       profile: {
         title: "Profil",

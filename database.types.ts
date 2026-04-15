@@ -510,6 +510,78 @@ export type Database = {
           },
         ]
       }
+      deadlines: {
+        Row: {
+          id: string
+          user_id: string
+          law_firm_id: string | null
+          client_id: string | null
+          title: string
+          description: string | null
+          deadline_type: Database["public"]["Enums"]["deadline_type"]
+          due_date: string
+          due_time: string | null
+          status: Database["public"]["Enums"]["deadline_status"]
+          reminder_days_before: number | null
+          reminded_at: string | null
+          completed_at: string | null
+          deleted_at: string | null
+          created_at: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          law_firm_id?: string | null
+          client_id?: string | null
+          title: string
+          description?: string | null
+          deadline_type?: Database["public"]["Enums"]["deadline_type"]
+          due_date: string
+          due_time?: string | null
+          status?: Database["public"]["Enums"]["deadline_status"]
+          reminder_days_before?: number | null
+          reminded_at?: string | null
+          completed_at?: string | null
+          deleted_at?: string | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          law_firm_id?: string | null
+          client_id?: string | null
+          title?: string
+          description?: string | null
+          deadline_type?: Database["public"]["Enums"]["deadline_type"]
+          due_date?: string
+          due_time?: string | null
+          status?: Database["public"]["Enums"]["deadline_status"]
+          reminder_days_before?: number | null
+          reminded_at?: string | null
+          completed_at?: string | null
+          deleted_at?: string | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "deadlines_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "deadlines_law_firm_id_fkey"
+            columns: ["law_firm_id"]
+            isOneToOne: false
+            referencedRelation: "law_firms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       invoice_items: {
         Row: {
           amount: number | null
@@ -550,7 +622,8 @@ export type Database = {
       }
       invoices: {
         Row: {
-          client_id: string
+          bank_account_id: string | null
+          client_id: string | null
           created_at: string | null
           currency: string | null
           deleted_at: string | null
@@ -561,6 +634,9 @@ export type Database = {
           issue_date: string | null
           law_firm_id: string | null
           notes: string | null
+          paid_at: string | null
+          payment_reference: string | null
+          sent_at: string | null
           status: Database["public"]["Enums"]["invoice_status"] | null
           subtotal: number | null
           tax_amount: number | null
@@ -569,7 +645,8 @@ export type Database = {
           user_id: string
         }
         Insert: {
-          client_id: string
+          bank_account_id?: string | null
+          client_id?: string | null
           created_at?: string | null
           currency?: string | null
           deleted_at?: string | null
@@ -580,6 +657,9 @@ export type Database = {
           issue_date?: string | null
           law_firm_id?: string | null
           notes?: string | null
+          paid_at?: string | null
+          payment_reference?: string | null
+          sent_at?: string | null
           status?: Database["public"]["Enums"]["invoice_status"] | null
           subtotal?: number | null
           tax_amount?: number | null
@@ -588,7 +668,8 @@ export type Database = {
           user_id: string
         }
         Update: {
-          client_id?: string
+          bank_account_id?: string | null
+          client_id?: string | null
           created_at?: string | null
           currency?: string | null
           deleted_at?: string | null
@@ -599,6 +680,9 @@ export type Database = {
           issue_date?: string | null
           law_firm_id?: string | null
           notes?: string | null
+          paid_at?: string | null
+          payment_reference?: string | null
+          sent_at?: string | null
           status?: Database["public"]["Enums"]["invoice_status"] | null
           subtotal?: number | null
           tax_amount?: number | null
@@ -619,6 +703,98 @@ export type Database = {
             columns: ["law_firm_id"]
             isOneToOne: false
             referencedRelation: "law_firms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      intake_forms: {
+        Row: {
+          id: string
+          user_id: string
+          law_firm_id: string | null
+          title: string
+          description: string | null
+          fields: Json
+          slug: string
+          is_active: boolean | null
+          created_at: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          law_firm_id?: string | null
+          title?: string
+          description?: string | null
+          fields?: Json
+          slug: string
+          is_active?: boolean | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          law_firm_id?: string | null
+          title?: string
+          description?: string | null
+          fields?: Json
+          slug?: string
+          is_active?: boolean | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "intake_forms_law_firm_id_fkey"
+            columns: ["law_firm_id"]
+            isOneToOne: false
+            referencedRelation: "law_firms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      intake_submissions: {
+        Row: {
+          id: string
+          form_id: string
+          user_id: string
+          data: Json
+          status: string
+          client_id: string | null
+          submitted_at: string | null
+        }
+        Insert: {
+          id?: string
+          form_id: string
+          user_id: string
+          data: Json
+          status?: string
+          client_id?: string | null
+          submitted_at?: string | null
+        }
+        Update: {
+          id?: string
+          form_id?: string
+          user_id?: string
+          data?: Json
+          status?: string
+          client_id?: string | null
+          submitted_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "intake_submissions_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "intake_submissions_form_id_fkey"
+            columns: ["form_id"]
+            isOneToOne: false
+            referencedRelation: "intake_forms"
             referencedColumns: ["id"]
           },
         ]
@@ -1015,6 +1191,47 @@ export type Database = {
           },
         ]
       }
+      research_sessions: {
+        Row: {
+          id: string
+          created_at: string
+          user_id: string
+          law_firm_id: string | null
+          query: string
+          jurisdiction_filter: string | null
+          category_filter: string | null
+          results: Json
+        }
+        Insert: {
+          id?: string
+          created_at?: string
+          user_id: string
+          law_firm_id?: string | null
+          query: string
+          jurisdiction_filter?: string | null
+          category_filter?: string | null
+          results: Json
+        }
+        Update: {
+          id?: string
+          created_at?: string
+          user_id?: string
+          law_firm_id?: string | null
+          query?: string
+          jurisdiction_filter?: string | null
+          category_filter?: string | null
+          results?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "research_sessions_law_firm_id_fkey"
+            columns: ["law_firm_id"]
+            isOneToOne: false
+            referencedRelation: "law_firms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_profiles: {
         Row: {
           active: boolean | null
@@ -1106,6 +1323,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_public_intake_form: {
+        Args: { p_slug: string }
+        Returns: Database["public"]["Tables"]["intake_forms"]["Row"][]
+      }
       match_legal_articles: {
         Args: {
           query_embedding: number[]
@@ -1134,6 +1355,7 @@ export type Database = {
         | "case_prediction"
         | "document_analysis"
         | "template_generation"
+        | "legal_research"
       analysis_status: "processing" | "completed" | "failed"
       case_type:
         | "civil"
@@ -1155,6 +1377,16 @@ export type Database = {
         | "partnership"
         | "other"
       document_status: "draft" | "final" | "sent" | "archived"
+      deadline_status: "upcoming" | "overdue" | "completed" | "cancelled"
+      deadline_type:
+        | "court_hearing"
+        | "filing_deadline"
+        | "appeal_deadline"
+        | "statute_of_limitations"
+        | "contract_expiry"
+        | "client_meeting"
+        | "payment_due"
+        | "other"
       document_type:
         | "power_of_attorney"
         | "demand_letter"
@@ -1325,6 +1557,7 @@ export const Constants = {
         "case_prediction",
         "document_analysis",
         "template_generation",
+        "legal_research",
       ],
       analysis_status: ["processing", "completed", "failed"],
       case_type: [
@@ -1349,6 +1582,17 @@ export const Constants = {
         "other",
       ],
       document_status: ["draft", "final", "sent", "archived"],
+      deadline_status: ["upcoming", "overdue", "completed", "cancelled"],
+      deadline_type: [
+        "court_hearing",
+        "filing_deadline",
+        "appeal_deadline",
+        "statute_of_limitations",
+        "contract_expiry",
+        "client_meeting",
+        "payment_due",
+        "other",
+      ],
       document_type: [
         "power_of_attorney",
         "demand_letter",
