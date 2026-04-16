@@ -115,7 +115,7 @@ export async function POST(req: NextRequest) {
     const { data: entry, error: entryError } = await supabase
       .from("time_entries")
       .select(
-        "id, user_id, law_firm_id, client_id, work_date, duration_minutes, hourly_rate, amount, status, notes, activity_type"
+        "id, user_id, law_firm_id, client_id, matter_id, work_date, duration_minutes, hourly_rate, amount, status, notes, activity_type"
       )
       .eq("id", timeEntryId)
       .maybeSingle()
@@ -161,6 +161,8 @@ export async function POST(req: NextRequest) {
       (typeof row.law_firm_id === "string" ? row.law_firm_id : null) ?? profileFirmId
     const clientId =
       typeof row.client_id === "string" ? row.client_id : null
+    const matterId =
+      typeof row.matter_id === "string" ? row.matter_id : null
 
     const now = new Date()
     const year = now.getFullYear()
@@ -176,6 +178,7 @@ export async function POST(req: NextRequest) {
       user_id: user.id,
       law_firm_id: lawFirmId,
       client_id: clientId,
+      matter_id: matterId,
       invoice_number: invoiceNumber,
       issue_date: issueDate,
       due_date: dueDate,

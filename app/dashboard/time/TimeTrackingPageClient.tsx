@@ -11,7 +11,11 @@ import { useLanguage } from "@/components/LanguageProvider"
 import { InvoicesTab } from "./InvoicesTab"
 import { TimeEntriesTab } from "./TimeEntriesTab"
 
-export default function TimeTrackingPageClient() {
+export default function TimeTrackingPageClient({
+  prefillMatterId,
+}: {
+  prefillMatterId: string | null
+}) {
   const { t } = useLanguage()
   const [tab, setTab] = useState<"time" | "invoices">("time")
   const [invoicesListKey, setInvoicesListKey] = useState(0)
@@ -44,6 +48,7 @@ export default function TimeTrackingPageClient() {
 
           <TabsContent value="time">
             <TimeEntriesTab
+              prefillMatterId={prefillMatterId}
               onInvoiceCreated={() => {
                 toast.success(t("time.invoiceGenerate.successToast"))
                 setInvoicesListKey((k) => k + 1)

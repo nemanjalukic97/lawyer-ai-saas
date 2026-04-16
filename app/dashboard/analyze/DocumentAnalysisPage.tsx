@@ -240,9 +240,13 @@ type AnalysisDetail = {
 
 type DocumentAnalysisPageProps = {
   selectedId: string | null
+  prefillMatterId?: string | null
 }
 
-export default function DocumentAnalysisPage({ selectedId }: DocumentAnalysisPageProps) {
+export default function DocumentAnalysisPage({
+  selectedId,
+  prefillMatterId,
+}: DocumentAnalysisPageProps) {
   const supabase = useMemo(() => createClient(), [])
   const { t, language } = useLanguage()
 
@@ -266,6 +270,10 @@ export default function DocumentAnalysisPage({ selectedId }: DocumentAnalysisPag
   const [fileName, setFileName] = useState<string | null>(null)
   const [fileSize, setFileSize] = useState<number | null>(null)
   const [jurisdiction, setJurisdiction] = useState<Jurisdiction>("serbia")
+  const [matterId, setMatterId] = useState<string>(prefillMatterId ?? "")
+  const [matterOptions, setMatterOptions] = useState<
+    Array<{ id: string; title: string; matter_number: string }>
+  >([])
   const [analysisFocus, setAnalysisFocus] =
     useState<AnalysisFocus>("General Review")
   const [extractedText, setExtractedText] = useState("")
@@ -287,6 +295,34 @@ export default function DocumentAnalysisPage({ selectedId }: DocumentAnalysisPag
     setRiskScore(null)
     setError(null)
     setSuccessMessage(null)
+  }, [])
+
+  useEffect(() => {
+    async function loadMatters() {
+      const supabase = createClient()
+      const {
+        data: { user },
+      } = await supabase.auth.getUser()
+      if (!user) return
+
+      const { data } = await supabase
+        .from("matters")
+        .select("id, title, matter_number")
+        .eq("user_id", user.id)
+        .eq("status", "open")
+        .order("created_at", { ascending: false })
+
+      if (data) {
+        setMatterOptions(
+          (data as Array<Record<string, unknown>>).map((m) => ({
+            id: String(m.id),
+            title: String(m.title ?? ""),
+            matter_number: String(m.matter_number ?? ""),
+          }))
+        )
+      }
+    }
+    void loadMatters()
   }, [])
 
   const handleFileSelected = useCallback(
@@ -546,6 +582,7 @@ export default function DocumentAnalysisPage({ selectedId }: DocumentAnalysisPag
 
         await supabase.from("document_analyses").insert({
           user_id: user.id,
+          matter_id: matterId === "none" ? null : (matterId || null),
           original_file_url: `local://${file.name}`,
           original_filename: file.name,
           document_text: extractedText,
@@ -725,6 +762,29 @@ export default function DocumentAnalysisPage({ selectedId }: DocumentAnalysisPag
                         ))}
                       </SelectContent>
                     </Select>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label>{t("matters.title")}</Label>
+                    <Select
+                      value={matterId}
+                      onValueChange={(v) => setMatterId(v)}
+                    >
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder={t("matters.select.placeholder")} />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="none">{t("matters.select.none")}</SelectItem>
+                        {matterOptions.map((m) => (
+                          <SelectItem key={m.id} value={m.id}>
+                            {`${m.matter_number} — ${m.title}`}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <p className="text-xs text-muted-foreground">
+                      {t("matters.select.help")}
+                    </p>
                   </div>
 
                   <div className="space-y-2">

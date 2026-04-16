@@ -1,9 +1,19 @@
 "use client"
 
 import Link from "next/link"
-import { Calendar, FilePen, FileText, Scale, ShieldAlert, Users, Search } from "lucide-react"
+import {
+  Briefcase,
+  Calendar,
+  FilePen,
+  FileText,
+  Scale,
+  Search,
+  ShieldAlert,
+  Users,
+} from "lucide-react"
 
 import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
 import {
   Card,
   CardContent,
@@ -37,6 +47,14 @@ type UpcomingDeadlinePreview = {
   title: string
   due_date: string
   status: Tables<"deadlines">["status"]
+}
+
+type ActiveMatterPreview = {
+  id: string
+  title: string
+  matter_number: string
+  status: "open"
+  updated_at: string | null
 }
 
 type Props = {
@@ -73,6 +91,10 @@ type Props = {
   recentActivity: ActivityItem[]
   roiData: RoiData
   upcomingDeadlines: UpcomingDeadlinePreview[]
+  activeMatters: {
+    openCount: number
+    recent: ActiveMatterPreview[]
+  }
 }
 
 export function DashboardClient({
@@ -92,6 +114,7 @@ export function DashboardClient({
   recentActivity,
   roiData,
   upcomingDeadlines,
+  activeMatters,
 }: Props) {
   const { t } = useLanguage()
 
@@ -215,6 +238,67 @@ export function DashboardClient({
               </p>
             </Card>
           )}
+        </section>
+
+        <section>
+          <Card className="p-6">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+              <div className="flex items-start gap-3">
+                <div className="mt-0.5 inline-flex h-9 w-9 items-center justify-center rounded-md bg-muted text-muted-foreground">
+                  <Briefcase className="h-5 w-5" />
+                </div>
+                <div>
+                  <h2 className="text-lg font-semibold">
+                    {t("dashboard.activeMatters.title")}
+                  </h2>
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    {t("dashboard.activeMatters.subtitle")}
+                  </p>
+                </div>
+              </div>
+              <Button size="sm" variant="outline" asChild>
+                <Link href="/dashboard/matters">
+                  {t("dashboard.activeMatters.viewAll")}
+                </Link>
+              </Button>
+            </div>
+
+            <div className="mt-4 text-sm">
+              <span className="text-muted-foreground">
+                {t("dashboard.activeMatters.openCountLabel")}{" "}
+              </span>
+              <span className="font-semibold">{activeMatters.openCount}</span>
+            </div>
+
+            <div className="mt-4 space-y-2">
+              {activeMatters.recent.length === 0 ? (
+                <p className="text-sm text-muted-foreground">
+                  {t("dashboard.activeMatters.empty")}
+                </p>
+              ) : (
+                activeMatters.recent.map((m) => (
+                  <Link
+                    key={m.id}
+                    href={`/dashboard/matters/${m.id}`}
+                    className="block rounded-md border p-3 hover:bg-muted/50"
+                  >
+                    <div className="flex flex-wrap items-center gap-2">
+                      <Badge variant="outline" className="text-[10px]">
+                        {m.matter_number}
+                      </Badge>
+                      <p className="min-w-0 truncate text-sm font-medium">
+                        {m.title}
+                      </p>
+                    </div>
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      {t("dashboard.activeMatters.updatedPrefix")}{" "}
+                      {m.updated_at ? new Date(m.updated_at).toLocaleString() : "—"}
+                    </p>
+                  </Link>
+                ))
+              )}
+            </div>
+          </Card>
         </section>
 
         <section className="space-y-3">

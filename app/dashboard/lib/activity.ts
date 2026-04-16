@@ -7,6 +7,7 @@ export type ActivityItemType =
   | "analysis"
   | "prediction"
   | "client"
+  | "matter"
 
 export type ActivityItem = {
   type: ActivityItemType
@@ -26,6 +27,7 @@ export const ACTIVITY_HREF_BY_TYPE: Record<ActivityItemType, string> = {
   analysis: "/dashboard/analyze",
   prediction: "/dashboard/predictions",
   client: "/dashboard/clients",
+  matter: "/dashboard/matters",
 }
 
 export const ACTIVITY_TYPE_LABELS: Record<ActivityItemType, string> = {
@@ -34,10 +36,12 @@ export const ACTIVITY_TYPE_LABELS: Record<ActivityItemType, string> = {
   analysis: "Document analysis",
   prediction: "Case prediction",
   client: "Client",
+  matter: "Matter",
 }
 
 export const ACTIVITY_FILTER_OPTIONS: { value: "all" | ActivityItemType; label: string }[] = [
   { value: "all", label: "All" },
+  { value: "matter", label: "Matters" },
   { value: "document", label: "Documents" },
   { value: "contract", label: "Contracts" },
   { value: "prediction", label: "Predictions" },
@@ -63,7 +67,7 @@ export async function getRecentActivity(
   const { type, limit = 10 } = options
   const filterCol = scope.lawFirmId ? "law_firm_id" : "user_id"
   const filterVal = scope.lawFirmId ?? scope.userId
-  const limitPerTable = type ? limit : Math.ceil(limit / 5)
+  const limitPerTable = type ? limit : Math.ceil(limit / 6)
 
   if (type) {
     const items = await fetchSingleType(supabase, filterCol, filterVal, type, limitPerTable)
@@ -78,6 +82,7 @@ export async function getRecentActivity(
     { data: analyses },
     { data: predictions },
     { data: clients },
+    { data: matters },
   ] = await Promise.all([
     supabase
       .from("contracts")
@@ -113,6 +118,13 @@ export async function getRecentActivity(
       .eq(filterCol, filterVal)
       .is("deleted_at", null)
       .order("created_at", { ascending: false })
+      .limit(limitPerTable),
+    supabase
+      .from("matters")
+      .select("id, title, updated_at, created_at")
+      .eq(filterCol, filterVal)
+      .is("deleted_at", null)
+      .order("updated_at", { ascending: false })
       .limit(limitPerTable),
   ])
 
@@ -156,6 +168,15 @@ export async function getRecentActivity(
       id: cl.id,
       title: cl.name,
       createdAt: cl.created_at,
+    })
+  )
+
+  ;(matters ?? []).forEach((m: { id: string; title: string; updated_at: string | null; created_at: string }) =>
+    items.push({
+      type: "matter",
+      id: m.id,
+      title: m.title,
+      createdAt: m.updated_at ?? m.created_at,
     })
   )
 
@@ -268,5 +289,26 @@ async function fetchSingleType(
         createdAt: cl.created_at ?? "",
       }))
     }
+    case "matter": {
+      const { data } = await supabase
+        .from("matters")
+        .select("id, title, updated_at, created_at")
+        .eq(filterCol, filterVal)
+        .is("deleted_at", null)
+        .order("updated_at", { ascending: false })
+        .limit(limit)
+      const rows = (data ?? []) as Pick<
+        Tables<"matters">,
+        "id" | "title" | "updated_at" | "created_at"
+      >[]
+      return rows.map((m) => ({
+        type: "matter" as const,
+        id: m.id,
+        title: m.title,
+        createdAt: m.updated_at ?? m.created_at ?? "",
+      }))
+    }
+    default:
+      return []
   }
 }

@@ -12,6 +12,17 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Local agent artifacts / scratch files:
+    ".claude/**",
+    "tmp-*.html",
+    "tmp-*.htm",
+    "tmp-*.txt",
+    "tmp-*.json",
+    "tmp-*.pdf",
+    "tmp-*.doc",
+    "tmp-*.bin",
+    // Invalid/placeholder file (not actual TS source):
+    "lib/supabase/database.types.ts",
   ]),
 ]);
 

@@ -1,6 +1,7 @@
 import Link from "next/link"
 import {
   Card,
+  CardAction,
   CardContent,
   CardDescription,
   CardFooter,
@@ -16,6 +17,7 @@ interface PricingCardProps {
   features: readonly string[]
   ctaLabel: string
   pricePeriodLabel: string
+  recommendedLabel: string
   recommended?: boolean
   planId: "solo" | "professional" | "firm"
 }
@@ -26,6 +28,7 @@ export function PricingCard({
   features,
   ctaLabel,
   pricePeriodLabel,
+  recommendedLabel,
   recommended = false,
   planId,
 }: PricingCardProps) {
@@ -40,9 +43,11 @@ export function PricingCard({
     >
       <CardHeader>
         {recommended && (
-          <span className="mb-1 w-fit rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">
-            Recommended
-          </span>
+          <CardAction>
+            <span className="w-fit rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">
+              {recommendedLabel}
+            </span>
+          </CardAction>
         )}
         <CardTitle>{name}</CardTitle>
         <CardDescription>

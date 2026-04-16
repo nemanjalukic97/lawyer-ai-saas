@@ -82,6 +82,7 @@ export type Database = {
           jurisdiction: Database["public"]["Enums"]["jurisdiction"]
           key_factors: Json | null
           law_firm_id: string | null
+          matter_id: string | null
           outcome_probability: number | null
           precedent_cases: Json | null
           risks: Json | null
@@ -107,6 +108,7 @@ export type Database = {
           jurisdiction: Database["public"]["Enums"]["jurisdiction"]
           key_factors?: Json | null
           law_firm_id?: string | null
+          matter_id?: string | null
           outcome_probability?: number | null
           precedent_cases?: Json | null
           risks?: Json | null
@@ -132,6 +134,7 @@ export type Database = {
           jurisdiction?: Database["public"]["Enums"]["jurisdiction"]
           key_factors?: Json | null
           law_firm_id?: string | null
+          matter_id?: string | null
           outcome_probability?: number | null
           precedent_cases?: Json | null
           risks?: Json | null
@@ -146,6 +149,13 @@ export type Database = {
             columns: ["law_firm_id"]
             isOneToOne: false
             referencedRelation: "law_firms"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "case_predictions_matter_id_fkey"
+            columns: ["matter_id"]
+            isOneToOne: false
+            referencedRelation: "matters"
             referencedColumns: ["id"]
           },
         ]
@@ -313,6 +323,7 @@ export type Database = {
           id: string
           jurisdiction: Database["public"]["Enums"]["jurisdiction"]
           law_firm_id: string | null
+          matter_id: string | null
           party_names: Json | null
           signed_at: string | null
           status: Database["public"]["Enums"]["contract_status"] | null
@@ -333,6 +344,7 @@ export type Database = {
           id?: string
           jurisdiction: Database["public"]["Enums"]["jurisdiction"]
           law_firm_id?: string | null
+          matter_id?: string | null
           party_names?: Json | null
           signed_at?: string | null
           status?: Database["public"]["Enums"]["contract_status"] | null
@@ -353,6 +365,7 @@ export type Database = {
           id?: string
           jurisdiction?: Database["public"]["Enums"]["jurisdiction"]
           law_firm_id?: string | null
+          matter_id?: string | null
           party_names?: Json | null
           signed_at?: string | null
           status?: Database["public"]["Enums"]["contract_status"] | null
@@ -369,6 +382,13 @@ export type Database = {
             referencedRelation: "law_firms"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "contracts_matter_id_fkey"
+            columns: ["matter_id"]
+            isOneToOne: false
+            referencedRelation: "matters"
+            referencedColumns: ["id"]
+          },
         ]
       }
       document_analyses: {
@@ -383,6 +403,7 @@ export type Database = {
           full_report: string | null
           id: string
           law_firm_id: string | null
+          matter_id: string | null
           missing_provisions: Json | null
           original_file_url: string
           original_filename: string
@@ -403,6 +424,7 @@ export type Database = {
           full_report?: string | null
           id?: string
           law_firm_id?: string | null
+          matter_id?: string | null
           missing_provisions?: Json | null
           original_file_url: string
           original_filename: string
@@ -423,6 +445,7 @@ export type Database = {
           full_report?: string | null
           id?: string
           law_firm_id?: string | null
+          matter_id?: string | null
           missing_provisions?: Json | null
           original_file_url?: string
           original_filename?: string
@@ -438,6 +461,13 @@ export type Database = {
             columns: ["law_firm_id"]
             isOneToOne: false
             referencedRelation: "law_firms"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "document_analyses_matter_id_fkey"
+            columns: ["matter_id"]
+            isOneToOne: false
+            referencedRelation: "matters"
             referencedColumns: ["id"]
           },
         ]
@@ -457,6 +487,7 @@ export type Database = {
           id: string
           jurisdiction: Database["public"]["Enums"]["jurisdiction"]
           law_firm_id: string | null
+          matter_id: string | null
           status: Database["public"]["Enums"]["document_status"] | null
           title: string
           updated_at: string | null
@@ -476,6 +507,7 @@ export type Database = {
           id?: string
           jurisdiction: Database["public"]["Enums"]["jurisdiction"]
           law_firm_id?: string | null
+          matter_id?: string | null
           status?: Database["public"]["Enums"]["document_status"] | null
           title: string
           updated_at?: string | null
@@ -495,6 +527,7 @@ export type Database = {
           id?: string
           jurisdiction?: Database["public"]["Enums"]["jurisdiction"]
           law_firm_id?: string | null
+          matter_id?: string | null
           status?: Database["public"]["Enums"]["document_status"] | null
           title?: string
           updated_at?: string | null
@@ -508,6 +541,13 @@ export type Database = {
             referencedRelation: "law_firms"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "documents_matter_id_fkey"
+            columns: ["matter_id"]
+            isOneToOne: false
+            referencedRelation: "matters"
+            referencedColumns: ["id"]
+          },
         ]
       }
       deadlines: {
@@ -516,6 +556,7 @@ export type Database = {
           user_id: string
           law_firm_id: string | null
           client_id: string | null
+          matter_id: string | null
           title: string
           description: string | null
           deadline_type: Database["public"]["Enums"]["deadline_type"]
@@ -534,6 +575,7 @@ export type Database = {
           user_id: string
           law_firm_id?: string | null
           client_id?: string | null
+          matter_id?: string | null
           title: string
           description?: string | null
           deadline_type?: Database["public"]["Enums"]["deadline_type"]
@@ -552,6 +594,7 @@ export type Database = {
           user_id?: string
           law_firm_id?: string | null
           client_id?: string | null
+          matter_id?: string | null
           title?: string
           description?: string | null
           deadline_type?: Database["public"]["Enums"]["deadline_type"]
@@ -578,6 +621,13 @@ export type Database = {
             columns: ["law_firm_id"]
             isOneToOne: false
             referencedRelation: "law_firms"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "deadlines_matter_id_fkey"
+            columns: ["matter_id"]
+            isOneToOne: false
+            referencedRelation: "matters"
             referencedColumns: ["id"]
           },
         ]
@@ -633,6 +683,7 @@ export type Database = {
           invoice_number: string
           issue_date: string | null
           law_firm_id: string | null
+          matter_id: string | null
           notes: string | null
           paid_at: string | null
           payment_reference: string | null
@@ -656,6 +707,7 @@ export type Database = {
           invoice_number: string
           issue_date?: string | null
           law_firm_id?: string | null
+          matter_id?: string | null
           notes?: string | null
           paid_at?: string | null
           payment_reference?: string | null
@@ -679,6 +731,7 @@ export type Database = {
           invoice_number?: string
           issue_date?: string | null
           law_firm_id?: string | null
+          matter_id?: string | null
           notes?: string | null
           paid_at?: string | null
           payment_reference?: string | null
@@ -703,6 +756,13 @@ export type Database = {
             columns: ["law_firm_id"]
             isOneToOne: false
             referencedRelation: "law_firms"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "invoices_matter_id_fkey"
+            columns: ["matter_id"]
+            isOneToOne: false
+            referencedRelation: "matters"
             referencedColumns: ["id"]
           },
         ]
@@ -876,6 +936,78 @@ export type Database = {
           website?: string | null
         }
         Relationships: []
+      }
+      matters: {
+        Row: {
+          client_id: string | null
+          closed_at: string | null
+          created_at: string
+          deleted_at: string | null
+          deleted_by: string | null
+          description: string | null
+          id: string
+          jurisdiction: Database["public"]["Enums"]["jurisdiction"]
+          law_firm_id: string | null
+          matter_number: string
+          matter_type: Database["public"]["Enums"]["matter_type"]
+          opened_at: string
+          status: Database["public"]["Enums"]["matter_status"]
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          client_id?: string | null
+          closed_at?: string | null
+          created_at?: string
+          deleted_at?: string | null
+          deleted_by?: string | null
+          description?: string | null
+          id?: string
+          jurisdiction: Database["public"]["Enums"]["jurisdiction"]
+          law_firm_id?: string | null
+          matter_number?: string
+          matter_type?: Database["public"]["Enums"]["matter_type"]
+          opened_at?: string
+          status?: Database["public"]["Enums"]["matter_status"]
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          client_id?: string | null
+          closed_at?: string | null
+          created_at?: string
+          deleted_at?: string | null
+          deleted_by?: string | null
+          description?: string | null
+          id?: string
+          jurisdiction?: Database["public"]["Enums"]["jurisdiction"]
+          law_firm_id?: string | null
+          matter_number?: string
+          matter_type?: Database["public"]["Enums"]["matter_type"]
+          opened_at?: string
+          status?: Database["public"]["Enums"]["matter_status"]
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "matters_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "matters_law_firm_id_fkey"
+            columns: ["law_firm_id"]
+            isOneToOne: false
+            referencedRelation: "law_firms"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       messages: {
         Row: {
@@ -1072,6 +1204,7 @@ export type Database = {
           id: string
           invoice_id: string | null
           law_firm_id: string | null
+          matter_id: string | null
           notes: string | null
           status: Database["public"]["Enums"]["time_entry_status"] | null
           updated_at: string | null
@@ -1090,6 +1223,7 @@ export type Database = {
           id?: string
           invoice_id?: string | null
           law_firm_id?: string | null
+          matter_id?: string | null
           notes?: string | null
           status?: Database["public"]["Enums"]["time_entry_status"] | null
           updated_at?: string | null
@@ -1108,6 +1242,7 @@ export type Database = {
           id?: string
           invoice_id?: string | null
           law_firm_id?: string | null
+          matter_id?: string | null
           notes?: string | null
           status?: Database["public"]["Enums"]["time_entry_status"] | null
           updated_at?: string | null
@@ -1134,6 +1269,13 @@ export type Database = {
             columns: ["law_firm_id"]
             isOneToOne: false
             referencedRelation: "law_firms"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "time_entries_matter_id_fkey"
+            columns: ["matter_id"]
+            isOneToOne: false
+            referencedRelation: "matters"
             referencedColumns: ["id"]
           },
         ]
@@ -1406,6 +1548,15 @@ export type Database = {
         | "croatia"
         | "montenegro"
         | "slovenia"
+      matter_status: "open" | "closed" | "on_hold" | "archived"
+      matter_type:
+        | "civil"
+        | "criminal"
+        | "family"
+        | "labor"
+        | "commercial"
+        | "administrative"
+        | "other"
       subscription_status:
         | "trial"
         | "active"
@@ -1613,6 +1764,16 @@ export const Constants = {
         "croatia",
         "montenegro",
         "slovenia",
+      ],
+      matter_status: ["open", "closed", "on_hold", "archived"],
+      matter_type: [
+        "civil",
+        "criminal",
+        "family",
+        "labor",
+        "commercial",
+        "administrative",
+        "other",
       ],
       subscription_status: [
         "trial",

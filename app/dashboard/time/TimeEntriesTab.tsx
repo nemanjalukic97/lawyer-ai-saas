@@ -126,19 +126,29 @@ function extractWorkDescription(notes: string | null): string {
 
 type TimeEntriesTabProps = {
   onInvoiceCreated?: () => void
+  prefillMatterId?: string | null
 }
 
-export function TimeEntriesTab({ onInvoiceCreated }: TimeEntriesTabProps) {
+export function TimeEntriesTab({
+  onInvoiceCreated,
+  prefillMatterId,
+}: TimeEntriesTabProps) {
   const supabase = useMemo(() => createClient(), [])
   const { t } = useLanguage()
 
   const [matterName, setMatterName] = useState("")
+  const [matterId, setMatterId] = useState<string>(prefillMatterId ?? "")
   const [description, setDescription] = useState("")
   const [date, setDate] = useState(getTodayISODate)
   const [hoursWorked, setHoursWorked] = useState<string>("")
   const [hourlyRate, setHourlyRate] = useState<string>("")
   const [activityType, setActivityType] = useState<ActivityType>("other")
   const [currency, setCurrency] = useState<CurrencyCode>("EUR")
+
+  const [matterOptions, setMatterOptions] = useState<
+    Array<{ id: string; title: string; matter_number: string }>
+  >([])
+  const [mattersLoaded, setMattersLoaded] = useState(false)
 
   const [entries, setEntries] = useState<TimeEntry[]>([])
   const [loadingEntries, setLoadingEntries] = useState(true)
@@ -271,6 +281,46 @@ export function TimeEntriesTab({ onInvoiceCreated }: TimeEntriesTabProps) {
     }
   }, [supabase])
 
+  useEffect(() => {
+    let cancelled = false
+    async function loadMatters() {
+      try {
+        const {
+          data: { user },
+        } = await supabase.auth.getUser()
+        if (!user || cancelled) {
+          if (!cancelled) setMattersLoaded(true)
+          return
+        }
+
+        const { data } = await supabase
+          .from("matters")
+          .select("id, title, matter_number")
+          .eq("user_id", user.id)
+          .eq("status", "open")
+          .order("created_at", { ascending: false })
+
+        if (!cancelled && data) {
+          setMatterOptions(
+            (data as Array<Record<string, unknown>>).map((m) => ({
+              id: String(m.id),
+              title: String(m.title ?? ""),
+              matter_number: String(m.matter_number ?? ""),
+            }))
+          )
+        }
+      } catch {
+        /* ignore */
+      } finally {
+        if (!cancelled) setMattersLoaded(true)
+      }
+    }
+    void loadMatters()
+    return () => {
+      cancelled = true
+    }
+  }, [supabase])
+
   function openInvoiceDialog(entry: TimeEntry) {
     setInvoiceDialogError(null)
     setInvoiceDialogEntry(entry)
@@ -328,6 +378,7 @@ export function TimeEntriesTab({ onInvoiceCreated }: TimeEntriesTabProps) {
 
   function resetForm() {
     setMatterName("")
+    setMatterId("")
     setDescription("")
     setDate(getTodayISODate())
     setHoursWorked("")
@@ -368,14 +419,23 @@ export function TimeEntriesTab({ onInvoiceCreated }: TimeEntriesTabProps) {
         return
       }
 
+      const { data: profile } = await supabase
+        .from("user_profiles")
+        .select("law_firm_id")
+        .eq("id", user.id)
+        .maybeSingle()
+
       const durationMinutes = Math.round(numericHours * 60)
       const notes = `Matter: ${matterName.trim()} | Work: ${description.trim()}`
+      const matterIdToSave = matterId === "none" ? null : (matterId || null)
 
       const payload = {
         user_id: user.id,
-        law_firm_id: null,
+        law_firm_id:
+          (profile as { law_firm_id: string | null } | null)?.law_firm_id ?? null,
         client_id: null,
         invoice_id: null,
+        matter_id: matterIdToSave,
         work_date: date,
         duration_minutes: durationMinutes,
         activity_type: activityType,
@@ -494,6 +554,30 @@ export function TimeEntriesTab({ onInvoiceCreated }: TimeEntriesTabProps) {
               placeholder={t("time.form.matterName.placeholder")}
               required
             />
+          </div>
+
+          <div className="space-y-2">
+            <Label>{t("matters.title")}</Label>
+            <Select
+              value={matterId}
+              onValueChange={(v) => setMatterId(v)}
+              disabled={!mattersLoaded}
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder={t("matters.select.placeholder")} />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="none">{t("matters.select.none")}</SelectItem>
+                {matterOptions.map((m) => (
+                  <SelectItem key={m.id} value={m.id}>
+                    {`${m.matter_number} — ${m.title}`}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <p className="text-xs text-muted-foreground">
+              {t("matters.select.help")}
+            </p>
           </div>
 
           <div className="space-y-2">

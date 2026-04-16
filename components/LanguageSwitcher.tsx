@@ -35,7 +35,7 @@ export function LanguageSwitcher() {
             {LANGUAGES.find((l) => l.code === language)?.label ?? t("language.label")}
           </SelectValue>
         </SelectTrigger>
-        <SelectContent className="max-h-60">
+        <SelectContent position="popper" sideOffset={6} className="max-h-60">
           {LANGUAGES.map((language) => (
             <SelectItem key={language.code} value={language.code}>
               {language.label}

@@ -352,9 +352,13 @@ function initialDetailsForType(contractType: ContractType): ContractDetails {
 
 type ContractsWizardPageProps = {
   selectedId: string | null
+  prefillMatterId?: string | null
 }
 
-export default function ContractsWizardPage({ selectedId }: ContractsWizardPageProps) {
+export default function ContractsWizardPage({
+  selectedId,
+  prefillMatterId,
+}: ContractsWizardPageProps) {
   const supabase = useMemo(() => createClient(), [])
   const { t, language } = useLanguage()
 
@@ -377,6 +381,10 @@ export default function ContractsWizardPage({ selectedId }: ContractsWizardPageP
   const [currentStep, setCurrentStep] = useState<WizardStep>(1)
   const [contractType, setContractType] = useState<ContractType | null>(null)
   const [jurisdiction, setJurisdiction] = useState<Jurisdiction | null>(null)
+  const [matterId, setMatterId] = useState<string>(prefillMatterId ?? "")
+  const [matterOptions, setMatterOptions] = useState<
+    Array<{ id: string; title: string; matter_number: string }>
+  >([])
   const [details, setDetails] = useState<ContractDetails | null>(null)
   const [additionalInstructions, setAdditionalInstructions] = useState("")
   const [validationErrors, setValidationErrors] = useState<ValidationErrors>({})
@@ -410,6 +418,34 @@ export default function ContractsWizardPage({ selectedId }: ContractsWizardPageP
     },
     [t]
   )
+
+  useEffect(() => {
+    async function loadMatters() {
+      const supabase = createClient()
+      const {
+        data: { user },
+      } = await supabase.auth.getUser()
+      if (!user) return
+
+      const { data } = await supabase
+        .from("matters")
+        .select("id, title, matter_number")
+        .eq("user_id", user.id)
+        .eq("status", "open")
+        .order("created_at", { ascending: false })
+
+      if (data) {
+        setMatterOptions(
+          (data as Array<Record<string, unknown>>).map((m) => ({
+            id: String(m.id),
+            title: String(m.title ?? ""),
+            matter_number: String(m.matter_number ?? ""),
+          }))
+        )
+      }
+    }
+    void loadMatters()
+  }, [])
 
   useEffect(() => {
     let isMounted = true
@@ -775,9 +811,12 @@ export default function ContractsWizardPage({ selectedId }: ContractsWizardPageP
         jurisdiction: Jurisdiction
         content: string
         party_names: Record<string, string> | null
+        matter_id?: string | null
         status: "draft" | string
         ai_generated: boolean
       }
+
+      const matterIdToSave = matterId === "none" ? null : matterId
 
       const newContract: ContractInsert = {
         user_id: user.id,
@@ -786,6 +825,7 @@ export default function ContractsWizardPage({ selectedId }: ContractsWizardPageP
         jurisdiction,
         content: generatedContent,
         party_names: Object.keys(partyNames).length ? partyNames : null,
+        matter_id: matterIdToSave,
         status: "draft",
         ai_generated: true,
       }
@@ -999,7 +1039,7 @@ export default function ContractsWizardPage({ selectedId }: ContractsWizardPageP
               .replace("{current}", String(2))
               .replace("{total}", String(totalSteps))}
           </p>
-          <div className="max-w-xs space-y-2">
+          <div className="max-w-md space-y-4">
             <Label>{t("contracts.form.jurisdiction.label")}</Label>
             <Select
               value={jurisdiction ?? undefined}
@@ -1023,6 +1063,27 @@ export default function ContractsWizardPage({ selectedId }: ContractsWizardPageP
                 ))}
               </SelectContent>
             </Select>
+
+            <div className="space-y-2">
+              <Label>{t("matters.title")}</Label>
+              <Select
+                value={matterId}
+                onValueChange={(v) => setMatterId(v)}
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder={t("matters.select.placeholder")} />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="none">{t("matters.select.none")}</SelectItem>
+                  {matterOptions.map((m) => (
+                    <SelectItem key={m.id} value={m.id}>
+                      {`${m.matter_number} — ${m.title}`}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <p className="text-xs text-muted-foreground">{t("matters.select.help")}</p>
+            </div>
           </div>
           {validationErrors.jurisdiction && (
             <p className="text-sm text-destructive" role="alert">

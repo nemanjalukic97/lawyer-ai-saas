@@ -55,6 +55,7 @@ export default function PricingPage() {
                   features={tier.features}
                   ctaLabel="Start free trial"
                   pricePeriodLabel={t("home.pricing.perMonth")}
+                  recommendedLabel={t("home.pricing.recommended")}
                   recommended={tier.recommended}
                   planId={tier.id}
                 />

@@ -9,7 +9,7 @@ import {
   type ActivityItem,
   type ActivityItemType,
 } from "../lib/activity"
-import { BarChart3, FileText, Scale, User, FileSignature } from "lucide-react"
+import { BarChart3, FileText, Scale, User, FileSignature, Briefcase } from "lucide-react"
 import { useState } from "react"
 import { cn } from "@/lib/utils"
 import { useLanguage } from "@/components/LanguageProvider"
@@ -23,6 +23,7 @@ const TYPE_ICONS: Record<ActivityItemType, React.ComponentType<{ className?: str
   analysis: BarChart3,
   prediction: Scale,
   client: User,
+  matter: Briefcase,
 }
 
 type ActivityListClientProps = {
@@ -52,6 +53,7 @@ export function ActivityListClient({ items, currentFilter }: ActivityListClientP
         {(
           [
             { value: "all", labelKey: "activity.filters.all" },
+            { value: "matter", labelKey: "activity.filters.matters" },
             { value: "document", labelKey: "activity.filters.documents" },
             { value: "contract", labelKey: "activity.filters.contracts" },
             { value: "prediction", labelKey: "activity.filters.predictions" },

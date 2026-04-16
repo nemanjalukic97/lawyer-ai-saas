@@ -5,7 +5,11 @@ import { hasFeature } from "../lib/entitlements"
 import { getEntitlementPlanForUser } from "../lib/getEntitlementPlan"
 import TimeTrackingPageClient from "./TimeTrackingPageClient"
 
-export default async function Page() {
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<{ matterId?: string }>
+}) {
   const supabase = await createClient()
   const {
     data: { user },
@@ -18,6 +22,7 @@ export default async function Page() {
     redirect("/dashboard/billing")
   }
 
-  return <TimeTrackingPageClient />
+  const params = await searchParams
+  return <TimeTrackingPageClient prefillMatterId={params?.matterId ?? null} />
 }
 

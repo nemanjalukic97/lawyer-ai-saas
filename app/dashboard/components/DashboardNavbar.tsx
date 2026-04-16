@@ -27,6 +27,7 @@ const ACTION_LINKS = [
   { href: "/dashboard/analyze", key: "analyze", feature: "document_analysis" },
   { href: "/dashboard/time", key: "time", feature: "time_tracking" },
   { href: "/dashboard/clients", key: "clients", feature: "client_portal" },
+  { href: "/dashboard/matters", key: "matters", feature: "matter_management" },
   { href: "/dashboard/intake", key: "intake", feature: "intake_forms" },
   { href: "/dashboard/activity", key: "activity", feature: "activity_feed" },
   { href: "/dashboard/templates", key: "templates", feature: "template_library" },

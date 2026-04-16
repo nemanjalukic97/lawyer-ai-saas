@@ -17,6 +17,7 @@ export type FeatureId =
   | "activity_feed"
   | "intake_forms"
   | "deadline_tracking"
+  | "matter_management"
 
 type PlanEntitlements = {
   id: EntitlementPlanId
@@ -46,6 +47,7 @@ export const PLAN_ENTITLEMENTS: Record<EntitlementPlanId, PlanEntitlements> = {
       activity_feed: false,
       intake_forms: false,
       deadline_tracking: false,
+      matter_management: true,
     },
   },
   solo: {
@@ -67,6 +69,7 @@ export const PLAN_ENTITLEMENTS: Record<EntitlementPlanId, PlanEntitlements> = {
       activity_feed: true,
       intake_forms: false,
       deadline_tracking: false,
+      matter_management: true,
     },
   },
   professional: {
@@ -88,6 +91,7 @@ export const PLAN_ENTITLEMENTS: Record<EntitlementPlanId, PlanEntitlements> = {
       activity_feed: true,
       intake_forms: true,
       deadline_tracking: true,
+      matter_management: true,
     },
   },
   firm: {
@@ -109,6 +113,7 @@ export const PLAN_ENTITLEMENTS: Record<EntitlementPlanId, PlanEntitlements> = {
       activity_feed: true,
       intake_forms: true,
       deadline_tracking: true,
+      matter_management: true,
     },
   },
 }

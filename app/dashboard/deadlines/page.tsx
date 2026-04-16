@@ -4,7 +4,11 @@ import { createClient } from "@/lib/supabase/server"
 import { getEntitlementPlanForUser } from "../lib/getEntitlementPlan"
 import DeadlinesPageClient from "./DeadlinesPageClient"
 
-export default async function Page() {
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<{ matterId?: string }>
+}) {
   const supabase = await createClient()
   const {
     data: { user },
@@ -14,5 +18,6 @@ export default async function Page() {
 
   const planId = await getEntitlementPlanForUser(supabase, user.id)
 
-  return <DeadlinesPageClient planId={planId} />
+  const params = await searchParams
+  return <DeadlinesPageClient planId={planId} prefillMatterId={params?.matterId ?? null} />
 }

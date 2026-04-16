@@ -390,13 +390,35 @@ export default async function DashboardPage() {
     law_firm_id: userProfile.law_firm_id ?? null,
   })
 
-  const [recentActivity, roiData] = await Promise.all([
+  const scopeFilterCol = scope.lawFirmId ? "law_firm_id" : "user_id"
+  const scopeFilterVal = scope.lawFirmId ?? scope.userId
+
+  const [
+    recentActivity,
+    roiData,
+    activeMattersCountRes,
+    activeMattersRecentRes,
+  ] = await Promise.all([
     getRecentActivity(supabase, scope, { limit: 10 }),
     getRoiData(supabase, scope, {
       law_firm_id: userProfile.law_firm_id ?? null,
       subscription_tier:
         userProfile.subscription_tier ?? firm?.subscription_tier ?? null,
     }),
+    supabase
+      .from("matters")
+      .select("id", { count: "exact", head: true })
+      .eq(scopeFilterCol, scopeFilterVal)
+      .eq("status", "open")
+      .is("deleted_at", null),
+    supabase
+      .from("matters")
+      .select("id, title, matter_number, status, updated_at")
+      .eq(scopeFilterCol, scopeFilterVal)
+      .eq("status", "open")
+      .is("deleted_at", null)
+      .order("updated_at", { ascending: false })
+      .limit(3),
   ])
 
   const featureUsage: FeatureUsagePoint[] = (() => {
@@ -443,6 +465,16 @@ export default async function DashboardPage() {
       recentActivity={recentActivity}
       roiData={roiData}
       upcomingDeadlines={upcomingDeadlines}
+      activeMatters={{
+        openCount: activeMattersCountRes.count ?? 0,
+        recent: (activeMattersRecentRes.data ?? []) as Array<{
+          id: string
+          title: string
+          matter_number: string
+          status: "open"
+          updated_at: string | null
+        }>,
+      }}
     />
   )
 }

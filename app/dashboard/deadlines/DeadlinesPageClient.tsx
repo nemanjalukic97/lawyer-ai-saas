@@ -36,6 +36,7 @@ import { calendarDaysUntil, formatDueHeading } from "./lib/dates"
 
 type DeadlineRow = Tables<"deadlines">
 type ClientMini = { id: string; name: string; email: string | null }
+type MatterMini = { id: string; title: string; matter_number: string; client_id: string | null }
 
 const DEADLINE_TYPES = Constants.public.Enums.deadline_type
 
@@ -43,6 +44,7 @@ type FilterKey = "all" | "upcoming" | "overdue" | "completed"
 
 type Props = {
   planId: EntitlementPlanId
+  prefillMatterId?: string | null
 }
 
 function toIsoDate(d: Date): string {
@@ -77,13 +79,14 @@ function matchesFilter(d: DeadlineRow, filter: FilterKey): boolean {
   return true
 }
 
-export default function DeadlinesPageClient({ planId }: Props) {
+export default function DeadlinesPageClient({ planId, prefillMatterId }: Props) {
   const supabase = useMemo(() => createClient(), [])
   const { t } = useLanguage()
   const canUse = hasFeature(planId, "deadline_tracking")
 
   const [deadlines, setDeadlines] = useState<DeadlineRow[]>([])
   const [clients, setClients] = useState<ClientMini[]>([])
+  const [matterOptions, setMatterOptions] = useState<MatterMini[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [filter, setFilter] = useState<FilterKey>("all")
@@ -96,6 +99,7 @@ export default function DeadlinesPageClient({ planId }: Props) {
   const [dueDateIn, setDueDateIn] = useState("")
   const [dueTimeIn, setDueTimeIn] = useState("")
   const [clientIdIn, setClientIdIn] = useState<string>("")
+  const [matterIdIn, setMatterIdIn] = useState<string>("")
   const [descIn, setDescIn] = useState("")
   const [reminderIn, setReminderIn] = useState("3")
   const [clientQuery, setClientQuery] = useState("")
@@ -124,8 +128,10 @@ export default function DeadlinesPageClient({ planId }: Props) {
         return
       }
 
-      const [{ data: dl, error: dErr }, { data: cl, error: cErr }] =
-        await Promise.all([
+      const [
+        { data: dl, error: dErr },
+        { data: cl, error: cErr },
+      ] = await Promise.all([
           supabase
             .from("deadlines")
             .select("*")
@@ -171,6 +177,26 @@ export default function DeadlinesPageClient({ planId }: Props) {
     void load()
   }, [load])
 
+  useEffect(() => {
+    async function loadMatters() {
+      const supabase = createClient()
+      const {
+        data: { user },
+      } = await supabase.auth.getUser()
+      if (!user) return
+
+      const { data } = await supabase
+        .from("matters")
+        .select("id, title, matter_number, client_id")
+        .eq("user_id", user.id)
+        .eq("status", "open")
+        .order("created_at", { ascending: false })
+
+      if (data) setMatterOptions(data as MatterMini[])
+    }
+    void loadMatters()
+  }, [])
+
   const filtered = useMemo(
     () => deadlines.filter((d) => matchesFilter(d, filter)),
     [deadlines, filter]
@@ -192,6 +218,11 @@ export default function DeadlinesPageClient({ planId }: Props) {
     )
   }, [clients, clientQuery])
 
+  const mattersFiltered = useMemo(() => {
+    if (!clientIdIn) return matterOptions
+    return matterOptions.filter((m) => m.client_id === clientIdIn)
+  }, [matterOptions, clientIdIn])
+
   function openCreate() {
     setEditing(null)
     setTitleIn("")
@@ -200,6 +231,7 @@ export default function DeadlinesPageClient({ planId }: Props) {
     setDueDateIn(toIsoDate(today))
     setDueTimeIn("")
     setClientIdIn("")
+    setMatterIdIn(prefillMatterId ?? "")
     setDescIn("")
     setReminderIn("3")
     setClientQuery("")
@@ -213,6 +245,7 @@ export default function DeadlinesPageClient({ planId }: Props) {
     setDueDateIn(d.due_date)
     setDueTimeIn(d.due_time ? d.due_time.slice(0, 5) : "")
     setClientIdIn(d.client_id ?? "")
+    setMatterIdIn(d.matter_id ?? "")
     setDescIn(d.description ?? "")
     setReminderIn(String(d.reminder_days_before ?? 3))
     setClientQuery("")
@@ -256,6 +289,7 @@ export default function DeadlinesPageClient({ planId }: Props) {
         due_date: dueDateIn,
         due_time: dueTime,
         client_id: clientIdIn || null,
+        matter_id: matterIdIn === "none" ? null : (matterIdIn || null),
         description: descIn.trim() || null,
         reminder_days_before: Number.isFinite(reminder) ? reminder : 3,
       }
@@ -276,6 +310,7 @@ export default function DeadlinesPageClient({ planId }: Props) {
           due_date: payload.due_date ?? dueDateIn,
           due_time: payload.due_time,
           client_id: payload.client_id,
+          matter_id: payload.matter_id,
           description: payload.description,
           reminder_days_before: payload.reminder_days_before,
         }
@@ -776,6 +811,25 @@ export default function DeadlinesPageClient({ planId }: Props) {
                     <SelectItem key={c.id} value={c.id}>
                       {c.name}
                       {c.email ? ` (${c.email})` : ""}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <Label>{t("matters.title")}</Label>
+              <Select
+                value={matterIdIn}
+                onValueChange={(v) => setMatterIdIn(v)}
+              >
+                <SelectTrigger className="w-full min-w-0">
+                  <SelectValue placeholder={t("matters.select.placeholder")} />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="none">{t("matters.select.none")}</SelectItem>
+                  {mattersFiltered.map((m) => (
+                    <SelectItem key={m.id} value={m.id}>
+                      {`${m.matter_number} — ${m.title}`}
                     </SelectItem>
                   ))}
                 </SelectContent>

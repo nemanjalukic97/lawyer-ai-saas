@@ -34,6 +34,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       analyze: "Analyze",
       time: "Time",
       clients: "Clients",
+      matters: "Matters",
       intake: "Intake",
       activity: "Activity",
       billing: "Billing",
@@ -43,6 +44,125 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       actions: "Actions",
       logout: "Log out",
       themeToggle: "Toggle light and dark theme",
+    },
+    matters: {
+      kicker: "Legantis · Matters",
+      title: "Matters",
+      subtitle:
+        "Organize work by matter and keep contracts, deadlines, time, and billing in one place.",
+      actions: {
+        new: "New matter",
+        create: "Create matter",
+        edit: "Edit",
+        save: "Save",
+        cancel: "Cancel",
+        open: "Open",
+        close: "Close",
+        archive: "Archive",
+      },
+      fields: {
+        title: "Title",
+        client: "Client",
+        matterType: "Matter type",
+        jurisdiction: "Jurisdiction",
+        description: "Description",
+        openedAt: "Opened date",
+        status: "Status",
+      },
+      filters: {
+        status: "Status",
+        type: "Type",
+        search: "Search",
+        searchPlaceholder: "Search by title or client…",
+        all: "All",
+      },
+      select: {
+        placeholder: "Select a matter (optional)",
+        none: "No matter",
+        help:
+          "Optional. Links this item to a matter without changing how existing entries are displayed.",
+      },
+      status: {
+        open: "Open",
+        on_hold: "On hold",
+        closed: "Closed",
+        archived: "Archived",
+      },
+      types: {
+        civil: "Civil",
+        criminal: "Criminal",
+        family: "Family",
+        labor: "Labor",
+        commercial: "Commercial",
+        administrative: "Administrative",
+        other: "Other",
+      },
+      stats: {
+        contracts: "Contracts",
+        deadlines: "Deadlines",
+        unbilledHours: "Unbilled hours",
+      },
+      tabs: {
+        overview: "Overview",
+        deadlines: "Deadlines",
+        documentsContracts: "Documents & Contracts",
+        timeBilling: "Time & Billing",
+        predictions: "Predictions",
+      },
+      detail: {
+        kicker: "Legantis · Matter",
+        backToList: "Back to matters",
+        notFound: "Matter not found.",
+        loadFailed: "Failed to load matter.",
+        stats: {
+          openDeadlines: "Open deadlines",
+          totalBilled: "Total billed",
+          outstandingPrefix: "Outstanding:",
+        },
+        recentActivity: {
+          title: "Recent activity",
+          subtitle: "Latest work linked to this matter.",
+          empty: "No activity yet for this matter.",
+        },
+        deadlines: {
+          subtitle: "Deadlines linked to this matter.",
+          add: "Add deadline",
+          empty: "No deadlines linked yet.",
+        },
+        contracts: {
+          title: "Contracts",
+          subtitle: "Contracts linked to this matter.",
+          generate: "Generate contract",
+          empty: "No contracts linked yet.",
+        },
+        documents: {
+          title: "Documents",
+          subtitle: "Documents linked to this matter.",
+          analyze: "Analyze document",
+          empty: "No documents linked yet.",
+        },
+        time: {
+          title: "Time entries",
+          subtitle: "Time entries linked to this matter.",
+          log: "Log time",
+          empty: "No time entries linked yet.",
+        },
+        billing: {
+          title: "Invoices",
+          subtitle: "Invoices linked to this matter.",
+          empty: "No invoices linked yet.",
+        },
+        predictions: {
+          subtitle: "Case predictions linked to this matter.",
+          new: "New prediction",
+          empty: "No predictions linked yet.",
+        },
+      },
+      empty: {
+        title: "No matters yet",
+        subtitle:
+          "Create your first matter to start organizing contracts, deadlines, and time entries.",
+      },
     },
     language: {
       label: "Language",
@@ -242,9 +362,10 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         },
       },
       pricing: {
-        title: "Simple, transparent pricing",
+        title: "Simple, Transparent Pricing",
         subtitle:
           "Choose the plan that fits your practice. All plans include core AI features.",
+        recommended: "Recommended",
         tiers: {
           solo: {
             name: "Solo",
@@ -1078,6 +1199,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       },
       filters: {
         all: "All",
+        matters: "Matters",
         documents: "Documents",
         contracts: "Contracts",
         predictions: "Predictions",
@@ -1085,6 +1207,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         clients: "Clients",
       },
       types: {
+        matter: "Matter",
         contract: "Contract",
         document: "Document",
         analysis: "Document analysis",
@@ -1531,6 +1654,14 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         title: "Recent activity",
         empty: "No recent activity yet.",
       },
+      activeMatters: {
+        title: "Active matters",
+        subtitle: "Open matters recently updated.",
+        openCountLabel: "Open matters:",
+        updatedPrefix: "Updated:",
+        viewAll: "View all matters",
+        empty: "No open matters yet.",
+      },
       upcomingDeadlines: {
         title: "Upcoming deadlines",
         subtitle: "Your next obligations and events.",
@@ -1765,6 +1896,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       analyze: "Analiza",
       time: "Vreme",
       clients: "Klijenti",
+      matters: "Predmeti",
       intake: "Intake forme",
       activity: "Aktivnosti",
       billing: "Fakturisanje",
@@ -1774,6 +1906,125 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       actions: "Radnje",
       logout: "Odjava",
       themeToggle: "Prebacivanje svetle i tamne teme",
+    },
+    matters: {
+      kicker: "Legantis · Predmeti",
+      title: "Predmeti",
+      subtitle:
+        "Organizujte rad po predmetima i držite ugovore, rokove, vreme i naplatu na jednom mestu.",
+      actions: {
+        new: "Novi predmet",
+        create: "Kreiraj predmet",
+        edit: "Izmeni",
+        save: "Sačuvaj",
+        cancel: "Otkaži",
+        open: "Otvori",
+        close: "Zatvori",
+        archive: "Arhiviraj",
+      },
+      fields: {
+        title: "Naslov",
+        client: "Klijent",
+        matterType: "Tip predmeta",
+        jurisdiction: "Nadležnost",
+        description: "Opis",
+        openedAt: "Datum otvaranja",
+        status: "Status",
+      },
+      filters: {
+        status: "Status",
+        type: "Tip",
+        search: "Pretraga",
+        searchPlaceholder: "Pretraži po naslovu ili klijentu…",
+        all: "Svi",
+      },
+      select: {
+        placeholder: "Izaberi predmet (opciono)",
+        none: "Bez predmeta",
+        help:
+          "Opciono. Povezuje unos sa predmetom bez promjene prikaza postojećih unosa.",
+      },
+      status: {
+        open: "Otvoren",
+        on_hold: "Na čekanju",
+        closed: "Zatvoren",
+        archived: "Arhiviran",
+      },
+      types: {
+        civil: "Građansko",
+        criminal: "Krivično",
+        family: "Porodično",
+        labor: "Radno",
+        commercial: "Privredno",
+        administrative: "Upravno",
+        other: "Ostalo",
+      },
+      stats: {
+        contracts: "Ugovori",
+        deadlines: "Rokovi",
+        unbilledHours: "Nenaplaćeni sati",
+      },
+      tabs: {
+        overview: "Pregled",
+        deadlines: "Rokovi",
+        documentsContracts: "Dokumenti i ugovori",
+        timeBilling: "Vrijeme i naplata",
+        predictions: "Predviđanja",
+      },
+      detail: {
+        kicker: "Legantis · Predmet",
+        backToList: "Nazad na predmete",
+        notFound: "Predmet nije pronađen.",
+        loadFailed: "Neuspješno učitavanje predmeta.",
+        stats: {
+          openDeadlines: "Otvoreni rokovi",
+          totalBilled: "Ukupno naplaćeno",
+          outstandingPrefix: "Dugovanje:",
+        },
+        recentActivity: {
+          title: "Nedavne aktivnosti",
+          subtitle: "Najnoviji rad vezan za ovaj predmet.",
+          empty: "Još nema aktivnosti za ovaj predmet.",
+        },
+        deadlines: {
+          subtitle: "Rokovi povezani sa ovim predmetom.",
+          add: "Dodaj rok",
+          empty: "Još nema povezanih rokova.",
+        },
+        contracts: {
+          title: "Ugovori",
+          subtitle: "Ugovori povezani sa ovim predmetom.",
+          generate: "Generiši ugovor",
+          empty: "Još nema povezanih ugovora.",
+        },
+        documents: {
+          title: "Dokumenti",
+          subtitle: "Dokumenti povezani sa ovim predmetom.",
+          analyze: "Analiziraj dokument",
+          empty: "Još nema povezanih dokumenata.",
+        },
+        time: {
+          title: "Unosi vremena",
+          subtitle: "Unosi vremena povezani sa ovim predmetom.",
+          log: "Evidentiraj vrijeme",
+          empty: "Još nema povezanih unosa vremena.",
+        },
+        billing: {
+          title: "Fakture",
+          subtitle: "Fakture povezane sa ovim predmetom.",
+          empty: "Još nema povezanih faktura.",
+        },
+        predictions: {
+          subtitle: "Predviđanja povezana sa ovim predmetom.",
+          new: "Novo predviđanje",
+          empty: "Još nema povezanih predviđanja.",
+        },
+      },
+      empty: {
+        title: "Još nema predmeta",
+        subtitle:
+          "Kreirajte prvi predmet da biste organizovali ugovore, rokove i evidenciju vremena.",
+      },
     },
     language: {
       label: "Jezik",
@@ -2107,9 +2358,10 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         },
       },
       pricing: {
-        title: "Jednostavne i transparentne cene",
+        title: "Jednostavne i Transparentne Cene",
         subtitle:
           "Izaberite paket koji odgovara vašoj kancelariji. Svi paketi uključuju ključne AI funkcionalnosti.",
+        recommended: "Preporučeno",
         tiers: {
           solo: {
             name: "Solo",
@@ -2300,6 +2552,14 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       activity: {
         title: "Skorašnja aktivnost",
         empty: "Još uvijek nema aktivnosti.",
+      },
+      activeMatters: {
+        title: "Aktivni predmeti",
+        subtitle: "Otvoreni predmeti nedavno ažurirani.",
+        openCountLabel: "Otvorenih predmeta:",
+        updatedPrefix: "Ažurirano:",
+        viewAll: "Prikaži sve predmete",
+        empty: "Još nema otvorenih predmeta.",
       },
       upcomingDeadlines: {
         title: "Predstojeći rokovi",
@@ -3277,6 +3537,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       },
       filters: {
         all: "Sve",
+        matters: "Predmeti",
         documents: "Dokumenti",
         contracts: "Ugovori",
         predictions: "Predviđanja",
@@ -3284,6 +3545,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         clients: "Klijenti",
       },
       types: {
+        matter: "Predmet",
         contract: "Ugovor",
         document: "Dokument",
         analysis: "Analiza dokumenta",
@@ -3631,6 +3893,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       analyze: "Analiza",
       time: "Vrijeme",
       clients: "Klijenti",
+      matters: "Predmeti",
       intake: "Intake forme",
       activity: "Aktivnosti",
       billing: "Fakturisanje",
@@ -3640,6 +3903,125 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       actions: "Radnje",
       logout: "Odjava",
       themeToggle: "Prebacivanje svijetle i tamne teme",
+    },
+    matters: {
+      kicker: "Legantis · Predmeti",
+      title: "Predmeti",
+      subtitle:
+        "Organizujte rad po predmetima i držite ugovore, rokove, vrijeme i naplatu na jednom mjestu.",
+      actions: {
+        new: "Novi predmet",
+        create: "Kreiraj predmet",
+        edit: "Uredi",
+        save: "Sačuvaj",
+        cancel: "Otkaži",
+        open: "Otvori",
+        close: "Zatvori",
+        archive: "Arhiviraj",
+      },
+      fields: {
+        title: "Naslov",
+        client: "Klijent",
+        matterType: "Tip predmeta",
+        jurisdiction: "Nadležnost",
+        description: "Opis",
+        openedAt: "Datum otvaranja",
+        status: "Status",
+      },
+      filters: {
+        status: "Status",
+        type: "Tip",
+        search: "Pretraga",
+        searchPlaceholder: "Pretraži po naslovu ili klijentu…",
+        all: "Svi",
+      },
+      select: {
+        placeholder: "Izaberi predmet (opciono)",
+        none: "Bez predmeta",
+        help:
+          "Opciono. Povezuje unos sa predmetom bez promjene prikaza postojećih unosa.",
+      },
+      status: {
+        open: "Otvoren",
+        on_hold: "Na čekanju",
+        closed: "Zatvoren",
+        archived: "Arhiviran",
+      },
+      types: {
+        civil: "Građansko",
+        criminal: "Krivično",
+        family: "Porodično",
+        labor: "Radno",
+        commercial: "Privredno",
+        administrative: "Upravno",
+        other: "Ostalo",
+      },
+      stats: {
+        contracts: "Ugovori",
+        deadlines: "Rokovi",
+        unbilledHours: "Nenaplaćeni sati",
+      },
+      tabs: {
+        overview: "Pregled",
+        deadlines: "Rokovi",
+        documentsContracts: "Dokumenti i ugovori",
+        timeBilling: "Vrijeme i naplata",
+        predictions: "Predviđanja",
+      },
+      detail: {
+        kicker: "Legantis · Predmet",
+        backToList: "Nazad na predmete",
+        notFound: "Predmet nije pronađen.",
+        loadFailed: "Neuspješno učitavanje predmeta.",
+        stats: {
+          openDeadlines: "Otvoreni rokovi",
+          totalBilled: "Ukupno naplaćeno",
+          outstandingPrefix: "Dugovanje:",
+        },
+        recentActivity: {
+          title: "Nedavne aktivnosti",
+          subtitle: "Najnoviji rad vezan za ovaj predmet.",
+          empty: "Još nema aktivnosti za ovaj predmet.",
+        },
+        deadlines: {
+          subtitle: "Rokovi povezani sa ovim predmetom.",
+          add: "Dodaj rok",
+          empty: "Još nema povezanih rokova.",
+        },
+        contracts: {
+          title: "Ugovori",
+          subtitle: "Ugovori povezani sa ovim predmetom.",
+          generate: "Generiši ugovor",
+          empty: "Još nema povezanih ugovora.",
+        },
+        documents: {
+          title: "Dokumenti",
+          subtitle: "Dokumenti povezani sa ovim predmetom.",
+          analyze: "Analiziraj dokument",
+          empty: "Još nema povezanih dokumenata.",
+        },
+        time: {
+          title: "Unosi vremena",
+          subtitle: "Unosi vremena povezani sa ovim predmetom.",
+          log: "Evidentiraj vrijeme",
+          empty: "Još nema povezanih unosa vremena.",
+        },
+        billing: {
+          title: "Fakture",
+          subtitle: "Fakture povezane sa ovim predmetom.",
+          empty: "Još nema povezanih faktura.",
+        },
+        predictions: {
+          subtitle: "Predviđanja povezana sa ovim predmetom.",
+          new: "Novo predviđanje",
+          empty: "Još nema povezanih predviđanja.",
+        },
+      },
+      empty: {
+        title: "Još nema predmeta",
+        subtitle:
+          "Kreirajte prvi predmet da biste organizovali ugovore, rokove i evidenciju vremena.",
+      },
     },
     language: {
       label: "Jezik",
@@ -3839,9 +4221,10 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         },
       },
       pricing: {
-        title: "Jednostavne i transparentne cijene",
+        title: "Jednostavne i Transparentne Cijene",
         subtitle:
           "Odaberite paket koji odgovara vašoj kancelariji. Svi paketi uključuju ključne AI funkcionalnosti.",
+        recommended: "Preporučeno",
         tiers: {
           solo: {
             name: "Solo",
@@ -4032,6 +4415,14 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       activity: {
         title: "Skorašnja aktivnost",
         empty: "Još uvijek nema aktivnosti.",
+      },
+      activeMatters: {
+        title: "Aktivni predmeti",
+        subtitle: "Otvoreni predmeti nedavno ažurirani.",
+        openCountLabel: "Otvorenih predmeta:",
+        updatedPrefix: "Ažurirano:",
+        viewAll: "Prikaži sve predmete",
+        empty: "Još nema otvorenih predmeta.",
       },
       upcomingDeadlines: {
         title: "Predstojeći rokovi",
@@ -5012,6 +5403,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       },
       filters: {
         all: "Sve",
+        matters: "Predmeti",
         documents: "Dokumenti",
         contracts: "Ugovori",
         predictions: "Predviđanja",
@@ -5019,6 +5411,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         clients: "Klijenti",
       },
       types: {
+        matter: "Predmet",
         contract: "Ugovor",
         document: "Dokument",
         analysis: "Analiza dokumenta",
@@ -5366,6 +5759,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       analyze: "Analiza",
       time: "Vrijeme",
       clients: "Klijenti",
+      matters: "Predmeti",
       intake: "Intake obrasci",
       activity: "Aktivnosti",
       billing: "Naplata",
@@ -5375,6 +5769,125 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       actions: "Radnje",
       logout: "Odjava",
       themeToggle: "Prebacivanje svijetle i tamne teme",
+    },
+    matters: {
+      kicker: "Legantis · Predmeti",
+      title: "Predmeti",
+      subtitle:
+        "Organizirajte rad po predmetima i držite ugovore, rokove, vrijeme i naplatu na jednom mjestu.",
+      actions: {
+        new: "Novi predmet",
+        create: "Kreiraj predmet",
+        edit: "Uredi",
+        save: "Spremi",
+        cancel: "Odustani",
+        open: "Otvori",
+        close: "Zatvori",
+        archive: "Arhiviraj",
+      },
+      fields: {
+        title: "Naslov",
+        client: "Klijent",
+        matterType: "Vrsta predmeta",
+        jurisdiction: "Nadležnost",
+        description: "Opis",
+        openedAt: "Datum otvaranja",
+        status: "Status",
+      },
+      filters: {
+        status: "Status",
+        type: "Vrsta",
+        search: "Pretraži",
+        searchPlaceholder: "Pretraži po naslovu ili klijentu…",
+        all: "Svi",
+      },
+      select: {
+        placeholder: "Odaberite predmet (neobavezno)",
+        none: "Bez predmeta",
+        help:
+          "Neobavezno. Povezuje stavku s predmetom bez promjene prikaza postojećih unosa.",
+      },
+      status: {
+        open: "Otvoren",
+        on_hold: "Na čekanju",
+        closed: "Zatvoren",
+        archived: "Arhiviran",
+      },
+      types: {
+        civil: "Građansko",
+        criminal: "Kazneno",
+        family: "Obiteljsko",
+        labor: "Radno",
+        commercial: "Trgovačko",
+        administrative: "Upravno",
+        other: "Ostalo",
+      },
+      stats: {
+        contracts: "Ugovori",
+        deadlines: "Rokovi",
+        unbilledHours: "Nenaplaćeni sati",
+      },
+      tabs: {
+        overview: "Pregled",
+        deadlines: "Rokovi",
+        documentsContracts: "Dokumenti i ugovori",
+        timeBilling: "Vrijeme i naplata",
+        predictions: "Predviđanja",
+      },
+      detail: {
+        kicker: "Legantis · Predmet",
+        backToList: "Natrag na predmete",
+        notFound: "Predmet nije pronađen.",
+        loadFailed: "Neuspješno učitavanje predmeta.",
+        stats: {
+          openDeadlines: "Otvoreni rokovi",
+          totalBilled: "Ukupno naplaćeno",
+          outstandingPrefix: "Dugovanje:",
+        },
+        recentActivity: {
+          title: "Nedavne aktivnosti",
+          subtitle: "Najnoviji rad vezan uz ovaj predmet.",
+          empty: "Još nema aktivnosti za ovaj predmet.",
+        },
+        deadlines: {
+          subtitle: "Rokovi povezani s ovim predmetom.",
+          add: "Dodaj rok",
+          empty: "Još nema povezanih rokova.",
+        },
+        contracts: {
+          title: "Ugovori",
+          subtitle: "Ugovori povezani s ovim predmetom.",
+          generate: "Generiraj ugovor",
+          empty: "Još nema povezanih ugovora.",
+        },
+        documents: {
+          title: "Dokumenti",
+          subtitle: "Dokumenti povezani s ovim predmetom.",
+          analyze: "Analiziraj dokument",
+          empty: "Još nema povezanih dokumenata.",
+        },
+        time: {
+          title: "Unosi vremena",
+          subtitle: "Unosi vremena povezani s ovim predmetom.",
+          log: "Evidentiraj vrijeme",
+          empty: "Još nema povezanih unosa vremena.",
+        },
+        billing: {
+          title: "Računi",
+          subtitle: "Računi povezani s ovim predmetom.",
+          empty: "Još nema povezanih računa.",
+        },
+        predictions: {
+          subtitle: "Predviđanja povezana s ovim predmetom.",
+          new: "Novo predviđanje",
+          empty: "Još nema povezanih predviđanja.",
+        },
+      },
+      empty: {
+        title: "Još nema predmeta",
+        subtitle:
+          "Kreirajte prvi predmet kako biste organizirali ugovore, rokove i evidenciju vremena.",
+      },
     },
     language: {
       label: "Jezik",
@@ -5574,9 +6087,10 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         },
       },
       pricing: {
-        title: "Jednostavne i transparentne cijene",
+        title: "Jednostavne i Transparentne Cijene",
         subtitle:
           "Odaberite paket koji odgovara vašem uredu. Svi paketi uključuju ključne AI funkcionalnosti.",
+        recommended: "Preporučeno",
         tiers: {
           solo: {
             name: "Solo",
@@ -5832,6 +6346,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       },
       filters: {
         all: "Sve",
+        matters: "Predmeti",
         documents: "Dokumenti",
         contracts: "Ugovori",
         predictions: "Predviđanja",
@@ -5839,6 +6354,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         clients: "Klijenti",
       },
       types: {
+        matter: "Predmet",
         contract: "Ugovor",
         document: "Dokument",
         analysis: "Analiza dokumenta",
@@ -6281,6 +6797,14 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       activity: {
         title: "Nedavna aktivnost",
         empty: "Još nema aktivnosti.",
+      },
+      activeMatters: {
+        title: "Aktivni predmeti",
+        subtitle: "Otvoreni predmeti nedavno ažurirani.",
+        openCountLabel: "Otvorenih predmeta:",
+        updatedPrefix: "Ažurirano:",
+        viewAll: "Prikaži sve predmete",
+        empty: "Još nema otvorenih predmeta.",
       },
       upcomingDeadlines: {
         title: "Predstojeći rokovi",
@@ -7100,6 +7624,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       analyze: "Analiza",
       time: "Čas",
       clients: "Stranke",
+      matters: "Zadeve",
       intake: "Vnosni obrazci",
       activity: "Aktivnosti",
       billing: "Obračun",
@@ -7109,6 +7634,125 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       actions: "Dejanja",
       logout: "Odjava",
       themeToggle: "Preklopi svetlo in temno temo",
+    },
+    matters: {
+      kicker: "Legantis · Zadeve",
+      title: "Zadeve",
+      subtitle:
+        "Organizirajte delo po zadevah in imejte pogodbe, roke, čas ter obračun na enem mestu.",
+      actions: {
+        new: "Nova zadeva",
+        create: "Ustvari zadevo",
+        edit: "Uredi",
+        save: "Shrani",
+        cancel: "Prekliči",
+        open: "Odpri",
+        close: "Zapri",
+        archive: "Arhiviraj",
+      },
+      fields: {
+        title: "Naslov",
+        client: "Stranka",
+        matterType: "Vrsta zadeve",
+        jurisdiction: "Pristojnost",
+        description: "Opis",
+        openedAt: "Datum odprtja",
+        status: "Status",
+      },
+      filters: {
+        status: "Status",
+        type: "Vrsta",
+        search: "Iskanje",
+        searchPlaceholder: "Išči po naslovu ali stranki…",
+        all: "Vse",
+      },
+      select: {
+        placeholder: "Izberi zadevo (neobvezno)",
+        none: "Brez zadeve",
+        help:
+          "Neobvezno. Poveže element z zadevo brez spremembe prikaza obstoječih vnosov.",
+      },
+      status: {
+        open: "Odprta",
+        on_hold: "Na čakanju",
+        closed: "Zaprta",
+        archived: "Arhivirana",
+      },
+      types: {
+        civil: "Civilno",
+        criminal: "Kazensko",
+        family: "Družinsko",
+        labor: "Delovno",
+        commercial: "Gospodarsko",
+        administrative: "Upravno",
+        other: "Drugo",
+      },
+      stats: {
+        contracts: "Pogodbe",
+        deadlines: "Roki",
+        unbilledHours: "Nezaračunane ure",
+      },
+      tabs: {
+        overview: "Pregled",
+        deadlines: "Roki",
+        documentsContracts: "Dokumenti in pogodbe",
+        timeBilling: "Čas in obračun",
+        predictions: "Napovedi",
+      },
+      detail: {
+        kicker: "Legantis · Zadeva",
+        backToList: "Nazaj na zadeve",
+        notFound: "Zadeva ni bila najdena.",
+        loadFailed: "Zadeve ni bilo mogoče naložiti.",
+        stats: {
+          openDeadlines: "Odprti roki",
+          totalBilled: "Skupaj zaračunano",
+          outstandingPrefix: "Odprto:",
+        },
+        recentActivity: {
+          title: "Nedavna aktivnost",
+          subtitle: "Najnovejše delo povezano s to zadevo.",
+          empty: "Za to zadevo še ni aktivnosti.",
+        },
+        deadlines: {
+          subtitle: "Roki povezani s to zadevo.",
+          add: "Dodaj rok",
+          empty: "Ni povezanih rokov.",
+        },
+        contracts: {
+          title: "Pogodbe",
+          subtitle: "Pogodbe povezane s to zadevo.",
+          generate: "Generiraj pogodbo",
+          empty: "Ni povezanih pogodb.",
+        },
+        documents: {
+          title: "Dokumenti",
+          subtitle: "Dokumenti povezani s to zadevo.",
+          analyze: "Analiziraj dokument",
+          empty: "Ni povezanih dokumentov.",
+        },
+        time: {
+          title: "Vnosi časa",
+          subtitle: "Vnosi časa povezani s to zadevo.",
+          log: "Zabeleži čas",
+          empty: "Ni povezanih vnosov časa.",
+        },
+        billing: {
+          title: "Računi",
+          subtitle: "Računi povezani s to zadevo.",
+          empty: "Ni povezanih računov.",
+        },
+        predictions: {
+          subtitle: "Napovedi povezane s to zadevo.",
+          new: "Nova napoved",
+          empty: "Ni povezanih napovedi.",
+        },
+      },
+      empty: {
+        title: "Zaenkrat ni zadev",
+        subtitle:
+          "Ustvarite prvo zadevo, da boste lažje organizirali pogodbe, roke in evidenco časa.",
+      },
     },
     language: {
       label: "Jezik",
@@ -7241,9 +7885,10 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         },
       },
       pricing: {
-        title: "Preproste in pregledne cene",
+        title: "Preproste In Pregledne Cene",
         subtitle:
           "Izberite paket, ki ustreza vaši pisarni. Vsi paketi vključujejo ključne AI funkcionalnosti.",
+        recommended: "Priporočeno",
         tiers: {
           solo: {
             name: "Solo",
@@ -7434,6 +8079,14 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       activity: {
         title: "Nedavna aktivnost",
         empty: "Zaenkrat še ni aktivnosti.",
+      },
+      activeMatters: {
+        title: "Aktivne zadeve",
+        subtitle: "Odprte zadeve, nedavno posodobljene.",
+        openCountLabel: "Odprtih zadev:",
+        updatedPrefix: "Posodobljeno:",
+        viewAll: "Prikaži vse zadeve",
+        empty: "Zaenkrat ni odprtih zadev.",
       },
       upcomingDeadlines: {
         title: "Prihajajoči roki",
@@ -8411,6 +9064,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       },
       filters: {
         all: "Vse",
+        matters: "Zadeve",
         documents: "Dokumenti",
         contracts: "Pogodbe",
         predictions: "Napovedi",
@@ -8418,6 +9072,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         clients: "Stranke",
       },
       types: {
+        matter: "Zadeva",
         contract: "Pogodba",
         document: "Dokument",
         analysis: "Analiza dokumenta",
@@ -8763,6 +9418,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       analyze: "Analiza",
       time: "Vrijeme",
       clients: "Klijenti",
+      matters: "Predmeti",
       intake: "Intake forme",
       activity: "Aktivnosti",
       billing: "Fakturisanje",
@@ -8772,6 +9428,125 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       actions: "Radnje",
       logout: "Odjava",
       themeToggle: "Prebacivanje svijetle i tamne teme",
+    },
+    matters: {
+      kicker: "Legantis · Predmeti",
+      title: "Predmeti",
+      subtitle:
+        "Organizujte rad po predmetima i držite ugovore, rokove, vrijeme i naplatu na jednom mjestu.",
+      actions: {
+        new: "Novi predmet",
+        create: "Kreiraj predmet",
+        edit: "Uredi",
+        save: "Sačuvaj",
+        cancel: "Otkaži",
+        open: "Otvori",
+        close: "Zatvori",
+        archive: "Arhiviraj",
+      },
+      fields: {
+        title: "Naslov",
+        client: "Klijent",
+        matterType: "Tip predmeta",
+        jurisdiction: "Nadležnost",
+        description: "Opis",
+        openedAt: "Datum otvaranja",
+        status: "Status",
+      },
+      filters: {
+        status: "Status",
+        type: "Tip",
+        search: "Pretraga",
+        searchPlaceholder: "Pretraži po naslovu ili klijentu…",
+        all: "Svi",
+      },
+      select: {
+        placeholder: "Izaberi predmet (opciono)",
+        none: "Bez predmeta",
+        help:
+          "Opciono. Povezuje unos sa predmetom bez promjene prikaza postojećih unosa.",
+      },
+      status: {
+        open: "Otvoren",
+        on_hold: "Na čekanju",
+        closed: "Zatvoren",
+        archived: "Arhiviran",
+      },
+      types: {
+        civil: "Građansko",
+        criminal: "Krivično",
+        family: "Porodično",
+        labor: "Radno",
+        commercial: "Privredno",
+        administrative: "Upravno",
+        other: "Ostalo",
+      },
+      stats: {
+        contracts: "Ugovori",
+        deadlines: "Rokovi",
+        unbilledHours: "Nenaplaćeni sati",
+      },
+      tabs: {
+        overview: "Pregled",
+        deadlines: "Rokovi",
+        documentsContracts: "Dokumenti i ugovori",
+        timeBilling: "Vrijeme i naplata",
+        predictions: "Predviđanja",
+      },
+      detail: {
+        kicker: "Legantis · Predmet",
+        backToList: "Nazad na predmete",
+        notFound: "Predmet nije pronađen.",
+        loadFailed: "Neuspješno učitavanje predmeta.",
+        stats: {
+          openDeadlines: "Otvoreni rokovi",
+          totalBilled: "Ukupno naplaćeno",
+          outstandingPrefix: "Dugovanje:",
+        },
+        recentActivity: {
+          title: "Nedavne aktivnosti",
+          subtitle: "Najnoviji rad vezan za ovaj predmet.",
+          empty: "Još nema aktivnosti za ovaj predmet.",
+        },
+        deadlines: {
+          subtitle: "Rokovi povezani sa ovim predmetom.",
+          add: "Dodaj rok",
+          empty: "Još nema povezanih rokova.",
+        },
+        contracts: {
+          title: "Ugovori",
+          subtitle: "Ugovori povezani sa ovim predmetom.",
+          generate: "Generiši ugovor",
+          empty: "Još nema povezanih ugovora.",
+        },
+        documents: {
+          title: "Dokumenti",
+          subtitle: "Dokumenti povezani sa ovim predmetom.",
+          analyze: "Analiziraj dokument",
+          empty: "Još nema povezanih dokumenata.",
+        },
+        time: {
+          title: "Unosi vremena",
+          subtitle: "Unosi vremena povezani sa ovim predmetom.",
+          log: "Evidentiraj vrijeme",
+          empty: "Još nema povezanih unosa vremena.",
+        },
+        billing: {
+          title: "Fakture",
+          subtitle: "Fakture povezane sa ovim predmetom.",
+          empty: "Još nema povezanih faktura.",
+        },
+        predictions: {
+          subtitle: "Predviđanja povezana sa ovim predmetom.",
+          new: "Novo predviđanje",
+          empty: "Još nema povezanih predviđanja.",
+        },
+      },
+      empty: {
+        title: "Još nema predmeta",
+        subtitle:
+          "Kreirajte prvi predmet da biste organizovali ugovore, rokove i evidenciju vremena.",
+      },
     },
     language: {
       label: "Jezik",
@@ -8904,9 +9679,10 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         },
       },
       pricing: {
-        title: "Jednostavne i transparentne cijene",
+        title: "Jednostavne i Transparentne Cijene",
         subtitle:
           "Odaberite paket koji odgovara vašoj kancelariji. Svi paketi uključuju ključne AI funkcionalnosti.",
+        recommended: "Preporučeno",
         tiers: {
           solo: {
             name: "Solo",
@@ -9097,6 +9873,14 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       activity: {
         title: "Skorašnja aktivnost",
         empty: "Još uvijek nema aktivnosti.",
+      },
+      activeMatters: {
+        title: "Aktivni predmeti",
+        subtitle: "Otvoreni predmeti nedavno ažurirani.",
+        openCountLabel: "Otvorenih predmeta:",
+        updatedPrefix: "Ažurirano:",
+        viewAll: "Prikaži sve predmete",
+        empty: "Još nema otvorenih predmeta.",
       },
       upcomingDeadlines: {
         title: "Predstojeći rokovi",
@@ -10075,6 +10859,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       },
       filters: {
         all: "Sve",
+        matters: "Predmeti",
         documents: "Dokumenti",
         contracts: "Ugovori",
         predictions: "Predviđanja",
@@ -10082,6 +10867,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         clients: "Klijenti",
       },
       types: {
+        matter: "Predmet",
         contract: "Ugovor",
         document: "Dokument",
         analysis: "Analiza dokumenta",

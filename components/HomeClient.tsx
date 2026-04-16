@@ -198,7 +198,7 @@ export function HomeClient({ signupStatus }: Props) {
           <div className="mx-auto max-w-6xl px-4 sm:px-6">
             <h2
               id="pricing-heading"
-              className="text-center text-2xl font-bold text-foreground sm:text-3xl"
+              className="text-center text-2xl font-bold text-foreground normal-case sm:text-3xl"
             >
               {t("home.pricing.title")}
             </h2>
@@ -216,6 +216,7 @@ export function HomeClient({ signupStatus }: Props) {
                   )}
                   ctaLabel={t("home.pricing.cta")}
                   pricePeriodLabel={t("home.pricing.perMonth")}
+                  recommendedLabel={t("home.pricing.recommended")}
                   recommended={tier.recommended}
                   planId={tier.id as "solo" | "professional" | "firm"}
                 />

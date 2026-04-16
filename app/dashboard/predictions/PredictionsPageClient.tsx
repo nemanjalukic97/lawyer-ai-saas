@@ -346,9 +346,10 @@ function parseAmountInDispute(raw: string): number | null {
 
 type ClientProps = {
   selectedId: string | null
+  prefillMatterId?: string | null
 }
 
-export default function PredictionsPageClient({ selectedId }: ClientProps) {
+export default function PredictionsPageClient({ selectedId, prefillMatterId }: ClientProps) {
   const supabase = useMemo(() => createClient(), [])
   const { t, language } = useLanguage()
 
@@ -373,6 +374,10 @@ export default function PredictionsPageClient({ selectedId }: ClientProps) {
 
   const [caseType, setCaseType] = useState<CaseType>("civil")
   const [jurisdiction, setJurisdiction] = useState<Jurisdiction>("serbia")
+  const [matterId, setMatterId] = useState<string>(prefillMatterId ?? "")
+  const [matterOptions, setMatterOptions] = useState<
+    Array<{ id: string; title: string; matter_number: string }>
+  >([])
   const [keyFacts, setKeyFacts] = useState("")
   const [evidenceQuality, setEvidenceQuality] =
     useState<EvidenceQuality>("medium")
@@ -388,6 +393,34 @@ export default function PredictionsPageClient({ selectedId }: ClientProps) {
   const [detail, setDetail] = useState<PredictionDetail | null>(null)
   const [detailLoading, setDetailLoading] = useState(false)
   const [detailError, setDetailError] = useState<string | null>(null)
+
+  useEffect(() => {
+    async function loadMatters() {
+      const supabase = createClient()
+      const {
+        data: { user },
+      } = await supabase.auth.getUser()
+      if (!user) return
+
+      const { data } = await supabase
+        .from("matters")
+        .select("id, title, matter_number")
+        .eq("user_id", user.id)
+        .eq("status", "open")
+        .order("created_at", { ascending: false })
+
+      if (data) {
+        setMatterOptions(
+          (data as Array<Record<string, unknown>>).map((m) => ({
+            id: String(m.id),
+            title: String(m.title ?? ""),
+            matter_number: String(m.matter_number ?? ""),
+          }))
+        )
+      }
+    }
+    void loadMatters()
+  }, [])
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault()
@@ -487,6 +520,7 @@ export default function PredictionsPageClient({ selectedId }: ClientProps) {
           outcome_probability: number | null
           confidence_level: "high" | "medium" | "low"
           full_analysis: string
+          matter_id?: string | null
         }
 
         const insertRow: CasePredictionInsert = {
@@ -499,6 +533,7 @@ export default function PredictionsPageClient({ selectedId }: ClientProps) {
           outcome_probability: outcomeProbability,
           confidence_level: confidenceLevel,
           full_analysis: content,
+          matter_id: matterId === "none" ? null : (matterId || null),
         }
 
         await supabase.from("case_predictions").insert(insertRow)
@@ -711,6 +746,27 @@ export default function PredictionsPageClient({ selectedId }: ClientProps) {
                       </SelectContent>
                     </Select>
                   </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label>{t("matters.title")}</Label>
+                  <Select
+                    value={matterId}
+                    onValueChange={(v) => setMatterId(v)}
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder={t("matters.select.placeholder")} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="none">{t("matters.select.none")}</SelectItem>
+                      {matterOptions.map((m) => (
+                        <SelectItem key={m.id} value={m.id}>
+                          {`${m.matter_number} — ${m.title}`}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <p className="text-xs text-muted-foreground">{t("matters.select.help")}</p>
                 </div>
 
                 <div className="space-y-2">
