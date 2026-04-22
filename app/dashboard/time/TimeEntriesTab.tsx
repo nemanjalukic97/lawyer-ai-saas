@@ -26,6 +26,7 @@ import { Badge } from "@/components/ui/badge"
 import { FileText, Loader2, Trash2 } from "lucide-react"
 import { createClient } from "@/lib/supabase/client"
 import { useLanguage } from "@/components/LanguageProvider"
+import { logActivity } from "@/lib/activity/logActivity"
 
 type TimeEntryStatus = "pending" | "approved" | "billed"
 
@@ -129,6 +130,12 @@ type TimeEntriesTabProps = {
   prefillMatterId?: string | null
 }
 
+type ClientOption = {
+  id: string
+  name: string
+  company_name: string | null
+}
+
 export function TimeEntriesTab({
   onInvoiceCreated,
   prefillMatterId,
@@ -136,7 +143,10 @@ export function TimeEntriesTab({
   const supabase = useMemo(() => createClient(), [])
   const { t } = useLanguage()
 
-  const [matterName, setMatterName] = useState("")
+  const [selectedClientId, setSelectedClientId] = useState<string | null>(null)
+  const [clientInputValue, setClientInputValue] = useState("")
+  const [showClientSuggestions, setShowClientSuggestions] = useState(false)
+  const [filteredClients, setFilteredClients] = useState<ClientOption[]>([])
   const [matterId, setMatterId] = useState<string>(prefillMatterId ?? "")
   const [description, setDescription] = useState("")
   const [date, setDate] = useState(getTodayISODate)
@@ -149,6 +159,9 @@ export function TimeEntriesTab({
     Array<{ id: string; title: string; matter_number: string }>
   >([])
   const [mattersLoaded, setMattersLoaded] = useState(false)
+
+  const [clientOptions, setClientOptions] = useState<ClientOption[]>([])
+  const [clientsLoaded, setClientsLoaded] = useState(false)
 
   const [entries, setEntries] = useState<TimeEntry[]>([])
   const [loadingEntries, setLoadingEntries] = useState(true)
@@ -283,6 +296,70 @@ export function TimeEntriesTab({
 
   useEffect(() => {
     let cancelled = false
+    async function loadClients() {
+      try {
+        const {
+          data: { user },
+        } = await supabase.auth.getUser()
+        if (!user || cancelled) {
+          if (!cancelled) setClientsLoaded(true)
+          return
+        }
+
+        const { data, error } = await supabase
+          .from("clients")
+          .select("id, name, company_name")
+          .eq("user_id", user.id)
+          .is("deleted_at", null)
+          .order("name", { ascending: true })
+
+        if (!cancelled && !error && data) {
+          setClientOptions(
+            (data as Array<Record<string, unknown>>).map((c) => ({
+              id: String(c.id),
+              name: String(c.name ?? ""),
+              company_name:
+                typeof c.company_name === "string" && c.company_name.trim()
+                  ? c.company_name.trim()
+                  : null,
+            }))
+          )
+        }
+      } catch {
+        /* ignore */
+      } finally {
+        if (!cancelled) setClientsLoaded(true)
+      }
+    }
+    void loadClients()
+    return () => {
+      cancelled = true
+    }
+  }, [supabase])
+
+  useEffect(() => {
+    const q = clientInputValue.trim().toLowerCase()
+    if (!q) {
+      setFilteredClients([])
+      setSelectedClientId(null)
+      return
+    }
+    const next = clientOptions.filter((client) => {
+      const nameWords = client.name.toLowerCase().split(" ").filter(Boolean)
+      const queryWords = clientInputValue.toLowerCase().split(" ").filter(Boolean)
+
+      if (queryWords.length === 0) return false
+
+      // Every query word must match the start of at least one name word
+      return queryWords.every((queryWord) =>
+        nameWords.some((nameWord) => nameWord.startsWith(queryWord))
+      )
+    })
+    setFilteredClients(next)
+  }, [clientInputValue, clientOptions])
+
+  useEffect(() => {
+    let cancelled = false
     async function loadMatters() {
       try {
         const {
@@ -358,6 +435,21 @@ export function TimeEntriesTab({
             : t("time.invoiceGenerate.errors.createFailed")
         throw new Error(msg)
       }
+
+      const created =
+        json && typeof json === "object"
+          ? (json as { invoiceId?: string; invoiceNumber?: string })
+          : null
+      if (created?.invoiceId && created?.invoiceNumber) {
+        void logActivity(
+          supabase,
+          "invoice.created",
+          "invoice",
+          created.invoiceId,
+          created.invoiceNumber,
+          { time_entry_id: invoiceDialogEntry.id, client_id: invoiceDialogEntry.client_id ?? null }
+        )
+      }
       setEntries((prev) =>
         prev.map((e) =>
           e.id === invoiceDialogEntry.id ? { ...e, status: "billed" } : e
@@ -377,7 +469,10 @@ export function TimeEntriesTab({
   }
 
   function resetForm() {
-    setMatterName("")
+    setSelectedClientId(null)
+    setClientInputValue("")
+    setShowClientSuggestions(false)
+    setFilteredClients([])
     setMatterId("")
     setDescription("")
     setDate(getTodayISODate())
@@ -392,8 +487,13 @@ export function TimeEntriesTab({
     setFormError(null)
     setSuccessMessage(null)
 
-    if (!matterName.trim() || !description.trim()) {
-      setFormError(t("time.errors.matterAndDescriptionRequired"))
+    if (!selectedClientId) {
+      setFormError("Please select a client from the list")
+      return
+    }
+
+    if (!description.trim()) {
+      setFormError(t("time.errors.descriptionRequired"))
       return
     }
 
@@ -426,14 +526,22 @@ export function TimeEntriesTab({
         .maybeSingle()
 
       const durationMinutes = Math.round(numericHours * 60)
-      const notes = `Matter: ${matterName.trim()} | Work: ${description.trim()}`
       const matterIdToSave = matterId === "none" ? null : (matterId || null)
+      const matterInfo =
+        matterIdToSave && matterOptions.length
+          ? matterOptions.find((m) => m.id === matterIdToSave)
+          : null
+      const notes =
+        matterInfo != null
+          ? `Matter: ${matterInfo.matter_number} — ${matterInfo.title} | Work: ${description.trim()}`
+          : `Work: ${description.trim()}`
+      const clientIdToSave = selectedClientId
 
       const payload = {
         user_id: user.id,
         law_firm_id:
           (profile as { law_firm_id: string | null } | null)?.law_firm_id ?? null,
-        client_id: null,
+        client_id: clientIdToSave,
         invoice_id: null,
         matter_id: matterIdToSave,
         work_date: date,
@@ -546,14 +654,45 @@ export function TimeEntriesTab({
       <Card className="p-6">
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-2">
-            <Label htmlFor="matterName">{t("time.form.matterName.label")}</Label>
-            <Input
-              id="matterName"
-              value={matterName}
-              onChange={(event) => setMatterName(event.target.value)}
-              placeholder={t("time.form.matterName.placeholder")}
-              required
-            />
+            <Label>Client</Label>
+            <div className="relative">
+              <Input
+                value={clientInputValue}
+                onChange={(e) => {
+                  setClientInputValue(e.target.value)
+                  setShowClientSuggestions(true)
+                }}
+                onFocus={() => setShowClientSuggestions(true)}
+                onBlur={() => {
+                  window.setTimeout(() => setShowClientSuggestions(false), 120)
+                }}
+                placeholder="Start typing to search…"
+                disabled={!clientsLoaded}
+                required
+              />
+              {showClientSuggestions && filteredClients.length > 0 && (
+                <div className="absolute top-full z-50 mt-1 w-full overflow-hidden rounded-md border bg-card shadow-md">
+                  {filteredClients.slice(0, 12).map((c) => {
+                    const label = c.company_name ? `${c.name} · ${c.company_name}` : c.name
+                    return (
+                      <button
+                        key={c.id}
+                        type="button"
+                        className="flex w-full items-center px-3 py-2 text-left text-sm hover:bg-muted/50"
+                        onMouseDown={(e) => e.preventDefault()}
+                        onClick={() => {
+                          setClientInputValue(c.name)
+                          setSelectedClientId(c.id)
+                          setShowClientSuggestions(false)
+                        }}
+                      >
+                        {label}
+                      </button>
+                    )
+                  })}
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="space-y-2">

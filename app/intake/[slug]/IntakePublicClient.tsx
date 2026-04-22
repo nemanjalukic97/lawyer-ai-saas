@@ -25,16 +25,6 @@ import {
 } from "@/app/dashboard/intake/lib/extraFields"
 import type { Tables } from "@/lib/supabase/types"
 
-const CASE_TYPE_KEYS = [
-  "civil",
-  "criminal",
-  "family",
-  "commercial",
-  "labor",
-  "administrative",
-  "other",
-] as const
-
 const JURISDICTION_KEYS = [
   "bih_fbih",
   "bih_rs",
@@ -44,6 +34,15 @@ const JURISDICTION_KEYS = [
   "montenegro",
   "slovenia",
 ] as const
+
+const CONTRACT_TYPE_OPTIONS = [
+  { value: "employment", label: "Employment Contract" },
+  { value: "service",    label: "Service Agreement" },
+  { value: "sales",      label: "Sales Contract" },
+  { value: "lease",      label: "Lease/Rental Agreement" },
+  { value: "nda",        label: "NDA / Non-Disclosure Agreement" },
+  { value: "partnership",label: "Partnership Agreement" },
+]
 
 type Props = {
   slug: string
@@ -63,8 +62,8 @@ export default function IntakePublicClient({ slug }: Props) {
   const [fullName, setFullName] = useState("")
   const [email, setEmail] = useState("")
   const [phone, setPhone] = useState("")
-  const [caseType, setCaseType] = useState<string>("")
   const [jurisdiction, setJurisdiction] = useState<string>("")
+  const [contractType, setContractType] = useState<string>("")
   const [matterDescription, setMatterDescription] = useState("")
   const [company, setCompany] = useState("")
   const [address, setAddress] = useState("")
@@ -121,8 +120,12 @@ export default function IntakePublicClient({ slug }: Props) {
       setError(t("intake.public.errors.nameEmail"))
       return
     }
-    if (!caseType || !jurisdiction) {
+    if (!jurisdiction) {
       setError(t("intake.public.errors.caseAndJurisdiction"))
+      return
+    }
+    if (!contractType) {
+      setError(t("intake.public.errors.contractTypeNeeded"))
       return
     }
 
@@ -132,8 +135,8 @@ export default function IntakePublicClient({ slug }: Props) {
         full_name: fullName.trim(),
         email: email.trim(),
         phone: phone.trim(),
-        case_type: caseType,
         jurisdiction,
+        contract_type: contractType,
         matter_description: matterDescription.trim(),
       }
       if (optionalKeys.has("company")) {
@@ -265,22 +268,6 @@ export default function IntakePublicClient({ slug }: Props) {
             </div>
 
             <div className="space-y-2">
-              <Label>{t("intake.public.caseType")}</Label>
-              <Select value={caseType} onValueChange={setCaseType} required>
-                <SelectTrigger className="w-full min-w-0">
-                  <SelectValue placeholder={t("intake.public.selectPlaceholder")} />
-                </SelectTrigger>
-                <SelectContent>
-                  {CASE_TYPE_KEYS.map((k) => (
-                    <SelectItem key={k} value={k}>
-                      {t(`intake.public.caseTypes.${k}`)}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div className="space-y-2">
               <Label>{t("intake.public.jurisdiction")}</Label>
               <Select value={jurisdiction} onValueChange={setJurisdiction} required>
                 <SelectTrigger className="w-full min-w-0">
@@ -290,6 +277,22 @@ export default function IntakePublicClient({ slug }: Props) {
                   {JURISDICTION_KEYS.map((k) => (
                     <SelectItem key={k} value={k}>
                       {t(`intake.public.jurisdictions.${k}`)}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-2">
+              <Label>{t("intake.public.contractTypeNeeded")}</Label>
+              <Select value={contractType} onValueChange={setContractType} required>
+                <SelectTrigger className="w-full min-w-0">
+                  <SelectValue placeholder={t("intake.public.selectPlaceholder")} />
+                </SelectTrigger>
+                <SelectContent>
+                  {CONTRACT_TYPE_OPTIONS.map((opt) => (
+                    <SelectItem key={opt.value} value={opt.value}>
+                      {opt.label}
                     </SelectItem>
                   ))}
                 </SelectContent>

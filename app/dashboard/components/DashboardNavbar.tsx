@@ -25,6 +25,7 @@ const ACTION_LINKS = [
   { href: "/dashboard/contracts", key: "contracts", feature: "contract_drafting" },
   { href: "/dashboard/predictions", key: "predictions", feature: "case_prediction" },
   { href: "/dashboard/analyze", key: "analyze", feature: "document_analysis" },
+  { href: "/dashboard/redline", key: "redline", feature: "document_redlining" },
   { href: "/dashboard/time", key: "time", feature: "time_tracking" },
   { href: "/dashboard/clients", key: "clients", feature: "client_portal" },
   { href: "/dashboard/matters", key: "matters", feature: "matter_management" },

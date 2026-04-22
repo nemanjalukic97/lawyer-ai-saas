@@ -30,9 +30,11 @@ import { createClient } from "@/lib/supabase/client"
 import { Constants } from "@/lib/supabase/types"
 import type { Tables, TablesInsert, TablesUpdate } from "@/lib/supabase/types"
 import { hasFeature, type EntitlementPlanId } from "../lib/entitlements"
+import { logActivity } from "@/lib/activity/logActivity"
 
 import { getEffectiveStatus } from "./lib/effectiveStatus"
 import { calendarDaysUntil, formatDueHeading } from "./lib/dates"
+import { sendTestDeadlineReminders } from "./actions"
 
 type DeadlineRow = Tables<"deadlines">
 type ClientMini = { id: string; name: string; email: string | null }
@@ -91,6 +93,8 @@ export default function DeadlinesPageClient({ planId, prefillMatterId }: Props) 
   const [error, setError] = useState<string | null>(null)
   const [filter, setFilter] = useState<FilterKey>("all")
   const [actionId, setActionId] = useState<string | null>(null)
+  const [testSending, setTestSending] = useState(false)
+  const [testSummary, setTestSummary] = useState<string | null>(null)
 
   const [dialogOpen, setDialogOpen] = useState(false)
   const [editing, setEditing] = useState<DeadlineRow | null>(null)
@@ -252,6 +256,25 @@ export default function DeadlinesPageClient({ planId, prefillMatterId }: Props) 
     setDialogOpen(true)
   }
 
+  async function runTestReminders() {
+    if (process.env.NODE_ENV === "production") return
+    setTestSending(true)
+    setTestSummary(null)
+    try {
+      const result = await sendTestDeadlineReminders()
+      const errCount = result.errors?.length ?? 0
+      setTestSummary(`Sent: ${result.sent}${errCount ? `, Errors: ${errCount}` : ""}`)
+    } catch (e) {
+      setTestSummary("Failed to run test reminders")
+      if (process.env.NODE_ENV !== "production") {
+        // eslint-disable-next-line no-console
+        console.error(e)
+      }
+    } finally {
+      setTestSending(false)
+    }
+  }
+
   async function saveDeadline() {
     if (!titleIn.trim() || !dueDateIn) {
       setError(t("deadlines.dialog.errors.titleDate"))
@@ -314,10 +337,28 @@ export default function DeadlinesPageClient({ planId, prefillMatterId }: Props) 
           description: payload.description,
           reminder_days_before: payload.reminder_days_before,
         }
-        const { error: iErr } = await supabase
+        const { data: inserted, error: iErr } = await supabase
           .from("deadlines")
           .insert(insertRow)
+          .select("id, title")
+          .single()
         if (iErr) throw iErr
+
+        if (inserted?.id) {
+          void logActivity(
+            supabase,
+            "deadline.created",
+            "deadline",
+            inserted.id,
+            inserted.title ?? insertRow.title,
+            {
+              deadline_type: insertRow.deadline_type,
+              due_date: insertRow.due_date,
+              client_id: insertRow.client_id,
+              matter_id: insertRow.matter_id,
+            }
+          )
+        }
       }
 
       setDialogOpen(false)
@@ -374,6 +415,7 @@ export default function DeadlinesPageClient({ planId, prefillMatterId }: Props) 
         .update(delPatch)
         .eq("id", d.id)
       if (uErr) throw uErr
+      void logActivity(supabase, "deadline.deleted", "deadline", d.id, d.title)
       setDeadlines((prev) => prev.filter((x) => x.id !== d.id))
     } catch (e) {
       if (process.env.NODE_ENV !== "production") {
@@ -467,10 +509,26 @@ export default function DeadlinesPageClient({ planId, prefillMatterId }: Props) 
               {t("deadlines.subtitle")}
             </p>
           </div>
-          <Button type="button" onClick={openCreate}>
-            {t("deadlines.actions.add")}
-          </Button>
+          <div className="flex flex-wrap gap-2">
+            {process.env.NODE_ENV !== "production" && (
+              <Button
+                type="button"
+                variant="outline"
+                disabled={testSending}
+                onClick={() => void runTestReminders()}
+              >
+                {testSending ? "Sending…" : "Send test reminder"}
+              </Button>
+            )}
+            <Button type="button" onClick={openCreate}>
+              {t("deadlines.actions.add")}
+            </Button>
+          </div>
         </div>
+
+        {testSummary && process.env.NODE_ENV !== "production" && (
+          <p className="text-sm text-muted-foreground">{testSummary}</p>
+        )}
 
         {error && (
           <p className="text-sm text-destructive" role="alert">

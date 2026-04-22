@@ -1,8 +1,9 @@
 "use client"
 
 import Link from "next/link"
-import { useCallback, useEffect, useMemo, useState } from "react"
-import { ArrowLeft, Loader2 } from "lucide-react"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
+import { useRouter } from "next/navigation"
+import { ArrowLeft, FileText, Loader2, Trash2 } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -10,6 +11,7 @@ import { Card } from "@/components/ui/card"
 import { useLanguage } from "@/components/LanguageProvider"
 import { createClient } from "@/lib/supabase/client"
 import { hasFeature, type EntitlementPlanId } from "../../../lib/entitlements"
+import { logActivity } from "@/lib/activity/logActivity"
 
 import type { Json } from "@/lib/supabase/types"
 
@@ -31,10 +33,25 @@ function readString(obj: Record<string, unknown>, key: string): string {
   return typeof v === "string" ? v : ""
 }
 
+function submissionLabel(data: Json): string {
+  const obj =
+    data && typeof data === "object" && !Array.isArray(data)
+      ? (data as Record<string, unknown>)
+      : {}
+  const name = readString(obj, "full_name").trim() || readString(obj, "name").trim()
+  const email = readString(obj, "email").trim()
+  if (name && email) return `${name} (${email})`
+  if (name) return name
+  if (email) return email
+  return "Intake submission"
+}
+
 export default function IntakeSubmissionsClient({ planId, formId }: Props) {
+  const router = useRouter()
   const supabase = useMemo(() => createClient(), [])
   const { t } = useLanguage()
   const canUse = hasFeature(planId, "intake_forms")
+  const canDraftContracts = hasFeature(planId, "contract_drafting")
 
   const [formTitle, setFormTitle] = useState<string | null>(null)
   const [rows, setRows] = useState<SubmissionRow[]>([])
@@ -45,6 +62,32 @@ export default function IntakeSubmissionsClient({ planId, formId }: Props) {
     tone: "success" | "info"
     message: string
   } | null>(null)
+  const loggedReceivedIdsRef = useRef<Set<string>>(new Set())
+
+  const fetchSubmissions = useCallback(async () => {
+    try {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser()
+      if (!user) return
+
+      const { data: subs, error: sErr } = await supabase
+        .from("intake_submissions")
+        .select("id, data, status, submitted_at, client_id")
+        .eq("form_id", formId)
+        .eq("user_id", user.id)
+        .order("submitted_at", { ascending: false })
+
+      if (sErr) throw sErr
+      setRows((subs ?? []) as SubmissionRow[])
+    } catch (e) {
+      if (process.env.NODE_ENV !== "production") {
+        // eslint-disable-next-line no-console
+        console.error(e)
+      }
+      setError(t("intake.errors.loadFailed"))
+    }
+  }, [formId, supabase, t])
 
   const load = useCallback(async () => {
     if (!canUse) {
@@ -76,16 +119,7 @@ export default function IntakeSubmissionsClient({ planId, formId }: Props) {
       }
       setFormTitle(form.title ?? null)
 
-      const { data: subs, error: sErr } = await supabase
-        .from("intake_submissions")
-        .select("id, data, status, submitted_at, client_id")
-        .eq("form_id", formId)
-        .eq("user_id", user.id)
-        .order("submitted_at", { ascending: false })
-
-      if (sErr) throw sErr
-
-      setRows((subs ?? []) as SubmissionRow[])
+      await fetchSubmissions()
     } catch (e) {
       if (process.env.NODE_ENV !== "production") {
         // eslint-disable-next-line no-console
@@ -95,17 +129,108 @@ export default function IntakeSubmissionsClient({ planId, formId }: Props) {
     } finally {
       setLoading(false)
     }
-  }, [canUse, formId, supabase, t])
+  }, [canUse, fetchSubmissions, formId, supabase, t])
 
   useEffect(() => {
     void load()
   }, [load])
 
   useEffect(() => {
+    const channel = supabase
+      .channel(`intake_submissions_${formId}`)
+      .on(
+        "postgres_changes",
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "intake_submissions",
+          filter: `form_id=eq.${formId}`,
+        },
+        (payload) => {
+          const rowNew = (payload as any)?.new as
+            | { id?: string; data?: Json; submitted_at?: string | null }
+            | undefined
+          const id = typeof rowNew?.id === "string" ? rowNew.id : null
+          if (id && !loggedReceivedIdsRef.current.has(id)) {
+            loggedReceivedIdsRef.current.add(id)
+            void logActivity(
+              supabase,
+              "intake_submission.received",
+              "intake_submission",
+              id,
+              submissionLabel(rowNew?.data as Json),
+              { form_id: formId, submitted_at: rowNew?.submitted_at ?? null }
+            )
+          }
+          void fetchSubmissions()
+        }
+      )
+      .subscribe()
+
+    return () => {
+      void supabase.removeChannel(channel)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formId, supabase])
+
+  useEffect(() => {
     if (!convertFeedback) return
     const timer = window.setTimeout(() => setConvertFeedback(null), 6000)
     return () => window.clearTimeout(timer)
   }, [convertFeedback])
+
+  function generateContractFromIntake(sub: SubmissionRow) {
+    const raw = sub.data
+    const obj =
+      raw && typeof raw === "object" && !Array.isArray(raw)
+        ? (raw as Record<string, unknown>)
+        : {}
+
+    const clientName =
+      (typeof obj.full_name === "string" ? obj.full_name : undefined) ??
+      (typeof obj.name === "string" ? obj.name : undefined) ??
+      ""
+    const jurisdiction =
+      (typeof obj.jurisdiction === "string" ? obj.jurisdiction : undefined) ?? ""
+    const contractType =
+      (typeof obj.case_type === "string" ? obj.case_type : undefined) ??
+      (typeof obj.contract_type === "string" ? obj.contract_type : undefined) ??
+      ""
+
+    router.push(
+      `/dashboard/contracts?clientName=${encodeURIComponent(
+        clientName
+      )}&jurisdiction=${encodeURIComponent(
+        jurisdiction
+      )}&contractType=${encodeURIComponent(contractType)}`
+    )
+  }
+
+  async function deleteSubmission(sub: SubmissionRow) {
+    const ok = window.confirm("Delete this submission?")
+    if (!ok) return
+
+    setActionId(sub.id)
+    setError(null)
+    try {
+      const { error: dErr } = await supabase
+        .from("intake_submissions")
+        .delete()
+        .eq("id", sub.id)
+
+      if (dErr) throw dErr
+
+      setRows((prev) => prev.filter((r) => r.id !== sub.id))
+    } catch (e) {
+      if (process.env.NODE_ENV !== "production") {
+        // eslint-disable-next-line no-console
+        console.error(e)
+      }
+      setError("Could not delete this submission.")
+    } finally {
+      setActionId(null)
+    }
+  }
 
   async function convertToClient(sub: SubmissionRow) {
     setActionId(sub.id)
@@ -218,6 +343,15 @@ export default function IntakeSubmissionsClient({ planId, formId }: Props) {
         .eq("id", sub.id)
 
       if (uErr) throw uErr
+
+      void logActivity(
+        supabase,
+        "intake_submission.converted",
+        "intake_submission",
+        sub.id,
+        submissionLabel(sub.data),
+        { form_id: formId, client_id: clientId }
+      )
 
       setRows((prev) =>
         prev.map((r) =>
@@ -423,6 +557,28 @@ export default function IntakeSubmissionsClient({ planId, formId }: Props) {
                               </Button>
                             </>
                           )}
+                          {canDraftContracts && (
+                            <Button
+                              type="button"
+                              size="sm"
+                              variant="outline"
+                              onClick={() => generateContractFromIntake(sub)}
+                            >
+                              <FileText className="mr-2 h-4 w-4" aria-hidden />
+                              Generate contract from this intake
+                            </Button>
+                          )}
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="sm"
+                            className="text-muted-foreground hover:text-destructive"
+                            disabled={actionId === sub.id}
+                            onClick={() => void deleteSubmission(sub)}
+                            aria-label="Delete submission"
+                          >
+                            <Trash2 className="h-4 w-4" aria-hidden />
+                          </Button>
                           {sub.client_id && (
                             <Button variant="link" size="sm" className="h-auto p-0" asChild>
                               <Link href={`/dashboard/clients?id=${sub.client_id}`}>

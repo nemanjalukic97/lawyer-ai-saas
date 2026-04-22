@@ -32,10 +32,11 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       contracts: "Contracts",
       predictions: "Predictions",
       analyze: "Analyze",
+      redline: "Document Redlining",
       time: "Time",
       clients: "Clients",
       matters: "Matters",
-      intake: "Intake",
+      intake: "Intake forms",
       activity: "Activity",
       billing: "Billing",
       settings: "Settings",
@@ -44,6 +45,47 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       actions: "Actions",
       logout: "Log out",
       themeToggle: "Toggle light and dark theme",
+    },
+    redline: {
+      header: {
+        title: "Document Redlining",
+        subtitle:
+          "Upload a contract, review AI-suggested changes, and export an updated DOCX.",
+      },
+      upload: {
+        label: "Upload contract",
+      },
+      instructions: {
+        label: "Redlining instructions (optional)",
+        placeholder: 'e.g. "Make it more favorable to the employer"',
+      },
+      actions: {
+        analyze: "Analyze & Redline",
+        acceptAll: "Accept all",
+        rejectAll: "Reject all",
+        download: "Download Redlined DOCX",
+        saveSession: "Save Session",
+        loadSession: "Load",
+      },
+      changes: {
+        title: "Changes",
+        accepted: "accepted",
+        total: "changes",
+        addition: "Addition",
+        deletion: "Deletion",
+        replacement: "Replacement",
+        position: "pos",
+        scrollHint: "Scroll to see all changes",
+      },
+      sessions: {
+        title: "Past Sessions",
+        empty: "No saved sessions yet.",
+        changes: "changes",
+      },
+      messages: {
+        analyzing: "Analyzing...",
+        noChanges: "No changes suggested.",
+      },
     },
     matters: {
       kicker: "Legantis · Matters",
@@ -1017,6 +1059,8 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         mustBeLoggedInToView: "You must be logged in to view time entries.",
         mustBeLoggedInToCreate: "You must be logged in to log time entries.",
         matterAndDescriptionRequired: "Matter name and description are required.",
+        descriptionRequired: "Description of work is required.",
+        clientRequired: "Please select a client",
         dateRequired: "Date is required.",
         invalidHoursOrRate:
           "Please provide valid hours (0.25–24) and a non-negative hourly rate.",
@@ -1196,6 +1240,13 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         title: "Recent activity",
         subtitle:
           "View and open your recent documents, contracts, predictions, analyses, and clients.",
+      },
+      tabs: {
+        feed: "Feed",
+        audit: "Audit log",
+      },
+      audit: {
+        empty: "No audit log entries yet.",
       },
       filters: {
         all: "All",
@@ -1702,7 +1753,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         titleNew: "New intake form",
         titleEdit: "Edit intake form",
         subtitle:
-          "Set a title and choose optional fields. Core questions (name, email, case type, jurisdiction, matter summary) are always included on the public form.",
+          "Set a title and choose optional fields. Core questions (name, email, case type, jurisdiction, contract type needed, matter summary) are always included on the public form.",
         formTitle: "Form title",
         description: "Description (optional)",
         optionalTitle: "Optional extra fields",
@@ -1731,6 +1782,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         phone: "Phone (optional)",
         caseType: "Case type",
         jurisdiction: "Jurisdiction",
+        contractTypeNeeded: "Type of contract needed",
         matterDescription: "Brief description of matter (optional)",
         company: "Company name",
         address: "Address",
@@ -1756,9 +1808,18 @@ const MESSAGES: Record<LanguageCode, Messages> = {
           montenegro: "Montenegro",
           slovenia: "Slovenia",
         },
+        contractTypes: {
+          employment: "Employment Contract",
+          service: "Service Agreement",
+          sales: "Sales Contract",
+          lease: "Lease/Rental Agreement",
+          nda: "NDA / Non-Disclosure Agreement",
+          partnership: "Partnership Agreement",
+        },
         errors: {
           nameEmail: "Please enter your full name and email.",
           caseAndJurisdiction: "Please select case type and jurisdiction.",
+          contractTypeNeeded: "Please select the type of contract needed.",
           submitFailed: "Could not submit. Please try again.",
         },
       },
@@ -1894,10 +1955,11 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       contracts: "Ugovori",
       predictions: "Predviđanja",
       analyze: "Analiza",
+      redline: "Izmjena ugovora",
       time: "Vreme",
       clients: "Klijenti",
       matters: "Predmeti",
-      intake: "Intake forme",
+      intake: "Prijavni formular",
       activity: "Aktivnosti",
       billing: "Fakturisanje",
       settings: "Podešavanja",
@@ -1906,6 +1968,47 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       actions: "Radnje",
       logout: "Odjava",
       themeToggle: "Prebacivanje svetle i tamne teme",
+    },
+    redline: {
+      header: {
+        title: "Izmjena ugovora",
+        subtitle:
+          "Otpremite ugovor, pregledajte AI predloge izmena i preuzmite ažurirani DOCX.",
+      },
+      upload: {
+        label: "Otpremi ugovor",
+      },
+      instructions: {
+        label: "Uputstva za redlajning (opciono)",
+        placeholder: 'npr. "Učini ugovor povoljnijim za poslodavca"',
+      },
+      actions: {
+        analyze: "Analiziraj i redlajnuj",
+        acceptAll: "Prihvati sve",
+        rejectAll: "Odbij sve",
+        download: "Preuzmi redlajnovani DOCX",
+        saveSession: "Sačuvaj sesiju",
+        loadSession: "Učitaj",
+      },
+      changes: {
+        title: "Izmjene",
+        accepted: "prihvaćeno",
+        total: "izmjena",
+        addition: "Dodavanje",
+        deletion: "Brisanje",
+        replacement: "Zamjena",
+        position: "poz",
+        scrollHint: "Skrolujte da vidite sve izmjene",
+      },
+      sessions: {
+        title: "Prethodne sesije",
+        empty: "Nema sačuvanih sesija.",
+        changes: "izmjena",
+      },
+      messages: {
+        analyzing: "Analiza u toku...",
+        noChanges: "Nema predloženih izmena.",
+      },
     },
     matters: {
       kicker: "Legantis · Predmeti",
@@ -2602,7 +2705,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         titleNew: "Novi formular za prijem",
         titleEdit: "Uredi formular za prijem",
         subtitle:
-          "Unesite naslov i opcionalna polja. Osnovna pitanja (ime, email, vrsta predmeta, jurisdikcija, kratak opis) uvijek su na javnom formularu.",
+          "Unesite naslov i opcionalna polja. Osnovna pitanja (ime, email, vrsta predmeta, jurisdikcija, vrsta potrebnog ugovora, kratak opis) uvijek su na javnom formularu.",
         formTitle: "Naslov formulara",
         description: "Opis (opciono)",
         optionalTitle: "Dodatna opcionalna polja",
@@ -2631,6 +2734,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         phone: "Telefon (opciono)",
         caseType: "Vrsta predmeta",
         jurisdiction: "Jurisdikcija",
+        contractTypeNeeded: "Vrsta potrebnog ugovora",
         matterDescription: "Kratak opis predmeta (opciono)",
         company: "Naziv kompanije",
         address: "Adresa",
@@ -2656,9 +2760,18 @@ const MESSAGES: Record<LanguageCode, Messages> = {
           montenegro: "Crna Gora",
           slovenia: "Slovenija",
         },
+        contractTypes: {
+          employment: "Ugovor o radu",
+          service: "Ugovor o pružanju usluga",
+          sales: "Ugovor o kupoprodaji",
+          lease: "Ugovor o zakupu/najmu",
+          nda: "NDA / Ugovor o tajnosti",
+          partnership: "Ugovor o partnerstvu",
+        },
         errors: {
           nameEmail: "Unesite puno ime i email.",
           caseAndJurisdiction: "Izaberite vrstu predmeta i jurisdikciju.",
+          contractTypeNeeded: "Izaberite vrstu potrebnog ugovora.",
           submitFailed: "Slanje nije uspjelo. Pokušajte ponovo.",
         },
       },
@@ -3353,6 +3466,8 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         mustBeLoggedInToView: "Morate biti prijavljeni da biste vidjeli unose vremena.",
         mustBeLoggedInToCreate: "Morate biti prijavljeni da biste evidentirali vrijeme.",
         matterAndDescriptionRequired: "Naziv predmeta i opis su obavezni.",
+        descriptionRequired: "Opis rada je obavezan.",
+        clientRequired: "Molimo odaberite klijenta",
         dateRequired: "Datum je obavezan.",
         invalidHoursOrRate:
           "Unesite ispravne sate (0.25–24) i nenegativnu satnicu.",
@@ -3534,6 +3649,13 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         title: "Skorašnja aktivnost",
         subtitle:
           "Pregledajte i otvorite skorašnje dokumente, ugovore, predviđanja, analize i klijente.",
+      },
+      tabs: {
+        feed: "Pregled",
+        audit: "Dnevnik aktivnosti",
+      },
+      audit: {
+        empty: "Još nema unosa u dnevniku aktivnosti.",
       },
       filters: {
         all: "Sve",
@@ -3891,10 +4013,11 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       contracts: "Ugovori",
       predictions: "Predviđanja",
       analyze: "Analiza",
+      redline: "Izmjena ugovora",
       time: "Vrijeme",
       clients: "Klijenti",
       matters: "Predmeti",
-      intake: "Intake forme",
+      intake: "Prijavni obrazac",
       activity: "Aktivnosti",
       billing: "Fakturisanje",
       settings: "Postavke",
@@ -3903,6 +4026,47 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       actions: "Radnje",
       logout: "Odjava",
       themeToggle: "Prebacivanje svijetle i tamne teme",
+    },
+    redline: {
+      header: {
+        title: "Izmjena ugovora",
+        subtitle:
+          "Otpremite ugovor, pregledajte AI prijedloge izmjena i preuzmite ažurirani DOCX.",
+      },
+      upload: {
+        label: "Otpremi ugovor",
+      },
+      instructions: {
+        label: "Uputstva za redlajning (opciono)",
+        placeholder: 'npr. "Učini ugovor povoljnijim za poslodavca"',
+      },
+      actions: {
+        analyze: "Analiziraj i redlajnuj",
+        acceptAll: "Prihvati sve",
+        rejectAll: "Odbij sve",
+        download: "Preuzmi redlajnovani DOCX",
+        saveSession: "Sačuvaj sesiju",
+        loadSession: "Učitaj",
+      },
+      changes: {
+        title: "Izmjene",
+        accepted: "prihvaćeno",
+        total: "izmjena",
+        addition: "Dodavanje",
+        deletion: "Brisanje",
+        replacement: "Zamjena",
+        position: "poz",
+        scrollHint: "Skrolujte da vidite sve izmjene",
+      },
+      sessions: {
+        title: "Prethodne sesije",
+        empty: "Nema sačuvanih sesija.",
+        changes: "izmjena",
+      },
+      messages: {
+        analyzing: "Analiza u toku...",
+        noChanges: "Nema predloženih izmjena.",
+      },
     },
     matters: {
       kicker: "Legantis · Predmeti",
@@ -4465,7 +4629,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         titleNew: "Novi formular za prijem",
         titleEdit: "Uredi formular za prijem",
         subtitle:
-          "Unesite naslov i opcionalna polja. Osnovna pitanja (ime, email, vrsta predmeta, jurisdikcija, kratak opis) uvijek su na javnom formularu.",
+          "Unesite naslov i opcionalna polja. Osnovna pitanja (ime, email, vrsta predmeta, jurisdikcija, vrsta potrebnog ugovora, kratak opis) uvijek su na javnom formularu.",
         formTitle: "Naslov formulara",
         description: "Opis (opcionalno)",
         optionalTitle: "Dodatna opcionalna polja",
@@ -4494,6 +4658,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         phone: "Telefon (opcionalno)",
         caseType: "Vrsta predmeta",
         jurisdiction: "Jurisdikcija",
+        contractTypeNeeded: "Vrsta potrebnog ugovora",
         matterDescription: "Kratak opis predmeta (opcionalno)",
         company: "Naziv kompanije",
         address: "Adresa",
@@ -4519,9 +4684,18 @@ const MESSAGES: Record<LanguageCode, Messages> = {
           montenegro: "Crna Gora",
           slovenia: "Slovenija",
         },
+        contractTypes: {
+          employment: "Ugovor o radu",
+          service: "Ugovor o pružanju usluga",
+          sales: "Ugovor o kupoprodaji",
+          lease: "Ugovor o zakupu/najmu",
+          nda: "NDA / Ugovor o tajnosti",
+          partnership: "Ugovor o partnerstvu",
+        },
         errors: {
           nameEmail: "Unesite puno ime i email.",
           caseAndJurisdiction: "Izaberite vrstu predmeta i jurisdikciju.",
+          contractTypeNeeded: "Izaberite vrstu potrebnog ugovora.",
           submitFailed: "Slanje nije uspjelo. Pokušajte ponovo.",
         },
       },
@@ -5218,6 +5392,8 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         mustBeLoggedInToView: "Morate biti prijavljeni da biste vidjeli unose vremena.",
         mustBeLoggedInToCreate: "Morate biti prijavljeni da biste evidentirali vrijeme.",
         matterAndDescriptionRequired: "Naziv predmeta i opis su obavezni.",
+        descriptionRequired: "Opis rada je obavezan.",
+        clientRequired: "Molimo odaberite klijenta",
         dateRequired: "Datum je obavezan.",
         invalidHoursOrRate:
           "Unesite ispravne sate (0.25–24) i nenegativnu satnicu.",
@@ -5400,6 +5576,13 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         title: "Skorašnja aktivnost",
         subtitle:
           "Pregledajte i otvorite skorašnje dokumente, ugovore, predviđanja, analize i klijente.",
+      },
+      tabs: {
+        feed: "Pregled",
+        audit: "Dnevnik aktivnosti",
+      },
+      audit: {
+        empty: "Još nema unosa u dnevniku aktivnosti.",
       },
       filters: {
         all: "Sve",
@@ -5757,10 +5940,11 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       contracts: "Ugovori",
       predictions: "Predviđanja",
       analyze: "Analiza",
+      redline: "Izmjena ugovora",
       time: "Vrijeme",
       clients: "Klijenti",
       matters: "Predmeti",
-      intake: "Intake obrasci",
+      intake: "Prijavni obrazac",
       activity: "Aktivnosti",
       billing: "Naplata",
       settings: "Postavke",
@@ -5769,6 +5953,47 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       actions: "Radnje",
       logout: "Odjava",
       themeToggle: "Prebacivanje svijetle i tamne teme",
+    },
+    redline: {
+      header: {
+        title: "Izmjena ugovora",
+        subtitle:
+          "Učitajte ugovor, pregledajte AI prijedloge izmjena i preuzmite ažurirani DOCX.",
+      },
+      upload: {
+        label: "Učitaj ugovor",
+      },
+      instructions: {
+        label: "Upute za redlajnanje (opcionalno)",
+        placeholder: 'npr. "Učini ugovor povoljnijim za poslodavca"',
+      },
+      actions: {
+        analyze: "Analiziraj i redlajnaj",
+        acceptAll: "Prihvati sve",
+        rejectAll: "Odbij sve",
+        download: "Preuzmi redlajnovani DOCX",
+        saveSession: "Spremi sesiju",
+        loadSession: "Učitaj",
+      },
+      changes: {
+        title: "Izmjene",
+        accepted: "prihvaćeno",
+        total: "izmjena",
+        addition: "Dodavanje",
+        deletion: "Brisanje",
+        replacement: "Zamjena",
+        position: "poz",
+        scrollHint: "Skrolajte za sve izmjene",
+      },
+      sessions: {
+        title: "Prethodne sesije",
+        empty: "Nema spremljenih sesija.",
+        changes: "izmjena",
+      },
+      messages: {
+        analyzing: "Analiza u tijeku...",
+        noChanges: "Nema predloženih izmjena.",
+      },
     },
     matters: {
       kicker: "Legantis · Predmeti",
@@ -6344,6 +6569,13 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         subtitle:
           "Pregledajte i otvorite nedavne dokumente, ugovore, predviđanja, analize i klijente.",
       },
+      tabs: {
+        feed: "Pregled",
+        audit: "Dnevnik aktivnosti",
+      },
+      audit: {
+        empty: "Još nema unosa u dnevniku aktivnosti.",
+      },
       filters: {
         all: "Sve",
         matters: "Predmeti",
@@ -6847,7 +7079,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         titleNew: "Novi obrazac za prijem",
         titleEdit: "Uredi obrazac za prijem",
         subtitle:
-          "Unesite naslov i opcionalna polja. Osnovna pitanja (ime, email, vrsta predmeta, jurisdikcija, kratak opis) uvijek su na javnom obrascu.",
+          "Unesite naslov i opcionalna polja. Osnovna pitanja (ime, email, vrsta predmeta, jurisdikcija, vrsta potrebnog ugovora, kratak opis) uvijek su na javnom obrascu.",
         formTitle: "Naslov obrasca",
         description: "Opis (opcionalno)",
         optionalTitle: "Dodatna opcionalna polja",
@@ -6876,6 +7108,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         phone: "Telefon (opcionalno)",
         caseType: "Vrsta predmeta",
         jurisdiction: "Jurisdikcija",
+        contractTypeNeeded: "Vrsta potrebnog ugovora",
         matterDescription: "Kratak opis predmeta (opcionalno)",
         company: "Naziv tvrtke",
         address: "Adresa",
@@ -6901,9 +7134,18 @@ const MESSAGES: Record<LanguageCode, Messages> = {
           montenegro: "Crna Gora",
           slovenia: "Slovenija",
         },
+        contractTypes: {
+          employment: "Ugovor o radu",
+          service: "Ugovor o pružanju usluga",
+          sales: "Ugovor o kupoprodaji",
+          lease: "Ugovor o zakupu/najmu",
+          nda: "NDA / Ugovor o tajnosti",
+          partnership: "Ugovor o partnerstvu",
+        },
         errors: {
           nameEmail: "Unesite puno ime i e-poštu.",
           caseAndJurisdiction: "Odaberite vrstu predmeta i jurisdikciju.",
+          contractTypeNeeded: "Odaberite vrstu potrebnog ugovora.",
           submitFailed: "Slanje nije uspjelo. Pokušajte ponovno.",
         },
       },
@@ -7599,6 +7841,8 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         mustBeLoggedInToView: "Morate biti prijavljeni kako biste vidjeli unose vremena.",
         mustBeLoggedInToCreate: "Morate biti prijavljeni kako biste evidentirali vrijeme.",
         matterAndDescriptionRequired: "Naziv predmeta i opis su obavezni.",
+        descriptionRequired: "Opis rada je obavezan.",
+        clientRequired: "Molimo odaberite klijenta",
         dateRequired: "Datum je obavezan.",
         invalidHoursOrRate:
           "Unesite ispravne sate (0.25–24) i nenegativnu satnicu.",
@@ -7622,10 +7866,11 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       contracts: "Pogodbe",
       predictions: "Napovedi",
       analyze: "Analiza",
+      redline: "Spremembe pogodbe",
       time: "Čas",
       clients: "Stranke",
       matters: "Zadeve",
-      intake: "Vnosni obrazci",
+      intake: "Prijavni obrazec",
       activity: "Aktivnosti",
       billing: "Obračun",
       settings: "Nastavitve",
@@ -7634,6 +7879,47 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       actions: "Dejanja",
       logout: "Odjava",
       themeToggle: "Preklopi svetlo in temno temo",
+    },
+    redline: {
+      header: {
+        title: "Spremembe pogodbe",
+        subtitle:
+          "Naložite pogodbo, preglejte AI predloge sprememb in prenesite posodobljen DOCX.",
+      },
+      upload: {
+        label: "Naloži pogodbo",
+      },
+      instructions: {
+        label: "Navodila za redlajniranje (neobvezno)",
+        placeholder: 'npr. "Naredi pogodbo bolj ugodno za delodajalca"',
+      },
+      actions: {
+        analyze: "Analiziraj in redlajnaj",
+        acceptAll: "Sprejmi vse",
+        rejectAll: "Zavrni vse",
+        download: "Prenesi redlajnani DOCX",
+        saveSession: "Shrani sejo",
+        loadSession: "Naloži",
+      },
+      changes: {
+        title: "Spremembe",
+        accepted: "sprejeto",
+        total: "sprememb",
+        addition: "Dodajanje",
+        deletion: "Brisanje",
+        replacement: "Zamenjava",
+        position: "poz",
+        scrollHint: "Pomikajte za vse spremembe",
+      },
+      sessions: {
+        title: "Pretekle seje",
+        empty: "Ni shranjenih sej.",
+        changes: "sprememb",
+      },
+      messages: {
+        analyzing: "Analiza poteka...",
+        noChanges: "Ni predlaganih sprememb.",
+      },
     },
     matters: {
       kicker: "Legantis · Zadeve",
@@ -8129,7 +8415,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         titleNew: "Nov obrazec za sprejem",
         titleEdit: "Uredi obrazec za sprejem",
         subtitle:
-          "Vnesite naslov in neobvezna polja. Osnovna vprašanja (ime, e-pošta, vrsta zadeve, jurisdikcija, kratek opis) so vedno na javnem obrazcu.",
+          "Vnesite naslov in neobvezna polja. Osnovna vprašanja (ime, e-pošta, vrsta zadeve, jurisdikcija, vrsta potrebne pogodbe, kratek opis) so vedno na javnem obrazcu.",
         formTitle: "Naslov obrazca",
         description: "Opis (neobvezno)",
         optionalTitle: "Dodatna neobvezna polja",
@@ -8157,6 +8443,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         phone: "Telefon (neobvezno)",
         caseType: "Vrsta zadeve",
         jurisdiction: "Jurisdikcija",
+        contractTypeNeeded: "Vrsta potrebne pogodbe",
         matterDescription: "Kratek opis zadeve (neobvezno)",
         company: "Ime podjetja",
         address: "Naslov",
@@ -8182,9 +8469,18 @@ const MESSAGES: Record<LanguageCode, Messages> = {
           montenegro: "Črna gora",
           slovenia: "Slovenija",
         },
+        contractTypes: {
+          employment: "Pogodba o zaposlitvi",
+          service: "Pogodba o storitvah",
+          sales: "Kupoprodajna pogodba",
+          lease: "Najemna/zakupna pogodba",
+          nda: "NDA / Pogodba o zaupnosti",
+          partnership: "Partnerska pogodba",
+        },
         errors: {
           nameEmail: "Vnesite polno ime in e-pošto.",
           caseAndJurisdiction: "Izberite vrsto zadeve in jurisdikcijo.",
+          contractTypeNeeded: "Izberite vrsto potrebne pogodbe.",
           submitFailed: "Pošiljanje ni uspelo. Poskusite znova.",
         },
       },
@@ -8880,6 +9176,8 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         mustBeLoggedInToView: "Za ogled časovnih vnosov morate biti prijavljeni.",
         mustBeLoggedInToCreate: "Za beleženje časa morate biti prijavljeni.",
         matterAndDescriptionRequired: "Naziv zadeve in opis sta obvezna.",
+        descriptionRequired: "Opis dela je obvezen.",
+        clientRequired: "Prosimo izberite stranko",
         dateRequired: "Datum je obvezen.",
         invalidHoursOrRate: "Vnesite veljavne ure (0.25–24) in nenegativno urno postavko.",
         createFailed: "Beleženje časa ni uspelo. Poskusite znova.",
@@ -9061,6 +9359,13 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         title: "Nedavna aktivnost",
         subtitle:
           "Oglejte si in odprite nedavne dokumente, pogodbe, napovedi, analize in stranke.",
+      },
+      tabs: {
+        feed: "Pregled",
+        audit: "Revizijski dnevnik",
+      },
+      audit: {
+        empty: "Zaenkrat še ni vnosov v revizijskem dnevniku.",
       },
       filters: {
         all: "Vse",
@@ -9416,10 +9721,11 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       contracts: "Ugovori",
       predictions: "Predviđanja",
       analyze: "Analiza",
+      redline: "Izmjena ugovora",
       time: "Vrijeme",
       clients: "Klijenti",
       matters: "Predmeti",
-      intake: "Intake forme",
+      intake: "Prijavni formular",
       activity: "Aktivnosti",
       billing: "Fakturisanje",
       settings: "Podešavanja",
@@ -9428,6 +9734,47 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       actions: "Radnje",
       logout: "Odjava",
       themeToggle: "Prebacivanje svijetle i tamne teme",
+    },
+    redline: {
+      header: {
+        title: "Izmjena ugovora",
+        subtitle:
+          "Otpremite ugovor, pregledajte AI prijedloge izmjena i preuzmite ažurirani DOCX.",
+      },
+      upload: {
+        label: "Otpremi ugovor",
+      },
+      instructions: {
+        label: "Uputstva za redlajning (opciono)",
+        placeholder: 'npr. "Učini ugovor povoljnijim za poslodavca"',
+      },
+      actions: {
+        analyze: "Analiziraj i redlajnuj",
+        acceptAll: "Prihvati sve",
+        rejectAll: "Odbij sve",
+        download: "Preuzmi redlajnovani DOCX",
+        saveSession: "Sačuvaj sesiju",
+        loadSession: "Učitaj",
+      },
+      changes: {
+        title: "Izmjene",
+        accepted: "prihvaćeno",
+        total: "izmjena",
+        addition: "Dodavanje",
+        deletion: "Brisanje",
+        replacement: "Zamjena",
+        position: "poz",
+        scrollHint: "Skrolujte da vidite sve izmjene",
+      },
+      sessions: {
+        title: "Prethodne sesije",
+        empty: "Nema sačuvanih sesija.",
+        changes: "izmjena",
+      },
+      messages: {
+        analyzing: "Analiza u toku...",
+        noChanges: "Nema predloženih izmjena.",
+      },
     },
     matters: {
       kicker: "Legantis · Predmeti",
@@ -9923,7 +10270,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         titleNew: "Novi formular za prijem",
         titleEdit: "Uredi formular za prijem",
         subtitle:
-          "Unesite naslov i opcionalna polja. Osnovna pitanja (ime, email, vrsta predmeta, jurisdikcija, kratak opis) uvijek su na javnom formularu.",
+          "Unesite naslov i opcionalna polja. Osnovna pitanja (ime, email, vrsta predmeta, jurisdikcija, vrsta potrebnog ugovora, kratak opis) uvijek su na javnom formularu.",
         formTitle: "Naslov formulara",
         description: "Opis (opciono)",
         optionalTitle: "Dodatna opcionalna polja",
@@ -9952,6 +10299,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         phone: "Telefon (opciono)",
         caseType: "Vrsta predmeta",
         jurisdiction: "Jurisdikcija",
+        contractTypeNeeded: "Vrsta potrebnog ugovora",
         matterDescription: "Kratak opis predmeta (opciono)",
         company: "Naziv kompanije",
         address: "Adresa",
@@ -9977,9 +10325,18 @@ const MESSAGES: Record<LanguageCode, Messages> = {
           montenegro: "Crna Gora",
           slovenia: "Slovenija",
         },
+        contractTypes: {
+          employment: "Ugovor o radu",
+          service: "Ugovor o pružanju usluga",
+          sales: "Ugovor o kupoprodaji",
+          lease: "Ugovor o zakupu/najmu",
+          nda: "NDA / Ugovor o tajnosti",
+          partnership: "Ugovor o partnerstvu",
+        },
         errors: {
           nameEmail: "Unesite puno ime i email.",
           caseAndJurisdiction: "Izaberite vrstu predmeta i jurisdikciju.",
+          contractTypeNeeded: "Izaberite vrstu potrebnog ugovora.",
           submitFailed: "Slanje nije uspjelo. Pokušajte ponovo.",
         },
       },
@@ -10675,6 +11032,8 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         mustBeLoggedInToView: "Morate biti prijavljeni da biste vidjeli unose vremena.",
         mustBeLoggedInToCreate: "Morate biti prijavljeni da biste evidentirali vrijeme.",
         matterAndDescriptionRequired: "Naziv predmeta i opis su obavezni.",
+        descriptionRequired: "Opis rada je obavezan.",
+        clientRequired: "Molimo odaberite klijenta",
         dateRequired: "Datum je obavezan.",
         invalidHoursOrRate:
           "Unesite ispravne sate (0.25–24) i nenegativnu satnicu.",
@@ -10856,6 +11215,13 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         title: "Skorašnja aktivnost",
         subtitle:
           "Pregledajte i otvorite skorašnje dokumente, ugovore, predviđanja, analize i klijente.",
+      },
+      tabs: {
+        feed: "Pregled",
+        audit: "Dnevnik aktivnosti",
+      },
+      audit: {
+        empty: "Još nema unosa u dnevniku aktivnosti.",
       },
       filters: {
         all: "Sve",
@@ -11280,7 +11646,18 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 export function useLanguage() {
   const ctx = useContext(LanguageContext)
   if (!ctx) {
-    throw new Error("useLanguage must be used within a LanguageProvider")
+    // Fallback to English to avoid hard crashes if a component
+    // renders outside the provider (e.g. during layout transitions).
+    const language: LanguageCode = "en"
+    return {
+      language,
+      setLanguage: () => {},
+      t: (key: string) => {
+        const messages = MESSAGES[language] ?? MESSAGES.en
+        const value = getNestedMessage(messages, key)
+        return typeof value === "string" ? value : key
+      },
+    }
   }
   return ctx
 }

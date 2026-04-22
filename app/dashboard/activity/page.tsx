@@ -10,6 +10,16 @@ import { hasFeature } from "../lib/entitlements"
 import { getEntitlementPlanForUser } from "../lib/getEntitlementPlan"
 import { ActivityPageClient } from "./ActivityPageClient"
 
+type AuditLogRow = {
+  id: string
+  action: string
+  entity_type: string
+  entity_id: string | null
+  description: string | null
+  metadata: unknown | null
+  created_at: string | null
+}
+
 const VALID_TYPES: (ActivityItemType | "all")[] = [
   "all",
   "document",
@@ -68,7 +78,16 @@ export default async function ActivityPage({
     limit: 50,
   })
 
+  const { data: auditRows } = await supabase
+    .from("audit_logs")
+    .select("id, action, entity_type, entity_id, description, metadata, created_at")
+    .eq("user_id", user.id)
+    .order("created_at", { ascending: false })
+    .limit(200)
+
+  const auditLogs = (auditRows ?? []) as AuditLogRow[]
+
   return (
-    <ActivityPageClient items={items} currentFilter={filterType} />
+    <ActivityPageClient items={items} currentFilter={filterType} auditLogs={auditLogs} />
   )
 }

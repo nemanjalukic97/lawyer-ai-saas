@@ -12,6 +12,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { useLanguage } from "@/components/LanguageProvider"
 import { createClient } from "@/lib/supabase/client"
 import { hasFeature, type EntitlementPlanId } from "../lib/entitlements"
+import { logActivity } from "@/lib/activity/logActivity"
 
 import {
   OPTIONAL_INTAKE_KEYS,
@@ -153,15 +154,30 @@ export default function IntakeFormEditorClient({ planId, formId }: Props) {
         if (uErr) throw uErr
       } else {
         const slug = crypto.randomUUID()
-        const { error: iErr } = await supabase.from("intake_forms").insert({
-          user_id: user.id,
-          law_firm_id: lawFirmId,
-          title: title.trim(),
-          description: description.trim() || null,
-          fields: fieldsJson,
-          slug,
-        })
+        const { data: inserted, error: iErr } = await supabase
+          .from("intake_forms")
+          .insert({
+            user_id: user.id,
+            law_firm_id: lawFirmId,
+            title: title.trim(),
+            description: description.trim() || null,
+            fields: fieldsJson,
+            slug,
+          })
+          .select("id, title")
+          .single()
         if (iErr) throw iErr
+
+        if (inserted?.id) {
+          void logActivity(
+            supabase,
+            "intake_form.created",
+            "intake_form",
+            inserted.id,
+            inserted.title ?? title.trim(),
+            { slug }
+          )
+        }
       }
 
       window.location.href = "/dashboard/intake"

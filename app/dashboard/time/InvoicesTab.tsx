@@ -1,12 +1,17 @@
 "use client"
 
 import { useEffect, useMemo, useState } from "react"
+import { toast } from "sonner"
 
 import { useLanguage } from "@/components/LanguageProvider"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { createClient } from "@/lib/supabase/client"
+import { logActivity } from "@/lib/activity/logActivity"
+import { Loader2, Trash2 } from "lucide-react"
+
+import { sendTestInvoiceReminders } from "./actions"
 
 type InvoiceStatus = "draft" | "sent" | "paid" | "overdue" | "cancelled"
 
@@ -46,6 +51,8 @@ export function InvoicesTab() {
   const [rows, setRows] = useState<InvoiceRow[]>([])
   const [error, setError] = useState<string | null>(null)
   const [actionId, setActionId] = useState<string | null>(null)
+  const [deletingId, setDeletingId] = useState<string | null>(null)
+  const [testSending, setTestSending] = useState(false)
 
   async function load() {
     setLoading(true)
@@ -65,6 +72,7 @@ export function InvoicesTab() {
           "id, invoice_number, status, total_amount, currency, due_date, sent_at, paid_at, client:clients(name,email)"
         )
         .eq("user_id", user.id)
+        .is("deleted_at", null)
         .order("created_at", { ascending: false })
 
       if (error) throw error
@@ -99,6 +107,28 @@ export function InvoicesTab() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  async function runTestReminders() {
+    if (process.env.NODE_ENV === "production") return
+    setTestSending(true)
+    try {
+      const result = await sendTestInvoiceReminders()
+      const errCount = result.errors?.length ?? 0
+      toast.success(
+        `Sent: ${result.sent}, Overdue: ${result.markedOverdue}, Skipped: ${result.skippedNotEntitled}${
+          errCount ? `, Errors: ${errCount}` : ""
+        }`
+      )
+    } catch (e) {
+      toast.error("Failed to run test invoice reminders")
+      if (process.env.NODE_ENV !== "production") {
+        // eslint-disable-next-line no-console
+        console.error(e)
+      }
+    } finally {
+      setTestSending(false)
+    }
+  }
+
   async function postAction(invoiceId: string, path: string) {
     setActionId(invoiceId)
     setError(null)
@@ -124,6 +154,36 @@ export function InvoicesTab() {
     }
   }
 
+  async function softDeleteInvoice(inv: InvoiceRow) {
+    const ok = window.confirm("Delete this invoice?")
+    if (!ok) return
+    setDeletingId(inv.id)
+    setError(null)
+    try {
+      const { error } = await supabase
+        .from("invoices")
+        .update({ deleted_at: new Date().toISOString() } as never)
+        .eq("id", inv.id)
+      if (error) throw error
+
+      void logActivity(
+        supabase,
+        "invoice.deleted",
+        "invoice",
+        inv.id,
+        inv.invoice_number ?? "Invoice"
+      )
+
+      await load()
+    } catch (e) {
+      setError(
+        e instanceof Error ? e.message : t("time.invoices.errors.actionFailed")
+      )
+    } finally {
+      setDeletingId(null)
+    }
+  }
+
   return (
     <Card className="space-y-4 p-6">
       <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
@@ -133,9 +193,21 @@ export function InvoicesTab() {
             {t("time.invoices.subtitle")}
           </p>
         </div>
-        <Button type="button" variant="outline" onClick={() => void load()} disabled={loading}>
-          {loading ? t("time.invoices.loading") : t("time.invoices.refresh")}
-        </Button>
+        <div className="flex flex-wrap gap-2">
+          {process.env.NODE_ENV !== "production" && (
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => void runTestReminders()}
+              disabled={loading || testSending}
+            >
+              {testSending ? "Testing…" : "Test invoice reminders"}
+            </Button>
+          )}
+          <Button type="button" variant="outline" onClick={() => void load()} disabled={loading}>
+            {loading ? t("time.invoices.loading") : t("time.invoices.refresh")}
+          </Button>
+        </div>
       </div>
 
       {error && <p className="text-sm text-destructive">{error}</p>}
@@ -205,6 +277,21 @@ export function InvoicesTab() {
                     onClick={() => void postAction(inv.id, "mark-overdue")}
                   >
                     {t("time.invoices.actions.markOverdue")}
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className="text-muted-foreground hover:text-destructive"
+                    disabled={deletingId === inv.id}
+                    onClick={() => void softDeleteInvoice(inv)}
+                    aria-label="Delete invoice"
+                  >
+                    {deletingId === inv.id ? (
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    ) : (
+                      <Trash2 className="h-4 w-4" />
+                    )}
                   </Button>
                 </div>
               </div>

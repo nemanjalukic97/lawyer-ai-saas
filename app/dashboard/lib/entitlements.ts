@@ -11,8 +11,10 @@ export type FeatureId =
   | "template_library"
   | "case_prediction"
   | "document_analysis"
+  | "document_redlining"
   | "time_tracking"
   | "invoice_sending"
+  | "invoice_reminders"
   | "client_portal"
   | "activity_feed"
   | "intake_forms"
@@ -41,8 +43,10 @@ export const PLAN_ENTITLEMENTS: Record<EntitlementPlanId, PlanEntitlements> = {
       template_library: false,
       case_prediction: false,
       document_analysis: false,
+      document_redlining: false,
       time_tracking: false,
       invoice_sending: false,
+      invoice_reminders: false,
       client_portal: false,
       activity_feed: false,
       intake_forms: false,
@@ -63,8 +67,10 @@ export const PLAN_ENTITLEMENTS: Record<EntitlementPlanId, PlanEntitlements> = {
       template_library: true,
       case_prediction: false,
       document_analysis: false,
+      document_redlining: false,
       time_tracking: false,
       invoice_sending: false,
+      invoice_reminders: false,
       client_portal: false,
       activity_feed: true,
       intake_forms: false,
@@ -85,8 +91,10 @@ export const PLAN_ENTITLEMENTS: Record<EntitlementPlanId, PlanEntitlements> = {
       template_library: true,
       case_prediction: true,
       document_analysis: true,
+      document_redlining: true,
       time_tracking: true,
       invoice_sending: true,
+      invoice_reminders: true,
       client_portal: true,
       activity_feed: true,
       intake_forms: true,
@@ -107,8 +115,10 @@ export const PLAN_ENTITLEMENTS: Record<EntitlementPlanId, PlanEntitlements> = {
       template_library: true,
       case_prediction: true,
       document_analysis: true,
+      document_redlining: true,
       time_tracking: true,
       invoice_sending: true,
+      invoice_reminders: true,
       client_portal: true,
       activity_feed: true,
       intake_forms: true,

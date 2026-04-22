@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { useCallback, useEffect, useMemo, useState } from "react"
-import { ClipboardCopy, Loader2, Pencil } from "lucide-react"
+import { ClipboardCopy, Loader2, Pencil, Trash2 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
@@ -10,6 +10,7 @@ import { Switch } from "@/components/ui/switch"
 import { useLanguage } from "@/components/LanguageProvider"
 import { createClient } from "@/lib/supabase/client"
 import { hasFeature, type EntitlementPlanId } from "../lib/entitlements"
+import { logActivity } from "@/lib/activity/logActivity"
 
 import type { Tables } from "@/lib/supabase/types"
 
@@ -31,7 +32,7 @@ export default function IntakePageClient({ planId }: Props) {
   const [togglingId, setTogglingId] = useState<string | null>(null)
   const [copiedId, setCopiedId] = useState<string | null>(null)
 
-  const load = useCallback(async () => {
+  const fetchForms = useCallback(async () => {
     if (!canUse) {
       setLoading(false)
       return
@@ -82,8 +83,94 @@ export default function IntakePageClient({ planId }: Props) {
   }, [canUse, supabase, t])
 
   useEffect(() => {
-    void load()
-  }, [load])
+    void fetchForms()
+  }, [fetchForms])
+
+  useEffect(() => {
+    let channel: ReturnType<typeof supabase.channel> | null = null
+    let mounted = true
+
+    async function subscribe() {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser()
+      if (!mounted || !user) return
+
+      channel = supabase
+        .channel("intake_forms_submissions_count")
+        .on(
+          "postgres_changes",
+          {
+            event: "INSERT",
+            schema: "public",
+            table: "intake_submissions",
+            filter: `user_id=eq.${user.id}`,
+          },
+          () => {
+            void fetchForms()
+          }
+        )
+        .subscribe()
+    }
+
+    void subscribe()
+
+    return () => {
+      mounted = false
+      if (channel) {
+        void supabase.removeChannel(channel)
+      }
+    }
+  }, [fetchForms, supabase])
+
+  async function deleteForm(form: IntakeFormRow) {
+    const ok = window.confirm(
+      "Delete this intake form? All submissions will also be deleted."
+    )
+    if (!ok) return
+
+    setError(null)
+    setTogglingId(form.id)
+    try {
+      const { error: dSubErr } = await supabase
+        .from("intake_submissions")
+        .delete()
+        .eq("form_id", form.id)
+
+      if (dSubErr) throw dSubErr
+
+      const { error: dFormErr } = await supabase
+        .from("intake_forms")
+        .delete()
+        .eq("id", form.id)
+
+      if (dFormErr) throw dFormErr
+
+      void logActivity(
+        supabase,
+        "intake_form.deleted",
+        "intake_form",
+        form.id,
+        form.title ?? "Intake form",
+        { slug: form.slug }
+      )
+
+      setForms((prev) => prev.filter((f) => f.id !== form.id))
+      setCounts((prev) => {
+        const next = { ...prev }
+        delete next[form.id]
+        return next
+      })
+    } catch (e) {
+      if (process.env.NODE_ENV !== "production") {
+        // eslint-disable-next-line no-console
+        console.error(e)
+      }
+      setError("Could not delete this intake form.")
+    } finally {
+      setTogglingId(null)
+    }
+  }
 
   async function toggleActive(form: IntakeFormRow, next: boolean) {
     setTogglingId(form.id)
@@ -221,6 +308,17 @@ export default function IntakePageClient({ planId }: Props) {
                       >
                         <Pencil className="h-4 w-4" />
                       </Link>
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      className="text-muted-foreground hover:text-destructive"
+                      disabled={togglingId === form.id}
+                      onClick={() => void deleteForm(form)}
+                      aria-label="Delete intake form"
+                    >
+                      <Trash2 className="h-4 w-4" aria-hidden />
                     </Button>
                   </div>
                 </Card>

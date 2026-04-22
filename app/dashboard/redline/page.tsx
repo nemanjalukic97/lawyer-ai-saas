@@ -1,15 +1,14 @@
 import { redirect } from "next/navigation"
-import { Suspense } from "react"
 
 import { createClient } from "@/lib/supabase/server"
 import { hasFeature } from "../lib/entitlements"
 import { getEntitlementPlanForUser } from "../lib/getEntitlementPlan"
-import ContractsWizardPage from "./ContractsWizardPage"
+import RedlinePageClient from "./RedlinePageClient"
 
 export default async function Page({
   searchParams,
 }: {
-  searchParams: Promise<{ id?: string; matterId?: string }>
+  searchParams: Promise<{ id?: string }>
 }) {
   const supabase = await createClient()
   const {
@@ -19,18 +18,13 @@ export default async function Page({
   if (!user) redirect("/login")
 
   const planId = await getEntitlementPlanForUser(supabase, user.id)
-  if (!hasFeature(planId, "contract_drafting")) {
+  if (!hasFeature(planId, "document_redlining")) {
     redirect("/dashboard/billing")
   }
 
   const params = await searchParams
   const selectedId = params?.id ?? null
-  return (
-    <Suspense fallback={null}>
-      <ContractsWizardPage
-        selectedId={selectedId ?? null}
-        prefillMatterId={params?.matterId ?? null}
-      />
-    </Suspense>
-  )
+
+  return <RedlinePageClient selectedId={selectedId} />
 }
+

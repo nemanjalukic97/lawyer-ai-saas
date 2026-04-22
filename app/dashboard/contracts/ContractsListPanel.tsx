@@ -19,6 +19,8 @@ import {
 } from "@/components/ui/dialog"
 import { useLanguage } from "@/components/LanguageProvider"
 import { createClient } from "@/lib/supabase/client"
+import { logActivity } from "@/lib/activity/logActivity"
+import { Trash2 } from "lucide-react"
 
 type ContractRow = {
   id: string
@@ -76,6 +78,7 @@ export default function ContractsListPanel() {
   const [message, setMessage] = useState("")
   const [expiresDays, setExpiresDays] = useState("14")
   const [submitting, setSubmitting] = useState(false)
+  const [deletingId, setDeletingId] = useState<string | null>(null)
 
   async function load() {
     setLoading(true)
@@ -194,6 +197,34 @@ export default function ContractsListPanel() {
     if (url) window.open(url, "_blank", "noreferrer")
   }
 
+  async function handleSoftDelete(contract: ContractRow) {
+    const ok = window.confirm("Delete this contract?")
+    if (!ok) return
+    setDeletingId(contract.id)
+    setError(null)
+    try {
+      const { error: uErr } = await supabase
+        .from("contracts")
+        .update({ deleted_at: new Date().toISOString() })
+        .eq("id", contract.id)
+      if (uErr) throw uErr
+
+      void logActivity(
+        supabase,
+        "contract.deleted",
+        "contract",
+        contract.id,
+        contract.title ?? "Contract"
+      )
+
+      await load()
+    } catch {
+      setError(t("signature.dashboard.failedToLoadContracts"))
+    } finally {
+      setDeletingId(null)
+    }
+  }
+
   const totalCount = rows.length
   const totalPages = Math.max(1, Math.ceil(totalCount / pageSize))
   const currentPage = Math.min(Math.max(1, page), totalPages)
@@ -299,6 +330,20 @@ export default function ContractsListPanel() {
                         {t("signature.actions.sendNewRequest")}
                       </Button>
                     ) : null}
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      className="text-muted-foreground hover:text-destructive"
+                      disabled={deletingId === r.id}
+                      onClick={() => void handleSoftDelete(r)}
+                      aria-label="Delete contract"
+                    >
+                      {deletingId === r.id ? (
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                      ) : (
+                        <Trash2 className="h-4 w-4" />
+                      )}
+                    </Button>
                   </div>
                 </div>
               )

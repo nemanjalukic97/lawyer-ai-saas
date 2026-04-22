@@ -1,7 +1,8 @@
 "use client"
 
-import { useCallback, useEffect, useMemo, useState } from "react"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import Link from "next/link"
+import { useSearchParams } from "next/navigation"
 
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
@@ -22,6 +23,7 @@ import { Document as DocxDocument, Packer, Paragraph } from "docx"
 import { useLanguage } from "@/components/LanguageProvider"
 import { RagSourcesPanel } from "@/components/RagSourcesPanel"
 import type { RagMetadata } from "@/types/rag"
+import { logActivity } from "@/lib/activity/logActivity"
 import ContractsListPanel from "./ContractsListPanel"
 
 type ContractType =
@@ -350,6 +352,31 @@ function initialDetailsForType(contractType: ContractType): ContractDetails {
   }
 }
 
+function matchContractType(input: string): ContractType | null {
+  const s = input.toLowerCase().trim()
+  if (!s) return null
+  if (["employment", "ugovor o radu", "radni ugovor", "zaposlenje"].includes(s)) return "employment"
+  if (["service", "service agreement", "ugovor o uslugama", "usluge"].includes(s)) return "service"
+  if (["sales", "sales contract", "ugovor o prodaji", "prodaja", "kupoprodaja"].includes(s)) return "sales"
+  if (["lease", "lease agreement", "rental", "ugovor o najmu", "najam", "zakup"].includes(s)) return "lease"
+  if (["nda", "non-disclosure", "tajnost", "povjerljivost", "poverljivost"].includes(s)) return "nda"
+  if (["partnership", "partnership agreement", "ugovor o partnerstvu", "ortakluk"].includes(s)) return "partnership"
+  return null
+}
+
+function matchJurisdiction(input: string): Jurisdiction | null {
+  const s = input.toLowerCase().trim()
+  if (!s) return null
+  if (["serbia", "srbija", "srb"].includes(s)) return "serbia"
+  if (["croatia", "hrvatska", "hr"].includes(s)) return "croatia"
+  if (["bih_fbih", "fbih", "federacija", "federation"].includes(s)) return "bih_fbih"
+  if (["bih_rs", "rs", "republika srpska", "republika srpska bosna"].includes(s)) return "bih_rs"
+  if (["bih_brcko", "brcko", "brčko", "brcko district"].includes(s)) return "bih_brcko"
+  if (["montenegro", "crna gora", "me"].includes(s)) return "montenegro"
+  if (["slovenia", "slovenija", "si"].includes(s)) return "slovenia"
+  return null
+}
+
 type ContractsWizardPageProps = {
   selectedId: string | null
   prefillMatterId?: string | null
@@ -394,10 +421,62 @@ export default function ContractsWizardPage({
   const [saveError, setSaveError] = useState<string | null>(null)
   const [generateError, setGenerateError] = useState<string | null>(null)
   const [ragData, setRagData] = useState<RagMetadata | null>(null)
+  const searchParams = useSearchParams()
+  const prefillAppliedRef = useRef(false)
+  const [showPrefillBanner, setShowPrefillBanner] = useState(false)
+  const prefillKey = useMemo(() => searchParams.toString(), [searchParams])
 
   const [detail, setDetail] = useState<ContractDetail | null>(null)
   const [detailLoading, setDetailLoading] = useState(false)
   const [detailError, setDetailError] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (prefillAppliedRef.current) return
+    if (!prefillKey) return
+
+    const rawContractType = searchParams.get("contractType") ?? ""
+    const rawJurisdiction = searchParams.get("jurisdiction") ?? ""
+    const rawClientName = searchParams.get("clientName") ?? ""
+
+    const matchedType = matchContractType(rawContractType)
+    const matchedJurisdiction = matchJurisdiction(rawJurisdiction)
+
+    if (!matchedType && !matchedJurisdiction && !rawClientName) return
+
+    if (matchedType) {
+      setContractType(matchedType)
+      const initialDetails = initialDetailsForType(matchedType)
+      if (rawClientName) {
+        const nameField =
+          matchedType === "employment"
+            ? "employeeName"
+            : matchedType === "service"
+              ? "clientName"
+              : matchedType === "sales"
+                ? "buyerName"
+                : matchedType === "lease"
+                  ? "tenantName"
+                  : matchedType === "nda"
+                    ? "receivingParty"
+                    : "partner1Name"
+        ;(initialDetails.data as Record<string, string>)[nameField] = rawClientName
+      }
+      setDetails(initialDetails)
+    }
+
+    if (matchedJurisdiction) {
+      setJurisdiction(matchedJurisdiction)
+    }
+
+    if (matchedType && matchedJurisdiction) {
+      setCurrentStep(3)
+    } else if (matchedType) {
+      setCurrentStep(2)
+    }
+
+    prefillAppliedRef.current = true
+    setShowPrefillBanner(true)
+  }, [prefillKey, searchParams])
 
   const uiLabelForContractType = useCallback(
     (value: ContractType): string => {
@@ -757,6 +836,18 @@ export default function ContractsWizardPage({
         return
       }
 
+      const { data: profile } = await supabase
+        .from("user_profiles")
+        .select("law_firm_id")
+        .eq("id", user.id)
+        .is("deleted_at", null)
+        .maybeSingle()
+
+      const lawFirmId =
+        profile && typeof profile.law_firm_id === "string"
+          ? profile.law_firm_id
+          : null
+
       const label = labelForContractType(contractType)
       const data = details.data as Record<string, string>
       const partyNames: Record<string, string> = {}
@@ -806,6 +897,7 @@ export default function ContractsWizardPage({
 
       type ContractInsert = {
         user_id: string
+        law_firm_id?: string | null
         title: string
         contract_type: ContractType
         jurisdiction: Jurisdiction
@@ -816,10 +908,12 @@ export default function ContractsWizardPage({
         ai_generated: boolean
       }
 
-      const matterIdToSave = matterId === "none" ? null : matterId
+      const matterIdToSave =
+        matterId && matterId.trim() !== "" && matterId !== "none" ? matterId : null
 
       const newContract: ContractInsert = {
         user_id: user.id,
+        law_firm_id: lawFirmId,
         title: titleParts.join(" "),
         contract_type: contractType,
         jurisdiction,
@@ -830,14 +924,48 @@ export default function ContractsWizardPage({
         ai_generated: true,
       }
 
-      await supabase.from("contracts").insert(newContract)
+      const { data: inserted, error: insErr } = await supabase
+        .from("contracts")
+        .insert(newContract)
+        .select("id, title")
+        .single()
+
+      if (insErr) {
+        const message =
+          insErr && typeof insErr === "object" && "message" in insErr
+            ? String((insErr as { message?: unknown }).message ?? "")
+            : ""
+        throw new Error(message || t("contracts.errors.saveFailed"))
+      }
+
+      if (inserted?.id) {
+        void logActivity(
+          supabase,
+          "contract.created",
+          "contract",
+          inserted.id,
+          inserted.title ?? newContract.title,
+          {
+            contract_type: contractType,
+            jurisdiction,
+            matter_id: matterIdToSave,
+            ai_generated: true,
+          }
+        )
+      }
 
       setSaveSuccess(true)
     } catch (error) {
+      const msg =
+        error && typeof error === "object"
+          ? (error as { message?: unknown }).message
+          : null
       setSaveError(
-        error instanceof Error
-          ? error.message
-          : t("contracts.errors.saveFailed")
+        typeof msg === "string" && msg.trim()
+          ? msg
+          : error instanceof Error
+            ? error.message
+            : t("contracts.errors.saveFailed")
       )
     }
   }
@@ -1352,27 +1480,40 @@ export default function ContractsWizardPage({
 
   return (
     <div className="min-h-screen bg-background px-4 py-10">
-      <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[minmax(0,2fr),minmax(0,1.2fr)]">
-        <div className="flex flex-col gap-8">
-          <ContractsListPanel />
-          <header className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
-            <div>
-              <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                {t("contracts.header.kicker")}
-              </p>
-              <h1 className="mt-1 text-3xl font-semibold tracking-tight text-foreground">
-                {t("contracts.header.title")}
-              </h1>
-              <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
-                {t("contracts.header.subtitle")}
-              </p>
-            </div>
-            <Button asChild variant="outline" size="sm">
-              <Link href="/dashboard">{t("contracts.header.back")}</Link>
-            </Button>
-          </header>
+      <div className="mx-auto flex max-w-6xl flex-col gap-8">
+        <header className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
+          <div>
+            <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+              {t("contracts.header.kicker")}
+            </p>
+            <h1 className="mt-1 text-3xl font-semibold tracking-tight text-foreground">
+              {t("contracts.header.title")}
+            </h1>
+            <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
+              {t("contracts.header.subtitle")}
+            </p>
+          </div>
+          <Button asChild variant="outline" size="sm">
+            <Link href="/dashboard">{t("contracts.header.back")}</Link>
+          </Button>
+        </header>
 
-          <Card className="border-border/80 p-6">
+        <Card className="border-border/80 p-6">
+          {showPrefillBanner && (
+            <div className="mb-4 flex items-center justify-between rounded-md border bg-muted/40 px-4 py-2 text-sm text-muted-foreground">
+              <span>
+                Pre-filled from intake submission. Review and adjust before generating.
+              </span>
+              <button
+                type="button"
+                onClick={() => setShowPrefillBanner(false)}
+                className="ml-4 text-muted-foreground hover:text-foreground"
+                aria-label="Dismiss"
+              >
+                ×
+              </button>
+            </div>
+          )}
             <div className="mb-6 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
               <div className="space-y-1">
                 <h2 className="text-sm font-semibold tracking-tight text-foreground">
@@ -1433,53 +1574,56 @@ export default function ContractsWizardPage({
               </div>
             </div>
           </Card>
-        </div>
 
-        <Card className="h-fit space-y-4 p-6">
-          <h2 className="text-lg font-semibold">{t("contracts.sidebar.title")}</h2>
-          {!selectedId ? (
-            <div className="space-y-3">
-              <p className="text-sm text-muted-foreground">
-                {t("contracts.sidebar.empty")}
-              </p>
-              <Button asChild variant="outline" size="sm">
-                <Link href="/dashboard/activity">{t("contracts.sidebar.viewActivity")}</Link>
-              </Button>
-            </div>
-          ) : detailLoading ? (
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <Loader2 className="h-4 w-4 animate-spin" />
-              <span>{t("contracts.sidebar.loading")}</span>
-            </div>
-          ) : detailError ? (
-            <p className="text-sm text-destructive">{detailError}</p>
-          ) : detail ? (
-            <div className="space-y-3 text-sm">
-              <div>
-                <p className="font-medium">{detail.title}</p>
-                <p className="text-xs text-muted-foreground">
-                  {uiLabelForContractType(detail.contract_type)} ·{" "}
-                  {uiLabelForJurisdiction(detail.jurisdiction)}
+        <div className="flex flex-col gap-8">
+          <ContractsListPanel />
+
+          <Card className="space-y-4 p-6">
+            <h2 className="text-lg font-semibold">{t("contracts.sidebar.title")}</h2>
+            {!selectedId ? (
+              <div className="space-y-3">
+                <p className="text-sm text-muted-foreground">
+                  {t("contracts.sidebar.empty")}
                 </p>
-                <p className="text-xs text-muted-foreground">
-                  {t("contracts.sidebar.status")} {detail.status}
-                </p>
-                <p className="text-xs text-muted-foreground">
-                  {t("contracts.sidebar.created")}{" "}
-                  {new Date(detail.created_at).toLocaleDateString()}
-                </p>
+                <Button asChild variant="outline" size="sm">
+                  <Link href="/dashboard/activity">{t("contracts.sidebar.viewActivity")}</Link>
+                </Button>
               </div>
-              <div className="space-y-1 text-xs text-muted-foreground">
-                <p className="font-medium text-foreground">
-                  {t("contracts.sidebar.content")}
-                </p>
-                <div className="max-h-64 overflow-y-auto rounded-md border bg-muted/40 p-3">
-                  <pre className="whitespace-pre-wrap">{detail.content}</pre>
+            ) : detailLoading ? (
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <Loader2 className="h-4 w-4 animate-spin" />
+                <span>{t("contracts.sidebar.loading")}</span>
+              </div>
+            ) : detailError ? (
+              <p className="text-sm text-destructive">{detailError}</p>
+            ) : detail ? (
+              <div className="space-y-3 text-sm">
+                <div>
+                  <p className="font-medium">{detail.title}</p>
+                  <p className="text-xs text-muted-foreground">
+                    {uiLabelForContractType(detail.contract_type)} ·{" "}
+                    {uiLabelForJurisdiction(detail.jurisdiction)}
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    {t("contracts.sidebar.status")} {detail.status}
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    {t("contracts.sidebar.created")}{" "}
+                    {new Date(detail.created_at).toLocaleDateString()}
+                  </p>
+                </div>
+                <div className="space-y-1 text-xs text-muted-foreground">
+                  <p className="font-medium text-foreground">
+                    {t("contracts.sidebar.content")}
+                  </p>
+                  <div className="max-h-64 overflow-y-auto rounded-md border bg-muted/40 p-3">
+                    <pre className="whitespace-pre-wrap">{detail.content}</pre>
+                  </div>
                 </div>
               </div>
-            </div>
-          ) : null}
-        </Card>
+            ) : null}
+          </Card>
+        </div>
       </div>
     </div>
   )

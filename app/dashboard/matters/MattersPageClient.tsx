@@ -28,6 +28,8 @@ import { createClient } from "@/lib/supabase/client"
 import { Constants } from "@/lib/supabase/types"
 import type { Tables, TablesInsert, TablesUpdate } from "@/lib/supabase/types"
 import { Loader2 } from "lucide-react"
+import { Trash2 } from "lucide-react"
+import { logActivity } from "@/lib/activity/logActivity"
 
 type MatterRow = Tables<"matters">
 type MatterType = MatterRow["matter_type"]
@@ -349,6 +351,15 @@ export function MattersPageClient() {
           .eq("id", editingMatter.id)
           .eq("user_id", user.id)
         if (uErr) throw uErr
+
+        void logActivity(
+          supabase,
+          "matter.updated",
+          "matter",
+          editingMatter.id,
+          payload.title,
+          { matter_type: payload.matter_type, jurisdiction: payload.jurisdiction, status: payload.status }
+        )
       } else {
         // 3) INSERT: do not set law_firm_id at all
         const insertRow: TablesInsert<"matters"> = {
@@ -361,8 +372,23 @@ export function MattersPageClient() {
           opened_at: openedAtIn,
           client_id: clientIdIn || null,
         }
-        const { error: iErr } = await supabase.from("matters").insert(insertRow)
+        const { data: inserted, error: iErr } = await supabase
+          .from("matters")
+          .insert(insertRow)
+          .select("id, title")
+          .single()
         if (iErr) throw iErr
+
+        if (inserted?.id) {
+          void logActivity(
+            supabase,
+            "matter.created",
+            "matter",
+            inserted.id,
+            inserted.title ?? insertRow.title,
+            { matter_type: insertRow.matter_type, jurisdiction: insertRow.jurisdiction }
+          )
+        }
       }
 
       setDialogOpen(false)
@@ -399,6 +425,10 @@ export function MattersPageClient() {
       setMatters((prev) =>
         prev.map((x) => (x.id === m.id ? { ...x, status } : x))
       )
+
+      void logActivity(supabase, "matter.updated", "matter", m.id, m.title ?? "Matter", {
+        status,
+      })
     } catch (e) {
       if (process.env.NODE_ENV !== "production") {
         console.error(e)
@@ -565,6 +595,53 @@ export function MattersPageClient() {
                       onClick={() => openEdit(m)}
                     >
                       {t("matters.actions.edit")}
+                    </Button>
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="ghost"
+                      className="text-muted-foreground hover:text-destructive"
+                      disabled={actionId === m.id}
+                      onClick={async () => {
+                        const ok = window.confirm("Delete this matter?")
+                        if (!ok) return
+                        setActionId(m.id)
+                        setError(null)
+                        try {
+                          const {
+                            data: { user },
+                          } = await supabase.auth.getUser()
+                          if (!user) throw new Error("Not authenticated")
+
+                          const { error: uErr } = await supabase
+                            .from("matters")
+                            .update({ deleted_at: new Date().toISOString() })
+                            .eq("id", m.id)
+                            .eq("user_id", user.id)
+                          if (uErr) throw uErr
+
+                          void logActivity(
+                            supabase,
+                            "matter.deleted",
+                            "matter",
+                            m.id,
+                            m.title ?? "Matter",
+                            { matter_number: m.matter_number }
+                          )
+
+                          setMatters((prev) => prev.filter((x) => x.id !== m.id))
+                        } catch (e) {
+                          if (process.env.NODE_ENV !== "production") {
+                            console.error(e)
+                          }
+                          setError("Failed to delete matter.")
+                        } finally {
+                          setActionId(null)
+                        }
+                      }}
+                      aria-label={t("matters.actions.delete") ?? "Delete matter"}
+                    >
+                      <Trash2 className="h-4 w-4" />
                     </Button>
                     <Select
                       value={m.status}
