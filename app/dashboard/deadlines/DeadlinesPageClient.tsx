@@ -728,6 +728,11 @@ export default function DeadlinesPageClient({ planId, prefillMatterId }: Props) 
                     }
                     const dayDeadlines = deadlinesByDay.get(cell.iso) ?? []
                     const isToday = cell.iso === todayIso
+                    const primaryDeadline = dayDeadlines[0] ?? null
+                    const primaryClientName =
+                      primaryDeadline?.client_id
+                        ? clientMap.get(primaryDeadline.client_id)?.name ?? null
+                        : null
                     return (
                       <button
                         key={cell.iso}
@@ -742,11 +747,22 @@ export default function DeadlinesPageClient({ planId, prefillMatterId }: Props) 
                         } ${dayDeadlines.length ? "cursor-pointer" : "cursor-default"}`}
                       >
                         <span className="font-medium">{cell.date.getDate()}</span>
-                        <div className="flex flex-wrap gap-0.5">
-                          {dayDeadlines.slice(0, 3).map((dl) => (
+                        <div className="mt-0.5 flex min-w-0 flex-wrap items-center gap-x-1 gap-y-0.5">
+                          {primaryDeadline && (
+                            <span
+                              className={`h-2.5 w-2.5 shrink-0 rounded-full ${urgencyClass(primaryDeadline)}`}
+                              title={primaryDeadline.title}
+                            />
+                          )}
+                          {primaryClientName && (
+                            <span className="min-w-0 truncate text-[10px] text-foreground">
+                              {primaryClientName}
+                            </span>
+                          )}
+                          {dayDeadlines.slice(1, 3).map((dl) => (
                             <span
                               key={dl.id}
-                              className={`size-1.5 rounded-full ${urgencyClass(dl)}`}
+                              className={`h-2 w-2 rounded-full ${urgencyClass(dl)}`}
                               title={dl.title}
                             />
                           ))}

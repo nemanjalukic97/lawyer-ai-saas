@@ -304,6 +304,38 @@ export default async function DashboardPage() {
     user.id
   )
 
+  const [{ data: unbilledTimeRows }, { data: top3DeadlinesRows }] =
+    await Promise.all([
+      supabase
+        .from("time_entries")
+        .select("duration_minutes, status")
+        .eq("user_id", user.id)
+        .is("deleted_at", null)
+        .eq("status", "pending"),
+      hasFeature(planId, "deadline_tracking")
+        ? supabase
+            .from("deadlines")
+            .select("id, title, due_date, status")
+            .eq("user_id", user.id)
+            .is("deleted_at", null)
+            .gte("due_date", new Date().toISOString())
+            .order("due_date", { ascending: true })
+            .limit(3)
+        : Promise.resolve({ data: [] as unknown[] }),
+    ])
+
+  const unbilledHours = ((unbilledTimeRows ?? []) as Array<{
+    duration_minutes: number | null
+  }>)
+    .reduce((sum, r) => sum + Number(r.duration_minutes ?? 0), 0) / 60
+
+  const top3Deadlines = (top3DeadlinesRows ?? []) as Array<{
+    id: string
+    title: string
+    due_date: string
+    status: Tables<"deadlines">["status"] | null
+  }>
+
   let upcomingDeadlines: Array<{
     id: string
     title: string
@@ -465,6 +497,13 @@ export default async function DashboardPage() {
       recentActivity={recentActivity}
       roiData={roiData}
       upcomingDeadlines={upcomingDeadlines}
+      top3Deadlines={top3Deadlines.map((d) => ({
+        id: d.id,
+        title: d.title,
+        due_date: d.due_date,
+        status: (d.status ?? "open") as Tables<"deadlines">["status"],
+      }))}
+      unbilledHours={unbilledHours}
       activeMatters={{
         openCount: activeMattersCountRes.count ?? 0,
         recent: (activeMattersRecentRes.data ?? []) as Array<{

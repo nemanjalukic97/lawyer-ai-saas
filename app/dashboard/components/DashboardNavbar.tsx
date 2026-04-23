@@ -10,7 +10,7 @@ import { HamburgerIcon } from "@/components/HamburgerIcon"
 import { NavbarBrand } from "@/components/NavbarBrand"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { cn } from "@/lib/utils"
-import { ChevronDown } from "lucide-react"
+import { ChevronDown, Lock } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 import { hasFeature, type EntitlementPlanId } from "../lib/entitlements"
 
@@ -18,21 +18,24 @@ const MAIN_LINKS = [
   { href: "/dashboard", key: "dashboard" },
 ] as const
 
-const ACTION_LINKS = [
+const AI_TOOLS_LINKS = [
   { href: "/dashboard/generate", key: "generate", feature: "document_generation" },
-  { href: "/dashboard/conflict-check", key: "conflict", feature: "conflict_check" },
-  { href: "/dashboard/research", key: "research", feature: "legal_research" },
   { href: "/dashboard/contracts", key: "contracts", feature: "contract_drafting" },
   { href: "/dashboard/predictions", key: "predictions", feature: "case_prediction" },
   { href: "/dashboard/analyze", key: "analyze", feature: "document_analysis" },
   { href: "/dashboard/redline", key: "redline", feature: "document_redlining" },
-  { href: "/dashboard/time", key: "time", feature: "time_tracking" },
+  { href: "/dashboard/research", key: "research", feature: "legal_research" },
+  { href: "/dashboard/conflict-check", key: "conflict", feature: "conflict_check" },
+] as const
+
+const MANAGEMENT_LINKS = [
   { href: "/dashboard/clients", key: "clients", feature: "client_portal" },
   { href: "/dashboard/matters", key: "matters", feature: "matter_management" },
-  { href: "/dashboard/intake", key: "intake", feature: "intake_forms" },
-  { href: "/dashboard/activity", key: "activity", feature: "activity_feed" },
-  { href: "/dashboard/templates", key: "templates", feature: "template_library" },
+  { href: "/dashboard/time", key: "time", feature: "time_tracking" },
   { href: "/dashboard/deadlines", key: "deadlines", feature: "deadline_tracking" },
+  { href: "/dashboard/intake", key: "intake", feature: "intake_forms" },
+  { href: "/dashboard/templates", key: "templates", feature: "template_library" },
+  { href: "/dashboard/activity", key: "activity", feature: "activity_feed" },
 ] as const
 
 const AFTER_ACTIONS_LINKS = [
@@ -61,81 +64,6 @@ function NavLinks({
 }) {
   const { t } = useLanguage()
   const isTap = interactionMode === "tap"
-  const allowedActionLinks = ACTION_LINKS.filter((link) =>
-    hasFeature(planId, link.feature)
-  )
-  const actionsActive = allowedActionLinks.some(({ href }) => isActive(pathname, href))
-  const [actionsOpen, setActionsOpen] = useState(false)
-  const [actionsVisible, setActionsVisible] = useState(false)
-  const closeTimerRef = useRef<number | null>(null)
-  const hideTimerRef = useRef<number | null>(null)
-  const tapActionsRef = useRef<HTMLDivElement | null>(null)
-
-  const cancelCloseTimer = () => {
-    if (closeTimerRef.current) {
-      window.clearTimeout(closeTimerRef.current)
-      closeTimerRef.current = null
-    }
-  }
-
-  const cancelHideTimer = () => {
-    if (hideTimerRef.current) {
-      window.clearTimeout(hideTimerRef.current)
-      hideTimerRef.current = null
-    }
-  }
-
-  const scheduleClose = () => {
-    cancelCloseTimer()
-    cancelHideTimer()
-    closeTimerRef.current = window.setTimeout(() => {
-      setActionsOpen(false)
-      closeTimerRef.current = null
-
-      hideTimerRef.current = window.setTimeout(() => {
-        setActionsVisible(false)
-        hideTimerRef.current = null
-      }, 150)
-    }, 120)
-  }
-
-  useEffect(() => {
-    return () => {
-      cancelCloseTimer()
-      cancelHideTimer()
-    }
-  }, [])
-
-  useEffect(() => {
-    if (!isTap || !actionsOpen) return
-    const handler = (e: MouseEvent) => {
-      if (
-        tapActionsRef.current &&
-        !tapActionsRef.current.contains(e.target as Node)
-      ) {
-        setActionsOpen(false)
-      }
-    }
-    document.addEventListener("mousedown", handler)
-    return () => document.removeEventListener("mousedown", handler)
-  }, [isTap, actionsOpen])
-
-  const actionsButtonClass = (tap: boolean) =>
-    cn(
-      "flex min-w-0 items-center gap-1 rounded-md px-3 py-2 text-sm font-medium cursor-pointer select-none transition-[background-color,color,box-shadow] duration-200 ease-out",
-      tap && "w-full text-left",
-      actionsActive
-        ? "bg-accent text-accent-foreground"
-        : "text-muted-foreground hover:bg-accent/50 hover:text-foreground"
-    )
-
-  const actionLinkClass = (href: string) =>
-    cn(
-      "block rounded-sm px-3 py-2 text-sm transition-colors",
-      isActive(pathname, href)
-        ? "bg-accent text-accent-foreground"
-        : "text-muted-foreground hover:bg-accent/50 hover:text-foreground"
-    )
 
   return (
     <div
@@ -160,110 +88,22 @@ function NavLinks({
         </Link>
       ))}
 
-      {isTap ? (
-        <div ref={tapActionsRef} className="relative min-w-0">
-          <button
-            type="button"
-            aria-haspopup="menu"
-            aria-expanded={actionsOpen}
-            onClick={() => setActionsOpen((o) => !o)}
-            className={actionsButtonClass(true)}
-          >
-            {t("nav.actions")}
-            <ChevronDown
-              className={cn(
-                "ml-auto h-4 w-4 shrink-0 transition-transform",
-                actionsOpen ? "rotate-180" : "rotate-0"
-              )}
-            />
-          </button>
-          {actionsOpen && (
-            <div
-              role="menu"
-              className="mt-1 flex flex-col gap-0 rounded-md border border-border bg-background p-1"
-            >
-              {allowedActionLinks.map(({ href, key }) => (
-                <Link
-                  key={key}
-                  href={href}
-                  role="menuitem"
-                  onClick={() => {
-                    setActionsOpen(false)
-                    onLinkClick?.()
-                  }}
-                  className={actionLinkClass(href)}
-                >
-                  {t(`nav.${key}`)}
-                </Link>
-              ))}
-            </div>
-          )}
-        </div>
-      ) : (
-        <div
-          className="relative"
-          onMouseEnter={() => {
-            cancelCloseTimer()
-            cancelHideTimer()
-            setActionsVisible(true)
-            setActionsOpen(true)
-          }}
-          onMouseLeave={() => {
-            scheduleClose()
-          }}
-        >
-          <button
-            type="button"
-            aria-haspopup="menu"
-            aria-expanded={actionsOpen}
-            onFocus={() => setActionsOpen(true)}
-            onBlur={() => scheduleClose()}
-            className={actionsButtonClass(false)}
-          >
-            {t("nav.actions")}
-            <ChevronDown
-              className={cn(
-                "h-4 w-4 transition-transform",
-                actionsOpen ? "rotate-180" : "rotate-0"
-              )}
-            />
-          </button>
-
-          {actionsVisible && (
-            <div
-              role="menu"
-              className={cn(
-                "absolute left-0 z-10 mt-1 w-56 rounded-md border border-border bg-background p-1 shadow-lg transition-opacity duration-150 ease-out",
-                actionsOpen ? "opacity-100" : "pointer-events-none opacity-0"
-              )}
-              onMouseEnter={() => {
-                cancelCloseTimer()
-                cancelHideTimer()
-                setActionsOpen(true)
-              }}
-              onMouseLeave={() => scheduleClose()}
-            >
-              {allowedActionLinks.map(({ href, key }) => (
-                <Link
-                  key={key}
-                  href={href}
-                  role="menuitem"
-                  onClick={() => {
-                    cancelCloseTimer()
-                    cancelHideTimer()
-                    setActionsOpen(false)
-                    setActionsVisible(false)
-                    onLinkClick?.()
-                  }}
-                  className={actionLinkClass(href)}
-                >
-                  {t(`nav.${key}`)}
-                </Link>
-              ))}
-            </div>
-          )}
-        </div>
-      )}
+      <FeatureDropdown
+        pathname={pathname}
+        planId={planId}
+        interactionMode={interactionMode}
+        label={t("nav.aiTools")}
+        links={AI_TOOLS_LINKS}
+        onLinkClick={onLinkClick}
+      />
+      <FeatureDropdown
+        pathname={pathname}
+        planId={planId}
+        interactionMode={interactionMode}
+        label={t("nav.management")}
+        links={MANAGEMENT_LINKS}
+        onLinkClick={onLinkClick}
+      />
 
       {AFTER_ACTIONS_LINKS.map(({ href, key }) => (
         <Link
@@ -280,6 +120,205 @@ function NavLinks({
           {t(`nav.${key}`)}
         </Link>
       ))}
+    </div>
+  )
+}
+
+function FeatureDropdown({
+  pathname,
+  planId,
+  interactionMode,
+  label,
+  links,
+  onLinkClick,
+}: {
+  pathname: string
+  planId: EntitlementPlanId
+  interactionMode: "hover" | "tap"
+  label: string
+  links: ReadonlyArray<{ href: string; key: string; feature: Parameters<typeof hasFeature>[1] }>
+  onLinkClick?: () => void
+}) {
+  const { t } = useLanguage()
+  const isTap = interactionMode === "tap"
+  const dropdownActive = links.some(({ href }) => isActive(pathname, href))
+  const [open, setOpen] = useState(false)
+  const [visible, setVisible] = useState(false)
+  const closeTimerRef = useRef<number | null>(null)
+  const hideTimerRef = useRef<number | null>(null)
+  const tapRef = useRef<HTMLDivElement | null>(null)
+
+  const cancelCloseTimer = () => {
+    if (closeTimerRef.current) {
+      window.clearTimeout(closeTimerRef.current)
+      closeTimerRef.current = null
+    }
+  }
+
+  const cancelHideTimer = () => {
+    if (hideTimerRef.current) {
+      window.clearTimeout(hideTimerRef.current)
+      hideTimerRef.current = null
+    }
+  }
+
+  const scheduleClose = () => {
+    cancelCloseTimer()
+    cancelHideTimer()
+    closeTimerRef.current = window.setTimeout(() => {
+      setOpen(false)
+      closeTimerRef.current = null
+
+      hideTimerRef.current = window.setTimeout(() => {
+        setVisible(false)
+        hideTimerRef.current = null
+      }, 150)
+    }, 120)
+  }
+
+  useEffect(() => {
+    return () => {
+      cancelCloseTimer()
+      cancelHideTimer()
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!isTap || !open) return
+    const handler = (e: MouseEvent) => {
+      if (tapRef.current && !tapRef.current.contains(e.target as Node)) {
+        setOpen(false)
+      }
+    }
+    document.addEventListener("mousedown", handler)
+    return () => document.removeEventListener("mousedown", handler)
+  }, [isTap, open])
+
+  const buttonClass = (tap: boolean) =>
+    cn(
+      "flex min-w-0 items-center gap-1 rounded-md px-3 py-2 text-sm font-medium cursor-pointer select-none transition-[background-color,color,box-shadow] duration-200 ease-out",
+      tap && "w-full text-left",
+      dropdownActive
+        ? "bg-accent text-accent-foreground"
+        : "text-muted-foreground hover:bg-accent/50 hover:text-foreground"
+    )
+
+  const linkClass = (href: string, locked: boolean) =>
+    cn(
+      "flex items-center justify-between gap-2 rounded-sm px-3 py-2 text-sm transition-colors",
+      isActive(pathname, href)
+        ? "bg-accent text-accent-foreground"
+        : "text-muted-foreground hover:bg-accent/50 hover:text-foreground",
+      locked && "opacity-70"
+    )
+
+  const renderItem = ({
+    href,
+    key,
+    feature,
+  }: {
+    href: string
+    key: string
+    feature: Parameters<typeof hasFeature>[1]
+  }) => {
+    const entitled = hasFeature(planId, feature)
+    const finalHref = entitled ? href : "/dashboard/billing"
+    return (
+      <Link
+        key={key}
+        href={finalHref}
+        role="menuitem"
+        aria-disabled={!entitled}
+        onClick={() => {
+          cancelCloseTimer()
+          cancelHideTimer()
+          setOpen(false)
+          setVisible(false)
+          onLinkClick?.()
+        }}
+        className={linkClass(href, !entitled)}
+      >
+        <span className="min-w-0 truncate">{t(`nav.${key}`)}</span>
+        {!entitled && <Lock className="h-3.5 w-3.5 shrink-0" />}
+      </Link>
+    )
+  }
+
+  if (isTap) {
+    return (
+      <div ref={tapRef} className="relative min-w-0">
+        <button
+          type="button"
+          aria-haspopup="menu"
+          aria-expanded={open}
+          onClick={() => setOpen((o) => !o)}
+          className={buttonClass(true)}
+        >
+          {label}
+          <ChevronDown
+            className={cn(
+              "ml-auto h-4 w-4 shrink-0 transition-transform",
+              open ? "rotate-180" : "rotate-0"
+            )}
+          />
+        </button>
+        {open && (
+          <div
+            role="menu"
+            className="mt-1 flex flex-col gap-0 rounded-md border border-border bg-background p-1"
+          >
+            {links.map((l) => renderItem(l))}
+          </div>
+        )}
+      </div>
+    )
+  }
+
+  return (
+    <div
+      className="relative"
+      onMouseEnter={() => {
+        cancelCloseTimer()
+        cancelHideTimer()
+        setVisible(true)
+        setOpen(true)
+      }}
+      onMouseLeave={() => scheduleClose()}
+    >
+      <button
+        type="button"
+        aria-haspopup="menu"
+        aria-expanded={open}
+        onFocus={() => setOpen(true)}
+        onBlur={() => scheduleClose()}
+        className={buttonClass(false)}
+      >
+        {label}
+        <ChevronDown
+          className={cn(
+            "h-4 w-4 transition-transform",
+            open ? "rotate-180" : "rotate-0"
+          )}
+        />
+      </button>
+
+      {visible && (
+        <div
+          role="menu"
+          className={cn(
+            "absolute left-0 z-10 mt-1 w-60 rounded-md border border-border bg-background p-1 shadow-lg transition-opacity duration-150 ease-out",
+            open ? "opacity-100" : "pointer-events-none opacity-0"
+          )}
+          onMouseEnter={() => {
+            cancelCloseTimer()
+            cancelHideTimer()
+            setOpen(true)
+          }}
+          onMouseLeave={() => scheduleClose()}
+        >
+          {links.map((l) => renderItem(l))}
+        </div>
+      )}
     </div>
   )
 }

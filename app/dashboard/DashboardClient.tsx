@@ -2,10 +2,16 @@
 
 import Link from "next/link"
 import {
+  ArrowUpRight,
   Briefcase,
   Calendar,
+  Clock,
   FilePen,
+  FileSearch,
   FileText,
+  Lock,
+  PenLine,
+  Sparkles,
   Scale,
   Search,
   ShieldAlert,
@@ -25,7 +31,11 @@ import { cn } from "@/lib/utils"
 import type { ActivityItem } from "./lib/activity"
 import { ACTIVITY_HREF_BY_TYPE } from "./lib/activity"
 import { FeatureUsageChart } from "./components/FeatureUsageChart"
-import { hasFeature, type EntitlementPlanId } from "./lib/entitlements"
+import {
+  getMaxActiveSignatureRequests,
+  hasFeature,
+  type EntitlementPlanId,
+} from "./lib/entitlements"
 import { getEffectiveStatus } from "./deadlines/lib/effectiveStatus"
 import { calendarDaysUntil, formatDueHeading } from "./deadlines/lib/dates"
 import type { Tables } from "@/lib/supabase/types"
@@ -66,6 +76,7 @@ type Props = {
   firmName: string | null
   firmTrialEndsAt: string | null
   profileTrialEndsAt: string | null
+  unbilledHours: number
   totals: {
     clients: number
     contracts: number
@@ -91,6 +102,7 @@ type Props = {
   recentActivity: ActivityItem[]
   roiData: RoiData
   upcomingDeadlines: UpcomingDeadlinePreview[]
+  top3Deadlines: UpcomingDeadlinePreview[]
   activeMatters: {
     openCount: number
     recent: ActiveMatterPreview[]
@@ -106,6 +118,7 @@ export function DashboardClient({
   firmName,
   firmTrialEndsAt,
   profileTrialEndsAt,
+  unbilledHours,
   totals,
   invoiceMetrics,
   signatureMetrics,
@@ -114,6 +127,7 @@ export function DashboardClient({
   recentActivity,
   roiData,
   upcomingDeadlines,
+  top3Deadlines,
   activeMatters,
 }: Props) {
   const { t } = useLanguage()
@@ -126,6 +140,9 @@ export function DashboardClient({
   const canUseTemplates = hasFeature(planId, "template_library")
   const canViewActivityFeed = hasFeature(planId, "activity_feed")
   const canViewDeadlines = hasFeature(planId, "deadline_tracking")
+  const canTrackTime = hasFeature(planId, "time_tracking")
+  const canRequestSignatures = getMaxActiveSignatureRequests(planId) !== 0
+  const canManageMatters = hasFeature(planId, "matter_management")
 
   function urgencyDotClass(deadline: UpcomingDeadlinePreview): string {
     const eff = getEffectiveStatus(deadline)
@@ -136,10 +153,15 @@ export function DashboardClient({
     return "bg-emerald-500"
   }
 
+  const deadlinesPreview =
+    top3Deadlines.length > 0
+      ? top3Deadlines
+      : upcomingDeadlines.slice(0, 3)
+
   return (
     <div className="min-h-screen bg-background px-4 py-10">
       <div className="mx-auto flex max-w-6xl flex-col gap-8">
-        <header className="flex flex-col gap-4 sm:flex-row sm:items-center">
+        <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
               {t("dashboard.header.kicker")}
@@ -180,214 +202,205 @@ export function DashboardClient({
           </div>
         </header>
 
-        <section className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          <Card className="p-4">
-            <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-              {t("dashboard.stats.clients.title")}
-            </p>
-            <p className="mt-2 text-2xl font-semibold">{totals.clients}</p>
-            <p className="mt-1 text-xs text-muted-foreground">
-              {t("dashboard.stats.clients.subtitle")}
-            </p>
-          </Card>
-
-          <Card className="p-4">
-            <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-              {t("dashboard.stats.contracts.title")}
-            </p>
-            <p className="mt-2 text-2xl font-semibold">{totals.contracts}</p>
-            <p className="mt-1 text-xs text-muted-foreground">
-              {t("dashboard.stats.contracts.subtitle")}
-            </p>
-          </Card>
-
-          <Card className="p-4">
-            <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-              {t("signature.dashboard.statsTitle")}
-            </p>
-            <p className="mt-2 text-2xl font-semibold">{signatureMetrics.pendingCount}</p>
-            <p className="mt-1 text-xs text-muted-foreground">
-              {t("signature.dashboard.pendingSignatures")}
-            </p>
-            <p className="mt-3 text-sm font-medium">
-              {t("signature.dashboard.signedThisMonth")}:{" "}
-              <span className="font-semibold">{signatureMetrics.signedThisMonthCount}</span>
-            </p>
-          </Card>
-
-          <Card className="p-4">
-            <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-              {t("dashboard.stats.documents.title")}
-            </p>
-            <p className="mt-2 text-2xl font-semibold">
-              {totals.documents + (canAnalyze ? totals.analyses : 0)}
-            </p>
-            <p className="mt-1 text-xs text-muted-foreground">
-              {t("dashboard.stats.documents.subtitle")}
-            </p>
-          </Card>
-
-          {canPredict && (
-            <Card className="p-4">
-              <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                {t("dashboard.stats.predictions.title")}
-              </p>
-              <p className="mt-2 text-2xl font-semibold">{totals.predictions}</p>
-              <p className="mt-1 text-xs text-muted-foreground">
-                {t("dashboard.stats.predictions.subtitle")}
-              </p>
-            </Card>
-          )}
-        </section>
-
-        <section>
-          <Card className="p-6">
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-              <div className="flex items-start gap-3">
-                <div className="mt-0.5 inline-flex h-9 w-9 items-center justify-center rounded-md bg-muted text-muted-foreground">
-                  <Briefcase className="h-5 w-5" />
-                </div>
-                <div>
-                  <h2 className="text-lg font-semibold">
-                    {t("dashboard.activeMatters.title")}
-                  </h2>
-                  <p className="mt-1 text-sm text-muted-foreground">
-                    {t("dashboard.activeMatters.subtitle")}
-                  </p>
-                </div>
-              </div>
-              <Button size="sm" variant="outline" asChild>
-                <Link href="/dashboard/matters">
-                  {t("dashboard.activeMatters.viewAll")}
-                </Link>
-              </Button>
-            </div>
-
-            <div className="mt-4 text-sm">
-              <span className="text-muted-foreground">
-                {t("dashboard.activeMatters.openCountLabel")}{" "}
-              </span>
-              <span className="font-semibold">{activeMatters.openCount}</span>
-            </div>
-
-            <div className="mt-4 space-y-2">
-              {activeMatters.recent.length === 0 ? (
-                <p className="text-sm text-muted-foreground">
-                  {t("dashboard.activeMatters.empty")}
-                </p>
-              ) : (
-                activeMatters.recent.map((m) => (
-                  <Link
-                    key={m.id}
-                    href={`/dashboard/matters/${m.id}`}
-                    className="block rounded-md border p-3 hover:bg-muted/50"
-                  >
-                    <div className="flex flex-wrap items-center gap-2">
-                      <Badge variant="outline" className="text-[10px]">
-                        {m.matter_number}
-                      </Badge>
-                      <p className="min-w-0 truncate text-sm font-medium">
-                        {m.title}
-                      </p>
-                    </div>
-                    <p className="mt-1 text-xs text-muted-foreground">
-                      {t("dashboard.activeMatters.updatedPrefix")}{" "}
-                      {m.updated_at ? new Date(m.updated_at).toLocaleString() : "—"}
-                    </p>
-                  </Link>
-                ))
-              )}
-            </div>
-          </Card>
-        </section>
-
-        <section className="space-y-3">
-          <h2 className="text-lg font-semibold">
-            {t("dashboard.actions.title")}
-          </h2>
-
+        {/* Section 1 — Stats bar (4) + keep existing stat cards */}
+        <section className="space-y-4">
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-            <QuickActionCard
-              icon="primary"
-              Icon={FileText}
-              title={t("dashboard.actions.generate.title")}
-              description={t("dashboard.actions.generate.description")}
-              href="/dashboard/generate"
+            <StatCard
+              Icon={Users}
+              label={t("dashboard.overview.stats.totalClients")}
+              value={canUseClients ? totals.clients : 0}
+              locked={!canUseClients}
+              href={canUseClients ? "/dashboard/clients" : "/dashboard/billing"}
             />
-
-            <QuickActionCard
-              icon="muted"
-              Icon={ShieldAlert}
-              title={t("conflict.header.title")}
-              description={t("conflict.header.subtitle")}
-              href="/dashboard/conflict-check"
+            <StatCard
+              Icon={Briefcase}
+              label={t("dashboard.overview.stats.activeMatters")}
+              value={canManageMatters ? activeMatters.openCount : 0}
+              locked={!canManageMatters}
+              href={canManageMatters ? "/dashboard/matters" : "/dashboard/billing"}
             />
-
-            <QuickActionCard
-              icon="muted"
-              Icon={Search}
-              title={t("dashboard.actions.research.title")}
-              description={t("dashboard.actions.research.description")}
-              href="/dashboard/research"
+            <StatCard
+              Icon={PenLine}
+              label={t("dashboard.overview.stats.pendingSignatures")}
+              value={canRequestSignatures ? signatureMetrics.pendingCount : 0}
+              locked={!canRequestSignatures}
+              href={canRequestSignatures ? "/dashboard/contracts" : "/dashboard/billing"}
             />
-
-            {canDraftContracts && (
-              <QuickActionCard
-                icon="muted"
-                Icon={FilePen}
-                title={t("dashboard.actions.contract.title")}
-                description={t("dashboard.actions.contract.description")}
-                href="/dashboard/contracts"
-              />
-            )}
-
-            {canPredict && (
-              <QuickActionCard
-                icon="muted"
-                Icon={Scale}
-                title={t("dashboard.actions.predict.title")}
-                description={t("dashboard.actions.predict.description")}
-                href="/dashboard/predictions"
-              />
-            )}
-
-            {canUseClients && (
-              <QuickActionCard
-                icon="muted"
-                Icon={Users}
-                title={t("dashboard.actions.clients.title")}
-                description={t("dashboard.actions.clients.description")}
-                href="/dashboard/clients"
-              />
-            )}
-
-            {canUseTemplates && (
-              <Card className="flex flex-col justify-between p-4 lg:col-span-4">
-                <div className="space-y-2">
-                  <div className="inline-flex h-9 w-9 items-center justify-center rounded-md bg-muted text-muted-foreground">
-                    <FileText className="h-5 w-5" />
-                  </div>
-                  <h3 className="text-sm font-medium">
-                    {t("dashboard.actions.templates.title")}
-                  </h3>
-                  <p className="text-xs text-muted-foreground">
-                    {t("dashboard.actions.templates.description")}
-                  </p>
-                </div>
-                <div className="mt-4">
-                  <Button size="sm" asChild>
-                    <Link href="/dashboard/templates">
-                      {t("dashboard.actions.open")}
-                    </Link>
-                  </Button>
-                </div>
-              </Card>
-            )}
+            <StatCard
+              Icon={Clock}
+              label={t("dashboard.overview.stats.unbilledHours")}
+              value={canTrackTime ? Number(unbilledHours.toFixed(1)) : 0}
+              locked={!canTrackTime}
+              href={canTrackTime ? "/dashboard/time" : "/dashboard/billing"}
+            />
           </div>
         </section>
 
-        {canViewDeadlines && (
-          <section>
+        {/* Section 2 — Quick actions (11 cards) */}
+        <section className="space-y-3">
+          <div>
+            <h2 className="text-lg font-semibold">{t("dashboard.actions.title")}</h2>
+            <p className="mt-1 text-sm text-muted-foreground">
+              {t("dashboard.actions.subtitle")}
+            </p>
+          </div>
+
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <ActionCard
+              Icon={Sparkles}
+              title={t("dashboard.actions.generate.title")}
+              description={t("dashboard.actions.generate.description")}
+              entitled={hasFeature(planId, "document_generation")}
+              href="/dashboard/generate"
+            />
+            <ActionCard
+              Icon={FilePen}
+              title={t("dashboard.actions.contract.title")}
+              description={t("dashboard.actions.contract.description")}
+              entitled={canDraftContracts}
+              href="/dashboard/contracts"
+            />
+            <ActionCard
+              Icon={Scale}
+              title={t("dashboard.actions.predict.title")}
+              description={t("dashboard.actions.predict.description")}
+              entitled={canPredict}
+              href="/dashboard/predictions"
+            />
+            <ActionCard
+              Icon={FileSearch}
+              title={t("dashboard.overview.cards.analysis.title")}
+              description={t("dashboard.overview.cards.analysis.description")}
+              entitled={canAnalyze}
+              href="/dashboard/analyze"
+            />
+            <ActionCard
+              Icon={FileText}
+              title={t("redline.header.title")}
+              description={t("redline.header.subtitle")}
+              entitled={hasFeature(planId, "document_redlining")}
+              href="/dashboard/redline"
+            />
+            <ActionCard
+              Icon={Search}
+              title={t("dashboard.actions.research.title")}
+              description={t("dashboard.actions.research.description")}
+              entitled={hasFeature(planId, "legal_research")}
+              href="/dashboard/research"
+            />
+            <ActionCard
+              Icon={ShieldAlert}
+              title={t("conflict.header.title")}
+              description={t("conflict.header.subtitle")}
+              entitled={hasFeature(planId, "conflict_check")}
+              href="/dashboard/conflict-check"
+            />
+            <ActionCard
+              Icon={Users}
+              title={t("dashboard.actions.clients.title")}
+              description={t("dashboard.actions.clients.description")}
+              entitled={canUseClients}
+              href="/dashboard/clients"
+            />
+            <ActionCard
+              Icon={Briefcase}
+              title={t("matters.title")}
+              description={t("dashboard.overview.cards.matters.description")}
+              entitled={canManageMatters}
+              href="/dashboard/matters"
+            />
+            <ActionCard
+              Icon={Clock}
+              title={t("dashboard.overview.cards.time.title")}
+              description={t("dashboard.overview.cards.time.description")}
+              entitled={canTrackTime}
+              href="/dashboard/time"
+            />
+            <ActionCard
+              Icon={Calendar}
+              title={t("dashboard.overview.cards.deadlines.title")}
+              description={t("dashboard.overview.cards.deadlines.description")}
+              entitled={canViewDeadlines}
+              href="/dashboard/deadlines"
+            />
+          </div>
+        </section>
+
+        {/* Section 3 — Two columns */}
+        <section className="grid gap-4 lg:grid-cols-[minmax(0,2fr),minmax(0,1.2fr)]">
+          <div className="space-y-4">
+            <Card className="p-6">
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                <div className="flex items-start gap-3">
+                  <div className="mt-0.5 inline-flex h-9 w-9 items-center justify-center rounded-md bg-muted text-muted-foreground">
+                    <Briefcase className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold">
+                      {t("dashboard.activeMatters.title")}
+                    </h3>
+                    <p className="mt-1 text-sm text-muted-foreground">
+                      {t("dashboard.activeMatters.subtitle")}
+                    </p>
+                  </div>
+                </div>
+                <Button size="sm" variant="outline" asChild>
+                  <Link href={canManageMatters ? "/dashboard/matters" : "/dashboard/billing"}>
+                    {t("dashboard.activeMatters.viewAll")}
+                  </Link>
+                </Button>
+              </div>
+
+              <div className="mt-4 text-sm">
+                <span className="text-muted-foreground">
+                  {t("dashboard.activeMatters.openCountLabel")}{" "}
+                </span>
+                <span className="font-semibold">
+                  {canManageMatters ? activeMatters.openCount : 0}
+                </span>
+                {!canManageMatters && <Lock className="ml-2 inline h-4 w-4 text-muted-foreground" />}
+              </div>
+
+              <div className="mt-4 space-y-2">
+                {!canManageMatters ? (
+                  <Link
+                    href="/dashboard/billing"
+                    className="block rounded-md border p-3 text-sm text-muted-foreground hover:bg-muted/50"
+                  >
+                    {t("dashboard.overview.lockedHint")}
+                  </Link>
+                ) : activeMatters.recent.length === 0 ? (
+                  <p className="text-sm text-muted-foreground">
+                    {t("dashboard.activeMatters.empty")}
+                  </p>
+                ) : (
+                  activeMatters.recent.map((m) => (
+                    <Link
+                      key={m.id}
+                      href={`/dashboard/matters/${m.id}`}
+                      className="block rounded-md border p-3 hover:bg-muted/50"
+                    >
+                      <div className="flex flex-wrap items-center gap-2">
+                        <Badge variant="outline" className="text-[10px]">
+                          {m.matter_number}
+                        </Badge>
+                        <p className="min-w-0 truncate text-sm font-medium">
+                          {m.title}
+                        </p>
+                        <Badge variant="secondary" className="ml-auto text-[10px]">
+                          {t("matters.status.open")}
+                        </Badge>
+                      </div>
+                      <p className="mt-1 text-xs text-muted-foreground">
+                        {t("dashboard.activeMatters.updatedPrefix")}{" "}
+                        {m.updated_at ? new Date(m.updated_at).toLocaleString() : "—"}
+                      </p>
+                    </Link>
+                  ))
+                )}
+              </div>
+            </Card>
+
             <Card className="p-6">
               <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                 <div className="flex items-start gap-3">
@@ -395,27 +408,38 @@ export function DashboardClient({
                     <Calendar className="h-5 w-5" />
                   </div>
                   <div>
-                    <h2 className="text-lg font-semibold">
-                      {t("dashboard.upcomingDeadlines.title")}
-                    </h2>
+                    <h3 className="text-lg font-semibold">
+                      {t("dashboard.overview.cards.deadlines.title")}
+                    </h3>
                     <p className="mt-1 text-sm text-muted-foreground">
-                      {t("dashboard.upcomingDeadlines.subtitle")}
+                      {t("dashboard.overview.cards.deadlines.subtitle")}
                     </p>
                   </div>
                 </div>
                 <Button variant="outline" size="sm" asChild>
-                  <Link href="/dashboard/deadlines">
+                  <Link href={canViewDeadlines ? "/dashboard/deadlines" : "/dashboard/billing"}>
                     {t("dashboard.upcomingDeadlines.viewAll")}
                   </Link>
                 </Button>
               </div>
+
               <div className="mt-5 space-y-3">
-                {upcomingDeadlines.length === 0 ? (
+                {!canViewDeadlines ? (
+                  <Link
+                    href="/dashboard/billing"
+                    className="block rounded-lg border border-border px-3 py-2 text-sm text-muted-foreground hover:bg-muted/50"
+                  >
+                    <span className="inline-flex items-center gap-2">
+                      <Lock className="h-4 w-4" />
+                      {t("dashboard.overview.lockedHint")}
+                    </span>
+                  </Link>
+                ) : deadlinesPreview.length === 0 ? (
                   <p className="text-sm text-muted-foreground">
                     {t("dashboard.upcomingDeadlines.empty")}
                   </p>
                 ) : (
-                  upcomingDeadlines.map((d) => (
+                  deadlinesPreview.map((d) => (
                     <div
                       key={d.id}
                       className="flex items-start gap-3 rounded-lg border border-border px-3 py-2"
@@ -440,121 +464,92 @@ export function DashboardClient({
                 )}
               </div>
             </Card>
-          </section>
-        )}
+          </div>
 
-        <section className="grid gap-4 lg:grid-cols-[minmax(0,2fr),minmax(0,1.2fr)]">
-          <Card className="p-6">
-            <div className="flex items-center justify-between gap-4">
-              <div>
-                <h2 className="text-lg font-semibold">
-                  {firmName || t("dashboard.workspace.unnamed")}
-                </h2>
-                <p className="mt-1 text-sm text-muted-foreground">
-                  {t("dashboard.workspace.subtitle")}
-                </p>
-              </div>
-            </div>
-
-            <div className="mt-6 grid gap-4 md:grid-cols-3">
-              <div className="rounded-lg border border-border bg-card p-4 shadow-sm">
-                <p className="text-xs text-muted-foreground">
-                  {t("dashboard.workspace.billing.title")}
-                </p>
-                <p className="mt-1 text-sm font-medium text-foreground">
-                  {planId === "free" ? (
-                    t("dashboard.workspace.billing.freeTierLine")
-                  ) : (
-                    <>
-                      {t(`dashboard.planTier.${planId}`)} ·{" "}
-                      <span className="capitalize">
-                        {(subscriptionStatus ?? "").toLowerCase()}
-                      </span>
-                    </>
-                  )}
-                </p>
-                {planId !== "free" && trialEndsIso && (
-                  <p className="mt-1 text-xs text-muted-foreground">
-                    {t("dashboard.workspace.billing.trialPrefix")}{" "}
-                    {new Date(trialEndsIso).toLocaleDateString()}
+          <div className="space-y-4">
+            <Card className="p-6">
+              <h3 className="text-lg font-semibold">{t("dashboard.activity.title")}</h3>
+              <p className="mt-1 text-sm text-muted-foreground">
+                {t("dashboard.overview.cards.activity.subtitle")}
+              </p>
+              <div className="mt-5 space-y-4">
+                {!canViewActivityFeed ? (
+                  <Link
+                    href="/dashboard/billing"
+                    className="block rounded-lg border border-border px-3 py-2 text-sm text-muted-foreground hover:bg-muted/50"
+                  >
+                    <span className="inline-flex items-center gap-2">
+                      <Lock className="h-4 w-4" />
+                      {t("dashboard.overview.lockedHint")}
+                    </span>
+                  </Link>
+                ) : recentActivity.length === 0 ? (
+                  <p className="text-sm text-muted-foreground">
+                    {t("dashboard.activity.empty")}
                   </p>
+                ) : (
+                  recentActivity.slice(0, 5).map((item) => (
+                    <div
+                      key={`${item.type}-${item.id}`}
+                      className="flex items-start justify-between"
+                    >
+                      <div className="min-w-0">
+                        <Link
+                          href={`${ACTIVITY_HREF_BY_TYPE[item.type]}?id=${item.id}`}
+                          className={cn(
+                            "block truncate text-sm font-medium transition-colors hover:text-primary hover:underline"
+                          )}
+                        >
+                          {t(`activity.types.${item.type}`)}: {item.title}
+                        </Link>
+                        <p className="text-xs text-muted-foreground">
+                          {new Date(item.createdAt).toLocaleDateString()}
+                        </p>
+                      </div>
+                      <ArrowUpRight className="ml-3 h-4 w-4 shrink-0 text-muted-foreground" />
+                    </div>
+                  ))
                 )}
               </div>
+            </Card>
 
-              <div className="rounded-lg border border-border bg-card p-4 shadow-sm">
-                <p className="text-xs text-muted-foreground">
-                  {t("dashboard.workspace.jurisdiction.title")}
-                </p>
-                <p className="mt-1 text-sm font-medium text-foreground">
-                  {jurisdictionLabel}
-                </p>
-                <p className="mt-1 text-xs text-muted-foreground">
-                  {t("dashboard.workspace.jurisdiction.subtitle")}
-                </p>
+            <Card className="p-6">
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-semibold">
+                  {t("dashboard.overview.cards.invoices.title")}
+                </h3>
+                <ArrowUpRight className="h-4 w-4 text-muted-foreground" />
               </div>
-
-              <div className="rounded-lg border border-border bg-card p-4 shadow-sm">
-                <p className="text-xs text-muted-foreground">
-                  {t("dashboard.workspace.invoices.title")}
-                </p>
-                <p className="mt-1 text-sm font-medium text-foreground">
-                  {totals.invoices}{" "}
-                  {t("dashboard.workspace.invoices.countSuffix",)}
-                </p>
-                <div className="mt-2 space-y-1 text-xs text-muted-foreground">
-                  <p>{t("dashboard.workspace.invoices.subtitle")}</p>
-                  <p>
-                    Outstanding: <span className="font-medium text-foreground">€{invoiceMetrics.outstandingTotalEur.toFixed(2)}</span>
-                  </p>
-                  <p>
-                    Paid this month: <span className="font-medium text-foreground">€{invoiceMetrics.paidThisMonthTotalEur.toFixed(2)}</span>
-                  </p>
-                  <p>
-                    Overdue: <span className="font-medium text-foreground">{invoiceMetrics.overdueCount}</span>
-                  </p>
+              <p className="mt-1 text-sm text-muted-foreground">
+                {t("dashboard.overview.cards.invoices.subtitle")}
+              </p>
+              <div className="mt-4 space-y-2 text-sm">
+                <div className="flex items-baseline justify-between">
+                  <span className="text-muted-foreground">
+                    {t("dashboard.overview.cards.invoices.outstanding")}
+                  </span>
+                  <span className="font-semibold">
+                    €{invoiceMetrics.outstandingTotalEur.toFixed(2)}
+                  </span>
+                </div>
+                <div className="flex items-baseline justify-between">
+                  <span className="text-muted-foreground">
+                    {t("dashboard.overview.cards.invoices.paidThisMonth")}
+                  </span>
+                  <span className="font-semibold">
+                    €{invoiceMetrics.paidThisMonthTotalEur.toFixed(2)}
+                  </span>
                 </div>
               </div>
-            </div>
-          </Card>
-
-          <Card className="p-6">
-            <h2 className="text-lg font-semibold">
-              {t("dashboard.usage.title")}
-            </h2>
-            <p className="mt-1 text-sm text-muted-foreground">
-              {t("dashboard.usage.subtitle")}
-            </p>
-
-            <div className="mt-5 space-y-3 text-sm">
-              <div className="flex items-baseline justify-between">
-                <span className="text-muted-foreground">
-                  {t("dashboard.usage.tokens")}
-                </span>
-                <span className="font-semibold">
-                  {usageSummary.totalTokens.toLocaleString()}
-                </span>
-              </div>
-              <div className="flex items-baseline justify-between">
-                <span className="text-muted-foreground">
-                  {t("dashboard.usage.cost")}
-                </span>
-                <span className="font-semibold">
-                  $
-                  {usageSummary.totalCost.toLocaleString(undefined, {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                  })}
-                </span>
-              </div>
-              <p className="mt-2 text-xs text-muted-foreground">
-                {t("dashboard.usage.detailHint")}
-              </p>
-            </div>
-          </Card>
+            </Card>
+          </div>
         </section>
 
+        {/* Section 4 — Usage chart at bottom (keep) */}
         <section className="grid gap-4 lg:grid-cols-[minmax(0,2fr),minmax(0,1.2fr)]">
-          <FeatureUsageChart data={featureUsage} />
+          <div className="min-w-0">
+            <FeatureUsageChart data={featureUsage} />
+          </div>
 
           <Card>
             <CardHeader>
@@ -586,97 +581,110 @@ export function DashboardClient({
               {planId !== "free" && roiData.subscriptionCostEur > 0 && (
                 <p className="text-xs text-muted-foreground">
                   {t("dashboard.roi.ratioPrefix")}{" "}
-                  {(
-                    roiData.savingsEur / roiData.subscriptionCostEur
-                  ).toFixed(1)}
+                  {(roiData.savingsEur / roiData.subscriptionCostEur).toFixed(1)}
                   × {t("dashboard.roi.ratioSuffix")}
                 </p>
               )}
             </CardContent>
           </Card>
         </section>
-
-        {canViewActivityFeed && (
-          <section>
-            <Card>
-              <CardHeader>
-                <CardTitle>{t("dashboard.activity.title")}</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {recentActivity.length === 0 ? (
-                  <p className="text-sm text-muted-foreground">
-                    {t("dashboard.activity.empty")}
-                  </p>
-                ) : (
-                  recentActivity.map((item) => (
-                    <div
-                      key={`${item.type}-${item.id}`}
-                      className="flex items-start justify-between"
-                    >
-                      <div>
-                        <Link
-                          href={`${ACTIVITY_HREF_BY_TYPE[item.type]}?id=${item.id}`}
-                          className={cn(
-                            "text-sm font-medium transition-colors hover:text-primary hover:underline",
-                          )}
-                        >
-                          {t(`activity.types.${item.type}`)}: {item.title}
-                        </Link>
-                        <p className="text-xs text-muted-foreground">
-                          {new Date(item.createdAt).toLocaleDateString()}
-                        </p>
-                      </div>
-                    </div>
-                  ))
-                )}
-              </CardContent>
-            </Card>
-          </section>
-        )}
       </div>
     </div>
   )
 }
 
-type QuickActionCardProps = {
-  icon: "primary" | "muted"
+function StatCard({
+  Icon,
+  label,
+  value,
+  locked,
+  href,
+}: {
   Icon: React.ComponentType<React.SVGProps<SVGSVGElement>>
-  title: string
-  description: string
+  label: string
+  value: number
+  locked: boolean
   href: string
+}) {
+  const { t } = useLanguage()
+  return (
+    <Link href={href} className="block">
+      <Card
+        className={cn(
+          "relative p-5 transition-colors hover:bg-muted/40",
+          locked && "opacity-80"
+        )}
+      >
+        <div className="flex items-start justify-between gap-3">
+          <p className="text-sm font-medium text-foreground">{label}</p>
+          <div className="inline-flex h-9 w-9 items-center justify-center rounded-md bg-muted text-muted-foreground">
+            <Icon className="h-5 w-5" />
+          </div>
+        </div>
+        <p className="mt-3 text-3xl font-semibold tracking-tight">{value}</p>
+        {locked ? (
+          <p className="mt-2 inline-flex items-center gap-1 text-xs text-muted-foreground">
+            <Lock className="h-3.5 w-3.5" />
+            {t("dashboard.overview.upgrade")} <span aria-hidden>→</span>
+          </p>
+        ) : (
+          <p className="mt-2 inline-flex items-center gap-1 text-xs text-muted-foreground">
+            {t("dashboard.actions.open")} <ArrowUpRight className="h-3.5 w-3.5" />
+          </p>
+        )}
+      </Card>
+    </Link>
+  )
 }
 
-function QuickActionCard({
-  icon,
+function ActionCard({
   Icon,
   title,
   description,
+  entitled,
   href,
-}: QuickActionCardProps) {
+}: {
+  Icon: React.ComponentType<React.SVGProps<SVGSVGElement>>
+  title: string
+  description: string
+  entitled: boolean
+  href: string
+}) {
   const { t } = useLanguage()
-
+  const finalHref = entitled ? href : "/dashboard/billing"
   return (
-    <Card className="flex flex-col justify-between p-4">
-      <div className="space-y-2">
-        <div
-          className={cn(
-            "inline-flex h-9 w-9 items-center justify-center rounded-md",
-            icon === "primary"
-              ? "bg-primary/10 text-primary"
-              : "bg-muted text-muted-foreground",
-          )}
-        >
-          <Icon className="h-5 w-5" />
+    <Link href={finalHref} className="block">
+      <Card
+        className={cn(
+          "relative flex min-h-[120px] h-full flex-col justify-between p-5 transition-colors hover:bg-muted/40",
+          !entitled && "opacity-80"
+        )}
+      >
+        {!entitled && (
+          <div className="pointer-events-none absolute inset-0 rounded-xl bg-gradient-to-br from-muted/30 via-transparent to-transparent" />
+        )}
+        <div className="relative space-y-3">
+          <div
+            className={cn(
+              "inline-flex h-12 w-12 items-center justify-center rounded-md",
+              entitled ? "bg-primary/10 text-primary" : "bg-muted text-muted-foreground"
+            )}
+          >
+            <Icon className="h-8 w-8" />
+          </div>
+          <div className="flex items-start justify-between gap-3">
+            <h3 className="text-sm font-medium leading-snug">{title}</h3>
+            <ArrowUpRight className="h-4 w-4 shrink-0 text-muted-foreground" />
+          </div>
+          <p className="text-xs text-muted-foreground">{description}</p>
         </div>
-        <h3 className="text-sm font-medium">{title}</h3>
-        <p className="text-xs text-muted-foreground">{description}</p>
-      </div>
-      <div className="mt-4">
-        <Button size="sm" asChild>
-          <Link href={href}>{t("dashboard.actions.open")}</Link>
-        </Button>
-      </div>
-    </Card>
+        {!entitled && (
+          <div className="relative mt-4 text-xs font-medium text-muted-foreground">
+            {t("dashboard.overview.upgrade")} <span aria-hidden>→</span>
+          </div>
+        )}
+      </Card>
+    </Link>
   )
 }
 

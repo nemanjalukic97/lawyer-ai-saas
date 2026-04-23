@@ -43,6 +43,8 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       templates: "Templates",
       deadlines: "Deadlines",
       actions: "Actions",
+      aiTools: "AI Tools",
+      management: "Management",
       logout: "Log out",
       themeToggle: "Toggle light and dark theme",
     },
@@ -1594,6 +1596,19 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       },
     },
     dashboard: {
+      featureUsage: {
+        title: "Feature usage (recent)",
+        labels: {
+          case_prediction: "Case Prediction",
+          contract_generation: "Contract Gen.",
+          document_generation: "Doc. Generation",
+          document_analysis: "Doc. Analysis",
+          contract_drafting: "Contract Draft",
+          legal_research: "Research",
+          conflict_check: "Conflict Check",
+          document_redlining: "Redlining",
+        },
+      },
       header: {
         kicker: "Legantis dashboard",
         welcome: "Welcome back,",
@@ -1622,6 +1637,43 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         predictions: {
           title: "Case predictions",
           subtitle: "Outcome predictions run so far",
+        },
+      },
+      overview: {
+        upgrade: "Upgrade",
+        lockedHint: "Upgrade to unlock this feature.",
+        stats: {
+          totalClients: "Total clients",
+          activeMatters: "Active matters",
+          pendingSignatures: "Pending signatures",
+          unbilledHours: "Unbilled hours",
+        },
+        cards: {
+          analysis: {
+            title: "Document analysis",
+            description: "Extract key clauses and risks from uploaded documents.",
+          },
+          matters: {
+            description: "Manage matters, documents, and linked work.",
+          },
+          time: {
+            title: "Time & invoices",
+            description: "Track hours and keep billing accurate.",
+          },
+          deadlines: {
+            title: "Upcoming deadlines",
+            subtitle: "Next items requiring your attention.",
+            description: "Track deadlines and stay ahead of due dates.",
+          },
+          activity: {
+            subtitle: "Latest changes across your workspace.",
+          },
+          invoices: {
+            title: "Invoice stats",
+            subtitle: "Outstanding and paid totals.",
+            outstanding: "Outstanding",
+            paidThisMonth: "Paid this month",
+          },
         },
       },
       actions: {
@@ -1966,6 +2018,8 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       templates: "Predlozi",
       deadlines: "Rokovi",
       actions: "Radnje",
+      aiTools: "AI Alati",
+      management: "Upravljanje",
       logout: "Odjava",
       themeToggle: "Prebacivanje svetle i tamne teme",
     },
@@ -2545,6 +2599,19 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       rights: "Sva prava zadržana",
     },
     dashboard: {
+      featureUsage: {
+        title: "Korištenje funkcija (nedavno)",
+        labels: {
+          case_prediction: "Predviđanje predmeta",
+          contract_generation: "Gen. ugovora",
+          document_generation: "Gen. dokumenata",
+          document_analysis: "Analiza dok.",
+          contract_drafting: "Nacrt ugovora",
+          legal_research: "Pravno istraživanje",
+          conflict_check: "Provera sukoba",
+          document_redlining: "Izmene ugovora",
+        },
+      },
       header: {
         kicker: "Legantis kontrolna tabla",
         welcome: "Dobro došli nazad,",
@@ -2573,6 +2640,43 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         predictions: {
           title: "Predviđanja sporova",
           subtitle: "Do sada pokrenuta predviđanja ishoda",
+        },
+      },
+      overview: {
+        upgrade: "Nadogradi",
+        lockedHint: "Nadogradite da otključate ovu funkciju.",
+        stats: {
+          totalClients: "Ukupno klijenata",
+          activeMatters: "Aktivni predmeti",
+          pendingSignatures: "Potpisi na čekanju",
+          unbilledHours: "Nenaplaćeni sati",
+        },
+        cards: {
+          analysis: {
+            title: "Analiza dokumenata",
+            description: "Izdvojite ključne klauzule i rizike iz dokumenata.",
+          },
+          matters: {
+            description: "Upravljajte predmetima i povezanim radom.",
+          },
+          time: {
+            title: "Vreme i fakture",
+            description: "Evidentirajte sate i držite naplatu tačnom.",
+          },
+          deadlines: {
+            title: "Predstojeći rokovi",
+            subtitle: "Sledeće stavke koje zahtijevaju pažnju.",
+            description: "Pratite rokove i budite ispred obaveza.",
+          },
+          activity: {
+            subtitle: "Najnovije promjene u vašem radnom prostoru.",
+          },
+          invoices: {
+            title: "Statistika faktura",
+            subtitle: "Dugovanja i uplate ovog mjeseca.",
+            outstanding: "Dugovanje",
+            paidThisMonth: "Plaćeno ovog mjeseca",
+          },
         },
       },
       actions: {
@@ -4024,6 +4128,8 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       templates: "Prijedlozi",
       deadlines: "Rokovi",
       actions: "Radnje",
+      aiTools: "AI Alati",
+      management: "Upravljanje",
       logout: "Odjava",
       themeToggle: "Prebacivanje svijetle i tamne teme",
     },
@@ -4469,6 +4575,19 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       rights: "Sva prava zadržana",
     },
     dashboard: {
+      featureUsage: {
+        title: "Korištenje funkcija (nedavno)",
+        labels: {
+          case_prediction: "Predviđanje predmeta",
+          contract_generation: "Gen. ugovora",
+          document_generation: "Gen. dokumenata",
+          document_analysis: "Analiza dok.",
+          contract_drafting: "Nacrt ugovora",
+          legal_research: "Pravno istraživanje",
+          conflict_check: "Provjera sukoba",
+          document_redlining: "Izmjene ugovora",
+        },
+      },
       header: {
         kicker: "Legantis kontrolna ploča",
         welcome: "Dobro došli nazad,",
@@ -4497,6 +4616,43 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         predictions: {
           title: "Predviđanja sporova",
           subtitle: "Do sada pokrenuta predviđanja ishoda",
+        },
+      },
+      overview: {
+        upgrade: "Nadogradi",
+        lockedHint: "Nadogradite da otključate ovu funkciju.",
+        stats: {
+          totalClients: "Ukupno klijenata",
+          activeMatters: "Aktivni predmeti",
+          pendingSignatures: "Potpisi na čekanju",
+          unbilledHours: "Nenaplaćeni sati",
+        },
+        cards: {
+          analysis: {
+            title: "Analiza dokumenata",
+            description: "Izdvojite ključne klauzule i rizike iz dokumenata.",
+          },
+          matters: {
+            description: "Upravljajte predmetima i povezanim radom.",
+          },
+          time: {
+            title: "Vrijeme i fakture",
+            description: "Evidentirajte sate i držite naplatu tačnom.",
+          },
+          deadlines: {
+            title: "Predstojeći rokovi",
+            subtitle: "Sljedeće stavke koje zahtijevaju pažnju.",
+            description: "Pratite rokove i budite ispred obaveza.",
+          },
+          activity: {
+            subtitle: "Najnovije promjene u vašem prostoru.",
+          },
+          invoices: {
+            title: "Statistika faktura",
+            subtitle: "Dugovanja i uplate ovog mjeseca.",
+            outstanding: "Dugovanje",
+            paidThisMonth: "Plaćeno ovog mjeseca",
+          },
         },
       },
       actions: {
@@ -5951,6 +6107,8 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       templates: "Prijedlozi",
       deadlines: "Rokovi",
       actions: "Radnje",
+      aiTools: "AI Alati",
+      management: "Upravljanje",
       logout: "Odjava",
       themeToggle: "Prebacivanje svijetle i tamne teme",
     },
@@ -6919,6 +7077,19 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       },
     },
     dashboard: {
+      featureUsage: {
+        title: "Korištenje funkcionalnosti (nedavno)",
+        labels: {
+          case_prediction: "Predviđanje predmeta",
+          contract_generation: "Gen. ugovora",
+          document_generation: "Gen. dokumenata",
+          document_analysis: "Analiza dok.",
+          contract_drafting: "Nacrt ugovora",
+          legal_research: "Pravno istraživanje",
+          conflict_check: "Provjera sukoba",
+          document_redlining: "Izmjene ugovora",
+        },
+      },
       header: {
         kicker: "Legantis nadzorna ploča",
         welcome: "Dobrodošli natrag,",
@@ -6947,6 +7118,43 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         predictions: {
           title: "Predviđanja sporova",
           subtitle: "Do sada pokrenuta predviđanja ishoda",
+        },
+      },
+      overview: {
+        upgrade: "Nadogradi",
+        lockedHint: "Nadogradite da otključate ovu funkciju.",
+        stats: {
+          totalClients: "Ukupno klijenata",
+          activeMatters: "Aktivni predmeti",
+          pendingSignatures: "Potpisi na čekanju",
+          unbilledHours: "Nenaplaćeni sati",
+        },
+        cards: {
+          analysis: {
+            title: "Analiza dokumenata",
+            description: "Izdvojite ključne klauzule i rizike iz dokumenata.",
+          },
+          matters: {
+            description: "Upravljajte predmetima i povezanim radom.",
+          },
+          time: {
+            title: "Vrijeme i fakture",
+            description: "Evidentirajte sate i držite naplatu tačnom.",
+          },
+          deadlines: {
+            title: "Predstojeći rokovi",
+            subtitle: "Sljedeće stavke koje zahtijevaju pažnju.",
+            description: "Pratite rokove i budite ispred obaveza.",
+          },
+          activity: {
+            subtitle: "Najnovije promjene u vašem prostoru.",
+          },
+          invoices: {
+            title: "Statistika faktura",
+            subtitle: "Dugovanja i uplate ovog mjeseca.",
+            outstanding: "Dugovanje",
+            paidThisMonth: "Plaćeno ovog mjeseca",
+          },
         },
       },
       actions: {
@@ -7877,6 +8085,8 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       templates: "Predlogi",
       deadlines: "Roki",
       actions: "Dejanja",
+      aiTools: "AI Orodja",
+      management: "Upravljanje",
       logout: "Odjava",
       themeToggle: "Preklopi svetlo in temno temo",
     },
@@ -8255,6 +8465,19 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       rights: "Vse pravice pridržane",
     },
     dashboard: {
+      featureUsage: {
+        title: "Uporaba funkcij (nedavno)",
+        labels: {
+          case_prediction: "Napoved primera",
+          contract_generation: "Gen. pogodbe",
+          document_generation: "Gen. dok.",
+          document_analysis: "Analiza dok.",
+          contract_drafting: "Osnutek pogodbe",
+          legal_research: "Raziskovanje",
+          conflict_check: "Preverjanje",
+          document_redlining: "Spremembe",
+        },
+      },
       header: {
         kicker: "Nadzorna plošča Legantis",
         welcome: "Dobrodošli nazaj,",
@@ -8283,6 +8506,43 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         predictions: {
           title: "Napovedi sporov",
           subtitle: "Doslej izvedene napovedi izidov",
+        },
+      },
+      overview: {
+        upgrade: "Nadgradi",
+        lockedHint: "Nadgradite, da odklenete to funkcijo.",
+        stats: {
+          totalClients: "Skupaj strank",
+          activeMatters: "Aktivne zadeve",
+          pendingSignatures: "Podpisi v teku",
+          unbilledHours: "Nezaračunane ure",
+        },
+        cards: {
+          analysis: {
+            title: "Analiza dokumentov",
+            description: "Izluščite ključne klavzule in tveganja iz dokumentov.",
+          },
+          matters: {
+            description: "Upravljajte zadevami in povezanim delom.",
+          },
+          time: {
+            title: "Čas in računi",
+            description: "Spremljajte ure in poskrbite za natančno obračunavanje.",
+          },
+          deadlines: {
+            title: "Prihajajoči roki",
+            subtitle: "Naslednje naloge, ki zahtevajo pozornost.",
+            description: "Spremljajte roke in ostanite pred zapadlostmi.",
+          },
+          activity: {
+            subtitle: "Najnovejše spremembe v vašem prostoru.",
+          },
+          invoices: {
+            title: "Statistika računov",
+            subtitle: "Neplačano in plačano ta mesec.",
+            outstanding: "Neplačano",
+            paidThisMonth: "Plačano ta mesec",
+          },
         },
       },
       actions: {
@@ -9732,6 +9992,8 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       templates: "Prijedlozi",
       deadlines: "Rokovi",
       actions: "Radnje",
+      aiTools: "AI Alati",
+      management: "Upravljanje",
       logout: "Odjava",
       themeToggle: "Prebacivanje svijetle i tamne teme",
     },
@@ -10110,6 +10372,19 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       rights: "Sva prava zadržana",
     },
     dashboard: {
+      featureUsage: {
+        title: "Korištenje funkcija (nedavno)",
+        labels: {
+          case_prediction: "Predviđanje predmeta",
+          contract_generation: "Gen. ugovora",
+          document_generation: "Gen. dokumenata",
+          document_analysis: "Analiza dok.",
+          contract_drafting: "Nacrt ugovora",
+          legal_research: "Pravno istraživanje",
+          conflict_check: "Provjera sukoba",
+          document_redlining: "Izmjene ugovora",
+        },
+      },
       header: {
         kicker: "Legantis kontrolna tabla",
         welcome: "Dobrodošli nazad,",
@@ -10138,6 +10413,43 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         predictions: {
           title: "Predviđanja sporova",
           subtitle: "Do sada pokrenuta predviđanja ishoda",
+        },
+      },
+      overview: {
+        upgrade: "Nadogradi",
+        lockedHint: "Nadogradite da otključate ovu funkciju.",
+        stats: {
+          totalClients: "Ukupno klijenata",
+          activeMatters: "Aktivni predmeti",
+          pendingSignatures: "Potpisi na čekanju",
+          unbilledHours: "Nenaplaćeni sati",
+        },
+        cards: {
+          analysis: {
+            title: "Analiza dokumenata",
+            description: "Izdvojite ključne klauzule i rizike iz dokumenata.",
+          },
+          matters: {
+            description: "Upravljajte predmetima i povezanim radom.",
+          },
+          time: {
+            title: "Vrijeme i fakture",
+            description: "Evidentirajte sate i držite naplatu tačnom.",
+          },
+          deadlines: {
+            title: "Predstojeći rokovi",
+            subtitle: "Sljedeće stavke koje zahtijevaju pažnju.",
+            description: "Pratite rokove i budite ispred obaveza.",
+          },
+          activity: {
+            subtitle: "Najnovije promjene u vašem prostoru.",
+          },
+          invoices: {
+            title: "Statistika faktura",
+            subtitle: "Dugovanja i uplate ovog mjeseca.",
+            outstanding: "Dugovanje",
+            paidThisMonth: "Plaćeno ovog mjeseca",
+          },
         },
       },
       actions: {
