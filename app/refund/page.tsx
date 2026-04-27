@@ -17,190 +17,226 @@ type RefundContent = {
   title: string
   updated: string
   intro: string
-  sections: RefundSection[]
-  contactPrefix: string
+  policySections: RefundSection[]
+  contact: {
+    title: string
+    visitPrefix: string
+    otherPrefix: string
+  }
 }
+
+const PADDLE_HREF = "https://www.paddle.net"
 
 const REFUND_CONTENT: Record<Locale, RefundContent> = {
   en: {
     backHome: "Return to Homepage",
     title: "Refund Policy",
     updated: "Last updated: April 2026",
-    intro:
-      "This Refund Policy explains when refunds are available for Legantis subscriptions.",
-    sections: [
+    intro: "",
+    policySections: [
       {
-        title: "1. Subscription Fees",
-        body: "Monthly subscription fees are non-refundable once the billing period has started.",
+        title: "1. Merchant of Record",
+        body: `All payments for Legantis subscriptions are processed by Paddle.com, our Merchant of Record. Paddle handles all payment processing, billing, and refund requests.
+
+"Our order process is conducted by our online reseller Paddle.com. Paddle is the Merchant of Record for all our orders. Paddle provides all customer service inquiries and handles returns."`,
       },
       {
-        title: "2. Free Trial",
-        body: "New users may access a free tier with limited features. No payment is required to start.",
+        title: "2. Refund Window",
+        body: "Refund requests must be submitted within 30 days of the transaction date. Requests submitted after 30 days will not be processed.",
       },
       {
-        title: "3. Cancellation",
-        body: "You may cancel your subscription at any time. Cancellation takes effect at the end of the current billing period. You will retain access until then.",
+        title: "3. How to Request a Refund",
+        body: "To request a refund, please visit paddle.net or contact Paddle's support team directly. Legantis does not process refunds directly — all refund requests are handled by Paddle.",
       },
       {
-        title: "4. Exceptions",
-        body: "In cases of technical failure or service unavailability exceeding 48 hours, users may request a pro-rata refund by contacting support@legantis.app",
+        title: "4. Subscription Cancellations",
+        body: "You may cancel your subscription at any time. Cancellation takes effect at the end of the current billing period. You will retain access until then. Cancellations do not automatically trigger a refund.",
       },
       {
-        title: "5. Contact",
-        body: "",
+        title: "5. Free Tier",
+        body: "Legantis offers a free tier with limited features. No payment is required to access the free tier.",
       },
     ],
-    contactPrefix: "For refund requests, contact",
+    contact: {
+      title: "6. Contact",
+      visitPrefix: "For refund requests, please visit:",
+      otherPrefix: "For other questions:",
+    },
   },
   sr: {
     backHome: "Povratak na početnu stranicu",
     title: "Politika povraćaja sredstava",
     updated: "Poslednje ažuriranje: april 2026",
-    intro:
-      "Ova Politika povraćaja sredstava objašnjava kada su povraćaji dostupni za Legantis pretplate.",
-    sections: [
+    intro: "",
+    policySections: [
       {
-        title: "1. Naknade za pretplatu",
-        body: "Mesečne naknade za pretplatu nisu povratne nakon što obračunski period započne.",
+        title: "1. Merchant of Record",
+        body: `Sva plaćanja za Legantis pretplate obrađuje Paddle.com, naš trgovac na mapi. Paddle vodi celokupno procesiranje plaćanja, naplatu i zahteve za povraćaj sredstava.
+
+„Naš proces poručivanja sprovodi naš onlajn preprodavac Paddle.com. Paddle je trgovac na mapi za sve naše porudžbine. Paddle pruža sve upite korisničke podrške i rešava povrate.“`,
       },
       {
-        title: "2. Besplatni probni period",
-        body: "Novi korisnici mogu koristiti besplatan nivo sa ograničenim funkcijama. Nije potrebno plaćanje za početak.",
+        title: "2. Rok za povraćaj",
+        body: "Zahtevi za povraćaj moraju biti podneti u roku od 30 dana od datuma transakcije. Zahtevi podneti nakon 30 dana neće biti obrađeni.",
       },
       {
-        title: "3. Otkazivanje",
-        body: "Pretplatu možete otkazati u bilo kom trenutku. Otkazivanje stupa na snagu na kraju tekućeg obračunskog perioda. Zadržaćete pristup do tada.",
+        title: "3. Kako zatražiti povraćaj",
+        body: "Da biste zatražili povraćaj, posetite paddle.net ili se direktno obratite Podršci kompanije Paddle. Legantis ne obrađuje povraće direktno — sve zahteve za povraćaj rešava Paddle.",
       },
       {
-        title: "4. Izuzeci",
-        body: "U slučaju tehničkog kvara ili nedostupnosti usluge duže od 48 sati, korisnici mogu zatražiti proporcionalni povraćaj kontaktiranjem support@legantis.app",
+        title: "4. Otkazivanje pretplate",
+        body: "Pretplatu možete otkazati u bilo kom trenutku. Otkazivanje stupa na snagu na kraju tekućeg obračunskog perioda. Zadržaćete pristup do tada. Otkazivanja automatski ne pokreću povraćaj sredstava.",
       },
       {
-        title: "5. Kontakt",
-        body: "",
+        title: "5. Besplatan nivo",
+        body: "Legantis nudi besplatan nivo sa ograničenim funkcijama. Nije potrebno plaćanje da biste pristupili besplatnom nivou.",
       },
     ],
-    contactPrefix: "Za zahteve za povraćaj sredstava, kontaktirajte",
+    contact: {
+      title: "6. Kontakt",
+      visitPrefix: "Za zahteve za povraćaj sredstava, posetite:",
+      otherPrefix: "Za ostala pitanja:",
+    },
   },
   bs: {
     backHome: "Povratak na početnu stranicu",
     title: "Politika povrata sredstava",
     updated: "Posljednje ažuriranje: april 2026",
-    intro:
-      "Ova Politika povrata sredstava objašnjava kada su povrati dostupni za Legantis pretplate.",
-    sections: [
+    intro: "",
+    policySections: [
       {
-        title: "1. Naknade za pretplatu",
-        body: "Mjesečne naknade za pretplatu nisu povratne nakon što obračunski period započne.",
+        title: "1. Merchant of Record",
+        body: `Sva plaćanja za Legantis pretplate obrađuje Paddle.com, naš trgovac na snazi. Paddle vodi cjelokupno procesiranje plaćanja, naplatu i zahtjeve za povrat sredstava.
+
+„Naš proces naručivanja provodi naš online preprodavac Paddle.com. Paddle je trgovac na snazi za sve naše narudžbe. Paddle pruža sve upite korisničke podrške i rješava povrate.“`,
       },
       {
-        title: "2. Besplatni probni period",
-        body: "Novi korisnici mogu koristiti besplatan nivo sa ograničenim funkcijama. Nije potrebno plaćanje za početak.",
+        title: "2. Rok za povrat",
+        body: "Zahtjevi za povrat moraju biti podnijeti u roku od 30 dana od datuma transakcije. Zahtjevi podnijeti nakon 30 dana neće biti obrađeni.",
       },
       {
-        title: "3. Otkazivanje",
-        body: "Pretplatu možete otkazati u bilo kojem trenutku. Otkazivanje stupa na snagu na kraju tekućeg obračunskog perioda. Zadržat ćete pristup do tada.",
+        title: "3. Kako zatražiti povrat",
+        body: "Da biste zatražili povrat, posjetite paddle.net ili se direktno obratite podršci kompanije Paddle. Legantis ne obrađuje povrate direktno — sve zahtjeve za povrat rješava Paddle.",
       },
       {
-        title: "4. Izuzeci",
-        body: "U slučaju tehničkog kvara ili nedostupnosti usluge duže od 48 sati, korisnici mogu zatražiti pro-rata povrat kontaktiranjem support@legantis.app",
+        title: "4. Otkazivanje pretplate",
+        body: "Pretplatu možete otkazati u bilo kojem trenutku. Otkazivanje stupa na snagu na kraju tekućeg obračunskog perioda. Zadržat ćete pristup do tada. Otkazivanja automatski ne pokreću povrat sredstava.",
       },
       {
-        title: "5. Kontakt",
-        body: "",
+        title: "5. Besplatan nivo",
+        body: "Legantis nudi besplatan nivo s ograničenim funkcijama. Nije potrebno plaćanje da biste pristupili besplatnom nivou.",
       },
     ],
-    contactPrefix: "Za zahtjeve za povrat sredstava, kontaktirajte",
+    contact: {
+      title: "6. Kontakt",
+      visitPrefix: "Za zahtjeve za povrat sredstava, posjetite:",
+      otherPrefix: "Za ostala pitanja:",
+    },
   },
   hr: {
     backHome: "Povratak na početnu stranicu",
     title: "Politika povrata novca",
     updated: "Zadnje ažuriranje: travanj 2026",
-    intro:
-      "Ova Politika povrata novca objašnjava kada su povrati dostupni za Legantis pretplate.",
-    sections: [
+    intro: "",
+    policySections: [
       {
-        title: "1. Naknade za pretplatu",
-        body: "Mjesečne naknade za pretplatu nisu povratne nakon što je obračunsko razdoblje započelo.",
+        title: "1. Merchant of Record",
+        body: `Sva plaćanja za Legantis pretplate obrađuje Paddle.com, naš trgovac na zapisu. Paddle vodi cjelokupno procesiranje plaćanja, naplatu i zahtjeve za povrat novca.
+
+„Naš postupak naručivanja provodi naš online preprodavač Paddle.com. Paddle je trgovac na zapisu za sve naše narudžbe. Paddle pruža sve upite korisničke podrške i rješava povrate.“`,
       },
       {
-        title: "2. Besplatno probno razdoblje",
-        body: "Novi korisnici mogu koristiti besplatnu razinu s ograničenim značajkama. Nije potrebno plaćanje za početak.",
+        title: "2. Rok za povrat",
+        body: "Zahtjevi za povrat moraju biti podneseni u roku od 30 dana od datuma transakcije. Zahtjevi podnijeti nakon 30 dana neće biti obrađeni.",
       },
       {
-        title: "3. Otkazivanje",
-        body: "Pretplatu možete otkazati u bilo kojem trenutku. Otkazivanje stupa na snagu na kraju tekućeg obračunskog razdoblja. Zadržat ćete pristup do tada.",
+        title: "3. Kako zatražiti povrat",
+        body: "Da biste zatražili povrat, posjetite paddle.net ili se izravno obratite podršci tvrtke Paddle. Legantis ne obrađuje povrate izravno — sve zahtjeve za povrat rješava Paddle.",
       },
       {
-        title: "4. Iznimke",
-        body: "U slučaju tehničkog kvara ili nedostupnosti usluge dulje od 48 sati, korisnici mogu zatražiti pro-rata povrat kontaktiranjem support@legantis.app",
+        title: "4. Otkazivanje pretplate",
+        body: "Pretplatu možete otkazati u bilo kojem trenutku. Otkazivanje stupa na snagu na kraju tekućeg obračunskog razdoblja. Zadržat ćete pristup do tada. Otkazivanja automatski ne pokreću povrat novca.",
       },
       {
-        title: "5. Kontakt",
-        body: "",
+        title: "5. Besplatna razina",
+        body: "Legantis nudi besplatnu razinu s ograničenim značajkama. Nije potrebno plaćanje za pristup besplatnoj razini.",
       },
     ],
-    contactPrefix: "Za zahtjeve za povrat, kontaktirajte",
+    contact: {
+      title: "6. Kontakt",
+      visitPrefix: "Za zahtjeve za povrat, posjetite:",
+      otherPrefix: "Za ostala pitanja:",
+    },
   },
   sl: {
     backHome: "Nazaj na začetno stran",
     title: "Politika vračil",
     updated: "Zadnja posodobitev: april 2026",
-    intro:
-      "Ta Politika vračil pojasnjuje, kdaj so vračila na voljo za naročnine Legantis.",
-    sections: [
+    intro: "",
+    policySections: [
       {
-        title: "1. Naročnina",
-        body: "Mesečne naročnine niso vračljive, ko se obračunsko obdobje začne.",
+        title: "1. Merchant of Record",
+        body: `Vsa plačila za naročnine Legantis obdeluje Paddle.com, naš trgovec v evidenci. Paddle vodi vso obdelavo plačil, zaračunavanje in vloge za vračila.
+
+„Naš postopek naročanja vodi naš spletni preprodajalec Paddle.com. Paddle je trgovec v evidenci za vsa naša naročila. Paddle zagotavlja vse poizvedbe v skrb za stranke in rešuje vračila.“`,
       },
       {
-        title: "2. Brezplačni preizkus",
-        body: "Novi uporabniki lahko uporabljajo brezplačno raven z omejenimi funkcijami. Za začetek plačilo ni potrebno.",
+        title: "2. Rok za vračilo",
+        body: "Zahteve za vračilo morajo biti poslane v 30 dneh od datuma transakcije. Zahteve, poslane po 30 dneh, ne bodo obdelane.",
       },
       {
-        title: "3. Preklic",
-        body: "Naročnino lahko kadar koli prekličete. Preklic začne veljati ob koncu trenutnega obračunskega obdobja. Dostop boste imeli do takrat.",
+        title: "3. Kako zahtevati vračilo",
+        body: "Če želite vračilo, obiščite paddle.net ali se neposredno obrnite na podporo družbe Paddle. Legantis vračil ne obdeluje neposredno — vse zahteve za vračilo obravnava Paddle.",
       },
       {
-        title: "4. Izjeme",
-        body: "V primeru tehnične napake ali nedosegljivosti storitve, ki traja več kot 48 ur, lahko uporabniki zahtevajo sorazmerno vračilo tako, da kontaktirajo support@legantis.app",
+        title: "4. Preklic naročnine",
+        body: "Naročnino lahko kadar koli prekličete. Preklic začne veljati ob koncu trenutnega obračunskega obdobja. Dostop boste imeli do takrat. Preklici samodejno ne sprožijo vračila.",
       },
       {
-        title: "5. Kontakt",
-        body: "",
+        title: "5. Brezplačna raven",
+        body: "Legantis ponuja brezplačno raven z omejenimi funkcijami. Plačilo ni potrebno za dostop do brezplačne ravni.",
       },
     ],
-    contactPrefix: "Za zahteve za vračilo kontaktirajte",
+    contact: {
+      title: "6. Kontakt",
+      visitPrefix: "Za zahteve za vračilo obiščite:",
+      otherPrefix: "Za druga vprašanja:",
+    },
   },
   me: {
     backHome: "Povratak na početnu stranicu",
     title: "Politika povraćaja sredstava",
     updated: "Posljednje ažuriranje: april 2026",
-    intro:
-      "Ova Politika povraćaja sredstava objašnjava kada su povraćaji dostupni za Legantis pretplate.",
-    sections: [
+    intro: "",
+    policySections: [
       {
-        title: "1. Naknade za pretplatu",
-        body: "Mjesečne naknade za pretplatu nijesu povratne nakon što obračunski period započne.",
+        title: "1. Merchant of Record",
+        body: `Sva plaćanja za Legantis pretplate obrađuje Paddle.com, naš trgovac na mapi. Paddle vodi cjelokupno procesiranje plaćanja, naplatu i zahtjeve za povraćaj sredstava.
+
+„Naš proces poručivanja sprovodi naš onlajn preprodavac Paddle.com. Paddle je trgovac na mapi za sve naše porudžbine. Paddle pruža sve upite korisničke podrške i rešava povrate.“`,
       },
       {
-        title: "2. Besplatni probni period",
-        body: "Novi korisnici mogu koristiti besplatan nivo sa ograničenim funkcijama. Nije potrebno plaćanje za početak.",
+        title: "2. Rok za povraćaj",
+        body: "Zahtjevi za povraćaj moraju biti podnijeti u roku od 30 dana od datuma transakcije. Zahtjevi podnijeti nakon 30 dana neće biti obrađeni.",
       },
       {
-        title: "3. Otkazivanje",
-        body: "Pretplatu možete otkazati u bilo kom trenutku. Otkazivanje stupa na snagu na kraju tekućeg obračunskog perioda. Zadržaćete pristup do tada.",
+        title: "3. Kako zatražiti povraćaj",
+        body: "Da biste zatražili povraćaj, posjetite paddle.net ili se direktno obratite podršci kompanije Paddle. Legantis ne obrađuje povraćaje direktno — sve zahteve za povraćaj rešava Paddle.",
       },
       {
-        title: "4. Izuzeci",
-        body: "U slučaju tehničkog kvara ili nedostupnosti usluge duže od 48 sati, korisnici mogu zatražiti proporcionalni povraćaj kontaktiranjem support@legantis.app",
+        title: "4. Otkazivanje pretplate",
+        body: "Pretplatu možete otkazati u bilo kom trenutku. Otkazivanje stupa na snagu na kraju tekućeg obračunskog perioda. Zadržaćete pristup do tada. Otkazivanja automatski ne pokreću povraćaj sredstava.",
       },
       {
-        title: "5. Kontakt",
-        body: "",
+        title: "5. Besplatan nivo",
+        body: "Legantis nudi besplatan nivo sa ograničenim funkcijama. Nije potrebno plaćanje da biste pristupili besplatnom nivou.",
       },
     ],
-    contactPrefix: "Za zahtjeve za povraćaj sredstava, kontaktirajte",
+    contact: {
+      title: "6. Kontakt",
+      visitPrefix: "Za zahtjeve za povraćaj sredstava, posjetite:",
+      otherPrefix: "Za ostala pitanja:",
+    },
   },
 }
 
@@ -229,33 +265,47 @@ export default function RefundPage() {
               {content.title}
             </h1>
             <p className="mt-3 text-sm text-muted-foreground">{content.updated}</p>
-            <p className="mt-6 max-w-3xl text-muted-foreground">{content.intro}</p>
+            {content.intro ? (
+              <p className="mt-6 max-w-3xl text-muted-foreground">{content.intro}</p>
+            ) : null}
           </div>
         </section>
 
         <section className="py-16 sm:py-24">
           <div className="mx-auto max-w-6xl px-4 sm:px-6">
             <div className="grid gap-10">
-              {content.sections.slice(0, 4).map((section) => (
+              {content.policySections.map((section) => (
                 <div key={section.title}>
                   <h2 className="text-xl font-semibold text-foreground">{section.title}</h2>
-                  <p className="mt-2 text-muted-foreground">{section.body}</p>
+                  <p className="mt-2 whitespace-pre-line text-muted-foreground">
+                    {section.body}
+                  </p>
                 </div>
               ))}
 
               <div>
                 <h2 className="text-xl font-semibold text-foreground">
-                  {content.sections[4].title}
+                  {content.contact.title}
                 </h2>
                 <p className="mt-2 text-muted-foreground">
-                  {content.contactPrefix}{" "}
+                  {content.contact.visitPrefix}{" "}
+                  <a
+                    href={PADDLE_HREF}
+                    className="font-medium text-foreground underline underline-offset-4"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    paddle.net
+                  </a>
+                </p>
+                <p className="mt-2 text-muted-foreground">
+                  {content.contact.otherPrefix}{" "}
                   <a
                     href="mailto:support@legantis.app"
                     className="font-medium text-foreground underline underline-offset-4"
                   >
                     support@legantis.app
                   </a>
-                  .
                 </p>
               </div>
             </div>
@@ -265,4 +315,3 @@ export default function RefundPage() {
     </div>
   )
 }
-

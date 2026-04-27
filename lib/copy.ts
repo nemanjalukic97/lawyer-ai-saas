@@ -8,6 +8,8 @@ export const authCopy = {
   passwordLabel: "Password",
   loginButton: "Log in",
   signupButton: "Sign up",
+  signingIn: "Signing in...",
+  signingUp: "Creating account...",
   dontHaveAccount: "Don't have an account?",
   alreadyHaveAccount: "Already have an account?",
 }

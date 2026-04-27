@@ -1,10 +1,10 @@
 import Link from "next/link"
 
 import { login } from "./actions"
-import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import AuthSubmitButton from "@/components/auth/AuthSubmitButton"
 import { authCopy } from "@/lib/copy"
 
 export default async function LoginPage({
@@ -81,9 +81,13 @@ export default async function LoginPage({
               </p>
             ) : null}
 
-            <Button type="submit" className="w-full" formAction={login}>
+            <AuthSubmitButton
+              className="w-full"
+              formAction={login}
+              loadingKey="auth.signingIn"
+            >
               {authCopy.loginButton}
-            </Button>
+            </AuthSubmitButton>
           </form>
 
           <p className="text-sm text-center text-muted-foreground">

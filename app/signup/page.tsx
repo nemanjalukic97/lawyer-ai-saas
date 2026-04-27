@@ -1,11 +1,11 @@
 import Link from "next/link"
 
 import { signup } from "./actions"
-import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import JurisdictionSelect from "@/components/JurisdictionSelect"
+import AuthSubmitButton from "@/components/auth/AuthSubmitButton"
 import { authCopy } from "@/lib/copy"
 
 type SignupSearchParams = {
@@ -173,9 +173,12 @@ export default async function SignupPage({
                 </p>
               ) : null}
 
-              <Button type="submit" className="w-full">
+              <AuthSubmitButton
+                className="w-full"
+                loadingKey="auth.creatingAccount"
+              >
                 {authCopy.signupButton}
-              </Button>
+              </AuthSubmitButton>
             </form>
 
             <p className="text-sm text-center text-muted-foreground">

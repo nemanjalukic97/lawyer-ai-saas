@@ -48,6 +48,10 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       logout: "Log out",
       themeToggle: "Toggle light and dark theme",
     },
+    auth: {
+      signingIn: "Signing in...",
+      creatingAccount: "Creating account...",
+    },
     redline: {
       header: {
         title: "Document Redlining",
@@ -2022,6 +2026,10 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       management: "Upravljanje",
       logout: "Odjava",
       themeToggle: "Prebacivanje svetle i tamne teme",
+    },
+    auth: {
+      signingIn: "Prijava u toku...",
+      creatingAccount: "Kreiranje naloga...",
     },
     redline: {
       header: {
@@ -4133,6 +4141,10 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       logout: "Odjava",
       themeToggle: "Prebacivanje svijetle i tamne teme",
     },
+    auth: {
+      signingIn: "Prijava u toku...",
+      creatingAccount: "Kreiranje računa...",
+    },
     redline: {
       header: {
         title: "Izmjena ugovora",
@@ -6112,6 +6124,10 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       logout: "Odjava",
       themeToggle: "Prebacivanje svijetle i tamne teme",
     },
+    auth: {
+      signingIn: "Prijava u tijeku...",
+      creatingAccount: "Kreiranje računa...",
+    },
     redline: {
       header: {
         title: "Izmjena ugovora",
@@ -8090,6 +8106,10 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       logout: "Odjava",
       themeToggle: "Preklopi svetlo in temno temo",
     },
+    auth: {
+      signingIn: "Prijava poteka...",
+      creatingAccount: "Ustvarjanje računa...",
+    },
     redline: {
       header: {
         title: "Spremembe pogodbe",
@@ -9996,6 +10016,10 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       management: "Upravljanje",
       logout: "Odjava",
       themeToggle: "Prebacivanje svijetle i tamne teme",
+    },
+    auth: {
+      signingIn: "Prijava u toku...",
+      creatingAccount: "Kreiranje naloga...",
     },
     redline: {
       header: {
