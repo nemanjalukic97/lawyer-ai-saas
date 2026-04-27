@@ -372,15 +372,48 @@ const MESSAGES: Record<LanguageCode, Messages> = {
     },
     home: {
       hero: {
-        title: "Legantis – AI Legal Assistant for Balkan lawyers",
+        trustBadge:
+          "Trusted by lawyers across Bosnia, Serbia, Croatia, Montenegro & Slovenia",
+        title: "Your AI legal assistant. Built for Balkan law.",
         subtitle:
-          "Draft contracts, predict case outcomes, analyze documents, and manage clients—built for Bosnia & Herzegovina, Serbia, Croatia, Montenegro, and Slovenia.",
+          "Draft contracts in minutes. Predict outcomes. Manage clients. All in one platform for BiH, Serbia, Croatia, Montenegro, and Slovenia.",
+        getStartedFree: "Get started free",
         pricingCta: "See pricing",
+        noCreditCard: "No credit card required · Cancel anytime",
+        dashboardPreview: "Dashboard preview",
+      },
+      jurisdictionBar: {
+        title: "Built for the legal systems of:",
+        countries: {
+          ba: "🇧🇦 Bosnia & Herzegovina",
+          rs: "🇷🇸 Serbia",
+          hr: "🇭🇷 Croatia",
+          me: "🇲🇪 Montenegro",
+          si: "🇸🇮 Slovenia",
+        },
+      },
+      howItWorks: {
+        title: "How Legantis works",
+        step1: {
+          title: "Sign up in 60 seconds",
+          desc: "Create your account, choose your jurisdiction and language. No setup required.",
+        },
+        step2: {
+          title: "Describe what you need",
+          desc: "Tell Legantis what to draft, analyze, or research. Works like a conversation.",
+        },
+        step3: {
+          title: "Get lawyer-ready output",
+          desc: "Download contracts, predictions, and analysis ready to use or review.",
+        },
       },
       features: {
+        badge: "16+ AI features",
         title: "Everything you need to work smarter",
+        titleNew: "Everything a modern law firm needs",
         subtitle:
           "One platform for drafting, prediction, analysis, time tracking, and client collaboration.",
+        seeAll: "See all features →",
         items: {
           contracts: {
             title: "AI Contract Drafting",
@@ -410,10 +443,27 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         },
       },
       pricing: {
+        noFees: "Simple pricing. No hidden fees.",
         title: "Simple, Transparent Pricing",
         subtitle:
           "Choose the plan that fits your practice. All plans include core AI features.",
-        recommended: "Recommended",
+        recommended: "Most Popular",
+        trustLine:
+          "Secure payment via Paddle · GDPR compliant · Cancel anytime",
+        comparison: {
+          colFeature: "Feature",
+          colSolo: "Solo",
+          colProfessional: "Professional",
+          colFirm: "Firm",
+          rowAiCalls: "AI calls/day",
+          rowContractTypes: "Contract types",
+          rowUsers: "Users",
+          rowPriority: "Priority support",
+          all: "All",
+          usersFirm: "Up to 5",
+          yes: "✓",
+          no: "✗",
+        },
         tiers: {
           solo: {
             name: "Solo",
@@ -448,6 +498,28 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         perMonth: "/month",
         cta: "Get started",
       },
+      testimonials: {
+        badge: "Early access feedback",
+        title: "What lawyers are saying",
+        disclaimer: "* Early access feedback — names withheld for privacy",
+        items: {
+          "1": {
+            quote:
+              "Legantis saved me hours on contract drafting. The jurisdiction-specific clauses are exactly right.",
+            name: "Advokat, Sarajevo",
+          },
+          "2": {
+            quote:
+              "The case prediction feature helps me set realistic expectations with clients from day one.",
+            name: "Odvjetnik, Zagreb",
+          },
+          "3": {
+            quote:
+              "I manage deadlines, invoices, and documents all in one place. Finally.",
+            name: "Advokat, Beograd",
+          },
+        },
+      },
       faq: {
         title: "Frequently asked questions",
         subtitle:
@@ -481,6 +553,16 @@ const MESSAGES: Record<LanguageCode, Messages> = {
             answer:
               "Yes. You can upgrade, downgrade, or cancel your plan from billing settings at any time. Plan changes usually apply from the next billing cycle unless we state otherwise. If you cancel, you typically keep access through the period you have already paid for.",
           },
+          q6: {
+            question: "Is my client data secure?",
+            answer:
+              "Yes. All data is stored in EU-region Supabase servers, encrypted at rest. We are GDPR compliant.",
+          },
+          q7: {
+            question: "Can I cancel my subscription anytime?",
+            answer:
+              "Yes. You can cancel at any time from your billing settings. No cancellation fees.",
+          },
         },
       },
     },
@@ -491,7 +573,14 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       privacy: "Privacy",
       terms: "Terms",
       contact: "Contact",
+      product: "Product",
+      legal: "Legal",
       rights: "All rights reserved",
+      faqLink: "FAQ",
+      privacyPolicy: "Privacy Policy",
+      termsOfService: "Terms of Service",
+      refundPolicy: "Refund Policy",
+      supportEmail: "support@legantis.app",
     },
     generate: {
       header: {
@@ -2485,15 +2574,48 @@ const MESSAGES: Record<LanguageCode, Messages> = {
     },
     home: {
       hero: {
-        title: "Legantis – AI Pravni Asistent za balkanske advokate",
+        trustBadge:
+          "Pouzdani među advokatima u Bosni, Srbiji, Hrvatskoj, Crnoj Gori i Sloveniji",
+        title: "Vaš AI pravni asistent. Napravljen za balkanske advokate.",
         subtitle:
-          "Pripremite ugovore, predvidite ishod sporova, analizirajte dokumenta i vodite klijente – posebno prilagođeno za zemlje Balkana.",
+          "Pripremite ugovore za nekoliko minuta. Predvidite ishod. Upravljajte klijentima. Sve na jednoj platformi za BiH, Srbiju, Hrvatsku, Crnu Goru i Sloveniju.",
+        getStartedFree: "Započnite besplatno",
         pricingCta: "Pogledaj cene",
+        noCreditCard: "Kreditna kartica nije potrebna · Otkažite u bilo kom trenutku",
+        dashboardPreview: "Pregled kontrolne table",
+      },
+      jurisdictionBar: {
+        title: "Napravljeno za pravne sisteme:",
+        countries: {
+          ba: "🇧🇦 Bosna i Hercegovina",
+          rs: "🇷🇸 Srbija",
+          hr: "🇭🇷 Hrvatska",
+          me: "🇲🇪 Crna Gora",
+          si: "🇸🇮 Slovenija",
+        },
+      },
+      howItWorks: {
+        title: "Kako Legantis radi",
+        step1: {
+          title: "Registracija za 60 sekundi",
+          desc: "Kreirajte nalog, odaberite jurisdikciju i jezik. Bez dodatne konfiguracije.",
+        },
+        step2: {
+          title: "Opišite šta vam treba",
+          desc: "Recite Legantisu šta da pripremi, analizira ili istraži. Kao u razgovoru.",
+        },
+        step3: {
+          title: "Dobijte spreman materijal",
+          desc: "Preuzmite ugovore, predviđanja i analize spremne za korišćenje ili proveru.",
+        },
       },
       features: {
+        badge: "16+ AI funkcija",
         title: "Sve što vam treba da radite pametnije",
+        titleNew: "Sve što savremenoj advokatskoj kancelariji treba",
         subtitle:
           "Jedna platforma za pisanje, predviđanje, analizu, evidenciju vremena i saradnju sa klijentima.",
+        seeAll: "Pogledaj sve funkcije →",
         items: {
           contracts: {
             title: "AI izrada ugovora",
@@ -2523,10 +2645,27 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         },
       },
       pricing: {
+        noFees: "Jednostavne cene. Bez skrivenih troškova.",
         title: "Jednostavne i Transparentne Cene",
         subtitle:
           "Izaberite paket koji odgovara vašoj kancelariji. Svi paketi uključuju ključne AI funkcionalnosti.",
-        recommended: "Preporučeno",
+        recommended: "Najpopularniji",
+        trustLine:
+          "Sigurna uplata preko Paddle-a · U skladu sa GDPR-om · Otkažite u bilo kom trenutku",
+        comparison: {
+          colFeature: "Funkcija",
+          colSolo: "Solo",
+          colProfessional: "Professional",
+          colFirm: "Firm",
+          rowAiCalls: "AI poziva dnevno",
+          rowContractTypes: "Vrste ugovora",
+          rowUsers: "Korisnici",
+          rowPriority: "Prioritetna podrška",
+          all: "Sve",
+          usersFirm: "Do 5",
+          yes: "✓",
+          no: "✗",
+        },
         tiers: {
           solo: {
             name: "Solo",
@@ -2561,6 +2700,29 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         perMonth: "/mesečno",
         cta: "Započni",
       },
+      testimonials: {
+        badge: "Povratne informacije (rani pristup)",
+        title: "Šta advokati kažu",
+        disclaimer:
+          "* Povratne informacije u ranoj fazi — imena su izostavljena radi privatnosti",
+        items: {
+          "1": {
+            quote:
+              "Legantis mi je uštedeo sate na pripremi ugovora. Klauzule po jurisdikciji su tačno ono što treba.",
+            name: "Advokat, Sarajevo",
+          },
+          "2": {
+            quote:
+              "Predviđanje ishoda mi pomaže da od prvog dana postavim realna očekivanja klijenata.",
+            name: "Advokat, Zagreb",
+          },
+          "3": {
+            quote:
+              "Rokove, račune i dokumente vodim na jednom mestu. Konačno.",
+            name: "Advokat, Beograd",
+          },
+        },
+      },
       faq: {
         title: "Često postavljana pitanja",
         subtitle:
@@ -2594,6 +2756,16 @@ const MESSAGES: Record<LanguageCode, Messages> = {
             answer:
               "Da. Paket možete unaprediti, smanjiti ili otkazati u svakom trenutku kroz podešavanja naplate. Izmene se obično primenjuju od sledećeg obračunskog ciklusa, osim ako nije drugačije navedeno. Ako otkažete, obično zadržavate pristup do kraja već plaćenog perioda.",
           },
+          q6: {
+            question: "Da li su podaci o klijentima sigurni?",
+            answer:
+              "Da. Svi podaci se čuvaju na Supabase serverima u EU oblasti, enkriptovani u mirovanju. U skladu smo sa GDPR-om.",
+          },
+          q7: {
+            question: "Mogu li otkazati pretplatu u bilo kom trenutku?",
+            answer:
+              "Da. Možete otkazati u bilo kom trenutku u podešavanjima naplate. Bez troškova otkazivanja.",
+          },
         },
       },
     },
@@ -2604,7 +2776,14 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       privacy: "Privatnost",
       terms: "Uslovi korišćenja",
       contact: "Kontakt",
+      product: "Proizvod",
+      legal: "Pravno",
       rights: "Sva prava zadržana",
+      faqLink: "ČPP",
+      privacyPolicy: "Politika privatnosti",
+      termsOfService: "Uslovi korišćenja",
+      refundPolicy: "Politika refundacije",
+      supportEmail: "support@legantis.app",
     },
     dashboard: {
       featureUsage: {
@@ -4465,15 +4644,48 @@ const MESSAGES: Record<LanguageCode, Messages> = {
     },
     home: {
       hero: {
-        title: "Legantis – AI Pravni Asistent za odvjetnike na Balkanu",
+        trustBadge:
+          "Pouzdani među advokatima u Bosni, Srbiji, Hrvatskoj, Crnoj Gori i Sloveniji",
+        title: "Vaš AI pravni asistent. Napravljen za balkanske advokate.",
         subtitle:
-          "Pripremite ugovore, predvidite ishod sporova, analizirajte dokumente i vodite klijente – prilagođeno za zemlje Balkana.",
+          "Pripremite ugovore za nekoliko minuta. Predvidite ishod. Upravljajte klijentima. Sve na jednoj platformi za BiH, Srbiju, Hrvatsku, Crnu Goru i Sloveniju.",
+        getStartedFree: "Započnite besplatno",
         pricingCta: "Pogledaj cijene",
+        noCreditCard: "Kreditna kartica nije potrebna · Otkažite u bilo kojem trenutku",
+        dashboardPreview: "Pregled kontrolne ploče",
+      },
+      jurisdictionBar: {
+        title: "Napravljeno za pravne sisteme:",
+        countries: {
+          ba: "🇧🇦 Bosna i Hercegovina",
+          rs: "🇷🇸 Srbija",
+          hr: "🇭🇷 Hrvatska",
+          me: "🇲🇪 Crna Gora",
+          si: "🇸🇮 Slovenija",
+        },
+      },
+      howItWorks: {
+        title: "Kako Legantis radi",
+        step1: {
+          title: "Registracija za 60 sekundi",
+          desc: "Kreirajte račun, odaberite jurisdikciju i jezik. Bez dodatne konfiguracije.",
+        },
+        step2: {
+          title: "Opišite šta vam treba",
+          desc: "Recite Legantisu šta treba pripremiti, analizirati ili istražiti. Kao u razgovoru.",
+        },
+        step3: {
+          title: "Dobijte spreman materijal",
+          desc: "Preuzmite ugovore, predviđanja i analize spremne za korištenje ili provjeru.",
+        },
       },
       features: {
+        badge: "16+ AI funkcija",
         title: "Sve što vam treba da radite pametnije",
+        titleNew: "Sve što modernoj advokatskoj kancelariji treba",
         subtitle:
           "Jedna platforma za pisanje, predviđanje, analizu, evidenciju vremena i saradnju s klijentima.",
+        seeAll: "Pogledaj sve funkcije →",
         items: {
           contracts: {
             title: "AI izrada ugovora",
@@ -4503,10 +4715,27 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         },
       },
       pricing: {
+        noFees: "Jednostavne cijene. Bez skrivenih troškova.",
         title: "Jednostavne i Transparentne Cijene",
         subtitle:
           "Odaberite paket koji odgovara vašoj kancelariji. Svi paketi uključuju ključne AI funkcionalnosti.",
-        recommended: "Preporučeno",
+        recommended: "Najpopularniji",
+        trustLine:
+          "Sigurna uplata preko Paddle-a · U skladu s GDPR-om · Otkažite u bilo kojem trenutku",
+        comparison: {
+          colFeature: "Funkcija",
+          colSolo: "Solo",
+          colProfessional: "Professional",
+          colFirm: "Firm",
+          rowAiCalls: "AI poziva dnevno",
+          rowContractTypes: "Vrste ugovora",
+          rowUsers: "Korisnici",
+          rowPriority: "Prioritetna podrška",
+          all: "Sve",
+          usersFirm: "Do 5",
+          yes: "✓",
+          no: "✗",
+        },
         tiers: {
           solo: {
             name: "Solo",
@@ -4541,6 +4770,29 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         perMonth: "/mjesečno",
         cta: "Započni",
       },
+      testimonials: {
+        badge: "Povratne informacije (rani pristup)",
+        title: "Što advokati kažu",
+        disclaimer:
+          "* Povratne informacije u ranoj fazi — imena su izostavljena radi privatnosti",
+        items: {
+          "1": {
+            quote:
+              "Legantis mi je uštedio sate na pripremi ugovora. Klauzule po jurisdikciji su tačno ono što treba.",
+            name: "Advokat, Sarajevo",
+          },
+          "2": {
+            quote:
+              "Predviđanje ishoda mi pomaže da od prvog dana postavim realna očekivanja klijenata.",
+            name: "Odvjetnik, Zagreb",
+          },
+          "3": {
+            quote:
+              "Rokove, račune i dokumente vodim na jednom mjestu. Konačno.",
+            name: "Advokat, Beograd",
+          },
+        },
+      },
       faq: {
         title: "Često postavljana pitanja",
         subtitle:
@@ -4574,6 +4826,16 @@ const MESSAGES: Record<LanguageCode, Messages> = {
             answer:
               "Da. Paket možete nadograditi, smanjiti ili otkazati u svakom trenutku kroz postavke naplate. Promjene se obično primjenjuju od sljedećeg obračunskog ciklusa osim ako nije drugačije navedeno. Ako otkažete, obično zadržavate pristup do kraja već plaćenog razdoblja.",
           },
+          q6: {
+            question: "Jesu li podaci o klijentima sigurni?",
+            answer:
+              "Da. Svi podaci se pohranjuju na Supabase serverima u EU regiji, šifrirani u mirovanju. U skladu smo s GDPR-om.",
+          },
+          q7: {
+            question: "Mogu li otkazati pretplatu u bilo kojem trenutku?",
+            answer:
+              "Da. Možete otkazati u bilo kojem trenutku u postavkama naplate. Bez naknade za otkazivanje.",
+          },
         },
       },
     },
@@ -4584,7 +4846,14 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       privacy: "Privatnost",
       terms: "Uslovi korištenja",
       contact: "Kontakt",
+      product: "Proizvod",
+      legal: "Pravno",
       rights: "Sva prava zadržana",
+      faqLink: "ČPP",
+      privacyPolicy: "Pravila privatnosti",
+      termsOfService: "Uslovi korištenja",
+      refundPolicy: "Pravila povrata novca",
+      supportEmail: "support@legantis.app",
     },
     dashboard: {
       featureUsage: {
@@ -6448,15 +6717,48 @@ const MESSAGES: Record<LanguageCode, Messages> = {
     },
     home: {
       hero: {
-        title: "Legantis – AI Pravni Asistent za odvjetnike na Balkanu",
+        trustBadge:
+          "Pouzdani među odvjetnicima u Bosni, Srbiji, Hrvatskoj, Crnoj Gori i Sloveniji",
+        title: "Vaš AI pravni asistent. Izgrađen za balkanske odvjetnike.",
         subtitle:
-          "Pripremite ugovore, predvidite ishod sporova, analizirajte dokumente i vodite klijente – prilagođeno za zemlje Balkana.",
+          "Pripremite ugovore za nekoliko minuta. Predvidite ishod. Upravljajte klijentima. Sve na jednoj platformi za BiH, Srbiju, Hrvatsku, Crnu Goru i Sloveniju.",
+        getStartedFree: "Započnite besplatno",
         pricingCta: "Pogledaj cijene",
+        noCreditCard: "Kreditna kartica nije potrebna · Otkažite u bilo kojem trenutku",
+        dashboardPreview: "Pregled nadzorne ploče",
+      },
+      jurisdictionBar: {
+        title: "Izgrađeno za pravne sustave:",
+        countries: {
+          ba: "🇧🇦 Bosna i Hercegovina",
+          rs: "🇷🇸 Srbija",
+          hr: "🇭🇷 Hrvatska",
+          me: "🇲🇪 Crna Gora",
+          si: "🇸🇮 Slovenija",
+        },
+      },
+      howItWorks: {
+        title: "Kako Legantis radi",
+        step1: {
+          title: "Registracija za 60 sekundi",
+          desc: "Otvorite račun, odaberite jurisdikciju i jezik. Bez dodatne postavke.",
+        },
+        step2: {
+          title: "Opišite što vam treba",
+          desc: "Recite Legantisu što pripremiti, analizirati ili istražiti. Kao u razgovoru.",
+        },
+        step3: {
+          title: "Dobijte spreman materijal",
+          desc: "Preuzmite ugovore, predviđanja i analize spremne za korištenje ili reviziju.",
+        },
       },
       features: {
+        badge: "16+ AI značajki",
         title: "Sve što vam treba da radite pametnije",
+        titleNew: "Sve što modernom odvjetničkom uredu treba",
         subtitle:
           "Jedna platforma za pisanje, predviđanje, analizu, evidenciju vremena i suradnju s klijentima.",
+        seeAll: "Pogledajte sve značajke →",
         items: {
           contracts: {
             title: "AI izrada ugovora",
@@ -6486,10 +6788,27 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         },
       },
       pricing: {
+        noFees: "Jednostavne cijene. Bez skrivenih naknada.",
         title: "Jednostavne i Transparentne Cijene",
         subtitle:
           "Odaberite paket koji odgovara vašem uredu. Svi paketi uključuju ključne AI funkcionalnosti.",
-        recommended: "Preporučeno",
+        recommended: "Najpopularniji",
+        trustLine:
+          "Sigurna uplata putem Paddle-a · U skladu s GDPR-om · Otkažite u bilo kojem trenutku",
+        comparison: {
+          colFeature: "Značajka",
+          colSolo: "Solo",
+          colProfessional: "Professional",
+          colFirm: "Firm",
+          rowAiCalls: "AI poziva dnevno",
+          rowContractTypes: "Vrste ugovora",
+          rowUsers: "Korisnici",
+          rowPriority: "Prioritetna podrška",
+          all: "Sve",
+          usersFirm: "Do 5",
+          yes: "✓",
+          no: "✗",
+        },
         tiers: {
           solo: {
             name: "Solo",
@@ -6524,6 +6843,29 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         perMonth: "/mjesečno",
         cta: "Započni",
       },
+      testimonials: {
+        badge: "Povratne informacije (rani pristup)",
+        title: "Što odvjetnici kažu",
+        disclaimer:
+          "* Povratne informacije u ranoj fazi — imena su izostavljena radi privatnosti",
+        items: {
+          "1": {
+            quote:
+              "Legantis mi je uštedio sate na pripremi ugovora. Klauzule po jurisdikciji su točno ono što treba.",
+            name: "Advokat, Sarajevo",
+          },
+          "2": {
+            quote:
+              "Značajka predviđanja ishoda pomaže mi postaviti realna očekivanja s klijentima od prvog dana.",
+            name: "Odvjetnik, Zagreb",
+          },
+          "3": {
+            quote:
+              "Rokove, račune i dokumente upravljam na jednom mjestu. Konačno.",
+            name: "Advokat, Beograd",
+          },
+        },
+      },
       faq: {
         title: "Često postavljana pitanja",
         subtitle:
@@ -6557,6 +6899,16 @@ const MESSAGES: Record<LanguageCode, Messages> = {
             answer:
               "Da. Paket možete nadograditi, smanjiti ili otkazati u bilo kojem trenutku kroz postavke naplate. Promjene se obično primjenjuju od sljedećeg obračunskog ciklusa osim ako nije drugačije navedeno. Ako otkažete, obično zadržavate pristup do kraja već plaćenog razdoblja.",
           },
+          q6: {
+            question: "Jesu li podaci o klijentima sigurni?",
+            answer:
+              "Da. Svi se podaci pohranjuju na Supabase poslužiteljima u EU regiji, šifrirani u mirovanju. U skladu smo s GDPR-om.",
+          },
+          q7: {
+            question: "Mogu li otkazati pretplatu u bilo kojem trenutku?",
+            answer:
+              "Da. Možete otkazati u bilo kojem trenutku u postavkama naplate. Bez naknade za otkazivanje.",
+          },
         },
       },
     },
@@ -6567,7 +6919,14 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       privacy: "Privatnost",
       terms: "Uvjeti korištenja",
       contact: "Kontakt",
+      product: "Proizvod",
+      legal: "Pravno",
       rights: "Sva prava pridržana",
+      faqLink: "ČPP",
+      privacyPolicy: "Pravila privatnosti",
+      termsOfService: "Uvjeti pružanja usluge",
+      refundPolicy: "Pravila povrata",
+      supportEmail: "support@legantis.app",
     },
     conflict: {
       header: {
@@ -8363,15 +8722,48 @@ const MESSAGES: Record<LanguageCode, Messages> = {
     },
     home: {
       hero: {
-        title: "Legantis – AI Pravni Asistent za odvetnike na Balkanu",
+        trustBadge:
+          "Zaupajo nam odvetniki v Bosni, Srbiji, na Hrvaškem, v Črni gori in Sloveniji",
+        title: "Vaš AI pravni asistent. Zgrajen za balkanske odvetnike.",
         subtitle:
-          "Pripravite pogodbe, napoveste izid sporov, analizirajte dokumente in upravljajte stranke – prilagojeno za države Balkana.",
+          "Pripravite pogodbe v nekaj minutah. Napovejte izid. Upravljajte s strankami. Vse na eni platformi za BiH, Srbijo, Hrvaško, Črno goro in Slovenijo.",
+        getStartedFree: "Začnite brezplačno",
         pricingCta: "Poglej cene",
+        noCreditCard: "Kreditna kartica ni potrebna · Preklic kadarkoli",
+        dashboardPreview: "Predogled nadzorne plošče",
+      },
+      jurisdictionBar: {
+        title: "Zgrajeno za pravne redove:",
+        countries: {
+          ba: "🇧🇦 Bosna in Hercegovina",
+          rs: "🇷🇸 Srbija",
+          hr: "🇭🇷 Hrvaška",
+          me: "🇲🇪 Črna gora",
+          si: "🇸🇮 Slovenija",
+        },
+      },
+      howItWorks: {
+        title: "Kako deluje Legantis",
+        step1: {
+          title: "Registracija v 60 sekundah",
+          desc: "Ustvarite račun, izberite jurisdikcijo in jezik. Brez zahtevne nastavitve.",
+        },
+        step2: {
+          title: "Opišite, kar potrebujete",
+          desc: "Povejte Legantisu, kaj naj pripravi, analizira ali raziskuje. Kot pogovor.",
+        },
+        step3: {
+          title: "Prejmite pripravljen izhod",
+          desc: "Prenesite pogodbe, napovedi in analize, pripravljene za uporabo ali pregled.",
+        },
       },
       features: {
+        badge: "16+ AI funkcij",
         title: "Vse, kar potrebujete za pametnejše delo",
+        titleNew: "Vse, kar potrebuje moderna odvetniška pisarna",
         subtitle:
           "Ena platforma za pisanje, napovedovanje, analizo, beleženje časa in sodelovanje s strankami.",
+        seeAll: "Oglejte si vse funkcije →",
         items: {
           contracts: {
             title: "AI priprava pogodb",
@@ -8401,10 +8793,27 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         },
       },
       pricing: {
-        title: "Preproste In Pregledne Cene",
+        noFees: "Preproste cene. Brez skritih pristojbin.",
+        title: "Preproste in pregledne cene",
         subtitle:
           "Izberite paket, ki ustreza vaši pisarni. Vsi paketi vključujejo ključne AI funkcionalnosti.",
-        recommended: "Priporočeno",
+        recommended: "Najbolj priljubljen",
+        trustLine:
+          "Varno plačilo prek Paddle · Skladno z GDPR · Preklic kadarkoli",
+        comparison: {
+          colFeature: "Funkcija",
+          colSolo: "Solo",
+          colProfessional: "Professional",
+          colFirm: "Firm",
+          rowAiCalls: "AI klicev na dan",
+          rowContractTypes: "Vrste pogodb",
+          rowUsers: "Uporabniki",
+          rowPriority: "Prednostna podpora",
+          all: "Vse",
+          usersFirm: "Do 5",
+          yes: "✓",
+          no: "✗",
+        },
         tiers: {
           solo: {
             name: "Solo",
@@ -8439,6 +8848,29 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         perMonth: "/mesec",
         cta: "Začni",
       },
+      testimonials: {
+        badge: "Mnenja (zgodnji dostop)",
+        title: "Kaj pravijo odvetniki",
+        disclaimer:
+          "* Mnenja v fazi zgodnjega dostopa — imena so zaradi zasebnosti zadržana",
+        items: {
+          "1": {
+            quote:
+              "Legantis mi je prihranil ure pri pripravi pogodb. Klavzule za izbrano jurisdikcijo so točno prave.",
+            name: "Odvetnik, Sarajevo",
+          },
+          "2": {
+            quote:
+              "Funkcija napovedi izida mi pomaga že od prvega dne postaviti realistična pričakovanja strank.",
+            name: "Odvetnik, Zagreb",
+          },
+          "3": {
+            quote:
+              "Roke, račune in dokumente upravljam na enem mestu. Končno.",
+            name: "Odvetnik, Beograd",
+          },
+        },
+      },
       faq: {
         title: "Pogosta vprašanja",
         subtitle:
@@ -8472,6 +8904,16 @@ const MESSAGES: Record<LanguageCode, Messages> = {
             answer:
               "Da. Paket lahko kadarkoli nadgradite, znižate ali prekličete v nastavitvah obračunavanja. Spremembe se običajno uveljavijo od naslednjega obračunskega cikla, razen če ni drugače navedeno. Če prekličete, običajno obdržite dostop do konca že plačanega obdobja.",
           },
+          q6: {
+            question: "Ali so podatki strank varni?",
+            answer:
+              "Da. Vsi podatki so shranjeni na strežnikih Supabase v EU, šifrirani v mirovanju. Usklajeni smo z GDPR.",
+          },
+          q7: {
+            question: "Ali lahko kadarkoli prekličem naročnino?",
+            answer:
+              "Da. Preklic je mogoč kadarkoli v nastavitvah zaračunavanja. Brez pristojbine za preklic.",
+          },
         },
       },
     },
@@ -8482,7 +8924,14 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       privacy: "Zasebnost",
       terms: "Pogoji uporabe",
       contact: "Kontakt",
+      product: "Izdelek",
+      legal: "Pravno",
       rights: "Vse pravice pridržane",
+      faqLink: "Pogosta vprašanja",
+      privacyPolicy: "Pravilnik o zasebnosti",
+      termsOfService: "Pogoji storitve",
+      refundPolicy: "Pravilnik o vračilu",
+      supportEmail: "support@legantis.app",
     },
     dashboard: {
       featureUsage: {
@@ -10274,15 +10723,48 @@ const MESSAGES: Record<LanguageCode, Messages> = {
     },
     home: {
       hero: {
-        title: "Legantis – AI Pravni Asistent za advokate na Balkanu",
+        trustBadge:
+          "Pouzdani među advokatima u Bosni, Srbiji, Hrvatskoj, Crnoj Gori i Sloveniji",
+        title: "Vaš AI pravni asistent. Napravljen za balkanske advokate.",
         subtitle:
-          "Pripremite ugovore, predvidite ishod sporova, analizirajte dokumenta i vodite klijente – prilagođeno za zemlje Balkana.",
+          "Pripremite ugovore za nekoliko minuta. Predvidite ishod. Upravljajte klijentima. Sve na jednoj platformi za BiH, Srbiju, Hrvatsku, Crnu Goru i Sloveniju.",
+        getStartedFree: "Započnite besplatno",
         pricingCta: "Pogledaj cijene",
+        noCreditCard: "Kreditna kartica nije potrebna · Otkažite u bilo kojem trenutku",
+        dashboardPreview: "Pregled kontrolne table",
+      },
+      jurisdictionBar: {
+        title: "Napravljeno za pravne sisteme:",
+        countries: {
+          ba: "🇧🇦 Bosna i Hercegovina",
+          rs: "🇷🇸 Srbija",
+          hr: "🇭🇷 Hrvatska",
+          me: "🇲🇪 Crna Gora",
+          si: "🇸🇮 Slovenija",
+        },
+      },
+      howItWorks: {
+        title: "Kako Legantis radi",
+        step1: {
+          title: "Registracija za 60 sekundi",
+          desc: "Kreirajte nalog, odaberite jurisdikciju i jezik. Bez dodatne konfiguracije.",
+        },
+        step2: {
+          title: "Opišite šta vam treba",
+          desc: "Recite Legantisu šta treba pripremiti, analizirati ili istražiti. Kao u razgovoru.",
+        },
+        step3: {
+          title: "Dobijte spreman materijal",
+          desc: "Preuzmite ugovore, predviđanja i analize spremne za korišćenje ili pregled.",
+        },
       },
       features: {
+        badge: "16+ AI funkcija",
         title: "Sve što vam treba da radite pametnije",
+        titleNew: "Sve što savremenoj advokatskoj kancelariji treba",
         subtitle:
           "Jedna platforma za pisanje, predviđanje, analizu, evidenciju vremena i saradnju sa klijentima.",
+        seeAll: "Pogledaj sve funkcije →",
         items: {
           contracts: {
             title: "AI izrada ugovora",
@@ -10312,10 +10794,27 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         },
       },
       pricing: {
-        title: "Jednostavne i Transparentne Cijene",
+        noFees: "Jednostavne cijene. Bez skrivenih troškova.",
+        title: "Jednostavne i transparentne cijene",
         subtitle:
           "Odaberite paket koji odgovara vašoj kancelariji. Svi paketi uključuju ključne AI funkcionalnosti.",
-        recommended: "Preporučeno",
+        recommended: "Najpopularniji",
+        trustLine:
+          "Sigurna uplata preko Paddle-a · U skladu sa GDPR-om · Otkažite u bilo kojem trenutku",
+        comparison: {
+          colFeature: "Funkcija",
+          colSolo: "Solo",
+          colProfessional: "Professional",
+          colFirm: "Firm",
+          rowAiCalls: "AI poziva dnevno",
+          rowContractTypes: "Vrste ugovora",
+          rowUsers: "Korisnici",
+          rowPriority: "Prioritetna podrška",
+          all: "Sve",
+          usersFirm: "Do 5",
+          yes: "✓",
+          no: "✗",
+        },
         tiers: {
           solo: {
             name: "Solo",
@@ -10350,6 +10849,29 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         perMonth: "/mesečno",
         cta: "Započni",
       },
+      testimonials: {
+        badge: "Povratne informacije (rani pristup)",
+        title: "Šta advokati kažu",
+        disclaimer:
+          "* Povratne informacije u ranoj fazi — imena su izostavljena radi privatnosti",
+        items: {
+          "1": {
+            quote:
+              "Legantis mi je uštedio sate na pripremi ugovora. Klauzule po jurisdikciji su tačno ono što treba.",
+            name: "Advokat, Sarajevo",
+          },
+          "2": {
+            quote:
+              "Funkcija predviđanja ishoda pomaže mi da od prvog dana postavim realna očekivanja klijenata.",
+            name: "Odvjetnik, Zagreb",
+          },
+          "3": {
+            quote:
+              "Rokove, račune i dokumente upravljam na jednom mjestu. Konačno.",
+            name: "Advokat, Beograd",
+          },
+        },
+      },
       faq: {
         title: "Često postavljana pitanja",
         subtitle:
@@ -10383,6 +10905,16 @@ const MESSAGES: Record<LanguageCode, Messages> = {
             answer:
               "Da. Paket možete nadograditi, smanjiti ili otkazati u svakom trenutku kroz podešavanja naplate. Izmjene se obično primjenjuju od sljedećeg obračunskog ciklusa osim ako nije drugačije navedeno. Ako otkažete, obično zadržavate pristup do kraja već plaćenog perioda.",
           },
+          q6: {
+            question: "Da li su podaci o klijentima sigurni?",
+            answer:
+              "Da. Svi podaci se čuvaju na Supabase serverima u EU regiji, enkriptovani u mirovanju. U skladu smo sa GDPR-om.",
+          },
+          q7: {
+            question: "Mogu li otkazati pretplatu u bilo kom trenutku?",
+            answer:
+              "Da. Možete otkazati u bilo kom trenutku u podešavanjima naplate. Bez troškova otkazivanja.",
+          },
         },
       },
     },
@@ -10393,7 +10925,14 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       privacy: "Privatnost",
       terms: "Uslovi korišćenja",
       contact: "Kontakt",
+      product: "Proizvod",
+      legal: "Pravno",
       rights: "Sva prava zadržana",
+      faqLink: "ČPP",
+      privacyPolicy: "Politika privatnosti",
+      termsOfService: "Uslovi korišćenja",
+      refundPolicy: "Politika refundacije",
+      supportEmail: "support@legantis.app",
     },
     dashboard: {
       featureUsage: {

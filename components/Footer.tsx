@@ -6,8 +6,8 @@ export function Footer() {
 
   return (
     <footer className="border-t border-border bg-muted/30">
-      <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
-        <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+      <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           <div className="space-y-2">
             <div className="space-y-1">
               <p className="text-sm text-muted-foreground">
@@ -34,28 +34,87 @@ export function Footer() {
               </a>
             </div>
           </div>
-          <div className="flex gap-6 text-sm">
-            <Link
-              href="/privacy"
-              className="text-muted-foreground transition-colors hover:text-foreground"
-            >
-              {t("footer.privacy")}
-            </Link>
-            <Link
-              href="/refund"
-              className="text-muted-foreground transition-colors hover:text-foreground"
-            >
-              Refund Policy
-            </Link>
-            <Link
-              href="/terms"
-              className="text-muted-foreground transition-colors hover:text-foreground"
-            >
-              {t("footer.terms")}
-            </Link>
+
+          <div>
+            <h3 className="text-sm font-semibold text-foreground">
+              {t("footer.product")}
+            </h3>
+            <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
+              <li>
+                <Link
+                  href="/#features"
+                  className="transition-colors hover:text-foreground"
+                >
+                  {t("nav.features")}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/#pricing"
+                  className="transition-colors hover:text-foreground"
+                >
+                  {t("nav.pricing")}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/#faq"
+                  className="transition-colors hover:text-foreground"
+                >
+                  {t("footer.faqLink")}
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="text-sm font-semibold text-foreground">
+              {t("footer.legal")}
+            </h3>
+            <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
+              <li>
+                <Link
+                  href="/privacy"
+                  className="transition-colors hover:text-foreground"
+                >
+                  {t("footer.privacyPolicy")}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/terms"
+                  className="transition-colors hover:text-foreground"
+                >
+                  {t("footer.termsOfService")}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/refund"
+                  className="transition-colors hover:text-foreground"
+                >
+                  {t("footer.refundPolicy")}
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="text-sm font-semibold text-foreground">
+              {t("footer.contact")}
+            </h3>
+            <p className="mt-3 text-sm text-muted-foreground">
+              <a
+                href="mailto:support@legantis.app"
+                className="transition-colors hover:text-foreground"
+              >
+                {t("footer.supportEmail")}
+              </a>
+            </p>
           </div>
         </div>
-        <p className="mt-4 text-xs text-muted-foreground">
+
+        <p className="mt-8 border-t border-border pt-6 text-xs text-muted-foreground">
           © {new Date().getFullYear()} Legantis. {t("footer.rights")}.
         </p>
       </div>

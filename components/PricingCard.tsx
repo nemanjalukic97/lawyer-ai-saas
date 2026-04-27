@@ -38,13 +38,13 @@ export function PricingCard({
     <Card
       className={cn(
         "mx-auto w-full min-h-[382px] min-[425px]:max-[639px]:w-[90%] min-[640px]:max-[766px]:w-3/4 min-[767px]:min-h-0 min-[767px]:w-full flex flex-col transition-colors dark:border-primary/40 dark:bg-[linear-gradient(155deg,rgba(88,123,198,0.14)_0%,rgba(47,69,114,0.56)_2.5%,rgba(26,38,61,0.96)_24%,rgba(14,21,36,1)_100%)] dark:shadow-md dark:hover:border-primary/60",
-        recommended && "border-primary shadow-md ring-1 ring-primary/20"
+        recommended && "border-primary shadow-md ring-2 ring-primary"
       )}
     >
       <CardHeader>
         {recommended && (
           <CardAction>
-            <span className="w-fit rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">
+            <span className="w-fit rounded-full bg-primary/15 px-3 py-1 text-sm font-bold text-primary">
               {recommendedLabel}
             </span>
           </CardAction>

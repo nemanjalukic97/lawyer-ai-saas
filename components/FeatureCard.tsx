@@ -19,15 +19,15 @@ export function FeatureCard({ title, description, icon, className }: FeatureCard
   return (
     <Card
       className={cn(
-        "h-full transition-colors dark:border-primary/40 dark:bg-[linear-gradient(155deg,rgba(88,123,198,0.14)_0%,rgba(47,69,114,0.56)_2.5%,rgba(26,38,61,0.96)_24%,rgba(14,21,36,1)_100%)] dark:shadow-md dark:hover:border-primary/60",
+        "h-full transition-all dark:border-primary/40 dark:bg-[linear-gradient(155deg,rgba(88,123,198,0.14)_0%,rgba(47,69,114,0.56)_2.5%,rgba(26,38,61,0.96)_24%,rgba(14,21,36,1)_100%)] dark:shadow-md dark:hover:border-primary/40 dark:hover:shadow-sm",
         className
       )}
     >
-      <CardHeader className="gap-4">
+      <CardHeader className="gap-4 p-6 sm:p-7">
         {icon && (
           <CardAction>
             <span
-              className="flex h-9 w-9 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-sm"
+              className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-sm [&>svg]:h-6 [&>svg]:w-6"
               aria-hidden
             >
               {icon}

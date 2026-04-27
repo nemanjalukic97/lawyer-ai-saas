@@ -2,12 +2,15 @@
 
 import Link from "next/link"
 import { useEffect, useState, type ReactNode } from "react"
+import { FileCheck, MessageSquare, UserPlus } from "lucide-react"
 
+import DashboardMockup from "@/components/DashboardMockup"
 import { FeatureCard } from "@/components/FeatureCard"
 import { Header } from "@/components/Header"
 import { PricingCard } from "@/components/PricingCard"
 import { SignupSuccessToast } from "@/components/SignupSuccessToast"
 import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
 import { useLanguage } from "@/components/LanguageProvider"
 import { FEATURES, PRICING_TIERS } from "@/types"
 
@@ -86,6 +89,18 @@ const FEATURE_CARD_ICONS: Record<(typeof FEATURES)[number]["id"], ReactNode> = {
   ),
 }
 
+const JURISDICTION_KEYS = ["ba", "rs", "hr", "me", "si"] as const
+
+const HOW_STEPS = [
+  { n: 1, icon: UserPlus },
+  { n: 2, icon: MessageSquare },
+  { n: 3, icon: FileCheck },
+] as const
+
+const TESTIMONIAL_KEYS = ["1", "2", "3"] as const
+
+const FAQ_ITEMS = [1, 2, 3, 4, 5, 6, 7] as const
+
 type Props = {
   signupStatus?: string
 }
@@ -110,24 +125,124 @@ export function HomeClient({ signupStatus }: Props) {
             className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[70%] w-[60%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/[0.05] blur-[50px]"
           />
           <div className="relative z-10 mx-auto w-full max-w-6xl px-4 text-center sm:px-6">
-            <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">
+            <div className="flex justify-center">
+              <span className="inline-flex items-center rounded-full border border-border bg-background/60 px-3 py-1 text-xs text-muted-foreground">
+                {t("home.hero.trustBadge")}
+              </span>
+            </div>
+            <h1 className="mt-6 text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">
               {t("home.hero.title")}
             </h1>
             <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground">
               {t("home.hero.subtitle")}
             </p>
-            <div className="mt-8 flex flex-col items-center justify-center gap-5 sm:flex-row sm:flex-wrap sm:gap-4">
-              <Button asChild size="lg" className="h-10 text-base sm:h-10 sm:text-sm">
-                <Link href="/signup">{t("nav.getStarted")}</Link>
+            <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row sm:flex-wrap sm:gap-4">
+              <Button asChild size="lg" className="h-11 min-w-[200px] text-base sm:h-11 sm:text-sm">
+                <Link href="/signup">{t("home.hero.getStartedFree")}</Link>
               </Button>
               <Button
                 asChild
                 variant="outline"
                 size="lg"
-                className="h-10 text-base sm:h-10 sm:text-sm"
+                className="h-11 min-w-[200px] text-base sm:h-11 sm:text-sm"
               >
                 <Link href="#pricing">{t("home.hero.pricingCta")}</Link>
               </Button>
+            </div>
+            <p className="mt-4 text-sm text-muted-foreground">{t("home.hero.noCreditCard")}</p>
+
+            <div
+              className="mt-12 mx-auto max-w-4xl rotate-0 sm:rotate-1"
+              style={{
+                transformOrigin: "center center",
+                transition: "transform 0.08s ease-out",
+              }}
+              onMouseMove={(e) => {
+                if (window.innerWidth < 768) return
+                const el = e.currentTarget
+                el.style.transition = "transform 0.08s ease-out"
+                const rect = el.getBoundingClientRect()
+                const x = (e.clientX - rect.left) / rect.width - 0.5
+                const y = (e.clientY - rect.top) / rect.height - 0.5
+                el.style.transform = `perspective(1000px) rotateY(${x * 6}deg) rotateX(${-y * 4}deg) rotate(1deg)`
+              }}
+              onMouseLeave={(e) => {
+                if (window.innerWidth < 768) return
+                const el = e.currentTarget
+                el.style.transition = "transform 0.4s ease-out"
+                el.style.transform = ""
+              }}
+            >
+              <DashboardMockup />
+            </div>
+          </div>
+        </section>
+
+        {/* Jurisdiction bar */}
+        <section
+          className="border-b border-t border-border bg-muted/10 py-8"
+          aria-labelledby="jurisdiction-bar-heading"
+        >
+          <div className="mx-auto max-w-6xl px-4 sm:px-6">
+            <h2
+              id="jurisdiction-bar-heading"
+              className="text-center text-sm font-medium text-muted-foreground"
+            >
+              {t("home.jurisdictionBar.title")}
+            </h2>
+            <div className="mt-5 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+              {JURISDICTION_KEYS.map((key) => (
+                <span
+                  key={key}
+                  className="inline-flex items-center rounded-full border border-border bg-background/80 px-3 py-1.5 text-sm text-foreground"
+                >
+                  {t(`home.jurisdictionBar.countries.${key}`)}
+                </span>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* How it works */}
+        <section
+          id="how-it-works"
+          className="scroll-mt-14 border-b border-border py-16 sm:py-24"
+          aria-labelledby="how-it-works-heading"
+        >
+          <div className="mx-auto max-w-6xl px-4 sm:px-6">
+            <h2
+              id="how-it-works-heading"
+              className="text-center text-2xl font-bold text-foreground sm:text-3xl"
+            >
+              {t("home.howItWorks.title")}
+            </h2>
+            <div className="relative mt-12 grid gap-10 md:grid-cols-3 md:gap-6">
+              <div
+                aria-hidden
+                className="pointer-events-none absolute left-0 right-0 top-[2.5rem] hidden border-t border-dashed border-border/80 md:block"
+              />
+              {HOW_STEPS.map((step) => {
+                const Icon = step.icon
+                return (
+                  <div
+                    key={step.n}
+                    className="relative z-10 flex flex-col items-center text-center"
+                  >
+                    <div className="mb-3 flex h-8 w-8 items-center justify-center rounded-full border border-border bg-background text-sm font-semibold text-foreground">
+                      {step.n}
+                    </div>
+                    <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full border border-border bg-primary/10 text-primary">
+                      <Icon className="h-6 w-6" strokeWidth={1.75} />
+                    </div>
+                    <h3 className="text-lg font-semibold text-foreground">
+                      {t(`home.howItWorks.step${step.n}.title`)}
+                    </h3>
+                    <p className="mt-2 max-w-sm text-sm text-muted-foreground">
+                      {t(`home.howItWorks.step${step.n}.desc`)}
+                    </p>
+                  </div>
+                )
+              })}
             </div>
           </div>
         </section>
@@ -143,15 +258,23 @@ export function HomeClient({ signupStatus }: Props) {
             className="pointer-events-none absolute left-0 top-[56%] -z-10 h-[70%] w-[60%] -translate-y-1/2 rounded-full bg-white/[0.05] blur-[15px] min-[1440px]:h-[50%] min-[1440px]:w-[30%] min-[1440px]:blur-[6px]"
           />
           <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6">
-            <h2
-              id="features-heading"
-              className="text-center text-2xl font-bold text-foreground sm:text-3xl"
-            >
-              {t("home.features.title")}
-            </h2>
-            <p className="mx-auto mt-2 max-w-xl text-center text-muted-foreground">
-              {t("home.features.subtitle")}
-            </p>
+            <div className="flex flex-col items-center text-center">
+              <Badge
+                variant="secondary"
+                className="mb-3 border border-border/80 bg-background/60 font-medium"
+              >
+                {t("home.features.badge")}
+              </Badge>
+              <h2
+                id="features-heading"
+                className="text-2xl font-bold text-foreground sm:text-3xl"
+              >
+                {t("home.features.titleNew")}
+              </h2>
+              <p className="mx-auto mt-2 max-w-xl text-muted-foreground">
+                {t("home.features.subtitle")}
+              </p>
+            </div>
             <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:hidden">
               {FEATURES.map((f) => (
                 <FeatureCard
@@ -186,6 +309,14 @@ export function HomeClient({ signupStatus }: Props) {
                 ))}
               </div>
             </div>
+            <p className="mt-10 text-center">
+              <a
+                href="#features"
+                className="text-sm font-medium text-primary underline-offset-4 transition-colors hover:underline"
+              >
+                {t("home.features.seeAll")}
+              </a>
+            </p>
           </div>
         </section>
 
@@ -196,15 +327,23 @@ export function HomeClient({ signupStatus }: Props) {
           aria-labelledby="pricing-heading"
         >
           <div className="mx-auto max-w-6xl px-4 sm:px-6">
-            <h2
-              id="pricing-heading"
-              className="text-center text-2xl font-bold text-foreground normal-case sm:text-3xl"
-            >
-              {t("home.pricing.title")}
-            </h2>
-            <p className="mx-auto mt-2 max-w-xl text-center text-muted-foreground">
-              {t("home.pricing.subtitle")}
-            </p>
+            <div className="flex flex-col items-center text-center">
+              <Badge
+                variant="secondary"
+                className="mb-3 border border-border/80 bg-background/60 font-medium"
+              >
+                {t("home.pricing.noFees")}
+              </Badge>
+              <h2
+                id="pricing-heading"
+                className="text-2xl font-bold text-foreground normal-case sm:text-3xl"
+              >
+                {t("home.pricing.title")}
+              </h2>
+              <p className="mx-auto mt-2 max-w-xl text-muted-foreground">
+                {t("home.pricing.subtitle")}
+              </p>
+            </div>
             <div className="mt-12 grid gap-10 min-[767px]:gap-6 md:grid-cols-3">
               {PRICING_TIERS.map((tier) => (
                 <PricingCard
@@ -222,6 +361,115 @@ export function HomeClient({ signupStatus }: Props) {
                 />
               ))}
             </div>
+            <div className="mt-12 overflow-x-auto rounded-xl border border-border">
+              <table className="w-full min-w-[480px] border-collapse text-sm">
+                <thead>
+                  <tr className="border-b border-border bg-muted/30">
+                    <th className="px-4 py-3 text-left font-medium text-muted-foreground">
+                      {t("home.pricing.comparison.colFeature")}
+                    </th>
+                    <th className="px-4 py-3 text-left font-medium text-foreground">
+                      {t("home.pricing.comparison.colSolo")}
+                    </th>
+                    <th className="px-4 py-3 text-left font-medium text-foreground">
+                      {t("home.pricing.comparison.colProfessional")}
+                    </th>
+                    <th className="px-4 py-3 text-left font-medium text-foreground">
+                      {t("home.pricing.comparison.colFirm")}
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="text-muted-foreground">
+                  <tr className="border-b border-border/80">
+                    <td className="px-4 py-3">
+                      {t("home.pricing.comparison.rowAiCalls")}
+                    </td>
+                    <td className="px-4 py-3">20</td>
+                    <td className="px-4 py-3">100</td>
+                    <td className="px-4 py-3">300</td>
+                  </tr>
+                  <tr className="border-b border-border/80">
+                    <td className="px-4 py-3">
+                      {t("home.pricing.comparison.rowContractTypes")}
+                    </td>
+                    <td className="px-4 py-3">{t("home.pricing.comparison.all")}</td>
+                    <td className="px-4 py-3">{t("home.pricing.comparison.all")}</td>
+                    <td className="px-4 py-3">{t("home.pricing.comparison.all")}</td>
+                  </tr>
+                  <tr className="border-b border-border/80">
+                    <td className="px-4 py-3">
+                      {t("home.pricing.comparison.rowUsers")}
+                    </td>
+                    <td className="px-4 py-3">1</td>
+                    <td className="px-4 py-3">1</td>
+                    <td className="px-4 py-3">
+                      {t("home.pricing.comparison.usersFirm")}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="px-4 py-3">
+                      {t("home.pricing.comparison.rowPriority")}
+                    </td>
+                    <td className="px-4 py-3" aria-label={t("home.pricing.comparison.no")}>
+                      {t("home.pricing.comparison.no")}
+                    </td>
+                    <td className="px-4 py-3" aria-label={t("home.pricing.comparison.yes")}>
+                      {t("home.pricing.comparison.yes")}
+                    </td>
+                    <td className="px-4 py-3" aria-label={t("home.pricing.comparison.yes")}>
+                      {t("home.pricing.comparison.yes")}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p className="mt-8 text-center text-sm text-muted-foreground">
+              {t("home.pricing.trustLine")}
+            </p>
+          </div>
+        </section>
+
+        {/* Testimonials */}
+        <section
+          className="border-t border-border bg-background py-16 sm:py-24"
+          aria-labelledby="testimonials-heading"
+        >
+          <div className="mx-auto max-w-6xl px-4 sm:px-6">
+            <div className="flex flex-col items-center text-center">
+              <Badge
+                variant="secondary"
+                className="mb-3 border border-border/80 bg-muted/40 font-medium"
+              >
+                {t("home.testimonials.badge")}
+              </Badge>
+              <h2
+                id="testimonials-heading"
+                className="text-2xl font-bold text-foreground sm:text-3xl"
+              >
+                {t("home.testimonials.title")}
+              </h2>
+            </div>
+            <div className="mt-10 grid gap-6 md:grid-cols-3">
+              {TESTIMONIAL_KEYS.map((k) => (
+                <div
+                  key={k}
+                  className="flex flex-col rounded-xl border border-border bg-card/60 p-6 shadow-sm"
+                >
+                  <p className="text-primary" aria-hidden>
+                    ★★★★★
+                  </p>
+                  <p className="mt-3 flex-1 text-sm italic text-foreground/95">
+                    &ldquo;{t(`home.testimonials.items.${k}.quote`)}&rdquo;
+                  </p>
+                  <p className="mt-4 text-sm text-muted-foreground">
+                    {t(`home.testimonials.items.${k}.name`)}
+                  </p>
+                </div>
+              ))}
+            </div>
+            <p className="mt-6 text-center text-xs text-muted-foreground">
+              {t("home.testimonials.disclaimer")}
+            </p>
           </div>
         </section>
 
@@ -258,7 +506,7 @@ export function HomeClient({ signupStatus }: Props) {
                 </div>
 
                 <div className="space-y-3">
-                  {[1, 2, 3, 4, 5].map((item) => {
+                  {FAQ_ITEMS.map((item) => {
                     const isOpen = openFaqItem === item
                     return (
                       <div
@@ -327,4 +575,3 @@ export function HomeClient({ signupStatus }: Props) {
     </div>
   )
 }
-
