@@ -42,6 +42,12 @@ export function Footer() {
               {t("footer.privacy")}
             </Link>
             <Link
+              href="/refund"
+              className="text-muted-foreground transition-colors hover:text-foreground"
+            >
+              Refund Policy
+            </Link>
+            <Link
               href="/terms"
               className="text-muted-foreground transition-colors hover:text-foreground"
             >
