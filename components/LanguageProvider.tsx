@@ -1736,6 +1736,10 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       overview: {
         upgrade: "Upgrade",
         lockedHint: "Upgrade to unlock this feature.",
+        notAvailable: "Not available",
+        subscribeSolo: "Subscribe to Solo plan →",
+        subscribeProfessional: "Subscribe to Professional plan →",
+        subscribeFirm: "Subscribe to Firm plan →",
         stats: {
           totalClients: "Total clients",
           activeMatters: "Active matters",
@@ -2834,6 +2838,10 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       overview: {
         upgrade: "Nadogradi",
         lockedHint: "Nadogradite da otključate ovu funkciju.",
+        notAvailable: "Nije dostupno",
+        subscribeSolo: "Pretplatite se na Solo plan →",
+        subscribeProfessional: "Pretplatite se na Professional plan →",
+        subscribeFirm: "Pretplatite se na Firm plan →",
         stats: {
           totalClients: "Ukupno klijenata",
           activeMatters: "Aktivni predmeti",
@@ -4905,6 +4913,10 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       overview: {
         upgrade: "Nadogradi",
         lockedHint: "Nadogradite da otključate ovu funkciju.",
+        notAvailable: "Nije dostupno",
+        subscribeSolo: "Pretplatite se na Solo plan →",
+        subscribeProfessional: "Pretplatite se na Professional plan →",
+        subscribeFirm: "Pretplatite se na Firm plan →",
         stats: {
           totalClients: "Ukupno klijenata",
           activeMatters: "Aktivni predmeti",
@@ -7502,6 +7514,10 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       overview: {
         upgrade: "Nadogradi",
         lockedHint: "Nadogradite da otključate ovu funkciju.",
+        notAvailable: "Nije dostupno",
+        subscribeSolo: "Pretplatite se na Solo plan →",
+        subscribeProfessional: "Pretplatite se na Professional plan →",
+        subscribeFirm: "Pretplatite se na Firm plan →",
         stats: {
           totalClients: "Ukupno klijenata",
           activeMatters: "Aktivni predmeti",
@@ -8985,6 +9001,10 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       overview: {
         upgrade: "Nadgradi",
         lockedHint: "Nadgradite, da odklenete to funkcijo.",
+        notAvailable: "Ni na voljo",
+        subscribeSolo: "Naročite se na paket Solo →",
+        subscribeProfessional: "Naročite se na paket Professional →",
+        subscribeFirm: "Naročite se na paket Firm →",
         stats: {
           totalClients: "Skupaj strank",
           activeMatters: "Aktivne zadeve",
@@ -10987,6 +11007,10 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       overview: {
         upgrade: "Nadogradi",
         lockedHint: "Nadogradite da otključate ovu funkciju.",
+        notAvailable: "Nije dostupno",
+        subscribeSolo: "Pretplatite se na Solo plan →",
+        subscribeProfessional: "Pretplatite se na Professional plan →",
+        subscribeFirm: "Pretplatite se na Firm plan →",
         stats: {
           totalClients: "Ukupno klijenata",
           activeMatters: "Aktivni predmeti",

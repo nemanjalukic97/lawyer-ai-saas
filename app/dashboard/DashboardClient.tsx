@@ -247,6 +247,7 @@ export function DashboardClient({
               label={t("dashboard.overview.stats.totalClients")}
               value={canUseClients ? totals.clients : 0}
               locked={!canUseClients}
+              requiredPlan="solo"
               href={canUseClients ? "/dashboard/clients" : "/dashboard/billing"}
               accent="blue"
             />
@@ -255,6 +256,7 @@ export function DashboardClient({
               label={t("dashboard.overview.stats.activeMatters")}
               value={canManageMatters ? activeMatters.openCount : 0}
               locked={!canManageMatters}
+              requiredPlan="professional"
               href={canManageMatters ? "/dashboard/matters" : "/dashboard/billing"}
               accent="purple"
             />
@@ -263,6 +265,7 @@ export function DashboardClient({
               label={t("dashboard.overview.stats.pendingSignatures")}
               value={canRequestSignatures ? signatureMetrics.pendingCount : 0}
               locked={!canRequestSignatures}
+              requiredPlan="professional"
               href={canRequestSignatures ? "/dashboard/contracts" : "/dashboard/billing"}
               accent="amber"
             />
@@ -271,6 +274,7 @@ export function DashboardClient({
               label={t("dashboard.overview.stats.unbilledHours")}
               value={canTrackTime ? Number(unbilledHours.toFixed(1)) : 0}
               locked={!canTrackTime}
+              requiredPlan="professional"
               href={canTrackTime ? "/dashboard/time" : "/dashboard/billing"}
               accent="emerald"
             />
@@ -724,6 +728,7 @@ function StatCard({
   label,
   value,
   locked,
+  requiredPlan,
   href,
   accent,
 }: {
@@ -731,6 +736,7 @@ function StatCard({
   label: string
   value: number
   locked: boolean
+  requiredPlan?: "solo" | "professional" | "firm"
   href: string
   accent: "blue" | "purple" | "amber" | "emerald"
 }) {
@@ -749,33 +755,62 @@ function StatCard({
         ? "text-emerald-400"
         : "text-foreground"
 
-  return (
-    <Link href={href} className="block">
-      <Card
-        className={cn(
-          "relative border-l-2 p-5 transition-all hover:border-border/60 hover:bg-muted/40",
-          accentClass,
-          locked && "opacity-80"
-        )}
-      >
-        <Icon className="absolute right-3 top-3 h-3.5 w-3.5 text-muted-foreground/30" />
-        <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground/60">
-          {label}
-        </p>
+  const card = (
+    <Card
+      className={cn(
+        "relative border-l-2 p-5 transition-all hover:border-border/60 hover:bg-muted/40",
+        accentClass,
+        locked && "opacity-60"
+      )}
+    >
+      <Icon className="absolute right-3 top-3 h-3.5 w-3.5 text-muted-foreground/30" />
+      <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground/60">
+        {label}
+      </p>
+      {locked ? (
+        <div className="mt-2 mb-1">
+          <Lock className="h-7 w-7 text-muted-foreground/20" />
+        </div>
+      ) : (
         <p className={cn("mt-2 text-4xl font-bold tracking-tight", valueColor)}>
           {value}
         </p>
-        {locked ? (
-          <p className="mt-2 inline-flex items-center gap-1 text-xs text-muted-foreground/50 transition-colors hover:text-foreground">
-            <Lock className="h-3.5 w-3.5" />
-            {t("dashboard.overview.upgrade")} <span aria-hidden>→</span>
-          </p>
-        ) : (
-          <p className="mt-2 inline-flex items-center gap-1 text-xs text-muted-foreground/50 transition-colors hover:text-foreground">
-            {t("dashboard.actions.open")} <ArrowUpRight className="h-3.5 w-3.5" />
-          </p>
-        )}
-      </Card>
+      )}
+      {locked ? (
+        <div className="mt-2 space-y-1">
+          <div className="flex items-center gap-1.5">
+            <Lock className="h-3.5 w-3.5 text-muted-foreground/40" />
+            <span className="text-xs text-muted-foreground/50">
+              {t("dashboard.overview.notAvailable")}
+            </span>
+          </div>
+          {requiredPlan && (
+            <a
+              href="/dashboard/billing"
+              onClick={(e) => e.stopPropagation()}
+              className="inline-flex items-center gap-1 text-xs font-medium text-primary/70 hover:text-primary transition-colors"
+            >
+              {requiredPlan === "solo"
+                ? t("dashboard.overview.subscribeSolo")
+                : requiredPlan === "professional"
+                  ? t("dashboard.overview.subscribeProfessional")
+                  : t("dashboard.overview.subscribeFirm")}
+            </a>
+          )}
+        </div>
+      ) : (
+        <p className="mt-2 inline-flex items-center gap-1 text-xs text-muted-foreground/50 transition-colors hover:text-foreground">
+          {t("dashboard.actions.open")} <ArrowUpRight className="h-3.5 w-3.5" />
+        </p>
+      )}
+    </Card>
+  )
+
+  return locked ? (
+    <div className="block group">{card}</div>
+  ) : (
+    <Link href={href} className="block group">
+      {card}
     </Link>
   )
 }
@@ -829,7 +864,7 @@ function ActionCard({
           </div>
         </div>
         {!entitled && (
-          <p className="mt-3 inline-flex items-center gap-1 text-xs text-muted-foreground">
+          <p className="mt-3 inline-flex items-center gap-1 text-xs text-muted-foreground transition-colors group-hover:text-primary">
             <Lock className="h-3 w-3" />
             {t("dashboard.overview.upgrade")} →
           </p>
