@@ -152,7 +152,7 @@ export function HomeClient({ signupStatus }: Props) {
             <p className="mt-4 text-sm text-muted-foreground">{t("home.hero.noCreditCard")}</p>
 
             <div
-              className="mt-12 mx-auto max-w-4xl rotate-0 sm:rotate-1"
+              className="mt-[68px] mx-auto max-w-4xl rotate-0 sm:rotate-1"
               style={{
                 transformOrigin: "center center",
                 transition: "transform 0.08s ease-out",
@@ -309,14 +309,6 @@ export function HomeClient({ signupStatus }: Props) {
                 ))}
               </div>
             </div>
-            <p className="mt-10 text-center">
-              <a
-                href="#features"
-                className="text-sm font-medium text-primary underline-offset-4 transition-colors hover:underline"
-              >
-                {t("home.features.seeAll")}
-              </a>
-            </p>
           </div>
         </section>
 
@@ -361,7 +353,7 @@ export function HomeClient({ signupStatus }: Props) {
                 />
               ))}
             </div>
-            <div className="mt-12 overflow-x-auto rounded-xl border border-border">
+            <div className="mt-20 overflow-x-auto rounded-xl border border-border">
               <table className="w-full min-w-[480px] border-collapse text-sm">
                 <thead>
                   <tr className="border-b border-border bg-muted/30">

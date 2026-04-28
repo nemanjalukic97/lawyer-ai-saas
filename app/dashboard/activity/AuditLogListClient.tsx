@@ -115,14 +115,19 @@ export function AuditLogListClient({ logs }: { logs: AuditLogRow[] }) {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-wrap gap-2 border-b border-border pb-4">
+      <div className="flex flex-wrap gap-2 mb-4">
         {FILTERS.map((f) => (
           <Button
             key={f.key}
-            variant={filter === f.key ? "secondary" : "ghost"}
+            variant="ghost"
             size="sm"
             onClick={() => setFilter(f.key)}
-            className={cn(filter === f.key && "bg-accent text-accent-foreground")}
+            className={cn(
+              "text-xs px-3 py-1.5 rounded-full border border-border/40",
+              filter === f.key
+                ? "bg-foreground text-background"
+                : "bg-transparent text-muted-foreground/60 hover:bg-muted/40"
+            )}
           >
             {f.label}
           </Button>
@@ -141,18 +146,16 @@ export function AuditLogListClient({ logs }: { logs: AuditLogRow[] }) {
             const when = formatRelativeTime(row.created_at)
             return (
               <li key={row.id}>
-                <div className="flex items-center gap-3 rounded-lg border border-border bg-card p-3">
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-muted">
+                <div className="flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-muted/20 transition-colors -mx-3">
+                  <div className="h-8 w-8 rounded-full bg-muted/60 flex items-center justify-center shrink-0">
                     <Icon className="h-4 w-4 text-muted-foreground" />
                   </div>
-                  <div className="min-w-0 flex-1">
-                    <p className="truncate text-sm font-medium text-foreground">
-                      {titleCaseAction(row.action)}: {label}
-                    </p>
-                    <p className="text-xs text-muted-foreground">
-                      {when || (row.created_at ? new Date(row.created_at).toLocaleString() : "")}
-                    </p>
-                  </div>
+                  <p className="min-w-0 flex-1 truncate text-sm font-medium text-foreground">
+                    {titleCaseAction(row.action)}: {label}
+                  </p>
+                  <span className="text-xs text-muted-foreground/40 ml-auto shrink-0">
+                    {when || (row.created_at ? new Date(row.created_at).toLocaleString() : "")}
+                  </span>
                 </div>
               </li>
             )

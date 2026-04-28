@@ -34,9 +34,6 @@ export default function DashboardMockup() {
             <div className="rounded-[10px] border border-[#639922]/40 bg-[#639922]/20 px-2 py-0.5 text-[9px] text-[#97c459] sm:text-[10px]">
               Firm plan
             </div>
-            <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#378add] to-[#534ab7] text-[9px] font-medium text-white">
-              NL
-            </div>
           </div>
         </div>
 
@@ -45,7 +42,7 @@ export default function DashboardMockup() {
             Legantis Dashboard
           </div>
           <div className="mb-0.5 text-[15px] font-medium text-white/90 sm:text-[17px]">
-            Welcome back, Nemanja
+            Welcome back
           </div>
           <div className="mb-3.5 text-[10px] text-white/35 sm:mb-3.5 sm:text-[11px]">
             Bosnia & Herzegovina · Republika Srpska

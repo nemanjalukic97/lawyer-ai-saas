@@ -15,7 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { Loader2, UploadCloud } from "lucide-react"
+import { FileSearch, Loader2, UploadCloud } from "lucide-react"
 import { createClient } from "@/lib/supabase/client"
 import type { Json } from "@/database.types"
 import { useLanguage } from "@/components/LanguageProvider"
@@ -668,25 +668,30 @@ export default function DocumentAnalysisPage({
     <div className="min-h-screen bg-background px-4 py-10">
       <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[minmax(0,2fr),minmax(0,1.2fr)]">
         <div className="flex flex-col gap-8">
-          <header className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
-            <div>
-              <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+          <header className="mb-8 pb-6 border-b border-border/40 flex items-start justify-between gap-4">
+            <div className="space-y-1">
+              <p className="text-xs font-medium tracking-widest text-muted-foreground/40 uppercase mb-2">
                 {t("analyze.header.kicker")}
               </p>
-              <h1 className="mt-1 text-3xl font-semibold tracking-tight text-foreground">
+              <h1 className="text-3xl font-bold tracking-tight text-foreground">
                 {t("analyze.header.title")}
               </h1>
-              <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
+              <p className="mt-1.5 text-sm text-muted-foreground/70 max-w-2xl">
                 {t("analyze.header.subtitle")}
               </p>
             </div>
-            <Button asChild variant="outline" size="sm">
-              <Link href="/dashboard">{t("analyze.header.back")}</Link>
-            </Button>
+            <div className="shrink-0 mt-1">
+              <Button asChild variant="outline" size="sm">
+                <Link href="/dashboard">{t("analyze.header.back")}</Link>
+              </Button>
+            </div>
           </header>
 
           <div className="grid gap-6 lg:grid-cols-[minmax(0,1.1fr),minmax(0,1.2fr)]">
-            <Card className="p-6">
+            <Card className="rounded-xl border border-border/40 bg-muted/10 p-6">
+              <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-rose-500/15">
+                <FileSearch className="h-5 w-5 text-rose-400" />
+              </div>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div
                   className="flex cursor-pointer flex-col items-center justify-center rounded-md border border-dashed border-muted-foreground/40 bg-muted/40 px-4 py-8 text-center transition hover:border-primary/60 hover:bg-muted"
@@ -741,7 +746,9 @@ export default function DocumentAnalysisPage({
 
                 <div className="grid gap-4 md:grid-cols-2">
                   <div className="space-y-2">
-                    <Label>{t("analyze.form.jurisdiction.label")}</Label>
+                    <Label className="mb-1.5 text-xs font-medium text-muted-foreground/70">
+                      {t("analyze.form.jurisdiction.label")}
+                    </Label>
                     <Select
                       value={jurisdiction}
                       onValueChange={(value) =>
@@ -765,7 +772,9 @@ export default function DocumentAnalysisPage({
                   </div>
 
                   <div className="space-y-2">
-                    <Label>{t("matters.title")}</Label>
+                    <Label className="mb-1.5 text-xs font-medium text-muted-foreground/70">
+                      {t("matters.title")}
+                    </Label>
                     <Select
                       value={matterId}
                       onValueChange={(v) => setMatterId(v)}
@@ -788,7 +797,9 @@ export default function DocumentAnalysisPage({
                   </div>
 
                   <div className="space-y-2">
-                    <Label>{t("analyze.form.focus.label")}</Label>
+                    <Label className="mb-1.5 text-xs font-medium text-muted-foreground/70">
+                      {t("analyze.form.focus.label")}
+                    </Label>
                     <Select
                       value={analysisFocus}
                       onValueChange={(value) =>
@@ -816,7 +827,10 @@ export default function DocumentAnalysisPage({
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="extractedPreview">
+                  <Label
+                    htmlFor="extractedPreview"
+                    className="mb-1.5 text-xs font-medium text-muted-foreground/70"
+                  >
                     {t("analyze.form.extractedPreview.label")}
                   </Label>
                   <Textarea
@@ -851,10 +865,10 @@ export default function DocumentAnalysisPage({
               </form>
             </Card>
 
-            <Card className="flex min-h-[420px] flex-col p-6">
+            <Card className="flex min-h-[420px] flex-col rounded-xl border border-border/40 bg-muted/10 p-6">
               <div className="flex items-center justify-between gap-4">
                 <div>
-                  <h2 className="text-lg font-semibold">{t("analyze.result.title")}</h2>
+                  <h2 className="text-base font-semibold">{t("analyze.result.title")}</h2>
                   <p className="mt-1 text-sm text-muted-foreground">
                     {t("analyze.result.subtitle")}
                   </p>
@@ -891,9 +905,14 @@ export default function DocumentAnalysisPage({
                     {analysisContent}
                   </pre>
                 ) : (
-                  <p className="text-sm text-muted-foreground">
-                    {t("analyze.result.empty")}
-                  </p>
+                  <div className="flex flex-col items-center justify-center py-12 text-center">
+                    <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-muted/60">
+                      <FileSearch className="h-5 w-5 text-muted-foreground/40" />
+                    </div>
+                    <p className="text-sm text-muted-foreground/60">
+                      Upload a document and run analysis to see results
+                    </p>
+                  </div>
                 )}
               </div>
               {ragData && (
@@ -906,16 +925,23 @@ export default function DocumentAnalysisPage({
           </div>
         </div>
 
-        <Card className="h-fit space-y-4 p-6">
-          <h2 className="text-lg font-semibold">{t("analyze.sidebar.title")}</h2>
+        <Card className="h-fit space-y-4 rounded-xl border border-border/40 bg-muted/10 p-6">
+          <h2 className="text-base font-semibold">{t("analyze.sidebar.title")}</h2>
           {!selectedId ? (
             <div className="space-y-3">
-              <p className="text-sm text-muted-foreground">
-                {t("analyze.sidebar.empty")}
-              </p>
-              <Button asChild variant="outline" size="sm">
-                <Link href="/dashboard/activity">{t("analyze.sidebar.viewActivity")}</Link>
-              </Button>
+              <div className="flex flex-col items-center justify-center py-12 text-center">
+                <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-muted/60">
+                  <FileSearch className="h-5 w-5 text-muted-foreground/40" />
+                </div>
+                <p className="text-sm text-muted-foreground/60">
+                  Upload a document and run analysis to see results
+                </p>
+                <Button asChild variant="outline" size="sm" className="mt-2">
+                  <Link href="/dashboard/activity">
+                    {t("analyze.sidebar.viewActivity")}
+                  </Link>
+                </Button>
+              </div>
             </div>
           ) : detailLoading ? (
             <div className="flex items-center gap-2 text-sm text-muted-foreground">

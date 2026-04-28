@@ -3,6 +3,7 @@
 import { useState } from "react"
 import Link from "next/link"
 import { toast } from "sonner"
+import { Clock } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -23,22 +24,28 @@ export default function TimeTrackingPageClient({
   return (
     <div className="min-h-screen bg-background px-4 py-10">
       <div className="mx-auto flex max-w-6xl flex-col gap-8">
-        <header className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
-          <div>
-            <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+        <header className="mb-8 pb-6 border-b border-border/40 flex items-start justify-between gap-4">
+          <div className="space-y-1">
+            <p className="text-xs font-medium tracking-widest text-muted-foreground/40 uppercase mb-2">
               {t("time.header.kicker")}
             </p>
-            <h1 className="mt-1 text-3xl font-semibold tracking-tight text-foreground">
+            <h1 className="text-3xl font-bold tracking-tight text-foreground">
               {t("time.header.title")}
             </h1>
-            <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
+            <p className="mt-1.5 text-sm text-muted-foreground/70 max-w-2xl">
               {t("time.header.subtitle")}
             </p>
           </div>
-          <Button asChild variant="outline" size="sm">
-            <Link href="/dashboard">{t("time.header.back")}</Link>
-          </Button>
+          <div className="shrink-0 mt-1">
+            <Button asChild variant="outline" size="sm">
+              <Link href="/dashboard">{t("time.header.back")}</Link>
+            </Button>
+          </div>
         </header>
+
+        <div className="mb-6 flex h-10 w-10 items-center justify-center rounded-lg bg-green-500/15">
+          <Clock className="h-5 w-5 text-green-400" />
+        </div>
 
         <Tabs value={tab} onValueChange={(v) => setTab(v as "time" | "invoices")} className="space-y-6">
           <TabsList>

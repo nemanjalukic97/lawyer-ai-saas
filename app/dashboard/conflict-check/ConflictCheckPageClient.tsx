@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label"
 import { useLanguage } from "@/components/LanguageProvider"
 import { cn } from "@/lib/utils"
 import type { EntitlementPlanId } from "../lib/entitlements"
+import { ShieldAlert } from "lucide-react"
 
 type ConflictMatch = {
   source: "clients" | "contracts" | "case_predictions"
@@ -38,6 +39,8 @@ type HistoryItem = {
   override: boolean
   override_confirmed: boolean
 }
+
+const PAGE_SIZE = 15
 
 function formatDate(value: string): string {
   const d = new Date(value)
@@ -72,6 +75,7 @@ export function ConflictCheckPageClient({ planId }: { planId: EntitlementPlanId 
   const [historyLoading, setHistoryLoading] = useState(false)
   const [historyError, setHistoryError] = useState<string | null>(null)
   const [history, setHistory] = useState<HistoryItem[]>([])
+  const [page, setPage] = useState(1)
 
   const totalMatches = useMemo(() => {
     if (!results) return 0
@@ -139,6 +143,16 @@ export function ConflictCheckPageClient({ planId }: { planId: EntitlementPlanId 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [canViewHistory])
 
+  useEffect(() => {
+    setPage(1)
+  }, [history.length])
+
+  const totalPages = Math.max(1, Math.ceil(history.length / PAGE_SIZE))
+  const pagedHistory = useMemo(() => {
+    const start = (page - 1) * PAGE_SIZE
+    return history.slice(start, start + PAGE_SIZE)
+  }, [history, page])
+
   function onSubmit(e: FormEvent) {
     e.preventDefault()
     const trimmed = query.trim()
@@ -152,20 +166,29 @@ export function ConflictCheckPageClient({ planId }: { planId: EntitlementPlanId 
   return (
     <div className="min-h-screen bg-background px-4 py-10">
       <div className="mx-auto flex max-w-6xl flex-col gap-6">
-        <header className="space-y-1">
-          <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-            {t("conflict.header.kicker")}
-          </p>
-          <h1 className="text-3xl font-semibold tracking-tight text-foreground">
-            {t("conflict.header.title")}
-          </h1>
-          <p className="text-sm text-muted-foreground">
-            {t("conflict.header.subtitle")}
-          </p>
+        <header className="mb-8 pb-6 border-b border-border/40 flex items-start justify-between gap-4">
+          <div className="space-y-1">
+            <p className="text-xs font-medium tracking-widest text-muted-foreground/40 uppercase mb-2">
+              {t("conflict.header.kicker")}
+            </p>
+            <h1 className="text-3xl font-bold tracking-tight text-foreground">
+              {t("conflict.header.title")}
+            </h1>
+            <p className="mt-1.5 text-sm text-muted-foreground/70 max-w-2xl">
+              {t("conflict.header.subtitle")}
+            </p>
+          </div>
         </header>
 
-        <Card className="p-6">
+        <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-red-500/15">
+          <ShieldAlert className="h-5 w-5 text-red-400" />
+        </div>
+
+        <Card className="rounded-xl border border-border/40 bg-muted/10 p-6">
           <form className="space-y-4" onSubmit={onSubmit}>
+            <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground/50 mb-3">
+              Search for conflicts
+            </p>
             <div className="space-y-2">
               <Label htmlFor="conflictQuery">{t("conflict.form.query.label")}</Label>
               <Input
@@ -259,48 +282,76 @@ export function ConflictCheckPageClient({ planId }: { planId: EntitlementPlanId 
               </p>
             </Card>
           ) : (
-            <Card className="p-0 overflow-hidden">
+            <Card className="p-6">
               {historyError ? (
-                <div className="p-6">
-                  <p className="text-sm text-destructive">{historyError}</p>
-                </div>
+                <p className="text-sm text-destructive">{historyError}</p>
               ) : historyLoading && history.length === 0 ? (
-                <div className="p-6">
-                  <p className="text-sm text-muted-foreground">{t("conflict.history.loading")}</p>
-                </div>
+                <p className="text-sm text-muted-foreground">{t("conflict.history.loading")}</p>
               ) : history.length === 0 ? (
-                <div className="p-6">
-                  <p className="text-sm text-muted-foreground">{t("conflict.history.empty")}</p>
+                <div className="flex flex-col items-center justify-center py-12 text-center">
+                  <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-muted/60">
+                    <ShieldAlert className="h-5 w-5 text-muted-foreground/40" />
+                  </div>
+                  <p className="text-sm font-medium text-muted-foreground/60">
+                    No conflict checks yet
+                  </p>
                 </div>
               ) : (
-                <div className="divide-y">
-                  {history.map((item) => (
-                    <div key={item.id} className="p-4 sm:p-5">
-                      <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
-                        <div className="space-y-1">
-                          <p className="text-sm font-medium text-foreground">
-                            {item.search_query}
-                          </p>
-                          <p className="text-xs text-muted-foreground">
-                            {formatDate(item.created_at)}
-                          </p>
-                        </div>
-                        <span className={badgeClass(item.has_conflict ? "conflict" : "clear")}>
-                          {item.has_conflict
-                            ? t("conflict.history.badges.conflict")
-                            : t("conflict.history.badges.clear")}
-                        </span>
-                      </div>
-                      <p className="mt-2 text-sm text-muted-foreground">
-                        {item.results_summary}
-                      </p>
-                      {item.override && (
-                        <p className="mt-2 text-xs text-amber-700 dark:text-amber-300">
-                          {t("conflict.history.overrideLine")}
+                <div className="space-y-2">
+                  {pagedHistory.map((item) => (
+                    <div
+                      key={item.id}
+                      className="flex items-start justify-between gap-4 rounded-lg border border-border/40 px-4 py-3 hover:bg-muted/20 transition-colors"
+                    >
+                      <div className="min-w-0">
+                        <p className="text-sm font-semibold text-foreground">
+                          {item.search_query}
                         </p>
-                      )}
+                        <p className="text-xs text-muted-foreground/40">
+                          {formatDate(item.created_at)}
+                        </p>
+                        <p className="text-xs text-muted-foreground/60 mt-0.5">
+                          {item.results_summary}
+                        </p>
+                        {item.override && (
+                          <p className="text-xs text-amber-400 mt-0.5">
+                            {t("conflict.history.overrideLine")}
+                          </p>
+                        )}
+                      </div>
+                      <span className={badgeClass(item.has_conflict ? "conflict" : "clear")}>
+                        {item.has_conflict
+                          ? t("conflict.history.badges.conflict")
+                          : t("conflict.history.badges.clear")}
+                      </span>
                     </div>
                   ))}
+                </div>
+              )}
+
+              {history.length > PAGE_SIZE && (
+                <div className="mt-4 flex items-center justify-between">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setPage((p) => Math.max(1, p - 1))}
+                    disabled={page <= 1}
+                  >
+                    Previous
+                  </Button>
+                  <span className="text-xs text-muted-foreground">
+                    Page {page} of {totalPages}
+                  </span>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                    disabled={page >= totalPages}
+                  >
+                    Next
+                  </Button>
                 </div>
               )}
             </Card>

@@ -158,47 +158,84 @@ export function DashboardClient({
       ? top3Deadlines
       : upcomingDeadlines.slice(0, 3)
 
+  function planBadgeClass(id: EntitlementPlanId): string {
+    switch (id) {
+      case "free":
+        return "border-border/60 bg-muted text-foreground"
+      case "solo":
+        return "border-blue-500/30 bg-blue-500/15 text-blue-400"
+      case "professional":
+        return "border-purple-500/30 bg-purple-500/15 text-purple-400"
+      case "firm":
+        return "border-emerald-500/30 bg-emerald-500/15 text-emerald-400"
+      default:
+        return "border-border/60 bg-muted text-foreground"
+    }
+  }
+
+  function activityDotClass(type: ActivityItem["type"]): string {
+    switch (type) {
+      case "contract":
+        return "bg-blue-500"
+      case "document":
+        return "bg-purple-500"
+      case "client":
+        return "bg-emerald-500"
+      default:
+        return "bg-muted-foreground/40"
+    }
+  }
+
   return (
     <div className="min-h-screen bg-background px-4 py-10">
       <div className="mx-auto flex max-w-6xl flex-col gap-8">
-        <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <header className="mb-8 flex flex-col gap-4 border-b border-border/40 pb-8 sm:flex-row sm:items-start sm:justify-between">
           <div>
-            <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+            <p className="text-xs uppercase tracking-widest text-muted-foreground/50">
               {t("dashboard.header.kicker")}
             </p>
-            <h1 className="mt-1 text-3xl font-semibold tracking-tight text-foreground">
+            <h1 className="mt-1 text-3xl font-semibold tracking-tight text-foreground normal-case">
               {t("dashboard.header.welcome")}{" "}
               <span className="text-primary">{displayName}</span>
             </h1>
-            <p className="mt-1 text-sm text-muted-foreground">
-              {roleLabel} · {jurisdictionLabel}
+            <div className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-muted-foreground">
+              <span className="text-muted-foreground">{jurisdictionLabel}</span>
+              <span aria-hidden className="text-muted-foreground/40">
+                ·
+              </span>
               {planId === "free" ? (
                 <>
-                  {" "}
-                  ·{" "}
-                  <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2 py-0.5 text-xs font-medium text-foreground">
+                  <span
+                    className={cn(
+                      "inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs font-medium",
+                      planBadgeClass(planId)
+                    )}
+                  >
                     {t("dashboard.header.noPaidPlan")}
-                  </span>{" "}
-                  <span className="text-muted-foreground">
+                  </span>
+                  <span className="text-muted-foreground/70">
                     ({t("dashboard.header.statusNotSubscribed")})
                   </span>
                 </>
               ) : (
                 <>
-                  {" "}
-                  ·{" "}
-                  <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2 py-0.5 text-xs font-medium text-foreground">
+                  <span
+                    className={cn(
+                      "inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs font-medium",
+                      planBadgeClass(planId)
+                    )}
+                  >
                     {t(`dashboard.planTier.${planId}`)}{" "}
                     {t("dashboard.header.planSuffix")}
-                  </span>{" "}
+                  </span>
                   {subscriptionStatus && (
-                    <span className="text-muted-foreground">
+                    <span className="text-muted-foreground/70">
                       ({subscriptionStatus.toLowerCase()})
                     </span>
                   )}
                 </>
               )}
-            </p>
+            </div>
           </div>
         </header>
 
@@ -211,6 +248,7 @@ export function DashboardClient({
               value={canUseClients ? totals.clients : 0}
               locked={!canUseClients}
               href={canUseClients ? "/dashboard/clients" : "/dashboard/billing"}
+              accent="blue"
             />
             <StatCard
               Icon={Briefcase}
@@ -218,6 +256,7 @@ export function DashboardClient({
               value={canManageMatters ? activeMatters.openCount : 0}
               locked={!canManageMatters}
               href={canManageMatters ? "/dashboard/matters" : "/dashboard/billing"}
+              accent="purple"
             />
             <StatCard
               Icon={PenLine}
@@ -225,6 +264,7 @@ export function DashboardClient({
               value={canRequestSignatures ? signatureMetrics.pendingCount : 0}
               locked={!canRequestSignatures}
               href={canRequestSignatures ? "/dashboard/contracts" : "/dashboard/billing"}
+              accent="amber"
             />
             <StatCard
               Icon={Clock}
@@ -232,6 +272,7 @@ export function DashboardClient({
               value={canTrackTime ? Number(unbilledHours.toFixed(1)) : 0}
               locked={!canTrackTime}
               href={canTrackTime ? "/dashboard/time" : "/dashboard/billing"}
+              accent="emerald"
             />
           </div>
         </section>
@@ -247,11 +288,13 @@ export function DashboardClient({
 
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <ActionCard
-              Icon={Sparkles}
+              Icon={FileText}
               title={t("dashboard.actions.generate.title")}
               description={t("dashboard.actions.generate.description")}
               entitled={hasFeature(planId, "document_generation")}
               href="/dashboard/generate"
+              iconBg="bg-blue-500/15"
+              iconColor="text-blue-400"
             />
             <ActionCard
               Icon={FilePen}
@@ -259,6 +302,8 @@ export function DashboardClient({
               description={t("dashboard.actions.contract.description")}
               entitled={canDraftContracts}
               href="/dashboard/contracts"
+              iconBg="bg-purple-500/15"
+              iconColor="text-purple-400"
             />
             <ActionCard
               Icon={Scale}
@@ -266,6 +311,8 @@ export function DashboardClient({
               description={t("dashboard.actions.predict.description")}
               entitled={canPredict}
               href="/dashboard/predictions"
+              iconBg="bg-amber-500/15"
+              iconColor="text-amber-400"
             />
             <ActionCard
               Icon={FileSearch}
@@ -273,6 +320,8 @@ export function DashboardClient({
               description={t("dashboard.overview.cards.analysis.description")}
               entitled={canAnalyze}
               href="/dashboard/analyze"
+              iconBg="bg-rose-500/15"
+              iconColor="text-rose-400"
             />
             <ActionCard
               Icon={FileText}
@@ -280,6 +329,8 @@ export function DashboardClient({
               description={t("redline.header.subtitle")}
               entitled={hasFeature(planId, "document_redlining")}
               href="/dashboard/redline"
+              iconBg="bg-orange-500/15"
+              iconColor="text-orange-400"
             />
             <ActionCard
               Icon={Search}
@@ -287,6 +338,8 @@ export function DashboardClient({
               description={t("dashboard.actions.research.description")}
               entitled={hasFeature(planId, "legal_research")}
               href="/dashboard/research"
+              iconBg="bg-teal-500/15"
+              iconColor="text-teal-400"
             />
             <ActionCard
               Icon={ShieldAlert}
@@ -294,6 +347,8 @@ export function DashboardClient({
               description={t("conflict.header.subtitle")}
               entitled={hasFeature(planId, "conflict_check")}
               href="/dashboard/conflict-check"
+              iconBg="bg-red-500/15"
+              iconColor="text-red-400"
             />
             <ActionCard
               Icon={Users}
@@ -301,6 +356,8 @@ export function DashboardClient({
               description={t("dashboard.actions.clients.description")}
               entitled={canUseClients}
               href="/dashboard/clients"
+              iconBg="bg-emerald-500/15"
+              iconColor="text-emerald-400"
             />
             <ActionCard
               Icon={Briefcase}
@@ -308,6 +365,8 @@ export function DashboardClient({
               description={t("dashboard.overview.cards.matters.description")}
               entitled={canManageMatters}
               href="/dashboard/matters"
+              iconBg="bg-indigo-500/15"
+              iconColor="text-indigo-400"
             />
             <ActionCard
               Icon={Clock}
@@ -315,6 +374,8 @@ export function DashboardClient({
               description={t("dashboard.overview.cards.time.description")}
               entitled={canTrackTime}
               href="/dashboard/time"
+              iconBg="bg-green-500/15"
+              iconColor="text-green-400"
             />
             <ActionCard
               Icon={Calendar}
@@ -322,6 +383,8 @@ export function DashboardClient({
               description={t("dashboard.overview.cards.deadlines.description")}
               entitled={canViewDeadlines}
               href="/dashboard/deadlines"
+              iconBg="bg-yellow-500/15"
+              iconColor="text-yellow-400"
             />
           </div>
         </section>
@@ -336,9 +399,15 @@ export function DashboardClient({
                     <Briefcase className="h-5 w-5" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold">
-                      {t("dashboard.activeMatters.title")}
-                    </h3>
+                    <div className="flex items-center gap-2">
+                      <span
+                        className="mt-1 size-2 rounded-full bg-emerald-400"
+                        aria-hidden
+                      />
+                      <h3 className="text-lg font-semibold">
+                        {t("dashboard.activeMatters.title")}
+                      </h3>
+                    </div>
                     <p className="mt-1 text-sm text-muted-foreground">
                       {t("dashboard.activeMatters.subtitle")}
                     </p>
@@ -378,12 +447,12 @@ export function DashboardClient({
                     <Link
                       key={m.id}
                       href={`/dashboard/matters/${m.id}`}
-                      className="block rounded-md border p-3 hover:bg-muted/50"
+                      className="block rounded-md border border-l-2 border-blue-500/40 p-3 hover:bg-muted/50"
                     >
                       <div className="flex flex-wrap items-center gap-2">
-                        <Badge variant="outline" className="text-[10px]">
+                        <span className="rounded bg-muted px-2 py-0.5 font-mono text-xs">
                           {m.matter_number}
-                        </Badge>
+                        </span>
                         <p className="min-w-0 truncate text-sm font-medium">
                           {m.title}
                         </p>
@@ -442,7 +511,7 @@ export function DashboardClient({
                   deadlinesPreview.map((d) => (
                     <div
                       key={d.id}
-                      className="flex items-start gap-3 rounded-lg border border-border px-3 py-2"
+                      className="flex items-start gap-3 rounded-lg bg-muted/20 px-3 py-2.5"
                     >
                       <span
                         className={cn(
@@ -452,9 +521,26 @@ export function DashboardClient({
                         aria-hidden
                       />
                       <div className="min-w-0 flex-1">
-                        <p className="text-sm font-medium leading-snug">
-                          {d.title}
-                        </p>
+                        <div className="flex items-start justify-between gap-3">
+                          <p className="text-sm font-medium leading-snug">
+                            {d.title}
+                          </p>
+                          {(() => {
+                            const eff = getEffectiveStatus(d)
+                            const diff = calendarDaysUntil(d.due_date)
+                            const isSoon =
+                              eff !== "completed" &&
+                              eff !== "cancelled" &&
+                              eff !== "overdue" &&
+                              diff >= 0 &&
+                              diff <= 2
+                            return isSoon ? (
+                              <span className="shrink-0 rounded bg-amber-500/20 px-1.5 py-0.5 text-xs text-amber-400">
+                                Soon
+                              </span>
+                            ) : null
+                          })()}
+                        </div>
                         <p className="text-xs text-muted-foreground">
                           {formatDueHeading(d.due_date)}
                         </p>
@@ -491,22 +577,30 @@ export function DashboardClient({
                   recentActivity.slice(0, 5).map((item) => (
                     <div
                       key={`${item.type}-${item.id}`}
-                      className="flex items-start justify-between"
+                      className="-mx-2 flex items-start justify-between rounded-md px-2 py-1.5 transition-colors hover:bg-muted/20"
                     >
-                      <div className="min-w-0">
+                      <div className="min-w-0 flex-1">
                         <Link
                           href={`${ACTIVITY_HREF_BY_TYPE[item.type]}?id=${item.id}`}
                           className={cn(
-                            "block truncate text-sm font-medium transition-colors hover:text-primary hover:underline"
+                            "flex min-w-0 items-center gap-2 truncate text-sm font-medium transition-colors hover:text-primary hover:underline"
                           )}
                         >
-                          {t(`activity.types.${item.type}`)}: {item.title}
+                          <span
+                            className={cn("mt-0.5 size-2 shrink-0 rounded-full", activityDotClass(item.type))}
+                            aria-hidden
+                          />
+                          <span className="min-w-0 truncate">
+                            {t(`activity.types.${item.type}`)}: {item.title}
+                          </span>
                         </Link>
-                        <p className="text-xs text-muted-foreground">
-                          {new Date(item.createdAt).toLocaleDateString()}
-                        </p>
                       </div>
-                      <ArrowUpRight className="ml-3 h-4 w-4 shrink-0 text-muted-foreground" />
+                      <div className="ml-3 flex shrink-0 items-center gap-3">
+                        <span className="text-xs text-muted-foreground/50">
+                          {new Date(item.createdAt).toLocaleDateString()}
+                        </span>
+                        <ArrowUpRight className="h-4 w-4 text-muted-foreground" />
+                      </div>
                     </div>
                   ))
                 )}
@@ -523,23 +617,40 @@ export function DashboardClient({
               <p className="mt-1 text-sm text-muted-foreground">
                 {t("dashboard.overview.cards.invoices.subtitle")}
               </p>
-              <div className="mt-4 space-y-2 text-sm">
-                <div className="flex items-baseline justify-between">
-                  <span className="text-muted-foreground">
+              <div className="mt-4 grid grid-cols-2 gap-3 text-sm">
+                <div className="rounded-lg bg-muted/20 p-3">
+                  <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground/60">
                     {t("dashboard.overview.cards.invoices.outstanding")}
-                  </span>
-                  <span className="font-semibold">
+                  </p>
+                  <p
+                    className={cn(
+                      "mt-1 text-lg font-semibold tabular-nums",
+                      invoiceMetrics.outstandingTotalEur > 0 && "text-amber-400"
+                    )}
+                  >
                     €{invoiceMetrics.outstandingTotalEur.toFixed(2)}
-                  </span>
+                  </p>
                 </div>
-                <div className="flex items-baseline justify-between">
-                  <span className="text-muted-foreground">
+                <div className="rounded-lg bg-muted/20 p-3">
+                  <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground/60">
                     {t("dashboard.overview.cards.invoices.paidThisMonth")}
-                  </span>
-                  <span className="font-semibold">
+                  </p>
+                  <p className="mt-1 text-lg font-semibold tabular-nums text-emerald-400">
                     €{invoiceMetrics.paidThisMonthTotalEur.toFixed(2)}
-                  </span>
+                  </p>
                 </div>
+              </div>
+              <div className="mt-3 flex h-1.5 overflow-hidden rounded-full bg-muted">
+                <div
+                  className="bg-emerald-500"
+                  style={{ flexGrow: Math.max(0, invoiceMetrics.paidThisMonthTotalEur) }}
+                  aria-hidden
+                />
+                <div
+                  className="bg-amber-500"
+                  style={{ flexGrow: Math.max(0, invoiceMetrics.outstandingTotalEur) }}
+                  aria-hidden
+                />
               </div>
             </Card>
           </div>
@@ -548,15 +659,30 @@ export function DashboardClient({
         {/* Section 4 — Usage chart at bottom (keep) */}
         <section className="grid gap-4 lg:grid-cols-[minmax(0,2fr),minmax(0,1.2fr)]">
           <div className="min-w-0">
-            <FeatureUsageChart data={featureUsage} />
+            <div className="rounded-xl bg-muted/20 p-4">
+              <div className="mb-3 flex items-center justify-end">
+                <span className="rounded bg-muted px-2 py-0.5 text-xs text-muted-foreground/60">
+                  Last 30 days
+                </span>
+              </div>
+              <FeatureUsageChart data={featureUsage} />
+            </div>
           </div>
 
-          <Card>
+          <Card className="border-l-4 border-l-emerald-500/40">
             <CardHeader>
               <CardTitle>{t("dashboard.roi.title")}</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-2 text-sm">
-              <p>
+            <CardContent className="space-y-2 pl-4 text-sm">
+              {planId !== "free" && roiData.subscriptionCostEur > 0 && (
+                <p className="text-5xl font-bold text-emerald-400">
+                  {(
+                    roiData.savingsEur / Math.max(roiData.subscriptionCostEur, 1)
+                  ).toFixed(0)}
+                  ×
+                </p>
+              )}
+              <p className="text-sm text-muted-foreground">
                 {t("dashboard.roi.hoursPrefix")}{" "}
                 <strong>{roiData.hoursSaved.toFixed(1)}h</strong>{" "}
                 {t("dashboard.roi.hoursSuffix")}
@@ -599,36 +725,53 @@ function StatCard({
   value,
   locked,
   href,
+  accent,
 }: {
   Icon: React.ComponentType<React.SVGProps<SVGSVGElement>>
   label: string
   value: number
   locked: boolean
   href: string
+  accent: "blue" | "purple" | "amber" | "emerald"
 }) {
   const { t } = useLanguage()
+  const accentClass = {
+    blue: "border-l-blue-500",
+    purple: "border-l-purple-500",
+    amber: "border-l-amber-500",
+    emerald: "border-l-emerald-500",
+  }[accent]
+
+  const valueColor =
+    accent === "amber" && value > 0
+      ? "text-amber-400"
+      : accent === "emerald" && value > 0
+        ? "text-emerald-400"
+        : "text-foreground"
+
   return (
     <Link href={href} className="block">
       <Card
         className={cn(
-          "relative p-5 transition-colors hover:bg-muted/40",
+          "relative border-l-2 p-5 transition-all hover:border-border/60 hover:bg-muted/40",
+          accentClass,
           locked && "opacity-80"
         )}
       >
-        <div className="flex items-start justify-between gap-3">
-          <p className="text-sm font-medium text-foreground">{label}</p>
-          <div className="inline-flex h-9 w-9 items-center justify-center rounded-md bg-muted text-muted-foreground">
-            <Icon className="h-5 w-5" />
-          </div>
-        </div>
-        <p className="mt-3 text-3xl font-semibold tracking-tight">{value}</p>
+        <Icon className="absolute right-3 top-3 h-3.5 w-3.5 text-muted-foreground/30" />
+        <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground/60">
+          {label}
+        </p>
+        <p className={cn("mt-2 text-4xl font-bold tracking-tight", valueColor)}>
+          {value}
+        </p>
         {locked ? (
-          <p className="mt-2 inline-flex items-center gap-1 text-xs text-muted-foreground">
+          <p className="mt-2 inline-flex items-center gap-1 text-xs text-muted-foreground/50 transition-colors hover:text-foreground">
             <Lock className="h-3.5 w-3.5" />
             {t("dashboard.overview.upgrade")} <span aria-hidden>→</span>
           </p>
         ) : (
-          <p className="mt-2 inline-flex items-center gap-1 text-xs text-muted-foreground">
+          <p className="mt-2 inline-flex items-center gap-1 text-xs text-muted-foreground/50 transition-colors hover:text-foreground">
             {t("dashboard.actions.open")} <ArrowUpRight className="h-3.5 w-3.5" />
           </p>
         )}
@@ -643,12 +786,16 @@ function ActionCard({
   description,
   entitled,
   href,
+  iconBg,
+  iconColor,
 }: {
   Icon: React.ComponentType<React.SVGProps<SVGSVGElement>>
   title: string
   description: string
   entitled: boolean
   href: string
+  iconBg?: string
+  iconColor?: string
 }) {
   const { t } = useLanguage()
   const finalHref = entitled ? href : "/dashboard/billing"
@@ -656,32 +803,36 @@ function ActionCard({
     <Link href={finalHref} className="block">
       <Card
         className={cn(
-          "relative flex min-h-[120px] h-full flex-col justify-between p-5 transition-colors hover:bg-muted/40",
+          "group relative flex min-h-[160px] h-full cursor-pointer flex-col justify-between p-5 transition-all duration-200 hover:border-border/60 hover:bg-muted/30",
           !entitled && "opacity-80"
         )}
       >
         {!entitled && (
           <div className="pointer-events-none absolute inset-0 rounded-xl bg-gradient-to-br from-muted/30 via-transparent to-transparent" />
         )}
-        <div className="relative space-y-3">
+        <ArrowUpRight className="absolute right-3 top-3 h-3 w-3 text-muted-foreground/30 transition-colors group-hover:text-muted-foreground/60" />
+        <div className="relative space-y-4">
           <div
             className={cn(
-              "inline-flex h-12 w-12 items-center justify-center rounded-md",
-              entitled ? "bg-primary/10 text-primary" : "bg-muted text-muted-foreground"
+              "flex h-10 w-10 items-center justify-center rounded-lg",
+              iconBg ?? "bg-muted/60",
+              !entitled && "opacity-80"
             )}
           >
-            <Icon className="h-8 w-8" />
+            <Icon className={cn("h-[18px] w-[18px]", iconColor ?? "text-foreground/70")} />
           </div>
-          <div className="flex items-start justify-between gap-3">
-            <h3 className="text-sm font-medium leading-snug">{title}</h3>
-            <ArrowUpRight className="h-4 w-4 shrink-0 text-muted-foreground" />
+          <div>
+            <p className="text-sm font-semibold text-foreground">{title}</p>
+            <p className="mt-1 text-xs leading-relaxed text-muted-foreground/60">
+              {description}
+            </p>
           </div>
-          <p className="text-xs text-muted-foreground">{description}</p>
         </div>
         {!entitled && (
-          <div className="relative mt-4 text-xs font-medium text-muted-foreground">
-            {t("dashboard.overview.upgrade")} <span aria-hidden>→</span>
-          </div>
+          <p className="mt-3 inline-flex items-center gap-1 text-xs text-muted-foreground">
+            <Lock className="h-3 w-3" />
+            {t("dashboard.overview.upgrade")} →
+          </p>
         )}
       </Card>
     </Link>

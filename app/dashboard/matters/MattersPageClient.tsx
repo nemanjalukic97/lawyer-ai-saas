@@ -25,10 +25,10 @@ import {
 } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import { createClient } from "@/lib/supabase/client"
+import { cn } from "@/lib/utils"
 import { Constants } from "@/lib/supabase/types"
 import type { Tables, TablesInsert, TablesUpdate } from "@/lib/supabase/types"
-import { Loader2 } from "lucide-react"
-import { Trash2 } from "lucide-react"
+import { Briefcase, Loader2, Trash2 } from "lucide-react"
 import { logActivity } from "@/lib/activity/logActivity"
 
 type MatterRow = Tables<"matters">
@@ -52,6 +52,8 @@ type MatterListItem = MatterRow & {
 const MATTER_TYPES = Constants.public.Enums.matter_type
 const JURISDICTIONS = Constants.public.Enums.jurisdiction
 const STATUSES = Constants.public.Enums.matter_status
+
+const PAGE_SIZE = 15
 
 function statusBadgeClass(status: MatterStatus): string {
   switch (status) {
@@ -80,6 +82,21 @@ function hoursFromMinutes(min: number): number {
   return min / 60
 }
 
+function statusRowBorderClass(status: MatterStatus): string {
+  switch (status) {
+    case "open":
+      return "border-l-blue-500"
+    case "closed":
+      return "border-l-muted-foreground/30"
+    case "on_hold":
+      return "border-l-amber-500"
+    case "archived":
+      return "border-l-muted-foreground/20"
+    default:
+      return "border-l-muted-foreground/20"
+  }
+}
+
 export function MattersPageClient() {
   const supabase = useMemo(() => createClient(), [])
   const { t } = useLanguage()
@@ -92,6 +109,7 @@ export function MattersPageClient() {
   const [statusFilter, setStatusFilter] = useState<MatterStatus | "all">("all")
   const [typeFilter, setTypeFilter] = useState<MatterType | "all">("all")
   const [search, setSearch] = useState("")
+  const [page, setPage] = useState(1)
 
   const [dialogOpen, setDialogOpen] = useState(false)
   const [editing, setEditing] = useState<MatterRow | null>(null)
@@ -277,6 +295,16 @@ export function MattersPageClient() {
     })
   }, [matters, search, statusFilter, typeFilter])
 
+  useEffect(() => {
+    setPage(1)
+  }, [statusFilter, typeFilter, search])
+
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE))
+  const paged = useMemo(() => {
+    const start = (page - 1) * PAGE_SIZE
+    return filtered.slice(start, start + PAGE_SIZE)
+  }, [filtered, page])
+
   function openCreate() {
     setEditing(null)
     setStatusIn("open")
@@ -442,21 +470,27 @@ export function MattersPageClient() {
   return (
     <div className="min-h-screen bg-background px-4 py-10">
       <div className="mx-auto flex max-w-6xl flex-col gap-6">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+        <header className="mb-8 pb-6 border-b border-border/40 flex items-start justify-between gap-4">
+          <div className="space-y-1">
+            <p className="text-xs font-medium tracking-widest text-muted-foreground/40 uppercase mb-2">
               {t("matters.kicker")}
             </p>
-            <h1 className="mt-1 text-2xl font-semibold tracking-tight">
+            <h1 className="text-3xl font-bold tracking-tight text-foreground">
               {t("matters.title")}
             </h1>
-            <p className="mt-1 text-sm text-muted-foreground">
+            <p className="mt-1.5 text-sm text-muted-foreground/70 max-w-2xl">
               {t("matters.subtitle")}
             </p>
           </div>
-          <Button type="button" onClick={openCreate}>
-            {t("matters.actions.new")}
-          </Button>
+          <div className="shrink-0 mt-1">
+            <Button type="button" onClick={openCreate}>
+              {t("matters.actions.new")}
+            </Button>
+          </div>
+        </header>
+
+        <div className="mb-6 flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-500/15">
+          <Briefcase className="h-5 w-5 text-indigo-400" />
         </div>
 
         {error && (
@@ -466,7 +500,7 @@ export function MattersPageClient() {
         )}
 
         <Card className="p-4">
-          <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+          <div className="flex flex-wrap items-center gap-2 rounded-xl border border-border/40 bg-muted/20 p-3">
             <div className="flex flex-wrap gap-2">
               <Button
                 type="button"
@@ -489,7 +523,7 @@ export function MattersPageClient() {
               ))}
             </div>
 
-            <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+            <div className="ml-auto flex flex-col gap-2 sm:flex-row sm:items-center">
               <div className="min-w-44">
                 <Select
                   value={typeFilter}
@@ -525,28 +559,40 @@ export function MattersPageClient() {
               {t("deadlines.loading")}
             </div>
           ) : filtered.length === 0 ? (
-            <div className="space-y-1 p-6 text-sm text-muted-foreground">
-              <p className="font-medium text-foreground">{t("matters.empty.title")}</p>
-              <p>{t("matters.empty.subtitle")}</p>
+            <div className="flex flex-col items-center justify-center py-16 text-center">
+              <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-muted/60">
+                <Briefcase className="h-5 w-5 text-muted-foreground/40" />
+              </div>
+              <p className="text-sm font-medium text-muted-foreground/60">
+                No matters found
+              </p>
+              <p className="mt-1 text-xs text-muted-foreground/40">
+                Create your first matter to get started
+              </p>
             </div>
           ) : (
             <div className="divide-y">
-              {filtered.map((m) => (
+              {paged.map((m) => (
                 <div
                   key={m.id}
-                  className="flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between"
+                  className={cn(
+                    "flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between border-l-2 hover:bg-muted/20 transition-all",
+                    statusRowBorderClass(m.status)
+                  )}
                 >
                   <div className="min-w-0 space-y-1">
                     <div className="flex flex-wrap items-center gap-2">
-                      <Badge variant="outline" className="text-[10px]">
+                      <span className="font-mono text-xs bg-muted/60 px-2 py-0.5 rounded">
                         {m.matter_number}
-                      </Badge>
-                      <p className="min-w-0 truncate text-sm font-medium">{m.title}</p>
+                      </span>
+                      <p className="min-w-0 truncate text-sm font-semibold text-foreground">
+                        {m.title}
+                      </p>
                       <Badge variant="outline" className={statusBadgeClass(m.status)}>
                         {t(`matters.status.${m.status}`)}
                       </Badge>
                     </div>
-                    <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+                    <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground/60">
                       <span>{m.client?.name ?? t("time.invoices.clientFallback")}</span>
                       <span>·</span>
                       <Badge variant="outline" className="text-[10px]">
@@ -556,26 +602,26 @@ export function MattersPageClient() {
                         {m.jurisdiction}
                       </Badge>
                       <span>·</span>
-                      <span>
+                      <span className="text-xs text-muted-foreground/40">
                         {t("matters.fields.openedAt")}: {fmtDate(m.opened_at)}
                       </span>
                     </div>
-                    <div className="mt-2 flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
+                    <div className="mt-2 flex flex-wrap items-center gap-3 text-xs text-muted-foreground/50 font-mono">
                       <span>
                         {t("matters.stats.contracts")}:{" "}
-                        <span className="font-medium text-foreground">
+                        <span className="font-medium text-foreground not-italic">
                           {m.stats?.contractsCount ?? 0}
                         </span>
                       </span>
                       <span>
                         {t("matters.stats.deadlines")}:{" "}
-                        <span className="font-medium text-foreground">
+                        <span className="font-medium text-foreground not-italic">
                           {m.stats?.deadlinesCount ?? 0}
                         </span>
                       </span>
                       <span>
                         {t("matters.stats.unbilledHours")}:{" "}
-                        <span className="font-medium text-foreground">
+                        <span className="font-medium text-foreground not-italic">
                           {(m.stats?.unbilledHours ?? 0).toFixed(2)} h
                         </span>
                       </span>
@@ -665,6 +711,32 @@ export function MattersPageClient() {
             </div>
           )}
         </div>
+
+        {filtered.length > PAGE_SIZE && (
+          <div className="mt-4 flex items-center justify-between">
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => setPage((p) => Math.max(1, p - 1))}
+              disabled={page <= 1}
+            >
+              Previous
+            </Button>
+            <span className="text-xs text-muted-foreground">
+              Page {page} of {totalPages}
+            </span>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+              disabled={page >= totalPages}
+            >
+              Next
+            </Button>
+          </div>
+        )}
 
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
           <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-lg">

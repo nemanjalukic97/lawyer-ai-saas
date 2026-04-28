@@ -16,7 +16,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { Loader2 } from "lucide-react"
+import { FilePen, Loader2 } from "lucide-react"
 import { createClient } from "@/lib/supabase/client"
 import { saveAs } from "file-saver"
 import { Document as DocxDocument, Packer, Paragraph } from "docx"
@@ -1136,14 +1136,14 @@ export default function ContractsWizardPage({
                     })
                   }}
                   className={[
-                    "flex flex-col items-start rounded-md border p-3 text-left text-sm transition",
-                    isSelected
-                      ? "border-primary bg-primary/5"
-                      : "border-border hover:border-primary/40 hover:bg-muted/60",
+                    "rounded-lg border border-border/40 p-4 cursor-pointer hover:border-primary/40 hover:bg-muted/20 transition-all text-left",
+                    isSelected ? "ring-2 ring-primary border-primary" : "",
                   ].join(" ")}
                 >
-                  <span className="font-medium">{t(option.translationKey) || option.label}</span>
-                  <span className="mt-1 text-xs text-muted-foreground">
+                  <span className="text-sm font-semibold">
+                    {t(option.translationKey) || option.label}
+                  </span>
+                  <span className="text-xs text-muted-foreground/60 mt-0.5">
                     {t("contracts.steps.step1.hint")}
                   </span>
                 </button>
@@ -1481,24 +1481,29 @@ export default function ContractsWizardPage({
   return (
     <div className="min-h-screen bg-background px-4 py-10">
       <div className="mx-auto flex max-w-6xl flex-col gap-8">
-        <header className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
-          <div>
-            <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+        <header className="mb-8 pb-6 border-b border-border/40 flex items-start justify-between gap-4">
+          <div className="space-y-1">
+            <p className="text-xs font-medium tracking-widest text-muted-foreground/40 uppercase mb-2">
               {t("contracts.header.kicker")}
             </p>
-            <h1 className="mt-1 text-3xl font-semibold tracking-tight text-foreground">
+            <h1 className="text-3xl font-bold tracking-tight text-foreground">
               {t("contracts.header.title")}
             </h1>
-            <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
+            <p className="mt-1.5 text-sm text-muted-foreground/70 max-w-2xl">
               {t("contracts.header.subtitle")}
             </p>
           </div>
-          <Button asChild variant="outline" size="sm">
-            <Link href="/dashboard">{t("contracts.header.back")}</Link>
-          </Button>
+          <div className="shrink-0 mt-1">
+            <Button asChild variant="outline" size="sm">
+              <Link href="/dashboard">{t("contracts.header.back")}</Link>
+            </Button>
+          </div>
         </header>
 
-        <Card className="border-border/80 p-6">
+        <Card className="rounded-xl border border-border/40 bg-muted/10 p-6">
+          <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-purple-500/15">
+            <FilePen className="h-5 w-5 text-purple-400" />
+          </div>
           {showPrefillBanner && (
             <div className="mb-4 flex items-center justify-between rounded-md border bg-muted/40 px-4 py-2 text-sm text-muted-foreground">
               <span>
@@ -1575,19 +1580,27 @@ export default function ContractsWizardPage({
             </div>
           </Card>
 
-        <div className="flex flex-col gap-8">
-          <ContractsListPanel />
+          <div className="flex flex-col gap-8">
+        <div className="rounded-xl border border-border/40 bg-muted/10 p-6 mt-6">
+          <h2 className="text-base font-semibold">Contracts</h2>
+          <p className="text-xs text-muted-foreground/60 mt-0.5">
+            Browse and manage your generated contracts
+          </p>
+          <div className="mt-4">
+            <ContractsListPanel />
+          </div>
+        </div>
 
           <Card className="space-y-4 p-6">
             <h2 className="text-lg font-semibold">{t("contracts.sidebar.title")}</h2>
             {!selectedId ? (
-              <div className="space-y-3">
-                <p className="text-sm text-muted-foreground">
-                  {t("contracts.sidebar.empty")}
+              <div className="flex flex-col items-center justify-center py-12 text-center">
+                <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-muted/60">
+                  <FilePen className="h-5 w-5 text-muted-foreground/40" />
+                </div>
+                <p className="text-sm text-muted-foreground/60">
+                  Select a contract to view details
                 </p>
-                <Button asChild variant="outline" size="sm">
-                  <Link href="/dashboard/activity">{t("contracts.sidebar.viewActivity")}</Link>
-                </Button>
               </div>
             ) : detailLoading ? (
               <div className="flex items-center gap-2 text-sm text-muted-foreground">

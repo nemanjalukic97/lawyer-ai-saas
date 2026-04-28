@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import { FileText } from "lucide-react"
 
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -161,84 +162,92 @@ export function TemplatesPageClient({ templates }: Props) {
     <div className="min-h-screen bg-background px-4 py-10">
       <div className="mx-auto flex max-w-6xl flex-col gap-8 lg:flex-row">
         <div className="flex-1 space-y-6">
-          <header className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
-            <div>
-              <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+          <header className="mb-8 pb-6 border-b border-border/40 flex items-start justify-between gap-4">
+            <div className="space-y-1">
+              <p className="text-xs font-medium tracking-widest text-muted-foreground/40 uppercase mb-2">
                 {t("templates.header.kicker")}
               </p>
-              <h1 className="mt-1 text-3xl font-semibold tracking-tight text-foreground">
+              <h1 className="text-3xl font-bold tracking-tight text-foreground">
                 {t("templates.header.title")}
               </h1>
-              <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
+              <p className="mt-1.5 text-sm text-muted-foreground/70 max-w-2xl">
                 {t("templates.header.subtitle")}
               </p>
             </div>
-            <Button asChild variant="outline" size="sm">
-              <Link href="/dashboard/generate">{t("templates.actions.goToGenerator")}</Link>
-            </Button>
+            <div className="shrink-0 mt-1">
+              <Button asChild variant="outline" size="sm">
+                <Link href="/dashboard/generate">{t("templates.actions.goToGenerator")}</Link>
+              </Button>
+            </div>
           </header>
 
+          <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-500/15">
+            <FileText className="h-5 w-5 text-indigo-400" />
+          </div>
+
           <section className="space-y-4">
-            <div className="grid gap-3 md:grid-cols-[minmax(0,1.1fr),minmax(0,1.1fr),minmax(0,1.2fr)]">
-              <div className="space-y-1.5">
-                <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                  {t("templates.filters.documentType.label")}
-                </p>
-                <Select
-                  value={typeFilter}
-                  onValueChange={(value) =>
-                    setTypeFilter(
-                      value as (typeof DOCUMENT_TYPE_FILTERS)[number]["value"]
-                    )
-                  }
-                >
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder={t("templates.filters.documentType.all")} />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {DOCUMENT_TYPE_FILTERS.map((option) => (
-                      <SelectItem key={option.value} value={option.value}>
-                        {t(option.translationKey)}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+            <div className="flex flex-wrap items-center gap-3 rounded-xl border border-border/40 bg-muted/10 p-4 mb-6">
+              <div className="grid w-full gap-3 md:grid-cols-[minmax(0,1.1fr),minmax(0,1.1fr),minmax(0,1.2fr)]">
+                <div className="space-y-1.5">
+                  <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                    {t("templates.filters.documentType.label")}
+                  </p>
+                  <Select
+                    value={typeFilter}
+                    onValueChange={(value) =>
+                      setTypeFilter(
+                        value as (typeof DOCUMENT_TYPE_FILTERS)[number]["value"]
+                      )
+                    }
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder={t("templates.filters.documentType.all")} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {DOCUMENT_TYPE_FILTERS.map((option) => (
+                        <SelectItem key={option.value} value={option.value}>
+                          {t(option.translationKey)}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
 
-              <div className="space-y-1.5">
-                <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                  {t("templates.filters.jurisdiction.label")}
-                </p>
-                <Select
-                  value={jurisdictionFilter}
-                  onValueChange={(value) =>
-                    setJurisdictionFilter(
-                      value as (typeof JURISDICTION_OPTIONS)[number]["value"]
-                    )
-                  }
-                >
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder={t("templates.filters.jurisdiction.all")} />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {JURISDICTION_OPTIONS.map((option) => (
-                      <SelectItem key={option.value} value={option.value}>
-                        {t(option.translationKey)}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+                <div className="space-y-1.5">
+                  <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                    {t("templates.filters.jurisdiction.label")}
+                  </p>
+                  <Select
+                    value={jurisdictionFilter}
+                    onValueChange={(value) =>
+                      setJurisdictionFilter(
+                        value as (typeof JURISDICTION_OPTIONS)[number]["value"]
+                      )
+                    }
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder={t("templates.filters.jurisdiction.all")} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {JURISDICTION_OPTIONS.map((option) => (
+                        <SelectItem key={option.value} value={option.value}>
+                          {t(option.translationKey)}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
 
-              <div className="space-y-1.5">
-                <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                  {t("templates.filters.search.label")}
-                </p>
-                <Input
-                  placeholder={t("templates.filters.search.placeholder")}
-                  value={search}
-                  onChange={(event) => setSearch(event.target.value)}
-                />
+                <div className="space-y-1.5">
+                  <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                    {t("templates.filters.search.label")}
+                  </p>
+                  <Input
+                    placeholder={t("templates.filters.search.placeholder")}
+                    value={search}
+                    onChange={(event) => setSearch(event.target.value)}
+                  />
+                </div>
               </div>
             </div>
 
@@ -250,7 +259,7 @@ export function TemplatesPageClient({ templates }: Props) {
                   return (
                 <Card
                   key={template.id}
-                  className="flex cursor-pointer flex-col justify-between border-border/70 p-4 transition-colors hover:border-primary/40"
+                  className="group rounded-xl border border-border/40 bg-muted/10 p-5 hover:border-border/70 hover:bg-muted/20 transition-all"
                   onClick={() => setSelectedId(template.id)}
                 >
                   <div className="space-y-1.5">

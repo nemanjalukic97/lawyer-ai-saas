@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { useCallback, useEffect, useMemo, useState } from "react"
-import { ClipboardCopy, Loader2, Pencil, Trash2 } from "lucide-react"
+import { ClipboardCopy, ClipboardList, Loader2, Pencil, Trash2 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
@@ -227,21 +227,27 @@ export default function IntakePageClient({ planId }: Props) {
   return (
     <div className="min-h-screen bg-background px-4 py-10">
       <div className="mx-auto flex max-w-4xl flex-col gap-6">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+        <header className="mb-8 pb-6 border-b border-border/40 flex items-start justify-between gap-4">
+          <div className="space-y-1">
+            <p className="text-xs font-medium tracking-widest text-muted-foreground/40 uppercase mb-2">
               {t("intake.kicker")}
             </p>
-            <h1 className="mt-1 text-2xl font-semibold tracking-tight">
+            <h1 className="text-3xl font-bold tracking-tight text-foreground">
               {t("intake.title")}
             </h1>
-            <p className="mt-1 text-sm text-muted-foreground">
+            <p className="mt-1.5 text-sm text-muted-foreground/70 max-w-2xl">
               {t("intake.subtitle")}
             </p>
           </div>
-          <Button asChild>
-            <Link href="/dashboard/intake/new">{t("intake.actions.create")}</Link>
-          </Button>
+          <div className="shrink-0 mt-1">
+            <Button asChild>
+              <Link href="/dashboard/intake/new">{t("intake.actions.create")}</Link>
+            </Button>
+          </div>
+        </header>
+
+        <div className="mb-6 flex h-10 w-10 items-center justify-center rounded-lg bg-purple-500/15">
+          <ClipboardList className="h-5 w-5 text-purple-400" />
         </div>
 
         {error && (
@@ -256,22 +262,25 @@ export default function IntakePageClient({ planId }: Props) {
             {t("intake.loading")}
           </div>
         ) : forms.length === 0 ? (
-          <Card className="p-8 text-center text-sm text-muted-foreground">
+          <Card className="p-8 text-sm text-muted-foreground">
             {t("intake.empty")}
           </Card>
         ) : (
-          <ul className="flex flex-col gap-3">
+          <div className="space-y-3">
             {forms.map((form) => (
-              <li key={form.id}>
-                <Card className="flex flex-col gap-4 p-4 sm:flex-row sm:items-center sm:justify-between">
-                  <div className="min-w-0 space-y-1">
-                    <p className="truncate font-medium">{form.title}</p>
-                    <p className="text-xs text-muted-foreground">
-                      {t("intake.list.submissions")
-                        .replace("{n}", String(counts[form.id] ?? 0))}
-                    </p>
-                  </div>
-                  <div className="flex flex-wrap items-center gap-3">
+              <div
+                key={form.id}
+                className="flex items-center justify-between gap-4 rounded-xl border border-border/40 bg-muted/10 px-5 py-4 hover:bg-muted/20 transition-colors"
+              >
+                <div className="flex flex-col gap-0.5 flex-1 min-w-0 text-left">
+                  <p className="text-sm font-semibold text-foreground truncate">
+                    {form.title}
+                  </p>
+                  <p className="text-xs text-muted-foreground/60">
+                    Submissions: {counts[form.id] ?? 0}
+                  </p>
+                </div>
+                <div className="flex items-center gap-2 shrink-0">
                     <div className="flex items-center gap-2">
                       <span className="text-xs text-muted-foreground">
                         {t("intake.list.active")}
@@ -321,10 +330,9 @@ export default function IntakePageClient({ planId }: Props) {
                       <Trash2 className="h-4 w-4" aria-hidden />
                     </Button>
                   </div>
-                </Card>
-              </li>
+              </div>
             ))}
-          </ul>
+          </div>
         )}
       </div>
     </div>

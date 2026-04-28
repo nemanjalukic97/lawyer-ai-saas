@@ -26,6 +26,24 @@ const TYPE_ICONS: Record<ActivityItemType, React.ComponentType<{ className?: str
   matter: Briefcase,
 }
 
+function dotClassForType(type: ActivityItemType): string {
+  switch (type) {
+    case "contract":
+      return "bg-blue-500"
+    case "document":
+      return "bg-purple-500"
+    case "client":
+      return "bg-emerald-500"
+    case "matter":
+      return "bg-indigo-500"
+    case "prediction":
+    case "analysis":
+      return "bg-amber-500"
+    default:
+      return "bg-muted-foreground/40"
+  }
+}
+
 type ActivityListClientProps = {
   items: ActivityItem[]
   currentFilter: "all" | ActivityItemType
@@ -49,7 +67,7 @@ export function ActivityListClient({ items, currentFilter }: ActivityListClientP
   return (
     <div className="space-y-6">
       {/* Filter tabs */}
-      <div className="flex flex-wrap gap-2 border-b border-border pb-4">
+      <div className="flex flex-wrap gap-2 mb-4">
         {(
           [
             { value: "all", labelKey: "activity.filters.all" },
@@ -63,11 +81,14 @@ export function ActivityListClient({ items, currentFilter }: ActivityListClientP
         ).map(({ value, labelKey }) => (
           <Button
             key={value}
-            variant={currentFilter === value ? "secondary" : "ghost"}
+            variant="ghost"
             size="sm"
             onClick={() => handleFilterChange(value)}
             className={cn(
-              currentFilter === value && "bg-accent text-accent-foreground"
+              "text-xs px-3 py-1.5 rounded-full border border-border/40",
+              currentFilter === value
+                ? "bg-foreground text-background"
+                : "bg-transparent text-muted-foreground/60 hover:bg-muted/40"
             )}
           >
             {t(labelKey)}
@@ -90,19 +111,24 @@ export function ActivityListClient({ items, currentFilter }: ActivityListClientP
               <li key={`${item.type}-${item.id}`}>
                 <Link
                   href={href}
-                  className="flex items-center gap-3 rounded-lg border border-border bg-card p-3 transition-colors hover:bg-accent/50"
+                  className="flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-muted/20 transition-colors -mx-3"
                 >
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-muted">
+                  <span
+                    className={cn(
+                      "mt-0.5 size-2 shrink-0 rounded-full",
+                      dotClassForType(item.type)
+                    )}
+                    aria-hidden
+                  />
+                  <div className="h-8 w-8 rounded-full bg-muted/60 flex items-center justify-center shrink-0">
                     <Icon className="h-4 w-4 text-muted-foreground" />
                   </div>
-                  <div className="min-w-0 flex-1">
-                    <p className="truncate text-sm font-medium text-foreground">
-                      {typeLabel}: {item.title}
-                    </p>
-                    <p className="text-xs text-muted-foreground">
-                      {new Date(item.createdAt).toLocaleDateString()}
-                    </p>
-                  </div>
+                  <p className="min-w-0 flex-1 truncate text-sm font-medium text-foreground">
+                    {typeLabel}: {item.title}
+                  </p>
+                  <span className="text-xs text-muted-foreground/40 ml-auto shrink-0">
+                    {new Date(item.createdAt).toLocaleDateString()}
+                  </span>
                 </Link>
               </li>
             )
@@ -112,14 +138,13 @@ export function ActivityListClient({ items, currentFilter }: ActivityListClientP
 
       {/* Load more */}
       {hasMore && (
-        <div className="flex justify-center pt-4">
-          <Button
-            variant="outline"
-            onClick={() => setVisibleCount((c) => c + LOAD_MORE_STEP)}
-          >
-            {t("activity.actions.loadMore")}
-          </Button>
-        </div>
+        <Button
+          variant="outline"
+          className="w-full mt-4"
+          onClick={() => setVisibleCount((c) => c + LOAD_MORE_STEP)}
+        >
+          {t("activity.actions.loadMore")}
+        </Button>
       )}
     </div>
   )

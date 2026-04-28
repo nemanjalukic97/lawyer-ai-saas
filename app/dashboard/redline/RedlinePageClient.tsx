@@ -14,7 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { Loader2, UploadCloud } from "lucide-react"
+import { FileText, Loader2, UploadCloud } from "lucide-react"
 import { createClient } from "@/lib/supabase/client"
 import { useLanguage } from "@/components/LanguageProvider"
 import { saveAs } from "file-saver"
@@ -969,21 +969,23 @@ export default function RedlinePageClient({ selectedId }: { selectedId: string |
   return (
     <div className="min-h-screen bg-background px-4 py-10">
       <div className="mx-auto flex max-w-6xl flex-col gap-8">
-        <header className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
-          <div>
-            <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-              {t("nav.actions")}
+        <header className="mb-8 pb-6 border-b border-border/40 flex items-start justify-between gap-4">
+          <div className="space-y-1">
+            <p className="text-xs font-medium tracking-widest text-muted-foreground/40 uppercase mb-2">
+              LEGANTIS · DOCUMENT REDLINING
             </p>
-            <h1 className="mt-1 text-3xl font-semibold tracking-tight text-foreground">
+            <h1 className="text-3xl font-bold tracking-tight text-foreground">
               {t("redline.header.title")}
             </h1>
-            <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
+            <p className="mt-1.5 text-sm text-muted-foreground/70 max-w-2xl">
               {t("redline.header.subtitle")}
             </p>
           </div>
-          <Button asChild variant="outline" size="sm">
-            <Link href="/dashboard">{t("contracts.header.back")}</Link>
-          </Button>
+          <div className="shrink-0 mt-1">
+            <Button asChild variant="outline" size="sm">
+              <Link href="/dashboard">{t("contracts.header.back")}</Link>
+            </Button>
+          </div>
         </header>
 
         <Card className="border-border/80 p-6">
@@ -1001,7 +1003,10 @@ export default function RedlinePageClient({ selectedId }: { selectedId: string |
 
           {currentStep === 1 && (
             <div className="grid gap-6 lg:grid-cols-[minmax(0,1.1fr),minmax(0,1.2fr)]">
-              <Card className="p-6">
+              <Card className="rounded-xl border border-border/40 bg-muted/10 p-6">
+                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-orange-500/15">
+                  <FileText className="h-5 w-5 text-orange-400" />
+                </div>
                 <form onSubmit={handleAnalyze} className="space-y-6">
                   <div
                     className="flex cursor-pointer flex-col items-center justify-center rounded-md border border-dashed border-muted-foreground/40 bg-muted/40 px-4 py-8 text-center transition hover:border-primary/60 hover:bg-muted"
@@ -1117,7 +1122,7 @@ export default function RedlinePageClient({ selectedId }: { selectedId: string |
                 </form>
               </Card>
 
-              <Card className="flex min-h-[420px] flex-col p-6">
+              <Card className="flex min-h-[420px] flex-col rounded-xl border border-border/40 bg-muted/10 p-6">
                 <div>
                   <h2 className="text-lg font-semibold">
                     {t("analyze.form.extractedPreview.label")}
@@ -1132,7 +1137,7 @@ export default function RedlinePageClient({ selectedId }: { selectedId: string |
                       {originalText}
                     </pre>
                   ) : (
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-sm text-muted-foreground/60">
                       {t("analyze.form.extractedPreview.placeholder")}
                     </p>
                   )}
@@ -1557,13 +1562,6 @@ export default function RedlinePageClient({ selectedId }: { selectedId: string |
               </Card>
             </div>
           )}
-        </Card>
-
-        <Card className="border-border/80 p-6">
-          <h2 className="text-lg font-semibold">{t("nav.redline")}</h2>
-          <p className="mt-1 text-sm text-muted-foreground">
-            {t("redline.header.subtitle")}
-          </p>
         </Card>
       </div>
     </div>

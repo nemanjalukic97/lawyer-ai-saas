@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { useCallback, useEffect, useMemo, useState } from "react"
-import { ChevronLeft, ChevronRight, Loader2, Trash2 } from "lucide-react"
+import { Calendar, ChevronLeft, ChevronRight, Loader2, Trash2 } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -49,6 +49,8 @@ type Props = {
   prefillMatterId?: string | null
 }
 
+const PAGE_SIZE = 15
+
 function toIsoDate(d: Date): string {
   const y = d.getFullYear()
   const m = String(d.getMonth() + 1).padStart(2, "0")
@@ -92,6 +94,7 @@ export default function DeadlinesPageClient({ planId, prefillMatterId }: Props) 
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [filter, setFilter] = useState<FilterKey>("all")
+  const [page, setPage] = useState(1)
   const [actionId, setActionId] = useState<string | null>(null)
   const [testSending, setTestSending] = useState(false)
   const [testSummary, setTestSummary] = useState<string | null>(null)
@@ -205,6 +208,16 @@ export default function DeadlinesPageClient({ planId, prefillMatterId }: Props) 
     () => deadlines.filter((d) => matchesFilter(d, filter)),
     [deadlines, filter]
   )
+
+  useEffect(() => {
+    setPage(1)
+  }, [filter])
+
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE))
+  const paged = useMemo(() => {
+    const start = (page - 1) * PAGE_SIZE
+    return filtered.slice(start, start + PAGE_SIZE)
+  }, [filtered, page])
 
   const clientMap = useMemo(() => {
     const m = new Map<string, ClientMini>()
@@ -497,33 +510,39 @@ export default function DeadlinesPageClient({ planId, prefillMatterId }: Props) 
   return (
     <div className="min-h-screen bg-background px-4 py-10">
       <div className="mx-auto flex max-w-5xl flex-col gap-6">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+        <header className="mb-8 pb-6 border-b border-border/40 flex items-start justify-between gap-4">
+          <div className="space-y-1">
+            <p className="text-xs font-medium tracking-widest text-muted-foreground/40 uppercase mb-2">
               {t("deadlines.kicker")}
             </p>
-            <h1 className="mt-1 text-2xl font-semibold tracking-tight">
+            <h1 className="text-3xl font-bold tracking-tight text-foreground">
               {t("deadlines.title")}
             </h1>
-            <p className="mt-1 text-sm text-muted-foreground">
+            <p className="mt-1.5 text-sm text-muted-foreground/70 max-w-2xl">
               {t("deadlines.subtitle")}
             </p>
           </div>
-          <div className="flex flex-wrap gap-2">
-            {process.env.NODE_ENV !== "production" && (
-              <Button
-                type="button"
-                variant="outline"
-                disabled={testSending}
-                onClick={() => void runTestReminders()}
-              >
-                {testSending ? "Sending…" : "Send test reminder"}
+          <div className="shrink-0 mt-1">
+            <div className="flex flex-wrap gap-2">
+              {process.env.NODE_ENV !== "production" && (
+                <Button
+                  type="button"
+                  variant="outline"
+                  disabled={testSending}
+                  onClick={() => void runTestReminders()}
+                >
+                  {testSending ? "Sending…" : "Send test reminder"}
+                </Button>
+              )}
+              <Button type="button" onClick={openCreate}>
+                {t("deadlines.actions.add")}
               </Button>
-            )}
-            <Button type="button" onClick={openCreate}>
-              {t("deadlines.actions.add")}
-            </Button>
+            </div>
           </div>
+        </header>
+
+        <div className="mb-6 flex h-10 w-10 items-center justify-center rounded-lg bg-yellow-500/15">
+          <Calendar className="h-5 w-5 text-yellow-400" />
         </div>
 
         {testSummary && process.env.NODE_ENV !== "production" && (
@@ -575,53 +594,65 @@ export default function DeadlinesPageClient({ planId, prefillMatterId }: Props) 
               </div>
 
               {filtered.length === 0 ? (
-                <Card className="p-8 text-center text-sm text-muted-foreground">
-                  {t("deadlines.list.empty")}
-                </Card>
+                <div className="flex flex-col items-center justify-center py-16 text-center">
+                  <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-muted/60">
+                    <Calendar className="h-5 w-5 text-muted-foreground/40" />
+                  </div>
+                  <p className="text-sm font-medium text-muted-foreground/60">
+                    No deadlines found
+                  </p>
+                  <p className="mt-1 text-xs text-muted-foreground/40">
+                    Add a deadline to stay on top of important dates
+                  </p>
+                </div>
               ) : (
                 <ul className="flex flex-col gap-2">
-                  {filtered.map((d) => {
+                  {paged.map((d) => {
                     const client = d.client_id
                       ? clientMap.get(d.client_id)
                       : undefined
+                    const eff = getEffectiveStatus(d)
+                    const diff = calendarDaysUntil(d.due_date)
+                    const inXClass =
+                      eff === "overdue"
+                        ? "text-xs font-medium text-red-400"
+                        : diff <= 2
+                          ? "text-xs font-medium text-amber-400"
+                          : "text-xs text-muted-foreground/50"
                     return (
                       <li key={d.id}>
-                        <Card className="flex flex-col gap-3 p-4 lg:flex-row lg:items-center lg:justify-between">
+                        <div className="flex items-center gap-3 rounded-lg border border-border/40 bg-muted/10 px-4 py-3 hover:bg-muted/20 transition-colors">
                           <div className="flex min-w-0 flex-1 items-start gap-3">
                             <span
-                              className={`mt-1.5 size-2.5 shrink-0 rounded-full ${urgencyClass(d)}`}
+                              className={`mt-1.5 size-2 shrink-0 rounded-full ${urgencyClass(d)}`}
                               aria-hidden
                             />
                             <div className="min-w-0 space-y-1">
-                              <p className="font-medium leading-tight">{d.title}</p>
-                              <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+                              <p className="text-sm font-semibold text-foreground leading-tight">
+                                {d.title}
+                              </p>
+                              <div className="flex flex-wrap items-center gap-2 mt-0.5">
                                 {client && (
                                   <Link
                                     href={`/dashboard/clients?id=${client.id}`}
-                                    className="text-primary underline-offset-4 hover:underline"
+                                    className="text-xs text-muted-foreground/60 hover:text-foreground"
                                   >
                                     {client.name}
                                   </Link>
                                 )}
-                                <Badge variant="outline" className="text-[10px]">
+                                <span className="rounded-md bg-muted/60 px-2 py-0.5 text-xs text-muted-foreground/70">
                                   {t(`deadlines.types.${d.deadline_type}`)}
-                                </Badge>
-                                <span>
+                                </span>
+                                <span className="text-xs text-muted-foreground/60">
                                   {formatDueHeading(d.due_date)}
                                 </span>
-                                <span
-                                  className={
-                                    getEffectiveStatus(d) === "overdue"
-                                      ? "text-destructive"
-                                      : ""
-                                  }
-                                >
+                                <span className={inXClass}>
                                   {formatRelative(d)}
                                 </span>
                               </div>
                             </div>
                           </div>
-                          <div className="flex flex-wrap gap-2">
+                          <div className="ml-auto shrink-0 flex gap-2">
                             {d.status !== "completed" &&
                               d.status !== "cancelled" && (
                                 <Button
@@ -653,11 +684,37 @@ export default function DeadlinesPageClient({ planId, prefillMatterId }: Props) 
                               <Trash2 className="h-4 w-4" />
                             </Button>
                           </div>
-                        </Card>
+                        </div>
                       </li>
                     )
                   })}
                 </ul>
+              )}
+
+              {filtered.length > PAGE_SIZE && (
+                <div className="mt-4 flex items-center justify-between">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setPage((p) => Math.max(1, p - 1))}
+                    disabled={page <= 1}
+                  >
+                    Previous
+                  </Button>
+                  <span className="text-xs text-muted-foreground">
+                    Page {page} of {totalPages}
+                  </span>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                    disabled={page >= totalPages}
+                  >
+                    Next
+                  </Button>
+                </div>
               )}
             </TabsContent>
 

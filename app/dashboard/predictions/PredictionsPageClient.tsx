@@ -15,7 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { Loader2 } from "lucide-react"
+import { Loader2, Scale } from "lucide-react"
 import { createClient } from "@/lib/supabase/client"
 import { useLanguage } from "@/components/LanguageProvider"
 import { RagSourcesPanel } from "@/components/RagSourcesPanel"
@@ -680,29 +680,36 @@ export default function PredictionsPageClient({ selectedId, prefillMatterId }: C
     <div className="min-h-screen bg-background px-4 py-10">
       <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[minmax(0,2fr),minmax(0,1.2fr)]">
         <div className="flex flex-col gap-8">
-          <header className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
-            <div>
-              <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+          <header className="mb-8 pb-6 border-b border-border/40 flex items-start justify-between gap-4">
+            <div className="space-y-1">
+              <p className="text-xs font-medium tracking-widest text-muted-foreground/40 uppercase mb-2">
                 {t("predictions.header.kicker")}
               </p>
-              <h1 className="mt-1 text-3xl font-semibold tracking-tight text-foreground">
+              <h1 className="text-3xl font-bold tracking-tight text-foreground">
                 {t("predictions.header.title")}
               </h1>
-              <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
+              <p className="mt-1.5 text-sm text-muted-foreground/70 max-w-2xl">
                 {t("predictions.header.subtitle")}
               </p>
             </div>
-            <Button asChild variant="outline" size="sm">
-              <Link href="/dashboard">{t("predictions.header.back")}</Link>
-            </Button>
+            <div className="shrink-0 mt-1">
+              <Button asChild variant="outline" size="sm">
+                <Link href="/dashboard">{t("predictions.header.back")}</Link>
+              </Button>
+            </div>
           </header>
 
           <div className="grid gap-6 lg:grid-cols-[minmax(0,1.1fr),minmax(0,1.2fr)]">
-            <Card className="p-6">
+            <Card className="rounded-xl border border-border/40 bg-muted/10 p-6">
+              <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-amber-500/15">
+                <Scale className="h-5 w-5 text-amber-400" />
+              </div>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid gap-4 md:grid-cols-2">
                   <div className="space-y-2">
-                    <Label>{t("predictions.form.caseType.label")}</Label>
+                    <Label className="mb-1.5 text-xs font-medium text-muted-foreground/70">
+                      {t("predictions.form.caseType.label")}
+                    </Label>
                     <Select
                       value={caseType}
                       onValueChange={(value) => setCaseType(value as CaseType)}
@@ -724,7 +731,9 @@ export default function PredictionsPageClient({ selectedId, prefillMatterId }: C
                   </div>
 
                   <div className="space-y-2">
-                    <Label>{t("predictions.form.jurisdiction.label")}</Label>
+                    <Label className="mb-1.5 text-xs font-medium text-muted-foreground/70">
+                      {t("predictions.form.jurisdiction.label")}
+                    </Label>
                     <Select
                       value={jurisdiction}
                       onValueChange={(value) =>
@@ -749,7 +758,9 @@ export default function PredictionsPageClient({ selectedId, prefillMatterId }: C
                 </div>
 
                 <div className="space-y-2">
-                  <Label>{t("matters.title")}</Label>
+                  <Label className="mb-1.5 text-xs font-medium text-muted-foreground/70">
+                    {t("matters.title")}
+                  </Label>
                   <Select
                     value={matterId}
                     onValueChange={(v) => setMatterId(v)}
@@ -766,11 +777,18 @@ export default function PredictionsPageClient({ selectedId, prefillMatterId }: C
                       ))}
                     </SelectContent>
                   </Select>
-                  <p className="text-xs text-muted-foreground">{t("matters.select.help")}</p>
+                  <p className="text-xs text-muted-foreground/40">
+                    {t("matters.select.help")}
+                  </p>
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="keyFacts">{t("predictions.form.keyFacts.label")}</Label>
+                  <Label
+                    htmlFor="keyFacts"
+                    className="mb-1.5 text-xs font-medium text-muted-foreground/70"
+                  >
+                    {t("predictions.form.keyFacts.label")}
+                  </Label>
                   <Textarea
                     id="keyFacts"
                     value={keyFacts}
@@ -785,7 +803,9 @@ export default function PredictionsPageClient({ selectedId, prefillMatterId }: C
 
                 <div className="grid gap-4 md:grid-cols-3">
                   <div className="space-y-2">
-                    <Label>{t("predictions.form.evidenceQuality.label")}</Label>
+                    <Label className="mb-1.5 text-xs font-medium text-muted-foreground/70">
+                      {t("predictions.form.evidenceQuality.label")}
+                    </Label>
                     <Select
                       value={evidenceQuality}
                       onValueChange={(value) =>
@@ -809,7 +829,10 @@ export default function PredictionsPageClient({ selectedId, prefillMatterId }: C
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="amountInDispute">
+                    <Label
+                      htmlFor="amountInDispute"
+                      className="mb-1.5 text-xs font-medium text-muted-foreground/70"
+                    >
                       {t("predictions.form.amountInDispute.label")}
                     </Label>
                     <Input
@@ -824,7 +847,10 @@ export default function PredictionsPageClient({ selectedId, prefillMatterId }: C
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="additionalContext">
+                    <Label
+                      htmlFor="additionalContext"
+                      className="mb-1.5 text-xs font-medium text-muted-foreground/70"
+                    >
                       {t("predictions.form.additionalContext.label")}
                     </Label>
                     <Textarea
@@ -852,20 +878,20 @@ export default function PredictionsPageClient({ selectedId, prefillMatterId }: C
                     )}
                     {isLoading ? t("predictions.form.actions.loading") : t("predictions.form.actions.submit")}
                   </Button>
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-xs text-muted-foreground/40">
                     {t("predictions.form.actions.note")}
                   </p>
                 </div>
               </form>
             </Card>
 
-            <Card className="flex min-h-[420px] flex-col p-6">
+            <Card className="flex min-h-[420px] flex-col rounded-xl border border-border/40 bg-muted/10 p-6">
               <div className="flex items-center justify-between gap-4">
                 <div>
-                  <h2 className="text-lg font-semibold">
+                  <h2 className="text-base font-semibold">
                     {t("predictions.result.title")}
                   </h2>
-                  <p className="mt-1 text-sm text-muted-foreground">
+                  <p className="mt-0.5 text-xs text-muted-foreground/60">
                     {t("predictions.result.subtitle")}
                   </p>
                 </div>
@@ -894,9 +920,14 @@ export default function PredictionsPageClient({ selectedId, prefillMatterId }: C
                     {predictionContent}
                   </pre>
                 ) : (
-                  <p className="text-sm text-muted-foreground">
-                    {t("predictions.result.empty")}
-                  </p>
+                  <div className="flex flex-col items-center justify-center py-12 text-center">
+                    <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-muted/60">
+                      <Scale className="h-5 w-5 text-muted-foreground/40" />
+                    </div>
+                    <p className="text-sm text-muted-foreground/60">
+                      Run a prediction to see the analysis
+                    </p>
+                  </div>
                 )}
                 {ragData && <RagSourcesPanel ragData={ragData} />}
               </div>
@@ -904,16 +935,23 @@ export default function PredictionsPageClient({ selectedId, prefillMatterId }: C
           </div>
         </div>
 
-        <Card className="h-fit space-y-4 p-6">
-          <h2 className="text-lg font-semibold">{t("predictions.sidebar.title")}</h2>
+        <Card className="h-fit space-y-4 rounded-xl border border-border/40 bg-muted/10 p-6">
+          <h2 className="text-base font-semibold">{t("predictions.sidebar.title")}</h2>
           {!selectedId ? (
             <div className="space-y-3">
-              <p className="text-sm text-muted-foreground">
-                {t("predictions.sidebar.empty")}
-              </p>
-              <Button asChild variant="outline" size="sm">
-                <Link href="/dashboard/activity">{t("predictions.sidebar.viewActivity")}</Link>
-              </Button>
+              <div className="flex flex-col items-center justify-center py-12 text-center">
+                <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-muted/60">
+                  <Scale className="h-5 w-5 text-muted-foreground/40" />
+                </div>
+                <p className="text-sm text-muted-foreground/60">
+                  Run a prediction to see the analysis
+                </p>
+                <Button asChild variant="outline" size="sm" className="mt-2">
+                  <Link href="/dashboard/activity">
+                    {t("predictions.sidebar.viewActivity")}
+                  </Link>
+                </Button>
+              </div>
             </div>
           ) : detailLoading ? (
             <div className="flex items-center gap-2 text-sm text-muted-foreground">

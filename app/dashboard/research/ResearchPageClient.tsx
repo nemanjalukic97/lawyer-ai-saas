@@ -287,24 +287,35 @@ export function ResearchPageClient({ planId }: { planId: EntitlementPlanId }) {
   return (
     <div className="min-h-screen bg-background px-4 py-10">
       <div className="mx-auto flex max-w-6xl flex-col gap-6">
-        <header className="space-y-1">
-          <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-            {t("research.kicker")}
-          </p>
-          <h1 className="text-3xl font-semibold tracking-tight text-foreground">
-            {t("research.title")}
-          </h1>
-          <p className="text-sm text-muted-foreground">
-            {t("research.subtitle")}
-          </p>
+        <header className="mb-8 pb-6 border-b border-border/40 flex items-start justify-between gap-4">
+          <div className="space-y-1">
+            <p className="text-xs font-medium tracking-widest text-muted-foreground/40 uppercase mb-2">
+              {t("research.kicker")}
+            </p>
+            <h1 className="text-3xl font-bold tracking-tight text-foreground">
+              {t("research.title")}
+            </h1>
+            <p className="mt-1.5 text-sm text-muted-foreground/70 max-w-2xl">
+              {t("research.subtitle")}
+            </p>
+          </div>
         </header>
 
         <div className="grid gap-6 lg:grid-cols-[minmax(0,2fr),minmax(0,1fr)]">
           <div className="space-y-6">
-            <Card className="p-6">
+            <div className="rounded-xl border border-border/40 bg-muted/10 p-6">
+              <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-teal-500/15">
+                <Search className="h-5 w-5 text-teal-400" />
+              </div>
+
               <form className="space-y-4" onSubmit={onSubmit}>
                 <div className="space-y-2">
-                  <Label htmlFor="researchQuery">{t("research.search.label")}</Label>
+                  <Label
+                    htmlFor="researchQuery"
+                    className="text-xs font-medium text-muted-foreground/70 mb-1.5"
+                  >
+                    {t("research.search.label")}
+                  </Label>
                   <Input
                     id="researchQuery"
                     value={query}
@@ -316,7 +327,9 @@ export function ResearchPageClient({ planId }: { planId: EntitlementPlanId }) {
 
                 <div className="grid gap-4 sm:grid-cols-3">
                   <div className="space-y-2">
-                    <Label>{t("research.filters.jurisdiction")}</Label>
+                    <Label className="text-xs font-medium text-muted-foreground/70 mb-1.5">
+                      {t("research.filters.jurisdiction")}
+                    </Label>
                     <Select value={jurisdiction} onValueChange={setJurisdiction}>
                       <SelectTrigger>
                         <SelectValue placeholder={t("research.filters.jurisdiction")} />
@@ -332,7 +345,9 @@ export function ResearchPageClient({ planId }: { planId: EntitlementPlanId }) {
                   </div>
 
                   <div className="space-y-2">
-                    <Label>{t("research.filters.category")}</Label>
+                    <Label className="text-xs font-medium text-muted-foreground/70 mb-1.5">
+                      {t("research.filters.category")}
+                    </Label>
                     <Select value={category} onValueChange={setCategory}>
                       <SelectTrigger>
                         <SelectValue placeholder={t("research.filters.category")} />
@@ -348,7 +363,9 @@ export function ResearchPageClient({ planId }: { planId: EntitlementPlanId }) {
                   </div>
 
                   <div className="space-y-2">
-                    <Label>{t("research.filters.language")}</Label>
+                    <Label className="text-xs font-medium text-muted-foreground/70 mb-1.5">
+                      {t("research.filters.language")}
+                    </Label>
                     <Select
                       value={languageMode}
                       onValueChange={(v) => setLanguageMode(v as LanguageMode)}
@@ -424,11 +441,13 @@ export function ResearchPageClient({ planId }: { planId: EntitlementPlanId }) {
                   </div>
                 </div>
               </form>
-            </Card>
+            </div>
 
             <section className="space-y-3">
               <div className="flex items-baseline justify-between gap-4">
-                <h2 className="text-lg font-semibold">{t("research.results.title")}</h2>
+                <h2 className="text-base font-semibold mb-3">
+                  {t("research.results.title")}
+                </h2>
                 {results ? (
                   <p className="text-xs text-muted-foreground">
                     {(results.results?.length ?? 0).toString()}{" "}
@@ -438,11 +457,14 @@ export function ResearchPageClient({ planId }: { planId: EntitlementPlanId }) {
               </div>
 
               {!results ? (
-                <Card className="p-6">
-                  <p className="text-sm text-muted-foreground">
-                    {t("research.results.hint")}
+                <div className="flex flex-col items-center justify-center py-12 text-center rounded-xl border border-border/40 bg-muted/10">
+                  <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-muted/60">
+                    <Search className="h-5 w-5 text-muted-foreground/40" />
+                  </div>
+                  <p className="text-sm text-muted-foreground/60">
+                    Run a search to see relevant law articles
                   </p>
-                </Card>
+                </div>
               ) : results.results.length === 0 ? (
                 <Card className="p-6">
                   <p className="text-sm text-muted-foreground">
@@ -523,7 +545,9 @@ export function ResearchPageClient({ planId }: { planId: EntitlementPlanId }) {
 
           <aside className="space-y-3">
             <div className="flex items-baseline justify-between gap-4">
-              <h2 className="text-lg font-semibold">{t("research.sessions.title")}</h2>
+              <h2 className="text-base font-semibold mb-3">
+                {t("research.sessions.title")}
+              </h2>
               {canSave ? (
                 <Button
                   type="button"
@@ -564,27 +588,39 @@ export function ResearchPageClient({ planId }: { planId: EntitlementPlanId }) {
                     </p>
                   </div>
                 ) : (
-                  <div className="divide-y">
+                  <div className="space-y-3 p-4">
                     {history.map((s) => (
                       <button
                         key={s.id}
                         type="button"
                         onClick={() => onOpenSession(s)}
                         className={cn(
-                          "w-full text-left p-4 sm:p-5 hover:bg-accent/40 transition-colors",
+                          "flex items-start justify-between gap-4 rounded-lg border border-border/40 bg-muted/10 px-4 py-3 hover:bg-muted/20 transition-colors w-full text-left",
                         )}
                       >
-                        <p className="text-sm font-medium text-foreground line-clamp-2">
-                          {s.query}
-                        </p>
-                        <p className="mt-1 text-xs text-muted-foreground">
-                          {formatDate(s.created_at)}
-                        </p>
-                        <p className="mt-2 text-[11px] text-muted-foreground">
-                          {(s.jurisdiction_filter ?? "all") +
-                            " · " +
-                            (s.category_filter ?? "all")}
-                        </p>
+                        <div className="min-w-0">
+                          <p className="text-sm font-semibold text-foreground line-clamp-2">
+                            {s.query}
+                          </p>
+                          <div className="mt-1.5 flex flex-wrap gap-1.5">
+                            {[
+                              s.jurisdiction_filter ?? "all",
+                              s.category_filter ?? "all",
+                            ].map((tag) => (
+                              <span
+                                key={tag}
+                                className="rounded-md bg-muted/60 px-2 py-0.5 text-xs text-muted-foreground/60"
+                              >
+                                {tag}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                        <div className="shrink-0 text-right">
+                          <p className="text-xs text-muted-foreground/40">
+                            {formatDate(s.created_at)}
+                          </p>
+                        </div>
                       </button>
                     ))}
                   </div>

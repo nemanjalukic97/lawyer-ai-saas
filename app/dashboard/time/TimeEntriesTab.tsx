@@ -62,6 +62,8 @@ type ActivityType =
 
 type CurrencyCode = "EUR" | "USD" | "BAM" | "RSD" | "HRK"
 
+const PAGE_SIZE = 15
+
 function formatCurrencySymbol(currency: CurrencyCode): string {
   switch (currency) {
     case "EUR":
@@ -170,6 +172,7 @@ export function TimeEntriesTab({
   const [formError, setFormError] = useState<string | null>(null)
   const [listError, setListError] = useState<string | null>(null)
   const [successMessage, setSuccessMessage] = useState<string | null>(null)
+  const [page, setPage] = useState(1)
 
   const [bankAccounts, setBankAccounts] = useState<BankAccountRow[]>([])
   const [banksLoaded, setBanksLoaded] = useState(false)
@@ -649,12 +652,27 @@ export function TimeEntriesTab({
     }).length
   }, [entries])
 
+  useEffect(() => {
+    setPage(1)
+  }, [entries.length])
+
+  const totalPages = Math.max(1, Math.ceil(entries.length / PAGE_SIZE))
+  const pagedEntries = useMemo(() => {
+    const start = (page - 1) * PAGE_SIZE
+    return entries.slice(start, start + PAGE_SIZE)
+  }, [entries, page])
+
   return (
     <div className="space-y-8">
-      <Card className="p-6">
+      <Card className="rounded-xl border border-border/40 bg-muted/10 p-6">
+        <p className="text-sm font-semibold text-foreground mb-4">
+          Log new time entry
+        </p>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-2">
-            <Label>Client</Label>
+            <Label className="text-xs font-medium text-muted-foreground/70 mb-1.5">
+              Client
+            </Label>
             <div className="relative">
               <Input
                 value={clientInputValue}
@@ -696,7 +714,9 @@ export function TimeEntriesTab({
           </div>
 
           <div className="space-y-2">
-            <Label>{t("matters.title")}</Label>
+            <Label className="text-xs font-medium text-muted-foreground/70 mb-1.5">
+              {t("matters.title")}
+            </Label>
             <Select
               value={matterId}
               onValueChange={(v) => setMatterId(v)}
@@ -720,7 +740,12 @@ export function TimeEntriesTab({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="description">{t("time.form.description.label")}</Label>
+            <Label
+              htmlFor="description"
+              className="text-xs font-medium text-muted-foreground/70 mb-1.5"
+            >
+              {t("time.form.description.label")}
+            </Label>
             <Textarea
               id="description"
               value={description}
@@ -733,7 +758,12 @@ export function TimeEntriesTab({
 
           <div className="grid gap-4 md:grid-cols-4">
             <div className="space-y-2">
-              <Label htmlFor="date">{t("time.form.date.label")}</Label>
+              <Label
+                htmlFor="date"
+                className="text-xs font-medium text-muted-foreground/70 mb-1.5"
+              >
+                {t("time.form.date.label")}
+              </Label>
               <Input
                 id="date"
                 type="date"
@@ -744,7 +774,12 @@ export function TimeEntriesTab({
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="hoursWorked">{t("time.form.hoursWorked.label")}</Label>
+              <Label
+                htmlFor="hoursWorked"
+                className="text-xs font-medium text-muted-foreground/70 mb-1.5"
+              >
+                {t("time.form.hoursWorked.label")}
+              </Label>
               <Input
                 id="hoursWorked"
                 type="number"
@@ -762,7 +797,12 @@ export function TimeEntriesTab({
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="hourlyRate">{t("time.form.hourlyRate.label")}</Label>
+              <Label
+                htmlFor="hourlyRate"
+                className="text-xs font-medium text-muted-foreground/70 mb-1.5"
+              >
+                {t("time.form.hourlyRate.label")}
+              </Label>
               <Input
                 id="hourlyRate"
                 type="number"
@@ -776,7 +816,12 @@ export function TimeEntriesTab({
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="activityType">{t("time.form.activityType.label")}</Label>
+              <Label
+                htmlFor="activityType"
+                className="text-xs font-medium text-muted-foreground/70 mb-1.5"
+              >
+                {t("time.form.activityType.label")}
+              </Label>
               <Select
                 value={activityType}
                 onValueChange={(value) => setActivityType(value as ActivityType)}
@@ -797,7 +842,9 @@ export function TimeEntriesTab({
             </div>
 
             <div className="space-y-2">
-              <Label>{t("time.form.currency.label")}</Label>
+              <Label className="text-xs font-medium text-muted-foreground/70 mb-1.5">
+                {t("time.form.currency.label")}
+              </Label>
               <Select
                 value={currency}
                 onValueChange={(value) => setCurrency(value as CurrencyCode)}
@@ -862,28 +909,30 @@ export function TimeEntriesTab({
             </p>
           </div>
 
-          <div className="grid gap-2 text-sm sm:grid-cols-3 sm:text-right">
+          <div className="flex flex-wrap items-center gap-6 rounded-xl border border-border/40 bg-muted/10 px-5 py-4 mb-4">
             <div>
-              <p className="text-xs uppercase tracking-wide text-muted-foreground">
+              <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground/50">
                 {t("time.stats.unbilledHours")}
               </p>
-              <p className="text-sm font-semibold">
+              <p className="text-lg font-bold tabular-nums text-blue-400">
                 {totalUnbilledHours.toFixed(2)} h
               </p>
             </div>
             <div>
-              <p className="text-xs uppercase tracking-wide text-muted-foreground">
+              <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground/50">
                 {t("time.stats.unbilledAmountEur")}
               </p>
-              <p className="text-sm font-semibold">
+              <p className="text-lg font-bold tabular-nums text-emerald-400">
                 €{totalUnbilledAmountEUR.toFixed(2)}
               </p>
             </div>
             <div>
-              <p className="text-xs uppercase tracking-wide text-muted-foreground">
+              <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground/50">
                 {t("time.stats.entriesThisMonth")}
               </p>
-              <p className="text-sm font-semibold">{totalEntriesThisMonth}</p>
+              <p className="text-lg font-bold text-foreground tabular-nums">
+                {totalEntriesThisMonth}
+              </p>
             </div>
           </div>
         </div>
@@ -920,25 +969,23 @@ export function TimeEntriesTab({
               <p>{t("time.list.emptySubtitle")}</p>
             </div>
           ) : (
-            <div className="divide-y">
-              {entries.map((entry) => (
+            <div className="mt-2 space-y-1">
+              {pagedEntries.map((entry) => (
                 <div
                   key={entry.id}
-                  className="flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between"
+                  className="flex items-start justify-between gap-4 rounded-lg px-3 py-3 hover:bg-muted/20 transition-colors"
                 >
-                  <div className="space-y-1">
+                  <div className="flex-1 min-w-0">
+                    <div className="space-y-1">
                     <div className="flex flex-wrap items-center gap-2">
-                      <p className="text-sm font-medium">
+                      <p className="text-sm font-semibold text-foreground">
                         {extractMatterName(entry.notes)}
                       </p>
-                      <span className="text-xs text-muted-foreground">
-                        {formatDisplayDate(entry.work_date)}
-                      </span>
                     </div>
-                    <p className="max-w-xl text-sm text-muted-foreground line-clamp-2">
+                    <p className="max-w-xl text-xs text-muted-foreground/60 line-clamp-2">
                       {extractWorkDescription(entry.notes)}
                     </p>
-                    <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
+                    <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground/60">
                       <span>
                         {(entry.duration_minutes / 60).toFixed(2)} h @{" "}
                         {formatCurrencySymbol("EUR")}{" "}
@@ -948,13 +995,19 @@ export function TimeEntriesTab({
                       <span>{t(`time.activityTypes.${entry.activity_type}`)}</span>
                       <span>·</span>
                       <span>
-                        Total: {formatCurrencySymbol("EUR")}{" "}
-                        {entry.amount.toFixed(2)}
+                        Total:{" "}
+                        <span className="font-medium text-foreground">
+                          {formatCurrencySymbol("EUR")} {entry.amount.toFixed(2)}
+                        </span>
                       </span>
                     </div>
                   </div>
+                  </div>
 
-                  <div className="flex items-center gap-2 sm:gap-3">
+                  <div className="flex items-center gap-2 shrink-0">
+                    <span className="text-xs text-muted-foreground/40">
+                      {formatDisplayDate(entry.work_date)}
+                    </span>
                     <Badge
                       variant="outline"
                       className={
@@ -1000,6 +1053,32 @@ export function TimeEntriesTab({
             </div>
           )}
         </div>
+
+        {entries.length > PAGE_SIZE && (
+          <div className="mt-4 flex items-center justify-between">
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => setPage((p) => Math.max(1, p - 1))}
+              disabled={page <= 1}
+            >
+              Previous
+            </Button>
+            <span className="text-xs text-muted-foreground">
+              Page {page} of {totalPages}
+            </span>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+              disabled={page >= totalPages}
+            >
+              Next
+            </Button>
+          </div>
+        )}
       </Card>
 
       <Dialog

@@ -14,7 +14,7 @@ import {
   SelectItem,
   SelectValue,
 } from "@/components/ui/select"
-import { Loader2 } from "lucide-react"
+import { FileText, Loader2 } from "lucide-react"
 import { createClient } from "@/lib/supabase/client"
 import type { TablesInsert } from "@/lib/supabase/types"
 import { saveAs } from "file-saver"
@@ -661,29 +661,36 @@ export default function GeneratePageClient({ selectedId, templateId }: Props) {
     <div className="min-h-screen bg-background px-4 py-10">
       <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[minmax(0,2fr),minmax(0,1.2fr)]">
         <div className="flex flex-col gap-8">
-          <header className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
-            <div>
-              <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+          <header className="mb-8 pb-6 border-b border-border/40 flex items-start justify-between gap-4">
+            <div className="space-y-1">
+              <p className="text-xs font-medium tracking-widest text-muted-foreground/40 uppercase mb-2">
                 {t("generate.header.kicker")}
               </p>
-              <h1 className="mt-1 text-3xl font-semibold tracking-tight text-foreground">
+              <h1 className="text-3xl font-bold tracking-tight text-foreground">
                 {t("generate.header.title")}
               </h1>
-              <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
+              <p className="mt-1.5 text-sm text-muted-foreground/70 max-w-2xl">
                 {t("generate.header.subtitle")}
               </p>
             </div>
-            <Button asChild variant="outline" size="sm">
-              <Link href="/dashboard">{t("generate.header.back")}</Link>
-            </Button>
+            <div className="shrink-0 mt-1">
+              <Button asChild variant="outline" size="sm">
+                <Link href="/dashboard">{t("generate.header.back")}</Link>
+              </Button>
+            </div>
           </header>
 
           <div className="grid gap-6 lg:grid-cols-[minmax(0,1.1fr),minmax(0,1.2fr)]">
-            <Card className="p-6">
+            <Card className="rounded-xl border border-border/40 bg-muted/10 p-6">
+              <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-blue-500/15">
+                <FileText className="h-5 w-5 text-blue-400" />
+              </div>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid gap-4 md:grid-cols-3">
                   <div className="space-y-2">
-                    <Label>{t("generate.form.documentType.label")}</Label>
+                    <Label className="mb-1.5 text-xs font-medium text-muted-foreground/70">
+                      {t("generate.form.documentType.label")}
+                    </Label>
                     <Select
                       value={documentType}
                       onValueChange={(value) =>
@@ -708,7 +715,9 @@ export default function GeneratePageClient({ selectedId, templateId }: Props) {
                   </div>
 
                   <div className="space-y-2">
-                    <Label>{t("generate.form.jurisdiction.label")}</Label>
+                    <Label className="mb-1.5 text-xs font-medium text-muted-foreground/70">
+                      {t("generate.form.jurisdiction.label")}
+                    </Label>
                     <Select
                       value={jurisdiction}
                       onValueChange={(value) =>
@@ -733,7 +742,9 @@ export default function GeneratePageClient({ selectedId, templateId }: Props) {
                   </div>
 
                   <div className="space-y-2">
-                    <Label>{t("generate.form.language.label")}</Label>
+                    <Label className="mb-1.5 text-xs font-medium text-muted-foreground/70">
+                      {t("generate.form.language.label")}
+                    </Label>
                     <Select
                       value={language}
                       onValueChange={(value) => setLanguage(value as Language)}
@@ -808,10 +819,10 @@ export default function GeneratePageClient({ selectedId, templateId }: Props) {
               </form>
             </Card>
 
-            <Card className="flex min-h-[420px] flex-col p-6">
+            <Card className="flex min-h-[420px] flex-col rounded-xl border border-border/40 bg-muted/10 p-6">
               <div className="flex items-center justify-between gap-4">
                 <div>
-                  <h2 className="text-lg font-semibold">
+                  <h2 className="text-base font-semibold">
                     {t("generate.result.title")}
                   </h2>
                   <p className="mt-1 text-sm text-muted-foreground">
@@ -860,29 +871,39 @@ export default function GeneratePageClient({ selectedId, templateId }: Props) {
                     {t("generate.result.templateLoaded.suffix")}
                   </p>
                 ) : (
-                  <p className="text-sm text-muted-foreground">
-                    {t("generate.result.empty")}
-                  </p>
+                  <div className="flex flex-col items-center justify-center py-12 text-center">
+                    <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-muted/60">
+                      <FileText className="h-5 w-5 text-muted-foreground/40" />
+                    </div>
+                    <p className="text-sm text-muted-foreground/60">
+                      Your generated document will appear here
+                    </p>
+                  </div>
                 )}
               </div>
             </Card>
           </div>
         </div>
 
-        <Card className="h-fit space-y-4 p-6">
-          <h2 className="text-lg font-semibold">
+        <Card className="h-fit space-y-4 rounded-xl border border-border/40 bg-muted/10 p-6">
+          <h2 className="text-base font-semibold">
             {t("generate.sidebar.title")}
           </h2>
           {!selectedId ? (
             <div className="space-y-3">
-              <p className="text-sm text-muted-foreground">
-                {t("generate.sidebar.empty")}
-              </p>
-              <Button asChild variant="outline" size="sm">
-                <Link href="/dashboard/activity">
-                  {t("generate.sidebar.viewActivity")}
-                </Link>
-              </Button>
+              <div className="flex flex-col items-center justify-center py-12 text-center">
+                <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-muted/60">
+                  <FileText className="h-5 w-5 text-muted-foreground/40" />
+                </div>
+                <p className="text-sm text-muted-foreground/60">
+                  Your generated document will appear here
+                </p>
+                <Button asChild variant="outline" size="sm" className="mt-2">
+                  <Link href="/dashboard/activity">
+                    {t("generate.sidebar.viewActivity")}
+                  </Link>
+                </Button>
+              </div>
             </div>
           ) : detailLoading ? (
             <div className="flex items-center gap-2 text-sm text-muted-foreground">

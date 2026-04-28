@@ -8,7 +8,7 @@ import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { ArrowDown, ArrowUp, Loader2, Trash2 } from "lucide-react"
+import { ArrowDown, ArrowUp, Loader2, Trash2, Users } from "lucide-react"
 import { createClient } from "@/lib/supabase/client"
 import { useLanguage } from "@/components/LanguageProvider"
 import { logActivity } from "@/lib/activity/logActivity"
@@ -366,15 +366,15 @@ export default function ClientsPageClient({ selectedId }: Props) {
     <div className="min-h-screen bg-background px-4 py-10">
       <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[minmax(0,2fr),minmax(0,1.2fr)]">
         <div className="flex flex-col gap-8">
-          <header className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
-            <div>
-              <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+          <header className="mb-8 pb-6 border-b border-border/40 flex items-start justify-between gap-4">
+            <div className="space-y-1">
+              <p className="text-xs font-medium tracking-widest text-muted-foreground/40 uppercase mb-2">
                 {t("clients.header.kicker")}
               </p>
-              <h1 className="mt-1 text-3xl font-semibold tracking-tight text-foreground">
+              <h1 className="text-3xl font-bold tracking-tight text-foreground">
                 {t("clients.header.title")}
               </h1>
-              <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
+              <p className="mt-1.5 text-sm text-muted-foreground/70 max-w-2xl">
                 {t("clients.header.subtitle")}
               </p>
               {successMessage && (
@@ -383,23 +383,29 @@ export default function ClientsPageClient({ selectedId }: Props) {
                 </p>
               )}
             </div>
-            <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-              <Button asChild variant="outline" size="sm">
-                <Link href="/dashboard">{t("clients.header.back")}</Link>
-              </Button>
-              <Button
-                type="button"
-                size="sm"
-                onClick={() => {
-                  setIsAdding((prev) => !prev)
-                  setFormError(null)
-                  setSuccessMessage(null)
-                }}
-              >
-                {isAdding ? t("clients.actions.cancel") : t("clients.actions.addClient")}
-              </Button>
+            <div className="shrink-0 mt-1">
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+                <Button asChild variant="outline" size="sm">
+                  <Link href="/dashboard">{t("clients.header.back")}</Link>
+                </Button>
+                <Button
+                  type="button"
+                  size="sm"
+                  onClick={() => {
+                    setIsAdding((prev) => !prev)
+                    setFormError(null)
+                    setSuccessMessage(null)
+                  }}
+                >
+                  {isAdding ? t("clients.actions.cancel") : t("clients.actions.addClient")}
+                </Button>
+              </div>
             </div>
           </header>
+
+          <div className="mb-6 flex h-10 w-10 items-center justify-center rounded-lg bg-blue-500/15">
+            <Users className="h-5 w-5 text-blue-400" />
+          </div>
 
           {isAdding && (
             <Card className="p-6">
@@ -486,11 +492,11 @@ export default function ClientsPageClient({ selectedId }: Props) {
             </Card>
           )}
 
-          <Card className="space-y-4 p-6">
+          <Card className="space-y-4 border border-border/40 rounded-xl p-6">
             <div className="flex items-center justify-between gap-4">
               <div>
-                <h2 className="text-lg font-semibold">{t("clients.list.title")}</h2>
-                <p className="mt-1 text-sm text-muted-foreground">
+                <h2 className="text-base font-semibold">{t("clients.list.title")}</h2>
+                <p className="mt-1 text-sm text-muted-foreground/60">
                   {t("clients.list.subtitle")}
                 </p>
               </div>
@@ -554,33 +560,40 @@ export default function ClientsPageClient({ selectedId }: Props) {
                   </p>
                 </div>
               ) : (
-                <div className="divide-y">
+                <div className="mt-4 space-y-1">
                   {sortedClients.map((client) => (
                     <div
                       key={client.id}
-                      className="flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between"
+                      className="flex items-center gap-4 px-2 py-3 rounded-lg hover:bg-muted/20 transition-colors"
                     >
-                      <div className="space-y-1">
+                      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-blue-500/15 text-sm font-semibold text-blue-400">
+                        {client.name.charAt(0).toUpperCase()}
+                      </div>
+
+                      <div className="min-w-0 flex-1 space-y-1">
                         <div className="flex flex-wrap items-center gap-2">
-                          <p className="text-sm font-medium">{client.name}</p>
+                          <p className="text-sm font-semibold text-foreground">
+                            {client.name}
+                          </p>
                           {client.company_name && (
-                            <span className="text-xs text-muted-foreground">
-                              · {client.company_name}
+                            <span className="text-xs text-muted-foreground/60">
+                              {client.company_name}
                             </span>
                           )}
                         </div>
-                        <div className="flex flex-col text-xs text-muted-foreground">
-                          <span>{client.email}</span>
-                          {client.phone && <span>{client.phone}</span>}
+                        <div className="flex flex-col">
+                          <span className="text-xs text-muted-foreground/70">
+                            {client.email}
+                          </span>
+                          {client.phone && (
+                            <span className="text-xs text-muted-foreground/70">
+                              {client.phone}
+                            </span>
+                          )}
                         </div>
-                        <p className="text-xs text-muted-foreground">
+                        <p className="text-xs text-muted-foreground/40">
                           {t("clients.list.added")} {formatDisplayDate(client.created_at)}
                         </p>
-                        {client.notes && (
-                          <p className="max-w-xl text-xs text-muted-foreground line-clamp-2">
-                            {client.notes}
-                          </p>
-                        )}
                       </div>
 
                       <div className="flex items-center gap-3">
@@ -610,10 +623,15 @@ export default function ClientsPageClient({ selectedId }: Props) {
         <Card className="h-fit space-y-4 p-6">
           <h2 className="text-lg font-semibold">{t("clients.sidebar.title")}</h2>
           {!selectedId ? (
-            <div className="space-y-3">
-              <p className="text-sm text-muted-foreground">
-                {t("clients.sidebar.empty")}
-              </p>
+            <div className="space-y-4">
+              <div className="flex flex-col items-center justify-center py-12 text-center">
+                <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-muted/60">
+                  <Users className="h-5 w-5 text-muted-foreground/40" />
+                </div>
+                <p className="text-sm font-medium text-muted-foreground/60">
+                  Select a client to view details
+                </p>
+              </div>
               <Button asChild variant="outline" size="sm">
                 <Link href="/dashboard/activity">{t("clients.sidebar.viewActivity")}</Link>
               </Button>
