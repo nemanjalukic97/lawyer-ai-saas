@@ -1543,10 +1543,10 @@ export default function RedlinePageClient({ selectedId }: { selectedId: string |
                       onClick={() => setSessionsPage((p) => p - 1)}
                       disabled={sessionsPage === 1}
                     >
-                      Previous
+                      {t("pagination.previous")}
                     </Button>
                     <span className="text-sm text-muted-foreground">
-                      Page {sessionsPage} of {totalSessionPages}
+                      {t("pagination.pageOf", { page: sessionsPage, total: totalSessionPages })}
                     </span>
                     <Button
                       type="button"
@@ -1555,7 +1555,7 @@ export default function RedlinePageClient({ selectedId }: { selectedId: string |
                       onClick={() => setSessionsPage((p) => p + 1)}
                       disabled={sessionsPage === totalSessionPages}
                     >
-                      Next
+                      {t("pagination.next")}
                     </Button>
                   </div>
                 )}

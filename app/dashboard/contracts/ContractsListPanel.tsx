@@ -360,10 +360,10 @@ export default function ContractsListPanel() {
             disabled={currentPage <= 1}
             onClick={() => setPage((p) => Math.max(1, p - 1))}
           >
-            Previous
+            {t("pagination.previous")}
           </Button>
           <div className="text-xs text-muted-foreground">
-            Page {currentPage} of {totalPages}
+            {t("pagination.pageOf", { page: currentPage, total: totalPages })}
           </div>
           <Button
             size="sm"
@@ -371,7 +371,7 @@ export default function ContractsListPanel() {
             disabled={currentPage >= totalPages}
             onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
           >
-            Next
+            {t("pagination.next")}
           </Button>
         </div>
       ) : null}

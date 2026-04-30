@@ -124,9 +124,7 @@ export default function IntakePageClient({ planId }: Props) {
   }, [fetchForms, supabase])
 
   async function deleteForm(form: IntakeFormRow) {
-    const ok = window.confirm(
-      "Delete this intake form? All submissions will also be deleted."
-    )
+    const ok = window.confirm(t("intake.actions.deleteConfirm"))
     if (!ok) return
 
     setError(null)
@@ -151,7 +149,7 @@ export default function IntakePageClient({ planId }: Props) {
         "intake_form.deleted",
         "intake_form",
         form.id,
-        form.title ?? "Intake form",
+        form.title ?? t("intake.common.formFallback"),
         { slug: form.slug }
       )
 
@@ -166,7 +164,7 @@ export default function IntakePageClient({ planId }: Props) {
         // eslint-disable-next-line no-console
         console.error(e)
       }
-      setError("Could not delete this intake form.")
+      setError(t("intake.errors.deleteFailed"))
     } finally {
       setTogglingId(null)
     }
@@ -277,7 +275,7 @@ export default function IntakePageClient({ planId }: Props) {
                     {form.title}
                   </p>
                   <p className="text-xs text-muted-foreground/60">
-                    Submissions: {counts[form.id] ?? 0}
+                    {t("intake.list.submissions", { n: counts[form.id] ?? 0 })}
                   </p>
                 </div>
                 <div className="flex items-center gap-2 shrink-0">
@@ -325,7 +323,7 @@ export default function IntakePageClient({ planId }: Props) {
                       className="text-muted-foreground hover:text-destructive"
                       disabled={togglingId === form.id}
                       onClick={() => void deleteForm(form)}
-                      aria-label="Delete intake form"
+                      aria-label={t("intake.list.deleteAria")}
                     >
                       <Trash2 className="h-4 w-4" aria-hidden />
                     </Button>

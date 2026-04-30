@@ -721,10 +721,10 @@ export function MattersPageClient() {
               onClick={() => setPage((p) => Math.max(1, p - 1))}
               disabled={page <= 1}
             >
-              Previous
+            {t("pagination.previous")}
             </Button>
             <span className="text-xs text-muted-foreground">
-              Page {page} of {totalPages}
+            {t("pagination.pageOf", { page, total: totalPages })}
             </span>
             <Button
               type="button"
@@ -733,7 +733,7 @@ export function MattersPageClient() {
               onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
               disabled={page >= totalPages}
             >
-              Next
+            {t("pagination.next")}
             </Button>
           </div>
         )}

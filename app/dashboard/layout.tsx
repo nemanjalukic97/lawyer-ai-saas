@@ -1,7 +1,6 @@
 import { redirect } from "next/navigation"
 
 import { createClient } from "@/lib/supabase/server"
-import { LanguageProvider } from "@/components/LanguageProvider"
 import { DashboardNavbar } from "./components/DashboardNavbar"
 import { getEntitlementPlanForUser } from "./lib/getEntitlementPlan"
 import type { EntitlementPlanId } from "./lib/entitlements"
@@ -24,11 +23,9 @@ export default async function DashboardLayout({
   )
 
   return (
-    <LanguageProvider>
-      <div className="min-h-screen bg-background">
-        <DashboardNavbar planId={planId} />
-        <main>{children}</main>
-      </div>
-    </LanguageProvider>
+    <div className="min-h-screen bg-background">
+      <DashboardNavbar planId={planId} />
+      <main>{children}</main>
+    </div>
   )
 }

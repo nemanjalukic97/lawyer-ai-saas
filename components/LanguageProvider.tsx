@@ -20,6 +20,11 @@ export interface Messages {
 
 const MESSAGES: Record<LanguageCode, Messages> = {
   en: {
+    pagination: {
+      previous: "Previous",
+      next: "Next",
+      pageOf: "Page {page} of {total}",
+    },
     nav: {
       features: "Features",
       pricing: "Pricing",
@@ -1079,6 +1084,11 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         },
       },
       form: {
+        title: "Log new time entry",
+        client: {
+          label: "Client",
+          placeholder: "Start typing to search…",
+        },
         matterName: {
           label: "Client / Matter name",
           placeholder: "e.g. ACME d.o.o. – Employment dispute",
@@ -1161,9 +1171,18 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         invalidHoursOrRate:
           "Please provide valid hours (0.25–24) and a non-negative hourly rate.",
         createFailed: "Failed to log time entry. Please try again.",
+        loadFailed: "Failed to load time entries. Please try again.",
+        deleteFailed: "Failed to delete time entry. Please try again.",
       },
       common: {
         emptyValue: "—",
+        totalInline: "Total:",
+        matterFallback: "Matter",
+      },
+      pagination: {
+        previous: "Previous",
+        next: "Next",
+        pageOf: "Page {page} of {total}",
       },
     },
     clients: {
@@ -1886,6 +1905,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         loadFailed: "Could not load intake forms.",
         toggleFailed: "Could not update the form.",
         formNotFound: "Form not found.",
+        deleteFailed: "Could not delete this intake form.",
       },
       list: {
         submissions: "Submissions: {n}",
@@ -1894,9 +1914,14 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         copied: "Copied",
         viewSubmissions: "Submissions",
         edit: "Edit form",
+        deleteAria: "Delete intake form",
       },
       actions: {
         create: "Create new intake form",
+        deleteConfirm: "Delete this intake form? All submissions will also be deleted.",
+      },
+      common: {
+        formFallback: "Intake form",
       },
       editor: {
         back: "Back to intake forms",
@@ -2093,6 +2118,11 @@ const MESSAGES: Record<LanguageCode, Messages> = {
     },
   },
   sr: {
+    pagination: {
+      previous: "Prethodna",
+      next: "Sljedeća",
+      pageOf: "Stranica {page} od {total}",
+    },
     nav: {
       features: "Funkcionalnosti",
       pricing: "Cene",
@@ -2785,7 +2815,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       product: "Proizvod",
       legal: "Pravno",
       rights: "Sva prava zadržana",
-      faqLink: "ČPP",
+      faqLink: "Često postavljena pitanja",
       privacyPolicy: "Politika privatnosti",
       termsOfService: "Uslovi korišćenja",
       refundPolicy: "Politika refundacije",
@@ -2989,6 +3019,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         loadFailed: "Nije moguće učitati formulare.",
         toggleFailed: "Nije moguće ažurirati formular.",
         formNotFound: "Formular nije pronađen.",
+        deleteFailed: "Nije moguće obrisati ovaj formular.",
       },
       list: {
         submissions: "Prijave: {n}",
@@ -2997,9 +3028,14 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         copied: "Kopirano",
         viewSubmissions: "Prijave",
         edit: "Uredi formular",
+        deleteAria: "Obriši formular",
       },
       actions: {
         create: "Novi formular za prijem",
+        deleteConfirm: "Obrisati ovaj formular? Sve prijave će takođe biti obrisane.",
+      },
+      common: {
+        formFallback: "Formular za prijem",
       },
       editor: {
         back: "Nazad na formulare",
@@ -3691,6 +3727,11 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         },
       },
       form: {
+        title: "Evidentiraj novi unos vremena",
+        client: {
+          label: "Klijent",
+          placeholder: "Počnite kucati za pretragu…",
+        },
         matterName: {
           label: "Klijent / Naziv predmeta",
           placeholder: "npr. ACME d.o.o. – Radni spor",
@@ -3773,9 +3814,18 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         invalidHoursOrRate:
           "Unesite ispravne sate (0.25–24) i nenegativnu satnicu.",
         createFailed: "Neuspješno evidentiranje vremena. Pokušajte ponovo.",
+        loadFailed: "Neuspješno učitavanje unosa vremena. Pokušajte ponovo.",
+        deleteFailed: "Neuspješno brisanje unosa vremena. Pokušajte ponovo.",
       },
       common: {
         emptyValue: "—",
+        totalInline: "Ukupno:",
+        matterFallback: "Predmet",
+      },
+      pagination: {
+        previous: "Prethodna",
+        next: "Sljedeća",
+        pageOf: "Stranica {page} od {total}",
       },
     },
     clients: {
@@ -4302,6 +4352,11 @@ const MESSAGES: Record<LanguageCode, Messages> = {
     },
   },
   bs: {
+    pagination: {
+      previous: "Prethodna",
+      next: "Sljedeća",
+      pageOf: "Stranica {page} od {total}",
+    },
     nav: {
       features: "Funkcionalnosti",
       pricing: "Cijene",
@@ -4860,7 +4915,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       product: "Proizvod",
       legal: "Pravno",
       rights: "Sva prava zadržana",
-      faqLink: "ČPP",
+      faqLink: "Često postavljena pitanja",
       privacyPolicy: "Pravila privatnosti",
       termsOfService: "Uslovi korištenja",
       refundPolicy: "Pravila povrata novca",
@@ -5064,6 +5119,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         loadFailed: "Nije moguće učitati formulare.",
         toggleFailed: "Nije moguće ažurirati formular.",
         formNotFound: "Formular nije pronađen.",
+        deleteFailed: "Nije moguće obrisati ovaj formular.",
       },
       list: {
         submissions: "Prijave: {n}",
@@ -5072,9 +5128,14 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         copied: "Kopirano",
         viewSubmissions: "Prijave",
         edit: "Uredi formular",
+        deleteAria: "Obriši formular",
       },
       actions: {
         create: "Novi formular za prijem",
+        deleteConfirm: "Obrisati ovaj formular? Sve prijave će takođe biti obrisane.",
+      },
+      common: {
+        formFallback: "Formular za prijem",
       },
       editor: {
         back: "Nazad na formulare",
@@ -5766,6 +5827,11 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         },
       },
       form: {
+        title: "Evidentiraj novi unos vremena",
+        client: {
+          label: "Klijent",
+          placeholder: "Počnite kucati za pretragu…",
+        },
         matterName: {
           label: "Klijent / Naziv predmeta",
           placeholder: "npr. ACME d.o.o. – Radni spor",
@@ -5850,9 +5916,18 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         invalidHoursOrRate:
           "Unesite ispravne sate (0.25–24) i nenegativnu satnicu.",
         createFailed: "Neuspješno evidentiranje vremena. Pokušajte ponovo.",
+        loadFailed: "Neuspješno učitavanje unosa vremena. Pokušajte ponovo.",
+        deleteFailed: "Neuspješno brisanje unosa vremena. Pokušajte ponovo.",
       },
       common: {
         emptyValue: "—",
+        totalInline: "Ukupno:",
+        matterFallback: "Predmet",
+      },
+      pagination: {
+        previous: "Prethodna",
+        next: "Sljedeća",
+        pageOf: "Stranica {page} od {total}",
       },
     },
     clients: {
@@ -6380,6 +6455,11 @@ const MESSAGES: Record<LanguageCode, Messages> = {
     },
   },
   hr: {
+    pagination: {
+      previous: "Prethodna",
+      next: "Sljedeća",
+      pageOf: "Stranica {page} od {total}",
+    },
     nav: {
       features: "Funkcionalnosti",
       pricing: "Cijene",
@@ -6938,7 +7018,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       product: "Proizvod",
       legal: "Pravno",
       rights: "Sva prava pridržana",
-      faqLink: "ČPP",
+      faqLink: "Često postavljena pitanja",
       privacyPolicy: "Pravila privatnosti",
       termsOfService: "Uvjeti pružanja usluge",
       refundPolicy: "Pravila povrata",
@@ -7665,6 +7745,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         loadFailed: "Nije moguće učitati obrasce.",
         toggleFailed: "Nije moguće ažurirati obrazac.",
         formNotFound: "Obrazac nije pronađen.",
+        deleteFailed: "Nije moguće izbrisati ovaj obrazac.",
       },
       list: {
         submissions: "Prijave: {n}",
@@ -7673,9 +7754,14 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         copied: "Kopirano",
         viewSubmissions: "Prijave",
         edit: "Uredi obrazac",
+        deleteAria: "Izbriši obrazac",
       },
       actions: {
         create: "Novi obrazac za prijem",
+        deleteConfirm: "Izbrisati ovaj obrazac? Sve prijave će također biti izbrisane.",
+      },
+      common: {
+        formFallback: "Obrazac za prijem",
       },
       editor: {
         back: "Natrag na obrasce",
@@ -8366,6 +8452,11 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         },
       },
       form: {
+        title: "Evidentiraj novi unos vremena",
+        client: {
+          label: "Klijent",
+          placeholder: "Počnite tipkati za pretraživanje…",
+        },
         matterName: {
           label: "Klijent / Naziv predmeta",
           placeholder: "npr. ACME d.o.o. – Radni spor",
@@ -8450,13 +8541,27 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         invalidHoursOrRate:
           "Unesite ispravne sate (0.25–24) i nenegativnu satnicu.",
         createFailed: "Neuspješno evidentiranje vremena. Pokušajte ponovno.",
+        loadFailed: "Neuspjelo učitavanje unosa vremena. Pokušajte ponovno.",
+        deleteFailed: "Neuspjelo brisanje unosa vremena. Pokušajte ponovno.",
       },
       common: {
         emptyValue: "—",
+        totalInline: "Ukupno:",
+        matterFallback: "Predmet",
+      },
+      pagination: {
+        previous: "Prethodna",
+        next: "Sljedeća",
+        pageOf: "Stranica {page} od {total}",
       },
     },
   },
   sl: {
+    pagination: {
+      previous: "Prejšnja",
+      next: "Naslednja",
+      pageOf: "Stran {page} od {total}",
+    },
     nav: {
       features: "Funkcionalnosti",
       pricing: "Cene",
@@ -9152,6 +9257,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         loadFailed: "Obrazcev ni mogoče naložiti.",
         toggleFailed: "Obrazca ni mogoče posodobiti.",
         formNotFound: "Obrazec ni najden.",
+        deleteFailed: "Tega obrazca ni mogoče izbrisati.",
       },
       list: {
         submissions: "Prijave: {n}",
@@ -9160,9 +9266,14 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         copied: "Kopirano",
         viewSubmissions: "Prijave",
         edit: "Uredi obrazec",
+        deleteAria: "Izbriši obrazec",
       },
       actions: {
         create: "Nov obrazec za sprejem",
+        deleteConfirm: "Izbrisati ta obrazec? Vse prijave bodo prav tako izbrisane.",
+      },
+      common: {
+        formFallback: "Obrazec za sprejem",
       },
       editor: {
         back: "Nazaj na obrazce",
@@ -9852,6 +9963,11 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         },
       },
       form: {
+        title: "Zabeleži nov vnos časa",
+        client: {
+          label: "Stranka",
+          placeholder: "Začni tipkati za iskanje…",
+        },
         matterName: {
           label: "Stranka / Naziv zadeve",
           placeholder: "npr. ACME d.o.o. – Delovni spor",
@@ -9935,9 +10051,18 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         dateRequired: "Datum je obvezen.",
         invalidHoursOrRate: "Vnesite veljavne ure (0.25–24) in nenegativno urno postavko.",
         createFailed: "Beleženje časa ni uspelo. Poskusite znova.",
+        loadFailed: "Nalaganje časovnih vnosov ni uspelo. Poskusite znova.",
+        deleteFailed: "Brisanje časovnega vnosa ni uspelo. Poskusite znova.",
       },
       common: {
         emptyValue: "—",
+        totalInline: "Skupaj:",
+        matterFallback: "Zadeva",
+      },
+      pagination: {
+        previous: "Prejšnja",
+        next: "Naslednja",
+        pageOf: "Stran {page} od {total}",
       },
     },
     conflict: {
@@ -10463,6 +10588,11 @@ const MESSAGES: Record<LanguageCode, Messages> = {
     },
   },
   me: {
+    pagination: {
+      previous: "Prethodna",
+      next: "Sljedeća",
+      pageOf: "Stranica {page} od {total}",
+    },
     nav: {
       features: "Funkcionalnosti",
       pricing: "Cijene",
@@ -10954,7 +11084,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       product: "Proizvod",
       legal: "Pravno",
       rights: "Sva prava zadržana",
-      faqLink: "ČPP",
+      faqLink: "Često postavljena pitanja",
       privacyPolicy: "Politika privatnosti",
       termsOfService: "Uslovi korišćenja",
       refundPolicy: "Politika refundacije",
@@ -11158,6 +11288,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         loadFailed: "Nije moguće učitati formulare.",
         toggleFailed: "Nije moguće ažurirati formular.",
         formNotFound: "Formular nije pronađen.",
+        deleteFailed: "Nije moguće obrisati ovaj formular.",
       },
       list: {
         submissions: "Prijave: {n}",
@@ -11166,9 +11297,14 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         copied: "Kopirano",
         viewSubmissions: "Prijave",
         edit: "Uredi formular",
+        deleteAria: "Obriši formular",
       },
       actions: {
         create: "Novi formular za prijem",
+        deleteConfirm: "Obrisati ovaj formular? Sve prijave će takođe biti obrisane.",
+      },
+      common: {
+        formFallback: "Formular za prijem",
       },
       editor: {
         back: "Nazad na formulare",
@@ -11859,6 +11995,11 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         },
       },
       form: {
+        title: "Evidentiraj novi unos vremena",
+        client: {
+          label: "Klijent",
+          placeholder: "Počnite kucati za pretragu…",
+        },
         matterName: {
           label: "Klijent / Naziv predmeta",
           placeholder: "npr. ACME d.o.o. – Radni spor",
@@ -11943,9 +12084,18 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         invalidHoursOrRate:
           "Unesite ispravne sate (0.25–24) i nenegativnu satnicu.",
         createFailed: "Neuspješno evidentiranje vremena. Pokušajte ponovo.",
+        loadFailed: "Neuspjelo učitavanje unosa vremena. Pokušajte ponovno.",
+        deleteFailed: "Neuspjelo brisanje unosa vremena. Pokušajte ponovno.",
       },
       common: {
         emptyValue: "—",
+        totalInline: "Ukupno:",
+        matterFallback: "Predmet",
+      },
+      pagination: {
+        previous: "Prethodna",
+        next: "Sljedeća",
+        pageOf: "Stranica {page} od {total}",
       },
     },
     conflict: {
@@ -12475,7 +12625,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
 type LanguageContextValue = {
   language: LanguageCode
   setLanguage: (code: LanguageCode) => void
-  t: (key: string) => string
+  t: (key: string, vars?: Record<string, string | number>) => string
 }
 
 const LanguageContext = createContext<LanguageContextValue | null>(null)
@@ -12528,10 +12678,15 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   }, [])
 
   const t = useCallback(
-    (key: string) => {
+    (key: string, vars?: Record<string, string | number>) => {
       const messages = MESSAGES[language] ?? MESSAGES.en
       const value = getNestedMessage(messages, key)
-      return typeof value === "string" ? value : key
+      if (typeof value !== "string") return key
+      if (!vars) return value
+      return value.replace(/\{(\w+)\}/g, (_, varName: string) => {
+        const v = vars[varName]
+        return v === undefined || v === null ? `{${varName}}` : String(v)
+      })
     },
     [language]
   )
@@ -12557,10 +12712,15 @@ export function useLanguage() {
     return {
       language,
       setLanguage: () => {},
-      t: (key: string) => {
+      t: (key: string, vars?: Record<string, string | number>) => {
         const messages = MESSAGES[language] ?? MESSAGES.en
         const value = getNestedMessage(messages, key)
-        return typeof value === "string" ? value : key
+        if (typeof value !== "string") return key
+        if (!vars) return value
+        return value.replace(/\{(\w+)\}/g, (_, varName: string) => {
+          const v = vars[varName]
+          return v === undefined || v === null ? `{${varName}}` : String(v)
+        })
       },
     }
   }

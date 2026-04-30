@@ -115,10 +115,10 @@ function generatePaymentReference(): string {
   return `INV-${year}-${rand}`
 }
 
-function extractMatterName(notes: string | null): string {
-  if (!notes) return "Matter"
+function extractMatterName(notes: string | null, fallback: string): string {
+  if (!notes) return fallback
   const match = notes.match(/^Matter:\s*(.+?)\s*\|\s*Work:/i)
-  return match?.[1] ?? "Matter"
+  return match?.[1] ?? fallback
 }
 
 function extractWorkDescription(notes: string | null): string {
@@ -252,7 +252,7 @@ export function TimeEntriesTab({
           // eslint-disable-next-line no-console
           console.error("Failed to load time entries:", error)
         }
-        setListError("Failed to load time entries. Please try again.")
+        setListError(t("time.errors.loadFailed"))
       } finally {
         if (isMounted) {
           setLoadingEntries(false)
@@ -491,7 +491,7 @@ export function TimeEntriesTab({
     setSuccessMessage(null)
 
     if (!selectedClientId) {
-      setFormError("Please select a client from the list")
+      setFormError(t("time.errors.clientRequired"))
       return
     }
 
@@ -615,7 +615,7 @@ export function TimeEntriesTab({
         // eslint-disable-next-line no-console
         console.error("Failed to delete time entry:", error)
       }
-      setListError("Failed to delete time entry. Please try again.")
+      setListError(t("time.errors.deleteFailed"))
     } finally {
       setDeletingId(null)
     }
@@ -666,12 +666,12 @@ export function TimeEntriesTab({
     <div className="space-y-8">
       <Card className="rounded-xl border border-border/40 bg-muted/10 p-6">
         <p className="text-sm font-semibold text-foreground mb-4">
-          Log new time entry
+          {t("time.form.title")}
         </p>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-2">
             <Label className="text-xs font-medium text-muted-foreground/70 mb-1.5">
-              Client
+              {t("time.form.client.label")}
             </Label>
             <div className="relative">
               <Input
@@ -684,7 +684,7 @@ export function TimeEntriesTab({
                 onBlur={() => {
                   window.setTimeout(() => setShowClientSuggestions(false), 120)
                 }}
-                placeholder="Start typing to search…"
+                placeholder={t("time.form.client.placeholder")}
                 disabled={!clientsLoaded}
                 required
               />
@@ -979,7 +979,7 @@ export function TimeEntriesTab({
                     <div className="space-y-1">
                     <div className="flex flex-wrap items-center gap-2">
                       <p className="text-sm font-semibold text-foreground">
-                        {extractMatterName(entry.notes)}
+                        {extractMatterName(entry.notes, t("time.common.matterFallback"))}
                       </p>
                     </div>
                     <p className="max-w-xl text-xs text-muted-foreground/60 line-clamp-2">
@@ -995,7 +995,7 @@ export function TimeEntriesTab({
                       <span>{t(`time.activityTypes.${entry.activity_type}`)}</span>
                       <span>·</span>
                       <span>
-                        Total:{" "}
+                        {t("time.common.totalInline")}{" "}
                         <span className="font-medium text-foreground">
                           {formatCurrencySymbol("EUR")} {entry.amount.toFixed(2)}
                         </span>
@@ -1063,10 +1063,10 @@ export function TimeEntriesTab({
               onClick={() => setPage((p) => Math.max(1, p - 1))}
               disabled={page <= 1}
             >
-              Previous
+              {t("time.pagination.previous")}
             </Button>
             <span className="text-xs text-muted-foreground">
-              Page {page} of {totalPages}
+              {t("time.pagination.pageOf", { page, total: totalPages })}
             </span>
             <Button
               type="button"
@@ -1075,7 +1075,7 @@ export function TimeEntriesTab({
               onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
               disabled={page >= totalPages}
             >
-              Next
+              {t("time.pagination.next")}
             </Button>
           </div>
         )}
