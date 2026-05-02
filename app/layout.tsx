@@ -52,6 +52,35 @@ export const metadata: Metadata = {
       "AI-powered legal assistant for lawyers in Bosnia & Herzegovina, Serbia, Croatia, Montenegro and Slovenia.",
     images: ["https://legantis.app/og-image.png"],
   },
+  keywords: [
+    "AI pravni asistent",
+    "advokat BiH",
+    "advokat Srbija",
+    "AI za advokate",
+    "generisanje ugovora",
+    "legal AI Balkans",
+    "Legantis",
+    "pravni softver",
+    "ugovor AI",
+    "NDA generator",
+  ],
+  authors: [{ name: "Legantis" }],
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true },
+  },
+  alternates: {
+    canonical: "https://legantis.app",
+    languages: {
+      sr: "https://legantis.app",
+      bs: "https://legantis.app",
+      hr: "https://legantis.app",
+    },
+  },
+  verification: {
+    google: "Y6f4WQUTKKD1_F5MxRzuz8UWs-W3AUpFjh84L3vTLSk",
+  },
 };
 
 export default function RootLayout({

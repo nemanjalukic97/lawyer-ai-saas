@@ -421,9 +421,9 @@ export function HomeClient({ signupStatus }: Props) {
           </div>
         </section>
 
-        {/* Testimonials */}
+        {/* Testimonials — hidden until real quotes/avatars; drop `hidden` from className to show */}
         <section
-          className="border-t border-border bg-background py-16 sm:py-24"
+          className="hidden border-t border-border bg-background py-16 sm:py-24"
           aria-labelledby="testimonials-heading"
         >
           <div className="mx-auto max-w-6xl px-4 sm:px-6">
