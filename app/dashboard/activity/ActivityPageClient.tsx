@@ -31,7 +31,7 @@ export function ActivityPageClient({
     <div className="px-4 py-8">
       <div className="mx-auto max-w-3xl">
         <Card>
-          <CardHeader className="mb-8 pb-6 border-b border-border/40 flex items-start justify-between gap-4">
+          <CardHeader className="mb-8 pb-6 border-b border-border/40 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div className="space-y-1">
               <p className="text-xs font-medium tracking-widest text-muted-foreground/40 uppercase mb-2">
                 LEGANTIS · ACTIVITY
