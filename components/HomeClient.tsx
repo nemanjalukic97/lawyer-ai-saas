@@ -114,12 +114,150 @@ export function HomeClient({ signupStatus }: Props) {
   }, [])
 
   return (
-    <div className="flex flex-col">
+    <div className="relative flex flex-col overflow-x-hidden">
+      <div aria-hidden="true" className="pointer-events-none absolute" style={{ left: "-180px", top: "1800px", zIndex: 0 }}>
+        {/* Outer ring */}
+        <div
+          style={{
+            width: "500px",
+            height: "500px",
+            borderRadius: "50%",
+            border: "1px solid rgba(27,79,216,0.20)",
+            position: "absolute",
+            top: 0,
+            left: 0,
+          }}
+        />
+        {/* Inner ring */}
+        <div
+          style={{
+            width: "340px",
+            height: "340px",
+            borderRadius: "50%",
+            border: "1px solid rgba(27,79,216,0.14)",
+            position: "absolute",
+            top: "80px",
+            left: "80px",
+          }}
+        />
+        {/* Radial glow */}
+        <div
+          style={{
+            width: "500px",
+            height: "500px",
+            borderRadius: "50%",
+            background: "radial-gradient(circle, rgba(27,79,216,0.07) 0%, transparent 70%)",
+            position: "absolute",
+            top: 0,
+            left: 0,
+          }}
+        />
+      </div>
+      <div aria-hidden="true" className="pointer-events-none absolute" style={{ right: "-150px", top: "2800px", zIndex: 0 }}>
+        <div
+          style={{
+            width: "400px",
+            height: "400px",
+            borderRadius: "50%",
+            border: "1px solid rgba(27,79,216,0.17)",
+            position: "absolute",
+            top: 0,
+            left: 0,
+          }}
+        />
+        <div
+          style={{
+            width: "270px",
+            height: "270px",
+            borderRadius: "50%",
+            border: "1px solid rgba(27,79,216,0.12)",
+            position: "absolute",
+            top: "65px",
+            left: "65px",
+          }}
+        />
+        <div
+          style={{
+            width: "400px",
+            height: "400px",
+            borderRadius: "50%",
+            background: "radial-gradient(circle, rgba(27,79,216,0.06) 0%, transparent 70%)",
+            position: "absolute",
+            top: 0,
+            left: 0,
+          }}
+        />
+      </div>
+      <div aria-hidden="true" className="pointer-events-none absolute" style={{ left: "-100px", top: "3800px", zIndex: 0 }}>
+        <div
+          style={{
+            width: "300px",
+            height: "300px",
+            borderRadius: "50%",
+            border: "1px solid rgba(27,79,216,0.14)",
+            position: "absolute",
+            top: 0,
+            left: 0,
+          }}
+        />
+        <div
+          style={{
+            width: "200px",
+            height: "200px",
+            borderRadius: "50%",
+            border: "1px solid rgba(27,79,216,0.10)",
+            position: "absolute",
+            top: "50px",
+            left: "50px",
+          }}
+        />
+        <div
+          style={{
+            width: "300px",
+            height: "300px",
+            borderRadius: "50%",
+            background: "radial-gradient(circle, rgba(27,79,216,0.05) 0%, transparent 70%)",
+            position: "absolute",
+            top: 0,
+            left: 0,
+          }}
+        />
+      </div>
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute"
+        style={{
+          left: "50%",
+          top: "200px",
+          transform: "translateX(-50%)",
+          width: "800px",
+          height: "800px",
+          borderRadius: "50%",
+          background:
+            "radial-gradient(circle, rgba(27,79,216,0.12) 0%, transparent 70%)",
+          zIndex: 0,
+        }}
+      />
       <Header />
 
-      <main className="flex-1">
+      <main className="relative z-10 flex-1">
         {/* Hero */}
-        <section className="relative z-0 flex min-h-[85dvh] flex-col justify-center border-b border-border bg-muted/20 py-16 sm:py-24 md:min-h-[90dvh]">
+        <section className="relative z-0 overflow-hidden flex min-h-[85dvh] flex-col justify-center border-b border-border bg-muted/20 py-16 sm:py-24 md:min-h-[90dvh]">
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 overflow-hidden"
+            style={{ zIndex: 0 }}
+          >
+            <div
+              className="absolute inset-0"
+              style={{
+                backgroundImage: `linear-gradient(rgba(27,79,216,0.10) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(27,79,216,0.10) 1px, transparent 1px)`,
+                backgroundSize: "60px 60px",
+              }}
+            />
+          </div>
+          <div className="relative z-10">
           <div
             aria-hidden
             className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[70%] w-[60%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/[0.05] blur-[50px]"
@@ -175,6 +313,7 @@ export function HomeClient({ signupStatus }: Props) {
             >
               <DashboardMockup />
             </div>
+          </div>
           </div>
         </section>
 
@@ -253,10 +392,6 @@ export function HomeClient({ signupStatus }: Props) {
           className="relative z-0 scroll-mt-14 py-16 sm:py-24"
           aria-labelledby="features-heading"
         >
-          <div
-            aria-hidden
-            className="pointer-events-none absolute left-0 top-[56%] -z-10 h-[70%] w-[60%] -translate-y-1/2 rounded-full bg-white/[0.05] blur-[15px] min-[1440px]:h-[50%] min-[1440px]:w-[30%] min-[1440px]:blur-[6px]"
-          />
           <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6">
             <div className="flex flex-col items-center text-center">
               <Badge
@@ -315,10 +450,24 @@ export function HomeClient({ signupStatus }: Props) {
         {/* Pricing */}
         <section
           id="pricing"
-          className="scroll-mt-14 border-t border-border bg-muted/20 py-16 sm:py-24"
+          className="relative overflow-hidden scroll-mt-14 border-t border-border bg-muted/20 py-16 sm:py-24"
           aria-labelledby="pricing-heading"
         >
-          <div className="mx-auto max-w-6xl px-4 sm:px-6">
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 overflow-hidden"
+            style={{ zIndex: 0 }}
+          >
+            <div
+              className="absolute inset-0"
+              style={{
+                backgroundImage: `linear-gradient(rgba(27,79,216,0.10) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(27,79,216,0.10) 1px, transparent 1px)`,
+                backgroundSize: "60px 60px",
+              }}
+            />
+          </div>
+          <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6">
             <div className="flex flex-col items-center text-center">
               <Badge
                 variant="secondary"
@@ -357,21 +506,21 @@ export function HomeClient({ signupStatus }: Props) {
               <table className="w-full min-w-[480px] border-collapse text-sm">
                 <thead>
                   <tr className="border-b border-border bg-muted/30">
-                    <th className="px-4 py-3 text-left font-medium text-muted-foreground">
+                    <th className="px-4 py-3 text-left font-medium text-white">
                       {t("home.pricing.comparison.colFeature")}
                     </th>
-                    <th className="px-4 py-3 text-left font-medium text-foreground">
+                    <th className="px-4 py-3 text-left font-medium text-white">
                       {t("home.pricing.comparison.colSolo")}
                     </th>
-                    <th className="px-4 py-3 text-left font-medium text-foreground">
+                    <th className="px-4 py-3 text-left font-medium text-white">
                       {t("home.pricing.comparison.colProfessional")}
                     </th>
-                    <th className="px-4 py-3 text-left font-medium text-foreground">
+                    <th className="px-4 py-3 text-left font-medium text-white">
                       {t("home.pricing.comparison.colFirm")}
                     </th>
                   </tr>
                 </thead>
-                <tbody className="text-muted-foreground">
+                <tbody className="text-white">
                   <tr className="border-b border-border/80">
                     <td className="px-4 py-3">
                       {t("home.pricing.comparison.rowAiCalls")}
@@ -471,10 +620,6 @@ export function HomeClient({ signupStatus }: Props) {
           className="relative z-0 scroll-mt-14 border-t border-border bg-muted/10 py-16 sm:py-24"
           aria-labelledby="faq-heading"
         >
-          <div
-            aria-hidden
-            className="pointer-events-none absolute left-0 top-[56%] -z-10 h-[70%] w-[60%] -translate-y-1/2 rounded-full bg-white/[0.05] blur-[15px] min-[1440px]:h-[50%] min-[1440px]:w-[30%] min-[1440px]:blur-[6px]"
-          />
           <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6">
             <div className="mx-auto mb-10 max-w-2xl text-center">
               <h2
