@@ -505,17 +505,17 @@ export function HomeClient({ signupStatus }: Props) {
             <div className="mt-20 overflow-x-auto rounded-xl border border-border">
               <table className="w-full min-w-[480px] border-collapse text-sm">
                 <thead>
-                  <tr className="border-b border-border bg-muted/30">
-                    <th className="px-4 py-3 text-left font-medium text-white">
+                  <tr className="border-b border-border bg-muted">
+                    <th className="px-4 py-3 text-left font-medium text-white opacity-100">
                       {t("home.pricing.comparison.colFeature")}
                     </th>
-                    <th className="px-4 py-3 text-left font-medium text-white">
+                    <th className="px-4 py-3 text-left font-medium text-white opacity-100">
                       {t("home.pricing.comparison.colSolo")}
                     </th>
-                    <th className="px-4 py-3 text-left font-medium text-white">
+                    <th className="px-4 py-3 text-left font-medium text-white opacity-100">
                       {t("home.pricing.comparison.colProfessional")}
                     </th>
-                    <th className="px-4 py-3 text-left font-medium text-white">
+                    <th className="px-4 py-3 text-left font-medium text-white opacity-100">
                       {t("home.pricing.comparison.colFirm")}
                     </th>
                   </tr>
