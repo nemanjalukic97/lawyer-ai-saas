@@ -1,7 +1,8 @@
-'use client'
+"use client"
 
 import { useState } from "react"
 
+import { useLanguage } from "@/components/LanguageProvider"
 import {
   Select,
   SelectContent,
@@ -10,32 +11,32 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 
+const JURISDICTION_IDS = [
+  "serbia",
+  "croatia",
+  "bih_fbih",
+  "bih_rs",
+  "bih_brcko",
+  "montenegro",
+  "slovenia",
+] as const
+
 export default function JurisdictionSelect() {
   const [value, setValue] = useState<string>("serbia")
+  const { t } = useLanguage()
 
   return (
     <>
-      <Select
-        value={value}
-        onValueChange={(v) => setValue(v)}
-      >
+      <Select value={value} onValueChange={(v) => setValue(v)}>
         <SelectTrigger className="w-full">
-          <SelectValue placeholder="Select country / jurisdiction" />
+          <SelectValue placeholder={t("auth.jurisdictionPlaceholder")} />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="serbia">Serbia</SelectItem>
-          <SelectItem value="croatia">Croatia</SelectItem>
-          <SelectItem value="bih_fbih">
-            Bosnia &amp; Herzegovina - Federation
-          </SelectItem>
-          <SelectItem value="bih_rs">
-            Bosnia &amp; Herzegovina - Republika Srpska
-          </SelectItem>
-          <SelectItem value="bih_brcko">
-            Bosnia &amp; Herzegovina - Brcko District
-          </SelectItem>
-          <SelectItem value="montenegro">Montenegro</SelectItem>
-          <SelectItem value="slovenia">Slovenia</SelectItem>
+          {JURISDICTION_IDS.map((id) => (
+            <SelectItem key={id} value={id}>
+              {t(`settings.jurisdictions.${id}`)}
+            </SelectItem>
+          ))}
         </SelectContent>
       </Select>
 

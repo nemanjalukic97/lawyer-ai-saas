@@ -56,6 +56,41 @@ const MESSAGES: Record<LanguageCode, Messages> = {
     auth: {
       signingIn: "Signing in...",
       creatingAccount: "Creating account...",
+      returnToHomepage: "Return to Homepage",
+      loginTitle: "Sign in to Legantis",
+      loginDescription:
+        "Enter your email and password to access your dashboard.",
+      signupTitle: "Create your Legantis account",
+      signupDescription:
+        "Sign up to start using Legantis for your legal team.",
+      emailLabel: "Email",
+      passwordLabel: "Password",
+      loginButton: "Log in",
+      signupButton: "Sign up",
+      dontHaveAccount: "Don't have an account?",
+      alreadyHaveAccount: "Already have an account?",
+      fullNameLabel: "Full name",
+      lawFirmLabel: "Lawyer office name",
+      jurisdictionLabel: "Country / Jurisdiction",
+      jurisdictionPlaceholder: "Select country / jurisdiction",
+      emailInvalidTitle:
+        "Please enter a valid email address (e.g. name@example.com).",
+      userNotFound: "No account found with this email.",
+      signupSuccessTitle: "You're almost ready to use Legantis",
+      signupSuccessBody1:
+        "Your Legantis account has been created successfully. Please check your inbox and confirm your email address to activate your account.",
+      signupSuccessBody2:
+        "Once confirmed, you can log in and start using Legantis.",
+      planSelected:
+        "You selected the {plan} plan. You can change this later from your dashboard.",
+      emailTakenBeforeLink: "Account with that email is already registered. Try",
+      emailTakenLink: "logging in",
+      emailTakenAfterLink: "instead.",
+      invalidEmailError: "Please enter a valid email address.",
+      weakPasswordError:
+        "Password must be at least 6 characters and include one uppercase letter, one number, and one special character (such as ., $ or #).",
+      duplicateEmailSuggestion:
+        "Account with that email is already registered. Try logging in instead.",
     },
     redline: {
       header: {
@@ -2141,7 +2176,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       matters: "Predmeti",
       intake: "Prijavni formular",
       activity: "Aktivnosti",
-      billing: "Fakturisanje",
+      billing: "Naplata",
       settings: "Podešavanja",
       templates: "Predlozi",
       deadlines: "Rokovi",
@@ -2154,6 +2189,41 @@ const MESSAGES: Record<LanguageCode, Messages> = {
     auth: {
       signingIn: "Prijava u toku...",
       creatingAccount: "Kreiranje naloga...",
+      returnToHomepage: "Nazad na početnu",
+      loginTitle: "Prijavite se na Legantis",
+      loginDescription:
+        "Unesite email i lozinku za pristup kontrolnoj tabli.",
+      signupTitle: "Napravite Legantis nalog",
+      signupDescription:
+        "Registrujte se da počnete koristiti Legantis za vaš pravni tim.",
+      emailLabel: "Email",
+      passwordLabel: "Lozinka",
+      loginButton: "Prijava",
+      signupButton: "Registracija",
+      dontHaveAccount: "Nemate nalog?",
+      alreadyHaveAccount: "Već imate nalog?",
+      fullNameLabel: "Ime i prezime",
+      lawFirmLabel: "Naziv advokatske kancelarije",
+      jurisdictionLabel: "Država / Jurisdikcija",
+      jurisdictionPlaceholder: "Izaberite državu / jurisdikciju",
+      emailInvalidTitle:
+        "Unesite važeću email adresu (npr. ime@primer.com).",
+      userNotFound: "Ne postoji nalog sa ovom email adresom.",
+      signupSuccessTitle: "Skoro možete da koristite Legantis",
+      signupSuccessBody1:
+        "Vaš Legantis nalog je uspešno napravljen. Proverite inbox i potvrdite email adresu da aktivirate nalog.",
+      signupSuccessBody2:
+        "Kada potvrdite, možete se prijaviti i početi koristiti Legantis.",
+      planSelected:
+        "Izabrali ste {plan} paket. Možete ga promeniti kasnije sa kontrolne table.",
+      emailTakenBeforeLink: "Nalog sa tom email adresom već postoji. Probajte",
+      emailTakenLink: "prijavu",
+      emailTakenAfterLink: "umesto toga.",
+      invalidEmailError: "Unesite važeću email adresu.",
+      weakPasswordError:
+        "Lozinka mora imati najmanje 6 karaktera, jedno veliko slovo, jedan broj i jedan poseban znak (npr. ., $ ili #).",
+      duplicateEmailSuggestion:
+        "Nalog sa tom email adresom već postoji. Probajte prijavu umesto toga.",
     },
     redline: {
       header: {
@@ -2300,7 +2370,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
           empty: "Još nema povezanih unosa vremena.",
         },
         billing: {
-          title: "Fakture",
+          title: "Naplata",
           subtitle: "Fakture povezane sa ovim predmetom.",
           empty: "Još nema povezanih faktura.",
         },
@@ -2718,7 +2788,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
               "Everything in Solo": "Sve iz Solo paketa",
               "Case outcome predictions": "Predviđanje ishoda sporova",
               "Document analysis": "Analiza dokumenata",
-              "Time tracking & billing": "Praćenje vremena i fakturisanje",
+              "Time tracking & billing": "Praćenje vremena i naplata",
               "Client portal": "Klijentski portal",
               "100 AI calls/day": "100 AI poziva dnevno",
             },
@@ -2956,7 +3026,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
             "Koristi se za prilagođavanje šablona, klauzula i predviđanja.",
         },
         invoices: {
-          title: "Fakturisanje",
+          title: "Naplata",
           countSuffix: "faktura",
           subtitle: "Generisano na osnovu evidentiranog vremena i klijenata.",
         },
@@ -3672,10 +3742,10 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       },
       tabs: {
         entries: "Unosi vremena",
-        invoices: "Fakture",
+        invoices: "Naplata",
       },
       invoices: {
-        title: "Fakture",
+        title: "Naplata",
         subtitle:
           "Šaljite fakture e-poštom i pratite plaćanja bankovnim transferom.",
         refresh: "Osvježi",
@@ -3768,7 +3838,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       },
       list: {
         title: "Unosi vremena",
-        subtitle: "Pregledajte unos, pratite nenaplaćene sate i pripremite fakturisanje.",
+        subtitle: "Pregledajte unos, pratite nenaplaćene sate i pripremite naplatu.",
         loading: "Učitavanje unosa vremena...",
         emptyTitle: "Još nema unosa vremena.",
         emptySubtitle: "Dodajte prvi unos koristeći formular iznad.",
@@ -4034,7 +4104,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
     },
     billing: {
       header: {
-        title: "Fakturisanje",
+        title: "Naplata",
         subtitle: "Upravljajte svojim planom i pretplatom.",
       },
       messages: {
@@ -4074,7 +4144,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
           everythingInSolo: "Sve iz Solo paketa",
           caseOutcomePredictions: "Predviđanje ishoda sporova",
           documentAnalysis: "Analiza dokumenata",
-          timeTrackingBilling: "Praćenje vremena i fakturisanje",
+          timeTrackingBilling: "Praćenje vremena i naplata",
           clientPortal: "Klijentski portal",
           aiCalls100: "100 AI poziva dnevno",
           everythingInProfessional: "Sve iz Professional paketa",
@@ -4375,7 +4445,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       matters: "Predmeti",
       intake: "Prijavni obrazac",
       activity: "Aktivnosti",
-      billing: "Fakturisanje",
+      billing: "Naplata",
       settings: "Postavke",
       templates: "Prijedlozi",
       deadlines: "Rokovi",
@@ -4388,6 +4458,41 @@ const MESSAGES: Record<LanguageCode, Messages> = {
     auth: {
       signingIn: "Prijava u toku...",
       creatingAccount: "Kreiranje računa...",
+      returnToHomepage: "Natrag na početnu",
+      loginTitle: "Prijavite se na Legantis",
+      loginDescription:
+        "Unesite email i lozinku za pristup kontrolnoj tabli.",
+      signupTitle: "Kreirajte Legantis račun",
+      signupDescription:
+        "Registrujte se da počnete koristiti Legantis za vaš pravni tim.",
+      emailLabel: "Email",
+      passwordLabel: "Lozinka",
+      loginButton: "Prijava",
+      signupButton: "Registracija",
+      dontHaveAccount: "Nemate račun?",
+      alreadyHaveAccount: "Već imate račun?",
+      fullNameLabel: "Ime i prezime",
+      lawFirmLabel: "Naziv advokatske kancelarije",
+      jurisdictionLabel: "Država / Jurisdikcija",
+      jurisdictionPlaceholder: "Izaberite državu / jurisdikciju",
+      emailInvalidTitle:
+        "Unesite važeću email adresu (npr. ime@primjer.com).",
+      userNotFound: "Ne postoji račun sa ovom email adresom.",
+      signupSuccessTitle: "Skoro možete koristiti Legantis",
+      signupSuccessBody1:
+        "Vaš Legantis račun je uspješno kreiran. Provjerite inbox i potvrdite email adresu da aktivirate račun.",
+      signupSuccessBody2:
+        "Kada potvrdite, možete se prijaviti i početi koristiti Legantis.",
+      planSelected:
+        "Izabrali ste {plan} plan. Možete ga promijeniti kasnije sa kontrolne table.",
+      emailTakenBeforeLink: "Račun sa tom email adresom već postoji. Pokušajte",
+      emailTakenLink: "prijavu",
+      emailTakenAfterLink: "umjesto toga.",
+      invalidEmailError: "Unesite važeću email adresu.",
+      weakPasswordError:
+        "Lozinka mora imati najmanje 6 karaktera, jedno veliko slovo, jedan broj i jedan poseban znak (npr. ., $ ili #).",
+      duplicateEmailSuggestion:
+        "Račun sa tom email adresom već postoji. Pokušajte prijavu umjesto toga.",
     },
     redline: {
       header: {
@@ -4534,7 +4639,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
           empty: "Još nema povezanih unosa vremena.",
         },
         billing: {
-          title: "Fakture",
+          title: "Naplata",
           subtitle: "Fakture povezane sa ovim predmetom.",
           empty: "Još nema povezanih faktura.",
         },
@@ -4818,7 +4923,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
               "Everything in Solo": "Sve iz Solo paketa",
               "Case outcome predictions": "Predviđanje ishoda sporova",
               "Document analysis": "Analiza dokumenata",
-              "Time tracking & billing": "Praćenje vremena i fakturisanje",
+              "Time tracking & billing": "Praćenje vremena i naplata",
               "Client portal": "Klijentski portal",
               "100 AI calls/day": "100 AI poziva dnevno",
             },
@@ -5056,7 +5161,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
             "Koristi se za prilagođavanje šablona, klauzula i predviđanja.",
         },
         invoices: {
-          title: "Fakture",
+          title: "Naplata",
           countSuffix: "faktura",
           subtitle: "Generisane na osnovu vremena i klijenata.",
         },
@@ -5765,17 +5870,17 @@ const MESSAGES: Record<LanguageCode, Messages> = {
     time: {
       header: {
         kicker: "Legantis · Praćenje vremena",
-        title: "Praćenje vremena i fakturisanje",
+        title: "Praćenje vremena i naplata",
         subtitle:
           "Evidentirajte naplative sate po klijentu i predmetu, i pratite nenaplaćeno vrijeme i iznose na jednom mjestu.",
         back: "Nazad na kontrolnu ploču",
       },
       tabs: {
         entries: "Unosi vremena",
-        invoices: "Fakture",
+        invoices: "Naplata",
       },
       invoices: {
-        title: "Fakture",
+        title: "Naplata",
         subtitle:
           "Šaljite fakture e-poštom i pratite plaćanja bankovnim transferom.",
         refresh: "Osvježi",
@@ -6137,7 +6242,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
     },
     billing: {
       header: {
-        title: "Fakturisanje",
+        title: "Naplata",
         subtitle: "Upravljajte svojim planom i pretplatom.",
       },
       messages: {
@@ -6177,7 +6282,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
           everythingInSolo: "Sve iz Solo paketa",
           caseOutcomePredictions: "Predviđanje ishoda sporova",
           documentAnalysis: "Analiza dokumenata",
-          timeTrackingBilling: "Praćenje vremena i fakturisanje",
+          timeTrackingBilling: "Praćenje vremena i naplata",
           clientPortal: "Klijentski portal",
           aiCalls100: "100 AI poziva dnevno",
           everythingInProfessional: "Sve iz Professional paketa",
@@ -6491,6 +6596,41 @@ const MESSAGES: Record<LanguageCode, Messages> = {
     auth: {
       signingIn: "Prijava u tijeku...",
       creatingAccount: "Kreiranje računa...",
+      returnToHomepage: "Povratak na početnu",
+      loginTitle: "Prijavite se na Legantis",
+      loginDescription:
+        "Unesite e-poštu i lozinku za pristup nadzornoj ploči.",
+      signupTitle: "Stvorite Legantis račun",
+      signupDescription:
+        "Registrirajte se kako biste počeli koristiti Legantis za svoj pravni tim.",
+      emailLabel: "E-pošta",
+      passwordLabel: "Lozinka",
+      loginButton: "Prijava",
+      signupButton: "Registracija",
+      dontHaveAccount: "Nemate račun?",
+      alreadyHaveAccount: "Već imate račun?",
+      fullNameLabel: "Puno ime",
+      lawFirmLabel: "Naziv odvjetničkog ureda",
+      jurisdictionLabel: "Država / Jurisdikcija",
+      jurisdictionPlaceholder: "Odaberite državu / jurisdikciju",
+      emailInvalidTitle:
+        "Unesite važeću adresu e-pošte (npr. ime@primjer.com).",
+      userNotFound: "Nije pronađen račun s ovom adresom e-pošte.",
+      signupSuccessTitle: "Skoro ste spremni za Legantis",
+      signupSuccessBody1:
+        "Vaš Legantis račun je uspješno stvoren. Provjerite pristiglu e-poštu i potvrdite adresu e-pošte kako biste aktivirali račun.",
+      signupSuccessBody2:
+        "Nakon potvrde možete se prijaviti i početi koristiti Legantis.",
+      planSelected:
+        "Odabrali ste {plan} plan. Kasnije ga možete promijeniti s nadzorne ploče.",
+      emailTakenBeforeLink: "Račun s tom adresom e-pošte već postoji. Pokušajte",
+      emailTakenLink: "prijavu",
+      emailTakenAfterLink: "umjesto toga.",
+      invalidEmailError: "Unesite važeću adresu e-pošte.",
+      weakPasswordError:
+        "Lozinka mora imati najmanje 6 znakova, jedno veliko slovo, jedan broj i jedan posebni znak (npr. ., $ ili #).",
+      duplicateEmailSuggestion:
+        "Račun s tom adresom e-pošte već postoji. Pokušajte prijavu umjesto toga.",
     },
     redline: {
       header: {
@@ -6921,7 +7061,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
               "Everything in Solo": "Sve iz Solo paketa",
               "Case outcome predictions": "Predviđanje ishoda sporova",
               "Document analysis": "Analiza dokumenata",
-              "Time tracking & billing": "Praćenje vremena i fakturiranje",
+              "Time tracking & billing": "Praćenje vremena i naplata",
               "Client portal": "Klijentski portal",
               "100 AI calls/day": "100 AI poziva dnevno",
             },
@@ -7271,7 +7411,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
           everythingInSolo: "Sve iz Solo paketa",
           caseOutcomePredictions: "Predviđanje ishoda sporova",
           documentAnalysis: "Analiza dokumenata",
-          timeTrackingBilling: "Praćenje vremena i fakturiranje",
+          timeTrackingBilling: "Praćenje vremena i naplata",
           clientPortal: "Klijentski portal",
           aiCalls100: "100 AI poziva dnevno",
           everythingInProfessional: "Sve iz Professional paketa",
@@ -7682,7 +7822,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
             "Koristi se za prilagodbu predložaka, klauzula i predviđanja.",
         },
         invoices: {
-          title: "Fakture",
+          title: "Naplata",
           countSuffix: "faktura",
           subtitle: "Generirane na temelju vremena i klijenata.",
         },
@@ -8593,6 +8733,41 @@ const MESSAGES: Record<LanguageCode, Messages> = {
     auth: {
       signingIn: "Prijava poteka...",
       creatingAccount: "Ustvarjanje računa...",
+      returnToHomepage: "Nazaj na začetno stran",
+      loginTitle: "Prijava v Legantis",
+      loginDescription:
+        "Vnesite e-poštni naslov in geslo za dostop do nadzorne plošče.",
+      signupTitle: "Ustvarite Legantis račun",
+      signupDescription:
+        "Registrirajte se in začnite uporabljati Legantis za svojo pravno ekipo.",
+      emailLabel: "E-pošta",
+      passwordLabel: "Geslo",
+      loginButton: "Prijava",
+      signupButton: "Registracija",
+      dontHaveAccount: "Nimate še računa?",
+      alreadyHaveAccount: "Že imate račun?",
+      fullNameLabel: "Polno ime",
+      lawFirmLabel: "Ime odvetniške pisarne",
+      jurisdictionLabel: "Država / Jurisdikcija",
+      jurisdictionPlaceholder: "Izberite državo / jurisdikcijo",
+      emailInvalidTitle:
+        "Vnesite veljaven e-poštni naslov (npr. ime@primer.si).",
+      userNotFound: "Za ta e-poštni naslov ni računa.",
+      signupSuccessTitle: "Skoraj ste pripravljeni na Legantis",
+      signupSuccessBody1:
+        "Vaš Legantis račun je bil uspešno ustvarjen. Preverite nabiralnik in potrdite e-poštni naslov za aktivacijo računa.",
+      signupSuccessBody2:
+        "Po potrditvi se lahko prijavite in začnete uporabljati Legantis.",
+      planSelected:
+        "Izbrali ste paket {plan}. Kasneje ga lahko spremenite na nadzorni plošči.",
+      emailTakenBeforeLink: "Račun s tem e-poštnim naslovom že obstaja. Poskusite",
+      emailTakenLink: "prijavo",
+      emailTakenAfterLink: "namesto tega.",
+      invalidEmailError: "Vnesite veljaven e-poštni naslov.",
+      weakPasswordError:
+        "Geslo mora imeti vsaj 6 znakov, eno veliko črko, eno število in en poseben znak (npr. ., $ ali #).",
+      duplicateEmailSuggestion:
+        "Račun s tem e-poštnim naslovom že obstaja. Poskusite prijavo namesto tega.",
     },
     redline: {
       header: {
@@ -10006,7 +10181,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       list: {
         title: "Časovni vnosi",
         subtitle:
-          "Preglejte zabeležen čas, spremljajte neobračunane ure in se pripravite na fakturiranje.",
+          "Preglejte zabeležen čas, spremljajte neobračunane ure in se pripravite na zaračunavanje.",
         loading: "Nalaganje časovnih vnosov...",
         emptyTitle: "Zaenkrat še ni časovnih vnosov.",
         emptySubtitle: "Dodajte prvi vnos z uporabo obrazca zgoraj.",
@@ -10611,7 +10786,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       matters: "Predmeti",
       intake: "Prijavni formular",
       activity: "Aktivnosti",
-      billing: "Fakturisanje",
+      billing: "Naplata",
       settings: "Podešavanja",
       templates: "Prijedlozi",
       deadlines: "Rokovi",
@@ -10624,6 +10799,41 @@ const MESSAGES: Record<LanguageCode, Messages> = {
     auth: {
       signingIn: "Prijava u toku...",
       creatingAccount: "Kreiranje naloga...",
+      returnToHomepage: "Nazad na početnu",
+      loginTitle: "Prijavite se na Legantis",
+      loginDescription:
+        "Unesite email i lozinku za pristup kontrolnoj tabli.",
+      signupTitle: "Kreirajte Legantis nalog",
+      signupDescription:
+        "Registrujte se da počnete koristiti Legantis za vaš pravni tim.",
+      emailLabel: "Email",
+      passwordLabel: "Lozinka",
+      loginButton: "Prijava",
+      signupButton: "Registracija",
+      dontHaveAccount: "Nemate nalog?",
+      alreadyHaveAccount: "Već imate nalog?",
+      fullNameLabel: "Ime i prezime",
+      lawFirmLabel: "Naziv advokatske kancelarije",
+      jurisdictionLabel: "Država / Jurisdikcija",
+      jurisdictionPlaceholder: "Izaberite državu / jurisdikciju",
+      emailInvalidTitle:
+        "Unesite ispravnu email adresu (npr. ime@primjer.com).",
+      userNotFound: "Nije pronađen nalog sa ovom email adresom.",
+      signupSuccessTitle: "Skoro ste spremni za Legantis",
+      signupSuccessBody1:
+        "Vaš Legantis nalog je uspješno kreiran. Provjerite inbox i potvrdite email adresu da aktivirate nalog.",
+      signupSuccessBody2:
+        "Kada potvrdite, možete se prijaviti i početi koristiti Legantis.",
+      planSelected:
+        "Izabrali ste {plan} plan. Možete ga promijeniti kasnije sa kontrolne table.",
+      emailTakenBeforeLink: "Nalog sa tom email adresom već postoji. Pokušajte",
+      emailTakenLink: "prijavu",
+      emailTakenAfterLink: "umjesto toga.",
+      invalidEmailError: "Unesite ispravnu email adresu.",
+      weakPasswordError:
+        "Lozinka mora imati najmanje 6 karaktera, jedno veliko slovo, jedan broj i jedan poseban znak (npr. ., $ ili #).",
+      duplicateEmailSuggestion:
+        "Nalog sa tom email adresom već postoji. Pokušajte prijavu umjesto toga.",
     },
     redline: {
       header: {
@@ -10770,7 +10980,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
           empty: "Još nema povezanih unosa vremena.",
         },
         billing: {
-          title: "Fakture",
+          title: "Naplata",
           subtitle: "Fakture povezane sa ovim predmetom.",
           empty: "Još nema povezanih faktura.",
         },
@@ -10987,7 +11197,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
               "Everything in Solo": "Sve iz Solo paketa",
               "Case outcome predictions": "Predviđanje ishoda sporova",
               "Document analysis": "Analiza dokumenata",
-              "Time tracking & billing": "Praćenje vremena i fakturisanje",
+              "Time tracking & billing": "Praćenje vremena i naplata",
               "Client portal": "Klijentski portal",
               "100 AI calls/day": "100 AI poziva dnevno",
             },
@@ -11225,7 +11435,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
             "Koristi se za prilagođavanje šablona, klauzula i predviđanja.",
         },
         invoices: {
-          title: "Fakture",
+          title: "Naplata",
           countSuffix: "faktura",
           subtitle: "Generisano na osnovu vremena i klijenata.",
         },
@@ -11933,7 +12143,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
     time: {
       header: {
         kicker: "Legantis · Praćenje vremena",
-        title: "Praćenje vremena i fakturisanje",
+        title: "Praćenje vremena i naplata",
         subtitle:
           "Evidentirajte naplative sate po klijentu i predmetu, i pratite nenaplaćeno vrijeme i iznose na jednom mjestu.",
         back: "Nazad na kontrolnu tablu",
@@ -12304,7 +12514,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
     },
     billing: {
       header: {
-        title: "Fakturisanje",
+        title: "Naplata",
         subtitle: "Upravljajte svojim planom i pretplatom.",
       },
       messages: {
@@ -12344,7 +12554,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
           everythingInSolo: "Sve iz Solo paketa",
           caseOutcomePredictions: "Predviđanje ishoda sporova",
           documentAnalysis: "Analiza dokumenata",
-          timeTrackingBilling: "Praćenje vremena i fakturisanje",
+          timeTrackingBilling: "Praćenje vremena i naplata",
           clientPortal: "Klijentski portal",
           aiCalls100: "100 AI poziva dnevno",
           everythingInProfessional: "Sve iz Professional paketa",
@@ -12639,34 +12849,41 @@ function getNestedMessage(messages: Messages, key: string): string | undefined {
     }, messages) as string | undefined
 }
 
+const detectLanguage = (): string => {
+  // First check localStorage (user manually selected)
+  if (typeof window === "undefined") return "en"
+  const saved = window.localStorage.getItem(STORAGE_KEY)
+  if (saved && MESSAGES[saved as LanguageCode]) return saved
+
+  // Auto-detect from browser
+  const browserLang = navigator.language || navigator.languages?.[0] || "en"
+  const lang = browserLang.toLowerCase().split("-")[0]
+
+  // Map to supported languages
+  const supported: Record<string, string> = {
+    sr: "sr",
+    bs: "bs",
+    hr: "hr",
+    sl: "sl",
+    cnr: "me",
+    me: "me",
+    en: "en",
+  }
+
+  return supported[lang] ?? "en"
+}
+
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  // IMPORTANT: default to "en" for the initial render to avoid SSR/CSR hydration mismatch.
   const [language, setLanguageState] = useState<LanguageCode>("en")
 
   useEffect(() => {
+    const detected = detectLanguage() as LanguageCode
+    setLanguageState(detected)
+  }, [])
+
+  useEffect(() => {
     if (typeof window === "undefined") return
-
-    const stored = window.localStorage.getItem(STORAGE_KEY) as LanguageCode | null
-    let next: LanguageCode = "en"
-
-    if (stored && MESSAGES[stored]) {
-      next = stored
-    } else {
-      const browser = navigator.language.toLowerCase()
-      if (browser.startsWith("sr")) next = "sr"
-      else if (browser.startsWith("bs")) next = "bs"
-      else if (browser.startsWith("hr")) next = "hr"
-      else if (browser.startsWith("sl")) next = "sl"
-      else if (browser.startsWith("me")) next = "me"
-    }
-
-    if (next === language) return
-
-    // Schedule to avoid triggering the set-state-in-effect lint rule.
-    queueMicrotask(() => {
-      setLanguageState(next)
-      document.cookie = `${STORAGE_KEY}=${next}; Path=/; Max-Age=31536000; SameSite=Lax`
-    })
+    document.cookie = `${STORAGE_KEY}=${language}; Path=/; Max-Age=31536000; SameSite=Lax`
   }, [language])
 
   const setLanguage = useCallback((code: LanguageCode) => {
