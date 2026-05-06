@@ -1479,8 +1479,8 @@ export default function ContractsWizardPage({
   }
 
   return (
-    <div className="min-h-screen bg-background px-4 py-10">
-      <div className="mx-auto flex max-w-6xl flex-col gap-8">
+    <div className="min-h-screen overflow-x-hidden bg-background px-4 py-10">
+      <div className="mx-auto flex min-w-0 max-w-6xl flex-col gap-8">
         <header className="mb-8 pb-6 border-b border-border/40 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div className="space-y-1">
             <p className="text-xs font-medium tracking-widest text-muted-foreground/40 uppercase mb-2">
@@ -1581,12 +1581,12 @@ export default function ContractsWizardPage({
           </Card>
 
           <div className="flex flex-col gap-8">
-        <div className="rounded-xl border border-border/40 bg-muted/10 p-6 mt-6">
+        <div className="mt-6 min-w-0 overflow-hidden rounded-xl border border-border/40 bg-muted/10 p-6">
           <h2 className="text-base font-semibold">Contracts</h2>
           <p className="text-xs text-muted-foreground/60 mt-0.5">
             Browse and manage your generated contracts
           </p>
-          <div className="mt-4">
+          <div className="mt-4 min-w-0">
             <ContractsListPanel />
           </div>
         </div>

@@ -9,14 +9,9 @@ export function Footer() {
       <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           <div className="space-y-2">
-            <div className="space-y-1">
-              <p className="text-sm text-muted-foreground">
-                {t("footer.taglineLine1")}
-              </p>
-              <p className="text-sm text-muted-foreground">
-                {t("footer.taglineLine2")}
-              </p>
-            </div>
+            <p className="text-sm leading-relaxed text-muted-foreground">
+              {t("footer.taglineLine1")} {t("footer.taglineLine2")}
+            </p>
             <div className="flex flex-col gap-1 text-xs text-muted-foreground">
               <a
                 href="https://maps.google.com/?q=Karadjordjeva%2013%2C%20Ugljevik%2C%20Bosnia%20and%20Herzegovina"

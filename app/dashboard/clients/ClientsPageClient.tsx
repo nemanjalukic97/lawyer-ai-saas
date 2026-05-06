@@ -363,9 +363,9 @@ export default function ClientsPageClient({ selectedId }: Props) {
   })
 
   return (
-    <div className="min-h-screen bg-background px-4 py-10">
-      <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[minmax(0,2fr),minmax(0,1.2fr)]">
-        <div className="flex flex-col gap-8">
+    <div className="min-h-screen overflow-x-hidden bg-background px-4 py-10">
+      <div className="mx-auto grid min-w-0 max-w-6xl gap-8 lg:grid-cols-[minmax(0,2fr),minmax(0,1.2fr)]">
+        <div className="flex min-w-0 flex-col gap-8">
           <header className="mb-8 pb-6 border-b border-border/40 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div className="space-y-1">
               <p className="text-xs font-medium tracking-widest text-muted-foreground/40 uppercase mb-2">
@@ -492,20 +492,20 @@ export default function ClientsPageClient({ selectedId }: Props) {
             </Card>
           )}
 
-          <Card className="space-y-4 border border-border/40 rounded-xl p-6">
-            <div className="flex items-center justify-between gap-4">
-              <div>
+          <Card className="min-w-0 space-y-4 overflow-hidden border border-border/40 rounded-xl p-6">
+            <div className="flex min-w-0 flex-col gap-4 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
+              <div className="min-w-0">
                 <h2 className="text-base font-semibold">{t("clients.list.title")}</h2>
                 <p className="mt-1 text-sm text-muted-foreground/60">
                   {t("clients.list.subtitle")}
                 </p>
               </div>
 
-              <div className="flex items-center gap-2 text-xs">
-                <label className="flex items-center gap-1 text-muted-foreground">
-                  <span>{t("clients.list.sortBy")}</span>
+              <div className="flex w-full min-w-0 shrink-0 flex-col gap-2 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center sm:justify-end">
+                <label className="flex max-w-full min-w-0 flex-col gap-1 text-muted-foreground sm:flex-row sm:items-center sm:gap-2">
+                  <span className="shrink-0 text-xs">{t("clients.list.sortBy")}</span>
                   <select
-                    className="rounded-md border bg-background px-2 py-1 text-xs"
+                    className="max-w-full rounded-md border bg-background px-2 py-1.5 text-xs sm:w-auto sm:min-w-[8rem]"
                     value={sortField}
                     onChange={(event) =>
                       setSortField(
@@ -521,7 +521,7 @@ export default function ClientsPageClient({ selectedId }: Props) {
                   type="button"
                   variant="outline"
                   size="sm"
-                  className="h-7 px-2"
+                  className="h-8 w-fit shrink-0 self-start px-2 sm:self-center"
                   onClick={() =>
                     setSortDirection((prev) => (prev === "asc" ? "desc" : "asc"))
                   }
@@ -564,7 +564,7 @@ export default function ClientsPageClient({ selectedId }: Props) {
                   {sortedClients.map((client) => (
                     <div
                       key={client.id}
-                      className="flex items-center gap-4 px-2 py-3 rounded-lg hover:bg-muted/20 transition-colors"
+                      className="flex min-w-0 items-center gap-3 px-2 py-3 rounded-lg hover:bg-muted/20 transition-colors sm:gap-4"
                     >
                       <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-blue-500/15 text-sm font-semibold text-blue-400">
                         {client.name.charAt(0).toUpperCase()}
@@ -620,7 +620,7 @@ export default function ClientsPageClient({ selectedId }: Props) {
           </Card>
         </div>
 
-        <Card className="h-fit space-y-4 p-6">
+        <Card className="h-fit min-w-0 space-y-4 overflow-hidden p-6">
           <h2 className="text-lg font-semibold">{t("clients.sidebar.title")}</h2>
           {!selectedId ? (
             <div className="space-y-4">

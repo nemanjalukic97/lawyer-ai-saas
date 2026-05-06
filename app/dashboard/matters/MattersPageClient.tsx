@@ -468,8 +468,8 @@ export function MattersPageClient() {
   }
 
   return (
-    <div className="min-h-screen bg-background px-4 py-10">
-      <div className="mx-auto flex max-w-6xl flex-col gap-6">
+    <div className="min-h-screen overflow-x-hidden bg-background px-4 py-10">
+      <div className="mx-auto flex min-w-0 max-w-6xl flex-col gap-6">
         <header className="mb-8 pb-6 border-b border-border/40 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div className="space-y-1">
             <p className="text-xs font-medium tracking-widest text-muted-foreground/40 uppercase mb-2">
@@ -499,9 +499,9 @@ export function MattersPageClient() {
           </p>
         )}
 
-        <Card className="p-4">
-          <div className="flex flex-wrap items-center gap-2 rounded-xl border border-border/40 bg-muted/20 p-3">
-            <div className="flex flex-wrap gap-2">
+        <Card className="min-w-0 overflow-hidden p-4">
+          <div className="flex min-w-0 flex-col gap-3 rounded-xl border border-border/40 bg-muted/20 p-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-2">
+            <div className="flex min-w-0 flex-wrap gap-2">
               <Button
                 type="button"
                 size="sm"
@@ -523,8 +523,8 @@ export function MattersPageClient() {
               ))}
             </div>
 
-            <div className="ml-auto flex flex-col gap-2 sm:flex-row sm:items-center">
-              <div className="min-w-44">
+            <div className="flex w-full min-w-0 flex-col gap-2 sm:ml-auto sm:w-auto sm:flex-row sm:items-center">
+              <div className="w-full min-w-0 sm:w-44 sm:shrink-0">
                 <Select
                   value={typeFilter}
                   onValueChange={(v) => setTypeFilter(v as MatterType | "all")}
@@ -546,7 +546,7 @@ export function MattersPageClient() {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder={t("matters.filters.searchPlaceholder")}
-                className="w-full sm:w-64"
+                className="h-9 w-full min-w-0 sm:w-64"
               />
             </div>
           </div>

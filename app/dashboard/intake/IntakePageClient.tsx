@@ -223,8 +223,8 @@ export default function IntakePageClient({ planId }: Props) {
   }
 
   return (
-    <div className="min-h-screen bg-background px-4 py-10">
-      <div className="mx-auto flex max-w-4xl flex-col gap-6">
+    <div className="min-h-screen overflow-x-hidden bg-background px-4 py-10">
+      <div className="mx-auto flex min-w-0 max-w-4xl flex-col gap-6">
         <header className="mb-8 pb-6 border-b border-border/40 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div className="space-y-1">
             <p className="text-xs font-medium tracking-widest text-muted-foreground/40 uppercase mb-2">
@@ -268,46 +268,52 @@ export default function IntakePageClient({ planId }: Props) {
             {forms.map((form) => (
               <div
                 key={form.id}
-                className="flex items-center justify-between gap-4 rounded-xl border border-border/40 bg-muted/10 px-5 py-4 hover:bg-muted/20 transition-colors"
+                className="flex min-w-0 flex-col gap-4 rounded-xl border border-border/40 bg-muted/10 px-4 py-4 transition-colors hover:bg-muted/20 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:px-5"
               >
-                <div className="flex flex-col gap-0.5 flex-1 min-w-0 text-left">
-                  <p className="text-sm font-semibold text-foreground truncate">
+                <div className="min-w-0 flex-1 text-left">
+                  <p className="text-sm font-semibold text-foreground break-words sm:line-clamp-2 sm:break-normal">
                     {form.title}
                   </p>
-                  <p className="text-xs text-muted-foreground/60">
+                  <p className="mt-0.5 text-xs text-muted-foreground/60">
                     {t("intake.list.submissions", { n: counts[form.id] ?? 0 })}
                   </p>
                 </div>
-                <div className="flex items-center gap-2 shrink-0">
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs text-muted-foreground">
-                        {t("intake.list.active")}
-                      </span>
-                      <Switch
-                        checked={form.is_active ?? false}
-                        disabled={togglingId === form.id}
-                        onCheckedChange={(v) => void toggleActive(form, v)}
-                        aria-label={t("intake.list.active")}
-                      />
-                    </div>
+                <div className="flex min-w-0 w-full flex-col gap-3 sm:w-auto sm:shrink-0 sm:items-end">
+                  <div className="flex items-center justify-between gap-3 sm:justify-end">
+                    <span className="text-xs text-muted-foreground">
+                      {t("intake.list.active")}
+                    </span>
+                    <Switch
+                      checked={form.is_active ?? false}
+                      disabled={togglingId === form.id}
+                      onCheckedChange={(v) => void toggleActive(form, v)}
+                      aria-label={t("intake.list.active")}
+                    />
+                  </div>
+                  <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:justify-end">
                     <Button
                       type="button"
                       variant="outline"
                       size="sm"
+                      className="min-w-0 text-xs sm:text-sm"
                       onClick={() => copyLink(form.slug, form.id)}
                     >
-                      <ClipboardCopy className="mr-1 h-4 w-4" />
-                      {copiedId === form.id
-                        ? t("intake.list.copied")
-                        : t("intake.list.copyLink")}
+                      <ClipboardCopy className="mr-1 h-4 w-4 shrink-0" />
+                      <span className="truncate">
+                        {copiedId === form.id
+                          ? t("intake.list.copied")
+                          : t("intake.list.copyLink")}
+                      </span>
                     </Button>
-                    <Button variant="outline" size="sm" asChild>
-                      <Link
-                        href={`/dashboard/intake/${form.id}/submissions`}
-                      >
-                        {t("intake.list.viewSubmissions")}
+                    <Button variant="outline" size="sm" className="min-w-0 text-xs sm:text-sm" asChild>
+                      <Link href={`/dashboard/intake/${form.id}/submissions`}>
+                        <span className="truncate">
+                          {t("intake.list.viewSubmissions")}
+                        </span>
                       </Link>
                     </Button>
+                  </div>
+                  <div className="flex items-center justify-end gap-2">
                     <Button variant="ghost" size="icon" asChild>
                       <Link
                         href={`/dashboard/intake/${form.id}/edit`}
@@ -319,7 +325,7 @@ export default function IntakePageClient({ planId }: Props) {
                     <Button
                       type="button"
                       variant="ghost"
-                      size="sm"
+                      size="icon"
                       className="text-muted-foreground hover:text-destructive"
                       disabled={togglingId === form.id}
                       onClick={() => void deleteForm(form)}
@@ -328,6 +334,7 @@ export default function IntakePageClient({ planId }: Props) {
                       <Trash2 className="h-4 w-4" aria-hidden />
                     </Button>
                   </div>
+                </div>
               </div>
             ))}
           </div>

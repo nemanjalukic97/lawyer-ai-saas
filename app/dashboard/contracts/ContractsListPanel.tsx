@@ -234,7 +234,7 @@ export default function ContractsListPanel() {
   }, [currentPage, rows])
 
   return (
-    <Card className="border-border/80 p-6">
+    <Card className="min-w-0 overflow-hidden border-border/80 p-6">
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h2 className="text-sm font-semibold tracking-tight text-foreground">
@@ -256,11 +256,11 @@ export default function ContractsListPanel() {
 
       {error ? <div className="mt-3 text-sm text-red-600">{error}</div> : null}
 
-      <div className="mt-4 rounded-md border">
-        <div className="grid grid-cols-[minmax(0,1fr),auto] gap-3 border-b bg-muted/30 px-4 py-2 text-xs font-medium text-muted-foreground sm:grid-cols-[minmax(0,1fr),auto,auto]">
+      <div className="mt-4 min-w-0 rounded-md border">
+        <div className="grid grid-cols-1 gap-1 border-b bg-muted/30 px-4 py-2 text-xs font-medium text-muted-foreground sm:grid-cols-[minmax(0,1fr),auto,auto] sm:items-center sm:gap-3">
           <div>{t("signature.dashboard.colContract")}</div>
           <div className="hidden sm:block">{t("signature.dashboard.colSignatureStatus")}</div>
-          <div className="text-right">{t("signature.dashboard.colActions")}</div>
+          <div className="sm:text-end">{t("signature.dashboard.colActions")}</div>
         </div>
 
         {loading ? (
@@ -280,11 +280,11 @@ export default function ContractsListPanel() {
               return (
                 <div
                   key={r.id}
-                  className="grid grid-cols-[minmax(0,1fr),auto] items-center gap-3 px-4 py-3 sm:grid-cols-[minmax(0,1fr),auto,auto]"
+                  className="grid min-w-0 grid-cols-1 gap-3 px-4 py-3 sm:grid-cols-[minmax(0,1fr),auto,auto] sm:items-start sm:gap-3"
                 >
-                  <div className="min-w-0">
+                  <div className="min-w-0 overflow-hidden">
                     <Link
-                      className="max-w-[180px] truncate font-medium hover:underline sm:max-w-none"
+                      className="block text-sm font-medium break-words text-foreground hover:underline hyphens-auto sm:truncate sm:leading-snug sm:text-base"
                       href={`/dashboard/contracts?id=${r.id}`}
                     >
                       {r.title}
@@ -300,7 +300,7 @@ export default function ContractsListPanel() {
                     <Badge variant={statusBadgeVariant(s)}>{statusLabel(t, s)}</Badge>
                   </div>
 
-                  <div className="flex flex-wrap justify-end gap-2">
+                  <div className="flex min-w-0 flex-wrap gap-2 sm:justify-end">
                     {s === "none" || s === null ? (
                       <Button
                         size="sm"

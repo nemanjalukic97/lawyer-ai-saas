@@ -38,17 +38,23 @@ function formatFeatureTypeLabel(
   return resolved === key ? value : resolved
 }
 
-/** Tablet and below: stack label words (one per line) for readability. */
-function useCompactXLabels() {
-  const [compact, setCompact] = useState(false)
+/** Stacked ticks on tablet/mobile; narrower width uses smaller tick text so labels fit. */
+type ChartXMode = "desktop" | "compact" | "narrow"
+
+function useFeatureUsageChartXMode(): ChartXMode {
+  const [mode, setMode] = useState<ChartXMode>("desktop")
   useEffect(() => {
-    const mq = window.matchMedia("(max-width: 1023px)")
-    const apply = () => setCompact(mq.matches)
+    const apply = () => {
+      const w = window.innerWidth
+      if (w > 1023) setMode("desktop")
+      else if (w <= 480) setMode("narrow")
+      else setMode("compact")
+    }
     apply()
-    mq.addEventListener("change", apply)
-    return () => mq.removeEventListener("change", apply)
+    window.addEventListener("resize", apply)
+    return () => window.removeEventListener("resize", apply)
   }, [])
-  return compact
+  return mode
 }
 
 type RechartsXTickProps = {
@@ -59,12 +65,16 @@ type RechartsXTickProps = {
   visibleTicksCount: number
 }
 
-function StackedXAxisTick({ x, y, payload }: RechartsXTickProps) {
+function StackedXAxisTick({
+  x,
+  y,
+  payload,
+  fontSize,
+  lineHeight,
+}: RechartsXTickProps & { fontSize: number; lineHeight: number }) {
   const { t } = useLanguage()
   const label = formatFeatureTypeLabel(String(payload.value), t)
   const words = label.trim().split(/\s+/)
-  const lineHeight = 12
-  const fontSize = 10
   return (
     <g transform={`translate(${x},${y})`}>
       <text
@@ -90,7 +100,12 @@ function StackedXAxisTick({ x, y, payload }: RechartsXTickProps) {
 
 export function FeatureUsageChart({ data }: Props) {
   const { t } = useLanguage()
-  const compactX = useCompactXLabels()
+  const xMode = useFeatureUsageChartXMode()
+  const compactX = xMode !== "desktop"
+  const stackedTick =
+    xMode === "narrow"
+      ? { fontSize: 8, lineHeight: 10 }
+      : { fontSize: 9, lineHeight: 11 }
   const chartData = data.map((d) => ({
     feature_type: d.feature_type,
     usage_count: d.usage_count,
@@ -115,9 +130,9 @@ export function FeatureUsageChart({ data }: Props) {
                 compactX
                   ? {
                       top: 8,
-                      right: 6,
+                      right: xMode === "narrow" ? 14 : 10,
                       left: 0,
-                      bottom: 4,
+                      bottom: xMode === "narrow" ? 18 : 14,
                     }
                   : {
                       top: 10,
@@ -144,13 +159,19 @@ export function FeatureUsageChart({ data }: Props) {
                 interval={0}
                 axisLine={false}
                 tickLine={false}
-                tickMargin={8}
+                tickMargin={compactX ? 6 : 8}
                 padding={!compactX ? { left: 60, right: 30 } : undefined}
-                height={compactX ? 80 : 36}
+                height={
+                  compactX ? (xMode === "narrow" ? 74 : 70) : 36
+                }
                 tick={
                   compactX
                     ? (props: RechartsXTickProps) => (
-                        <StackedXAxisTick {...props} />
+                        <StackedXAxisTick
+                          {...props}
+                          fontSize={stackedTick.fontSize}
+                          lineHeight={stackedTick.lineHeight}
+                        />
                       )
                     : {
                         fill: "#94a3b8",

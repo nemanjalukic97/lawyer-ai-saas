@@ -973,80 +973,76 @@ export function TimeEntriesTab({
               {pagedEntries.map((entry) => (
                 <div
                   key={entry.id}
-                  className="flex items-start justify-between gap-4 rounded-lg px-3 py-3 hover:bg-muted/20 transition-colors"
+                  className="flex min-w-0 flex-col gap-3 rounded-lg px-3 py-3 transition-colors hover:bg-muted/20 sm:flex-row sm:items-start sm:justify-between sm:gap-4"
                 >
-                  <div className="flex-1 min-w-0">
-                    <div className="space-y-1">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <p className="text-sm font-semibold text-foreground">
-                        {extractMatterName(entry.notes, t("time.common.matterFallback"))}
-                      </p>
-                    </div>
-                    <p className="max-w-xl text-xs text-muted-foreground/60 line-clamp-2">
+                  <div className="min-w-0 w-full flex-1 space-y-1.5">
+                    <p className="text-sm font-semibold leading-snug text-foreground break-words">
+                      {extractMatterName(entry.notes, t("time.common.matterFallback"))}
+                    </p>
+                    <p className="max-w-full text-xs text-muted-foreground/60 line-clamp-2 sm:max-w-xl">
                       {extractWorkDescription(entry.notes)}
                     </p>
-                    <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground/60">
+                    <p className="break-words text-xs leading-relaxed text-muted-foreground/70">
                       <span>
                         {(entry.duration_minutes / 60).toFixed(2)} h @{" "}
-                        {formatCurrencySymbol("EUR")}{" "}
-                        {entry.hourly_rate.toFixed(2)}
+                        {formatCurrencySymbol("EUR")} {entry.hourly_rate.toFixed(2)}
                       </span>
-                      <span>·</span>
+                      <span className="mx-1.5 text-muted-foreground/50">·</span>
                       <span>{t(`time.activityTypes.${entry.activity_type}`)}</span>
-                      <span>·</span>
-                      <span>
-                        {t("time.common.totalInline")}{" "}
-                        <span className="font-medium text-foreground">
-                          {formatCurrencySymbol("EUR")} {entry.amount.toFixed(2)}
-                        </span>
+                      <span className="mx-1.5 text-muted-foreground/50">·</span>
+                      <span>{t("time.common.totalInline")} </span>
+                      <span className="font-medium text-foreground">
+                        {formatCurrencySymbol("EUR")} {entry.amount.toFixed(2)}
                       </span>
-                    </div>
-                  </div>
+                    </p>
                   </div>
 
-                  <div className="flex items-center gap-2 shrink-0">
-                    <span className="text-xs text-muted-foreground/40">
+                  <div className="flex w-full min-w-0 flex-wrap items-center justify-between gap-x-3 gap-y-2 border-t border-border/40 pt-3 sm:w-auto sm:flex-nowrap sm:justify-end sm:border-t-0 sm:pt-0">
+                    <span className="text-xs text-muted-foreground/40 whitespace-nowrap">
                       {formatDisplayDate(entry.work_date)}
                     </span>
-                    <Badge
-                      variant="outline"
-                      className={
-                        entry.status === "billed"
-                          ? "border-emerald-500/60 bg-emerald-500/10 text-emerald-700"
-                          : "border-amber-500/60 bg-amber-500/10 text-amber-700"
-                      }
-                    >
-                      {entry.status === "billed"
-                        ? t("time.status.billed")
-                        : t("time.status.unbilled")}
-                    </Badge>
-                    {entry.status !== "billed" && (
+                    <div className="flex flex-wrap items-center justify-end gap-2">
+                      <Badge
+                        variant="outline"
+                        className={
+                          entry.status === "billed"
+                            ? "border-emerald-500/60 bg-emerald-500/10 text-emerald-700"
+                            : "border-amber-500/60 bg-amber-500/10 text-amber-700"
+                        }
+                      >
+                        {entry.status === "billed"
+                          ? t("time.status.billed")
+                          : t("time.status.unbilled")}
+                      </Badge>
+                      {entry.status !== "billed" && (
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          className="shrink-0 text-xs sm:text-sm"
+                          disabled={!banksLoaded || bankAccounts.length === 0}
+                          onClick={() => openInvoiceDialog(entry)}
+                        >
+                          <FileText className="mr-1.5 h-4 w-4" />
+                          {t("time.invoiceGenerate.button")}
+                        </Button>
+                      )}
                       <Button
                         type="button"
-                        variant="outline"
-                        size="sm"
+                        variant="ghost"
+                        size="icon"
                         className="shrink-0"
-                        disabled={!banksLoaded || bankAccounts.length === 0}
-                        onClick={() => openInvoiceDialog(entry)}
+                        onClick={() => void handleDelete(entry.id)}
+                        disabled={deletingId === entry.id}
+                        aria-label={t("time.actions.deleteAria")}
                       >
-                        <FileText className="mr-1.5 h-4 w-4" />
-                        {t("time.invoiceGenerate.button")}
+                        {deletingId === entry.id ? (
+                          <Loader2 className="h-4 w-4 animate-spin" />
+                        ) : (
+                          <Trash2 className="h-4 w-4" />
+                        )}
                       </Button>
-                    )}
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => void handleDelete(entry.id)}
-                      disabled={deletingId === entry.id}
-                      aria-label={t("time.actions.deleteAria")}
-                    >
-                      {deletingId === entry.id ? (
-                        <Loader2 className="h-4 w-4 animate-spin" />
-                      ) : (
-                        <Trash2 className="h-4 w-4" />
-                      )}
-                    </Button>
+                    </div>
                   </div>
                 </div>
               ))}

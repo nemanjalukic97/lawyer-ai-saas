@@ -188,7 +188,7 @@ export function DashboardClient({
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-background px-4 py-10">
-      <div className="mx-auto flex max-w-6xl flex-col gap-8">
+      <div className="mx-auto flex min-w-0 max-w-6xl flex-col gap-8">
         <header className="mb-8 flex flex-col gap-4 border-b border-border/40 pb-8 sm:flex-row sm:items-start sm:justify-between">
           <div>
             <p className="text-xs uppercase tracking-widest text-muted-foreground/50">
@@ -241,7 +241,7 @@ export function DashboardClient({
 
         {/* Section 1 — Stats bar (4) + keep existing stat cards */}
         <section className="space-y-4">
-          <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+          <div className="grid grid-cols-2 gap-3 lg:grid-cols-4 [&>*]:min-h-0">
             <StatCard
               Icon={Users}
               label={t("dashboard.overview.stats.totalClients")}
@@ -394,15 +394,15 @@ export function DashboardClient({
         </section>
 
         {/* Section 3 — Two columns */}
-        <section className="grid gap-4 lg:grid-cols-[minmax(0,2fr),minmax(0,1.2fr)]">
-          <div className="space-y-4">
-            <Card className="p-6">
-              <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-                <div className="flex items-start gap-3">
-                  <div className="mt-0.5 inline-flex h-9 w-9 items-center justify-center rounded-md bg-muted text-muted-foreground">
+        <section className="grid min-w-0 gap-4 lg:grid-cols-[minmax(0,2fr),minmax(0,1.2fr)]">
+          <div className="min-w-0 space-y-4">
+            <Card className="min-w-0 overflow-hidden p-6">
+              <div className="flex min-w-0 flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                <div className="flex min-w-0 items-start gap-3">
+                  <div className="mt-0.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-muted text-muted-foreground">
                     <Briefcase className="h-5 w-5" />
                   </div>
-                  <div>
+                  <div className="min-w-0">
                     <div className="flex items-center gap-2">
                       <span
                         className="mt-1 size-2 rounded-full bg-emerald-400"
@@ -417,7 +417,7 @@ export function DashboardClient({
                     </p>
                   </div>
                 </div>
-                <Button size="sm" variant="outline" asChild>
+                <Button size="sm" variant="outline" className="w-full shrink-0 sm:w-auto" asChild>
                   <Link href={canManageMatters ? "/dashboard/matters" : "/dashboard/billing"}>
                     {t("dashboard.activeMatters.viewAll")}
                   </Link>
@@ -451,16 +451,18 @@ export function DashboardClient({
                     <Link
                       key={m.id}
                       href={`/dashboard/matters/${m.id}`}
-                      className="block rounded-md border border-l-2 border-blue-500/40 p-3 hover:bg-muted/50"
+                      className="block min-w-0 rounded-md border border-l-2 border-blue-500/40 p-3 hover:bg-muted/50"
                     >
-                      <div className="flex flex-wrap items-center gap-1">
-                        <span className="max-w-[100px] truncate rounded bg-muted px-2 py-0.5 font-mono text-xs sm:max-w-none">
-                          {m.matter_number}
-                        </span>
-                        <p className="min-w-0 truncate text-sm font-medium">
-                          {m.title}
-                        </p>
-                        <Badge variant="secondary" className="ml-auto text-[10px]">
+                      <div className="flex min-w-0 flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-2 sm:gap-y-1">
+                        <div className="flex min-w-0 flex-1 flex-col gap-1 sm:flex-row sm:items-center sm:gap-2">
+                          <span className="w-fit shrink-0 truncate rounded bg-muted px-2 py-0.5 font-mono text-xs sm:max-w-[11rem]">
+                            {m.matter_number}
+                          </span>
+                          <p className="min-w-0 text-sm font-medium sm:truncate">
+                            {m.title}
+                          </p>
+                        </div>
+                        <Badge variant="secondary" className="w-fit shrink-0 self-start text-[10px] sm:ml-auto sm:self-center">
                           {t("matters.status.open")}
                         </Badge>
                       </div>
@@ -474,13 +476,13 @@ export function DashboardClient({
               </div>
             </Card>
 
-            <Card className="p-6">
-              <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-                <div className="flex items-start gap-3">
-                  <div className="mt-0.5 inline-flex h-9 w-9 items-center justify-center rounded-md bg-muted text-muted-foreground">
+            <Card className="min-w-0 overflow-hidden p-6">
+              <div className="flex min-w-0 flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                <div className="flex min-w-0 items-start gap-3">
+                  <div className="mt-0.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-muted text-muted-foreground">
                     <Calendar className="h-5 w-5" />
                   </div>
-                  <div>
+                  <div className="min-w-0">
                     <h3 className="text-lg font-semibold">
                       {t("dashboard.overview.cards.deadlines.title")}
                     </h3>
@@ -489,14 +491,14 @@ export function DashboardClient({
                     </p>
                   </div>
                 </div>
-                <Button variant="outline" size="sm" asChild>
+                <Button variant="outline" size="sm" className="w-full shrink-0 sm:w-auto" asChild>
                   <Link href={canViewDeadlines ? "/dashboard/deadlines" : "/dashboard/billing"}>
                     {t("dashboard.upcomingDeadlines.viewAll")}
                   </Link>
                 </Button>
               </div>
 
-              <div className="mt-5 space-y-3">
+              <div className="mt-5 min-w-0 space-y-3">
                 {!canViewDeadlines ? (
                   <Link
                     href="/dashboard/billing"
@@ -515,7 +517,7 @@ export function DashboardClient({
                   deadlinesPreview.map((d) => (
                     <div
                       key={d.id}
-                      className="flex items-start gap-3 rounded-lg bg-muted/20 px-3 py-2.5"
+                      className="flex min-w-0 items-start gap-3 rounded-lg bg-muted/20 px-3 py-2.5"
                     >
                       <span
                         className={cn(
@@ -525,8 +527,8 @@ export function DashboardClient({
                         aria-hidden
                       />
                       <div className="min-w-0 flex-1">
-                        <div className="flex items-start justify-between gap-3">
-                          <p className="text-sm font-medium leading-snug">
+                        <div className="flex min-w-0 items-start justify-between gap-2 sm:gap-3">
+                          <p className="min-w-0 flex-1 text-sm font-medium leading-snug break-words sm:break-normal">
                             {d.title}
                           </p>
                           {(() => {
@@ -556,13 +558,13 @@ export function DashboardClient({
             </Card>
           </div>
 
-          <div className="space-y-4">
-            <Card className="p-6">
+          <div className="min-w-0 space-y-4">
+            <Card className="min-w-0 overflow-hidden p-6">
               <h3 className="text-lg font-semibold">{t("dashboard.activity.title")}</h3>
               <p className="mt-1 text-sm text-muted-foreground">
                 {t("dashboard.overview.cards.activity.subtitle")}
               </p>
-              <div className="mt-5 space-y-4">
+              <div className="mt-5 min-w-0 space-y-4">
                 {!canViewActivityFeed ? (
                   <Link
                     href="/dashboard/billing"
@@ -581,29 +583,29 @@ export function DashboardClient({
                   recentActivity.slice(0, 5).map((item) => (
                     <div
                       key={`${item.type}-${item.id}`}
-                      className="-mx-2 flex min-w-0 items-start justify-between overflow-hidden rounded-md px-2 py-1.5 transition-colors hover:bg-muted/20"
+                      className="-mx-2 flex min-w-0 flex-col gap-1.5 overflow-hidden rounded-md px-2 py-1.5 transition-colors hover:bg-muted/20 sm:flex-row sm:items-start sm:justify-between sm:gap-2"
                     >
                       <div className="min-w-0 flex-1">
                         <Link
                           href={`${ACTIVITY_HREF_BY_TYPE[item.type]}?id=${item.id}`}
                           className={cn(
-                            "flex min-w-0 items-center gap-2 text-sm font-medium transition-colors hover:text-primary hover:underline"
+                            "flex min-w-0 items-start gap-2 text-sm font-medium transition-colors hover:text-primary hover:underline"
                           )}
                         >
                           <span
                             className={cn("mt-0.5 size-2 shrink-0 rounded-full", activityDotClass(item.type))}
                             aria-hidden
                           />
-                          <span className="min-w-0 max-w-[200px] truncate sm:max-w-none">
+                          <span className="min-w-0 flex-1 break-words sm:line-clamp-2 sm:break-normal">
                             {t(`activity.types.${item.type}`)}: {item.title}
                           </span>
                         </Link>
                       </div>
-                      <div className="ml-3 flex shrink-0 items-center gap-3">
-                        <span className="text-xs text-muted-foreground/50">
+                      <div className="flex shrink-0 items-center justify-end gap-2 sm:ml-3 sm:gap-3">
+                        <span className="whitespace-nowrap text-xs text-muted-foreground/50">
                           {new Date(item.createdAt).toLocaleDateString()}
                         </span>
-                        <ArrowUpRight className="h-4 w-4 text-muted-foreground" />
+                        <ArrowUpRight className="h-4 w-4 shrink-0 text-muted-foreground" />
                       </div>
                     </div>
                   ))
@@ -611,17 +613,17 @@ export function DashboardClient({
               </div>
             </Card>
 
-            <Card className="p-6">
-              <div className="flex items-center justify-between">
-                <h3 className="text-lg font-semibold">
+            <Card className="min-w-0 overflow-hidden p-6">
+              <div className="flex min-w-0 items-center justify-between gap-2">
+                <h3 className="min-w-0 text-lg font-semibold">
                   {t("dashboard.overview.cards.invoices.title")}
                 </h3>
-                <ArrowUpRight className="h-4 w-4 text-muted-foreground" />
+                <ArrowUpRight className="h-4 w-4 shrink-0 text-muted-foreground" />
               </div>
-              <p className="mt-1 text-sm text-muted-foreground">
+              <p className="mt-1 min-w-0 break-words text-sm text-muted-foreground">
                 {t("dashboard.overview.cards.invoices.subtitle")}
               </p>
-              <div className="mt-4 grid grid-cols-1 gap-3 text-sm sm:grid-cols-2">
+              <div className="mt-4 grid min-w-0 grid-cols-1 gap-3 text-sm sm:grid-cols-2">
                 <div className="rounded-lg bg-muted/20 p-3">
                   <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground/60">
                     {t("dashboard.overview.cards.invoices.outstanding")}
@@ -644,7 +646,7 @@ export function DashboardClient({
                   </p>
                 </div>
               </div>
-              <div className="mt-3 flex h-1.5 overflow-hidden rounded-full bg-muted">
+              <div className="mt-3 flex min-w-0 h-1.5 overflow-hidden rounded-full bg-muted">
                 <div
                   className="bg-emerald-500"
                   style={{ flexGrow: Math.max(0, invoiceMetrics.paidThisMonthTotalEur) }}
@@ -661,7 +663,7 @@ export function DashboardClient({
         </section>
 
         {/* Section 4 — Usage chart at bottom (keep) */}
-        <section className="grid gap-4 lg:grid-cols-[minmax(0,2fr),minmax(0,1.2fr)]">
+        <section className="grid min-w-0 gap-4 lg:grid-cols-[minmax(0,2fr),minmax(0,1.2fr)]">
           <div className="min-w-0">
             <div className="rounded-xl bg-muted/20 p-4">
               <div className="mb-3 flex items-center justify-end">
@@ -673,7 +675,7 @@ export function DashboardClient({
             </div>
           </div>
 
-          <Card className="border-l-4 border-l-emerald-500/40">
+          <Card className="min-w-0 overflow-hidden border-l-4 border-l-emerald-500/40">
             <CardHeader>
               <CardTitle>{t("dashboard.roi.title")}</CardTitle>
             </CardHeader>
@@ -758,26 +760,33 @@ function StatCard({
   const card = (
     <Card
       className={cn(
-        "relative min-w-0 overflow-hidden border-l-2 p-5 transition-all hover:border-border/60 hover:bg-muted/40",
+        "relative flex h-full min-h-0 flex-col justify-between gap-4 overflow-hidden border-l-2 p-5 transition-all hover:border-border/60 hover:bg-muted/40 sm:gap-5",
         accentClass,
         locked && "opacity-60"
       )}
     >
-      <Icon className="absolute right-3 top-3 h-3.5 w-3.5 text-muted-foreground/30" />
-      <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground/60">
-        {label}
-      </p>
-      {locked ? (
-        <div className="mt-2 mb-1">
-          <Lock className="h-7 w-7 text-muted-foreground/20" />
-        </div>
-      ) : (
-        <p className={cn("mt-2 text-2xl font-bold tracking-tight sm:text-4xl", valueColor)}>
-          {value}
+      <Icon className="pointer-events-none absolute right-3 top-3 h-3.5 w-3.5 text-muted-foreground/30" />
+      <div className="min-w-0 pr-8">
+        <p className="line-clamp-2 min-h-[2.85rem] text-xs font-medium uppercase leading-snug tracking-wide text-muted-foreground/60">
+          {label}
         </p>
-      )}
+        {locked ? (
+          <div className="mt-2">
+            <Lock className="h-7 w-7 text-muted-foreground/20" />
+          </div>
+        ) : (
+          <p
+            className={cn(
+              "mt-2 text-2xl font-bold tracking-tight sm:text-4xl",
+              valueColor
+            )}
+          >
+            {value}
+          </p>
+        )}
+      </div>
       {locked ? (
-        <div className="mt-2 space-y-1">
+        <div className="space-y-1">
           <div className="flex items-center gap-1.5">
             <Lock className="h-3.5 w-3.5 text-muted-foreground/40" />
             <span className="text-xs text-muted-foreground/50">
@@ -788,7 +797,7 @@ function StatCard({
             <a
               href="/dashboard/billing"
               onClick={(e) => e.stopPropagation()}
-              className="inline-flex items-center gap-1 text-xs font-medium text-primary/70 hover:text-primary transition-colors"
+              className="inline-flex items-center gap-1 text-xs font-medium text-primary/70 transition-colors hover:text-primary"
             >
               {requiredPlan === "solo"
                 ? t("dashboard.overview.subscribeSolo")
@@ -799,7 +808,7 @@ function StatCard({
           )}
         </div>
       ) : (
-        <p className="mt-2 inline-flex items-center gap-1 text-xs text-muted-foreground/50 transition-colors hover:text-foreground">
+        <p className="inline-flex items-center gap-1 text-xs text-muted-foreground/50 transition-colors group-hover:text-foreground">
           {t("dashboard.actions.open")} <ArrowUpRight className="h-3.5 w-3.5" />
         </p>
       )}
@@ -807,9 +816,9 @@ function StatCard({
   )
 
   return locked ? (
-    <div className="block group">{card}</div>
+    <div className="group flex h-full min-h-0">{card}</div>
   ) : (
-    <Link href={href} className="block group">
+    <Link href={href} className="group flex h-full min-h-0 min-w-0">
       {card}
     </Link>
   )

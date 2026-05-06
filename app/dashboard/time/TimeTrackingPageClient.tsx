@@ -22,8 +22,8 @@ export default function TimeTrackingPageClient({
   const [invoicesListKey, setInvoicesListKey] = useState(0)
 
   return (
-    <div className="min-h-screen bg-background px-4 py-10">
-      <div className="mx-auto flex max-w-6xl flex-col gap-8">
+    <div className="min-h-screen overflow-x-hidden bg-background px-4 py-10">
+      <div className="mx-auto flex min-w-0 max-w-6xl flex-col gap-8">
         <header className="mb-8 pb-6 border-b border-border/40 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div className="space-y-1">
             <p className="text-xs font-medium tracking-widest text-muted-foreground/40 uppercase mb-2">
