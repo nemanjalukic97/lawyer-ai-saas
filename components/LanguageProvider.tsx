@@ -96,7 +96,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       header: {
         title: "Document Redlining",
         subtitle:
-          "Upload a contract, review AI-suggested changes, and export an updated DOCX.",
+          "Upload a contract, review Legantis-suggested changes, and export an updated DOCX.",
       },
       upload: {
         label: "Upload contract",
@@ -655,7 +655,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         details: {
           title: "Document details",
           help:
-            "Fields can be left blank if not applicable. The AI will fill in standard clauses for the selected jurisdiction and document type, but you must always review the output before use.",
+            "Fields can be left blank if not applicable. Legantis will fill in standard clauses for the selected jurisdiction and document type, but you must always review the output before use.",
         },
         fields: {
           party1: "Party 1 Name",
@@ -667,7 +667,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         actions: {
           generating: "Generating document...",
           generate: "Generate document",
-          note: "Uses your plan's AI quota. Results are drafts only and do not constitute legal advice.",
+          note: "Uses your Legantis quota. Results are drafts only and do not constitute legal advice.",
         },
       },
       result: {
@@ -728,7 +728,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         step1: {
           title: "Contract type",
           lead: "Step {current} of {total}. Choose the type of contract you want to draft.",
-          hint: "AI will tailor clauses to this contract type.",
+          hint: "Legantis will tailor clauses to this contract type.",
         },
         step2: {
           title: "Jurisdiction",
@@ -737,7 +737,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         step3: {
           title: "Details",
           lead:
-            "Step {current} of {total}. Fill in the key parties and commercial terms. AI will handle the boilerplate and jurisdiction-specific clauses.",
+            "Step {current} of {total}. Fill in the key parties and commercial terms. Legantis will handle the boilerplate and jurisdiction-specific clauses.",
         },
         step4: {
           title: "Review & generate",
@@ -811,7 +811,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         generating: "Generating contract...",
         generate: "Generate contract",
         note:
-          "Uses your plan's AI quota. Output is a draft only and does not constitute legal advice.",
+          "Uses your Legantis quota. Output is a draft only and does not constitute legal advice.",
         downloadPdf: "Download PDF",
         downloadDocx: "Download DOCX",
         saveToContracts: "Save to contracts",
@@ -862,7 +862,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         kicker: "Legantis · Case prediction",
         title: "AI case outcome prediction",
         subtitle:
-          "Analyze case facts, evidence strength, and dispute size to get an AI-generated prediction and strategic recommendations for your matters across the Balkans.",
+          "Analyze case facts, evidence strength, and dispute size to get a Legantis-generated prediction and strategic recommendations for your matters across the Balkans.",
         back: "Back to dashboard",
       },
       form: {
@@ -899,7 +899,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
           loading: "Predicting outcome...",
           submit: "Predict outcome",
           note:
-            "Uses your plan's AI quota. This is AI analysis only and does not replace independent legal judgment.",
+            "Uses your Legantis quota. This is Legantis analysis only and does not replace independent legal judgment.",
         },
       },
       result: {
@@ -968,7 +968,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         kicker: "Legantis · Document analysis",
         title: "AI contract analysis & review",
         subtitle:
-          "Upload contracts or legal documents for automated review. The AI highlights risky clauses, missing provisions, compliance issues, and provides a clear risk score with actionable recommendations.",
+          "Upload contracts or legal documents for automated review. Legantis highlights risky clauses, missing provisions, compliance issues, and provides a clear risk score with actionable recommendations.",
         back: "Back to dashboard",
       },
       uploader: {
@@ -999,7 +999,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
           loading: "Analyzing document...",
           submit: "Analyze document",
           note:
-            "Uses your plan's AI quota. This is AI analysis only and does not replace independent legal judgment.",
+            "Uses your Legantis quota. This is Legantis analysis only and does not replace independent legal judgment.",
         },
       },
       result: {
@@ -1683,7 +1683,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         kicker: "Legantis · Template library",
         title: "Pre-built legal templates",
         subtitle:
-          "Browse curated, jurisdiction-specific templates and jump straight into AI-assisted drafting.",
+          "Browse curated, jurisdiction-specific templates and jump straight into Legantis-assisted drafting.",
       },
       filters: {
         documentType: {
@@ -2983,7 +2983,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         generate: {
           title: "Generiši dokument",
           description:
-            "Kreirajte NDA ugovore i druga dokumenta uz pomoć AI-ja.",
+            "Kreirajte NDA ugovore i druga dokumenta uz pomoć Legantisa.",
         },
         research: {
           title: "Pravno istraživanje",
@@ -2998,7 +2998,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         predict: {
           title: "Predvidi ishod spora",
           description:
-            "AI analiza vjerovatnoće uspjeha na osnovu prakse i prava.",
+            "Legantis analiza vjerovatnoće uspjeha na osnovu prakse i prava.",
         },
         clients: {
           title: "Klijenti",
@@ -3332,7 +3332,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         details: {
           title: "Detalji dokumenta",
           help:
-            "Polja mogu ostati prazna ako nisu primjenjiva. AI će popuniti standardne klauzule za izabranu jurisdikciju i vrstu dokumenta, ali uvijek morate pregledati rezultat prije upotrebe.",
+            "Polja mogu ostati prazna ako nisu primjenjiva. Legantis popunjava standardne klauzule za izabranu jurisdikciju i vrstu dokumenta, ali uvijek morate pregledati rezultat prije upotrebe.",
         },
         fields: {
           party1: "Ime strane 1",
@@ -3344,7 +3344,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         actions: {
           generating: "Generišem dokument...",
           generate: "Generiši dokument",
-          note: "Koristi AI kvotu vašeg plana. Rezultati su samo nacrti i ne predstavljaju pravni savjet.",
+          note: "Koristi Legantis kvotu vašeg plana. Rezultati su samo nacrti i ne predstavljaju pravni savjet.",
         },
       },
       result: {
@@ -3405,7 +3405,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         step1: {
           title: "Vrsta ugovora",
           lead: "Korak {current} od {total}. Izaberite vrstu ugovora koji želite da nacrtate.",
-          hint: "AI će prilagoditi klauzule izabranoj vrsti ugovora.",
+          hint: "Legantis prilagođava klauzule izabranoj vrsti ugovora.",
         },
         step2: {
           title: "Jurisdikcija",
@@ -3414,7 +3414,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         step3: {
           title: "Detalji",
           lead:
-            "Korak {current} od {total}. Unesite ključne strane i komercijalne uslove. AI će dodati standardne i jurisdikcijske klauzule.",
+            "Korak {current} od {total}. Unesite ključne strane i komercijalne uslove. Legantis dodaje standardne i jurisdikcijske klauzule.",
         },
         step4: {
           title: "Pregled i generisanje",
@@ -3488,7 +3488,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         generating: "Generišem ugovor...",
         generate: "Generiši ugovor",
         note:
-          "Koristi AI kvotu vašeg plana. Rezultat je nacrt i ne predstavlja pravni savjet.",
+          "Koristi Legantis kvotu vašeg plana. Rezultat je nacrt i ne predstavlja pravni savjet.",
         downloadPdf: "Preuzmi PDF",
         downloadDocx: "Preuzmi DOCX",
         saveToContracts: "Sačuvaj u ugovore",
@@ -3576,7 +3576,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
           loading: "Predviđam ishod...",
           submit: "Predvidi ishod",
           note:
-            "Koristi AI kvotu vašeg plana. Ovo je AI analiza i ne zamjenjuje nezavisnu pravnu procjenu.",
+            "Koristi Legantis kvotu vašeg plana. Ovo je Legantis analiza i ne zamjenjuje nezavisnu pravnu procjenu.",
         },
       },
       result: {
@@ -3677,7 +3677,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
           loading: "Analiziram dokument...",
           submit: "Analiziraj dokument",
           note:
-            "Koristi AI kvotu vašeg plana. Ovo je AI analiza i ne zamjenjuje nezavisnu pravnu procjenu.",
+            "Koristi Legantis kvotu vašeg plana. Ovo je Legantis analiza i ne zamjenjuje nezavisnu pravnu procjenu.",
         },
       },
       result: {
@@ -5118,7 +5118,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         generate: {
           title: "Generiši dokument",
           description:
-            "Kreirajte NDA i druge ugovore uz pomoć AI-ja.",
+            "Kreirajte NDA i druge ugovore uz pomoć Legantisa.",
         },
         research: {
           title: "Pravno istraživanje",
@@ -5133,7 +5133,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         predict: {
           title: "Predvidi ishod spora",
           description:
-            "AI analiza vjerovatnoće uspjeha na osnovu prakse i prava.",
+            "Legantis analiza vjerovatnoće uspjeha na osnovu prakse i prava.",
         },
         clients: {
           title: "Klijenti",
@@ -5467,7 +5467,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         details: {
           title: "Detalji dokumenta",
           help:
-            "Polja mogu ostati prazna ako nisu primjenjiva. AI će popuniti standardne klauzule za izabranu jurisdikciju i vrstu dokumenta, ali uvijek morate pregledati rezultat prije upotrebe.",
+            "Polja mogu ostati prazna ako nisu primjenjiva. Legantis popunjava standardne klauzule za izabranu jurisdikciju i vrstu dokumenta, ali uvijek morate pregledati rezultat prije upotrebe.",
         },
         fields: {
           party1: "Ime strane 1",
@@ -5479,7 +5479,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         actions: {
           generating: "Generišem dokument...",
           generate: "Generiši dokument",
-          note: "Koristi AI kvotu vašeg plana. Rezultati su samo nacrti i ne predstavljaju pravni savjet.",
+          note: "Koristi Legantis kvotu vašeg plana. Rezultati su samo nacrti i ne predstavljaju pravni savjet.",
         },
       },
       result: {
@@ -5540,7 +5540,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         step1: {
           title: "Vrsta ugovora",
           lead: "Korak {current} od {total}. Izaberite vrstu ugovora koji želite nacrtati.",
-          hint: "AI će prilagoditi klauzule izabranoj vrsti ugovora.",
+          hint: "Legantis prilagođava klauzule izabranoj vrsti ugovora.",
         },
         step2: {
           title: "Jurisdikcija",
@@ -5549,7 +5549,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         step3: {
           title: "Detalji",
           lead:
-            "Korak {current} od {total}. Unesite ključne strane i komercijalne uslove. AI će dodati standardne i jurisdikcijske klauzule.",
+            "Korak {current} od {total}. Unesite ključne strane i komercijalne uslove. Legantis dodaje standardne i jurisdikcijske klauzule.",
         },
         step4: {
           title: "Pregled i generisanje",
@@ -5623,7 +5623,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         generating: "Generišem ugovor...",
         generate: "Generiši ugovor",
         note:
-          "Koristi AI kvotu vašeg plana. Rezultat je nacrt i ne predstavlja pravni savjet.",
+          "Koristi Legantis kvotu vašeg plana. Rezultat je nacrt i ne predstavlja pravni savjet.",
         downloadPdf: "Preuzmi PDF",
         downloadDocx: "Preuzmi DOCX",
         saveToContracts: "Sačuvaj u ugovore",
@@ -5711,7 +5711,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
           loading: "Predviđam ishod...",
           submit: "Predvidi ishod",
           note:
-            "Koristi AI kvotu vašeg plana. Ovo je AI analiza i ne zamjenjuje nezavisnu pravnu procjenu.",
+            "Koristi Legantis kvotu vašeg plana. Ovo je Legantis analiza i ne zamjenjuje nezavisnu pravnu procjenu.",
         },
       },
       result: {
@@ -5812,7 +5812,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
           loading: "Analiziram dokument...",
           submit: "Analiziraj dokument",
           note:
-            "Koristi AI kvotu vašeg plana. Ovo je AI analiza i ne zamjenjuje nezavisnu pravnu procjenu.",
+            "Koristi Legantis kvotu vašeg plana. Ovo je Legantis analiza i ne zamjenjuje nezavisnu pravnu procjenu.",
         },
       },
       result: {
@@ -7779,7 +7779,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         generate: {
           title: "Generiraj dokument",
           description:
-            "Kreirajte NDA i druge ugovore uz pomoć AI-ja.",
+            "Kreirajte NDA i druge ugovore uz pomoć Legantisa.",
         },
         research: {
           title: "Pravno istraživanje",
@@ -7794,7 +7794,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         predict: {
           title: "Predvidi ishod spora",
           description:
-            "AI analiza vjerojatnosti uspjeha na temelju prakse i prava.",
+            "Legantis analiza vjerojatnosti uspjeha na temelju prakse i prava.",
         },
         clients: {
           title: "Klijenti",
@@ -8128,7 +8128,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         details: {
           title: "Detalji dokumenta",
           help:
-            "Polja mogu ostati prazna ako nisu primjenjiva. AI će popuniti standardne klauzule za odabranu jurisdikciju i vrstu dokumenta, ali uvijek morate pregledati rezultat prije upotrebe.",
+            "Polja mogu ostati prazna ako nisu primjenjiva. Legantis popunjava standardne klauzule za odabranu jurisdikciju i vrstu dokumenta, ali uvijek morate pregledati rezultat prije upotrebe.",
         },
         fields: {
           party1: "Ime strane 1",
@@ -8140,7 +8140,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         actions: {
           generating: "Generiram dokument...",
           generate: "Generiraj dokument",
-          note: "Koristi AI kvotu vašeg plana. Rezultati su samo nacrti i ne predstavljaju pravni savjet.",
+          note: "Koristi Legantis kvotu vašeg plana. Rezultati su samo nacrti i ne predstavljaju pravni savjet.",
         },
       },
       result: {
@@ -8201,7 +8201,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         step1: {
           title: "Vrsta ugovora",
           lead: "Korak {current} od {total}. Odaberite vrstu ugovora koji želite izraditi.",
-          hint: "AI će prilagoditi klauzule odabranoj vrsti ugovora.",
+          hint: "Legantis prilagođava klauzule odabranoj vrsti ugovora.",
         },
         step2: {
           title: "Jurisdikcija",
@@ -8210,7 +8210,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         step3: {
           title: "Detalji",
           lead:
-            "Korak {current} od {total}. Unesite ključne strane i komercijalne uvjete. AI će dodati standardne i jurisdikcijske klauzule.",
+            "Korak {current} od {total}. Unesite ključne strane i komercijalne uvjete. Legantis dodaje standardne i jurisdikcijske klauzule.",
         },
         step4: {
           title: "Pregled i generiranje",
@@ -8284,7 +8284,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         generating: "Generiram ugovor...",
         generate: "Generiraj ugovor",
         note:
-          "Koristi AI kvotu vašeg plana. Rezultat je nacrt i ne predstavlja pravni savjet.",
+          "Koristi Legantis kvotu vašeg plana. Rezultat je nacrt i ne predstavlja pravni savjet.",
         downloadPdf: "Preuzmi PDF",
         downloadDocx: "Preuzmi DOCX",
         saveToContracts: "Spremi u ugovore",
@@ -8372,7 +8372,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
           loading: "Predviđam ishod...",
           submit: "Predvidi ishod",
           note:
-            "Koristi AI kvotu vašeg plana. Ovo je AI analiza i ne zamjenjuje neovisnu pravnu procjenu.",
+            "Koristi Legantis kvotu vašeg plana. Ovo je Legantis analiza i ne zamjenjuje neovisnu pravnu procjenu.",
         },
       },
       result: {
@@ -8472,7 +8472,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
           loading: "Analiziram dokument...",
           submit: "Analiziraj dokument",
           note:
-            "Koristi AI kvotu vašeg plana. Ovo je AI analiza i ne zamjenjuje neovisnu pravnu procjenu.",
+            "Koristi Legantis kvotu vašeg plana. Ovo je Legantis analiza i ne zamjenjuje neovisnu pravnu procjenu.",
         },
       },
       result: {
@@ -9326,7 +9326,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         generate: {
           title: "Ustvari dokument",
           description:
-            "Pripravite NDA in druge pogodbe s pomočjo AI-ja.",
+            "Pripravite NDA in druge pogodbe s pomočjo Legantisa.",
         },
         research: {
           title: "Pravno raziskovanje",
@@ -9341,7 +9341,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         predict: {
           title: "Napovej izid spora",
           description:
-            "AI analiza verjetnosti uspeha na podlagi prakse in prava.",
+            "Legantis analiza verjetnosti uspeha na podlagi prakse in prava.",
         },
         clients: {
           title: "Stranke",
@@ -9674,7 +9674,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         details: {
           title: "Podrobnosti dokumenta",
           help:
-            "Polja so lahko prazna, če niso pomembna. AI bo izpolnil standardne klavzule za izbrano jurisdikcijo in vrsto dokumenta, vendar morate rezultat vedno pregledati pred uporabo.",
+            "Polja so lahko prazna, če niso pomembna. Legantis bo izpolnil standardne klavzule za izbrano jurisdikcijo in vrsto dokumenta, vendar morate rezultat vedno pregledati pred uporabo.",
         },
         fields: {
           party1: "Ime stranke 1",
@@ -9686,7 +9686,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         actions: {
           generating: "Ustvarjam dokument...",
           generate: "Ustvari dokument",
-          note: "Uporablja AI kvoto vašega paketa. Rezultati so le osnutki in ne predstavljajo pravnega nasveta.",
+          note: "Uporablja kvoto Legantisa vašega paketa. Rezultati so le osnutki in ne predstavljajo pravnega nasveta.",
         },
       },
       result: {
@@ -9747,7 +9747,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         step1: {
           title: "Vrsta pogodbe",
           lead: "Korak {current} od {total}. Izberite vrsto pogodbe, ki jo želite pripraviti.",
-          hint: "AI bo klavzule prilagodil izbrani vrsti pogodbe.",
+          hint: "Legantis bo klavzule prilagodil izbrani vrsti pogodbe.",
         },
         step2: {
           title: "Jurisdikcija",
@@ -9756,7 +9756,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         step3: {
           title: "Podrobnosti",
           lead:
-            "Korak {current} od {total}. Vnesite ključne stranke in poslovne pogoje. AI bo dodal standardne in jurisdikcijske klavzule.",
+            "Korak {current} od {total}. Vnesite ključne stranke in poslovne pogoje. Legantis bo dodal standardne in jurisdikcijske klavzule.",
         },
         step4: {
           title: "Pregled in ustvarjanje",
@@ -9830,7 +9830,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         generating: "Ustvarjam pogodbo...",
         generate: "Ustvari pogodbo",
         note:
-          "Uporablja AI kvoto vašega paketa. Rezultat je osnutek in ne predstavlja pravnega nasveta.",
+          "Uporablja kvoto Legantisa vašega paketa. Rezultat je osnutek in ne predstavlja pravnega nasveta.",
         downloadPdf: "Prenesi PDF",
         downloadDocx: "Prenesi DOCX",
         saveToContracts: "Shrani v pogodbe",
@@ -9918,7 +9918,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
           loading: "Napovedujem izid...",
           submit: "Napovej izid",
           note:
-            "Uporablja AI kvoto vašega paketa. To je AI analiza in ne nadomešča neodvisne pravne presoje.",
+            "Uporablja kvoto Legantisa vašega paketa. To je analiza Legantisa in ne nadomešča neodvisne pravne presoje.",
         },
       },
       result: {
@@ -10018,7 +10018,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
           loading: "Analiziram dokument...",
           submit: "Analiziraj dokument",
           note:
-            "Uporablja AI kvoto vašega paketa. To je AI analiza in ne nadomešča neodvisne pravne presoje.",
+            "Uporablja kvoto Legantisa vašega paketa. To je analiza Legantisa in ne nadomešča neodvisne pravne presoje.",
         },
       },
       result: {
@@ -11392,7 +11392,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         generate: {
           title: "Generiši dokument",
           description:
-            "Kreirajte NDA i druge ugovore uz pomoć AI-ja.",
+            "Kreirajte NDA i druge ugovore uz pomoć Legantisa.",
         },
         research: {
           title: "Pravno istraživanje",
@@ -11407,7 +11407,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         predict: {
           title: "Predvidi ishod spora",
           description:
-            "AI analiza vjerovatnoće uspjeha na osnovu prakse i prava.",
+            "Legantis analiza vjerovatnoće uspjeha na osnovu prakse i prava.",
         },
         clients: {
           title: "Klijenti",
@@ -11741,7 +11741,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         details: {
           title: "Detalji dokumenta",
           help:
-            "Polja mogu ostati prazna ako nijesu primjenjiva. AI će popuniti standardne klauzule za izabranu jurisdikciju i vrstu dokumenta, ali uvijek morate pregledati rezultat prije upotrebe.",
+            "Polja mogu ostati prazna ako nijesu primjenjiva. Legantis popunjava standardne klauzule za izabranu jurisdikciju i vrstu dokumenta, ali uvijek morate pregledati rezultat prije upotrebe.",
         },
         fields: {
           party1: "Ime strane 1",
@@ -11753,7 +11753,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         actions: {
           generating: "Generišem dokument...",
           generate: "Generiši dokument",
-          note: "Koristi AI kvotu vašeg plana. Rezultati su samo nacrti i ne predstavljaju pravni savjet.",
+          note: "Koristi Legantis kvotu vašeg plana. Rezultati su samo nacrti i ne predstavljaju pravni savjet.",
         },
       },
       result: {
@@ -11814,7 +11814,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         step1: {
           title: "Vrsta ugovora",
           lead: "Korak {current} od {total}. Izaberite vrstu ugovora koji želite da nacrtate.",
-          hint: "AI će prilagoditi klauzule izabranoj vrsti ugovora.",
+          hint: "Legantis prilagođava klauzule izabranoj vrsti ugovora.",
         },
         step2: {
           title: "Jurisdikcija",
@@ -11823,7 +11823,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         step3: {
           title: "Detalji",
           lead:
-            "Korak {current} od {total}. Unesite ključne strane i komercijalne uslove. AI će dodati standardne i jurisdikcijske klauzule.",
+            "Korak {current} od {total}. Unesite ključne strane i komercijalne uslove. Legantis dodaje standardne i jurisdikcijske klauzule.",
         },
         step4: {
           title: "Pregled i generisanje",
@@ -11897,7 +11897,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         generating: "Generišem ugovor...",
         generate: "Generiši ugovor",
         note:
-          "Koristi AI kvotu vašeg plana. Rezultat je nacrt i ne predstavlja pravni savjet.",
+          "Koristi Legantis kvotu vašeg plana. Rezultat je nacrt i ne predstavlja pravni savjet.",
         downloadPdf: "Preuzmi PDF",
         downloadDocx: "Preuzmi DOCX",
         saveToContracts: "Sačuvaj u ugovore",
@@ -11985,7 +11985,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
           loading: "Predviđam ishod...",
           submit: "Predvidi ishod",
           note:
-            "Koristi AI kvotu vašeg plana. Ovo je AI analiza i ne zamjenjuje nezavisnu pravnu procjenu.",
+            "Koristi Legantis kvotu vašeg plana. Ovo je Legantis analiza i ne zamjenjuje nezavisnu pravnu procjenu.",
         },
       },
       result: {
@@ -12085,7 +12085,7 @@ const MESSAGES: Record<LanguageCode, Messages> = {
           loading: "Analiziram dokument...",
           submit: "Analiziraj dokument",
           note:
-            "Koristi AI kvotu vašeg plana. Ovo je AI analiza i ne zamjenjuje nezavisnu pravnu procjenu.",
+            "Koristi Legantis kvotu vašeg plana. Ovo je Legantis analiza i ne zamjenjuje nezavisnu pravnu procjenu.",
         },
       },
       result: {

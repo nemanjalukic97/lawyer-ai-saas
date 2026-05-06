@@ -339,7 +339,7 @@ export function DashboardNavbar({ planId }: { planId: EntitlementPlanId }) {
   return (
     <header className="relative sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <nav className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4 sm:px-6 max-[479px]:px-3">
-        <NavbarBrand href="/dashboard" />
+        <NavbarBrand href="/" />
 
         <div className="hidden min-[992px]:flex">
           <NavLinks

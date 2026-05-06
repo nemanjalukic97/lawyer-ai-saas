@@ -8,6 +8,7 @@ import { LanguageSwitcher } from "@/components/LanguageSwitcher"
 import { useLanguage } from "@/components/LanguageProvider"
 import { NavbarBrand } from "@/components/NavbarBrand"
 import { Button } from "@/components/ui/button"
+import { createClient } from "@/lib/supabase/client"
 import { cn } from "@/lib/utils"
 
 const navLinkClass =
@@ -15,9 +16,26 @@ const navLinkClass =
 
 export function Header() {
   const { t } = useLanguage()
+  const [user, setUser] = useState<any>(null)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [menuMounted, setMenuMounted] = useState(false)
   const closeTimerRef = useRef<number | null>(null)
+
+  useEffect(() => {
+    const supabase = createClient()
+
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null)
+    })
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null)
+    })
+
+    return () => subscription.unsubscribe()
+  }, [])
 
   const openMenu = () => {
     if (closeTimerRef.current) {
@@ -65,12 +83,20 @@ export function Header() {
             {t("nav.pricing")}
           </Link>
           <LanguageSwitcher />
-          <Link href="/login" className={navLinkClass}>
-            {t("nav.login")}
-          </Link>
-          <Button asChild size="sm">
-            <Link href="/signup">{t("nav.getStarted")}</Link>
-          </Button>
+          {user ? (
+            <Button asChild size="sm">
+              <Link href="/dashboard">{t("nav.dashboard")} →</Link>
+            </Button>
+          ) : (
+            <>
+              <Link href="/login" className={navLinkClass}>
+                {t("nav.login")}
+              </Link>
+              <Button asChild size="sm">
+                <Link href="/signup">{t("nav.getStarted")}</Link>
+              </Button>
+            </>
+          )}
         </div>
 
         <div className="flex items-center gap-3 min-[992px]:hidden">
@@ -114,20 +140,32 @@ export function Header() {
             >
               {t("nav.pricing")}
             </Link>
-            <Link
-              href="/login"
-              className={cn(navLinkClass, "block max-[991px]:mx-auto max-[991px]:w-fit max-[991px]:text-center")}
-              onClick={closeMenu}
-            >
-              {t("nav.login")}
-            </Link>
-            <div className="px-3 pt-1">
-              <Button asChild className="w-full sm:w-auto">
-                <Link href="/signup" onClick={closeMenu}>
-                  {t("nav.getStarted")}
+            {user ? (
+              <div className="px-3 pt-1">
+                <Button asChild className="w-full sm:w-auto">
+                  <Link href="/dashboard" onClick={closeMenu}>
+                    {t("nav.dashboard")} →
+                  </Link>
+                </Button>
+              </div>
+            ) : (
+              <>
+                <Link
+                  href="/login"
+                  className={cn(navLinkClass, "block max-[991px]:mx-auto max-[991px]:w-fit max-[991px]:text-center")}
+                  onClick={closeMenu}
+                >
+                  {t("nav.login")}
                 </Link>
-              </Button>
-            </div>
+                <div className="px-3 pt-1">
+                  <Button asChild className="w-full sm:w-auto">
+                    <Link href="/signup" onClick={closeMenu}>
+                      {t("nav.getStarted")}
+                    </Link>
+                  </Button>
+                </div>
+              </>
+            )}
           </div>
         </div>
       )}
