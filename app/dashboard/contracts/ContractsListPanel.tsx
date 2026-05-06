@@ -257,9 +257,9 @@ export default function ContractsListPanel() {
       {error ? <div className="mt-3 text-sm text-red-600">{error}</div> : null}
 
       <div className="mt-4 rounded-md border">
-        <div className="grid grid-cols-[minmax(0,1fr),auto,auto] gap-3 border-b bg-muted/30 px-4 py-2 text-xs font-medium text-muted-foreground">
+        <div className="grid grid-cols-[minmax(0,1fr),auto] gap-3 border-b bg-muted/30 px-4 py-2 text-xs font-medium text-muted-foreground sm:grid-cols-[minmax(0,1fr),auto,auto]">
           <div>{t("signature.dashboard.colContract")}</div>
-          <div>{t("signature.dashboard.colSignatureStatus")}</div>
+          <div className="hidden sm:block">{t("signature.dashboard.colSignatureStatus")}</div>
           <div className="text-right">{t("signature.dashboard.colActions")}</div>
         </div>
 
@@ -280,11 +280,11 @@ export default function ContractsListPanel() {
               return (
                 <div
                   key={r.id}
-                  className="grid grid-cols-[minmax(0,1fr),auto,auto] items-center gap-3 px-4 py-3"
+                  className="grid grid-cols-[minmax(0,1fr),auto] items-center gap-3 px-4 py-3 sm:grid-cols-[minmax(0,1fr),auto,auto]"
                 >
                   <div className="min-w-0">
                     <Link
-                      className="truncate font-medium hover:underline"
+                      className="max-w-[180px] truncate font-medium hover:underline sm:max-w-none"
                       href={`/dashboard/contracts?id=${r.id}`}
                     >
                       {r.title}
@@ -296,13 +296,17 @@ export default function ContractsListPanel() {
                     ) : null}
                   </div>
 
-                  <div>
+                  <div className="hidden sm:block">
                     <Badge variant={statusBadgeVariant(s)}>{statusLabel(t, s)}</Badge>
                   </div>
 
                   <div className="flex flex-wrap justify-end gap-2">
                     {s === "none" || s === null ? (
-                      <Button size="sm" onClick={() => openSendDialog(r.id)}>
+                      <Button
+                        size="sm"
+                        className="text-xs sm:text-sm"
+                        onClick={() => openSendDialog(r.id)}
+                      >
                         {t("signature.actions.sendForSignature")}
                       </Button>
                     ) : s === "pending" && requestId ? (
@@ -357,17 +361,19 @@ export default function ContractsListPanel() {
           <Button
             size="sm"
             variant="outline"
+            className="text-xs px-2 sm:px-4 sm:text-sm"
             disabled={currentPage <= 1}
             onClick={() => setPage((p) => Math.max(1, p - 1))}
           >
             {t("pagination.previous")}
           </Button>
-          <div className="text-xs text-muted-foreground">
+          <div className="text-xs text-muted-foreground sm:text-sm">
             {t("pagination.pageOf", { page: currentPage, total: totalPages })}
           </div>
           <Button
             size="sm"
             variant="outline"
+            className="text-xs px-2 sm:px-4 sm:text-sm"
             disabled={currentPage >= totalPages}
             onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
           >

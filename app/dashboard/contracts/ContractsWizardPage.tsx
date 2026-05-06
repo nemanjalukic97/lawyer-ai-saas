@@ -1136,14 +1136,14 @@ export default function ContractsWizardPage({
                     })
                   }}
                   className={[
-                    "rounded-lg border border-border/40 p-4 cursor-pointer hover:border-primary/40 hover:bg-muted/20 transition-all text-left",
+                    "rounded-lg border border-border/40 p-4 cursor-pointer hover:border-primary/40 hover:bg-muted/20 transition-all text-left w-full",
                     isSelected ? "ring-2 ring-primary border-primary" : "",
                   ].join(" ")}
                 >
-                  <span className="text-sm font-semibold">
+                  <span className="text-sm font-semibold block">
                     {t(option.translationKey) || option.label}
                   </span>
-                  <span className="text-xs text-muted-foreground/60 mt-0.5">
+                  <span className="text-xs text-muted-foreground mt-1 block">
                     {t("contracts.steps.step1.hint")}
                   </span>
                 </button>

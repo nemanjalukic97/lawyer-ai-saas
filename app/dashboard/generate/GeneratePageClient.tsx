@@ -135,9 +135,32 @@ const BASE_FIELDS: FieldConfig[] = [
 
 const ADDITIONAL_FIELDS: Record<DocumentType, FieldConfig[]> = {
   employment: [
-    { name: "jobTitle", label: "Job Title" },
-    { name: "salary", label: "Salary" },
-    { name: "employmentStartDate", label: "Start Date", type: "date" },
+    {
+      name: "employeeName",
+      label: "Employee Name",
+      translationKey: "generate.fields.employeeName",
+    },
+    {
+      name: "employerName",
+      label: "Employer Name",
+      translationKey: "generate.fields.employerName",
+    },
+    {
+      name: "position",
+      label: "Position",
+      translationKey: "generate.fields.position",
+    },
+    {
+      name: "startDate",
+      label: "Start Date",
+      type: "date",
+      translationKey: "generate.fields.startDate",
+    },
+    {
+      name: "salary",
+      label: "Salary",
+      translationKey: "generate.fields.salary",
+    },
   ],
   nda: [
     {
@@ -152,25 +175,91 @@ const ADDITIONAL_FIELDS: Record<DocumentType, FieldConfig[]> = {
     },
   ],
   lease: [
-    { name: "propertyAddress", label: "Property Address" },
-    { name: "monthlyRent", label: "Monthly Rent" },
-    { name: "leaseDuration", label: "Duration" },
+    {
+      name: "propertyAddress",
+      label: "Property Address",
+      translationKey: "generate.fields.propertyAddress",
+    },
+    {
+      name: "monthlyRent",
+      label: "Monthly Rent",
+      translationKey: "generate.fields.monthlyRent",
+    },
+    {
+      name: "leaseDuration",
+      label: "Duration",
+      translationKey: "generate.fields.duration",
+    },
+    {
+      name: "landlordName",
+      label: "Landlord Name",
+      translationKey: "generate.fields.landlordName",
+    },
+    {
+      name: "tenantName",
+      label: "Tenant Name",
+      translationKey: "generate.fields.tenantName",
+    },
   ],
   sales: [
     {
-      name: "itemDescription",
-      label: "Item/Property Description",
+      name: "sellerName",
+      label: "Seller Name",
+      translationKey: "generate.fields.sellerName",
     },
-    { name: "purchasePrice", label: "Purchase Price" },
+    {
+      name: "buyerName",
+      label: "Buyer Name",
+      translationKey: "generate.fields.buyerName",
+    },
+    {
+      name: "itemDescription",
+      label: "Item Description",
+      translationKey: "generate.fields.itemDescription",
+    },
+    {
+      name: "price",
+      label: "Price",
+      translationKey: "generate.fields.price",
+    },
   ],
   service: [
-    { name: "serviceDescription", label: "Service Description" },
-    { name: "paymentAmount", label: "Payment Amount" },
+    {
+      name: "serviceProvider",
+      label: "Service Provider",
+      translationKey: "generate.fields.serviceProvider",
+    },
+    {
+      name: "clientName",
+      label: "Client Name",
+      translationKey: "generate.fields.clientName",
+    },
+    {
+      name: "serviceDescription",
+      label: "Service Description",
+      translationKey: "generate.fields.serviceDescription",
+    },
+    {
+      name: "paymentTerms",
+      label: "Payment Terms",
+      translationKey: "generate.fields.paymentTerms",
+    },
   ],
   power_of_attorney: [
     {
-      name: "authorizedActions",
-      label: "Authorized Actions Description",
+      name: "principalName",
+      label: "Principal Name",
+      translationKey: "generate.fields.principalName",
+    },
+    {
+      name: "agentName",
+      label: "Agent Name",
+      translationKey: "generate.fields.agentName",
+    },
+    {
+      name: "scopeOfAuthority",
+      label: "Scope of Authority",
+      translationKey: "generate.fields.scopeOfAuthority",
     },
   ],
 }

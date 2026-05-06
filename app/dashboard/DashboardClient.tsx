@@ -187,7 +187,7 @@ export function DashboardClient({
   }
 
   return (
-    <div className="min-h-screen bg-background px-4 py-10">
+    <div className="min-h-screen overflow-x-hidden bg-background px-4 py-10">
       <div className="mx-auto flex max-w-6xl flex-col gap-8">
         <header className="mb-8 flex flex-col gap-4 border-b border-border/40 pb-8 sm:flex-row sm:items-start sm:justify-between">
           <div>
@@ -241,7 +241,7 @@ export function DashboardClient({
 
         {/* Section 1 — Stats bar (4) + keep existing stat cards */}
         <section className="space-y-4">
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
             <StatCard
               Icon={Users}
               label={t("dashboard.overview.stats.totalClients")}
@@ -290,7 +290,7 @@ export function DashboardClient({
             </p>
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-2 lg:grid-cols-4">
             <ActionCard
               Icon={FileText}
               title={t("dashboard.actions.generate.title")}
@@ -453,8 +453,8 @@ export function DashboardClient({
                       href={`/dashboard/matters/${m.id}`}
                       className="block rounded-md border border-l-2 border-blue-500/40 p-3 hover:bg-muted/50"
                     >
-                      <div className="flex flex-wrap items-center gap-2">
-                        <span className="rounded bg-muted px-2 py-0.5 font-mono text-xs">
+                      <div className="flex flex-wrap items-center gap-1">
+                        <span className="max-w-[100px] truncate rounded bg-muted px-2 py-0.5 font-mono text-xs sm:max-w-none">
                           {m.matter_number}
                         </span>
                         <p className="min-w-0 truncate text-sm font-medium">
@@ -581,20 +581,20 @@ export function DashboardClient({
                   recentActivity.slice(0, 5).map((item) => (
                     <div
                       key={`${item.type}-${item.id}`}
-                      className="-mx-2 flex items-start justify-between rounded-md px-2 py-1.5 transition-colors hover:bg-muted/20"
+                      className="-mx-2 flex min-w-0 items-start justify-between overflow-hidden rounded-md px-2 py-1.5 transition-colors hover:bg-muted/20"
                     >
                       <div className="min-w-0 flex-1">
                         <Link
                           href={`${ACTIVITY_HREF_BY_TYPE[item.type]}?id=${item.id}`}
                           className={cn(
-                            "flex min-w-0 items-center gap-2 truncate text-sm font-medium transition-colors hover:text-primary hover:underline"
+                            "flex min-w-0 items-center gap-2 text-sm font-medium transition-colors hover:text-primary hover:underline"
                           )}
                         >
                           <span
                             className={cn("mt-0.5 size-2 shrink-0 rounded-full", activityDotClass(item.type))}
                             aria-hidden
                           />
-                          <span className="min-w-0 truncate">
+                          <span className="min-w-0 max-w-[200px] truncate sm:max-w-none">
                             {t(`activity.types.${item.type}`)}: {item.title}
                           </span>
                         </Link>
@@ -621,14 +621,14 @@ export function DashboardClient({
               <p className="mt-1 text-sm text-muted-foreground">
                 {t("dashboard.overview.cards.invoices.subtitle")}
               </p>
-              <div className="mt-4 grid grid-cols-2 gap-3 text-sm">
+              <div className="mt-4 grid grid-cols-1 gap-3 text-sm sm:grid-cols-2">
                 <div className="rounded-lg bg-muted/20 p-3">
                   <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground/60">
                     {t("dashboard.overview.cards.invoices.outstanding")}
                   </p>
                   <p
                     className={cn(
-                      "mt-1 text-lg font-semibold tabular-nums",
+                      "mt-1 text-base font-semibold tabular-nums sm:text-lg",
                       invoiceMetrics.outstandingTotalEur > 0 && "text-amber-400"
                     )}
                   >
@@ -639,7 +639,7 @@ export function DashboardClient({
                   <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground/60">
                     {t("dashboard.overview.cards.invoices.paidThisMonth")}
                   </p>
-                  <p className="mt-1 text-lg font-semibold tabular-nums text-emerald-400">
+                  <p className="mt-1 text-base font-semibold tabular-nums text-emerald-400 sm:text-lg">
                     €{invoiceMetrics.paidThisMonthTotalEur.toFixed(2)}
                   </p>
                 </div>
@@ -758,7 +758,7 @@ function StatCard({
   const card = (
     <Card
       className={cn(
-        "relative border-l-2 p-5 transition-all hover:border-border/60 hover:bg-muted/40",
+        "relative min-w-0 overflow-hidden border-l-2 p-5 transition-all hover:border-border/60 hover:bg-muted/40",
         accentClass,
         locked && "opacity-60"
       )}
@@ -772,7 +772,7 @@ function StatCard({
           <Lock className="h-7 w-7 text-muted-foreground/20" />
         </div>
       ) : (
-        <p className={cn("mt-2 text-4xl font-bold tracking-tight", valueColor)}>
+        <p className={cn("mt-2 text-2xl font-bold tracking-tight sm:text-4xl", valueColor)}>
           {value}
         </p>
       )}
@@ -838,7 +838,7 @@ function ActionCard({
     <Link href={finalHref} className="block">
       <Card
         className={cn(
-          "group relative flex min-h-[160px] h-full cursor-pointer flex-col justify-between p-5 transition-all duration-200 hover:border-border/60 hover:bg-muted/30",
+          "group relative flex h-full min-h-[120px] cursor-pointer flex-col justify-between p-5 transition-all duration-200 hover:border-border/60 hover:bg-muted/30 sm:min-h-[160px]",
           !entitled && "opacity-80"
         )}
       >
@@ -857,8 +857,8 @@ function ActionCard({
             <Icon className={cn("h-[18px] w-[18px]", iconColor ?? "text-foreground/70")} />
           </div>
           <div>
-            <p className="text-sm font-semibold text-foreground">{title}</p>
-            <p className="mt-1 text-xs leading-relaxed text-muted-foreground/60">
+            <p className="text-xs font-semibold text-foreground sm:text-sm">{title}</p>
+            <p className="mt-1 hidden text-xs leading-relaxed text-muted-foreground/60 sm:block">
               {description}
             </p>
           </div>
