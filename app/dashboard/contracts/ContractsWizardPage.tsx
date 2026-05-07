@@ -1070,7 +1070,7 @@ export default function ContractsWizardPage({
     ] as const
 
     return (
-      <ol className="flex flex-wrap items-center gap-3 text-xs font-medium text-muted-foreground">
+      <ol className="flex flex-col gap-2 text-xs font-medium text-muted-foreground sm:grid sm:grid-cols-5 sm:gap-2">
         {steps.map((step, index) => {
           const isActive = currentStep === step.id
           const isCompleted = currentStep > step.id
@@ -1092,16 +1092,16 @@ export default function ContractsWizardPage({
               <span
                 className={
                   isActive
-                    ? "text-foreground"
+                    ? "text-xs text-foreground sm:text-sm"
                     : isCompleted
-                      ? "text-muted-foreground"
-                      : "text-muted-foreground/80"
+                      ? "text-xs text-muted-foreground sm:text-sm"
+                      : "text-xs text-muted-foreground/80 sm:text-sm"
                 }
               >
                 {step.label}
               </span>
               {index < steps.length - 1 && (
-                <span className="mx-1 h-px w-6 bg-border" />
+                <span className="hidden h-px flex-1 bg-border mx-2 sm:block" />
               )}
             </li>
           )
