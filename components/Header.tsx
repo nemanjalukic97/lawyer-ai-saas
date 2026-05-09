@@ -84,9 +84,16 @@ export function Header() {
           </Link>
           <LanguageSwitcher />
           {user ? (
-            <Button asChild size="sm">
-              <Link href="/dashboard">{t("nav.dashboard")} →</Link>
-            </Button>
+            <>
+              <Button asChild size="sm">
+                <Link href="/dashboard">{t("nav.dashboard")} →</Link>
+              </Button>
+              <form action="/auth/signout" method="post">
+                <Button type="submit" variant="outline" size="sm">
+                  {t("nav.logout")}
+                </Button>
+              </form>
+            </>
           ) : (
             <>
               <Link href="/login" className={navLinkClass}>
@@ -141,13 +148,22 @@ export function Header() {
               {t("nav.pricing")}
             </Link>
             {user ? (
-              <div className="px-3 pt-1">
-                <Button asChild className="w-full sm:w-auto">
-                  <Link href="/dashboard" onClick={closeMenu}>
-                    {t("nav.dashboard")} →
-                  </Link>
-                </Button>
-              </div>
+              <>
+                <div className="px-3 pt-1">
+                  <Button asChild className="w-full sm:w-auto">
+                    <Link href="/dashboard" onClick={closeMenu}>
+                      {t("nav.dashboard")} →
+                    </Link>
+                  </Button>
+                </div>
+                <div className="px-3 pt-1">
+                  <form action="/auth/signout" method="post" onSubmit={closeMenu}>
+                    <Button type="submit" variant="outline" className="w-full sm:w-auto">
+                      {t("nav.logout")}
+                    </Button>
+                  </form>
+                </div>
+              </>
             ) : (
               <>
                 <Link

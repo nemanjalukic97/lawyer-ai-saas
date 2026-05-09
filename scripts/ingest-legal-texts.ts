@@ -13,6 +13,7 @@ import { SERVICES_ARTICLES } from "./legal-articles-services"
 import { NDA_ARTICLES } from "./legal-articles-nda"
 import { PARTNERSHIP_ARTICLES } from "./legal-articles-partnership"
 import { MISDEMEANOR_ARTICLES } from "./legal-articles-misdemeanor"
+import { LABOR_EXTENDED_ARTICLES } from "./legal-articles-labor-extended"
 
 dotenv.config({ path: ".env.local" })
 
@@ -141,6 +142,7 @@ export const SAMPLE_ARTICLES: LegalArticleInput[] = [
   ...(NDA_ARTICLES as LegalArticleInput[]),
   ...(PARTNERSHIP_ARTICLES as LegalArticleInput[]),
   ...(MISDEMEANOR_ARTICLES as LegalArticleInput[]),
+  ...(LABOR_EXTENDED_ARTICLES as LegalArticleInput[]),
 ]
 
 function sleep(ms: number) {

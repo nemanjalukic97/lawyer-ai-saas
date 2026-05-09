@@ -32,6 +32,31 @@ export type RagResult = {
   confidence: "high" | "medium" | "low"
 }
 
+export type CaseLawChunk = {
+  id: string
+  jurisdiction: string
+  court: string
+  court_level: string
+  case_number: string
+  decision_date: string | null
+  legal_area: string
+  legal_question: string
+  court_position: string
+  reasoning: string
+  headnote: string | null
+  outcome: string | null
+  keywords: string[] | null
+  related_articles: string[] | null
+  source_url: string | null
+  similarity: number
+}
+
+export type CaseLawContextResult = {
+  cases: CaseLawChunk[]
+  confidence: "high" | "medium" | "low" | "none"
+  topSimilarity: number
+}
+
 export type AnswerMode = "extracted" | "analytical" | "auto" | "drafting"
 
 const SIMILARITY_THRESHOLDS = {
@@ -44,7 +69,7 @@ const RPC_TIMEOUT_MS = 5000
 
 const MAX_CONTEXT_CHARS = 12000
 
-async function embedQuery(text: string): Promise<number[]> {
+async function embedQueryText(text: string): Promise<number[]> {
   try {
     const res = await openai.embeddings.create({
       model: "text-embedding-3-small",
@@ -94,6 +119,155 @@ async function runMatchLegalArticlesRpc(args: {
   return (data ?? []) as LegalChunk[]
 }
 
+async function runMatchCaseLawRpc(args: {
+  embedding: number[]
+  jurisdiction: string
+  legalArea: string | null
+  courtLevel: string | null
+  matchCount: number
+  similarityThreshold: number
+}): Promise<CaseLawChunk[]> {
+  const rpcCall = supabaseAdmin.rpc("match_case_law", {
+    query_embedding: args.embedding,
+    filter_jurisdiction: args.jurisdiction,
+    filter_legal_area: args.legalArea,
+    filter_court_level: args.courtLevel,
+    match_count: args.matchCount,
+    similarity_threshold: args.similarityThreshold,
+  })
+
+  const timeoutPromise = new Promise<never>((_, reject) =>
+    setTimeout(
+      () => reject(new Error("RAG RPC timeout after 5000ms")),
+      RPC_TIMEOUT_MS,
+    ),
+  )
+
+  const { data, error } = (await Promise.race([
+    rpcCall,
+    timeoutPromise,
+  ])) as {
+    data: CaseLawChunk[] | null
+    error: { message: string } | null
+  }
+
+  if (error) {
+    throw new Error(error.message)
+  }
+
+  return normalizeCaseLawChunks(data ?? [])
+}
+
+function asStringArray(v: unknown): string[] | null {
+  if (v == null) return null
+  if (Array.isArray(v)) return v.map((x) => String(x))
+  return null
+}
+
+function normalizeCaseLawChunks(rows: unknown[]): CaseLawChunk[] {
+  return rows.map((raw) => {
+    const r = raw as Record<string, unknown>
+    return {
+      id: String(r.id ?? ""),
+      jurisdiction: String(r.jurisdiction ?? ""),
+      court: String(r.court ?? ""),
+      court_level: String(r.court_level ?? ""),
+      case_number: String(r.case_number ?? ""),
+      decision_date:
+        r.decision_date == null || r.decision_date === ""
+          ? null
+          : String(r.decision_date),
+      legal_area: String(r.legal_area ?? ""),
+      legal_question: String(r.legal_question ?? ""),
+      court_position: String(r.court_position ?? ""),
+      reasoning: String(r.reasoning ?? ""),
+      headnote:
+        r.headnote == null || r.headnote === ""
+          ? null
+          : String(r.headnote),
+      outcome:
+        r.outcome == null || r.outcome === ""
+          ? null
+          : String(r.outcome),
+      keywords: asStringArray(r.keywords),
+      related_articles: asStringArray(r.related_articles),
+      source_url:
+        r.source_url == null || r.source_url === ""
+          ? null
+          : String(r.source_url),
+      similarity:
+        typeof r.similarity === "number"
+          ? r.similarity
+          : Number(r.similarity ?? 0),
+    }
+  })
+}
+
+function deduplicateCaseChunks(chunks: CaseLawChunk[]): CaseLawChunk[] {
+  const map = new Map<string, CaseLawChunk>()
+  for (const chunk of chunks) {
+    const key = `${chunk.jurisdiction}|${chunk.court}|${chunk.case_number}`
+    const existing = map.get(key)
+    if (!existing || chunk.similarity > existing.similarity) {
+      map.set(key, chunk)
+    }
+  }
+  return Array.from(map.values()).sort((a, b) => b.similarity - a.similarity)
+}
+
+async function matchCaseLaw(args: {
+  query: string
+  jurisdiction: string
+  legalArea?: string | null
+  courtLevel?: string | null
+  matchCount?: number
+  similarityThreshold?: number
+  retryIfEmpty?: boolean
+}): Promise<{
+  cases: CaseLawChunk[]
+  usedThreshold: number
+  retried: boolean
+}> {
+  const embedding = await embedQueryText(args.query)
+
+  const initialThreshold =
+    args.similarityThreshold ?? SIMILARITY_THRESHOLDS.MEDIUM
+  const shouldRetry =
+    args.retryIfEmpty !== false &&
+    initialThreshold > SIMILARITY_THRESHOLDS.LOW_RETRY
+
+  let usedThreshold = initialThreshold
+  let retried = false
+
+  let data = await runMatchCaseLawRpc({
+    embedding,
+    jurisdiction: args.jurisdiction,
+    legalArea: args.legalArea ?? null,
+    courtLevel: args.courtLevel ?? null,
+    matchCount: args.matchCount ?? 6,
+    similarityThreshold: initialThreshold,
+  })
+
+  if (data.length === 0 && shouldRetry) {
+    // eslint-disable-next-line no-console
+    console.log(
+      `[RAG case law] no results at threshold ${initialThreshold}, retrying with ${SIMILARITY_THRESHOLDS.LOW_RETRY}`,
+    )
+    retried = true
+    usedThreshold = SIMILARITY_THRESHOLDS.LOW_RETRY
+    data = await runMatchCaseLawRpc({
+      embedding,
+      jurisdiction: args.jurisdiction,
+      legalArea: args.legalArea ?? null,
+      courtLevel: args.courtLevel ?? null,
+      matchCount: args.matchCount ?? 6,
+      similarityThreshold: SIMILARITY_THRESHOLDS.LOW_RETRY,
+    })
+  }
+
+  return { cases: data, usedThreshold, retried }
+}
+
 export async function matchLegalArticles(args: {
   query: string
   jurisdiction: string
@@ -106,7 +280,7 @@ export async function matchLegalArticles(args: {
   usedThreshold: number
   retried: boolean
 }> {
-  const embedding = await embedQuery(args.query)
+  const embedding = await embedQueryText(args.query)
 
   const initialThreshold =
     args.similarityThreshold ?? SIMILARITY_THRESHOLDS.MEDIUM
@@ -167,17 +341,24 @@ function truncateContextBlock(text: string): string {
   return text
 }
 
-export function formatContextBlock(chunks: LegalChunk[]): string {
-  const jurisdiction = (chunks[0]?.jurisdiction ?? "").toUpperCase()
-
+function joinLegalChunksRaw(chunks: LegalChunk[]): string {
   const formattedChunks = chunks.map((chunk) => {
     const paragraphSuffix = chunk.paragraph_num ? " §" + chunk.paragraph_num : ""
     return `[LAW: ${chunk.law_name_local} | ARTICLE: ${chunk.article_num}${paragraphSuffix}]\n${chunk.text}`
   })
+  return formattedChunks.join("\n\n---\n\n")
+}
 
-  const joined = formattedChunks.join("\n\n---\n\n")
-  const block = `LEGAL PROVISIONS (${jurisdiction}):\n\n${joined}`
-  return truncateContextBlock(block)
+export function formatLegalChunksBody(chunks: LegalChunk[]): string {
+  return truncateContextBlock(joinLegalChunksRaw(chunks))
+}
+
+export function formatContextBlock(chunks: LegalChunk[]): string {
+  const jurisdiction = (chunks[0]?.jurisdiction ?? "").toUpperCase()
+  const body = joinLegalChunksRaw(chunks)
+  return truncateContextBlock(
+    `LEGAL PROVISIONS (${jurisdiction}):\n\n${body}`,
+  )
 }
 
 export function extractArticleReferences(text: string): string[] {
@@ -298,24 +479,102 @@ export async function retrieveLegalContext(
   }
 }
 
-export function getAnswerMode(
-  featureType: string,
-  confidence: RagResult["confidence"],
-): AnswerMode {
-  if (featureType === "contract_generation") return "drafting"
-  if (featureType === "document_generation") return "drafting"
-  if (confidence === "low") return "extracted"
-  if (featureType === "case_prediction") return "extracted"
-  if (featureType === "document_analysis") return "extracted"
-  return "auto"
+export async function retrieveCaseLawContext(
+  query: string,
+  jurisdiction: string,
+  options?: {
+    legalArea?: string
+    courtLevel?: string
+    k?: number
+    similarityThreshold?: number
+  },
+): Promise<CaseLawContextResult> {
+  const { cases: rawCases } = await matchCaseLaw({
+    query,
+    jurisdiction,
+    legalArea: options?.legalArea ?? null,
+    courtLevel: options?.courtLevel ?? null,
+    matchCount: options?.k ?? 6,
+    similarityThreshold: options?.similarityThreshold,
+    retryIfEmpty: true,
+  })
+
+  const cases = deduplicateCaseChunks(rawCases)
+
+  const topSimilarity = cases[0]?.similarity ?? 0
+
+  let confidence: CaseLawContextResult["confidence"]
+  if (
+    cases.length === 0 ||
+    topSimilarity < SIMILARITY_THRESHOLDS.LOW_RETRY
+  ) {
+    confidence = "none"
+  } else if (topSimilarity >= SIMILARITY_THRESHOLDS.HIGH) {
+    confidence = "high"
+  } else if (topSimilarity >= SIMILARITY_THRESHOLDS.MEDIUM) {
+    confidence = "medium"
+  } else {
+    confidence = "low"
+  }
+
+  return { cases, confidence, topSimilarity }
 }
 
-export function buildRagSystemPrompt(
+function formatCaseLawSummaryLines(cases: CaseLawChunk[]): string {
+  if (cases.length === 0) {
+    return "(No matching court decisions were retrieved for this query.)"
+  }
+  return cases
+    .map((c) => {
+      const date = c.decision_date ?? "—"
+      const head = c.headnote ?? "—"
+      return `${c.court} | ${c.case_number} | ${date} | ${c.court_position} | ${head}`
+    })
+    .join("\n")
+}
+
+export function buildCombinedRagPrompt(
   basePrompt: string,
   ragResult: RagResult,
+  caseLawResult: CaseLawContextResult,
   jurisdiction: string,
   outputLanguage: string,
   answerMode: AnswerMode = "auto",
+): string {
+  const legislationBody =
+    ragResult.chunks.length > 0
+      ? formatLegalChunksBody(ragResult.chunks)
+      : "(No matching statutory provisions were retrieved for this query.)"
+
+  const caseBody = formatCaseLawSummaryLines(caseLawResult.cases)
+
+  const instructionLead =
+    "[INSTRUCTIONS]\n" +
+    "Base your answer on both the legislation above AND the court decisions.\n" +
+    "When citing case law, always mention the court name and case number.\n\n"
+
+  return (
+    basePrompt +
+    `\n\n"""\n\n[RELEVANT LEGISLATION]\n\n${legislationBody}\n\n[COURT DECISIONS — CASE LAW]\n\n${caseBody}\n\n` +
+    instructionLead +
+    buildMandatoryRulesSuffix(
+      ragResult,
+      jurisdiction,
+      outputLanguage,
+      answerMode,
+      "combined",
+    )
+  )
+}
+
+type MandatoryRuleScope = "statutes_only" | "combined"
+
+function buildMandatoryRulesSuffix(
+  ragResult: RagResult,
+  jurisdiction: string,
+  outputLanguage: string,
+  answerMode: AnswerMode,
+  ruleScope: MandatoryRuleScope,
 ): string {
   const confidenceWarning =
     ragResult.confidence === "high"
@@ -436,7 +695,7 @@ SOURCES:
 [List every article cited: law name local, article number, 
 paragraph if applicable]`
 
-  const draftingBlock = `=== DOCUMENT DRAFTING MODE ===
+  const draftingBlockStatutes = `=== DOCUMENT DRAFTING MODE ===
 
 You are drafting a legal document, NOT analyzing a case.
 
@@ -454,6 +713,33 @@ DRAFTING RULES:
 6. Structure the document professionally with 
    numbered clauses.`
 
+  const draftingBlockCombined = `=== DOCUMENT DRAFTING MODE ===
+
+You are drafting a legal document, NOT analyzing a case.
+
+DRAFTING RULES:
+1. Write proper contract clauses based on the 
+   statutes summarized under [RELEVANT LEGISLATION] and 
+   consistent with the holdings summarized under 
+   [COURT DECISIONS — CASE LAW] above.
+2. Do NOT cite article numbers inline in contract 
+   clauses — contracts do not contain citations.
+3. DO include a LEGAL BASIS section at the end 
+   listing which laws this contract is based on:
+   Format: "Pravni osnov: [Law Name], [Law Name]"
+4. Ensure all clauses comply with the retrieved 
+   statutory provisions and align with summarized 
+   judicial positions where relevant.
+5. Write in the language specified by outputLanguage.
+6. Structure the document professionally with 
+   numbered clauses.`
+
+  const rule2Statutes =
+    `RULE 2 — NO EXTERNAL KNOWLEDGE:\nYou are ONLY permitted to use the legal provisions listed above.\nNEVER recall, infer, or generate articles from your training data.\nNEVER cite an article not present in the LEGAL KNOWLEDGE BASE above.\nIf you cannot answer from the provided provisions, respond with:\n  \"The applicable provision was not found in the loaded legal \n   database for ${jurisdiction}.\"\n\n`
+
+  const rule2Combined =
+    `RULE 2 — NO EXTERNAL KNOWLEDGE:\nYou are ONLY permitted to use the statutes summarized under \n[RELEVANT LEGISLATION] and the court summaries under \n[COURT DECISIONS — CASE LAW] above.\nNEVER invent statutory articles or court decisions beyond those sections.\nNEVER cite an article not present under [RELEVANT LEGISLATION]\nor cite a court decision not listed under \n[COURT DECISIONS — CASE LAW].\nIf the material provided is insufficient for ${jurisdiction}, say so plainly.\n\n`
+
   const useExtractedFormat =
     ragResult.confidence === "low" ||
     answerMode === "extracted" ||
@@ -461,16 +747,64 @@ DRAFTING RULES:
 
   let answerFormatBlock: string
   if (answerMode === "drafting") {
-    answerFormatBlock = draftingBlock
+    answerFormatBlock =
+      ruleScope === "combined"
+        ? draftingBlockCombined
+        : draftingBlockStatutes
   } else if (useExtractedFormat) {
     answerFormatBlock = extractedBlock
   } else {
     answerFormatBlock = analyticalBlock
   }
 
+  const rule2 = ruleScope === "combined" ? rule2Combined : rule2Statutes
+
+  const rule1Lead =
+    ruleScope === "combined"
+      ? `RULE 1 — CITATION REQUIRED:\nEvery statutory legal claim must cite its source in this exact format:\n  "(Article X, {law_name_local})"\nExample: "The employer must provide a written contract \n(Article 30, Zakon o radu)"\nFor case law references, identify the deciding court together with its case reference number.\n\n`
+      : `RULE 1 — CITATION REQUIRED:\nEvery legal claim must cite its source in this exact format:\n  "(Article X, {law_name_local})"\nExample: "The employer must provide a written contract \n(Article 30, Zakon o radu)"\n\n`
+
+  return (
+    `=== MANDATORY RULES — READ BEFORE ANSWERING ===\n\n` +
+    rule1Lead +
+    rule2 +
+    `RULE 3 — NO SEMANTIC DRIFT:\nDo not reinterpret, expand, or generalize beyond what is explicitly \nwritten in the provision text. Only restate or closely paraphrase \nwhat is written. Do not add meaning that is not present.` +
+    (ruleScope === "combined"
+      ? `\nTreat court summaries as illustrative—do not overstate holdings beyond each summary.\n\n`
+      : `\n\n`) +
+    `RULE 4 — LANGUAGE:\nWrite your entire response in ${outputLanguage}.\nCitation references may use the local law name regardless of \noutput language.\n\n${confidenceWarning}\n\n${answerFormatBlock}\n"""`
+  )
+}
+
+export function getAnswerMode(
+  featureType: string,
+  confidence: RagResult["confidence"],
+): AnswerMode {
+  if (featureType === "contract_generation") return "drafting"
+  if (featureType === "document_generation") return "drafting"
+  if (confidence === "low") return "extracted"
+  if (featureType === "case_prediction") return "extracted"
+  if (featureType === "document_analysis") return "extracted"
+  return "auto"
+}
+
+export function buildRagSystemPrompt(
+  basePrompt: string,
+  ragResult: RagResult,
+  jurisdiction: string,
+  outputLanguage: string,
+  answerMode: AnswerMode = "auto",
+): string {
   return (
     basePrompt +
-    `\n\n"""\n\n=== LEGAL KNOWLEDGE BASE (${jurisdiction.toUpperCase()}) ===\n\n${ragResult.contextBlock}\n\n=== MANDATORY RULES — READ BEFORE ANSWERING ===\n\nRULE 1 — CITATION REQUIRED:\nEvery legal claim must cite its source in this exact format:\n  \"(Article X, {law_name_local})\"\nExample: \"The employer must provide a written contract \n(Article 30, Zakon o radu)\"\n\nRULE 2 — NO EXTERNAL KNOWLEDGE:\nYou are ONLY permitted to use the legal provisions listed above.\nNEVER recall, infer, or generate articles from your training data.\nNEVER cite an article not present in the LEGAL KNOWLEDGE BASE above.\nIf you cannot answer from the provided provisions, respond with:\n  \"The applicable provision was not found in the loaded legal \n   database for ${jurisdiction}.\"\n\nRULE 3 — NO SEMANTIC DRIFT:\nDo not reinterpret, expand, or generalize beyond what is explicitly \nwritten in the provision text. Only restate or closely paraphrase \nwhat is written. Do not add meaning that is not present.\n\nRULE 4 — LANGUAGE:\nWrite your entire response in ${outputLanguage}.\nCitation references may use the local law name regardless of \noutput language.\n\n${confidenceWarning}\n\n${answerFormatBlock}\n\"\"\"`
+    `\n\n"""\n\n=== LEGAL KNOWLEDGE BASE (${jurisdiction.toUpperCase()}) ===\n\n${ragResult.contextBlock}\n\n` +
+    buildMandatoryRulesSuffix(
+      ragResult,
+      jurisdiction,
+      outputLanguage,
+      answerMode,
+      "statutes_only",
+    )
   )
 }
 

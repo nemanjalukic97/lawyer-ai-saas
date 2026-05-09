@@ -1,9 +1,12 @@
 import {
   retrieveLegalContext,
+  retrieveCaseLawContext,
   buildRagSystemPrompt,
+  buildCombinedRagPrompt,
   validateCitations,
   getAnswerMode,
   type LegalChunk,
+  type CaseLawContextResult,
 } from "@/lib/legalRag"
 import { NextRequest } from "next/server"
 
@@ -11,6 +14,7 @@ import { callAI, OpenAIConfigError, OpenAICallError } from "@/lib/openai"
 import { supabaseAdmin } from "@/lib/supabase/admin"
 import { createClient } from "@/lib/supabase/server"
 import type { TablesInsert } from "@/lib/supabase/types"
+import type { RagMetadata } from "@/types/rag"
 import { PLAN_ENTITLEMENTS } from "@/app/dashboard/lib/entitlements"
 import { getSubscriptionContextForUser } from "@/app/dashboard/lib/getEntitlementPlan"
 
@@ -26,6 +30,12 @@ const JURISDICTION_FEATURES = new Set([
   "document_analysis",
   "contract_generation",
   "document_generation",
+])
+
+const CASE_LAW_FEATURES = new Set([
+  "case_prediction",
+  "document_analysis",
+  "contract_generation",
 ])
 
 const FEATURE_K: Record<string, number> = {
@@ -44,27 +54,6 @@ interface AiRequestBody {
   jurisdiction?: string
   category?: string
   outputLanguage?: string
-}
-
-type RagMetadata = {
-  confidence: string
-  topSimilarity: number
-  hasStrongMatch: boolean
-  chunksRetrieved: number
-  answerMode: string
-  validation: {
-    valid: boolean
-    invalidCitations: string[]
-    missingCitations: string[]
-    citedArticles: string[]
-  } | null
-  sources: Array<{
-    law_name_local: string
-    article_num: string
-    paragraph_num: string | null
-    text_preview: string
-    similarity: number
-  }>
 }
 
 export async function POST(req: NextRequest) {
@@ -155,53 +144,101 @@ export async function POST(req: NextRequest) {
       answerMode: "none",
       validation: null,
       sources: [],
+      caseLawSources: [],
+      caseLawConfidence: "none",
     }
 
     if (JURISDICTION_FEATURES.has(featureType) && body.jurisdiction) {
       try {
+        const k = FEATURE_K[featureType] ?? 6
         const ragResult = await retrieveLegalContext(
           userPrompt,
           body.jurisdiction,
           {
             category: body.category ?? undefined,
-            k: FEATURE_K[featureType] ?? 6,
+            k,
           }
         )
 
-        if (ragResult.chunks.length > 0) {
+        let caseLawResult: CaseLawContextResult = {
+          cases: [],
+          confidence: "none",
+          topSimilarity: 0,
+        }
+
+        if (CASE_LAW_FEATURES.has(featureType)) {
+          caseLawResult = await retrieveCaseLawContext(
+            userPrompt,
+            body.jurisdiction,
+            {
+              legalArea: body.category,
+              k,
+            },
+          )
+        }
+
+        const hasStatutes = ragResult.chunks.length > 0
+        const hasCases = caseLawResult.cases.length > 0
+
+        if (hasStatutes || hasCases) {
           const answerMode = getAnswerMode(featureType, ragResult.confidence)
 
-          finalSystemPrompt = buildRagSystemPrompt(
-            systemPrompt,
-            ragResult,
-            body.jurisdiction,
-            body.outputLanguage ?? "English",
-            answerMode
-          )
+          finalSystemPrompt = CASE_LAW_FEATURES.has(featureType)
+            ? buildCombinedRagPrompt(
+                systemPrompt,
+                ragResult,
+                caseLawResult,
+                body.jurisdiction,
+                body.outputLanguage ?? "English",
+                answerMode,
+              )
+            : buildRagSystemPrompt(
+                systemPrompt,
+                ragResult,
+                body.jurisdiction,
+                body.outputLanguage ?? "English",
+                answerMode,
+              )
 
           ragMetadata = {
-            confidence: ragResult.confidence,
-            topSimilarity: ragResult.topSimilarity,
-            hasStrongMatch: ragResult.hasStrongMatch,
+            confidence: hasStatutes ? ragResult.confidence : "none",
+            topSimilarity: hasStatutes ? ragResult.topSimilarity : 0,
+            hasStrongMatch: hasStatutes && ragResult.hasStrongMatch,
             chunksRetrieved: ragResult.chunks.length,
             answerMode,
             validation: null,
-            sources: ragResult.chunks.map(c => ({
-              law_name_local: c.law_name_local,
-              article_num: c.article_num,
-              paragraph_num: c.paragraph_num,
-              text_preview: c.text.slice(0, 200) +
-                (c.text.length > 200 ? "..." : ""),
+            sources: hasStatutes
+              ? ragResult.chunks.map((c) => ({
+                  law_name_local: c.law_name_local,
+                  article_num: c.article_num,
+                  paragraph_num: c.paragraph_num,
+                  text_preview:
+                    c.text.slice(0, 200) +
+                    (c.text.length > 200 ? "..." : ""),
+                  similarity: Math.round(c.similarity * 1000) / 1000,
+                }))
+              : [],
+            caseLawSources: caseLawResult.cases.map((c) => ({
+              court: c.court,
+              case_number: c.case_number,
+              decision_date: c.decision_date,
+              legal_question: c.legal_question,
+              court_position: c.court_position,
+              headnote: c.headnote,
+              outcome: c.outcome,
               similarity: Math.round(c.similarity * 1000) / 1000,
             })),
+            caseLawConfidence: caseLawResult.confidence,
           }
 
           if (process.env.NODE_ENV !== "production") {
             console.log(
-              `[RAG] ${body.jurisdiction} | chunks: ${ragResult.chunks.length}` +
-              ` | confidence: ${ragResult.confidence}` +
-              ` | top: ${ragResult.topSimilarity.toFixed(3)}` +
-              ` | mode: ${answerMode}`
+              `[RAG] ${body.jurisdiction} | statute chunks: ${ragResult.chunks.length}` +
+                ` | case law: ${caseLawResult.cases.length}` +
+                ` | statute conf: ${hasStatutes ? ragResult.confidence : "none"}` +
+                ` | case-law conf: ${caseLawResult.confidence}` +
+                ` | statute top: ${hasStatutes ? ragResult.topSimilarity.toFixed(3) : "n/a"}` +
+                ` | mode: ${answerMode}`,
             )
           }
         }

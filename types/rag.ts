@@ -1,3 +1,14 @@
+export type CaseLawSource = {
+  court: string
+  case_number: string
+  decision_date: string | null
+  legal_question: string
+  court_position: string
+  headnote: string | null
+  outcome: string | null
+  similarity: number
+}
+
 export type RagSource = {
   law_name_local: string
   article_num: string
@@ -21,5 +32,7 @@ export type RagMetadata = {
   answerMode: string
   validation: RagValidation | null
   sources: RagSource[]
+  caseLawSources: CaseLawSource[]
+  caseLawConfidence: "high" | "medium" | "low" | "none"
 }
 

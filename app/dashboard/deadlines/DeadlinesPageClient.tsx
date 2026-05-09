@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { useCallback, useEffect, useMemo, useState } from "react"
+import { useSearchParams } from "next/navigation"
 import { Calendar, ChevronLeft, ChevronRight, Loader2, Trash2 } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
@@ -87,6 +88,7 @@ export default function DeadlinesPageClient({ planId, prefillMatterId }: Props) 
   const supabase = useMemo(() => createClient(), [])
   const { t } = useLanguage()
   const canUse = hasFeature(planId, "deadline_tracking")
+  const searchParams = useSearchParams()
 
   const [deadlines, setDeadlines] = useState<DeadlineRow[]>([])
   const [clients, setClients] = useState<ClientMini[]>([])
@@ -118,6 +120,13 @@ export default function DeadlinesPageClient({ planId, prefillMatterId }: Props) 
   })
 
   const [dayDialog, setDayDialog] = useState<string | null>(null)
+  const [tab, setTab] = useState<"list" | "calendar">(() => {
+    return searchParams.get("view") === "calendar" ? "calendar" : "list"
+  })
+
+  useEffect(() => {
+    setTab(searchParams.get("view") === "calendar" ? "calendar" : "list")
+  }, [searchParams])
 
   const load = useCallback(async () => {
     if (!canUse) {
@@ -561,7 +570,7 @@ export default function DeadlinesPageClient({ planId, prefillMatterId }: Props) 
             {t("deadlines.loading")}
           </div>
         ) : (
-          <Tabs defaultValue="list" className="w-full">
+          <Tabs value={tab} onValueChange={(v) => setTab(v as "list" | "calendar")} className="w-full">
             <TabsList className="mb-4 w-full max-w-md">
               <TabsTrigger value="list" className="flex-1">
                 {t("deadlines.tabs.list")}

@@ -1479,6 +1479,17 @@ export type Database = {
         }
         Returns: Json
       }
+      match_case_law: {
+        Args: {
+          query_embedding: number[]
+          filter_jurisdiction: string
+          filter_legal_area: string | null
+          filter_court_level: string | null
+          match_count: number
+          similarity_threshold: number
+        }
+        Returns: Json
+      }
       user_has_firm: { Args: never; Returns: boolean }
       user_law_firm_id: { Args: never; Returns: string }
     }
