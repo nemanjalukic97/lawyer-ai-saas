@@ -71,7 +71,9 @@ const JURISDICTION_OPTIONS: LocalizedOption<Jurisdiction>[] = [
 
 type EmploymentDetails = {
   employerName: string
+  employerAddress: string
   employeeName: string
+  employeeAddress: string
   jobTitle: string
   startDate: string
   salary: string
@@ -81,7 +83,9 @@ type EmploymentDetails = {
 
 type ServiceAgreementDetails = {
   clientName: string
+  clientAddress: string
   serviceProviderName: string
+  serviceProviderAddress: string
   serviceDescription: string
   paymentAmount: string
   paymentSchedule: string
@@ -91,7 +95,9 @@ type ServiceAgreementDetails = {
 
 type SalesContractDetails = {
   sellerName: string
+  sellerAddress: string
   buyerName: string
+  buyerAddress: string
   itemDescription: string
   purchasePrice: string
   paymentTerms: string
@@ -100,7 +106,9 @@ type SalesContractDetails = {
 
 type LeaseAgreementDetails = {
   landlordName: string
+  landlordAddress: string
   tenantName: string
+  tenantAddress: string
   propertyAddress: string
   monthlyRent: string
   depositAmount: string
@@ -110,7 +118,9 @@ type LeaseAgreementDetails = {
 
 type NdaDetails = {
   disclosingParty: string
+  disclosingPartyAddress: string
   receivingParty: string
+  receivingPartyAddress: string
   purpose: string
   confidentialInfoDescription: string
   duration: string
@@ -118,7 +128,9 @@ type NdaDetails = {
 
 type PartnershipAgreementDetails = {
   partner1Name: string
+  partner1Address: string
   partner2Name: string
+  partner2Address: string
   businessPurpose: string
   profitSplit: string
   startDate: string
@@ -188,6 +200,10 @@ function buildSystemPrompt(
     `You are a legal AI specialized in contract law for ${jurisdictionLabel}.`,
     `Generate a professional ${contractLabel} that complies with ${jurisdictionLabel} law.`,
     `Write the contract in ${outputLanguageName}.`,
+    "Output must be plain text only (no Markdown). Do not use **bold**, *, # headings, or code fences.",
+    'Do not define terms using quotes/parentheses (e.g. do not write ("Sporazum"), ("Ugovor"), (the "Agreement")).',
+    "Do not repeat a term in parentheses immediately after using the term.",
+    'Do not add defined-term parentheticals like "(dalje u tekstu: Ugovor)" or similar.',
     "STRUCTURE:",
     "- Title in CAPITAL LETTERS",
     "- Preamble with parties, date, location",
@@ -224,42 +240,42 @@ function buildUserPrompt(
     case "employment": {
       const d = details.data
       lines.push(
-        `Employer: ${d.employerName}. Employee: ${d.employeeName}. Job title: ${d.jobTitle}. Salary: ${d.salary}. Start date: ${d.startDate}. Work location: ${d.workLocation}. Contract duration: ${d.contractDuration}.`
+        `Employer full name: ${d.employerName}. Employer address: ${d.employerAddress}. Employee full name: ${d.employeeName}. Employee address: ${d.employeeAddress}. Job title: ${d.jobTitle}. Salary: ${d.salary}. Start date: ${d.startDate}. Work location: ${d.workLocation}. Contract duration: ${d.contractDuration}.`
       )
       break
     }
     case "service": {
       const d = details.data
       lines.push(
-        `Client: ${d.clientName}. Service provider: ${d.serviceProviderName}. Service description: ${d.serviceDescription}. Payment amount: ${d.paymentAmount}. Payment schedule: ${d.paymentSchedule}. Start date: ${d.startDate}. End date: ${d.endDate}.`
+        `Client full name: ${d.clientName}. Client address: ${d.clientAddress}. Service provider full name: ${d.serviceProviderName}. Service provider address: ${d.serviceProviderAddress}. Service description: ${d.serviceDescription}. Payment amount: ${d.paymentAmount}. Payment schedule: ${d.paymentSchedule}. Start date: ${d.startDate}. End date: ${d.endDate}.`
       )
       break
     }
     case "sales": {
       const d = details.data
       lines.push(
-        `Seller: ${d.sellerName}. Buyer: ${d.buyerName}. Item description: ${d.itemDescription}. Purchase price: ${d.purchasePrice}. Payment terms: ${d.paymentTerms}. Delivery date: ${d.deliveryDate}.`
+        `Seller full name: ${d.sellerName}. Seller address: ${d.sellerAddress}. Buyer full name: ${d.buyerName}. Buyer address: ${d.buyerAddress}. Item description: ${d.itemDescription}. Purchase price: ${d.purchasePrice}. Payment terms: ${d.paymentTerms}. Delivery date: ${d.deliveryDate}.`
       )
       break
     }
     case "lease": {
       const d = details.data
       lines.push(
-        `Landlord: ${d.landlordName}. Tenant: ${d.tenantName}. Property address: ${d.propertyAddress}. Monthly rent: ${d.monthlyRent}. Deposit amount: ${d.depositAmount}. Lease start date: ${d.leaseStartDate}. Lease duration: ${d.leaseDuration}.`
+        `Landlord full name: ${d.landlordName}. Landlord address: ${d.landlordAddress}. Tenant full name: ${d.tenantName}. Tenant address: ${d.tenantAddress}. Property address: ${d.propertyAddress}. Monthly rent: ${d.monthlyRent}. Deposit amount: ${d.depositAmount}. Lease start date: ${d.leaseStartDate}. Lease duration: ${d.leaseDuration}.`
       )
       break
     }
     case "nda": {
       const d = details.data
       lines.push(
-        `Disclosing party: ${d.disclosingParty}. Receiving party: ${d.receivingParty}. Purpose: ${d.purpose}. Confidential information: ${d.confidentialInfoDescription}. Duration: ${d.duration}.`
+        `Disclosing party full name: ${d.disclosingParty}. Disclosing party address: ${d.disclosingPartyAddress}. Receiving party full name: ${d.receivingParty}. Receiving party address: ${d.receivingPartyAddress}. Purpose: ${d.purpose}. Confidential information: ${d.confidentialInfoDescription}. Duration: ${d.duration}.`
       )
       break
     }
     case "partnership": {
       const d = details.data
       lines.push(
-        `Partner 1: ${d.partner1Name}. Partner 2: ${d.partner2Name}. Business purpose: ${d.businessPurpose}. Profit split: ${d.profitSplit}%. Start date: ${d.startDate}.`
+        `Partner 1 full name: ${d.partner1Name}. Partner 1 address: ${d.partner1Address}. Partner 2 full name: ${d.partner2Name}. Partner 2 address: ${d.partner2Address}. Business purpose: ${d.businessPurpose}. Profit split: ${d.profitSplit}%. Start date: ${d.startDate}.`
       )
       break
     }
@@ -281,7 +297,9 @@ function initialDetailsForType(contractType: ContractType): ContractDetails {
         type: "employment",
         data: {
           employerName: "",
+          employerAddress: "",
           employeeName: "",
+          employeeAddress: "",
           jobTitle: "",
           startDate: "",
           salary: "",
@@ -294,7 +312,9 @@ function initialDetailsForType(contractType: ContractType): ContractDetails {
         type: "service",
         data: {
           clientName: "",
+          clientAddress: "",
           serviceProviderName: "",
+          serviceProviderAddress: "",
           serviceDescription: "",
           paymentAmount: "",
           paymentSchedule: "",
@@ -307,7 +327,9 @@ function initialDetailsForType(contractType: ContractType): ContractDetails {
         type: "sales",
         data: {
           sellerName: "",
+          sellerAddress: "",
           buyerName: "",
+          buyerAddress: "",
           itemDescription: "",
           purchasePrice: "",
           paymentTerms: "",
@@ -319,7 +341,9 @@ function initialDetailsForType(contractType: ContractType): ContractDetails {
         type: "lease",
         data: {
           landlordName: "",
+          landlordAddress: "",
           tenantName: "",
+          tenantAddress: "",
           propertyAddress: "",
           monthlyRent: "",
           depositAmount: "",
@@ -332,7 +356,9 @@ function initialDetailsForType(contractType: ContractType): ContractDetails {
         type: "nda",
         data: {
           disclosingParty: "",
+          disclosingPartyAddress: "",
           receivingParty: "",
+          receivingPartyAddress: "",
           purpose: "",
           confidentialInfoDescription: "",
           duration: "",
@@ -343,7 +369,9 @@ function initialDetailsForType(contractType: ContractType): ContractDetails {
         type: "partnership",
         data: {
           partner1Name: "",
+          partner1Address: "",
           partner2Name: "",
+          partner2Address: "",
           businessPurpose: "",
           profitSplit: "",
           startDate: "",
@@ -1230,7 +1258,9 @@ export default function ContractsWizardPage({
       if (details?.type === "employment") {
         fieldConfigs.push(
           { name: "employerName", label: t("contracts.fields.employerName") },
+          { name: "employerAddress", label: t("contracts.fields.employerAddress") },
           { name: "employeeName", label: t("contracts.fields.employeeName") },
+          { name: "employeeAddress", label: t("contracts.fields.employeeAddress") },
           { name: "jobTitle", label: t("contracts.fields.jobTitle") },
           { name: "startDate", label: t("contracts.fields.startDate"), type: "date" },
           { name: "salary", label: t("contracts.fields.salary") },
@@ -1240,7 +1270,9 @@ export default function ContractsWizardPage({
       } else if (details?.type === "service") {
         fieldConfigs.push(
           { name: "clientName", label: t("contracts.fields.clientName") },
+          { name: "clientAddress", label: t("contracts.fields.clientAddress") },
           { name: "serviceProviderName", label: t("contracts.fields.serviceProviderName") },
+          { name: "serviceProviderAddress", label: t("contracts.fields.serviceProviderAddress") },
           { name: "serviceDescription", label: t("contracts.fields.serviceDescription") },
           { name: "paymentAmount", label: t("contracts.fields.paymentAmount") },
           { name: "paymentSchedule", label: t("contracts.fields.paymentSchedule") },
@@ -1250,7 +1282,9 @@ export default function ContractsWizardPage({
       } else if (details?.type === "sales") {
         fieldConfigs.push(
           { name: "sellerName", label: t("contracts.fields.sellerName") },
+          { name: "sellerAddress", label: t("contracts.fields.sellerAddress") },
           { name: "buyerName", label: t("contracts.fields.buyerName") },
+          { name: "buyerAddress", label: t("contracts.fields.buyerAddress") },
           { name: "itemDescription", label: t("contracts.fields.itemDescription") },
           { name: "purchasePrice", label: t("contracts.fields.purchasePrice") },
           { name: "paymentTerms", label: t("contracts.fields.paymentTerms") },
@@ -1259,7 +1293,9 @@ export default function ContractsWizardPage({
       } else if (details?.type === "lease") {
         fieldConfigs.push(
           { name: "landlordName", label: t("contracts.fields.landlordName") },
+          { name: "landlordAddress", label: t("contracts.fields.landlordAddress") },
           { name: "tenantName", label: t("contracts.fields.tenantName") },
+          { name: "tenantAddress", label: t("contracts.fields.tenantAddress") },
           { name: "propertyAddress", label: t("contracts.fields.propertyAddress") },
           { name: "monthlyRent", label: t("contracts.fields.monthlyRent") },
           { name: "depositAmount", label: t("contracts.fields.depositAmount") },
@@ -1269,7 +1305,9 @@ export default function ContractsWizardPage({
       } else if (details?.type === "nda") {
         fieldConfigs.push(
           { name: "disclosingParty", label: t("contracts.fields.disclosingParty") },
+          { name: "disclosingPartyAddress", label: t("contracts.fields.disclosingPartyAddress") },
           { name: "receivingParty", label: t("contracts.fields.receivingParty") },
+          { name: "receivingPartyAddress", label: t("contracts.fields.receivingPartyAddress") },
           { name: "purpose", label: t("contracts.fields.purpose") },
           { name: "confidentialInfoDescription", label: t("contracts.fields.confidentialInfoDescription") },
           { name: "duration", label: t("contracts.fields.duration") }
@@ -1277,7 +1315,9 @@ export default function ContractsWizardPage({
       } else if (details?.type === "partnership") {
         fieldConfigs.push(
           { name: "partner1Name", label: t("contracts.fields.partner1Name") },
+          { name: "partner1Address", label: t("contracts.fields.partner1Address") },
           { name: "partner2Name", label: t("contracts.fields.partner2Name") },
+          { name: "partner2Address", label: t("contracts.fields.partner2Address") },
           { name: "businessPurpose", label: t("contracts.fields.businessPurpose") },
           { name: "profitSplit", label: t("contracts.fields.profitSplit") },
           { name: "startDate", label: t("contracts.fields.startDate"), type: "date" }

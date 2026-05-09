@@ -38,14 +38,6 @@ type Jurisdiction =
   | "montenegro"
   | "slovenia"
 
-type Language =
-  | "serbian"
-  | "croatian"
-  | "bosnian"
-  | "montenegrin"
-  | "slovenian"
-  | "english"
-
 interface Option<T extends string> {
   value: T
   label: string
@@ -98,15 +90,6 @@ const JURISDICTION_OPTIONS: Option<Jurisdiction>[] = [
   { value: "slovenia", label: "Slovenia" },
 ]
 
-const LANGUAGE_OPTIONS: Option<Language>[] = [
-  { value: "serbian", label: "Serbian" },
-  { value: "croatian", label: "Croatian" },
-  { value: "bosnian", label: "Bosnian" },
-  { value: "montenegrin", label: "Montenegrin" },
-  { value: "slovenian", label: "Slovenian" },
-  { value: "english", label: "English" },
-]
-
 type FieldConfig = {
   name: string
   label: string
@@ -116,15 +99,25 @@ type FieldConfig = {
 
 const BASE_FIELDS: FieldConfig[] = [
   {
-    name: "party1",
-    label: "Party 1 Name",
-    translationKey: "generate.form.fields.party1",
-  } as FieldConfig,
+    name: "party1FullName",
+    label: "Party 1 Full name",
+    translationKey: "generate.form.fields.party1FullName",
+  },
   {
-    name: "party2",
-    label: "Party 2 Name",
-    translationKey: "generate.form.fields.party2",
-  } as FieldConfig,
+    name: "party1Address",
+    label: "Party 1 Address",
+    translationKey: "generate.form.fields.party1Address",
+  },
+  {
+    name: "party2FullName",
+    label: "Party 2 Full name",
+    translationKey: "generate.form.fields.party2FullName",
+  },
+  {
+    name: "party2Address",
+    label: "Party 2 Address",
+    translationKey: "generate.form.fields.party2Address",
+  },
   {
     name: "date",
     label: "Date",
@@ -266,6 +259,25 @@ const ADDITIONAL_FIELDS: Record<DocumentType, FieldConfig[]> = {
 
 type FormValues = Record<string, string>
 
+function outputLanguageNameFromUiLanguage(
+  uiLanguage: ReturnType<typeof useLanguage>["language"]
+): string {
+  switch (uiLanguage) {
+    case "sr":
+      return "Serbian"
+    case "bs":
+      return "Bosnian"
+    case "hr":
+      return "Croatian"
+    case "sl":
+      return "Slovenian"
+    case "me":
+      return "Montenegrin"
+    default:
+      return "English"
+  }
+}
+
 function humanizeDocumentType(documentType: DocumentType): string {
   const option = DOCUMENT_TYPE_OPTIONS.find((opt) => opt.value === documentType)
   return option?.label ?? "Legal Document"
@@ -284,11 +296,6 @@ function labelForDocumentType(
 function labelForJurisdiction(jurisdiction: Jurisdiction): string {
   const option = JURISDICTION_OPTIONS.find((opt) => opt.value === jurisdiction)
   return option?.label ?? jurisdiction
-}
-
-function labelForLanguage(language: Language): string {
-  const option = LANGUAGE_OPTIONS.find((opt) => opt.value === language)
-  return option?.label ?? language
 }
 
 function buildFileNameBase(documentType: DocumentType, jurisdiction: Jurisdiction): string {
@@ -321,30 +328,35 @@ function buildSystemPrompt(jurisdiction: Jurisdiction, documentType: DocumentTyp
     "Use formal legal language.",
     "Include all mandatory sections.",
     "Format as a proper legal document with title, preamble, numbered articles, and signature blocks.",
-    "Insert [PARTY NAME], [DATE] and similar placeholders where needed.",
+    "Output must be plain text only (no Markdown). Do not use **bold**, *, # headings, or code fences.",
+    "Do not use bracket placeholders like [NAME] or [DATE]. If information is missing, omit it or use a neutral formulation.",
+    'Do not define terms using quotes/parentheses (e.g. do not write ("Sporazum"), ("Ugovor"), (the "Agreement")).',
+    "Do not repeat a term in parentheses immediately after using the term.",
+    'Do not add defined-term parentheticals like "(dalje u tekstu: Ugovor)" or similar.',
   ].join(" ")
 }
 
 function buildUserPrompt(
   documentType: DocumentType,
   jurisdiction: Jurisdiction,
-  language: Language,
+  outputLanguageName: string,
   formValues: FormValues
 ): string {
   const documentLabel = humanizeDocumentType(documentType)
   const jurisdictionLabel = labelForJurisdiction(jurisdiction)
-  const languageLabel = labelForLanguage(language)
 
   const lines: string[] = []
 
   lines.push(
-    `Generate a ${documentLabel} for ${jurisdictionLabel} in ${languageLabel} with these details:`
+    `Generate a ${documentLabel} for ${jurisdictionLabel} in ${outputLanguageName} with these details:`
   )
   lines.push("")
 
-  lines.push(`Party 1: ${formValues.party1 || "[PARTY 1]"}`)
-  lines.push(`Party 2: ${formValues.party2 || "[PARTY 2]"}`)
-  lines.push(`Date: ${formValues.date || "[DATE]"}`)
+  lines.push(`Party 1 full name: ${formValues.party1FullName}`)
+  lines.push(`Party 1 address: ${formValues.party1Address}`)
+  lines.push(`Party 2 full name: ${formValues.party2FullName}`)
+  lines.push(`Party 2 address: ${formValues.party2Address}`)
+  lines.push(`Date: ${formValues.date}`)
 
   const additionalFields = ADDITIONAL_FIELDS[documentType]
 
@@ -369,7 +381,6 @@ export default function GeneratePageClient({ selectedId, templateId }: Props) {
 
   const [documentType, setDocumentType] = useState<DocumentType>("nda")
   const [jurisdiction, setJurisdiction] = useState<Jurisdiction>("serbia")
-  const [language, setLanguage] = useState<Language>("serbian")
 
   const [formValues, setFormValues] = useState<FormValues>({})
   const [isGenerating, setIsGenerating] = useState(false)
@@ -454,6 +465,24 @@ export default function GeneratePageClient({ selectedId, templateId }: Props) {
     [documentType]
   )
 
+  const outputLanguageName = useMemo(
+    () => outputLanguageNameFromUiLanguage(uiLanguage),
+    [uiLanguage]
+  )
+
+  const requiredFieldNames = useMemo(
+    () =>
+      ["party1FullName", "party1Address", "party2FullName", "party2Address", "date"],
+    []
+  )
+
+  const isFormComplete = useMemo(() => {
+    return requiredFieldNames.every((name) => {
+      const v = formValues[name]
+      return typeof v === "string" && v.trim().length > 0
+    })
+  }, [formValues, requiredFieldNames])
+
   function handleFieldChange(name: string, value: string) {
     setFormValues((prev) => ({
       ...prev,
@@ -461,8 +490,22 @@ export default function GeneratePageClient({ selectedId, templateId }: Props) {
     }))
   }
 
+  useEffect(() => {
+    // Default date to today so we avoid placeholder output.
+    const today = new Date().toISOString().slice(0, 10)
+    setFormValues((prev) => ({
+      ...prev,
+      date: typeof prev.date === "string" && prev.date.trim() ? prev.date : today,
+    }))
+  }, [])
+
   async function handleSubmit(event: FormEvent) {
     event.preventDefault()
+
+    if (!isFormComplete) {
+      setError("Please fill in Full name, Address, and Date before generating.")
+      return
+    }
 
     setError(null)
     setIsGenerating(true)
@@ -474,7 +517,7 @@ export default function GeneratePageClient({ selectedId, templateId }: Props) {
       const userPrompt = buildUserPrompt(
         documentType,
         jurisdiction,
-        language,
+        outputLanguageName,
         formValues
       )
 
@@ -501,6 +544,7 @@ export default function GeneratePageClient({ selectedId, templateId }: Props) {
           featureType: "document_generation",
           jurisdiction: jurisdiction,
           category: mappedCategory,
+          outputLanguage: outputLanguageName,
         }),
       })
 
@@ -542,7 +586,8 @@ export default function GeneratePageClient({ selectedId, templateId }: Props) {
             status: "draft",
             ai_generated: true,
             generation_params: {
-              language,
+              outputLanguage: outputLanguageName,
+              uiLanguage,
               formValues,
             },
           }
@@ -829,31 +874,6 @@ export default function GeneratePageClient({ selectedId, templateId }: Props) {
                       </SelectContent>
                     </Select>
                   </div>
-
-                  <div className="space-y-2">
-                    <Label className="mb-1.5 text-xs font-medium text-muted-foreground/70">
-                      {t("generate.form.language.label")}
-                    </Label>
-                    <Select
-                      value={language}
-                      onValueChange={(value) => setLanguage(value as Language)}
-                    >
-                      <SelectTrigger className="w-full">
-                        <SelectValue
-                          placeholder={t(
-                            "generate.form.language.placeholder"
-                          )}
-                        />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {LANGUAGE_OPTIONS.map((option) => (
-                          <SelectItem key={option.value} value={option.value}>
-                            {option.label}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
                 </div>
 
                 <div className="space-y-4">
@@ -865,14 +885,13 @@ export default function GeneratePageClient({ selectedId, templateId }: Props) {
                     {baseAndAdditionalFields.map((field) => (
                       <div key={field.name} className="space-y-1.5">
                         <Label htmlFor={field.name}>
-                          {field.translationKey
-                            ? t(field.translationKey)
-                            : field.label}
+                          {field.translationKey ? t(field.translationKey) : field.label}
                         </Label>
                         <Input
                           id={field.name}
                           type={field.type ?? "text"}
                           value={formValues[field.name] ?? ""}
+                          required={requiredFieldNames.includes(field.name)}
                           onChange={(event) =>
                             handleFieldChange(field.name, event.target.value)
                           }
@@ -893,7 +912,7 @@ export default function GeneratePageClient({ selectedId, templateId }: Props) {
                 )}
 
                 <div className="flex flex-wrap items-center gap-3">
-                  <Button type="submit" disabled={isGenerating}>
+                  <Button type="submit" disabled={isGenerating || !isFormComplete}>
                     {isGenerating && (
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     )}

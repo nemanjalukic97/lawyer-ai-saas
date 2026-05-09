@@ -76,6 +76,30 @@ export async function POST(req: NextRequest) {
 
   const { systemPrompt, userPrompt, featureType, entityType, entityId } = body
 
+  const cookieLanguageCode = req.cookies.get("legantis-language")?.value
+  const outputLanguageFromCookie = (() => {
+    switch (cookieLanguageCode) {
+      case "sr":
+        return "Serbian"
+      case "bs":
+        return "Bosnian"
+      case "hr":
+        return "Croatian"
+      case "sl":
+        return "Slovenian"
+      case "me":
+        return "Montenegrin"
+      case "en":
+      default:
+        return "English"
+    }
+  })()
+
+  const resolvedOutputLanguage =
+    typeof body.outputLanguage === "string" && body.outputLanguage.trim()
+      ? body.outputLanguage.trim()
+      : outputLanguageFromCookie
+
   const validFeatureTypes: FeatureType[] = [
     "contract_generation",
     "document_generation",
@@ -189,14 +213,14 @@ export async function POST(req: NextRequest) {
                 ragResult,
                 caseLawResult,
                 body.jurisdiction,
-                body.outputLanguage ?? "English",
+                resolvedOutputLanguage,
                 answerMode,
               )
             : buildRagSystemPrompt(
                 systemPrompt,
                 ragResult,
                 body.jurisdiction,
-                body.outputLanguage ?? "English",
+                resolvedOutputLanguage,
                 answerMode,
               )
 
@@ -257,6 +281,22 @@ export async function POST(req: NextRequest) {
       systemPrompt: finalSystemPrompt,
       userPrompt,
     })
+
+    const cleanedContent = content
+      // Remove redundant defined-term repetition like: Sporazum ("Sporazum") / Sporazum (“Sporazum”)
+      .replace(
+        /\b(\p{L}{2,})\s*\(\s*(["“”'])\1\2\s*\)/gu,
+        "$1"
+      )
+      // Remove defined-term parentheticals like: (dalje u tekstu: Ugovor) / (u daljem tekstu: Ugovor) / (v nadaljevanju: ...)
+      .replace(
+        /\s*\(\s*(dalje u tekstu|u daljem tekstu|u daljnjem tekstu|u nastavku|u daljem delu|v nadaljevanju)\s*:\s*[^)]*\)/giu,
+        ""
+      )
+      // Strip Markdown emphasis and headings (AI should output plain text)
+      .replace(/\*\*(.*?)\*\*/gs, "$1")
+      .replace(/\*(.*?)\*/gs, "$1")
+      .replace(/(^|\n)#{1,6}\s+/g, "$1")
 
     if (ragMetadata.chunksRetrieved > 0) {
       const chunksForValidation: LegalChunk[] = ragMetadata.sources.map((s) => ({
@@ -332,7 +372,7 @@ export async function POST(req: NextRequest) {
 
     return Response.json(
       {
-        content,
+        content: cleanedContent,
         tokensUsed,
         costUsd,
         rag: ragMetadata,
