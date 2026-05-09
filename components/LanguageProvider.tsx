@@ -1105,6 +1105,12 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         entries: "Time entries",
         invoices: "Invoices",
       },
+      deleteConfirm: {
+        title: "Delete time entry?",
+        body: "Are you sure you want to delete this time entry? This action cannot be undone.",
+        cancel: "Cancel",
+        confirm: "Delete",
+      },
       invoices: {
         title: "Invoices",
         subtitle:
@@ -3822,6 +3828,12 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         entries: "Unosi vremena",
         invoices: "Naplata",
       },
+      deleteConfirm: {
+        title: "Obrisati unos vremena?",
+        body: "Da li ste sigurni da želite obrisati ovaj unos vremena? Ova radnja se ne može poništiti.",
+        cancel: "Otkaži",
+        confirm: "Obriši",
+      },
       invoices: {
         title: "Naplata",
         subtitle:
@@ -5995,6 +6007,12 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       tabs: {
         entries: "Unosi vremena",
         invoices: "Naplata",
+      },
+      deleteConfirm: {
+        title: "Obrisati unos vremena?",
+        body: "Da li ste sigurni da želite obrisati ovaj unos vremena? Ova radnja se ne može poništiti.",
+        cancel: "Otkaži",
+        confirm: "Obriši",
       },
       invoices: {
         title: "Naplata",
@@ -8683,6 +8701,12 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         entries: "Unosi vremena",
         invoices: "Računi",
       },
+      deleteConfirm: {
+        title: "Obrisati unos vremena?",
+        body: "Jeste li sigurni da želite obrisati ovaj unos vremena? Ovu radnju nije moguće poništiti.",
+        cancel: "Odustani",
+        confirm: "Obriši",
+      },
       invoices: {
         title: "Računi",
         subtitle:
@@ -10267,6 +10291,12 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       tabs: {
         entries: "Časovni vnosi",
         invoices: "Računi",
+      },
+      deleteConfirm: {
+        title: "Izbrišem časovni vnos?",
+        body: "Ali ste prepričani, da želite izbrisati ta časovni vnos? Tega dejanja ni mogoče razveljaviti.",
+        cancel: "Prekliči",
+        confirm: "Izbriši",
       },
       invoices: {
         title: "Računi",
@@ -12357,6 +12387,12 @@ const MESSAGES: Record<LanguageCode, Messages> = {
       tabs: {
         entries: "Unosi vremena",
         invoices: "Računi",
+      },
+      deleteConfirm: {
+        title: "Obrisati unos vremena?",
+        body: "Da li ste sigurni da želite obrisati ovaj unos vremena? Ova radnja se ne može poništiti.",
+        cancel: "Otkaži",
+        confirm: "Obriši",
       },
       invoices: {
         title: "Računi",

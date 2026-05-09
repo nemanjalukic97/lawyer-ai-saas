@@ -179,6 +179,9 @@ export function TimeEntriesTab({
   const [invoiceDialogEntry, setInvoiceDialogEntry] = useState<TimeEntry | null>(
     null
   )
+  const [deleteConfirmEntry, setDeleteConfirmEntry] = useState<TimeEntry | null>(
+    null
+  )
   const [invoiceDueDate, setInvoiceDueDate] = useState("")
   const [invoiceNotes, setInvoiceNotes] = useState("")
   const [invoicePaymentRef, setInvoicePaymentRef] = useState("")
@@ -621,6 +624,13 @@ export function TimeEntriesTab({
     }
   }
 
+  async function handleConfirmDelete() {
+    if (!deleteConfirmEntry) return
+    const id = deleteConfirmEntry.id
+    setDeleteConfirmEntry(null)
+    await handleDelete(id)
+  }
+
   const totalUnbilledHours = useMemo(
     () =>
       entries
@@ -1032,7 +1042,7 @@ export function TimeEntriesTab({
                         variant="ghost"
                         size="icon"
                         className="shrink-0"
-                        onClick={() => void handleDelete(entry.id)}
+                        onClick={() => setDeleteConfirmEntry(entry)}
                         disabled={deletingId === entry.id}
                         aria-label={t("time.actions.deleteAria")}
                       >
@@ -1156,7 +1166,7 @@ export function TimeEntriesTab({
               )}
             </div>
           )}
-          <DialogFooter className="gap-2 sm:gap-0">
+          <DialogFooter className="gap-2 sm:gap-2">
             <Button
               type="button"
               variant="outline"
@@ -1181,6 +1191,40 @@ export function TimeEntriesTab({
               {invoiceSubmitting
                 ? t("time.invoiceGenerate.generating")
                 : t("time.invoiceGenerate.confirm")}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog
+        open={deleteConfirmEntry !== null}
+        onOpenChange={(open) => {
+          if (!open) setDeleteConfirmEntry(null)
+        }}
+      >
+        <DialogContent className="w-[calc(100%-3rem)] max-w-[320px] sm:w-full sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>{t("time.deleteConfirm.title")}</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-2 text-sm text-muted-foreground">
+            <p>{t("time.deleteConfirm.body")}</p>
+          </div>
+          <DialogFooter className="gap-2 sm:gap-2">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setDeleteConfirmEntry(null)}
+              disabled={deletingId === deleteConfirmEntry?.id}
+            >
+              {t("time.deleteConfirm.cancel")}
+            </Button>
+            <Button
+              type="button"
+              variant="destructive"
+              onClick={() => void handleConfirmDelete()}
+              disabled={deletingId === deleteConfirmEntry?.id}
+            >
+              {t("time.deleteConfirm.confirm")}
             </Button>
           </DialogFooter>
         </DialogContent>
