@@ -9,6 +9,8 @@ import {
   useState,
 } from "react"
 
+import { htmlLangFromUiLang, type ResolvedUiLang } from "@/lib/resolve-initial-language"
+
 export type LanguageCode = "en" | "sr" | "bs" | "hr" | "sl" | "me"
 
 const STORAGE_KEY = "legantis-language"
@@ -13091,18 +13093,38 @@ function getNestedMessage(messages: Messages, key: string): string | undefined {
     }, messages) as string | undefined
 }
 
-const detectLanguage = (): string => {
-  // First check localStorage (user manually selected)
-  if (typeof window === "undefined") return "en"
-  const saved = window.localStorage.getItem(STORAGE_KEY)
-  if (saved && MESSAGES[saved as LanguageCode]) return saved
+function readLanguageFromCookie(): LanguageCode | null {
+  if (typeof document === "undefined") return null
+  const parts = document.cookie.split(";")
+  for (const part of parts) {
+    const idx = part.indexOf("=")
+    const key = (idx === -1 ? part : part.slice(0, idx)).trim()
+    if (key !== STORAGE_KEY) continue
+    const raw = idx === -1 ? "" : part.slice(idx + 1).trim()
+    let value = raw
+    try {
+      value = decodeURIComponent(raw)
+    } catch {
+      /* keep raw */
+    }
+    if (value && MESSAGES[value as LanguageCode]) return value as LanguageCode
+  }
+  return null
+}
 
-  // Auto-detect from browser
+const detectLanguage = (): LanguageCode => {
+  if (typeof window === "undefined") return "en"
+  // Manual choice in this browser wins
+  const saved = window.localStorage.getItem(STORAGE_KEY)
+  if (saved && MESSAGES[saved as LanguageCode]) return saved as LanguageCode
+
+  const fromCookie = readLanguageFromCookie()
+  if (fromCookie) return fromCookie
+
   const browserLang = navigator.language || navigator.languages?.[0] || "en"
   const lang = browserLang.toLowerCase().split("-")[0]
 
-  // Map to supported languages
-  const supported: Record<string, string> = {
+  const supported: Record<string, LanguageCode> = {
     sr: "sr",
     bs: "bs",
     hr: "hr",
@@ -13115,13 +13137,27 @@ const detectLanguage = (): string => {
   return supported[lang] ?? "en"
 }
 
-export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [language, setLanguageState] = useState<LanguageCode>("en")
+type LanguageProviderProps = {
+  children: React.ReactNode
+  /** From root layout: cookie and/or Accept-Language so first paint is not stuck on English */
+  initialLanguage?: LanguageCode
+}
+
+export function LanguageProvider({
+  children,
+  initialLanguage = "en",
+}: LanguageProviderProps) {
+  const [language, setLanguageState] = useState<LanguageCode>(initialLanguage)
 
   useEffect(() => {
-    const detected = detectLanguage() as LanguageCode
-    setLanguageState(detected)
+    const detected = detectLanguage()
+    setLanguageState((prev) => (detected !== prev ? detected : prev))
   }, [])
+
+  useEffect(() => {
+    if (typeof document === "undefined") return
+    document.documentElement.lang = htmlLangFromUiLang(language as ResolvedUiLang)
+  }, [language])
 
   useEffect(() => {
     if (typeof window === "undefined") return

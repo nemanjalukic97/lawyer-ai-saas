@@ -14,9 +14,14 @@ import { cn } from "@/lib/utils"
 const navLinkClass =
   "rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent/50 hover:text-foreground"
 
-export function Header() {
+type HeaderProps = {
+  /** From server (Supabase cookies) so first paint matches session and avoids logged-out flash */
+  initialSignedIn?: boolean
+}
+
+export function Header({ initialSignedIn }: HeaderProps) {
   const { t } = useLanguage()
-  const [user, setUser] = useState<any>(null)
+  const [signedIn, setSignedIn] = useState(() => Boolean(initialSignedIn))
   const [mobileOpen, setMobileOpen] = useState(false)
   const [menuMounted, setMenuMounted] = useState(false)
   const closeTimerRef = useRef<number | null>(null)
@@ -25,13 +30,13 @@ export function Header() {
     const supabase = createClient()
 
     supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null)
+      setSignedIn(Boolean(session?.user))
     })
 
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null)
+      setSignedIn(Boolean(session?.user))
     })
 
     return () => subscription.unsubscribe()
@@ -83,7 +88,7 @@ export function Header() {
             {t("nav.pricing")}
           </Link>
           <LanguageSwitcher />
-          {user ? (
+          {signedIn ? (
             <>
               <Button asChild size="sm">
                 <Link href="/dashboard">{t("nav.dashboard")} →</Link>
@@ -147,7 +152,7 @@ export function Header() {
             >
               {t("nav.pricing")}
             </Link>
-            {user ? (
+            {signedIn ? (
               <>
                 <div className="px-3 pt-1">
                   <Button asChild className="w-full sm:w-auto">

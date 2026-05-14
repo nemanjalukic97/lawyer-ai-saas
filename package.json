@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "ingest-legal": "npx tsx scripts/ingest-legal-texts.ts",
+    "grant-firm-eval": "npx tsx scripts/grant-firm-evaluation.ts",
     "lint": "eslint"
   },
   "dependencies": {

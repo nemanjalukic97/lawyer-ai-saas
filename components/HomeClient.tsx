@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { useEffect, useState, type ReactNode } from "react"
+import { useEffect, useRef, useState, type ReactNode } from "react"
 import { FileCheck, MessageSquare, UserPlus } from "lucide-react"
 
 import DashboardMockup from "@/components/DashboardMockup"
@@ -12,6 +12,7 @@ import { SignupSuccessToast } from "@/components/SignupSuccessToast"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { useLanguage } from "@/components/LanguageProvider"
+import { cn } from "@/lib/utils"
 import { FEATURES, PRICING_TIERS } from "@/types"
 
 const FEATURE_CARD_ICONS: Record<(typeof FEATURES)[number]["id"], ReactNode> = {
@@ -101,11 +102,82 @@ const TESTIMONIAL_KEYS = ["1", "2", "3"] as const
 
 const FAQ_ITEMS = [1, 2, 3, 4, 5, 6, 7] as const
 
-type Props = {
-  signupStatus?: string
+/** tw-animate-css enter: fade + slide up; `motion-safe:` respects reduced motion */
+const HOME_ENTER =
+  "motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-8 motion-safe:duration-700 motion-safe:ease-out motion-safe:fill-mode-forwards"
+
+const HOME_ENTER_HERO =
+  "motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-6 motion-safe:duration-[900ms] motion-safe:ease-out motion-safe:fill-mode-forwards"
+
+const STAGGER_5 = [
+  "motion-safe:delay-0",
+  "motion-safe:delay-75",
+  "motion-safe:delay-150",
+  "motion-safe:delay-225",
+  "motion-safe:delay-300",
+] as const
+
+const STAGGER_3 = [
+  "motion-safe:delay-0",
+  "motion-safe:delay-150",
+  "motion-safe:delay-300",
+] as const
+
+type ScrollRevealProps = {
+  children: ReactNode
+  className?: string
+  /** tw-animate enter classes applied once the block intersects the viewport */
+  revealClassName?: string
+  rootMargin?: string
+  threshold?: number
 }
 
-export function HomeClient({ signupStatus }: Props) {
+function ScrollReveal({
+  children,
+  className,
+  revealClassName,
+  rootMargin = "0px 0px -10% 0px",
+  threshold = 0.12,
+}: ScrollRevealProps) {
+  const ref = useRef<HTMLDivElement>(null)
+  const [visible, setVisible] = useState(false)
+
+  useEffect(() => {
+    const node = ref.current
+    if (!node || visible) return
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries[0]?.isIntersecting) {
+          setVisible(true)
+          io.disconnect()
+        }
+      },
+      { root: null, rootMargin, threshold }
+    )
+    io.observe(node)
+    return () => io.disconnect()
+  }, [visible, rootMargin, threshold])
+
+  return (
+    <div
+      ref={ref}
+      className={cn(
+        className,
+        !visible && "motion-safe:translate-y-8 motion-safe:opacity-0",
+        visible && revealClassName
+      )}
+    >
+      {children}
+    </div>
+  )
+}
+
+type Props = {
+  signupStatus?: string
+  initialSignedIn?: boolean
+}
+
+export function HomeClient({ signupStatus, initialSignedIn }: Props) {
   const { t } = useLanguage()
   const [openFaqItem, setOpenFaqItem] = useState<number | null>(null)
 
@@ -238,7 +310,7 @@ export function HomeClient({ signupStatus }: Props) {
           zIndex: 0,
         }}
       />
-      <Header />
+      <Header initialSignedIn={initialSignedIn} />
 
       <main className="relative z-10 flex-1">
         {/* Hero */}
@@ -262,7 +334,12 @@ export function HomeClient({ signupStatus }: Props) {
             aria-hidden
             className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[70%] w-[60%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/[0.05] blur-[50px]"
           />
-          <div className="relative z-10 mx-auto w-full max-w-6xl px-4 text-center sm:px-6">
+          <div
+            className={cn(
+              "relative z-10 mx-auto w-full max-w-6xl px-4 text-center sm:px-6",
+              HOME_ENTER_HERO
+            )}
+          >
             <div className="flex justify-center">
               <span className="inline-flex items-center rounded-full border border-border bg-background/60 px-3 py-1 text-xs text-muted-foreground">
                 {t("home.hero.trustBadge")}
@@ -363,9 +440,10 @@ export function HomeClient({ signupStatus }: Props) {
               {HOW_STEPS.map((step) => {
                 const Icon = step.icon
                 return (
-                  <div
+                  <ScrollReveal
                     key={step.n}
                     className="relative z-10 flex flex-col items-center text-center"
+                    revealClassName={cn(HOME_ENTER, STAGGER_3[step.n - 1])}
                   >
                     <div className="mb-3 flex h-8 w-8 items-center justify-center rounded-full border border-border bg-background text-sm font-semibold text-foreground">
                       {step.n}
@@ -379,7 +457,7 @@ export function HomeClient({ signupStatus }: Props) {
                     <p className="mt-2 max-w-sm text-sm text-muted-foreground">
                       {t(`home.howItWorks.step${step.n}.desc`)}
                     </p>
-                  </div>
+                  </ScrollReveal>
                 )
               })}
             </div>
@@ -411,36 +489,54 @@ export function HomeClient({ signupStatus }: Props) {
               </p>
             </div>
             <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:hidden">
-              {FEATURES.map((f) => (
-                <FeatureCard
+              {FEATURES.map((f, i) => (
+                <ScrollReveal
                   key={f.id}
-                  title={t(`home.features.items.${f.id}.title`)}
-                  description={t(`home.features.items.${f.id}.description`)}
-                  icon={FEATURE_CARD_ICONS[f.id]}
-                />
+                  className="h-full min-h-0"
+                  revealClassName={cn(HOME_ENTER, STAGGER_5[i])}
+                >
+                  <FeatureCard
+                    title={t(`home.features.items.${f.id}.title`)}
+                    description={t(`home.features.items.${f.id}.description`)}
+                    icon={FEATURE_CARD_ICONS[f.id]}
+                    className="h-full"
+                  />
+                </ScrollReveal>
               ))}
             </div>
             <div className="mt-12 hidden gap-6 lg:grid">
               <div className="grid gap-6 lg:grid-cols-[1fr_1.35fr]">
-                <FeatureCard
-                  title={t(`home.features.items.${FEATURES[1].id}.title`)}
-                  description={t(`home.features.items.${FEATURES[1].id}.description`)}
-                  icon={FEATURE_CARD_ICONS[FEATURES[1].id]}
-                />
-                <FeatureCard
-                  title={t(`home.features.items.${FEATURES[0].id}.title`)}
-                  description={t(`home.features.items.${FEATURES[0].id}.description`)}
-                  icon={FEATURE_CARD_ICONS[FEATURES[0].id]}
-                />
+                <ScrollReveal className="h-full min-h-0" revealClassName={cn(HOME_ENTER, STAGGER_5[0])}>
+                  <FeatureCard
+                    title={t(`home.features.items.${FEATURES[1].id}.title`)}
+                    description={t(`home.features.items.${FEATURES[1].id}.description`)}
+                    icon={FEATURE_CARD_ICONS[FEATURES[1].id]}
+                    className="h-full"
+                  />
+                </ScrollReveal>
+                <ScrollReveal className="h-full min-h-0" revealClassName={cn(HOME_ENTER, STAGGER_5[1])}>
+                  <FeatureCard
+                    title={t(`home.features.items.${FEATURES[0].id}.title`)}
+                    description={t(`home.features.items.${FEATURES[0].id}.description`)}
+                    icon={FEATURE_CARD_ICONS[FEATURES[0].id]}
+                    className="h-full"
+                  />
+                </ScrollReveal>
               </div>
               <div className="grid gap-6 lg:grid-cols-3">
-                {FEATURES.slice(2).map((f) => (
-                  <FeatureCard
+                {FEATURES.slice(2).map((f, i) => (
+                  <ScrollReveal
                     key={f.id}
-                    title={t(`home.features.items.${f.id}.title`)}
-                    description={t(`home.features.items.${f.id}.description`)}
-                    icon={FEATURE_CARD_ICONS[f.id]}
-                  />
+                    className="h-full min-h-0"
+                    revealClassName={cn(HOME_ENTER, STAGGER_5[i + 2])}
+                  >
+                    <FeatureCard
+                      title={t(`home.features.items.${f.id}.title`)}
+                      description={t(`home.features.items.${f.id}.description`)}
+                      icon={FEATURE_CARD_ICONS[f.id]}
+                      className="h-full"
+                    />
+                  </ScrollReveal>
                 ))}
               </div>
             </div>
@@ -486,20 +582,25 @@ export function HomeClient({ signupStatus }: Props) {
               </p>
             </div>
             <div className="mt-12 grid gap-10 min-[767px]:gap-6 md:grid-cols-3">
-              {PRICING_TIERS.map((tier) => (
-                <PricingCard
+              {PRICING_TIERS.map((tier, i) => (
+                <ScrollReveal
                   key={tier.id}
-                  name={t(`home.pricing.tiers.${tier.id}.name`)}
-                  price={tier.price}
-                  features={tier.features.map((feature) =>
-                    t(`home.pricing.tiers.${tier.id}.features.${feature}`)
-                  )}
-                  ctaLabel={t("home.pricing.cta")}
-                  pricePeriodLabel={t("home.pricing.perMonth")}
-                  recommendedLabel={t("home.pricing.recommended")}
-                  recommended={tier.recommended}
-                  planId={tier.id as "solo" | "professional" | "firm"}
-                />
+                  className="h-full min-h-0"
+                  revealClassName={cn(HOME_ENTER, STAGGER_3[i])}
+                >
+                  <PricingCard
+                    name={t(`home.pricing.tiers.${tier.id}.name`)}
+                    price={tier.price}
+                    features={tier.features.map((feature) =>
+                      t(`home.pricing.tiers.${tier.id}.features.${feature}`)
+                    )}
+                    ctaLabel={t("home.pricing.cta")}
+                    pricePeriodLabel={t("home.pricing.perMonth")}
+                    recommendedLabel={t("home.pricing.recommended")}
+                    recommended={tier.recommended}
+                    planId={tier.id as "solo" | "professional" | "firm"}
+                  />
+                </ScrollReveal>
               ))}
             </div>
             <div className="mt-20 overflow-x-auto rounded-xl border border-border">
@@ -631,7 +732,10 @@ export function HomeClient({ signupStatus }: Props) {
               <p className="mt-3 text-muted-foreground">{t("home.faq.subtitle")}</p>
             </div>
 
-            <div className="rounded-2xl border border-border bg-card/70 p-6 shadow-sm md:p-8">
+            <ScrollReveal
+              className="rounded-2xl border border-border bg-card/70 p-6 shadow-sm md:p-8"
+              revealClassName={cn(HOME_ENTER, "motion-safe:delay-75")}
+            >
               <div className="grid gap-8 lg:grid-cols-[1fr_1.35fr] lg:gap-10">
                 <div>
                   <h3 className="text-xl font-semibold text-foreground sm:text-2xl">
@@ -703,7 +807,7 @@ export function HomeClient({ signupStatus }: Props) {
                   })}
                 </div>
               </div>
-            </div>
+            </ScrollReveal>
           </div>
         </section>
       </main>

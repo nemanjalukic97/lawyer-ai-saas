@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import { cookies, headers } from "next/headers";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "@/components/LanguageProvider";
 import { AppFooter } from "@/components/AppFooter";
+import { htmlLangFromUiLang, resolveInitialLanguage } from "@/lib/resolve-initial-language";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ThemeSync } from "@/components/theme-sync";
 import { Toaster } from "sonner";
@@ -83,13 +85,21 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cookieStore = await cookies();
+  const headerList = await headers();
+  const initialLanguage = resolveInitialLanguage(
+    cookieStore.get("legantis-language")?.value,
+    headerList.get("accept-language")
+  );
+  const htmlLang = htmlLangFromUiLang(initialLanguage);
+
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={htmlLang} suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} min-h-screen font-sans antialiased`}
       >
@@ -102,7 +112,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <ThemeSync />
-          <LanguageProvider>
+          <LanguageProvider initialLanguage={initialLanguage}>
             <div className="flex min-h-screen flex-col">
               <div className="flex-1">{children}</div>
               <AppFooter />
