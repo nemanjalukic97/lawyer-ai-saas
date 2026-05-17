@@ -379,7 +379,7 @@ function ResearchResultsTabs({
         {showLawsTab ? (
           <TabsTrigger
             value="laws"
-            className="flex-1 gap-2 px-6 py-3 text-base font-semibold text-foreground/70 data-[state=active]:text-lg data-[state=active]:font-bold data-[state=active]:text-blue-800 data-[state=active]:shadow-sm dark:text-foreground/60 dark:data-[state=active]:text-blue-300"
+            className="flex-1 cursor-pointer gap-2 px-6 py-3 text-base font-semibold text-foreground/70 data-[state=active]:text-lg data-[state=active]:font-bold data-[state=active]:text-blue-800 data-[state=active]:shadow-sm dark:text-foreground/60 dark:data-[state=active]:text-blue-300"
           >
             <BookOpen className="h-5 w-5 shrink-0 text-blue-600 dark:text-blue-400" />
             {t("research.results.lawsTab")} ({lawCount})
@@ -388,7 +388,7 @@ function ResearchResultsTabs({
         {showCaseTab ? (
           <TabsTrigger
             value="caselaw"
-            className="flex-1 gap-2 px-6 py-3 text-base font-semibold text-foreground/70 data-[state=active]:text-lg data-[state=active]:font-bold data-[state=active]:text-amber-800 data-[state=active]:shadow-sm dark:text-foreground/60 dark:data-[state=active]:text-amber-300"
+            className="flex-1 cursor-pointer gap-2 px-6 py-3 text-base font-semibold text-foreground/70 data-[state=active]:text-lg data-[state=active]:font-bold data-[state=active]:text-amber-800 data-[state=active]:shadow-sm dark:text-foreground/60 dark:data-[state=active]:text-amber-300"
           >
             <Scale className="h-5 w-5 shrink-0 text-amber-600 dark:text-amber-400" />
             {t("research.results.caseLawTab")} ({caseCount})
