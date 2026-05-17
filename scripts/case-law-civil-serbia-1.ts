@@ -5,7 +5,7 @@ import type { CaseLawInput } from "./ingest-case-law"
 
 export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 1317/2023",
@@ -30,7 +30,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 2167/2019",
@@ -46,7 +46,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 4101/2020",
@@ -62,7 +62,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "partially",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 214/2019",
@@ -78,7 +78,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 1527/2023",
@@ -94,7 +94,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "partially",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 6408/2022",
@@ -110,7 +110,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 840/2022",
@@ -126,7 +126,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Prev 1222/2022",
@@ -142,7 +142,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 379/2023",
@@ -158,7 +158,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Privredni apelacioni sud",
     court_level: "appellate",
     case_number: "Pž 3739/2014",
@@ -174,7 +174,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 434/2016",
@@ -190,7 +190,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 1870/2020",
@@ -206,7 +206,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 4169/2017",
@@ -222,7 +222,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "remanded",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 4313/2023",
@@ -238,7 +238,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "remanded",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 1277/2022",
@@ -254,7 +254,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "partially",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 17697/2022",
@@ -270,7 +270,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "procedural",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 5413/2018",
@@ -286,7 +286,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 1834/2023",
@@ -302,7 +302,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 1043/2025",
@@ -318,7 +318,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "partially",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 2076/2018",
@@ -334,7 +334,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "partially",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 796/2024",
@@ -350,7 +350,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "partially",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 4128/2024",
@@ -366,7 +366,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "partially",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 1824/2021",
@@ -382,7 +382,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 58/2023",
@@ -398,7 +398,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "partially",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 13028/2022",
@@ -414,7 +414,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 5766/2023",
@@ -430,7 +430,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 4349/2022",
@@ -446,7 +446,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "remanded",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 3514/2022",
@@ -462,7 +462,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "partially",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 6838/2018",
@@ -478,7 +478,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "partially",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 715/2023",
@@ -494,7 +494,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "partially",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 637/2013",
@@ -510,7 +510,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 16908/2022",
@@ -527,7 +527,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
   },
   // ── BATCH 2 (1/4) ───────────────────────────────────────────────────────────
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 3553/2024",
@@ -543,7 +543,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 5824/2023",
@@ -559,7 +559,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Ustavni sud Srbije",
     court_level: "constitutional",
     case_number: "Už 9962/2012",
@@ -575,7 +575,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 3833/2018",
@@ -591,7 +591,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 258/2021",
@@ -607,7 +607,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 2373/2025",
@@ -623,7 +623,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 277/2025",
@@ -639,7 +639,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "remanded",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 3819/2024",
@@ -656,7 +656,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
   },
   // ── BATCH 2 (2/4) ───────────────────────────────────────────────────────────
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 5302/2019",
@@ -672,7 +672,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 19676/2022",
@@ -688,7 +688,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "remanded",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 500/2015",
@@ -704,7 +704,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 396/2011",
@@ -720,7 +720,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "partially",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 3476/2020",
@@ -736,7 +736,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Osnovni sud u Beogradu",
     court_level: "basic",
     case_number: "Po4 14/2025",
@@ -752,7 +752,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "procedural",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 30427/2023",
@@ -768,7 +768,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni sud Srbije",
     court_level: "supreme",
     case_number: "Kzz 1042/2024",
@@ -785,7 +785,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
   },
   // ── BATCH 2 (3/4) ───────────────────────────────────────────────────────────
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 25/2021",
@@ -801,7 +801,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "partially",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 3040/2014",
@@ -817,7 +817,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "remanded",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Privredni apelacioni sud",
     court_level: "appellate",
     case_number: "Pž 5759/2020",
@@ -833,7 +833,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 1136/2021",
@@ -849,7 +849,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Privredni apelacioni sud",
     court_level: "appellate",
     case_number: "Pž 1617/2014",
@@ -865,7 +865,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 17114/2023",
@@ -881,7 +881,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 3087/2020",
@@ -897,7 +897,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 476/2023",
@@ -914,7 +914,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
   },
   // ── BATCH 2 (4/4) ───────────────────────────────────────────────────────────
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Privredni apelacioni sud",
     court_level: "appellate",
     case_number: "Pž 1890/2018",
@@ -930,7 +930,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Privredni apelacioni sud",
     court_level: "appellate",
     case_number: "Pž 1970/2021",
@@ -946,7 +946,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Privredni apelacioni sud",
     court_level: "appellate",
     case_number: "Pž 4754/2018",
@@ -962,7 +962,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 3258/2020",
@@ -978,7 +978,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 5/2020",
@@ -994,7 +994,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 920/2015",
@@ -1010,7 +1010,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 12562/2023",
@@ -1026,7 +1026,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 5740/2022",
@@ -1043,7 +1043,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
   },
   // ── BATCH 3 (1/4) ───────────────────────────────────────────────────────────
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Kž1 Po1 5/2016",
@@ -1059,7 +1059,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "partially",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 1383/2021",
@@ -1075,7 +1075,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 4206/2010",
@@ -1091,7 +1091,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 1161/2023",
@@ -1107,7 +1107,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 2825/2022",
@@ -1123,7 +1123,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Ustavni sud Srbije",
     court_level: "constitutional",
     case_number: "Už 7893/2013",
@@ -1139,7 +1139,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 2072/2016",
@@ -1155,7 +1155,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "remanded",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž3 55/2022",
@@ -1172,7 +1172,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
   },
   // ── BATCH 3 (2/4) ───────────────────────────────────────────────────────────
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 12855/2022",
@@ -1188,7 +1188,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Ustavni sud Srbije",
     court_level: "constitutional",
     case_number: "Už 7036/2016",
@@ -1204,7 +1204,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 23094/2024",
@@ -1220,7 +1220,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "procedural",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Ustavni sud Srbije",
     court_level: "constitutional",
     case_number: "Už 1005/2014",
@@ -1236,7 +1236,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Ustavni sud Srbije",
     court_level: "constitutional",
     case_number: "Už 1030/2013",
@@ -1252,7 +1252,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 1860/2023",
@@ -1268,7 +1268,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Privredni apelacioni sud",
     court_level: "appellate",
     case_number: "Pž 2573/2020",
@@ -1284,7 +1284,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 2157/2015",
@@ -1301,7 +1301,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
   },
   // ── BATCH 3 (3/4) ───────────────────────────────────────────────────────────
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Privredni apelacioni sud",
     court_level: "appellate",
     case_number: "Pž 1938/2022",
@@ -1317,7 +1317,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "remanded",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 5821/2022",
@@ -1333,7 +1333,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "partially",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Privredni apelacioni sud",
     court_level: "appellate",
     case_number: "Pž 7493/2015",
@@ -1349,7 +1349,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "partially",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 449/2021",
@@ -1365,7 +1365,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Ustavni sud Srbije",
     court_level: "constitutional",
     case_number: "Už 6847/2016",
@@ -1381,7 +1381,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 23395/2023",
@@ -1397,7 +1397,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Ustavni sud Srbije",
     court_level: "constitutional",
     case_number: "Už 6928/2011",
@@ -1413,7 +1413,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 5560/2022",
@@ -1430,7 +1430,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
   },
   // ── BATCH 3 (4/4) ───────────────────────────────────────────────────────────
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Ustavni sud Srbije",
     court_level: "constitutional",
     case_number: "Už 2401/2014",
@@ -1446,7 +1446,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž3 438/2022",
@@ -1462,7 +1462,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "partially",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 3792/2021",
@@ -1478,7 +1478,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Ustavni sud Srbije",
     court_level: "constitutional",
     case_number: "IUo 211/2009",
@@ -1494,7 +1494,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "procedural",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 2082/2016",
@@ -1510,7 +1510,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "partially",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Privredni apelacioni sud",
     court_level: "appellate",
     case_number: "Pž 3339/2019",
@@ -1526,7 +1526,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 3284/2025",
@@ -1542,7 +1542,7 @@ export const CASE_LAW_CIVIL_SERBIA_1: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Privredni apelacioni sud",
     court_level: "appellate",
     case_number: "Pž 6593/2018",

@@ -1,7 +1,7 @@
 "use client"
 
 import { FormEvent, useEffect, useMemo, useState } from "react"
-import { Search, BookmarkPlus, Loader2 } from "lucide-react"
+import { Search, BookmarkPlus, Loader2, Scale, BookOpen } from "lucide-react"
 
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -15,6 +15,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useLanguage } from "@/components/LanguageProvider"
 import { cn } from "@/lib/utils"
 import type { EntitlementPlanId } from "../lib/entitlements"
@@ -36,11 +37,35 @@ type ResearchResultItem = {
   excerpt: string
 }
 
+type ResearchCaseLawResultItem = {
+  id: string
+  jurisdiction: string
+  court: string
+  case_number: string
+  decision_date: string | null
+  legal_question: string
+  court_position: string
+  outcome: string | null
+  similarity: number
+  confidencePct: number
+  excerpt: string
+}
+
 type SearchResponse = {
   query: string
   filters: { jurisdiction: string | null; category: string | null }
   results: ResearchResultItem[]
+  caseLawResults?: ResearchCaseLawResultItem[]
+  caseLawConfidence?: "high" | "medium" | "low" | "none"
 }
+
+type SavedSessionResults =
+  | ResearchResultItem[]
+  | {
+      law?: ResearchResultItem[]
+      caseLaw?: ResearchCaseLawResultItem[]
+      caseLawConfidence?: SearchResponse["caseLawConfidence"]
+    }
 
 type SavedSession = {
   id: string
@@ -48,7 +73,33 @@ type SavedSession = {
   query: string
   jurisdiction_filter: string | null
   category_filter: string | null
-  results: SearchResponse["results"]
+  results: SavedSessionResults
+}
+
+function parseSavedSessionResults(stored: SavedSessionResults): {
+  law: ResearchResultItem[]
+  caseLaw: ResearchCaseLawResultItem[]
+  caseLawConfidence?: SearchResponse["caseLawConfidence"]
+} {
+  if (Array.isArray(stored)) {
+    return { law: stored, caseLaw: [] }
+  }
+  return {
+    law: Array.isArray(stored.law) ? stored.law : [],
+    caseLaw: Array.isArray(stored.caseLaw) ? stored.caseLaw : [],
+    caseLawConfidence: stored.caseLawConfidence,
+  }
+}
+
+function confidenceBadgeClass(pct: number): string {
+  return cn(
+    "font-medium",
+    pct >= 65
+      ? "bg-emerald-500/15 text-emerald-800 dark:text-emerald-300"
+      : pct >= 30
+        ? "bg-amber-500/15 text-amber-800 dark:text-amber-300"
+        : "bg-muted text-muted-foreground",
+  )
 }
 
 const JURISDICTIONS: Array<{ id: string; labelKey: string }> = [
@@ -128,6 +179,321 @@ function highlightExcerpt(excerpt: string, query: string): Array<string | { mark
   return parts.length ? parts : [excerpt]
 }
 
+function caseLawOutcomeBorderClass(outcome: string | null): string {
+  switch (outcome) {
+    case "plaintiff_won":
+      return "border-l-emerald-500"
+    case "defendant_won":
+      return "border-l-red-500"
+    case "partially":
+      return "border-l-amber-500"
+    case "remanded":
+      return "border-l-blue-500"
+    case "procedural":
+      return "border-l-muted-foreground"
+    default:
+      return "border-l-border"
+  }
+}
+
+function HighlightedText({
+  parts,
+}: {
+  parts: Array<string | { mark: string }>
+}) {
+  return (
+    <>
+      {parts.map((p, idx) =>
+        typeof p === "string" ? (
+          <span key={idx}>{p}</span>
+        ) : (
+          <mark
+            key={idx}
+            className="rounded bg-primary/15 px-0.5 text-foreground"
+          >
+            {p.mark}
+          </mark>
+        ),
+      )}
+    </>
+  )
+}
+
+function ResearchCaseLawResults({
+  results,
+  t,
+  highlightExcerpt,
+  jurisdictionBadgeClass,
+  confidenceBadgeClass,
+}: {
+  results: SearchResponse
+  t: (key: string) => string
+  highlightExcerpt: (
+    excerpt: string,
+    query: string,
+  ) => Array<string | { mark: string }>
+  jurisdictionBadgeClass: (j: string) => string
+  confidenceBadgeClass: (pct: number) => string
+}) {
+  const items = results.caseLawResults ?? []
+  return (
+    <div className="space-y-4">
+      {items.map((c) => {
+        const outcomeKey = c.outcome ? `rag.caseLaw.outcomes.${c.outcome}` : null
+        const outcomeLabel =
+          outcomeKey && t(outcomeKey) !== outcomeKey ? t(outcomeKey) : c.outcome
+        const decisionLabel =
+          c.decision_date && c.decision_date.trim()
+            ? new Date(c.decision_date).toLocaleDateString(undefined, {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+              })
+            : null
+        const positionParts = c.court_position
+          ? highlightExcerpt(c.court_position, results.query)
+          : []
+        return (
+          <Card
+            key={c.id}
+            className={cn(
+              "border-l-2 p-5",
+              caseLawOutcomeBorderClass(c.outcome),
+            )}
+          >
+            <CaseLawResultCardBody
+              c={c}
+              positionParts={positionParts}
+              outcomeLabel={outcomeLabel}
+              decisionLabel={decisionLabel}
+              t={t}
+              jurisdictionBadgeClass={jurisdictionBadgeClass}
+              confidenceBadgeClass={confidenceBadgeClass}
+            />
+          </Card>
+        )
+      })}
+    </div>
+  )
+}
+
+function CaseLawResultCardBody({
+  c,
+  positionParts,
+  outcomeLabel,
+  decisionLabel,
+  t,
+  jurisdictionBadgeClass,
+  confidenceBadgeClass,
+}: {
+  c: ResearchCaseLawResultItem
+  positionParts: Array<string | { mark: string }>
+  outcomeLabel: string | null
+  decisionLabel: string | null
+  t: (key: string) => string
+  jurisdictionBadgeClass: (j: string) => string
+  confidenceBadgeClass: (pct: number) => string
+}) {
+  return (
+    <>
+      <div className="flex items-start justify-between gap-3">
+        <p className="min-w-0 text-sm text-muted-foreground">{c.court}</p>
+        {outcomeLabel ? (
+          <Badge variant="secondary" className="shrink-0">
+            {outcomeLabel}
+          </Badge>
+        ) : null}
+      </div>
+      <p className="mt-1 text-base font-bold text-foreground">{c.case_number}</p>
+      {decisionLabel ? (
+        <p className="mt-0.5 text-xs text-muted-foreground">
+          {t("rag.caseLaw.decisionDateLabel")} {decisionLabel}
+        </p>
+      ) : null}
+      <div className="mt-2 flex flex-wrap items-center gap-2">
+        <span className={jurisdictionBadgeClass(c.jurisdiction)}>
+          {c.jurisdiction}
+        </span>
+        <Badge
+          className={confidenceBadgeClass(c.confidencePct)}
+          variant="outline"
+        >
+          {t("research.results.confidenceLabel")} {c.confidencePct}%
+        </Badge>
+      </div>
+      {c.legal_question ? (
+        <p className="mt-3 whitespace-normal text-sm italic text-muted-foreground">
+          {c.legal_question}
+        </p>
+      ) : null}
+      {c.court_position ? (
+        <div className="mt-3 w-full whitespace-normal text-sm leading-relaxed text-foreground">
+          <HighlightedText parts={positionParts} />
+        </div>
+      ) : null}
+    </>
+  )
+}
+
+function ResearchResultsTabs({
+  results,
+  languageMode,
+  t,
+  highlightExcerpt,
+  jurisdictionBadgeClass,
+  confidenceBadgeClass,
+}: {
+  results: SearchResponse
+  languageMode: LanguageMode
+  t: (key: string) => string
+  highlightExcerpt: (
+    excerpt: string,
+    query: string,
+  ) => Array<string | { mark: string }>
+  jurisdictionBadgeClass: (j: string) => string
+  confidenceBadgeClass: (pct: number) => string
+}) {
+  const lawCount = results.results?.length ?? 0
+  const caseCount = results.caseLawResults?.length ?? 0
+  const showLawsTab = lawCount > 0
+  const showCaseTab = caseCount > 0
+  const defaultTab = lawCount > 0 ? "laws" : "caselaw"
+
+  if (!showLawsTab && !showCaseTab) {
+    return (
+      <Card className="p-6">
+        <p className="text-sm text-muted-foreground">
+          {t("research.results.empty")}
+        </p>
+      </Card>
+    )
+  }
+
+  return (
+    <Tabs
+      key={`${lawCount}-${caseCount}-${results.query}`}
+      defaultValue={defaultTab}
+      className="space-y-3"
+    >
+      <TabsList className="flex h-auto w-full p-1">
+        {showLawsTab ? (
+          <TabsTrigger
+            value="laws"
+            className="flex-1 gap-2 px-6 py-3 text-base font-semibold text-foreground/70 data-[state=active]:text-lg data-[state=active]:font-bold data-[state=active]:text-blue-800 data-[state=active]:shadow-sm dark:text-foreground/60 dark:data-[state=active]:text-blue-300"
+          >
+            <BookOpen className="h-5 w-5 shrink-0 text-blue-600 dark:text-blue-400" />
+            {t("research.results.lawsTab")} ({lawCount})
+          </TabsTrigger>
+        ) : null}
+        {showCaseTab ? (
+          <TabsTrigger
+            value="caselaw"
+            className="flex-1 gap-2 px-6 py-3 text-base font-semibold text-foreground/70 data-[state=active]:text-lg data-[state=active]:font-bold data-[state=active]:text-amber-800 data-[state=active]:shadow-sm dark:text-foreground/60 dark:data-[state=active]:text-amber-300"
+          >
+            <Scale className="h-5 w-5 shrink-0 text-amber-600 dark:text-amber-400" />
+            {t("research.results.caseLawTab")} ({caseCount})
+          </TabsTrigger>
+        ) : null}
+      </TabsList>
+
+      {showLawsTab ? (
+        <TabsContent value="laws" className="mt-3 space-y-3">
+          {lawCount === 0 ? (
+            <Card className="p-6">
+              <p className="text-sm text-muted-foreground">
+                {t("research.results.empty")}
+              </p>
+            </Card>
+          ) : (
+            <div className="space-y-4">
+              {results.results.map((r) => {
+                const textForMode =
+                  languageMode === "en"
+                    ? r.text
+                    : (r.text_local && r.text_local.trim()
+                        ? r.text_local
+                        : r.text)
+                const excerpt = r.excerpt || (textForMode?.slice(0, 260) ?? "")
+                const parts = highlightExcerpt(excerpt, results.query)
+                return (
+                  <Card key={r.id} className="p-5">
+                    <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+                      <div className="min-w-0">
+                        <p className="text-sm font-medium text-foreground">
+                          <span className="truncate">{r.law_name_local}</span>
+                          {" "}
+                          <span className="text-muted-foreground">
+                            — {r.law_name}
+                          </span>
+                        </p>
+                        <p className="mt-1 text-xs text-muted-foreground">
+                          {t("research.results.articleLabel")}{" "}
+                          <span className="font-medium text-foreground">
+                            {r.article_num}
+                            {r.paragraph_num ? ` §${r.paragraph_num}` : ""}
+                          </span>
+                        </p>
+                      </div>
+
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className={jurisdictionBadgeClass(r.jurisdiction)}>
+                          {r.jurisdiction}
+                        </span>
+                        <Badge variant="secondary">{r.category}</Badge>
+                        <Badge
+                          className={cn(
+                            "font-medium",
+                            r.confidencePct >= 65
+                              ? "bg-emerald-500/15 text-emerald-800 dark:text-emerald-300"
+                              : r.confidencePct >= 30
+                                ? "bg-amber-500/15 text-amber-800 dark:text-amber-300"
+                                : "bg-muted text-muted-foreground",
+                          )}
+                          variant="outline"
+                        >
+                          {t("research.results.confidenceLabel")}{" "}
+                          {r.confidencePct}%
+                        </Badge>
+                      </div>
+                    </div>
+
+                    <div className="mt-3 text-sm leading-relaxed text-foreground">
+                      {parts.map((p, idx) =>
+                        typeof p === "string" ? (
+                          <span key={idx}>{p}</span>
+                        ) : (
+                          <mark
+                            key={idx}
+                            className="rounded bg-primary/15 px-0.5 text-foreground"
+                          >
+                            {p.mark}
+                          </mark>
+                        ),
+                      )}
+                    </div>
+                  </Card>
+                )
+              })}
+            </div>
+          )}
+        </TabsContent>
+      ) : null}
+
+      {showCaseTab ? (
+        <TabsContent value="caselaw" className="mt-3 space-y-3">
+          <ResearchCaseLawResults
+            results={results}
+            t={t}
+            highlightExcerpt={highlightExcerpt}
+            jurisdictionBadgeClass={jurisdictionBadgeClass}
+            confidenceBadgeClass={confidenceBadgeClass}
+          />
+        </TabsContent>
+      ) : null}
+    </Tabs>
+  )
+}
+
 function jurisdictionBadgeClass(j: string): string {
   return cn(
     "inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium",
@@ -154,7 +520,9 @@ export function ResearchPageClient({ planId }: { planId: EntitlementPlanId }) {
   const [historyError, setHistoryError] = useState<string | null>(null)
   const [history, setHistory] = useState<SavedSession[]>([])
 
-  const hasResults = (results?.results?.length ?? 0) > 0
+  const hasResults =
+    (results?.results?.length ?? 0) > 0 ||
+    (results?.caseLawResults?.length ?? 0) > 0
 
   const selectedJurisdictionLabel = useMemo(() => {
     const found = JURISDICTIONS.find((j) => j.id === jurisdiction)
@@ -234,7 +602,11 @@ export function ResearchPageClient({ planId }: { planId: EntitlementPlanId }) {
           query: results.query,
           jurisdiction_filter: jurisdiction === "all" ? null : jurisdiction,
           category_filter: category === "all" ? null : category,
-          results: results.results,
+          results: {
+            law: results.results,
+            caseLaw: results.caseLawResults ?? [],
+            caseLawConfidence: results.caseLawConfidence,
+          },
         }),
       })
       const json = await resp.json().catch(() => null)
@@ -273,13 +645,16 @@ export function ResearchPageClient({ planId }: { planId: EntitlementPlanId }) {
     setQuery(s.query)
     setJurisdiction(s.jurisdiction_filter ?? "all")
     setCategory(s.category_filter ?? "all")
+    const parsed = parseSavedSessionResults(s.results)
     setResults({
       query: s.query,
       filters: {
         jurisdiction: s.jurisdiction_filter,
         category: s.category_filter,
       },
-      results: Array.isArray(s.results) ? s.results : [],
+      results: parsed.law,
+      caseLawResults: parsed.caseLaw,
+      caseLawConfidence: parsed.caseLawConfidence,
     })
     window.scrollTo({ top: 0, behavior: "smooth" })
   }
@@ -444,18 +819,6 @@ export function ResearchPageClient({ planId }: { planId: EntitlementPlanId }) {
             </div>
 
             <section className="space-y-3">
-              <div className="flex items-baseline justify-between gap-4">
-                <h2 className="text-base font-semibold mb-3">
-                  {t("research.results.title")}
-                </h2>
-                {results ? (
-                  <p className="text-xs text-muted-foreground">
-                    {(results.results?.length ?? 0).toString()}{" "}
-                    {t("research.results.countSuffix")}
-                  </p>
-                ) : null}
-              </div>
-
               {!results ? (
                 <div className="flex flex-col items-center justify-center py-12 text-center rounded-xl border border-border/40 bg-muted/10">
                   <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-muted/60">
@@ -465,80 +828,15 @@ export function ResearchPageClient({ planId }: { planId: EntitlementPlanId }) {
                     Run a search to see relevant law articles
                   </p>
                 </div>
-              ) : results.results.length === 0 ? (
-                <Card className="p-6">
-                  <p className="text-sm text-muted-foreground">
-                    {t("research.results.empty")}
-                  </p>
-                </Card>
               ) : (
-                <div className="space-y-4">
-                  {results.results.map((r) => {
-                    const textForMode =
-                      languageMode === "en"
-                        ? r.text
-                        : (r.text_local && r.text_local.trim() ? r.text_local : r.text)
-                    const excerpt = r.excerpt || (textForMode?.slice(0, 260) ?? "")
-                    const parts = highlightExcerpt(excerpt, results.query)
-                    return (
-                      <Card key={r.id} className="p-5">
-                        <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
-                          <div className="min-w-0">
-                            <p className="text-sm font-medium text-foreground">
-                              <span className="truncate">{r.law_name_local}</span>
-                              {" "}
-                              <span className="text-muted-foreground">
-                                — {r.law_name}
-                              </span>
-                            </p>
-                            <p className="mt-1 text-xs text-muted-foreground">
-                              {t("research.results.articleLabel")}{" "}
-                              <span className="font-medium text-foreground">
-                                {r.article_num}
-                                {r.paragraph_num ? ` §${r.paragraph_num}` : ""}
-                              </span>
-                            </p>
-                          </div>
-
-                          <div className="flex flex-wrap items-center gap-2">
-                            <span className={jurisdictionBadgeClass(r.jurisdiction)}>
-                              {r.jurisdiction}
-                            </span>
-                            <Badge variant="secondary">{r.category}</Badge>
-                            <Badge
-                              className={cn(
-                                "font-medium",
-                                r.confidencePct >= 65
-                                  ? "bg-emerald-500/15 text-emerald-800 dark:text-emerald-300"
-                                  : r.confidencePct >= 30
-                                  ? "bg-amber-500/15 text-amber-800 dark:text-amber-300"
-                                  : "bg-muted text-muted-foreground",
-                              )}
-                              variant="outline"
-                            >
-                              {t("research.results.confidenceLabel")} {r.confidencePct}%
-                            </Badge>
-                          </div>
-                        </div>
-
-                        <div className="mt-3 text-sm leading-relaxed text-foreground">
-                          {parts.map((p, idx) =>
-                            typeof p === "string" ? (
-                              <span key={idx}>{p}</span>
-                            ) : (
-                              <mark
-                                key={idx}
-                                className="rounded bg-primary/15 px-0.5 text-foreground"
-                              >
-                                {p.mark}
-                              </mark>
-                            ),
-                          )}
-                        </div>
-                      </Card>
-                    )
-                  })}
-                </div>
+                <ResearchResultsTabs
+                  results={results}
+                  languageMode={languageMode}
+                  t={t}
+                  highlightExcerpt={highlightExcerpt}
+                  jurisdictionBadgeClass={jurisdictionBadgeClass}
+                  confidenceBadgeClass={confidenceBadgeClass}
+                />
               )}
             </section>
           </div>

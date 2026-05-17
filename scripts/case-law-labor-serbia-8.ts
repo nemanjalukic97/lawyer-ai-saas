@@ -6,7 +6,7 @@ import type { CaseLawInput } from "./ingest-case-law"
 export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
   // ── BATCH 1 (29) — first third of digest (dedupe duplicate Gž1 368/2020 and second IUz 60/2021 block) ──
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Ustavni sud Srbije",
     court_level: "constitutional",
     case_number: "Ustavna žalba (vezano za Rev2 388/2021)",
@@ -22,7 +22,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 383/2023",
@@ -38,7 +38,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 368/2020",
@@ -54,7 +54,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Spp 2/2019",
@@ -70,7 +70,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 1637/2023",
@@ -86,7 +86,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 382/2023",
@@ -102,7 +102,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 2089/2019",
@@ -118,7 +118,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 2927/2020",
@@ -134,7 +134,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 364/2022",
@@ -150,7 +150,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 1140/2021",
@@ -166,7 +166,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "partially",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 1879/2022",
@@ -182,7 +182,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 1838/2023",
@@ -198,7 +198,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Ustavni sud Srbije",
     court_level: "constitutional",
     case_number: "IUz 60/2021",
@@ -214,7 +214,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 1309/2023",
@@ -230,7 +230,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 686/2021",
@@ -246,23 +246,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "partially",
   },
   {
-    jurisdiction: "RS",
-    court: "Ustavni sud Srbije",
-    court_level: "constitutional",
-    case_number: "IUz 430/2014",
-    legal_area: "constitutional",
-    legal_question:
-      "Da li su izmene Zakona o radu iz 2014. neustavne jer menjaju institut minulog rada i ostala prava?",
-    court_position:
-      "Ustavni sud je odbacio inicijative, smatrajući da zakonsko uređivanje načina ostvarivanja prava iz radnog odnosa nije stečeno pravo koje zakonodavac ne može menjati bez povrede čl. 60. st. 3. Ustava.",
-    reasoning:
-      "Minuli rad je jedan od oblika uvećane zarade koji se može menjati zakonom; pravična naknada za rad (čl. 60. st. 3. Ustava) ne znači zamrzavanje svakog detalja obračuna. Istorijski kontekst društvene svojine i promene poslodavca dodatno podržava stav da nije reč o neustavnom smanjenju nivoa prava u relevantnom smislu.",
-    keywords: ["inicijativa", "Zakon o radu 2014", "minuli rad", "stečena prava", "pravična naknada"],
-    related_articles: ["čl. 60. st. 3. Ustava", "Zakon o radu (izmene 2014)"],
-    outcome: "defendant_won",
-  },
-  {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 3164/2022",
@@ -278,7 +262,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Ustavni sud Srbije",
     court_level: "constitutional",
     case_number: "Už 3471/2012",
@@ -294,23 +278,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
-    court: "Apelacioni sud u Beogradu",
-    court_level: "appellate",
-    case_number: "Gž1 3217/2018",
-    legal_area: "labor",
-    legal_question:
-      "Da li se zarada lekara specijaliste obračunava po punom radnom vremenu od 36 časova nedeljno kada je to ugovoreno, a poslodavac primenjuje 174 sata/mesec kao za 40 časova?",
-    court_position:
-      "Apelacioni sud je potvrdio presudu kojom je tužena obavezana na isplatu razlike zarade prema 36-časovnoj nedelji, tretirajući sate preko 36 kao prekovremene.",
-    reasoning:
-      "Veštak je prikazao varijante obračuna; primenjeno je pravilo da se ugovoreno puno radno vreme od 36h mora poštovati, a prekovremeni deo posebno valorizovati. Jedinstvena praksa obračuna minulog rada kod poslodavca ne menja to pravilo.",
-    keywords: ["pun rad", "36 sati", "prekovremeni rad", "lekar specijalista", "bolnica"],
-    related_articles: ["čl. 50–59. Zakona o radu", "čl. 108. Zakona o radu"],
-    outcome: "plaintiff_won",
-  },
-  {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 1725/2012",
@@ -326,7 +294,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Ustavni sud Srbije",
     court_level: "constitutional",
     case_number: "Už 11196/2019",
@@ -342,7 +310,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 1243/2021",
@@ -358,7 +326,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 4099/2017",
@@ -374,7 +342,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 1469/2022",
@@ -390,7 +358,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 1131/2023",
@@ -406,7 +374,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 2680/2016",
@@ -422,7 +390,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 3392/2021",
@@ -438,7 +406,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 2503/2019",
@@ -454,7 +422,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "partially",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 96/2024",
@@ -471,7 +439,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
   },
   // ── BATCH 2 (29) ──
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 3212/2022",
@@ -487,7 +455,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 3041/2024",
@@ -503,7 +471,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 1586/2024",
@@ -519,7 +487,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 377/2015",
@@ -535,23 +503,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
-    court: "Apelacioni sud u Beogradu",
-    court_level: "appellate",
-    case_number: "Gž1 3530/2020",
-    legal_area: "labor",
-    legal_question:
-      "Da li rad na osnovu ugovora o privremenim i povremenim poslovima daje ista prava kao rad u radnom odnosu (prekovremeni rad, prevoz, minuli rad, regres)?",
-    court_position:
-      "Apelacioni sud je potvrdio odbijanje zahteva za primanja iz radnog odnosa po tim ugovorima, a deo o regresu ukinuo i vratio na ponovno suđenje.",
-    reasoning:
-      "Rad van radnog odnosa po čl. 197. Zakona o radu ne stvara ista prava kao stalni radni odnos. Za regres i neke stavke ostaje potrebno dodatno odlučivanje nakon ukidanja dela presude.",
-    keywords: ["privremeni i povremeni poslovi", "rad van radnog odnosa", "regres", "minuli rad"],
-    related_articles: ["čl. 197. Zakona o radu"],
-    outcome: "partially",
-  },
-  {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 594/2024",
@@ -567,7 +519,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 1282/2022",
@@ -583,7 +535,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "remanded",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 3144/2020",
@@ -599,7 +551,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 1095/2025",
@@ -615,7 +567,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 2511/2023",
@@ -631,7 +583,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "partially",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 5493/2023",
@@ -647,7 +599,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "partially",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 3665/2023",
@@ -663,7 +615,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 2216/2023",
@@ -679,7 +631,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 4247/2024",
@@ -695,7 +647,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 3305/2023",
@@ -711,7 +663,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 2611/2022",
@@ -727,7 +679,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 289/2023",
@@ -743,7 +695,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 2030/2022",
@@ -759,7 +711,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 502/2017",
@@ -775,7 +727,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Novom Sadu",
     court_level: "appellate",
     case_number: "Gž1 1703/2011",
@@ -791,7 +743,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 1921/2018",
@@ -807,7 +759,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 3964/2024",
@@ -823,7 +775,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 4187/2022",
@@ -839,7 +791,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 548/2025",
@@ -855,7 +807,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 60/2024",
@@ -871,7 +823,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 3691/2024",
@@ -887,23 +839,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
-    court: "Vrhovni kasacioni sud Srbije",
-    court_level: "supreme",
-    case_number: "Rev2 2469/2020",
-    legal_area: "labor",
-    legal_question:
-      "Da li visina dnevnice za službeni put u inostranstvo može da se smanji jednostranom odlukom poslodavca kada je ugovorom predviđena primena Uredbe državnih službenika?",
-    court_position:
-      "Vrhovni kasacioni sud je odbio reviziju tuženog i potvrdio pravo na dnevnice po ugovoru i Uredbi za period kada je to bilo merodavno, ispred kasnijih internih akata.",
-    reasoning:
-      "Hronološki je utvrđen prelaz sa režima Zakona o radu koji upućuje na posebne propise na režim akta poslodavca; dok je važila ugovorna veza na Uredbu, obračun mora biti u skladu sa njom.",
-    keywords: ["službeni put", "dnevnice", "inostranstvo", "ugovor o radu", "Uredba"],
-    related_articles: ["Zakon o radu", "Uredba o naknadi troškova i otpremninama državnih službenika"],
-    outcome: "plaintiff_won",
-  },
-  {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 2224/2024",
@@ -919,7 +855,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 352/2025",
@@ -936,7 +872,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
   },
   // ── BATCH 3 (28) — final third of digest ──
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud Srbije",
     court_level: "administrative",
     case_number: "U 13303/2014",
@@ -952,7 +888,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "remanded",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 5540/2023",
@@ -968,7 +904,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 1793/2023",
@@ -984,23 +920,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
-    court: "Apelacioni sud u Beogradu",
-    court_level: "appellate",
-    case_number: "Gž1 7007/2012",
-    legal_area: "labor",
-    legal_question:
-      "Da li stimulacija od 10% ulazi u osnovicu za naknadu plate tokom godišnjeg odmora policijskih službenika?",
-    court_position:
-      "Apelacioni sud je potvrdio da stimulacija po pravilniku MUP-a ne ulazi u osnovicu za odmor, pa je dosuđena razlika; predmet delimično vraćen na ponovno suđenje za neiskorišćene sate odmora.",
-    reasoning:
-      "Pravilnikom je isključeno uključivanje stimulacije u naknadu za GO; tužiocu je utvrđen manjak isplate za period 2008–2010.",
-    keywords: ["MUP", "godišnji odmor", "stimulacija", "naknada plate"],
-    related_articles: ["Pravilnik o platama MUP"],
-    outcome: "partially",
-  },
-  {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 429/2025",
@@ -1016,7 +936,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 3029/2022",
@@ -1032,7 +952,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 1854/2022",
@@ -1048,7 +968,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 2196/2015",
@@ -1064,7 +984,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud Srbije",
     court_level: "administrative",
     case_number: "U 8653/2014",
@@ -1080,7 +1000,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud Srbije",
     court_level: "administrative",
     case_number: "U 4088/2019",
@@ -1096,7 +1016,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 9359/2022",
@@ -1112,7 +1032,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 2129/2021",
@@ -1128,7 +1048,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 2773/2025",
@@ -1144,7 +1064,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 5628/2022",
@@ -1160,7 +1080,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 1243/2021",
@@ -1176,7 +1096,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 2138/2022",
@@ -1192,7 +1112,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 1679/2022",
@@ -1208,7 +1128,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 1926/2022",
@@ -1224,7 +1144,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 1815/2022",
@@ -1240,7 +1160,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud Srbije",
     court_level: "administrative",
     case_number: "U 13095/2015",
@@ -1256,7 +1176,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 3179/2021",
@@ -1272,7 +1192,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 5626/2022",
@@ -1288,7 +1208,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 68/2022",
@@ -1304,7 +1224,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 2246/2022",
@@ -1320,7 +1240,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 1681/2022",
@@ -1336,7 +1256,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 127/2016",
@@ -1352,7 +1272,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 2130/2022",
@@ -1368,7 +1288,7 @@ export const CASE_LAW_LABOR_SERBIA_8: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 5224/2023",

@@ -5,24 +5,7 @@ import type { CaseLawInput } from "./ingest-case-law"
 
 export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
   {
-    jurisdiction: "RS",
-    court: "Upravni sud",
-    court_level: "administrative",
-    case_number: "U 20372/2018",
-    legal_area: "administrative",
-    legal_question:
-      "Da li je nastupila zastarelost prava Poreske uprave na utvrđivanje poreza na kapitalni dobitak ako je protekao rok od tri godine od početka toka zastarelosti, a pre toga je doneto rešenje o utvrđivanju obaveze?",
-    court_position:
-      "Upravni Sud je odbio tužbu protiv rešenja Poreske uprave o utvrđivanju poreza na kapitalni dobitak, utvrdivši da zastarelost nije nastupila jer je tok zastarelosti prekinut radnjom Poreske uprave (doneto rešenje 13.07.2010), pa rok od tri godine počinje da teče iznova, a vreme pre prekida se ne uračunava.",
-    reasoning:
-      "Primena čl. 114 i 114d Zakona o poreskom postupku i poreskoj administraciji (ZPPP) propisuje prekid zastarelosti svakom radnjom Poreske uprave preduzetom radi utvrđivanja i naplate. Tužiteljski račun zastarelosti od 01.01.2012. zanemaruje prekid od 2010. godine, pa je ocena tuženog organa pravilna.",
-    keywords: ["zastarelost", "porez na kapitalni dobitak", "prekid zastarelosti", "Poreska uprava", "ZPPP"],
-    related_articles: ["čl. 114. ZPPP", "čl. 114d ZPPP"],
-    headnote: "Prekid zastarelosti rešenjem o utvrđivanju; tužba odbijena.",
-    outcome: "defendant_won",
-  },
-  {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 8523/2017",
@@ -39,7 +22,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 6397/2017",
@@ -57,7 +40,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 12139/2018",
@@ -74,7 +57,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 17971/2018",
@@ -91,24 +74,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
-    court: "Ustavni sud Srbije",
-    court_level: "constitutional",
-    case_number: "Už 9395/2021",
-    legal_area: "constitutional",
-    legal_question:
-      "Da li je zakonito privremeno oduzimanje PIB preduzetniku zbog duga brisanog pravnog lica čiji je bio osnivač, bez prethodnog rešenja o sekundarnoj poreskoj obavezi?",
-    court_position:
-      "Ustavni Sud je usvojio žalbu preduzetnika i utvrdio povredu prava na pravično suđenje i pravo na rad, jer prethodno nije doneto rešenje o sekundarnoj poreskoj obavezi pre mere oduzimanja PIB.",
-    reasoning:
-      "Merodavni čl. 113 ZPPP predviđaju poseban postupak za utvrđivanje sekundarne obaveze. Oduzimanje identifikacionog broja bez tog koraka nije proporcionalno i ne omogućava predvidljivu zaštitu prava.",
-    keywords: ["PIB", "sekundarna poreska obaveza", "pravo na rad", "pravično suđenje", "Ustav"],
-    related_articles: ["čl. 32. Ustav RS", "čl. 60. Ustav RS", "čl. 113. ZPPP"],
-    headnote: "Usvojena žalba; oduzimanje PIB bez rešenja o sekundarnoj obavezi neustavno.",
-    outcome: "plaintiff_won",
-  },
-  {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 3974/2015",
@@ -125,7 +91,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 9440/2015",
@@ -142,7 +108,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 4857/2015",
@@ -159,7 +125,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 793/2019",
@@ -176,7 +142,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 15834/2019",
@@ -193,7 +159,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 9454/2015",
@@ -210,7 +176,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 4033/2011",
@@ -227,41 +193,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
-    court: "Upravni sud",
-    court_level: "administrative",
-    case_number: "U 11966/2016",
-    legal_area: "administrative",
-    legal_question:
-      "Da li je pravo na utvrđivanje poreza na kapitalni dobitak zastarelo ako poreski obveznik tvrdi istek pet godina od datuma ugovora, a organ se poziva na prekid roka radnjama pre 2010?",
-    court_position:
-      "Upravni Sud je odbio tužbu i potvrdio utvrđivanje poreza na kapitalni dobitak, nalazeći da prekid roka radnjama Poreske uprave pre isteka ranijeg režima i primena izmene čl. 114 ZPPP od 6.8.2010 produžavaju i resetuju računanje zastarelosti.",
-    reasoning:
-      "Kada zastarelost nije nastupila do 1.1.2011 po starom toku, primenjuje se petogodišnji režim i institut prekida iz čl. 114d. Tužbeni kalendar od isključivo datuma ugovora je nepotpun.",
-    keywords: ["kapitalni dobitak", "zastarelost", "prekid", "izmena zakona", "ZPPP"],
-    related_articles: ["čl. 114. ZPPP", "čl. 114d ZPPP"],
-    headnote: "Odbijena tužba; prekid zastarelosti i prelazni režim čl. 114 ZPPP.",
-    outcome: "defendant_won",
-  },
-  {
-    jurisdiction: "RS",
-    court: "Upravni sud",
-    court_level: "administrative",
-    case_number: "U 8275/2015",
-    legal_area: "administrative",
-    legal_question:
-      "Da li poreska obaveza po prenosu apsolutnih prava nastaje danom overe ugovora ako ugovor nije prijavljen od strane obveznika, ili danom saznanja organa iz druge prijave?",
-    court_position:
-      "Upravni Sud je odbio tužbu, potvrdivši da obaveza nastaje danom saznanja poreskog organa za prenos kada ugovor nije blagovremeno prijavljen, pa zastarelost teče od naredne godine od te tačke, a ne od 2003. godine zaključenja ugovora.",
-    reasoning:
-      "Čl. 29 st. 7 ZPIM u vezi sa čl. 114 i 114ž ZPPP usmeravaju početak toka. Saznanje 4.3.2014 iz prijve za drugi promet pokreće novi tok.",
-    keywords: ["prenos apsolutnih prava", "saznanje organa", "neblagovremena prijava", "zastarelost", "ZPIM"],
-    related_articles: ["čl. 29. st. 7. Zakon o porezima na imovinu", "čl. 114. ZPPP", "čl. 114ž ZPPP"],
-    headnote: "Početak toka zastarelosti od saznanja za prenos pri neblagovremenoj prijavi.",
-    outcome: "defendant_won",
-  },
-  {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 6032/2015",
@@ -278,7 +210,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 2454/2015",
@@ -296,7 +228,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 9501/2016",
@@ -313,7 +245,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 7963/2015",
@@ -330,7 +262,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 14893/2016",
@@ -347,7 +279,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 10423/2015",
@@ -364,7 +296,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 8373/2016",
@@ -381,7 +313,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 263/2016",
@@ -398,7 +330,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Ustavni sud Srbije",
     court_level: "constitutional",
     case_number: "Už 1116/2011",
@@ -415,7 +347,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 7749/2019",
@@ -432,7 +364,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 20864/2018",
@@ -449,7 +381,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 12249/2020",
@@ -466,7 +398,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 10018/2018",
@@ -483,7 +415,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 3633/2015",
@@ -500,7 +432,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 890/2020",
@@ -517,7 +449,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 9827/2016",
@@ -534,7 +466,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Ustavni sud Srbije",
     court_level: "constitutional",
     case_number: "Už 8506/2022",
@@ -551,7 +483,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 9649/2014",
@@ -568,7 +500,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 137/2018",
@@ -585,7 +517,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 7685/2016",
@@ -602,7 +534,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 12469/2018",
@@ -619,24 +551,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
-    court: "Upravni sud",
-    court_level: "administrative",
-    case_number: "U 14803/2015",
-    legal_area: "administrative",
-    legal_question:
-      "Da li je pravo na utvrđivanje poreza na kapitalni dobitak od prodaje nepokretnosti iz 2006. zastarelo ako poreski obveznik nije podneo prijavu u roku iz čl. 95 Zakona o porezu na dohodak građana?",
-    court_position:
-      "Upravni Sud je odbio tužbu i potvrdio utvrđivanje poreza na kapitalni dobitak, nalazeći da zastarelost nije nastupila jer je uveden institut prekida čl. 114d ZPPP i jer apsolutni rok iz čl. 114ž nije istekao.",
-    reasoning:
-      "Zastarelost za utvrđivanje počinje 1.1.2007 po čl. 114 st. 2–3 ZPPP u primeni u vreme nastanka obaveze; pre 8.7.2007 nije istekao petogodišnji rok, pa se primenjuje prekid radnjama Poreske uprave posle 8.7.2007.",
-    keywords: ["kapitalni dobitak", "zastarelost", "prekid", "čl. 114d ZPPP", "čl. 114ž ZPPP"],
-    related_articles: ["čl. 95. st. 1. tačka 1. Zakon o porezu na dohodak građana", "čl. 114. ZPPP", "čl. 114d ZPPP", "čl. 114ž ZPPP"],
-    headnote: "Potvrđeno utvrđivanje; prekid zastarelosti i apsolutni rok u korist organa.",
-    outcome: "defendant_won",
-  },
-  {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 3181/2017",
@@ -653,7 +568,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 8126/2016",
@@ -670,7 +585,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 11104/2016",
@@ -687,7 +602,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 13833/2015",
@@ -704,7 +619,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 15755/2015",
@@ -721,7 +636,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 14912/2015",
@@ -738,7 +653,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 3323/2013",
@@ -755,7 +670,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 3570/2015",
@@ -772,7 +687,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Ustavni sud Srbije",
     court_level: "constitutional",
     case_number: "Už 14653/2022",
@@ -789,7 +704,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 11035/2015",
@@ -806,7 +721,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 16859/2019",
@@ -823,24 +738,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
-    court: "Upravni sud",
-    court_level: "administrative",
-    case_number: "U 8070/2019",
-    legal_area: "administrative",
-    legal_question:
-      "Da li dostavljanje opomene pre čl. 71 ZPPP prekida rok zastarelosti naplate pre prinudne naplate?",
-    court_position:
-      "Upravni Sud je odbio tužbu na rešenje o prinudnoj naplati, odbijajući prigovor zastarelosti jer je uručenjem opomene došlo do prekida roka zastarelosti po čl. 114d ZPPP.",
-    reasoning:
-      "Čl. 71 i 77 ZPPP uređuju opomenu kao prethodnik prinudne naplate; prekid zastarelosti radnjom u cilju naplate logički prethodi rešenju o prinudnoj naplati.",
-    keywords: ["prinudna naplata", "opomena", "prekid zastarelosti", "čl. 114d ZPPP"],
-    related_articles: ["čl. 71. ZPPP", "čl. 77. ZPPP", "čl. 114d ZPPP"],
-    headnote: "Opomena pre prinudne naplate prekida zastarlost; tužba odbijena.",
-    outcome: "defendant_won",
-  },
-  {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Ustavni sud Srbije",
     court_level: "constitutional",
     case_number: "Už 3890/2011",
@@ -857,7 +755,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 2307/2019",
@@ -874,7 +772,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Ustavni sud Srbije",
     court_level: "constitutional",
     case_number: "Už 6246/2013",
@@ -891,7 +789,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 7437/2019",
@@ -908,7 +806,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 16146/2015",
@@ -925,24 +823,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
-    court: "Upravni sud",
-    court_level: "administrative",
-    case_number: "U 14528/2015",
-    legal_area: "administrative",
-    legal_question:
-      "Da li je pravo na utvrđivanje poreza na kapitalni dobitak od prodaje nepokretnosti iz 2004. zastarelo uzimajući u obzir prekid zastarelosti i apsolutni rok?",
-    court_position:
-      "Upravni Sud je odbio tužbu na porez na kapitalni dobitak, potvrdivši da zastarelost nije nastupila jer su radnje organa prekidale rok po čl. 114d ZPPP i jer apsolutna zastarelost iz čl. 114ž nije nastupila.",
-    reasoning:
-      "Kada prijava nije podneta u roku iz čl. 95 Zakona o porezu na dohodak građana, primenjuje se čl. 114 st. 2 ZPPP u istorijskoj verziji; izmene 61/2007 uvode prekid i desetogodišnji apsolutni institut.",
-    keywords: ["kapitalni dobitak", "prodaja nepokretnosti", "prekid zastarelosti", "apsolutna zastarelost"],
-    related_articles: ["čl. 95. Zakon o porezu na dohodak građana", "čl. 114d ZPPP", "čl. 114ž ZPPP"],
-    headnote: "Odbijena tužba; prekid i apsolutni rok čuvaju pravo na utvrđivanje.",
-    outcome: "defendant_won",
-  },
-  {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 2656/2016",
@@ -959,7 +840,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 6968/2015",
@@ -976,7 +857,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 7076/2015",
@@ -993,7 +874,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 7667/2015",
@@ -1010,7 +891,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 6969/2015",
@@ -1027,7 +908,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 20577/2019",
@@ -1044,7 +925,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 9966/2016",
@@ -1061,7 +942,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 10738/2015",
@@ -1078,41 +959,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
-    court: "Upravni sud",
-    court_level: "administrative",
-    case_number: "U 17382/2019",
-    legal_area: "administrative",
-    legal_question:
-      "Da li poziv stranci za učešće u postupku utvrđivanja poreza na prenos apsolutnih prava predstavlja radnju koja prekida rok zastarelosti po čl. 114d ZPPP?",
-    court_position:
-      "Upravni Sud je odbio tužbu i potvrdio rešenje, smatrajući da je uručenje poziva za učešće u postupku 18.12.2018. prekinulo petogodišnji rok zastarelosti i da je novi tok počeo istog dana po čl. 114d st. 2 ZPPP.",
-    reasoning:
-      "Tužiteljski poziv na praksu da opomena ne prekida zastarelost ne menja ocenu da je poziv u postupku utvrđivanja poreza radnja u cilju utvrđivanja. Na dan uručenja ožalbenog rešenja 2019. pet godina od ponovnog početka nije isteklo.",
-    keywords: ["prenos apsolutnih prava", "poziv stranci", "prekid zastarelosti", "čl. 114d ZPPP"],
-    related_articles: ["čl. 114d ZPPP"],
-    headnote: "Poziv za učešće kao prekid zastarelosti utvrđivanja poreza.",
-    outcome: "defendant_won",
-  },
-  {
-    jurisdiction: "RS",
-    court: "Upravni sud",
-    court_level: "administrative",
-    case_number: "U 13238/2010",
-    legal_area: "administrative",
-    legal_question:
-      "Da li je nastupila apsolutna zastarelost prava na utvrđivanje poreza na nasleđe kada je desetogodišnji rok po starom zakonu istekao pre stupanja na snagu ZPPP?",
-    court_position:
-      "Upravni Sud je uvažio tužbu i poništio rešenje o porezu na nasleđe, utvrdivši da je nastupila apsolutna zastarelost po odredbama Zakona o porezu na dohodak koji je važio do 2003, jer je desetogodišnji rok istekao pre ZPPP.",
-    reasoning:
-      "Apsolutna zastarelost se računala od godine u kojoj je porez trebalo utvrditi po pravnosnažnosti ostavinskog rešenja, a ne od kasnijeg saznanja po čl. 114 ZPPP koji nije retroaktivno merodavan za već istekli apsolutni rok starog zakona.",
-    keywords: ["porez na nasleđe", "apsolutna zastarelost", "prelazni režim", "Zakon o porezu na dohodak"],
-    related_articles: ["čl. 161. Zakon o porezu na dohodak (istorijski)", "čl. 199. st. 2. Zakon o opštem upravnom postupku"],
-    headnote: "Poništaj zbog apsolutne zastarelosti po starom zakonu pre ZPPP.",
-    outcome: "plaintiff_won",
-  },
-  {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 5679/2016",
@@ -1129,7 +976,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 7368/2015",
@@ -1146,7 +993,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 13667/2016",
@@ -1163,24 +1010,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
-    court: "Upravni sud",
-    court_level: "administrative",
-    case_number: "U 11474/2015",
-    legal_area: "administrative",
-    legal_question:
-      "Da li teče rok zastarelosti za utvrđivanje poreza na nasleđe od pravnosnažnosti ostavinskog rešenja ako je poreska prijava podneta 2015. neblagovremeno?",
-    court_position:
-      "Upravni Sud je odbio tužbu i potvrdio rešenje o porezu na nasleđe, smatrajući da je 13.2.2015. dan saznanja organa za obavezu, pa zastarelost teče od 1.1.2016. i nije nastupila; apsolutni rok iz čl. 114ž takođe nije ispunjen.",
-    reasoning:
-      "Primena čl. 114 st. 1–2 ZPPP i stope iz izmena Zakona o porezima na imovinu; obilazak mesta i utvrđivanje tržišne vrednosti renoviranog stana podržava meritornu odluku.",
-    keywords: ["porez na nasleđe", "neblagovremena prijava", "saznanje organa", "zastarelost"],
-    related_articles: ["čl. 114. ZPPP", "čl. 114ž ZPPP", "Zakon o porezima na imovinu"],
-    headnote: "Zastarelost od saznanja pri kasnoj prijavi za nasleđe; tužba odbijena.",
-    outcome: "defendant_won",
-  },
-  {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 18006/2017",
@@ -1197,24 +1027,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
-    court: "Upravni sud",
-    court_level: "administrative",
-    case_number: "U 7371/2015",
-    legal_area: "administrative",
-    legal_question:
-      "Da li je pravilno utvrđen porez na kapitalni dobitak kada je prijava podneta 2014. a ugovor o kupoprodaji overen 2006?",
-    court_position:
-      "Upravni Sud je odbio tužbu, potvrdivši da obaveza nastaje danom saznanja organa za prenos usled neblagovremene prijave, a ne danom ugovora iz 2006, te da apsolutna zastarelost iz čl. 114ž ne bi nastupila pre 31.12.2016.",
-    reasoning:
-      "Čl. 95 st. 1 tačka 1 ZPDG u vezi sa čl. 29 st. 7 ZPIM i čl. 72 st. 1 tačka 1 ZPDG za kvalifikaciju obveznika.",
-    keywords: ["kapitalni dobitak", "kupoprodaja", "neblagovremena prijava", "apsolutna zastarelost"],
-    related_articles: ["čl. 95. st. 1. tačka 1. Zakon o porezu na dohodak građana", "čl. 29. st. 7. Zakon o porezima na imovinu", "čl. 114ž ZPPP"],
-    headnote: "Potvrda utvrđivanja; obaveza od prijave 2014, ne od ugovora 2006.",
-    outcome: "defendant_won",
-  },
-  {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 7057/2015",
@@ -1231,7 +1044,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 15003/2015",
@@ -1248,75 +1061,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
-    court: "Privredni apelacioni sud",
-    court_level: "appellate",
-    case_number: "Pž 5143/2019",
-    legal_area: "commercial",
-    legal_question:
-      "Da li se u stečajnom postupku u rok apsolutne zastarelosti poreskog potraživanja uračunava period mirovanja poreskog duga po odluci skupštine grada?",
-    court_position:
-      "Privredni apelacioni sud je preinačio prvostepenu presudu i utvrdio osnovanost potraživanja javnih prihoda, produžujući apsolutnu zastarelost za period zastoja mirovanja od 1.11.2012. do 31.12.2014.",
-    reasoning:
-      "Zastoj zastarelosti po posebnom pravu ne produžava neograničeno rok, ali u konkretnom slučaju prijava potraživanja 2015/2016 pada unutar produženog desetogodišnjeg horizonta; relativna zastarelost iz čl. 114 ZPPP takođe nije nastupila zbog prekida opomenom 2009.",
-    keywords: ["stečaj", "zastoj zastarelosti", "mirovanje poreza", "javna potraživanja", "čl. 114ž ZPPP"],
-    related_articles: ["čl. 114. ZPPP", "čl. 114d ZPPP", "čl. 114ž ZPPP", "Zakon o stečaju"],
-    headnote: "PAS: mirovanje duga produžuje apsolutnu zastarelost; potraživanje ostaje osnovano.",
-    outcome: "defendant_won",
-  },
-  {
-    jurisdiction: "RS",
-    court: "Upravni sud",
-    court_level: "administrative",
-    case_number: "U 7072/2015",
-    legal_area: "administrative",
-    legal_question:
-      "Da li je prigovor zastarelosti osnovan za porez na kapitalni dobitak po ugovoru iz jula 2007. ako je prijava podneta 2014?",
-    court_position:
-      "Upravni Sud je odbio tužbu i potvrdio utvrđivanje poreza, jer obaveza nastaje danom saznanja organa za prenos usled neblagovremene prijave, pa apsolutna zastarelost ne bi nastupila pre 31.12.2017.",
-    reasoning:
-      "Isti pravni test kao u seriji predmeta sa zajedničkim finansiranjem i kasnom prijavom 30.6.2014.",
-    keywords: ["kapitalni dobitak", "2007", "neblagovremena prijava", "čl. 114ž ZPPP"],
-    related_articles: ["čl. 95. st. 1. tačka 1. Zakon o porezu na dohodak građana", "čl. 29. st. 7. Zakon o porezima na imovinu", "čl. 114ž ZPPP"],
-    headnote: "Potvrđeno utvrđivanje; obaveza od datuma prijave 2014.",
-    outcome: "defendant_won",
-  },
-  {
-    jurisdiction: "RS",
-    court: "Upravni sud",
-    court_level: "administrative",
-    case_number: "U 7813/2015",
-    legal_area: "administrative",
-    legal_question:
-      "Da li je zastarela obaveza poreza na kapitalni dobitak po ugovoru o zajedničkom finansiranju iz decembra 2004. ako je prijava podneta 2014?",
-    court_position:
-      "Upravni Sud je odbio tužbu, potvrdivši da obaveza nastaje danom prijave 30.6.2014, a ne danom ugovora 17.12.2004, te da bi apsolutna zastarelost nastupila tek 31.12.2015.",
-    reasoning:
-      "Čl. 72 st. 1 tačka 1 ZPDG u vezi sa čl. 29 st. 7 ZPIM standardizuje odgovor na isti tip tužbenih navoda.",
-    keywords: ["kapitalni dobitak", "zajedničko finansiranje", "2004", "zastarelost"],
-    related_articles: ["čl. 72. st. 1. tačka 1. Zakon o porezu na dohodak građana", "čl. 114ž ZPPP"],
-    headnote: "Serija predmeta; obaveza od prijave, ne od ugovora.",
-    outcome: "defendant_won",
-  },
-  {
-    jurisdiction: "RS",
-    court: "Upravni sud",
-    court_level: "administrative",
-    case_number: "U 9012/2015",
-    legal_area: "administrative",
-    legal_question:
-      "Da li je pravilno utvrđen porez na kapitalni dobitak po kupoprodajnom ugovoru iz juna 2007. uz prigovor zastarelosti?",
-    court_position:
-      "Upravni Sud je odbio tužbu i potvrdio rešenje, jer obaveza nastaje danom podnošenja prijave 30.6.2014, a ne danom ugovora 15.6.2007, pa rokovi iz čl. 114 i 114ž ZPPP nisu istekli.",
-    reasoning:
-      "Tužbeni prigovor koji polazi od datuma ugovora zanemaruje čl. 29 st. 7 ZPIM.",
-    keywords: ["kapitalni dobitak", "kupoprodaja", "zastarelost", "ZPIM"],
-    related_articles: ["čl. 29. st. 7. Zakon o porezima na imovinu", "čl. 114. ZPPP"],
-    headnote: "Odbijena tužba; fictio saznanja za kasnu prijavu.",
-    outcome: "defendant_won",
-  },
-  {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 13893/2016",
@@ -1333,7 +1078,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 16568/2018",
@@ -1351,7 +1096,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Ustavni sud Srbije",
     court_level: "constitutional",
     case_number: "Už 634/2008",
@@ -1368,41 +1113,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "partially",
   },
   {
-    jurisdiction: "RS",
-    court: "Upravni sud",
-    court_level: "administrative",
-    case_number: "U 9001/2015",
-    legal_area: "administrative",
-    legal_question:
-      "Da li je prigovor zastarelosti osnovan za porez na kapitalni dobitak po ugovoru o zajedničkom finansiranju iz februara 2007?",
-    court_position:
-      "Upravni Sud je odbio tužbu i potvrdio utvrđivanje poreza, jer obaveza nastaje danom prijave 30.6.2014, a ne danom ugovora 22.2.2007, te apsolutna zastarelost ne bi nastupila pre 31.12.2017.",
-    reasoning:
-      "Isti pravni okvir kao u paralelnim predmetima sa serijskim podnošenjem prijava 2014.",
-    keywords: ["kapitalni dobitak", "zajedničko finansiranje", "zastarelost"],
-    related_articles: ["čl. 95. st. 1. tačka 1. Zakon o porezu na dohodak građana", "čl. 29. st. 7. Zakon o porezima na imovinu", "čl. 114ž ZPPP"],
-    headnote: "Odbijena tužba; obaveza od prijave 2014.",
-    outcome: "defendant_won",
-  },
-  {
-    jurisdiction: "RS",
-    court: "Upravni sud",
-    court_level: "administrative",
-    case_number: "U 7810/2015",
-    legal_area: "administrative",
-    legal_question:
-      "Da li neblagovremena poreska prijava menja datum nastanka obaveze za porez na kapitalni dobitak po ugovoru iz februara 2007?",
-    court_position:
-      "Upravni Sud je odbio tužbu na rešenje o kapitalnom dobitku, potvrdivši fictio saznanja i primenu čl. 114 i 114ž ZPPP sa apsolutnim rokom koji ne bi istekao pre 31.12.2017.",
-    reasoning:
-      "Tužiteljski argument da obaveza nastaje isključivo danom ugovora suprotan je čl. 29 st. 7 ZPIM kada prijava nije podneta u roku iz čl. 95 ZPDG.",
-    keywords: ["kapitalni dobitak", "fictio saznanja", "ZPIM", "ZPPP"],
-    related_articles: ["čl. 29. st. 7. Zakon o porezima na imovinu", "čl. 114. ZPPP"],
-    headnote: "Potvrđeno utvrđivanje; isti režim kao u srodnim predmetima.",
-    outcome: "defendant_won",
-  },
-  {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 7668/2015",
@@ -1419,7 +1130,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 6966/2015",
@@ -1436,7 +1147,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 15355/2015",
@@ -1453,7 +1164,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 15088/2015",
@@ -1470,7 +1181,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 3134/2016",
@@ -1487,24 +1198,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
-    court: "Vrhovni kasacioni sud Srbije",
-    court_level: "supreme",
-    case_number: "Prev 243/2021",
-    legal_area: "commercial",
-    legal_question:
-      "Da li je Privredni apelacioni sud pogrešio kada nije uzeo u obzir zastoj zastarelosti tokom postupka privatizacije pri odbijanju potraživanja Poreske uprave u stečaju?",
-    court_position:
-      "Vrhovni kasacioni sud je ukinuo presudu Privrednog apelacionog suda i vratio na ponovno odlučivanje, smatrajući da je drugostepeni sud pogrešno primenio materijalno pravo ignorišući zastoj zastarelosti u vezi sa čl. 114ž ZPPP.",
-    reasoning:
-      "Ocena prigovora zastarelosti ne sme da se svodi isključivo na dospelost godina bez uračunavanja perioda u kojima je zastarelost stajala po posebnim propisima; poreski postupak o otpisu ne vezuje stečajnu stvar presuđeno.",
-    keywords: ["revizija", "stečaj", "zastoj zastarelosti", "privatizacija", "ZPPP"],
-    related_articles: ["čl. 18. ZPPP", "čl. 114ž ZPPP", "Zakon o stečaju"],
-    headnote: "Ukidanje presude PAS; zastoj zastarelosti mora da se uračuna.",
-    outcome: "remanded",
-  },
-  {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 15447/2017",
@@ -1521,7 +1215,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 6125/2018",
@@ -1538,7 +1232,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 543/2010",
@@ -1555,7 +1249,7 @@ export const CASE_LAW_ADMINISTRATIVE_SERBIA_2: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 4052/2019",

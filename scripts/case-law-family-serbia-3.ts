@@ -5,7 +5,7 @@ import type { CaseLawInput } from "./ingest-case-law"
 
 export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number:
@@ -23,7 +23,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 9727/2022",
@@ -40,7 +40,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 10786/2023",
@@ -57,7 +57,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 7410/2021",
@@ -74,7 +74,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 12770/2022",
@@ -91,24 +91,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
-    court: "Vrhovni kasacioni sud Srbije",
-    court_level: "supreme",
-    case_number: "Rev 31649/2023",
-    legal_area: "family",
-    legal_question:
-      "Da li je poveravanje deteta majci u skladu sa najboljim interesom kada oba roditelja imaju kapacitete, ali majka bolje diferencira roditeljsku od partnerske uloge?",
-    court_position:
-      "Odbačena je revizija oca; potvrđeno je poveravanje majci, izdržavanje i kontakti sa ocem, uz CSR i Institut za mentalno zdravlje.",
-    reasoning:
-      "Primenjeni su čl. 266. st. 1. i 270. PZ. Oba roditelja su motivisana, ali majka je bolje fokusirana na interes deteta; nije utvrđen posesivan odnos majke koji bi bio štetan. Stručna mišljenja su pravilno ocenjena zajedno sa željom deteta gde je relevantno.",
-    keywords: ["najbolji interes deteta", "CSR", "mentalno zdravlje", "član 266. PZ"],
-    related_articles: ["član 6. PZ", "član 266. st. 1. PZ", "član 270. PZ"],
-    headnote: "Potvrđeno poveravanje majci uz diferencijaciju roditeljske uloge i stručne nalaze.",
-    outcome: "plaintiff_won",
-  },
-  {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 1391/2021",
@@ -125,7 +108,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 4523/2024",
@@ -142,7 +125,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "remanded",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 29286/2023",
@@ -159,7 +142,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 3128/2024",
@@ -176,7 +159,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 2249/2017",
@@ -193,7 +176,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 7289/2022",
@@ -210,7 +193,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud Republike Srbije",
     court_level: "administrative",
     case_number: "U 7475/2014",
@@ -227,7 +210,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 12222/2025",
@@ -244,7 +227,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 3187/2022",
@@ -261,7 +244,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž2 348/2021",
@@ -278,7 +261,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 2557/2020",
@@ -295,24 +278,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
-    court: "Apelacioni sud u Beogradu",
-    court_level: "appellate",
-    case_number: "Gž2 128/2024",
-    legal_area: "family",
-    legal_question:
-      "Da li se može potvrditi poveravanje majci a ukinuti model viđanja i izdržavanje zbog odstupanja od CSR i paušalnih potreba?",
-    court_position:
-      "Potvrđeno je poveravanje majci; ukinuti su delovi o viđanju i alimentaciji zbog nejasnih razloga za odstupanje od mišljenja starateljstva i paušalnog utvrđivanja potreba.",
-    reasoning:
-      "Primenjeni su čl. 266, 160, 162. st. 3. i 270. PZ. Prvostepeni sud je pravilno ocenio majčinu brigu, ali u delu izdržavanja i viđanja nedostaju jasni razlozi u odnosu na CSR i individualizacija potreba; roditelji imaju slične zarade, a majka ima prihod od izdavanja stanova koji nije valorisan.",
-    keywords: ["ukidanje", "viđanje", "alimentacija", "CSR", "član 270. PZ"],
-    related_articles: ["član 266. st. 1. PZ", "član 270. PZ", "član 160. PZ"],
-    headnote: "Potvrđeno staranje majci; vraćanje na ponovno odlučivanje o viđanju i izdržavanju.",
-    outcome: "remanded",
-  },
-  {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž2 308/2023",
@@ -329,7 +295,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 28186/2023",
@@ -346,7 +312,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž2 441/2018",
@@ -363,24 +329,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "remanded",
   },
   {
-    jurisdiction: "RS",
-    court: "Apelacioni sud u Beogradu",
-    court_level: "appellate",
-    case_number: "Gž2 209/2024",
-    legal_area: "family",
-    legal_question:
-      "Da li je pravilna izmena na samostalno vršenje roditeljskog prava majci kada dete konstantno želi kod majke i CSR to potvrđuje?",
-    court_position:
-      "Potvrđena je izmena u korist majke; ukinuta je odluka o visini alimentacije i predmet vraćen radi utvrđivanja stvarnih potreba dece.",
-    reasoning:
-      "Želja deteta izražena pred CSR u više navrata podržava odluku; izjašnjavanje pred sudom moglo bi pojačati konflikt lojalnosti (čl. 61, 77. st. 3, 266. PZ). Za alimentaciju nedostaje potpuno utvrđivanje potreba. Primenjeni su čl. 154, 160, 164. PZ u vezi sa izmenom izdržavanja.",
-    keywords: ["izmena roditeljskog prava", "želja deteta", "konflikt lojalnosti", "alimentacija"],
-    related_articles: ["član 77. st. 3. PZ", "član 266. st. 1. PZ", "član 61. st. 1. PZ"],
-    headnote: "Potvrđeno poveravanje majci; vraćanje na ponovno odlučivanje o iznosu izdržavanja.",
-    outcome: "remanded",
-  },
-  {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž2 103/2017",
@@ -397,7 +346,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "partially",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 912/2021",
@@ -414,7 +363,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "remanded",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 2571/2020",
@@ -431,7 +380,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž2 402/2018",
@@ -448,7 +397,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 2354/2015",
@@ -465,7 +414,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 483/2023",
@@ -482,7 +431,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 5390/2025",
@@ -499,7 +448,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 14714/2024",
@@ -516,7 +465,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "partially",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž2 288/2021",
@@ -533,7 +482,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "remanded",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž2 145/2022",
@@ -550,7 +499,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "remanded",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 17579/2022",
@@ -567,7 +516,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "remanded",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž2 270/2016",
@@ -584,7 +533,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 23888/2024",
@@ -601,7 +550,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Nišu",
     court_level: "appellate",
     case_number: "Gž2 380/2024",
@@ -618,7 +567,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "remanded",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 9080/2023",
@@ -635,7 +584,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 5230/2021",
@@ -652,7 +601,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "remanded",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž2 381/2015",
@@ -669,7 +618,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž2 451/2023",
@@ -686,7 +635,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 10504/2022",
@@ -703,7 +652,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 20214/2022",
@@ -720,7 +669,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Ustavni sud Srbije",
     court_level: "constitutional",
     case_number: "Už 2593/2014",
@@ -737,7 +686,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 2413/2017",
@@ -754,7 +703,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "remanded",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 20063/2022",
@@ -771,7 +720,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 8928/2021",
@@ -788,7 +737,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 3920/2021",
@@ -805,7 +754,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 3454/2024",
@@ -822,7 +771,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 1006/2022",
@@ -839,7 +788,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 2809/2025",
@@ -856,7 +805,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž2 4/2024",
@@ -873,7 +822,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud Republike Srbije",
     court_level: "administrative",
     case_number: "U 4202/2014",
@@ -890,7 +839,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 14926/2023",
@@ -907,7 +856,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 14063/2025",
@@ -924,7 +873,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "partially",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 2846/2020",
@@ -941,7 +890,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 3659/2020",
@@ -958,7 +907,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž2 432/2016",
@@ -975,7 +924,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Ustavni sud Srbije",
     court_level: "constitutional",
     case_number: "Už 1608/2010",
@@ -992,7 +941,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 8200/2022",
@@ -1009,7 +958,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž2 37/2021",
@@ -1026,7 +975,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "remanded",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 13190/2023",
@@ -1043,7 +992,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "remanded",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 4276/2020",
@@ -1060,7 +1009,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 23739/2024",
@@ -1077,7 +1026,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž2 179/2024",
@@ -1094,7 +1043,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "partially",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Ustavni sud Srbije",
     court_level: "constitutional",
     case_number: "Už 4345/2017",
@@ -1111,7 +1060,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž2 234/2021",
@@ -1128,7 +1077,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "remanded",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 3569/2021",
@@ -1145,7 +1094,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 9805/2025",
@@ -1162,7 +1111,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 4342/2025",
@@ -1179,7 +1128,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Ustavni sud Srbije",
     court_level: "constitutional",
     case_number: "Už 5780/2021",
@@ -1196,7 +1145,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 1201/2023",
@@ -1213,7 +1162,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 1190/2019",
@@ -1230,7 +1179,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "partially",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 4824/2020",
@@ -1247,7 +1196,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 3642/2020",
@@ -1264,7 +1213,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 1616/2025",
@@ -1281,7 +1230,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 28055/2023",
@@ -1298,7 +1247,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 5125/2020",
@@ -1315,7 +1264,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 3495/2020",
@@ -1332,7 +1281,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Ustavni sud Srbije",
     court_level: "constitutional",
     case_number: "Už 708/2021",
@@ -1349,7 +1298,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 21768/2022",
@@ -1366,7 +1315,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 6177/2020",
@@ -1383,7 +1332,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 285/2020",
@@ -1400,7 +1349,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "remanded",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 7856/2025",
@@ -1417,7 +1366,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž2 585/2023",
@@ -1434,7 +1383,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Ustavni sud Srbije",
     court_level: "constitutional",
     case_number: "Už 9782/2012",
@@ -1451,7 +1400,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 8846/2024",
@@ -1468,7 +1417,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 3285/2020",
@@ -1485,7 +1434,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "remanded",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 191/2019",
@@ -1502,7 +1451,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 2103/2020",
@@ -1519,7 +1468,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "remanded",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Ustavni sud Srbije",
     court_level: "constitutional",
     case_number: "Už 4154/2013",
@@ -1536,7 +1485,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž2 430/2021",
@@ -1553,7 +1502,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž2 473/2021",
@@ -1570,7 +1519,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 4758/2020",
@@ -1587,7 +1536,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "remanded",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Ustavni sud Srbije",
     court_level: "constitutional",
     case_number: "Už 795/2008",
@@ -1604,7 +1553,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 3200/2017",
@@ -1621,24 +1570,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
-    court: "Apelacioni sud u Beogradu",
-    court_level: "appellate",
-    case_number: "Gž2 273/2025",
-    legal_area: "family",
-    legal_question:
-      "Da li je prvostepeni sud pouzdano utvrdio mogućnosti oca zaposlenog pri UN i mesečne potrebe školskog deteta kada određuje izdržavanje?",
-    court_position:
-      "Potvrđeno je odbijanje zahteva za delimično lišenje roditeljskog prava oca; ukinuta je odluka o visini izdržavanja i predmet vraćen na ponovno suđenje.",
-    reasoning:
-      "Za delimično lišenje prvostepeni sud je pravilno ocenio CSR i okolnosti (čl. 82. i 266. PZ). Za alimentaciju nedostaje pouzdano utvrđivanje primanja oca kod UN i realnih mesečnih potreba deteta koje pohađa školu.",
-    keywords: ["izdržavanje", "ukidanje", "UN", "mogućnosti roditelja"],
-    related_articles: ["član 160. PZ", "član 162. PZ", "član 390. ZPP"],
-    headnote: "Potvrđeno odbijanje delimičnog lišenja; vraćanje radi utvrđivanja alimentacije.",
-    outcome: "remanded",
-  },
-  {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 2500/2020",
@@ -1655,24 +1587,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
-    court: "Apelacioni sud u Beogradu",
-    court_level: "appellate",
-    case_number: "Gž2 394/2017",
-    legal_area: "family",
-    legal_question:
-      "Da li je pravilno smanjiti procenat primanja oca za izdržavanje sa 20% na 15% zbog drugih izdržavanih lica?",
-    court_position:
-      "Potvrđeno je poveravanje deteta majci; preinačena je visina doprinosa oca sa 20% na 15% mesečnih primanja uzimajući u obzir druge izdržavane obaveze.",
-    reasoning:
-      "Bez sporazuma o zajedničkom vršenju primenjeni su čl. 77. st. 3, 266. i 270. PZ. Majka je podobnija za samostalno staranje s obzirom na uzrast deteta i usmerenost deteta na majku. Samo podobnost oca ne nameće automatski poveravanje ocu kada je interes deteta drugačiji. Alimentacija mora biti srazmerna mogućnostima (čl. 160–162. PZ).",
-    keywords: ["izdržavanje", "procenat primanja", "poveravanje majci", "preinačenje"],
-    related_articles: ["član 160. PZ", "član 161. PZ", "član 162. PZ", "član 77. st. 3. PZ"],
-    headnote: "Potvrđeno staranje majci; smanjen procenat izdržavanja oca sa 20% na 15%.",
-    outcome: "partially",
-  },
-  {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Ustavni sud Srbije",
     court_level: "constitutional",
     case_number: "Už 2057/2009",
@@ -1689,7 +1604,7 @@ export const CASE_LAW_FAMILY_SERBIA_3: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Ustavni sud Srbije",
     court_level: "constitutional",
     case_number: "Už 6485/2025",

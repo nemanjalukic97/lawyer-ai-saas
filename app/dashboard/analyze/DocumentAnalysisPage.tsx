@@ -19,7 +19,7 @@ import { FileSearch, Loader2, UploadCloud } from "lucide-react"
 import { createClient } from "@/lib/supabase/client"
 import type { Json } from "@/database.types"
 import { useLanguage } from "@/components/LanguageProvider"
-import { RagSourcesPanel } from "@/components/RagSourcesPanel"
+import { LawCaseLawRagTabs } from "@/components/LawCaseLawRagTabs"
 import type { RagMetadata } from "@/types/rag"
 
 type Jurisdiction =
@@ -915,12 +915,9 @@ export default function DocumentAnalysisPage({
                   </div>
                 )}
               </div>
-              {ragData && (
-                <RagSourcesPanel 
-                  ragData={ragData} 
-                  showSimilarity={true}
-                />
-              )}
+              {ragData ? (
+                <LawCaseLawRagTabs ragData={ragData} showSimilarity />
+              ) : null}
             </Card>
           </div>
         </div>

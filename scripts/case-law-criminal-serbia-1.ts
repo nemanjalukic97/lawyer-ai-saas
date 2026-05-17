@@ -5,7 +5,7 @@ import type { CaseLawInput } from "./ingest-case-law"
 
 export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Kzz (broj predmeta nije naveden u citatu; ZZL primena blažeg KZ)",
@@ -22,7 +22,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Kzz 158/2020",
@@ -39,7 +39,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Kzz 599/2014",
@@ -56,7 +56,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Kzz 149/2024",
@@ -73,7 +73,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Kž1 1154/2021",
@@ -90,7 +90,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Kzz 1015/2022",
@@ -107,7 +107,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Kzz 1373/2019",
@@ -124,7 +124,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Kzz 192/2025",
@@ -141,7 +141,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Kzz 112/2013",
@@ -158,7 +158,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Kž1-Po1 8/2024",
@@ -175,7 +175,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Kzz 3/2021",
@@ -192,7 +192,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "remanded",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Kzz 986/2019",
@@ -209,7 +209,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "remanded",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Kzz 8/2023",
@@ -226,7 +226,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "remanded",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Kzz 1395/2022",
@@ -243,7 +243,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "remanded",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Kzz 1183/2022",
@@ -260,24 +260,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
-    court: "Apelacioni sud u Beogradu",
-    court_level: "appellate",
-    case_number: "Kž1-Po1 30/2019",
-    legal_area: "criminal",
-    legal_question:
-      "Da li je dokazano pomaganje u poreskoj utaji zasnivanjem na porodičnom odnosu i opštim savetima bez konkretizacije umišljaja?",
-    court_position:
-      "Apelacioni sud je delimično usvojio žalbe, preinačio prvostepenu presudu, osudio za zloupotrebu položaja uz izmenu kazni, a okrivljene oslobodio od poreske utaje zbog nedostatka dokaza o direktnom umišljaju u pomaganju.",
-    reasoning:
-      "Za pomoć u poreskoj utaji potreban je direktan umišljaj; nije dokazana uzročna veza između savetodavnih radnji i prikrivanja poreskih činjenica; spor oko poreskog osnova ukazuje na nedostatak umišljaja za krivično delo.",
-    keywords: ["poreska utaja", "pomaganje", "umišljaj", "organizovani kriminal"],
-    related_articles: ["čl. 35. KZ", "čl. 225. KZ", "čl. 346. KZ"],
-    headnote: "Delimično usvojene žalbe; oslobođenje od poreske utaje za deo okrivljenih.",
-    outcome: "partially",
-  },
-  {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Kzz 277/2015",
@@ -294,7 +277,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Kzz OK 33/2021",
@@ -311,24 +294,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
-    court: "Vrhovni kasacioni sud Srbije",
-    court_level: "supreme",
-    case_number: "Kzz 132/2023",
-    legal_area: "criminal",
-    legal_question:
-      "Da li lice koje faktički vodi poslovanje društva, a nije upisano kao odgovorno lice, može biti izvršilac poreske utaje po čl. 225. st. 2. KZ?",
-    court_position:
-      "Vrhovni kasacioni sud je odbio zahtev za zaštitu zakonitosti, potvrdivši da faktički odgovorno lice može biti izvršilac bez obzira na formalni upis u APR.",
-    reasoning:
-      "Bitna su dejstva kontrole i uticaja na davanje lažnih podataka i iznos preko pet miliona dinara; formalni registar ne isključuje subjektivnu pripadnost izvršiocu.",
-    keywords: ["poreska utaja", "faktički direktor", "odgovorno lice", "čl. 225. KZ"],
-    related_articles: ["čl. 225. st. 2. KZ"],
-    headnote: "Odbijen ZZL; potvrđena odgovornost faktinskog rukovodioca.",
-    outcome: "defendant_won",
-  },
-  {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Kzz 1181/2020",
@@ -345,7 +311,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Kzz 116/2025",
@@ -362,7 +328,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Kž1-Po1 7/2025",
@@ -379,7 +345,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "remanded",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Kzz 1398/2018",
@@ -396,7 +362,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Kzz 290/2022",
@@ -413,7 +379,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Kzz 1149/2023",
@@ -430,7 +396,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Kzz 630/2023",
@@ -447,7 +413,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "partially",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Kzz 460/2018",
@@ -464,7 +430,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Kzz 1088/2023",
@@ -481,7 +447,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Kzz 1124/2017",
@@ -498,7 +464,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Kzz 1321/2021",
@@ -515,7 +481,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Kzz 1403/2022",
@@ -532,7 +498,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "remanded",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni sud Srbije",
     court_level: "supreme",
     case_number: "Kzz 43/2025",
@@ -549,7 +515,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Kzz 344/2018",
@@ -566,7 +532,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Kž2-Po1 219/2022",
@@ -583,7 +549,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "procedural",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Kž1 Po1 25/2014",
@@ -600,7 +566,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "remanded",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Kž.1 220/2017",
@@ -617,7 +583,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "remanded",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Kzz 1189/2015",
@@ -634,7 +600,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Kž1 Po1 2/2017",
@@ -651,7 +617,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "remanded",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Kzz 715/2020",
@@ -668,7 +634,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Kzz 351/2023",
@@ -685,7 +651,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Kzz 497/2020",
@@ -702,7 +668,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Kzz 997/2022",
@@ -719,7 +685,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Kzz 870/2016",
@@ -736,7 +702,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Kzz 113/2016",
@@ -753,7 +719,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Kzz 56/2011",
@@ -770,7 +736,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Kž1 298/2025",
@@ -787,7 +753,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Kzz 1485/2020",
@@ -804,7 +770,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Kzz 785/2014",
@@ -821,7 +787,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Kzz 942/2018",
@@ -838,7 +804,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Kž2-Po1 138/2022",
@@ -855,24 +821,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "procedural",
   },
   {
-    jurisdiction: "RS",
-    court: "Apelacioni sud u Beogradu",
-    court_level: "appellate",
-    case_number: "Kž1 Po1 1/2016",
-    legal_area: "criminal",
-    legal_question:
-      "Da li je Apelacioni sud pravilno delimično preinačio presudu u predmetu organizovanog kriminala i poreskih dela?",
-    court_position:
-      "Apelacioni sud je delimično preinačio prvostepenu presudu, smanjio kaznu jednom okrivljenom, potvrdio oslobađanja i osuđujuće delove za ostale, a za jednog okrivljenog ukinuo presudu i vratio predmet zbog bitne povrede.",
-    reasoning:
-      "U delu koji se odnosi na nepravilnosti Poreske uprave pri podnošenju krivičnih prijava i na odbranu okrivljenih dati su razlozi o dokaznom standardu; za ukinuti deo presude postoji posebna obrazloženost.",
-    keywords: ["organizovani kriminal", "poreska utaja", "preinačenje", "ukidanje"],
-    related_articles: ["čl. 346. KZ", "čl. 229. KZ"],
-    headnote: "Delimično preinačenje presude i ukidanje za jednog okrivljenog.",
-    outcome: "partially",
-  },
-  {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Kž-Po1-Kre 40/2023",
@@ -889,7 +838,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Kzz 202/2014",
@@ -906,7 +855,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Kž1-Po1 3/2024",
@@ -923,7 +872,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "remanded",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Kzz 985/2021",
@@ -940,7 +889,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni sud Srbije",
     court_level: "supreme",
     case_number: "Kzz 1187/2025",
@@ -957,7 +906,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Kzz 82/2022",
@@ -974,7 +923,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 25728/2024",
@@ -991,7 +940,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Kž1 186/2018",
@@ -1008,7 +957,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "partially",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Kzz 319/2022",
@@ -1025,7 +974,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud Republike Srbije",
     court_level: "administrative",
     case_number: "U 6300/2020",
@@ -1042,7 +991,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Ustavni sud Srbije",
     court_level: "constitutional",
     case_number: "Už 1726/2010",
@@ -1059,7 +1008,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Kž1-Po1 27/2021",
@@ -1076,7 +1025,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "partially",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Kzz OK 9/2022",
@@ -1093,7 +1042,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Kzz 1149/2019",
@@ -1110,7 +1059,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Kž1-Po1 8/2022",
@@ -1127,7 +1076,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "partially",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Kž3-Po1 1/2020",
@@ -1144,7 +1093,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "partially",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž3 268/2017",
@@ -1161,7 +1110,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Ustavni sud Srbije",
     court_level: "constitutional",
     case_number: "Už 2302/2022",
@@ -1178,7 +1127,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž4 165/2023",
@@ -1195,7 +1144,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud Republike Srbije",
     court_level: "administrative",
     case_number: "U 14691/2015",
@@ -1212,7 +1161,7 @@ export const CASE_LAW_CRIMINAL_SERBIA_1: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Kž-Po1-Kre 3/2019",

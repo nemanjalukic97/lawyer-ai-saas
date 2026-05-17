@@ -3,7 +3,12 @@ import { NextRequest } from "next/server"
 import { createClient } from "@/lib/supabase/server"
 import { getSubscriptionContextForUser } from "@/app/dashboard/lib/getEntitlementPlan"
 import { PLAN_ENTITLEMENTS } from "@/app/dashboard/lib/entitlements"
-import { matchLegalArticles, type LegalChunk } from "@/lib/legalRag"
+import {
+  matchLegalArticles,
+  retrieveCaseLawContext,
+  type CaseLawChunk,
+  type LegalChunk,
+} from "@/lib/legalRag"
 import type { TablesInsert } from "@/lib/supabase/types"
 
 type ResearchSearchBody = {
@@ -22,6 +27,20 @@ type ResearchResultItem = {
   paragraph_num: string | null
   text: string
   text_local: string | null
+  similarity: number
+  confidencePct: number
+  excerpt: string
+}
+
+type ResearchCaseLawResultItem = {
+  id: string
+  jurisdiction: string
+  court: string
+  case_number: string
+  decision_date: string | null
+  legal_question: string
+  court_position: string
+  outcome: string | null
   similarity: number
   confidencePct: number
   excerpt: string
@@ -56,6 +75,40 @@ function buildExcerpt(chunk: LegalChunk, query: string): string {
   if (!s) return ""
   if (s.length <= 260) return s
   return `${s.slice(0, 260).trim()}…`
+}
+
+function buildCaseExcerpt(chunk: CaseLawChunk, query: string): string {
+  const headnote = chunk.headnote ?? ""
+  const position = chunk.court_position ?? ""
+  const primary =
+    excerptAround(headnote, query) ??
+    excerptAround(position, query) ??
+    excerptAround(chunk.legal_question ?? "", query)
+  if (primary) return primary
+  const fallback = (headnote.trim() || position.trim() || chunk.legal_question.trim())
+  if (!fallback) return ""
+  if (fallback.length <= 260) return fallback
+  return `${fallback.slice(0, 260).trim()}…`
+}
+
+function toCaseLawResultItem(
+  chunk: CaseLawChunk,
+  query: string,
+): ResearchCaseLawResultItem {
+  const similarity = typeof chunk.similarity === "number" ? chunk.similarity : 0
+  return {
+    id: chunk.id,
+    jurisdiction: chunk.jurisdiction,
+    court: chunk.court,
+    case_number: chunk.case_number,
+    decision_date: chunk.decision_date,
+    legal_question: chunk.legal_question,
+    court_position: chunk.court_position,
+    outcome: chunk.outcome,
+    similarity,
+    confidencePct: Math.max(0, Math.min(100, Math.round(similarity * 100))),
+    excerpt: buildCaseExcerpt(chunk, query),
+  }
 }
 
 function toResultItem(chunk: LegalChunk, query: string): ResearchResultItem {
@@ -144,18 +197,36 @@ export async function POST(req: NextRequest) {
           "slovenia",
         ]
 
-    const searches = await Promise.all(
-      jurisdictions.map((j) =>
-        matchLegalArticles({
-          query,
-          jurisdiction: j,
-          category,
-          matchCount: 10,
-          similarityThreshold: 0.25,
-          retryIfEmpty: true,
-        }).catch(() => ({ chunks: [] as LegalChunk[], usedThreshold: 0.25, retried: false })),
+    const [searches, caseLawSearches] = await Promise.all([
+      Promise.all(
+        jurisdictions.map((j) =>
+          matchLegalArticles({
+            query,
+            jurisdiction: j,
+            category,
+            matchCount: 10,
+            similarityThreshold: 0.25,
+            retryIfEmpty: true,
+          }).catch(() => ({
+            chunks: [] as LegalChunk[],
+            usedThreshold: 0.25,
+            retried: false,
+          })),
+        ),
       ),
-    )
+      Promise.all(
+        jurisdictions.map((j) =>
+          retrieveCaseLawContext(query, j, {
+            legalArea: category ?? undefined,
+            k: 10,
+          }).catch(() => ({
+            cases: [] as CaseLawChunk[],
+            confidence: "none" as const,
+            topSimilarity: 0,
+          })),
+        ),
+      ),
+    ])
 
     const merged = searches.flatMap((s) => s.chunks ?? [])
 
@@ -173,6 +244,31 @@ export async function POST(req: NextRequest) {
     const top = sorted.slice(0, 10)
 
     const results = top.map((c) => toResultItem(c, query))
+
+    const mergedCases = caseLawSearches.flatMap((s) => s.cases ?? [])
+    const bestCaseByKey = new Map<string, CaseLawChunk>()
+    for (const c of mergedCases) {
+      const key = `${c.jurisdiction}::${c.case_number}`
+      const existing = bestCaseByKey.get(key)
+      if (!existing || c.similarity > existing.similarity) bestCaseByKey.set(key, c)
+    }
+
+    const sortedCases = Array.from(bestCaseByKey.values()).sort(
+      (a, b) => (b.similarity ?? 0) - (a.similarity ?? 0),
+    )
+    const topCases = sortedCases.slice(0, 10)
+    const caseLawResults = topCases.map((c) => toCaseLawResultItem(c, query))
+
+    let caseLawConfidence: "high" | "medium" | "low" | "none" = "none"
+    if (caseLawSearches.length > 0) {
+      const rank = { none: 0, low: 1, medium: 2, high: 3 }
+      for (const s of caseLawSearches) {
+        if (rank[s.confidence] > rank[caseLawConfidence]) {
+          caseLawConfidence = s.confidence
+        }
+      }
+    }
+    if (caseLawResults.length === 0) caseLawConfidence = "none"
 
     try {
       const usageRow: TablesInsert<"usage_stats"> = {
@@ -201,6 +297,8 @@ export async function POST(req: NextRequest) {
       query,
       filters: { jurisdiction, category },
       results,
+      caseLawResults,
+      caseLawConfidence,
     })
   } catch {
     return Response.json({ error: "Internal server error" }, { status: 500 })

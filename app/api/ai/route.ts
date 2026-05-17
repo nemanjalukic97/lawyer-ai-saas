@@ -24,6 +24,7 @@ type FeatureType =
   | "case_prediction"
   | "document_analysis"
   | "template_generation"
+  | "legal_research"
 
 const JURISDICTION_FEATURES = new Set([
   "case_prediction",
@@ -36,6 +37,8 @@ const CASE_LAW_FEATURES = new Set([
   "case_prediction",
   "document_analysis",
   "contract_generation",
+  "document_generation",
+  "legal_research",
 ])
 
 const FEATURE_K: Record<string, number> = {
@@ -43,6 +46,7 @@ const FEATURE_K: Record<string, number> = {
   document_analysis: 8,
   contract_generation: 7,
   document_generation: 6,
+  legal_research: 8,
 }
 
 interface AiRequestBody {

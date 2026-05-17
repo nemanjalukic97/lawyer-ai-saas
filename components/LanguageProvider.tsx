@@ -336,6 +336,22 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         "⚠ The following citations in the AI response were not found in the retrieved legal database and may be inaccurate:",
       lowConfidence:
         "Low confidence: the retrieved provisions had weak relevance to this query. The applicable law may not yet be in the database.",
+      caseLaw: {
+        title: "Case law",
+        caseSingular: "decision",
+        casePlural: "decisions",
+        caseNumberLabel: "Case no.",
+        decisionDateLabel: "Decision date:",
+        lowConfidence:
+          "Low confidence: the retrieved court decisions had weak relevance to this query.",
+        outcomes: {
+          plaintiff_won: "Plaintiff won",
+          defendant_won: "Defendant won",
+          partially: "Partial",
+          procedural: "Procedural",
+          remanded: "Remanded",
+        },
+      },
     },
     research: {
       kicker: "Legantis · Research",
@@ -395,6 +411,14 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         countSuffix: "results",
         confidenceLabel: "Confidence",
         articleLabel: "Article",
+        lawsTab: "Laws",
+        caseLawTab: "Case Law",
+      },
+      caseLaw: {
+        title: "Case law",
+        empty:
+          "No relevant court decisions found. Try different keywords or a broader category.",
+        countSuffix: "decisions",
       },
       sessions: {
         title: "Recent searches",
@@ -2648,6 +2672,22 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         "⚠ Sledeći citati u odgovoru veštačke inteligencije nisu pronađeni u preuzetoj pravnoj bazi i mogu biti netačni:",
       lowConfidence:
         "Nisko poverenje: preuzete odredbe su slabo relevantne za ovaj upit. Primenjivi zakon možda još nije u bazi.",
+      caseLaw: {
+        title: "Sudska praksa",
+        caseSingular: "presuda",
+        casePlural: "presuda",
+        caseNumberLabel: "Broj predmeta",
+        decisionDateLabel: "Datum odluke:",
+        lowConfidence:
+          "Nisko poverenje: preuzete sudske odluke su slabo relevantne za ovaj upit.",
+        outcomes: {
+          plaintiff_won: "Tužilac uspeo",
+          defendant_won: "Tuženi uspeo",
+          partially: "Delimično",
+          procedural: "Procesno",
+          remanded: "Vraćeno na ponovni postupak",
+        },
+      },
     },
     research: {
       kicker: "Legantis · Istraživanje",
@@ -2707,6 +2747,14 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         countSuffix: "rezultata",
         confidenceLabel: "Pouzdanost",
         articleLabel: "Član",
+        lawsTab: "Zakoni",
+        caseLawTab: "Sudska praksa",
+      },
+      caseLaw: {
+        title: "Sudska praksa",
+        empty:
+          "Nema relevantnih sudskih odluka. Pokušajte druge ključne reči ili širu kategoriju.",
+        countSuffix: "odluka",
       },
       sessions: {
         title: "Nedavne pretrage",
@@ -4828,6 +4876,22 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         "⚠ Sljedeći citati u odgovoru umjetne inteligencije nisu pronađeni u preuzetoj pravnoj bazi i mogu biti netočni:",
       lowConfidence:
         "Nisko povjerenje: preuzete odredbe slabo odgovaraju ovom upitu. Primjenjivi zakon možda još nije u bazi.",
+      caseLaw: {
+        title: "Sudska praksa",
+        caseSingular: "presuda",
+        casePlural: "presuda",
+        caseNumberLabel: "Broj predmeta",
+        decisionDateLabel: "Datum odluke:",
+        lowConfidence:
+          "Nisko povjerenje: preuzete sudske odluke slabo odgovaraju ovom upitu.",
+        outcomes: {
+          plaintiff_won: "Tužitelj uspio",
+          defendant_won: "Tuženik uspio",
+          partially: "Djelomično",
+          procedural: "Procesno",
+          remanded: "Ukinuto i vraćeno",
+        },
+      },
     },
     research: {
       kicker: "Legantis · Istraživanje",
@@ -4887,6 +4951,14 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         countSuffix: "rezultata",
         confidenceLabel: "Pouzdanost",
         articleLabel: "Član",
+        lawsTab: "Zakoni",
+        caseLawTab: "Sudska praksa",
+      },
+      caseLaw: {
+        title: "Sudska praksa",
+        empty:
+          "Nema relevantnih sudskih odluka. Pokušajte druge ključne riječi ili širu kategoriju.",
+        countSuffix: "odluka",
       },
       sessions: {
         title: "Nedavne pretrage",
@@ -7011,6 +7083,22 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         "⚠ Sljedeći citati u odgovoru umjetne inteligencije nisu pronađeni u preuzetoj pravnoj bazi i mogu biti netočni:",
       lowConfidence:
         "Nisko povjerenje: preuzete odredbe slabo odgovaraju ovom upitu. Primjenjivi zakon možda još nije u bazi.",
+      caseLaw: {
+        title: "Sudska praksa",
+        caseSingular: "presuda",
+        casePlural: "presuda",
+        caseNumberLabel: "Broj predmeta",
+        decisionDateLabel: "Datum odluke:",
+        lowConfidence:
+          "Nisko povjerenje: preuzete sudske odluke slabo odgovaraju ovom upitu.",
+        outcomes: {
+          plaintiff_won: "Tužitelj uspio",
+          defendant_won: "Tuženik uspio",
+          partially: "Djelomično",
+          procedural: "Procesno",
+          remanded: "Ukinuto i vraćeno",
+        },
+      },
     },
     research: {
       kicker: "Legantis · Istraživanje",
@@ -7070,6 +7158,14 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         countSuffix: "rezultata",
         confidenceLabel: "Pouzdanost",
         articleLabel: "Članak",
+        lawsTab: "Zakoni",
+        caseLawTab: "Sudska praksa",
+      },
+      caseLaw: {
+        title: "Sudska praksa",
+        empty:
+          "Nema relevantnih sudskih odluka. Pokušajte druge ključne riječi ili širu kategoriju.",
+        countSuffix: "odluka",
       },
       sessions: {
         title: "Nedavne pretrage",
@@ -9114,6 +9210,22 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         "⚠ Naslednji citati v odgovoru umetne inteligence niso bili najdeni v pridobljeni pravni bazi in so lahko netočni:",
       lowConfidence:
         "Nizka zaupanja vrednost: pridobljene določbe so slabo relevantne za to poizvedbo. Ustrezna zakonodaja morda še ni v bazi.",
+      caseLaw: {
+        title: "Sodna praksa",
+        caseSingular: "sodba",
+        casePlural: "sodb",
+        caseNumberLabel: "Št. zadeve",
+        decisionDateLabel: "Datum odločbe:",
+        lowConfidence:
+          "Nizka zaupanja vrednost: pridobljene sodne odločbe so slabo relevantne za to poizvedbo.",
+        outcomes: {
+          plaintiff_won: "Tožnik uspel",
+          defendant_won: "Toženec uspel",
+          partially: "Delno",
+          procedural: "Procesno",
+          remanded: "Vrnjeno v ponovno sojenje",
+        },
+      },
     },
     research: {
       kicker: "Legantis · Raziskovanje",
@@ -9173,6 +9285,14 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         countSuffix: "rezultatov",
         confidenceLabel: "Zanesljivost",
         articleLabel: "Člen",
+        lawsTab: "Zakoni",
+        caseLawTab: "Sodna praksa",
+      },
+      caseLaw: {
+        title: "Sodna praksa",
+        empty:
+          "Ni najdenih relevantnih sodnih odločb. Poskusite druge ključne besede ali širšo kategorijo.",
+        countSuffix: "odločb",
       },
       sessions: {
         title: "Nedavna iskanja",
@@ -11225,6 +11345,22 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         "⚠ Sljedeći citati u odgovoru vještačke inteligencije nisu pronađeni u preuzetoj pravnoj bazi i mogu biti netačni:",
       lowConfidence:
         "Nisko povjerenje: preuzete odredbe slabo odgovaraju ovom upitu. Primjenjivi zakon možda još nije u bazi.",
+      caseLaw: {
+        title: "Sudska praksa",
+        caseSingular: "presuda",
+        casePlural: "presuda",
+        caseNumberLabel: "Broj predmeta",
+        decisionDateLabel: "Datum odluke:",
+        lowConfidence:
+          "Nisko povjerenje: preuzete sudske odluke slabo odgovaraju ovom upitu.",
+        outcomes: {
+          plaintiff_won: "Tužilac uspio",
+          defendant_won: "Tuženi uspio",
+          partially: "Djelomično",
+          procedural: "Procesno",
+          remanded: "Ukinuto i vraćeno",
+        },
+      },
     },
     research: {
       kicker: "Legantis · Istraživanje",
@@ -11284,6 +11420,14 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         countSuffix: "rezultata",
         confidenceLabel: "Pouzdanost",
         articleLabel: "Član",
+        lawsTab: "Zakoni",
+        caseLawTab: "Sudska praksa",
+      },
+      caseLaw: {
+        title: "Sudska praksa",
+        empty:
+          "Nema relevantnih sudskih odluka. Pokušajte druge ključne riječi ili širu kategoriju.",
+        countSuffix: "odluka",
       },
       sessions: {
         title: "Nedavne pretrage",

@@ -9,7 +9,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   // ── BATCH 1 (cases 1–28) ─────────────────────────────────────────────────
   {
     // Case 1 — Ponižavajući fizički poslovi ispod kvalifikacija = mobing; 150.000 din
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "nepoznat/zlostavljanje-1",
@@ -24,7 +24,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 2 — Bez radnog odnosa sa tuženim nema mobinga; osiguravač ≠ poslodavac
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 2335/2019",
@@ -39,7 +39,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 3 — Revizija za utvrđenje nedozvoljena; bez utvrđenog zlostavljanja nema štete
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 3193/2021",
@@ -54,7 +54,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 4 — SPORTINA; ukidanje radnog mesta = organizacija rada, ne mobing
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 3414/2023",
@@ -69,7 +69,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 5 — Jedna radnja ≠ ponavljanje; deo o šteti za čast ukida se
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 5163/2013",
@@ -84,7 +84,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 6 — Policajac, MUP; premeštaji = pojedinačni akti, ne mobing
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 2101/2023",
@@ -99,7 +99,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 7 — Otkaz posle utvrđenog mobinga = zloupotreba prava
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 97/2025",
@@ -114,7 +114,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 8 — PD "Aman"; izolovane radnje bez ponavljanja
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 1092/2024",
@@ -129,7 +129,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 9 — Nestručan rad opravdava umanjenje zarade; "prazni sto" opravdan
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 3477/2022",
@@ -144,7 +144,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 10 — Mobing "praznog stola"; namerna izolacija = zlostavljanje
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 2978/2016",
@@ -159,7 +159,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 11 — Revizija nedozvoljena; zlostavljanje ≠ spor o prestanku radnog odnosa
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 1413/2023",
@@ -174,7 +174,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 12 — Konflikti ≠ ponavljano zlostavljanje
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 3075/2016",
@@ -189,7 +189,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 13 — VKS proizvoljno odbacio reviziju; povreda čl. 32 Ustava
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Ustavni sud Srbije",
     court_level: "constitutional",
     case_number: "Už 11804/2017",
@@ -204,7 +204,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 14 — Nedavanje zadataka mesecima posle vraćanja na rad = mobing
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Novom Sadu",
     court_level: "appellate",
     case_number: "Gž1 379/2016",
@@ -219,7 +219,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 15 — Posebna revizija nedozvoljena; nema opšteg pravnog interesa
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 2385/2022",
@@ -234,7 +234,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 16 — Zahtev za prikupljanje glasova = izolovani incident
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 1183/2016",
@@ -249,7 +249,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 17 — Posebna revizija nedozvoljena; vrednost ispod cenzusa
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 659/2021",
@@ -264,7 +264,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 18 — Glasovi + premeštaj = zlostavljanje koje se ponavlja
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 2122/2021",
@@ -279,7 +279,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 19 — Komentari o privatnom životu ≠ cilj povrede dostojanstva
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 2766/2024",
@@ -294,7 +294,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 20 — Verbalno uznemiravanje, hospitalizacija = zlostavljanje; 100.000 din
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 2678/2016",
@@ -309,7 +309,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 21 — Premeštaj i odsustvo = opravdane poslovne odluke
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev1 1/2022",
@@ -324,7 +324,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 22 — Pogrešna primena tereta dokazivanja i zastarelosti; ukida
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 2831/2021",
@@ -339,7 +339,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 23 — Smanjuje naknadu sa 200.000 na 80.000 din; NIS
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 605/2020",
@@ -354,7 +354,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 24 — Revizija nedozvoljena; ispod cenzusa 40.000 EUR
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 1297/2019",
@@ -369,7 +369,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 25 — Smanjuje naknadu sa 400.000 na 300.000 din; RTS
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 2031/2023",
@@ -384,7 +384,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 26 — Vojnici imaju pravo zaštite od mobinga; 100.000 din
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 61/2019",
@@ -399,7 +399,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 27 — Revizija tužilja nedozvoljena; čl. 441 ZPP
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 2673/2020",
@@ -414,7 +414,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 28 — Potvrđuje 400.000 din; policijski službenik; objavljivanje presude
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 2733/2017",
@@ -431,7 +431,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   // ── BATCH 2 (cases 29–56) ────────────────────────────────────────────────
   {
     // Case 29 — Potvrđivanje presude o zlostavljanju; kontinuirani pritisak; 200.000 din
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 3433/2015",
@@ -446,7 +446,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 30 — KCS; tužilja nije učinila verovatnim viku, ponižavanje i izolaciju u kontinuitetu
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 1085/2025",
@@ -461,7 +461,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 31 — Nedozvoljenost revizije; mobing ≠ spor o zasnivanju/prestanku radnog odnosa
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 4920/2022",
@@ -476,7 +476,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 32 — JP "G.s.a."; izolovane radnje direktorke bez kontinuiteta = ne mobing
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 2919/2015",
@@ -491,7 +491,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 33 — Uvredljivo ponašanje direktora ("prava veštica", pretnja otkazom); plaintiff_won; 50.000 din
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 2267/2018",
@@ -506,7 +506,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 34 — Nedozvoljenost revizije; Sremska Mitrovica; ispod vrednosnog cenzusa
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 1299/2023",
@@ -521,7 +521,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 35 — OŠ "Svetozar Marković" u Lapovu; Rev2 852/2023; procedural
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 852/2023",
@@ -536,7 +536,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 36 — Pasivna legitimacija direktora po čl. 29 ZZR; bez utvrđenog zlostavljanja nema naknade
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 973/2021",
@@ -550,23 +550,8 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    // Case 37 — Povećanje naknade na 100.000 din; Agencija za mirno rešavanje radnih sporova
-    jurisdiction: "RS",
-    court: "Apelacioni sud u Beogradu",
-    court_level: "appellate",
-    case_number: "Gž1 2082/2016",
-    legal_area: "labor",
-    legal_question: "Da li je prvostepeni sud pravilno odmeriio visinu naknade nematerijalne štete, uzimajući u obzir da je postojanje zlostavljanja već utvrđeno pravosnažnim rešenjem Republičke agencije za mirno rešavanje radnih sporova?",
-    court_position: "Presuda se delimično preinačuje. Apelacioni sud povećava naknadu nematerijalne štete za povredu dostojanstva na radu na 100.000 dinara, nalazeći da prvostepeni sud nije pravilno odmerio visinu naknade prema kriterijumima čl. 200 ZOO. Istovremeno, ukazuje se da je rešenje Agencije za mirno rešavanje samo po sebi jedan vid satisfakcije.",
-    reasoning: "Apelacioni sud prihvata stav tužilje da prvostepena naknada nije bila pravilno odmerena: novčana naknada zbog pretrpljenih duševnih bolova prouzrokovanih povredom časti, ugleda i prava ličnosti ima za cilj ublažavanje poremećaja nastalih u psihičkom životu tužilje. Primenom kriterijuma iz čl. 200 ZOO, iznos od 100.000 dinara je pravičan. Sud ukazuje i na specifičnost ovog slučaja: postojanje zlostavljanja je utvrđeno pravosnažnim rešenjem Agencije za mirno rešavanje radnih sporova, što samo po sebi predstavlja jedan vid satisfakcije — i to je razlog zašto dosuđivanje daleko većeg iznosa novčane naknade ne bi bilo opravdano, jer ne bi odgovaralo svrsi satisfakcije i društvenoj svrsi instituta. Novčana naknada je samo jedan od mogućih načina satisfakcije.",
-    keywords: ["Agencija za mirno rešavanje", "odmera naknade", "povećanje naknade", "100.000 din", "satisfakcija", "čl. 200 ZOO"],
-    related_articles: ["čl. 200 ZOO", "čl. 6 ZZR", "čl. 30 ZZR"],
-    headnote: "Naknada se povećava na 100.000 din, ali je ograničena jer rešenje Agencije za mirno rešavanje radnih sporova već predstavlja jedan vid satisfakcije za zlostavljanje.",
-    outcome: "partially",
-  },
-  {
     // Case 38 — Predškolska ustanova; alkohol-test i disciplinski postupak = jednokratne radnje
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 1837/2023",
@@ -581,7 +566,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 39 — Apelacioni NS; JKP; utvrđeno zlostavljanje ali smanjenje naknade
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Novom Sadu",
     court_level: "appellate",
     case_number: "Gž1 617/2016",
@@ -596,7 +581,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 40 — Vozač; nedelja bez zadataka = kratko i nedovoljno za ponavljanje
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 396/2014",
@@ -611,7 +596,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 41 — Narodna banka Srbije; ponižavajući zadaci; objavljivanje u "Politika"
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 1322/2024",
@@ -626,7 +611,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 42 — MUP; policijski general; materijalna šteta (izgubljena zarada) na osnovu ranije presude o mobingu
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 3677/2022",
@@ -641,7 +626,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 43 — Bibliotekar u Leskovcu; uskraćivanje pristupa COBISS = mobing; revizija nedozvoljena
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 3422/2024",
@@ -656,7 +641,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 44 — G4S Secure Solutions; nedozvoljenost revizije
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 3254/2022",
@@ -671,7 +656,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 45 — Fizički napad iz emotivne veze = izolovani incident, ne mobing
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 3130/2016",
@@ -686,7 +671,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 46 — Sporazum o posredovanju; naknadan incident nije dokazan; tužba odbijena
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 888/2016",
@@ -701,7 +686,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 47 — Zastarelost potraživanja naknade štete teče od saznanja za štetu, ne od pravosnažnosti presude
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 155/2023",
@@ -716,7 +701,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 48 — Revizija nedozvoljena; tužba odbarana kao neblagovremena
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 2570/2024",
@@ -731,7 +716,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 49 — Stres ali ne zlostavljanje; čl. 22 ZZR; post-privatizacijski period
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 3026/2013",
@@ -746,7 +731,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 50 — Apelacioni sud u Novom Sadu; CSR; odbijanje tužbe za zaštitu od mobinga
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Novom Sadu",
     court_level: "appellate",
     case_number: "Gž1 1499/2016",
@@ -761,7 +746,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 51 — Odbacivanje posebne i redovne revizije; primena čl. 6 ZZR u svakom konkretnom slučaju
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 4141/2023",
@@ -776,7 +761,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 52 — Preinačenje; razni zadaci, premeštaj i umanjenje životne aktivnosti ≠ mobing
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 2825/2016",
@@ -791,7 +776,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 53 — Kasno plaćanje doprinosa i loši uslovi prostora ≠ mobing; revizija nedozvoljena
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 369/2023",
@@ -806,7 +791,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 54 — Odbijanje revizije tužene; potvrđena naknada 450.000 + 450.000 din + objavljivanje
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 1788/2024",
@@ -821,7 +806,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 55 — Beogradski aerodrom; izolacija + neuslovne prostorije + ignorisanje = mobing; objavljivanje u Blicu
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 501/2025",
@@ -836,7 +821,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 56 — Air Serbia; odbijanje tužbe; poslovne promene ≠ mobing
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 2920/2022",
@@ -853,7 +838,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   // ── BATCH 3 (cases 57–84) ────────────────────────────────────────────────
   {
     // Case 57 — Policijski službenik; kontinuirano vređanje i ponižavanje; preinačenje visine naknade
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 3665/2016",
@@ -868,7 +853,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 58 — Naknada po pravosnažno utvrđenom zlostavljanju; odbijen prigovor zastarelosti
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Novom Sadu",
     court_level: "appellate",
     case_number: "Gž1 1519/2016",
@@ -883,7 +868,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 59 — Apelacioni NS; 300.000 din (240k+60k); zahtev za vraćanje na rad odbijen
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Novom Sadu",
     court_level: "appellate",
     case_number: "Gž1 651/2013",
@@ -898,7 +883,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 60 — Premeštaj i upućivanje na rad kod drugog poslodavca ≠ mobing
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 1293/2012",
@@ -913,7 +898,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 61 — MUP; Uprava kriminalističke policije; 450k+450k; objavljivanje u svim nacionalnim medijima
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 2485/2023",
@@ -928,7 +913,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 62 — VKS odbija reviziju tužene; materijalna šteta policijskog generala potvrđena
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 3758/2023",
@@ -943,7 +928,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 63 — Vojna ustanova "Dedinje"; učestali premeštaji u funkciji organizacije rada ≠ mobing
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 4153/2024",
@@ -958,7 +943,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 64 — Oficir Vojske Srbije; neprimereno obraćanje pretpostavljenog; naknada štete
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 2823/2022",
@@ -973,7 +958,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 65 — Policajac; zastarelost (čl. 14 ZZR) + nema verovatnosti zlostavljanja
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 2644/2015",
@@ -988,7 +973,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 66 — Raspoređivanje u neodgovarajuću prostoriju i smanjeni obim poslova ≠ mobing
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 3052/2016",
@@ -1003,7 +988,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 67 — Utvrđeno zlostavljanje direktora; smanjenje naknade na 100k+100k
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 3143/2020",
@@ -1018,7 +1003,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 68 — Šef Šumske uprave NP; vređanje, omalovaživanje, fizički kontakt; revizija tuženog odbijena
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 1526/2023",
@@ -1033,7 +1018,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 69 — Pilot; diskriminacija (nacionalnost) + zlostavljanje — nema verovatnosti ni jednog
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 813/2024",
@@ -1048,7 +1033,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 70 — Apelacioni NS; fizički napad vlasnika pekare = izolovani incident
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Novom Sadu",
     court_level: "appellate",
     case_number: "Gž1 255/2016",
@@ -1063,7 +1048,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 71 — JP "Skijalište Srbije"; prazni sto (nedavanje naloga) = mobing; premeštaj u neuslovnu prostoriju ≠ mobing
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 90/2025",
@@ -1078,7 +1063,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 72 — VMA; kritika i konflikti prema svim zaposlenima ≠ mobing usmeren lično
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 1565/2025",
@@ -1093,7 +1078,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 73 — Telekom Srbija; premeštaj i obuka = redovna poslovna praksa; tužilac nije prešao prag verovatnosti
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 1639/2025",
@@ -1108,7 +1093,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 74 — JP Vojvodinašume; revizija nedozvoljena; zlostavljanje od šefice šumske uprave
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 511/2022",
@@ -1123,7 +1108,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 75 — Novi Sad; utvrđeno zlostavljanje VV (ponižavajući zadaci); revizija tuženog odbijena
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 3762/2019",
@@ -1138,7 +1123,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 76 — Onemogućavanje pristupa prostorijama i sredstvima rada po promeni poslovodstva = deo procedure, ne mobing
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 888/2025",
@@ -1153,7 +1138,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 77 — Apelacioni NS; rukovodilac finansijskog sektora; zlostavljanje = posledica, ne samo cilj
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Novom Sadu",
     court_level: "appellate",
     case_number: "Gž1 1691/2016",
@@ -1168,7 +1153,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 78 — Vertikalni mobing direktora kroz 5 faza; raspoređivanje na higijeniçarkin; objavljivanje presude
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 1104/2013",
@@ -1183,7 +1168,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 79 — Apelacioni NS; sekretar škole; sukobi o radnim zadacima = nesuglasice, ne mobing
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Novom Sadu",
     court_level: "appellate",
     case_number: "Gž1 2463/2016",
@@ -1198,7 +1183,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 80 — Apelacioni NS; privremeno upućivanje na rad = ne mobing + rok čl. 22 ZZR istekao
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Novom Sadu",
     court_level: "appellate",
     case_number: "Gž1 3058/2012",
@@ -1213,7 +1198,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 81 — Apelacioni NS; JKP; potvrđuje odbijanje ZZR zahteva; ukida aneks i vraća na ponovni postupak
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Novom Sadu",
     court_level: "appellate",
     case_number: "Gž1 552/2014",
@@ -1228,7 +1213,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 82 — Rukovodilac u pogonu; nedostatak računara, pretnje otkazom, vređanje; psihijatrija; ~2 godine
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 1410/2023",
@@ -1243,7 +1228,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 83 — MSP; rashladni uređaj, kancelarija u potkrovlju, finansijski dokument; ukidanje presude
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž1 1270/2013",
@@ -1258,7 +1243,7 @@ export const CASE_LAW_LABOR_SERBIA_4: CaseLawInput[] = [
   },
   {
     // Case 84 — Apelacioni NS; prikupljanje glasova za DS + premeštaj = nije dokazano zlostavljanje
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Novom Sadu",
     court_level: "appellate",
     case_number: "Gž1 1946/2015",

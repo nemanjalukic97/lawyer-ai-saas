@@ -2666,36 +2666,6 @@ export const CASE_LAW_LABOR_SERBIA_3: CaseLawInput[] = [
 
   {
     jurisdiction: "serbia",
-    court: "Ustavni sud Srbije",
-    court_level: "constitutional",
-    case_number: "Už 4088/2018",
-    legal_area: "constitutional",
-    legal_question:
-      "Da li je povređeno pravo na suđenje u razumnom roku u parničnom postupku radi poništaja otkaza zbog tehnološkog viška koji je trajao duže od deset godina?",
-    court_position:
-      "Ustavni sud usvaja ustavnu žalbu i utvrđuje povredu prava na suđenje u razumnom roku. Podnosiocu se dosuđuje naknada nematerijalne štete od 1.000 evra zbog dugotrajnosti parničnog postupka.",
-    reasoning:
-      "Parnični postupak radi poništaja otkaza zbog tehnološkog viška trajao je duže od deset godina. Ovaj vremenski period, za predmet koji nije bio posebno složen, prevazilazi razumni rok koji jemči čl. 32. Ustava RS. Ustavni sud dosudio je novčanu naknadu nematerijalne štete od 1.000 evra. U obrazloženju odluke razmotrena je i distinkcija između programa rešavanja viška zaposlenih (čl. 153. i 155. ZOR) i Socijalnog programa donetog u okviru privatizacije po čl. 41. Zakona o privatizaciji — Socijalni program ne utvrđuje višak zaposlenih, naprotiv, u relevantnom periodu ga izričito zabranjuje.",
-    keywords: [
-      "tehnološki višak",
-      "suđenje u razumnom roku",
-      "naknada nematerijalne štete",
-      "dugotrajnost postupka",
-      "socijalni program",
-      "privatizacija",
-    ],
-    related_articles: [
-      "čl. 32 Ustava RS",
-      "čl. 153 ZOR",
-      "čl. 155 ZOR",
-      "čl. 41 Zakon o privatizaciji",
-    ],
-    outcome: "plaintiff_won",
-    source_url: "https://sudskapraksa.rs",
-  },
-
-  {
-    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev2 3193/2022",

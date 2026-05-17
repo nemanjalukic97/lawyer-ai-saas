@@ -5,7 +5,7 @@ import type { CaseLawInput } from "./ingest-case-law"
 
 export const CASE_LAW_INHERITANCE_SERBIA_1: CaseLawInput[] = [
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 4915/2022",
@@ -23,7 +23,7 @@ export const CASE_LAW_INHERITANCE_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 1287/2006",
@@ -41,7 +41,7 @@ export const CASE_LAW_INHERITANCE_SERBIA_1: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 2276/2025",
@@ -59,7 +59,7 @@ export const CASE_LAW_INHERITANCE_SERBIA_1: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 1892/2024",
@@ -77,7 +77,7 @@ export const CASE_LAW_INHERITANCE_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 2973/2020",
@@ -95,7 +95,7 @@ export const CASE_LAW_INHERITANCE_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Novom Sadu",
     court_level: "appellate",
     case_number: "R4g 18/2016",
@@ -113,7 +113,7 @@ export const CASE_LAW_INHERITANCE_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 4750/2023",
@@ -131,7 +131,7 @@ export const CASE_LAW_INHERITANCE_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 606/2024",
@@ -149,7 +149,7 @@ export const CASE_LAW_INHERITANCE_SERBIA_1: CaseLawInput[] = [
     outcome: "partially",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 1449/2011",
@@ -167,7 +167,7 @@ export const CASE_LAW_INHERITANCE_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 3499/2023",
@@ -185,7 +185,7 @@ export const CASE_LAW_INHERITANCE_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 6504/2025",
@@ -203,7 +203,7 @@ export const CASE_LAW_INHERITANCE_SERBIA_1: CaseLawInput[] = [
     outcome: "remanded",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 5873/2018",
@@ -221,7 +221,7 @@ export const CASE_LAW_INHERITANCE_SERBIA_1: CaseLawInput[] = [
     outcome: "remanded",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 20229/2023",
@@ -239,7 +239,7 @@ export const CASE_LAW_INHERITANCE_SERBIA_1: CaseLawInput[] = [
     outcome: "remanded",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 4263/2025",
@@ -257,7 +257,7 @@ export const CASE_LAW_INHERITANCE_SERBIA_1: CaseLawInput[] = [
     outcome: "partially",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 514/2019",
@@ -275,7 +275,7 @@ export const CASE_LAW_INHERITANCE_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 461/2022",
@@ -293,7 +293,7 @@ export const CASE_LAW_INHERITANCE_SERBIA_1: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 4245/2020",
@@ -311,7 +311,7 @@ export const CASE_LAW_INHERITANCE_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 560/2006",
@@ -329,7 +329,7 @@ export const CASE_LAW_INHERITANCE_SERBIA_1: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 6057/2021",
@@ -347,7 +347,7 @@ export const CASE_LAW_INHERITANCE_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 5232/2023",
@@ -365,25 +365,7 @@ export const CASE_LAW_INHERITANCE_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
-    court: "Apelacioni sud u Beogradu",
-    court_level: "appellate",
-    case_number: "Gž 1870/2025",
-    legal_area: "inheritance",
-    legal_question:
-      "Da li je supruzi ostavioca povređen nužni deo ako je testamentom dobila doživotno plodouživanje čija je novčana vrednost veća od zakonskog nužnog dela od jedne četvrtine?",
-    court_position:
-      "Sud je odbio zahtev supruge za utvrđenje povrede nužnog dela: vrednost prava plodouživanja prevazilazi vrednost njenog nužnog dela; pravo na nužni deo moglo je biti ostvareno u ostavinskom postupku.",
-    reasoning:
-      "Nužni deo je zakonsko pravo na deo mase koji ostavilac ne može uskratiti; upoređenje plodouživanja sa hipotetičkim suvlasništvom 1/2 nije merodavno jer su instituti različiti.",
-    keywords: ["plodouživanje", "nužni deo", "testament", "supružnik", "ZON"],
-    related_articles: ["čl. 39–40 ZON"],
-    headnote:
-      "Plodouživanje može ekonomski zadovoljiti ili premašiti nužni deo bez dodatnog stvarnog prava.",
-    outcome: "defendant_won",
-  },
-  {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 6042/2023",
@@ -401,7 +383,7 @@ export const CASE_LAW_INHERITANCE_SERBIA_1: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 9839/2010",
@@ -419,7 +401,7 @@ export const CASE_LAW_INHERITANCE_SERBIA_1: CaseLawInput[] = [
     outcome: "remanded",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 1762/2024",
@@ -437,7 +419,7 @@ export const CASE_LAW_INHERITANCE_SERBIA_1: CaseLawInput[] = [
     outcome: "partially",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 5261/2016",
@@ -455,7 +437,7 @@ export const CASE_LAW_INHERITANCE_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 1883/2016",
@@ -473,7 +455,7 @@ export const CASE_LAW_INHERITANCE_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 1552/2018",
@@ -491,7 +473,7 @@ export const CASE_LAW_INHERITANCE_SERBIA_1: CaseLawInput[] = [
     outcome: "partially",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 2633/2024",
@@ -509,7 +491,7 @@ export const CASE_LAW_INHERITANCE_SERBIA_1: CaseLawInput[] = [
     outcome: "remanded",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 1431/2005",
@@ -527,7 +509,7 @@ export const CASE_LAW_INHERITANCE_SERBIA_1: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 5105/2012",
@@ -545,7 +527,7 @@ export const CASE_LAW_INHERITANCE_SERBIA_1: CaseLawInput[] = [
     outcome: "remanded",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 310/2017",
@@ -563,7 +545,7 @@ export const CASE_LAW_INHERITANCE_SERBIA_1: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 5021/2018",
@@ -581,7 +563,7 @@ export const CASE_LAW_INHERITANCE_SERBIA_1: CaseLawInput[] = [
     outcome: "remanded",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 106/2023",
@@ -599,7 +581,7 @@ export const CASE_LAW_INHERITANCE_SERBIA_1: CaseLawInput[] = [
     outcome: "partially",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 4456/2018",
@@ -617,7 +599,7 @@ export const CASE_LAW_INHERITANCE_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 61/2025",
@@ -635,7 +617,7 @@ export const CASE_LAW_INHERITANCE_SERBIA_1: CaseLawInput[] = [
     outcome: "procedural",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 8987/2018",
@@ -653,7 +635,7 @@ export const CASE_LAW_INHERITANCE_SERBIA_1: CaseLawInput[] = [
     outcome: "remanded",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Ustavni sud Srbije",
     court_level: "constitutional",
     case_number: "Už 5235/2016",
@@ -671,7 +653,7 @@ export const CASE_LAW_INHERITANCE_SERBIA_1: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 20647/2023",
@@ -689,7 +671,7 @@ export const CASE_LAW_INHERITANCE_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 3158/2005",
@@ -707,7 +689,7 @@ export const CASE_LAW_INHERITANCE_SERBIA_1: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 7085/2016",
@@ -725,7 +707,7 @@ export const CASE_LAW_INHERITANCE_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 4320/2018",
@@ -743,7 +725,7 @@ export const CASE_LAW_INHERITANCE_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 4473/2019",
@@ -761,7 +743,7 @@ export const CASE_LAW_INHERITANCE_SERBIA_1: CaseLawInput[] = [
     outcome: "remanded",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 3603/2022",
@@ -779,7 +761,7 @@ export const CASE_LAW_INHERITANCE_SERBIA_1: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 3706/2019",
@@ -797,7 +779,7 @@ export const CASE_LAW_INHERITANCE_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 4806/2012",
@@ -815,7 +797,7 @@ export const CASE_LAW_INHERITANCE_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 3625/2021",
@@ -833,7 +815,7 @@ export const CASE_LAW_INHERITANCE_SERBIA_1: CaseLawInput[] = [
     outcome: "remanded",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 4171/2023",
@@ -851,7 +833,7 @@ export const CASE_LAW_INHERITANCE_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 500/2020",
@@ -869,7 +851,7 @@ export const CASE_LAW_INHERITANCE_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 5146/2023",
@@ -887,7 +869,7 @@ export const CASE_LAW_INHERITANCE_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 233/2024",
@@ -905,7 +887,7 @@ export const CASE_LAW_INHERITANCE_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 2832/2021",
@@ -923,7 +905,7 @@ export const CASE_LAW_INHERITANCE_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 14435/2010",
@@ -941,7 +923,7 @@ export const CASE_LAW_INHERITANCE_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 12706/2022",
@@ -959,7 +941,7 @@ export const CASE_LAW_INHERITANCE_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 2757/2005",
@@ -977,7 +959,7 @@ export const CASE_LAW_INHERITANCE_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 1958/2019",
@@ -995,7 +977,7 @@ export const CASE_LAW_INHERITANCE_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 2864/2012",
@@ -1013,7 +995,7 @@ export const CASE_LAW_INHERITANCE_SERBIA_1: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 5539/2020",
@@ -1031,7 +1013,7 @@ export const CASE_LAW_INHERITANCE_SERBIA_1: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 4030/2025",
@@ -1049,7 +1031,7 @@ export const CASE_LAW_INHERITANCE_SERBIA_1: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 410/2024",
@@ -1067,7 +1049,7 @@ export const CASE_LAW_INHERITANCE_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 1662/2022",
@@ -1085,7 +1067,7 @@ export const CASE_LAW_INHERITANCE_SERBIA_1: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 4747/2021",

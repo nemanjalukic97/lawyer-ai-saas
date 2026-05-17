@@ -21,7 +21,7 @@ import { createClient } from "@/lib/supabase/client"
 import { saveAs } from "file-saver"
 import { Document as DocxDocument, Packer, Paragraph } from "docx"
 import { useLanguage } from "@/components/LanguageProvider"
-import { RagSourcesPanel } from "@/components/RagSourcesPanel"
+import { LawCaseLawRagTabs } from "@/components/LawCaseLawRagTabs"
 import type { RagMetadata } from "@/types/rag"
 import { logActivity } from "@/lib/activity/logActivity"
 import ContractsListPanel from "./ContractsListPanel"
@@ -1513,7 +1513,7 @@ export default function ContractsWizardPage({
             </p>
           )}
         </div>
-        {ragData && <RagSourcesPanel ragData={ragData} />}
+        {ragData ? <LawCaseLawRagTabs ragData={ragData} /> : null}
       </div>
     )
   }

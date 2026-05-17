@@ -20,6 +20,8 @@ import type { TablesInsert } from "@/lib/supabase/types"
 import { saveAs } from "file-saver"
 import { Document as DocxDocument, Packer, Paragraph } from "docx"
 import { useLanguage } from "@/components/LanguageProvider"
+import { LawCaseLawRagTabs } from "@/components/LawCaseLawRagTabs"
+import type { RagMetadata } from "@/types/rag"
 
 type DocumentType =
   | "nda"
@@ -386,6 +388,7 @@ export default function GeneratePageClient({ selectedId, templateId }: Props) {
   const [isGenerating, setIsGenerating] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [generatedContent, setGeneratedContent] = useState<string>("")
+  const [ragData, setRagData] = useState<RagMetadata | null>(null)
   const [saveSuccess, setSaveSuccess] = useState(false)
 
   const [loadedTemplateTitle, setLoadedTemplateTitle] = useState<string | null>(
@@ -510,6 +513,7 @@ export default function GeneratePageClient({ selectedId, templateId }: Props) {
     setError(null)
     setIsGenerating(true)
     setGeneratedContent("")
+    setRagData(null)
     setSaveSuccess(false)
 
     try {
@@ -563,8 +567,12 @@ export default function GeneratePageClient({ selectedId, templateId }: Props) {
         throw new Error(message)
       }
 
-      const data = (await response.json()) as { content?: string }
+      const data = (await response.json()) as {
+        content?: string
+        rag?: RagMetadata
+      }
       const content = data.content ?? ""
+      if (data.rag) setRagData(data.rag)
       setGeneratedContent(content)
 
       try {
@@ -989,6 +997,7 @@ export default function GeneratePageClient({ selectedId, templateId }: Props) {
                   </div>
                 )}
               </div>
+              {ragData ? <LawCaseLawRagTabs ragData={ragData} /> : null}
             </Card>
           </div>
         </div>

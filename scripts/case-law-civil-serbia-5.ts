@@ -6,11 +6,11 @@ import type { CaseLawInput } from "./ingest-case-law"
 export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
   // ── BATCH 1 (1/3) ───────────────────────────────────────────────────────────
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 7131/2020",
-    decision_date: "2020",
+    decision_date: "2020-01-01",
     legal_area: "civil",
     legal_question:
       "Da li vlasnik susednog objekta može tražiti da mu sused omogući privremeni pristup parceli radi izvođenja radova na fasadi, u skladu sa susedskim pravom?",
@@ -24,11 +24,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 5104/2020",
-    decision_date: "2020",
+    decision_date: "2020-01-01",
     legal_area: "civil",
     legal_question:
       "Da li se pravo svojine na realnom delu susedne parcele može steći vanrednim održajem ako je tokom roka za održaj bio spor koji je okončan odbijanjem zahteva dotadašnjih vlasnika?",
@@ -42,11 +42,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 4339/2024",
-    decision_date: "2024",
+    decision_date: "2024-01-01",
     legal_area: "civil",
     legal_question:
       "Da li se može utvrditi susvojina na spojenom stanu ako je ugovor o kupoprodaji glasio na stan koji nikada nije izgrađen?",
@@ -60,11 +60,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 1419/2024",
-    decision_date: "2024",
+    decision_date: "2024-01-01",
     legal_area: "civil",
     legal_question:
       "Da li se na dograđenom delu kuće koji sa starim delom čini jednu funkcionalnu celinu može steći vanknjižno vlasništvo savesnom gradnjom?",
@@ -78,11 +78,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni sud Srbije",
     court_level: "supreme",
     case_number: "Gž 25359/2024",
-    decision_date: "2024",
+    decision_date: "2024-01-01",
     legal_area: "civil",
     legal_question:
       "Da li savesni graditelj koji je deo objekta sagradio na susednoj parceli može steći svojinu na tom delu održajem ili savesnom gradnjom?",
@@ -96,11 +96,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 16393/2023",
-    decision_date: "2023",
+    decision_date: "2023-01-01",
     legal_area: "civil",
     legal_question:
       "Da li zemljoradnička zadruga može steći svojinu održajem na parceli u državnoj svojini ako se oslanja na poravnanje i zakonitu državinu dužu od deset godina?",
@@ -114,11 +114,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 415/2010",
-    decision_date: "2010",
+    decision_date: "2010-01-01",
     legal_area: "civil",
     legal_question:
       "Da li vlasnik susedne nepokretnosti ima pravo na naknadu štete kada izgradnja objekta uz dozvolu ipak nanosi znatniju štetu (npr. smanjenje osunčanosti)?",
@@ -132,11 +132,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "remanded",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 1198/2019",
-    decision_date: "2019",
+    decision_date: "2019-01-01",
     legal_area: "civil",
     legal_question:
       "Da li se udeo u suvlasništvu na kući stečenoj u porodičnoj zajednici utvrđuje srazmerno doprinosu članova domaćinstva?",
@@ -150,11 +150,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "partially",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Ustavni sud Srbije",
     court_level: "constitutional",
     case_number: "Už 7813/2020",
-    decision_date: "2020",
+    decision_date: "2020-01-01",
     legal_area: "constitutional",
     legal_question:
       "Da li je pravilno pravno shvatanje da se susvojina održajem može steći samo na realnom, a ne i na idealnom delu nepokretnosti?",
@@ -168,11 +168,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "partially",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 1019/2022",
-    decision_date: "2022",
+    decision_date: "2022-01-01",
     legal_area: "civil",
     legal_question:
       "Da li se pravo svojine na stanu u državnoj svojini može steći vanrednim održajem posle 20 godina savesne državine od stupanja na snagu izmene ZOSPO 1996?",
@@ -186,11 +186,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 4337/2022",
-    decision_date: "2022",
+    decision_date: "2022-01-01",
     legal_area: "civil",
     legal_question:
       "Da li zakupci koji su adaptirali poslovne prostore u državnoj svojini mogu steći isključivo vlasništvo na celoj površini, uključujući izvornu državnu površinu?",
@@ -204,11 +204,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 4804/2021",
-    decision_date: "2021",
+    decision_date: "2021-01-01",
     legal_area: "civil",
     legal_question:
       "Ko odgovara za štetu vlasnicima susednih stanova zbog smanjene osunčanosti kada je objekat izgrađen uz dozvolu, ali suprotno urbanističkim pravilima o udaljenosti?",
@@ -222,11 +222,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "partially",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 2228/2023",
-    decision_date: "2023",
+    decision_date: "2023-01-01",
     legal_area: "civil",
     legal_question:
       "Da li se pravo korišćenja na parceli u državnoj svojini može steći vanrednim održajem posle savesne državine duže od 20 godina od ukidanja zabrane održaja?",
@@ -240,11 +240,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 1976/2024",
-    decision_date: "2024",
+    decision_date: "2024-01-01",
     legal_area: "civil",
     legal_question:
       "Da li se susvojina na prizemnom delu stambene zgrade može steći vanrednim održajem posle 20 godina savesne i neprekidne državine?",
@@ -258,11 +258,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Kž2 Po1 213/2011",
-    decision_date: "2011",
+    decision_date: "2011-01-01",
     legal_area: "criminal",
     legal_question:
       "Da li je pravilno rešenje o privremenom oduzimanju stana i vozila okrivljenom ako prvostepeni sud nije potpuno utvrdio poreklo imovine i prihode okrivljenog?",
@@ -276,11 +276,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "remanded",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 4198/2013",
-    decision_date: "2013",
+    decision_date: "2013-01-01",
     legal_area: "civil",
     legal_question:
       "Da li postoji obaveza suseda da podigne ogradu između parcela na zahtev drugog vlasnika?",
@@ -294,11 +294,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 4664/2024",
-    decision_date: "2024",
+    decision_date: "2024-01-01",
     legal_area: "civil",
     legal_question:
       "Da li se pravo svojine na parceli upisanoj kao svojina Republike Srbije može steći vanrednim održajem?",
@@ -312,11 +312,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 2844/2019",
-    decision_date: "2019",
+    decision_date: "2019-01-01",
     legal_area: "procedural",
     legal_question:
       "Da li drugostepeni sud može utvrditi drugačije činjenično stanje od prvostepenog bez održavanja rasprave?",
@@ -330,11 +330,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "remanded",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 7259/2022",
-    decision_date: "2022",
+    decision_date: "2022-01-01",
     legal_area: "procedural",
     legal_question:
       "Da li privredno društvo ima neposredni pravni interes za pokretanje postupka proglašenja nestalog lica za umrlo radi rešavanja imovinskih odnosa na susednoj parceli?",
@@ -348,11 +348,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 3193/2018",
-    decision_date: "2018",
+    decision_date: "2018-01-01",
     legal_area: "civil",
     legal_question:
       "Da li lice koje nije vlasnik ni suvlasnik susedne nepokretnosti može biti pasivno legitimisano u sporu iz susedskog prava?",
@@ -366,11 +366,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 4802/2019",
-    decision_date: "2019",
+    decision_date: "2019-01-01",
     legal_area: "civil",
     legal_question:
       "Da li je pravilno primenjeno pravo o početku roka za održaj i savesnosti držaoca kada se tužilac poziva na održaj na parcelama koje drži od 1956?",
@@ -384,11 +384,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "remanded",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 9024/2021",
-    decision_date: "2021",
+    decision_date: "2021-01-01",
     legal_area: "civil",
     legal_question:
       "Da li kupci mogu steći svojinu održajem na idealnom delu nepokretnosti ako prodavci nisu bili vlasnici celog udela koji su prodali?",
@@ -402,11 +402,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 1062/2012",
-    decision_date: "2012",
+    decision_date: "2012-01-01",
     legal_area: "civil",
     legal_question:
       "Da li se pravo svojine na nepokretnosti u društvenoj/državnoj svojini moglo steći održajem pre stupanja na snagu izmene ZOSPO 1996?",
@@ -420,11 +420,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Privredni apelacioni sud",
     court_level: "appellate",
     case_number: "Pž 6642/2018",
-    decision_date: "2018",
+    decision_date: "2018-01-01",
     legal_area: "commercial",
     legal_question:
       "Da li stečajni upravnik mora izdati clausula intabulandi ako tužilac tvrdi sticanje svojine po stranom zakonu i bez upisa u javne knjige?",
@@ -438,11 +438,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 5311/2022",
-    decision_date: "2022",
+    decision_date: "2022-01-01",
     legal_area: "civil",
     legal_question:
       "Da li je za vanredni održaj na društvenoj/državnoj imovini potrebna i zakonitost državine ili samo savesnost?",
@@ -456,11 +456,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 4920/2024",
-    decision_date: "2024",
+    decision_date: "2024-01-01",
     legal_area: "civil",
     legal_question:
       "Da li proširenje stana na zajedničke prostorije bez dokumentacije automatski daje savesnu državinu za sticanje svojine održajem?",
@@ -476,11 +476,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
 
   // ── BATCH 2 (2/3) ───────────────────────────────────────────────────────────
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 747/2021",
-    decision_date: "2021",
+    decision_date: "2021-01-01",
     legal_area: "civil",
     legal_question:
       "Da li advokat može ostvariti ugovorenu nagradu u procentu, pravo zadržavanja i plodouživanja na stanu klijenta koji je suvlasnik nepokretnosti?",
@@ -494,11 +494,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "partially",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Ustavni sud Srbije",
     court_level: "constitutional",
     case_number: "Už 4812/2014",
-    decision_date: "2014",
+    decision_date: "2014-01-01",
     legal_area: "constitutional",
     legal_question:
       "Da li je pravilan stav da se susvojina održajem može steći samo na realnom delu nepokretnosti, a ne na idealnom udelu?",
@@ -512,11 +512,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 14084/2010",
-    decision_date: "2010",
+    decision_date: "2010-01-01",
     legal_area: "civil",
     legal_question:
       "Da li je za vanredni održaj potrebna zakonitost državine ili samo savesnost posle 20 godina?",
@@ -530,11 +530,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 847/2024",
-    decision_date: "2024",
+    decision_date: "2024-01-01",
     legal_area: "civil",
     legal_question:
       "Da li se pravo susvojine na idealnoj polovini katastarske parcele može utvrditi vanrednim održajem posle dugog posedovanja?",
@@ -548,11 +548,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 8376/2022",
-    decision_date: "2022",
+    decision_date: "2022-01-01",
     legal_area: "civil",
     legal_question:
       "Da li Republika Srbija odgovara za štetu zbog neupisa prava svojine posle poklona ako je neupis posledica propusta stranaka?",
@@ -566,11 +566,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 5605/2023",
-    decision_date: "2023",
+    decision_date: "2023-01-01",
     legal_area: "civil",
     legal_question:
       "Da li se pravo svojine na građevinskom zemljištu u javnoj svojini RS može steći vanrednim održajem posle 1996?",
@@ -584,11 +584,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 2139/2023",
-    decision_date: "2023",
+    decision_date: "2023-01-01",
     legal_area: "civil",
     legal_question:
       "Da li se u rok za održaj uračunava državina pravnih prethodnika koji su stvar držali savesno i zakonito?",
@@ -602,11 +602,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Ustavni sud Srbije",
     court_level: "constitutional",
     case_number: "Už 9083/2014",
-    decision_date: "2014",
+    decision_date: "2014-01-01",
     legal_area: "constitutional",
     legal_question:
       "Da li je proizvoljeno odbijanje zahteva za svojinu održajem ako podnosioci nisu bili savesni jer su znali za pomeranje međe?",
@@ -620,11 +620,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 4191/2022",
-    decision_date: "2022",
+    decision_date: "2022-01-01",
     legal_area: "civil",
     legal_question:
       "Da li se pravo svojine na parceli i starijem objektu u državnoj svojini može steći održajem, a na novijem nelegalno izgrađenom objektu?",
@@ -638,11 +638,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "partially",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 14517/2020",
-    decision_date: "2020",
+    decision_date: "2020-01-01",
     legal_area: "administrative",
     legal_question:
       "Da li je prodaja imovine stečene restitucijom oslobođena poreza na kapitalni dobitak kao nasleđe ili posle deset godina vlasništva?",
@@ -656,11 +656,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 15065/2022",
-    decision_date: "2022",
+    decision_date: "2022-01-01",
     legal_area: "civil",
     legal_question:
       "Da li se pravo svojine može steći vanrednim održajem i bez pisanog ugovora o poklonu ako je posed savesan duže od 20 godina?",
@@ -674,11 +674,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Ustavni sud Srbije",
     court_level: "constitutional",
     case_number: "Už 616/2008",
-    decision_date: "2008",
+    decision_date: "2008-01-01",
     legal_area: "constitutional",
     legal_question:
       "Da li je pravilno priznanje stanarskog prava tuženima na stanu u privatnoj svojini primenom domaćeg prava?",
@@ -692,11 +692,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "remanded",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 6778/2025",
-    decision_date: "2025",
+    decision_date: "2025-01-01",
     legal_area: "civil",
     legal_question:
       "Da li kupac stana koji nije upisan u zemljišnoj knjizi može steći svojinu vanrednim održajem?",
@@ -710,11 +710,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Ustavni sud Srbije",
     court_level: "constitutional",
     case_number: "Už 2967/2014",
-    decision_date: "2014",
+    decision_date: "2014-01-01",
     legal_area: "constitutional",
     legal_question:
       "Da li postavljanje strehe i oluka preko dela parcele koje koriste podnosioci pada u režim susedskih prava po čl. 5 ZOSPO i SGZ?",
@@ -728,11 +728,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "remanded",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 5674/2023",
-    decision_date: "2023",
+    decision_date: "2023-01-01",
     legal_area: "inheritance",
     legal_question:
       "Da li vanbračnoj ćerki pripada nasledni udeo posle izdvajanja bračne tekovine i pravnosnažnog ostavinskog rešenja?",
@@ -746,11 +746,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 1112/2025",
-    decision_date: "2025",
+    decision_date: "2025-01-01",
     legal_area: "civil",
     legal_question:
       "Da li se pravo svojine održajem može steći na poljoprivrednom zemljištu koje ima status zaštićenog prirodnog dobra u javnoj svojini?",
@@ -764,11 +764,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 1344/2023",
-    decision_date: "2023",
+    decision_date: "2023-01-01",
     legal_area: "civil",
     legal_question:
       "Da li parnični sud u presudi o održaju može naložiti raspravljanje zaostavštine i upis kao isprava za katastar?",
@@ -782,11 +782,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "partially",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Ustavni sud Srbije",
     court_level: "constitutional",
     case_number: "Už 682/2008",
-    decision_date: "2008",
+    decision_date: "2008-01-01",
     legal_area: "constitutional",
     legal_question:
       "Da li isplatom štete iz kasko osiguranja u Hrvatskoj osiguravač stiče pravo svojine na ukradenom vozilu po merodavnom hrvatskom pravu?",
@@ -800,11 +800,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "remanded",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 4858/2023",
-    decision_date: "2023",
+    decision_date: "2023-01-01",
     legal_area: "civil",
     legal_question:
       "Da li tužioci mogu steći pravo korišćenja na parceli održajem sa kontinuitetom državine od kupoprodaje 1961. godine?",
@@ -818,11 +818,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 2361/2024",
-    decision_date: "2024",
+    decision_date: "2024-01-01",
     legal_area: "civil",
     legal_question:
       "Da li dugoročni zakup diplomatske nekretnine iz 1979. sa obećanjem prenosa svojine može biti osnov utvrđenja svojine strane države bez saglasnosti za promet strancima?",
@@ -836,11 +836,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 3660/2022",
-    decision_date: "2022",
+    decision_date: "2022-01-01",
     legal_area: "civil",
     legal_question:
       "Da li se pravo svojine na vojnom stanu može utvrditi bez zaključenog pisanog ugovora o otkupu u propisanoj formi?",
@@ -854,11 +854,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 13027/2022",
-    decision_date: "2022",
+    decision_date: "2022-01-01",
     legal_area: "civil",
     legal_question:
       "Da li je presuda o utvrđenju svojine održajem bez dejstva za stečajnog dužnika prepreka izlučnom poveriocu da tužbom traži svojinu?",
@@ -872,11 +872,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "remanded",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 3306/2024",
-    decision_date: "2024",
+    decision_date: "2024-01-01",
     legal_area: "civil",
     legal_question:
       "Da li sam čin da je u katastru kao vlasnik upisano drugo lice dokazuje nesavesnost držaoca koji traži održaj?",
@@ -890,11 +890,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Ustavni sud Srbije",
     court_level: "constitutional",
     case_number: "Už 3855/2010",
-    decision_date: "2010",
+    decision_date: "2010-01-01",
     legal_area: "constitutional",
     legal_question:
       "Da li je trajanje parničnog postupka preko deset godina povreda prava na suđenje u razumnom roku?",
@@ -908,11 +908,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 4888/2024",
-    decision_date: "2024",
+    decision_date: "2024-01-01",
     legal_area: "civil",
     legal_question:
       "Da li se susvojina na delu katastarske parcele može steći vanrednim održajem posle preko 20 godina savesnog posedovanja?",
@@ -926,11 +926,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 4945/2023",
-    decision_date: "2023",
+    decision_date: "2023-01-01",
     legal_area: "civil",
     legal_question:
       "Da li tužilac može tražiti utvrđenje svojine na delu parcele koji je već upisan kao njegov?",
@@ -946,11 +946,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
 
   // ── BATCH 3 (3/3) ───────────────────────────────────────────────────────────
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 7818/2023",
-    decision_date: "2023",
+    decision_date: "2023-01-01",
     legal_area: "civil",
     legal_question:
       "Da li pripada naknada za faktičku eksproprijaciju i za deo parcele koji je samo planski predviđen za ulicu, a nije stvarno priveden toj nameni?",
@@ -964,11 +964,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "partially",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 2879/2021",
-    decision_date: "2021",
+    decision_date: "2021-01-01",
     legal_area: "civil",
     legal_question:
       "Da li se pravo svojine na gradskom građevinskom zemljištu u javnoj svojini može steći održajem ako je predmet kupoprodaje bio samo objekat, a ne i zemljište ispod njega?",
@@ -982,11 +982,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 1304/2025",
-    decision_date: "2025",
+    decision_date: "2025-01-01",
     legal_area: "civil",
     legal_question:
       "Da li je kupac savesan za održaj ako je u ugovoru bilo navedeno da se nepokretnosti vode na treća lica?",
@@ -1000,11 +1000,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 2277/2025",
-    decision_date: "2025",
+    decision_date: "2025-01-01",
     legal_area: "civil",
     legal_question:
       "Da li se pravo korišćenja na poljoprivrednom zemljištu u državnoj svojini može utvrditi održajem ako osnovni zahtev za svojinu nije osporen žalom?",
@@ -1018,11 +1018,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 911/2021",
-    decision_date: "2021",
+    decision_date: "2021-01-01",
     legal_area: "family",
     legal_question:
       "Da li propust izdvajanja bračne imovine u ostavinskom postupku sprečava tužbu za utvrđivanje susvojine na imovini stečenoj u braku?",
@@ -1036,11 +1036,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 5293/2023",
-    decision_date: "2023",
+    decision_date: "2023-01-01",
     legal_area: "civil",
     legal_question:
       "Da li izgradnja susednog objekta sa građevinskom dozvolom isključuje naknadu zbog umanjenja vrednosti stanova zbog smanjenja osvetljenja?",
@@ -1054,11 +1054,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "partially",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 414/2021",
-    decision_date: "2021",
+    decision_date: "2021-01-01",
     legal_area: "civil",
     legal_question:
       "Da li nosilac stanarskog prava može steći svojinu održajem ili ulaganjem u adaptaciju na istoj nepokretnosti?",
@@ -1072,11 +1072,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 6100/2020",
-    decision_date: "2020",
+    decision_date: "2020-01-01",
     legal_area: "civil",
     legal_question:
       "Da li se posle sporazumne deobe bračne imovine overene pred sudom može tražiti dodatna podela istih stvari ako nisu bile navedene u ugovoru?",
@@ -1090,11 +1090,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 9575/2014",
-    decision_date: "2014",
+    decision_date: "2014-01-01",
     legal_area: "administrative",
     legal_question:
       "Da li je pravilno dozvoljeno ponavljanje postupka legalizacije bez ispitivanja formalnih uslova iz Zakona o opštem upravnom postupku?",
@@ -1108,11 +1108,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 3560/2024",
-    decision_date: "2024",
+    decision_date: "2024-01-01",
     legal_area: "civil",
     legal_question:
       "Da li se nesavesnost za održaj može izvesti samo iz toga što je u javnim knjigama upisano drugo lice kao vlasnik?",
@@ -1126,11 +1126,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Kzz 311/2014",
-    decision_date: "2014",
+    decision_date: "2014-01-01",
     legal_area: "criminal",
     legal_question:
       "Da li je pokušaj zloupotrebe položaja odgovornog lica nepodoban ako branilac tvrdi da je ugovor o stanu ništav?",
@@ -1144,11 +1144,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Privredni apelacioni sud",
     court_level: "appellate",
     case_number: "Pž 3522/2019",
-    decision_date: "2019",
+    decision_date: "2019-01-01",
     legal_area: "commercial",
     legal_question:
       "Da li se pravo svojine na parceli može utvrditi kombinacijom sporazuma o vraćanju zemljišta iz 1991. i redovnim održajem, i da li su ništave hipoteke upisane posle sticanja?",
@@ -1162,11 +1162,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 2482/2019",
-    decision_date: "2019",
+    decision_date: "2019-01-01",
     legal_area: "administrative",
     legal_question:
       "Da li je pouzdano dokazano da bivši vlasnik nije bio vlasnik u trenutku oduzimanja imovine radi odbijanja zahteva za restituciju?",
@@ -1180,11 +1180,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 2717/2022",
-    decision_date: "2022",
+    decision_date: "2022-01-01",
     legal_area: "civil",
     legal_question:
       "Da li se može utvrditi susvojina održajem ako je ugovor o poklonu valjan i nema simulacije razmene stanova?",
@@ -1198,11 +1198,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 5077/2019",
-    decision_date: "2019",
+    decision_date: "2019-01-01",
     legal_area: "civil",
     legal_question:
       "Da li mirisi sa farme brojlera predstavljaju zloupotrebu prava svojine i štetu susedima ako su ispunjeni veterinarsko-sanitarni uslovi?",
@@ -1216,11 +1216,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 1870/2025",
-    decision_date: "2025",
+    decision_date: "2025-01-01",
     legal_area: "inheritance",
     legal_question:
       "Da li je testamentom ostavljeno pravo plodouživanja na kući u suprotstavu sa nužnim delom supruge ostavioca?",
@@ -1234,11 +1234,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 283/2013",
-    decision_date: "2013",
+    decision_date: "2013-01-01",
     legal_area: "civil",
     legal_question:
       "Da li se može tražiti predaja u posed tavanskog prostora koji je pretvoren u stan u vanknjižnom vlasništvu drugog vlasnika?",
@@ -1252,11 +1252,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 4628/2022",
-    decision_date: "2022",
+    decision_date: "2022-01-01",
     legal_area: "civil",
     legal_question:
       "Da li je za redovni održaj bitan uvid tužioca u katastar ako tužena nije dokazala nesavesnost?",
@@ -1270,11 +1270,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 1667/2010",
-    decision_date: "2010",
+    decision_date: "2010-01-01",
     legal_area: "administrative",
     legal_question:
       "Da li je pravilno poništeno rešenje o deeksproprijaciji ako organ nije izveo predložene dokaze o privođenju zemljišta nameni?",
@@ -1288,11 +1288,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 2725/2022",
-    decision_date: "2022",
+    decision_date: "2022-01-01",
     legal_area: "civil",
     legal_question:
       "Da li se bračnoj drugoj može dosuditi naknada za ulaganje u posebnu imovinu supružnika i susvojina na pokretninama stečenim u braku?",
@@ -1306,11 +1306,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "partially",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 1196/2022",
-    decision_date: "2022",
+    decision_date: "2022-01-01",
     legal_area: "civil",
     legal_question:
       "Da li se prvenstvo prava preče kupovine poljoprivrednog zemljišta određuje prema faktičkom posedu ili prema vlasništvu u katastru?",
@@ -1324,11 +1324,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 1551/2025",
-    decision_date: "2025",
+    decision_date: "2025-01-01",
     legal_area: "civil",
     legal_question:
       "Da li se može tražiti brisanje upisa prava svojine kupaca stana ako je kupovina iz 1983. valjana i je li zahtev zastareo?",
@@ -1342,11 +1342,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Apelacioni sud u Beogradu",
     court_level: "appellate",
     case_number: "Gž 5516/2023",
-    decision_date: "2023",
+    decision_date: "2023-01-01",
     legal_area: "civil",
     legal_question:
       "Da li se obim prava korišćenja na parceli može utvrditi odvojeno od prava svojine na dograđenom delu zgrade bez poštovanja jedinstva nepokretnosti?",
@@ -1360,11 +1360,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "remanded",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 17972/2022",
-    decision_date: "2022",
+    decision_date: "2022-01-01",
     legal_area: "administrative",
     legal_question:
       "Da li je dispozitiv rešenja o eksproprijaciji zakonit ako se „ekspropriše“ parcela koja je već u državnoj svojini?",
@@ -1378,11 +1378,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "plaintiff_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Upravni sud",
     court_level: "administrative",
     case_number: "U 9033/2015",
-    decision_date: "2015",
+    decision_date: "2015-01-01",
     legal_area: "administrative",
     legal_question:
       "Da li udruženje bez statusa zadužbine može tražiti restituciju i da li je JKP ovlasćeno da ospori vraćanje imovine naslednicima bivšeg vlasnika?",
@@ -1396,11 +1396,11 @@ export const CASE_LAW_CIVIL_SERBIA_5: CaseLawInput[] = [
     outcome: "defendant_won",
   },
   {
-    jurisdiction: "RS",
+    jurisdiction: "serbia",
     court: "Vrhovni kasacioni sud Srbije",
     court_level: "supreme",
     case_number: "Rev 869/2020",
-    decision_date: "2020",
+    decision_date: "2020-01-01",
     legal_area: "civil",
     legal_question:
       "Da li je ugovor o prenosu prava korišćenja na gradskom građevinskom zemljištu punovažan ako je prenos odobren rešenjem opštine po tada važećem zakonu?",

@@ -18,7 +18,7 @@ import {
 import { Loader2, Scale } from "lucide-react"
 import { createClient } from "@/lib/supabase/client"
 import { useLanguage } from "@/components/LanguageProvider"
-import { RagSourcesPanel } from "@/components/RagSourcesPanel"
+import { LawCaseLawRagTabs } from "@/components/LawCaseLawRagTabs"
 import type { RagMetadata } from "@/types/rag"
 
 type CaseType =
@@ -929,7 +929,7 @@ export default function PredictionsPageClient({ selectedId, prefillMatterId }: C
                     </p>
                   </div>
                 )}
-                {ragData && <RagSourcesPanel ragData={ragData} />}
+                {ragData ? <LawCaseLawRagTabs ragData={ragData} /> : null}
               </div>
             </Card>
           </div>

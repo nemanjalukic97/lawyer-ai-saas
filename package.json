@@ -7,6 +7,8 @@
     "build": "next build",
     "start": "next start",
     "ingest-legal": "npx tsx scripts/ingest-legal-texts.ts",
+    "ingest-case-law": "npx tsx scripts/ingest-case-law.ts",
+    "verify-case-law-index": "npx tsx scripts/verify-case-law-index.ts",
     "grant-firm-eval": "npx tsx scripts/grant-firm-evaluation.ts",
     "lint": "eslint"
   },

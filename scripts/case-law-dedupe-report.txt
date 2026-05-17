@@ -1,0 +1,70 @@
+[decision_date] case-law-civil-serbia-5.ts: normalized 78 year-only value(s) to YYYY-01-01
+[decision_date] Total replacements: 78
+
+REMOVED duplicate (kept earlier occurrence): serbia|Už 4088/2018 — case-law-labor-serbia-3.ts array index 95
+REMOVED duplicate (kept earlier occurrence): serbia|Gž1 2082/2016 — case-law-labor-serbia-4.ts array index 36
+REMOVED duplicate (kept earlier occurrence): serbia|Rev2 3759/2023 — case-law-labor-serbia-5.ts array index 1
+REMOVED duplicate (kept earlier occurrence): serbia|Gž1 3121/2023 — case-law-labor-serbia-5.ts array index 35
+REMOVED duplicate (kept earlier occurrence): serbia|Rev2 1320/2024 — case-law-labor-serbia-5.ts array index 84
+REMOVED duplicate (kept earlier occurrence): serbia|Už 2019/2010 — case-law-labor-serbia-5.ts array index 86
+REMOVED duplicate (kept earlier occurrence): serbia|Rev 434/2016 — case-law-labor-serbia-5.ts array index 96
+REMOVED duplicate (kept earlier occurrence): serbia|Rev2 189/2024 — case-law-labor-serbia-7.ts array index 51
+REMOVED duplicate (kept earlier occurrence): serbia|IUz 430/2014 — case-law-labor-serbia-8.ts array index 15
+REMOVED duplicate (kept earlier occurrence): serbia|Gž1 3217/2018 — case-law-labor-serbia-8.ts array index 18
+REMOVED duplicate (kept earlier occurrence): serbia|Gž1 3530/2020 — case-law-labor-serbia-8.ts array index 33
+REMOVED duplicate (kept earlier occurrence): serbia|Rev2 2469/2020 — case-law-labor-serbia-8.ts array index 55
+REMOVED duplicate (kept earlier occurrence): serbia|Gž1 7007/2012 — case-law-labor-serbia-8.ts array index 61
+REMOVED duplicate (kept earlier occurrence): serbia|Rev 6100/2020 — case-law-family-serbia-1.ts array index 25
+REMOVED duplicate (kept earlier occurrence): serbia|Rev 31649/2023 — case-law-family-serbia-3.ts array index 5
+REMOVED duplicate (kept earlier occurrence): serbia|Gž2 128/2024 — case-law-family-serbia-3.ts array index 17
+REMOVED duplicate (kept earlier occurrence): serbia|Gž2 209/2024 — case-law-family-serbia-3.ts array index 21
+REMOVED duplicate (kept earlier occurrence): serbia|Gž2 273/2025 — case-law-family-serbia-3.ts array index 95
+REMOVED duplicate (kept earlier occurrence): serbia|Gž2 394/2017 — case-law-family-serbia-3.ts array index 97
+REMOVED duplicate (kept earlier occurrence): serbia|Pž 3148/2020 — case-law-commercial-serbia-1.ts array index 57
+REMOVED duplicate (kept earlier occurrence): serbia|Rev 17339/2022 — case-law-commercial-serbia-1.ts array index 63
+REMOVED duplicate (kept earlier occurrence): serbia|Kž1-Po1 30/2019 — case-law-commercial-serbia-3.ts array index 46
+REMOVED duplicate (kept earlier occurrence): serbia|Gž 1870/2025 — case-law-inheritance-serbia-1.ts array index 20
+REMOVED duplicate (kept earlier occurrence): serbia|Rev 6504/2025 — case-law-inheritance-serbia-2.ts array index 0
+REMOVED duplicate (kept earlier occurrence): serbia|Gž 1552/2018 — case-law-inheritance-serbia-2.ts array index 44
+REMOVED duplicate (kept earlier occurrence): serbia|U 9575/2014 — case-law-administrative-serbia-1.ts array index 32
+REMOVED duplicate (kept earlier occurrence): serbia|U 20372/2018 — case-law-administrative-serbia-2.ts array index 0
+REMOVED duplicate (kept earlier occurrence): serbia|Už 9395/2021 — case-law-administrative-serbia-2.ts array index 5
+REMOVED duplicate (kept earlier occurrence): serbia|U 11966/2016 — case-law-administrative-serbia-2.ts array index 13
+REMOVED duplicate (kept earlier occurrence): serbia|U 8275/2015 — case-law-administrative-serbia-2.ts array index 14
+REMOVED duplicate (kept earlier occurrence): serbia|U 14803/2015 — case-law-administrative-serbia-2.ts array index 36
+REMOVED duplicate (kept earlier occurrence): serbia|U 8070/2019 — case-law-administrative-serbia-2.ts array index 48
+REMOVED duplicate (kept earlier occurrence): serbia|U 14528/2015 — case-law-administrative-serbia-2.ts array index 54
+REMOVED duplicate (kept earlier occurrence): serbia|U 17382/2019 — case-law-administrative-serbia-2.ts array index 63
+REMOVED duplicate (kept earlier occurrence): serbia|U 13238/2010 — case-law-administrative-serbia-2.ts array index 64
+REMOVED duplicate (kept earlier occurrence): serbia|U 11474/2015 — case-law-administrative-serbia-2.ts array index 68
+REMOVED duplicate (kept earlier occurrence): serbia|U 7371/2015 — case-law-administrative-serbia-2.ts array index 70
+REMOVED duplicate (kept earlier occurrence): serbia|Pž 5143/2019 — case-law-administrative-serbia-2.ts array index 73
+REMOVED duplicate (kept earlier occurrence): serbia|U 7072/2015 — case-law-administrative-serbia-2.ts array index 74
+REMOVED duplicate (kept earlier occurrence): serbia|U 7813/2015 — case-law-administrative-serbia-2.ts array index 75
+REMOVED duplicate (kept earlier occurrence): serbia|U 9012/2015 — case-law-administrative-serbia-2.ts array index 76
+REMOVED duplicate (kept earlier occurrence): serbia|U 9001/2015 — case-law-administrative-serbia-2.ts array index 80
+REMOVED duplicate (kept earlier occurrence): serbia|U 7810/2015 — case-law-administrative-serbia-2.ts array index 81
+REMOVED duplicate (kept earlier occurrence): serbia|Prev 243/2021 — case-law-administrative-serbia-2.ts array index 87
+REMOVED duplicate (kept earlier occurrence): serbia|Kž1-Po1 30/2019 — case-law-criminal-serbia-1.ts array index 15
+REMOVED duplicate (kept earlier occurrence): serbia|Kzz 132/2023 — case-law-criminal-serbia-1.ts array index 18
+REMOVED duplicate (kept earlier occurrence): serbia|Kž1 Po1 1/2016 — case-law-criminal-serbia-1.ts array index 50
+REMOVED duplicate (kept earlier occurrence): serbia|Rev 4349/2022 — case-law-criminal-serbia-2.ts array index 48
+REMOVED duplicate (kept earlier occurrence): serbia|Kzz OK 33/2021 — case-law-criminal-serbia-2.ts array index 65
+REMOVED duplicate (kept earlier occurrence): serbia|Už 1119/2017 — case-law-criminal-serbia-2.ts array index 81
+[dedupe] case-law-labor-serbia-3.ts: removed 1 object(s)
+[dedupe] case-law-labor-serbia-4.ts: removed 1 object(s)
+[dedupe] case-law-labor-serbia-5.ts: removed 5 object(s)
+[dedupe] case-law-labor-serbia-7.ts: removed 1 object(s)
+[dedupe] case-law-labor-serbia-8.ts: removed 5 object(s)
+[dedupe] case-law-family-serbia-1.ts: removed 1 object(s)
+[dedupe] case-law-family-serbia-3.ts: removed 5 object(s)
+[dedupe] case-law-commercial-serbia-1.ts: removed 2 object(s)
+[dedupe] case-law-commercial-serbia-3.ts: removed 1 object(s)
+[dedupe] case-law-inheritance-serbia-1.ts: removed 1 object(s)
+[dedupe] case-law-inheritance-serbia-2.ts: removed 2 object(s)
+[dedupe] case-law-administrative-serbia-1.ts: removed 1 object(s)
+[dedupe] case-law-administrative-serbia-2.ts: removed 18 object(s)
+[dedupe] case-law-criminal-serbia-1.ts: removed 3 object(s)
+[dedupe] case-law-criminal-serbia-2.ts: removed 3 object(s)
+
+[dedupe] Total duplicate entries removed: 50
