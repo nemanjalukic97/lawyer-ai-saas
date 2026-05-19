@@ -65,6 +65,21 @@ const SIMILARITY_THRESHOLDS = {
   LOW_RETRY: 0.22,
 }
 
+const BIH_JURISDICTIONS = new Set(["bih_fbih", "bih_rs"])
+
+function getCaseLawRpcThresholds(jurisdiction: string): {
+  defaultThreshold: number
+  lowRetry: number
+} {
+  if (BIH_JURISDICTIONS.has(jurisdiction)) {
+    return { defaultThreshold: 0.2, lowRetry: 0.15 }
+  }
+  return {
+    defaultThreshold: SIMILARITY_THRESHOLDS.MEDIUM,
+    lowRetry: SIMILARITY_THRESHOLDS.LOW_RETRY,
+  }
+}
+
 const RPC_TIMEOUT_MS = 5000
 
 const MAX_CONTEXT_CHARS = 12000
@@ -229,12 +244,12 @@ async function matchCaseLaw(args: {
   retried: boolean
 }> {
   const embedding = await embedQueryText(args.query)
+  const thresholds = getCaseLawRpcThresholds(args.jurisdiction)
 
   const initialThreshold =
-    args.similarityThreshold ?? SIMILARITY_THRESHOLDS.MEDIUM
+    args.similarityThreshold ?? thresholds.defaultThreshold
   const shouldRetry =
-    args.retryIfEmpty !== false &&
-    initialThreshold > SIMILARITY_THRESHOLDS.LOW_RETRY
+    args.retryIfEmpty !== false && initialThreshold > thresholds.lowRetry
 
   let usedThreshold = initialThreshold
   let retried = false
@@ -251,17 +266,17 @@ async function matchCaseLaw(args: {
   if (data.length === 0 && shouldRetry) {
     // eslint-disable-next-line no-console
     console.log(
-      `[RAG case law] no results at threshold ${initialThreshold}, retrying with ${SIMILARITY_THRESHOLDS.LOW_RETRY}`,
+      `[RAG case law] no results at threshold ${initialThreshold}, retrying with ${thresholds.lowRetry}`,
     )
     retried = true
-    usedThreshold = SIMILARITY_THRESHOLDS.LOW_RETRY
+    usedThreshold = thresholds.lowRetry
     data = await runMatchCaseLawRpc({
       embedding,
       jurisdiction: args.jurisdiction,
       legalArea: args.legalArea ?? null,
       courtLevel: args.courtLevel ?? null,
       matchCount: args.matchCount ?? 6,
-      similarityThreshold: SIMILARITY_THRESHOLDS.LOW_RETRY,
+      similarityThreshold: thresholds.lowRetry,
     })
   }
 
@@ -447,12 +462,16 @@ export async function retrieveLegalContext(
     similarityThreshold?: number
   },
 ): Promise<RagResult> {
+  const threshold = ["bih_fbih", "bih_rs", "bih_brcko"].includes(jurisdiction)
+    ? 0.2
+    : options?.similarityThreshold
+
   const { chunks: rawChunks } = await matchLegalArticles({
     query,
     jurisdiction,
     category: options?.category ?? null,
     matchCount: options?.k ?? 6,
-    similarityThreshold: options?.similarityThreshold,
+    similarityThreshold: threshold,
     retryIfEmpty: true,
   })
 
@@ -502,12 +521,10 @@ export async function retrieveCaseLawContext(
   const cases = deduplicateCaseChunks(rawCases)
 
   const topSimilarity = cases[0]?.similarity ?? 0
+  const { lowRetry } = getCaseLawRpcThresholds(jurisdiction)
 
   let confidence: CaseLawContextResult["confidence"]
-  if (
-    cases.length === 0 ||
-    topSimilarity < SIMILARITY_THRESHOLDS.LOW_RETRY
-  ) {
+  if (cases.length === 0 || topSimilarity < lowRetry) {
     confidence = "none"
   } else if (topSimilarity >= SIMILARITY_THRESHOLDS.HIGH) {
     confidence = "high"

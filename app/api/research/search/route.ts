@@ -9,12 +9,18 @@ import {
   type CaseLawChunk,
   type LegalChunk,
 } from "@/lib/legalRag"
+import { normalizeJurisdiction } from "@/lib/normalizeJurisdiction"
 import type { TablesInsert } from "@/lib/supabase/types"
+
+type ResearchSearchScope = "laws" | "caselaw" | "both"
 
 type ResearchSearchBody = {
   query?: string
   jurisdiction?: string | null
   category?: string | null
+  page?: number
+  limit?: number
+  scope?: ResearchSearchScope
 }
 
 type ResearchResultItem = {
@@ -40,14 +46,37 @@ type ResearchCaseLawResultItem = {
   decision_date: string | null
   legal_question: string
   court_position: string
+  reasoning: string
   outcome: string | null
+  keywords: string[] | null
+  related_articles: string[] | null
   similarity: number
   confidencePct: number
   excerpt: string
 }
 
+const PER_JURIS_CAP = 50
+const DEFAULT_LIMIT = 10
+
 function normalizeQuery(input: string): string {
   return input.trim().replace(/\s+/g, " ").trim()
+}
+
+function parsePage(value: unknown, fallback: number): number {
+  const n = typeof value === "number" ? value : Number(value)
+  if (!Number.isFinite(n) || n < 1) return fallback
+  return Math.floor(n)
+}
+
+function parseLimit(value: unknown, fallback: number): number {
+  const n = typeof value === "number" ? value : Number(value)
+  if (!Number.isFinite(n)) return fallback
+  return Math.min(50, Math.max(1, Math.floor(n)))
+}
+
+function parseScope(value: unknown): ResearchSearchScope {
+  if (value === "laws" || value === "caselaw" || value === "both") return value
+  return "both"
 }
 
 function excerptAround(
@@ -104,7 +133,10 @@ function toCaseLawResultItem(
     decision_date: chunk.decision_date,
     legal_question: chunk.legal_question,
     court_position: chunk.court_position,
+    reasoning: chunk.reasoning,
     outcome: chunk.outcome,
+    keywords: chunk.keywords,
+    related_articles: chunk.related_articles,
     similarity,
     confidencePct: Math.max(0, Math.min(100, Math.round(similarity * 100))),
     excerpt: buildCaseExcerpt(chunk, query),
@@ -129,6 +161,34 @@ function toResultItem(chunk: LegalChunk, query: string): ResearchResultItem {
   }
 }
 
+function mergeLegalChunks(searches: Array<{ chunks?: LegalChunk[] }>): LegalChunk[] {
+  const merged = searches.flatMap((s) => s.chunks ?? [])
+  const bestByKey = new Map<string, LegalChunk>()
+  for (const c of merged) {
+    const key = `${c.jurisdiction}::${c.law_name}::${c.article_num}::${c.paragraph_num ?? ""}`
+    const existing = bestByKey.get(key)
+    if (!existing || c.similarity > existing.similarity) bestByKey.set(key, c)
+  }
+  return Array.from(bestByKey.values()).sort(
+    (a, b) => (b.similarity ?? 0) - (a.similarity ?? 0),
+  )
+}
+
+function mergeCaseLawChunks(
+  caseLawSearches: Array<{ cases?: CaseLawChunk[] }>,
+): CaseLawChunk[] {
+  const mergedCases = caseLawSearches.flatMap((s) => s.cases ?? [])
+  const bestCaseByKey = new Map<string, CaseLawChunk>()
+  for (const c of mergedCases) {
+    const key = `${c.jurisdiction}::${c.case_number}`
+    const existing = bestCaseByKey.get(key)
+    if (!existing || c.similarity > existing.similarity) bestCaseByKey.set(key, c)
+  }
+  return Array.from(bestCaseByKey.values()).sort(
+    (a, b) => (b.similarity ?? 0) - (a.similarity ?? 0),
+  )
+}
+
 export async function POST(req: NextRequest) {
   const supabase = await createClient()
   const {
@@ -138,6 +198,8 @@ export async function POST(req: NextRequest) {
   if (!user) return Response.json({ error: "Unauthorized" }, { status: 401 })
 
   const body = (await req.json().catch(() => null)) as ResearchSearchBody | null
+  const url = req.nextUrl.searchParams
+
   const rawQuery = (body?.query ?? "").toString()
   const query = normalizeQuery(rawQuery)
   if (!query) {
@@ -155,6 +217,17 @@ export async function POST(req: NextRequest) {
     typeof body?.category === "string" && body.category.trim()
       ? body.category.trim()
       : null
+  const normalizedJurisdiction = normalizeJurisdiction(jurisdiction)
+
+  const page = parsePage(body?.page ?? url.get("page"), 1)
+  const limit = parseLimit(body?.limit ?? url.get("limit"), DEFAULT_LIMIT)
+  const scope = parseScope(body?.scope)
+  const offset = (page - 1) * limit
+  const fetchCount = offset + limit + 1
+  const matchCount = Math.min(PER_JURIS_CAP, fetchCount)
+
+  const fetchLaws = scope === "laws" || scope === "both"
+  const fetchCaseLaw = scope === "caselaw" || scope === "both"
 
   try {
     const { planId, lawFirmId } = await getSubscriptionContextForUser(
@@ -162,7 +235,7 @@ export async function POST(req: NextRequest) {
       user.id,
     )
 
-    const limit = PLAN_ENTITLEMENTS[planId].aiCallsPerDay
+    const dailyLimit = PLAN_ENTITLEMENTS[planId].aiCallsPerDay
     const today = new Date().toISOString().split("T")[0]
 
     const { count } = await supabase
@@ -172,95 +245,80 @@ export async function POST(req: NextRequest) {
       .eq("usage_date", today)
       .eq("feature_type", "legal_research")
 
-    if ((count ?? 0) >= limit) {
+    if ((count ?? 0) >= dailyLimit) {
       return Response.json(
         {
           error: "Daily AI limit reached. Please upgrade your plan.",
-          limit,
+          limit: dailyLimit,
           used: count,
         },
         { status: 429 },
       )
     }
 
-    // match_legal_articles currently requires a jurisdiction argument.
-    // For the Research page's "All jurisdictions" option, we fan-out and merge results.
-    const jurisdictions: string[] = jurisdiction
-      ? [jurisdiction]
-      : [
-          "serbia",
-          "croatia",
-          "bih_federation",
-          "bih_rs",
-          "bih_brcko",
-          "montenegro",
-          "slovenia",
-        ]
+    const ALL_JURISDICTIONS = [
+      "serbia",
+      "croatia",
+      "bih_federation",
+      "bih_rs",
+      "bih_brcko",
+      "montenegro",
+      "slovenia",
+    ]
+
+    const jurisdictions: string[] = normalizedJurisdiction
+      ? [normalizedJurisdiction]
+      : ALL_JURISDICTIONS.map((j) => normalizeJurisdiction(j)!)
 
     const [searches, caseLawSearches] = await Promise.all([
-      Promise.all(
-        jurisdictions.map((j) =>
-          matchLegalArticles({
-            query,
-            jurisdiction: j,
-            category,
-            matchCount: 10,
-            similarityThreshold: 0.25,
-            retryIfEmpty: true,
-          }).catch(() => ({
-            chunks: [] as LegalChunk[],
-            usedThreshold: 0.25,
-            retried: false,
-          })),
-        ),
-      ),
-      Promise.all(
-        jurisdictions.map((j) =>
-          retrieveCaseLawContext(query, j, {
-            legalArea: category ?? undefined,
-            k: 10,
-          }).catch(() => ({
-            cases: [] as CaseLawChunk[],
-            confidence: "none" as const,
-            topSimilarity: 0,
-          })),
-        ),
-      ),
+      fetchLaws
+        ? Promise.all(
+            jurisdictions.map((j) =>
+              matchLegalArticles({
+                query,
+                jurisdiction: j,
+                category,
+                matchCount,
+                similarityThreshold: 0.25,
+                retryIfEmpty: true,
+              }).catch(() => ({
+                chunks: [] as LegalChunk[],
+                usedThreshold: 0.25,
+                retried: false,
+              })),
+            ),
+          )
+        : Promise.resolve([]),
+      fetchCaseLaw
+        ? Promise.all(
+            jurisdictions.map((j) =>
+              retrieveCaseLawContext(query, j, {
+                legalArea: category ?? undefined,
+                k: matchCount,
+              }).catch(() => ({
+                cases: [] as CaseLawChunk[],
+                confidence: "none" as const,
+                topSimilarity: 0,
+              })),
+            ),
+          )
+        : Promise.resolve([]),
     ])
 
-    const merged = searches.flatMap((s) => s.chunks ?? [])
+    const sorted = fetchLaws ? mergeLegalChunks(searches) : []
+    const totalResults = sorted.length
+    const lawPage = sorted.slice(offset, offset + limit)
+    const results = lawPage.map((c) => toResultItem(c, query))
+    const hasMoreLaws = fetchLaws && results.length === limit
 
-    // Deduplicate exact rows by (jurisdiction, law, article, paragraph) and keep best similarity.
-    const bestByKey = new Map<string, LegalChunk>()
-    for (const c of merged) {
-      const key = `${c.jurisdiction}::${c.law_name}::${c.article_num}::${c.paragraph_num ?? ""}`
-      const existing = bestByKey.get(key)
-      if (!existing || c.similarity > existing.similarity) bestByKey.set(key, c)
-    }
-
-    const sorted = Array.from(bestByKey.values()).sort(
-      (a, b) => (b.similarity ?? 0) - (a.similarity ?? 0),
-    )
-    const top = sorted.slice(0, 10)
-
-    const results = top.map((c) => toResultItem(c, query))
-
-    const mergedCases = caseLawSearches.flatMap((s) => s.cases ?? [])
-    const bestCaseByKey = new Map<string, CaseLawChunk>()
-    for (const c of mergedCases) {
-      const key = `${c.jurisdiction}::${c.case_number}`
-      const existing = bestCaseByKey.get(key)
-      if (!existing || c.similarity > existing.similarity) bestCaseByKey.set(key, c)
-    }
-
-    const sortedCases = Array.from(bestCaseByKey.values()).sort(
-      (a, b) => (b.similarity ?? 0) - (a.similarity ?? 0),
-    )
-    const topCases = sortedCases.slice(0, 10)
-    const caseLawResults = topCases.map((c) => toCaseLawResultItem(c, query))
+    const sortedCases = fetchCaseLaw ? mergeCaseLawChunks(caseLawSearches) : []
+    const totalCaseLawResults = sortedCases.length
+    const casePage = sortedCases.slice(offset, offset + limit)
+    const caseLawResults = casePage.map((c) => toCaseLawResultItem(c, query))
+    const hasMoreCaseLaw = fetchCaseLaw && caseLawResults.length === limit
 
     let caseLawConfidence: "high" | "medium" | "low" | "none" = "none"
-    if (caseLawSearches.length > 0) {
+    if (fetchCaseLaw && caseLawSearches.length > 0) {
       const rank = { none: 0, low: 1, medium: 2, high: 3 }
       for (const s of caseLawSearches) {
         if (rank[s.confidence] > rank[caseLawConfidence]) {
@@ -268,29 +326,34 @@ export async function POST(req: NextRequest) {
         }
       }
     }
-    if (caseLawResults.length === 0) caseLawConfidence = "none"
+    if (!fetchCaseLaw || caseLawResults.length === 0) caseLawConfidence = "none"
 
-    try {
-      const usageRow: TablesInsert<"usage_stats"> = {
-        user_id: user.id,
-        law_firm_id: lawFirmId,
-        feature_type: "legal_research" as any,
-        tokens_used: null,
-        cost_usd: null,
-        entity_type: null,
-        entity_id: null,
-        model_used: "text-embedding-3-small",
-        usage_date: today,
-        metadata: {
-          jurisdiction: jurisdiction ?? "all",
-          category: category ?? "all",
-          match_count: 10,
-          similarity_threshold: 0.25,
-        } as any,
+    const shouldLogUsage = page === 1 && scope === "both"
+    if (shouldLogUsage) {
+      try {
+        const usageRow: TablesInsert<"usage_stats"> = {
+          user_id: user.id,
+          law_firm_id: lawFirmId,
+          feature_type: "legal_research" as any,
+          tokens_used: null,
+          cost_usd: null,
+          entity_type: null,
+          entity_id: null,
+          model_used: "text-embedding-3-small",
+          usage_date: today,
+          metadata: {
+            jurisdiction: jurisdiction ?? "all",
+            category: category ?? "all",
+            match_count: matchCount,
+            similarity_threshold: 0.25,
+            page,
+            limit,
+          } as any,
+        }
+        await supabase.from("usage_stats").insert(usageRow as never)
+      } catch {
+        // never block response on logging
       }
-      await supabase.from("usage_stats").insert(usageRow as never)
-    } catch {
-      // never block response on logging
     }
 
     return Response.json({
@@ -299,9 +362,14 @@ export async function POST(req: NextRequest) {
       results,
       caseLawResults,
       caseLawConfidence,
+      page,
+      limit,
+      totalResults,
+      totalCaseLawResults,
+      hasMoreLaws,
+      hasMoreCaseLaw,
     })
   } catch {
     return Response.json({ error: "Internal server error" }, { status: 500 })
   }
 }
-

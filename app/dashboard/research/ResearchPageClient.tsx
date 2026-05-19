@@ -1,7 +1,14 @@
 "use client"
 
 import { FormEvent, useEffect, useMemo, useState } from "react"
-import { Search, BookmarkPlus, Loader2, Scale, BookOpen } from "lucide-react"
+import {
+  Search,
+  BookmarkPlus,
+  Loader2,
+  Scale,
+  BookOpen,
+  ChevronDown,
+} from "lucide-react"
 
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -18,9 +25,12 @@ import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useLanguage } from "@/components/LanguageProvider"
 import { cn } from "@/lib/utils"
+import {
+  highlightCaseLawText,
+  highlightSubstring,
+} from "@/lib/highlightSearchTerms"
+import { CaseLawExpandableBody } from "@/components/CaseLawExpandableBody"
 import type { EntitlementPlanId } from "../lib/entitlements"
-
-type LanguageMode = "local" | "en"
 
 type ResearchResultItem = {
   id: string
@@ -45,7 +55,10 @@ type ResearchCaseLawResultItem = {
   decision_date: string | null
   legal_question: string
   court_position: string
+  reasoning: string
   outcome: string | null
+  keywords: string[] | null
+  related_articles: string[] | null
   similarity: number
   confidencePct: number
   excerpt: string
@@ -57,6 +70,67 @@ type SearchResponse = {
   results: ResearchResultItem[]
   caseLawResults?: ResearchCaseLawResultItem[]
   caseLawConfidence?: "high" | "medium" | "low" | "none"
+  page?: number
+  limit?: number
+  totalResults?: number
+  totalCaseLawResults?: number
+  hasMoreLaws?: boolean
+  hasMoreCaseLaw?: boolean
+}
+
+function mergeResultItemsById<T extends { id: string }>(
+  existing: T[],
+  incoming: T[],
+): T[] {
+  const seen = new Set(existing.map((item) => item.id))
+  const added = incoming.filter((item) => !seen.has(item.id))
+  return [...existing, ...added]
+}
+
+function defaultResearchResultsTab(
+  data: Pick<SearchResponse, "results" | "caseLawResults">,
+): "laws" | "caselaw" {
+  return (data.results?.length ?? 0) > 0 ? "laws" : "caselaw"
+}
+
+function ResearchResultsPaginationFooter({
+  shown,
+  hasMore,
+  loading,
+  onLoadMore,
+  t,
+}: {
+  shown: number
+  hasMore: boolean
+  loading: boolean
+  onLoadMore: () => void
+  t: (key: string, vars?: Record<string, string | number>) => string
+}) {
+  if (shown === 0) return null
+
+  return (
+    <div className="flex flex-col items-center gap-2 pt-4">
+      <p className="text-sm text-muted-foreground">
+        {t("research.showingCount", { shown })}
+      </p>
+      {hasMore ? (
+        <Button
+          type="button"
+          variant="outline"
+          disabled={loading}
+          onClick={onLoadMore}
+          className="gap-2"
+        >
+          {loading ? (
+            <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+          ) : (
+            <ChevronDown className="h-4 w-4" aria-hidden="true" />
+          )}
+          {t("research.loadMore")}
+        </Button>
+      ) : null}
+    </div>
+  )
 }
 
 type SavedSessionResults =
@@ -141,44 +215,6 @@ function formatDate(value: string): string {
   })
 }
 
-function escapeRegExp(value: string): string {
-  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
-}
-
-function highlightExcerpt(excerpt: string, query: string): Array<string | { mark: string }> {
-  const trimmed = query.trim()
-  if (!excerpt || !trimmed) return [excerpt]
-
-  const tokens = Array.from(
-    new Set(
-      trimmed
-        .split(/\s+/g)
-        .map((t) => t.trim())
-        .filter((t) => t.length >= 3)
-        .slice(0, 8),
-    ),
-  )
-
-  if (tokens.length === 0) return [excerpt]
-
-  const pattern = tokens.map(escapeRegExp).join("|")
-  const re = new RegExp(`(${pattern})`, "gi")
-
-  const parts: Array<string | { mark: string }> = []
-  let lastIdx = 0
-  let m: RegExpExecArray | null
-  while ((m = re.exec(excerpt)) !== null) {
-    const start = m.index
-    const end = start + (m[0]?.length ?? 0)
-    if (start > lastIdx) parts.push(excerpt.slice(lastIdx, start))
-    parts.push({ mark: excerpt.slice(start, end) })
-    lastIdx = end
-    if (re.lastIndex === start) re.lastIndex++
-  }
-  if (lastIdx < excerpt.length) parts.push(excerpt.slice(lastIdx))
-  return parts.length ? parts : [excerpt]
-}
-
 function caseLawOutcomeBorderClass(outcome: string | null): string {
   switch (outcome) {
     case "plaintiff_won":
@@ -196,42 +232,14 @@ function caseLawOutcomeBorderClass(outcome: string | null): string {
   }
 }
 
-function HighlightedText({
-  parts,
-}: {
-  parts: Array<string | { mark: string }>
-}) {
-  return (
-    <>
-      {parts.map((p, idx) =>
-        typeof p === "string" ? (
-          <span key={idx}>{p}</span>
-        ) : (
-          <mark
-            key={idx}
-            className="rounded bg-primary/15 px-0.5 text-foreground"
-          >
-            {p.mark}
-          </mark>
-        ),
-      )}
-    </>
-  )
-}
-
 function ResearchCaseLawResults({
   results,
   t,
-  highlightExcerpt,
   jurisdictionBadgeClass,
   confidenceBadgeClass,
 }: {
   results: SearchResponse
   t: (key: string) => string
-  highlightExcerpt: (
-    excerpt: string,
-    query: string,
-  ) => Array<string | { mark: string }>
   jurisdictionBadgeClass: (j: string) => string
   confidenceBadgeClass: (pct: number) => string
 }) {
@@ -251,7 +259,7 @@ function ResearchCaseLawResults({
               })
             : null
         const positionParts = c.court_position
-          ? highlightExcerpt(c.court_position, results.query)
+          ? highlightCaseLawText(c.court_position, results.query)
           : []
         return (
           <Card
@@ -297,7 +305,9 @@ function CaseLawResultCardBody({
   return (
     <>
       <div className="flex items-start justify-between gap-3">
-        <p className="min-w-0 text-sm text-muted-foreground">{c.court}</p>
+        <p className="flex-1 whitespace-normal break-words text-sm text-muted-foreground">
+          {c.court}
+        </p>
         {outcomeLabel ? (
           <Badge variant="secondary" className="shrink-0">
             {outcomeLabel}
@@ -321,43 +331,56 @@ function CaseLawResultCardBody({
           {t("research.results.confidenceLabel")} {c.confidencePct}%
         </Badge>
       </div>
-      {c.legal_question ? (
-        <p className="mt-3 whitespace-normal text-sm italic text-muted-foreground">
-          {c.legal_question}
-        </p>
-      ) : null}
-      {c.court_position ? (
-        <div className="mt-3 w-full whitespace-normal text-sm leading-relaxed text-foreground">
-          <HighlightedText parts={positionParts} />
-        </div>
-      ) : null}
+      <CaseLawExpandableBody
+        legalQuestion={c.legal_question}
+        courtPosition={c.court_position}
+        courtPositionParts={
+          positionParts.length > 0 ? positionParts : undefined
+        }
+        reasoning={c.reasoning}
+        keywords={c.keywords}
+        relatedArticles={c.related_articles}
+        t={t}
+      />
     </>
   )
 }
 
 function ResearchResultsTabs({
   results,
-  languageMode,
+  activeTab,
+  onTabChange,
   t,
-  highlightExcerpt,
   jurisdictionBadgeClass,
   confidenceBadgeClass,
+  loadingMoreLaws,
+  loadingMoreCaseLaw,
+  onLoadMoreLaws,
+  onLoadMoreCaseLaw,
 }: {
   results: SearchResponse
-  languageMode: LanguageMode
-  t: (key: string) => string
-  highlightExcerpt: (
-    excerpt: string,
-    query: string,
-  ) => Array<string | { mark: string }>
+  activeTab: "laws" | "caselaw"
+  onTabChange: (tab: "laws" | "caselaw") => void
+  t: (key: string, vars?: Record<string, string | number>) => string
   jurisdictionBadgeClass: (j: string) => string
   confidenceBadgeClass: (pct: number) => string
+  loadingMoreLaws: boolean
+  loadingMoreCaseLaw: boolean
+  onLoadMoreLaws: () => void
+  onLoadMoreCaseLaw: () => void
 }) {
   const lawCount = results.results?.length ?? 0
   const caseCount = results.caseLawResults?.length ?? 0
   const showLawsTab = lawCount > 0
   const showCaseTab = caseCount > 0
-  const defaultTab = lawCount > 0 ? "laws" : "caselaw"
+  const tabValue =
+    activeTab === "laws" && showLawsTab
+      ? "laws"
+      : activeTab === "caselaw" && showCaseTab
+        ? "caselaw"
+        : showLawsTab
+          ? "laws"
+          : "caselaw"
 
   if (!showLawsTab && !showCaseTab) {
     return (
@@ -371,8 +394,8 @@ function ResearchResultsTabs({
 
   return (
     <Tabs
-      key={`${lawCount}-${caseCount}-${results.query}`}
-      defaultValue={defaultTab}
+      value={tabValue}
+      onValueChange={(value) => onTabChange(value as "laws" | "caselaw")}
       className="space-y-3"
     >
       <TabsList className="flex h-auto w-full p-1">
@@ -407,14 +430,10 @@ function ResearchResultsTabs({
           ) : (
             <div className="space-y-4">
               {results.results.map((r) => {
-                const textForMode =
-                  languageMode === "en"
-                    ? r.text
-                    : (r.text_local && r.text_local.trim()
-                        ? r.text_local
-                        : r.text)
-                const excerpt = r.excerpt || (textForMode?.slice(0, 260) ?? "")
-                const parts = highlightExcerpt(excerpt, results.query)
+                const text =
+                  r.text_local && r.text_local.trim() ? r.text_local : r.text
+                const excerpt = r.excerpt || (text?.slice(0, 260) ?? "")
+                const parts = highlightSubstring(excerpt, results.query)
                 return (
                   <Card key={r.id} className="p-5">
                     <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
@@ -474,6 +493,13 @@ function ResearchResultsTabs({
                   </Card>
                 )
               })}
+              <ResearchResultsPaginationFooter
+                shown={lawCount}
+                hasMore={results.hasMoreLaws ?? false}
+                loading={loadingMoreLaws}
+                onLoadMore={onLoadMoreLaws}
+                t={t}
+              />
             </div>
           )}
         </TabsContent>
@@ -484,9 +510,15 @@ function ResearchResultsTabs({
           <ResearchCaseLawResults
             results={results}
             t={t}
-            highlightExcerpt={highlightExcerpt}
             jurisdictionBadgeClass={jurisdictionBadgeClass}
             confidenceBadgeClass={confidenceBadgeClass}
+          />
+          <ResearchResultsPaginationFooter
+            shown={caseCount}
+            hasMore={results.hasMoreCaseLaw ?? false}
+            loading={loadingMoreCaseLaw}
+            onLoadMore={onLoadMoreCaseLaw}
+            t={t}
           />
         </TabsContent>
       ) : null}
@@ -508,11 +540,15 @@ export function ResearchPageClient({ planId }: { planId: EntitlementPlanId }) {
   const [query, setQuery] = useState("")
   const [jurisdiction, setJurisdiction] = useState<string>("all")
   const [category, setCategory] = useState<string>("all")
-  const [languageMode, setLanguageMode] = useState<LanguageMode>("local")
 
   const [loading, setLoading] = useState(false)
+  const [loadingMoreLaws, setLoadingMoreLaws] = useState(false)
+  const [loadingMoreCaseLaw, setLoadingMoreCaseLaw] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [results, setResults] = useState<SearchResponse | null>(null)
+  const [resultsTab, setResultsTab] = useState<"laws" | "caselaw">("laws")
+  const [lawsPage, setLawsPage] = useState(1)
+  const [caseLawPage, setCaseLawPage] = useState(1)
 
   const [saving, setSaving] = useState(false)
 
@@ -534,19 +570,32 @@ export function ResearchPageClient({ planId }: { planId: EntitlementPlanId }) {
     return found ? t(found.labelKey) : category
   }, [category, t])
 
+  function searchRequestBody(
+    input: string,
+    page: number,
+    scope: "laws" | "caselaw" | "both",
+  ) {
+    return {
+      query: input,
+      jurisdiction: jurisdiction === "all" ? null : jurisdiction,
+      category: category === "all" ? null : category,
+      page,
+      limit: results?.limit ?? 10,
+      scope,
+    }
+  }
+
   async function runSearch(input: string) {
     setLoading(true)
     setError(null)
     setResults(null)
+    setLawsPage(1)
+    setCaseLawPage(1)
     try {
       const resp = await fetch("/api/research/search", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          query: input,
-          jurisdiction: jurisdiction === "all" ? null : jurisdiction,
-          category: category === "all" ? null : category,
-        }),
+        body: JSON.stringify(searchRequestBody(input, 1, "both")),
       })
       const json = await resp.json().catch(() => null)
       if (!resp.ok) {
@@ -556,12 +605,73 @@ export function ResearchPageClient({ planId }: { planId: EntitlementPlanId }) {
         )
         return
       }
-      setResults(json as SearchResponse)
+      const nextResults = json as SearchResponse
+      setResults(nextResults)
+      setResultsTab(defaultResearchResultsTab(nextResults))
+      setLawsPage(1)
+      setCaseLawPage(1)
       if (canSave) void loadHistory()
     } catch {
       setError(t("research.errors.searchFailed"))
     } finally {
       setLoading(false)
+    }
+  }
+
+  async function loadMore(scope: "laws" | "caselaw") {
+    if (!results?.query) return
+    const nextPage = scope === "laws" ? lawsPage + 1 : caseLawPage + 1
+    const setLoadingMore =
+      scope === "laws" ? setLoadingMoreLaws : setLoadingMoreCaseLaw
+
+    setLoadingMore(true)
+    setError(null)
+    try {
+      const resp = await fetch("/api/research/search", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(
+          searchRequestBody(results.query, nextPage, scope),
+        ),
+      })
+      const json = (await resp.json().catch(() => null)) as SearchResponse | null
+      if (!resp.ok || !json) {
+        setError(
+          (json && typeof (json as { error?: string }).error === "string" &&
+            (json as { error: string }).error) ||
+            t("research.errors.searchFailed"),
+        )
+        return
+      }
+
+      setResults((prev) => {
+        if (!prev) return json
+        if (scope === "laws") {
+          return {
+            ...prev,
+            results: mergeResultItemsById(prev.results, json.results ?? []),
+            hasMoreLaws: json.hasMoreLaws ?? false,
+            limit: json.limit ?? prev.limit,
+          }
+        }
+        return {
+          ...prev,
+          caseLawResults: mergeResultItemsById(
+            prev.caseLawResults ?? [],
+            json.caseLawResults ?? [],
+          ),
+          hasMoreCaseLaw: json.hasMoreCaseLaw ?? false,
+          caseLawConfidence: json.caseLawConfidence ?? prev.caseLawConfidence,
+          limit: json.limit ?? prev.limit,
+        }
+      })
+
+      if (scope === "laws") setLawsPage(nextPage)
+      else setCaseLawPage(nextPage)
+    } catch {
+      setError(t("research.errors.searchFailed"))
+    } finally {
+      setLoadingMore(false)
     }
   }
 
@@ -646,7 +756,9 @@ export function ResearchPageClient({ planId }: { planId: EntitlementPlanId }) {
     setJurisdiction(s.jurisdiction_filter ?? "all")
     setCategory(s.category_filter ?? "all")
     const parsed = parseSavedSessionResults(s.results)
-    setResults({
+    setLawsPage(1)
+    setCaseLawPage(1)
+    const sessionResults = {
       query: s.query,
       filters: {
         jurisdiction: s.jurisdiction_filter,
@@ -655,7 +767,13 @@ export function ResearchPageClient({ planId }: { planId: EntitlementPlanId }) {
       results: parsed.law,
       caseLawResults: parsed.caseLaw,
       caseLawConfidence: parsed.caseLawConfidence,
-    })
+      page: 1,
+      limit: 10,
+      hasMoreLaws: false,
+      hasMoreCaseLaw: false,
+    }
+    setResults(sessionResults)
+    setResultsTab(defaultResearchResultsTab(sessionResults))
     window.scrollTo({ top: 0, behavior: "smooth" })
   }
 
@@ -700,7 +818,7 @@ export function ResearchPageClient({ planId }: { planId: EntitlementPlanId }) {
                   />
                 </div>
 
-                <div className="grid gap-4 sm:grid-cols-3">
+                <div className="grid gap-4 sm:grid-cols-2">
                   <div className="space-y-2">
                     <Label className="text-xs font-medium text-muted-foreground/70 mb-1.5">
                       {t("research.filters.jurisdiction")}
@@ -737,23 +855,6 @@ export function ResearchPageClient({ planId }: { planId: EntitlementPlanId }) {
                     </Select>
                   </div>
 
-                  <div className="space-y-2">
-                    <Label className="text-xs font-medium text-muted-foreground/70 mb-1.5">
-                      {t("research.filters.language")}
-                    </Label>
-                    <Select
-                      value={languageMode}
-                      onValueChange={(v) => setLanguageMode(v as LanguageMode)}
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder={t("research.filters.language")} />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="local">{t("research.language.local")}</SelectItem>
-                        <SelectItem value="en">{t("research.language.english")}</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
                 </div>
 
                 {error && (
@@ -831,11 +932,15 @@ export function ResearchPageClient({ planId }: { planId: EntitlementPlanId }) {
               ) : (
                 <ResearchResultsTabs
                   results={results}
-                  languageMode={languageMode}
+                  activeTab={resultsTab}
+                  onTabChange={setResultsTab}
                   t={t}
-                  highlightExcerpt={highlightExcerpt}
                   jurisdictionBadgeClass={jurisdictionBadgeClass}
                   confidenceBadgeClass={confidenceBadgeClass}
+                  loadingMoreLaws={loadingMoreLaws}
+                  loadingMoreCaseLaw={loadingMoreCaseLaw}
+                  onLoadMoreLaws={() => void loadMore("laws")}
+                  onLoadMoreCaseLaw={() => void loadMore("caselaw")}
                 />
               )}
             </section>

@@ -344,6 +344,10 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         decisionDateLabel: "Decision date:",
         lowConfidence:
           "Low confidence: the retrieved court decisions had weak relevance to this query.",
+        reasoningLabel: "Reasoning:",
+        relatedArticlesLabel: "Relevant provisions:",
+        showMore: "Show more",
+        showLess: "Show less",
         outcomes: {
           plaintiff_won: "Plaintiff won",
           defendant_won: "Defendant won",
@@ -403,6 +407,8 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         save: "Save research",
         saving: "Saving…",
       },
+      loadMore: "Load more",
+      showingCount: "Showing {shown} results",
       results: {
         title: "Results",
         hint: "Run a search to see the most relevant law articles.",
@@ -2680,6 +2686,10 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         decisionDateLabel: "Datum odluke:",
         lowConfidence:
           "Nisko poverenje: preuzete sudske odluke su slabo relevantne za ovaj upit.",
+        reasoningLabel: "Obrazloženje:",
+        relatedArticlesLabel: "Relevantni propisi:",
+        showMore: "Prikaži više",
+        showLess: "Prikaži manje",
         outcomes: {
           plaintiff_won: "Tužilac uspeo",
           defendant_won: "Tuženi uspeo",
@@ -2739,6 +2749,8 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         save: "Sačuvaj istraživanje",
         saving: "Čuvanje…",
       },
+      loadMore: "Prikaži više",
+      showingCount: "Prikazano {shown} rezultata",
       results: {
         title: "Rezultati",
         hint: "Pokrenite pretragu da biste videli najrelevantnije članke zakona.",
@@ -4884,6 +4896,10 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         decisionDateLabel: "Datum odluke:",
         lowConfidence:
           "Nisko povjerenje: preuzete sudske odluke slabo odgovaraju ovom upitu.",
+        reasoningLabel: "Obrazloženje:",
+        relatedArticlesLabel: "Relevantni propisi:",
+        showMore: "Prikaži više",
+        showLess: "Prikaži manje",
         outcomes: {
           plaintiff_won: "Tužitelj uspio",
           defendant_won: "Tuženik uspio",
@@ -4943,6 +4959,8 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         save: "Sačuvaj istraživanje",
         saving: "Čuvanje…",
       },
+      loadMore: "Prikaži više",
+      showingCount: "Prikazano {shown} rezultata",
       results: {
         title: "Rezultati",
         hint: "Pokrenite pretragu da biste vidjeli najrelevantnije članke zakona.",
@@ -7091,6 +7109,10 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         decisionDateLabel: "Datum odluke:",
         lowConfidence:
           "Nisko povjerenje: preuzete sudske odluke slabo odgovaraju ovom upitu.",
+        reasoningLabel: "Obrazloženje:",
+        relatedArticlesLabel: "Relevantni propisi:",
+        showMore: "Prikaži više",
+        showLess: "Prikaži manje",
         outcomes: {
           plaintiff_won: "Tužitelj uspio",
           defendant_won: "Tuženik uspio",
@@ -7150,6 +7172,8 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         save: "Spremi istraživanje",
         saving: "Spremanje…",
       },
+      loadMore: "Prikaži više",
+      showingCount: "Prikazano {shown} rezultata",
       results: {
         title: "Rezultati",
         hint: "Pokrenite pretragu da biste vidjeli najrelevantnije članke zakona.",
@@ -9218,6 +9242,10 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         decisionDateLabel: "Datum odločbe:",
         lowConfidence:
           "Nizka zaupanja vrednost: pridobljene sodne odločbe so slabo relevantne za to poizvedbo.",
+        reasoningLabel: "Obrazložitev:",
+        relatedArticlesLabel: "Ustrezni predpisi:",
+        showMore: "Prikaži več",
+        showLess: "Prikaži manj",
         outcomes: {
           plaintiff_won: "Tožnik uspel",
           defendant_won: "Toženec uspel",
@@ -9277,6 +9305,8 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         save: "Shrani raziskavo",
         saving: "Shranjevanje…",
       },
+      loadMore: "Prikaži več",
+      showingCount: "Prikazano {shown} rezultatov",
       results: {
         title: "Rezultati",
         hint: "Zaženite iskanje za najbolj relevantne člene zakona.",
@@ -11353,6 +11383,10 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         decisionDateLabel: "Datum odluke:",
         lowConfidence:
           "Nisko povjerenje: preuzete sudske odluke slabo odgovaraju ovom upitu.",
+        reasoningLabel: "Obrazloženje:",
+        relatedArticlesLabel: "Relevantni propisi:",
+        showMore: "Prikaži više",
+        showLess: "Prikaži manje",
         outcomes: {
           plaintiff_won: "Tužilac uspio",
           defendant_won: "Tuženi uspio",
@@ -11412,6 +11446,8 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         save: "Sačuvaj istraživanje",
         saving: "Čuvanje…",
       },
+      loadMore: "Prikaži više",
+      showingCount: "Prikazano {shown} rezultata",
       results: {
         title: "Rezultati",
         hint: "Pokrenite pretragu da biste vidjeli najrelevantnije članke zakona.",

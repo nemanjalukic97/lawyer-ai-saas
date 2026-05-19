@@ -6,6 +6,7 @@ import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { cn } from "@/lib/utils"
 import { ChevronDown } from "lucide-react"
+import { CaseLawExpandableBody } from "@/components/CaseLawExpandableBody"
 
 type Props = {
   sources: CaseLawSource[]
@@ -66,26 +67,15 @@ function CaseLawItemContent({
         t={t}
         compact={compact}
       />
-      {source.legal_question ? (
-        <p
-          className={cn(
-            "leading-relaxed text-foreground",
-            compact ? "mt-2 text-xs" : "mt-3 text-sm",
-          )}
-        >
-          {source.legal_question}
-        </p>
-      ) : null}
-      {source.court_position ? (
-        <p
-          className={cn(
-            "leading-relaxed text-muted-foreground",
-            compact ? "mt-2 text-xs" : "mt-2 text-sm",
-          )}
-        >
-          {source.court_position}
-        </p>
-      ) : null}
+      <CaseLawExpandableBody
+        legalQuestion={source.legal_question}
+        courtPosition={source.court_position}
+        reasoning={source.reasoning}
+        keywords={source.keywords}
+        relatedArticles={source.related_articles}
+        compact={compact}
+        t={t}
+      />
     </>
   )
 }
@@ -116,7 +106,7 @@ function CaseLawItemHeader({
         !compact && "sm:flex-row sm:items-start sm:justify-between",
       )}
     >
-      <div className="min-w-0">
+      <div className="flex-1 whitespace-normal break-words">
         <p
           className={cn(
             "font-medium text-foreground",
@@ -125,7 +115,7 @@ function CaseLawItemHeader({
         >
           {court}
         </p>
-        <p className="mt-1 text-xs text-muted-foreground">
+        <p className="mt-1 whitespace-normal break-words text-xs text-muted-foreground">
           {t("rag.caseLaw.caseNumberLabel")}{" "}
           <span className="font-medium text-foreground">{caseNumber}</span>
           {" · "}

@@ -95,6 +95,106 @@ import { CASE_LAW_ADMINISTRATIVE_BIH_RS_29 } from "./case-law-administrative-bih
 import { CASE_LAW_ADMINISTRATIVE_BIH_RS_30 } from "./case-law-administrative-bih-rs-30"
 import { CASE_LAW_ADMINISTRATIVE_BIH_RS_31 } from "./case-law-administrative-bih-rs-31"
 import { CASE_LAW_ADMINISTRATIVE_BIH_RS_32 } from "./case-law-administrative-bih-rs-32"
+import { CASE_LAW_CRIMINAL_BIH_FBIH_1 } from "./case-law-criminal-bih-fbih-1"
+import { CASE_LAW_CRIMINAL_BIH_FBIH_2 } from "./case-law-criminal-bih-fbih-2"
+import { CASE_LAW_CRIMINAL_BIH_FBIH_3 } from "./case-law-criminal-bih-fbih-3"
+import { CASE_LAW_CRIMINAL_BIH_FBIH_4 } from "./case-law-criminal-bih-fbih-4"
+import { CASE_LAW_CRIMINAL_BIH_FBIH_5 } from "./case-law-criminal-bih-fbih-5"
+import { CASE_LAW_CRIMINAL_BIH_FBIH_6 } from "./case-law-criminal-bih-fbih-6"
+import { CASE_LAW_CRIMINAL_BIH_FBIH_7 } from "./case-law-criminal-bih-fbih-7"
+import { CASE_LAW_CRIMINAL_BIH_FBIH_8 } from "./case-law-criminal-bih-fbih-8"
+import { CASE_LAW_CRIMINAL_BIH_FBIH_9 } from "./case-law-criminal-bih-fbih-9"
+import { CASE_LAW_CRIMINAL_BIH_FBIH_10 } from "./case-law-criminal-bih-fbih-10"
+import { CASE_LAW_CRIMINAL_BIH_BRCKO_1 } from "./case-law-criminal-bih-brcko-1"
+import { CASE_LAW_CRIMINAL_BIH_BRCKO_2 } from "./case-law-criminal-bih-brcko-2"
+import { CASE_LAW_CRIMINAL_BIH_BRCKO_3 } from "./case-law-criminal-bih-brcko-3"
+import { CASE_LAW_CRIMINAL_BIH_BRCKO_4 } from "./case-law-criminal-bih-brcko-4"
+import { CASE_LAW_CRIMINAL_BIH_BRCKO_5 } from "./case-law-criminal-bih-brcko-5"
+import { CASE_LAW_CRIMINAL_BIH_BRCKO_6 } from "./case-law-criminal-bih-brcko-6"
+import { CASE_LAW_CRIMINAL_BIH_BRCKO_7 } from "./case-law-criminal-bih-brcko-7"
+import { CASE_LAW_CRIMINAL_BIH_BRCKO_8 } from "./case-law-criminal-bih-brcko-8"
+import { CASE_LAW_CRIMINAL_BIH_BRCKO_9 } from "./case-law-criminal-bih-brcko-9"
+import { CASE_LAW_CRIMINAL_BIH_BRCKO_10 } from "./case-law-criminal-bih-brcko-10"
+import { CASE_LAW_CRIMINAL_BIH_BRCKO_11 } from "./case-law-criminal-bih-brcko-11"
+import { CASE_LAW_CRIMINAL_BIH_BRCKO_12 } from "./case-law-criminal-bih-brcko-12"
+import { CASE_LAW_CRIMINAL_BIH_BRCKO_13 } from "./case-law-criminal-bih-brcko-13"
+import { CASE_LAW_CRIMINAL_BIH_BRCKO_14 } from "./case-law-criminal-bih-brcko-14"
+import { CASE_LAW_CRIMINAL_BIH_BRCKO_15 } from "./case-law-criminal-bih-brcko-15"
+import { CASE_LAW_CRIMINAL_BIH_BRCKO_16 } from "./case-law-criminal-bih-brcko-16"
+import { CASE_LAW_CRIMINAL_BIH_BRCKO_17 } from "./case-law-criminal-bih-brcko-17"
+import { CASE_LAW_CRIMINAL_BIH_BRCKO_18 } from "./case-law-criminal-bih-brcko-18"
+import { CASE_LAW_CRIMINAL_BIH_BRCKO_19 } from "./case-law-criminal-bih-brcko-19"
+import { CASE_LAW_CRIMINAL_BIH_BRCKO_20 } from "./case-law-criminal-bih-brcko-20"
+import { CASE_LAW_CRIMINAL_BIH_BRCKO_21 } from "./case-law-criminal-bih-brcko-21"
+import { CASE_LAW_PROCEDURAL_BIH_BRCKO_1 } from "./case-law-procedural-bih-brcko-1"
+import { CASE_LAW_CIVIL_BIH_FBIH_DISKRIMINACIJA } from "./case-law-civil-bih-fbih-diskriminacija"
+import { CASE_LAW_INHERITANCE_BIH_FBIH_1 } from "./case-law-inheritance-bih-fbih-1"
+import { CASE_LAW_CIVIL_BIH_FBIH_NOVE_ODLUKE } from "./case-law-civil-bih-fbih-nove-odluke"
+import { CASE_LAW_CIVIL_BIH_FBIH_1 } from "./case-law-civil-bih-fbih-1"
+import { CASE_LAW_PROCEDURAL_BIH_FBIH_1 } from "./case-law-procedural-bih-fbih-1"
+import { CASE_LAW_FAMILY_BIH_FBIH_1 } from "./case-law-family-bih-fbih-1"
+import { CASE_LAW_CIVIL_BIH_FBIH_PRAVNA_SHVATANJA } from "./case-law-civil-bih-fbih-pravna-shvatanja"
+import { CASE_LAW_CIVIL_BIH_FBIH_SPORNO_PITANJE } from "./case-law-civil-bih-fbih-sporno-pitanje"
+import { CASE_LAW_COMMERCIAL_BIH_FBIH_1 } from "./case-law-commercial-bih-fbih-1"
+import { CASE_LAW_LABOR_BIH_FBIH_1 } from "./case-law-labor-bih-fbih-1"
+import { CASE_LAW_CIVIL_BIH_FBIH_STAMBENO } from "./case-law-civil-bih-fbih-stambeno"
+import { CASE_LAW_CIVIL_BIH_FBIH_KLEVETA } from "./case-law-civil-bih-fbih-kleveta"
+import { CASE_LAW_CIVIL_BIH_FBIH_STVARNO } from "./case-law-civil-bih-fbih-stvarno"
+import { CASE_LAW_PROCEDURAL_BIH_FBIH_2 } from "./case-law-procedural-bih-fbih-2"
+import { CASE_LAW_ADMINISTRATIVE_BIH_BRCKO_1 } from "./case-law-administrative-bih-brcko-1"
+import { CASE_LAW_ADMINISTRATIVE_BIH_BRCKO_2 } from "./case-law-administrative-bih-brcko-2"
+import { CASE_LAW_ADMINISTRATIVE_BIH_BRCKO_3 } from "./case-law-administrative-bih-brcko-3"
+import { CASE_LAW_ADMINISTRATIVE_BIH_BRCKO_4 } from "./case-law-administrative-bih-brcko-4"
+import { CASE_LAW_ADMINISTRATIVE_BIH_BRCKO_5 } from "./case-law-administrative-bih-brcko-5"
+import { CASE_LAW_ADMINISTRATIVE_BIH_BRCKO_6 } from "./case-law-administrative-bih-brcko-6"
+import { CASE_LAW_ADMINISTRATIVE_BIH_BRCKO_7 } from "./case-law-administrative-bih-brcko-7"
+import { CASE_LAW_ADMINISTRATIVE_BIH_BRCKO_8 } from "./case-law-administrative-bih-brcko-8"
+import { CASE_LAW_ADMINISTRATIVE_BIH_FBIH_1 } from "./case-law-administrative-bih-fbih-1"
+import { CASE_LAW_ADMINISTRATIVE_BIH_FBIH_2 } from "./case-law-administrative-bih-fbih-2"
+import { CASE_LAW_ADMINISTRATIVE_BIH_FBIH_3 } from "./case-law-administrative-bih-fbih-3"
+import { CASE_LAW_ADMINISTRATIVE_BIH_FBIH_4 } from "./case-law-administrative-bih-fbih-4"
+import { CASE_LAW_ADMINISTRATIVE_BIH_FBIH_5 } from "./case-law-administrative-bih-fbih-5"
+import { CASE_LAW_ADMINISTRATIVE_BIH_FBIH_6 } from "./case-law-administrative-bih-fbih-6"
+import { CASE_LAW_ADMINISTRATIVE_BIH_FBIH_7 } from "./case-law-administrative-bih-fbih-7"
+import { CASE_LAW_ADMINISTRATIVE_BIH_FBIH_8 } from "./case-law-administrative-bih-fbih-8"
+import { CASE_LAW_ADMINISTRATIVE_BIH_FBIH_9 } from "./case-law-administrative-bih-fbih-9"
+import { CASE_LAW_ADMINISTRATIVE_BIH_FBIH_10 } from "./case-law-administrative-bih-fbih-10"
+import { CASE_LAW_ADMINISTRATIVE_BIH_FBIH_11 } from "./case-law-administrative-bih-fbih-11"
+import { CASE_LAW_ADMINISTRATIVE_BIH_FBIH_12 } from "./case-law-administrative-bih-fbih-12"
+import { CASE_LAW_ADMINISTRATIVE_BIH_FBIH_13 } from "./case-law-administrative-bih-fbih-13"
+import { CASE_LAW_ADMINISTRATIVE_BIH_FBIH_14 } from "./case-law-administrative-bih-fbih-14"
+import { CASE_LAW_ADMINISTRATIVE_BIH_FBIH_PRAVNA_SHVATANJA } from "./case-law-administrative-bih-fbih-pravna-shvatanja"
+import { CASE_LAW_ADMINISTRATIVE_BIH_FBIH_15 } from "./case-law-administrative-bih-fbih-15"
+import { CASE_LAW_ADMINISTRATIVE_BIH_FBIH_16 } from "./case-law-administrative-bih-fbih-16"
+import { CASE_LAW_ADMINISTRATIVE_BIH_FBIH_17 } from "./case-law-administrative-bih-fbih-17"
+import { CASE_LAW_ADMINISTRATIVE_BIH_FBIH_18 } from "./case-law-administrative-bih-fbih-18"
+import { CASE_LAW_ADMINISTRATIVE_BIH_FBIH_19 } from "./case-law-administrative-bih-fbih-19"
+import { CASE_LAW_ADMINISTRATIVE_BIH_FBIH_20 } from "./case-law-administrative-bih-fbih-20"
+import { CASE_LAW_ADMINISTRATIVE_BIH_FBIH_21 } from "./case-law-administrative-bih-fbih-21"
+import { CASE_LAW_CONSTITUTIONAL_BIH_BRCKO_1 } from "./case-law-constitutional-bih-brcko-1"
+import { CASE_LAW_CONSTITUTIONAL_BIH_BRCKO_2 } from "./case-law-constitutional-bih-brcko-2"
+import { CASE_LAW_CONSTITUTIONAL_BIH_BRCKO_3 } from "./case-law-constitutional-bih-brcko-3"
+import { CASE_LAW_CONSTITUTIONAL_BIH_BRCKO_4 } from "./case-law-constitutional-bih-brcko-4"
+import { CASE_LAW_CONSTITUTIONAL_BIH_BRCKO_5 } from "./case-law-constitutional-bih-brcko-5"
+import { CASE_LAW_CIVIL_BIH_BRCKO_1 } from "./case-law-civil-bih-brcko-1"
+import { CASE_LAW_CIVIL_BIH_BRCKO_2 } from "./case-law-civil-bih-brcko-2"
+import { CASE_LAW_CIVIL_BIH_BRCKO_3 } from "./case-law-civil-bih-brcko-3"
+import { CASE_LAW_CIVIL_BIH_BRCKO_4 } from "./case-law-civil-bih-brcko-4"
+import { CASE_LAW_CIVIL_BIH_BRCKO_5 } from "./case-law-civil-bih-brcko-5"
+import { CASE_LAW_CIVIL_BIH_BRCKO_6 } from "./case-law-civil-bih-brcko-6"
+import { CASE_LAW_CIVIL_BIH_BRCKO_7 } from "./case-law-civil-bih-brcko-7"
+import { CASE_LAW_CIVIL_BIH_BRCKO_8 } from "./case-law-civil-bih-brcko-8"
+import { CASE_LAW_CIVIL_BIH_BRCKO_9 } from "./case-law-civil-bih-brcko-9"
+import { CASE_LAW_CIVIL_BIH_BRCKO_10 } from "./case-law-civil-bih-brcko-10"
+import { CASE_LAW_CIVIL_BIH_BRCKO_11 } from "./case-law-civil-bih-brcko-11"
+import { CASE_LAW_CIVIL_BIH_BRCKO_12 } from "./case-law-civil-bih-brcko-12"
+import { CASE_LAW_CIVIL_BIH_BRCKO_13 } from "./case-law-civil-bih-brcko-13"
+import { CASE_LAW_CIVIL_BIH_BRCKO_14 } from "./case-law-civil-bih-brcko-14"
+import { CASE_LAW_CIVIL_BIH_BRCKO_15 } from "./case-law-civil-bih-brcko-15"
+import { CASE_LAW_CIVIL_BIH_BRCKO_16 } from "./case-law-civil-bih-brcko-16"
+import { CASE_LAW_CIVIL_BIH_BRCKO_17 } from "./case-law-civil-bih-brcko-17"
+import { CASE_LAW_CIVIL_BIH_BRCKO_18 } from "./case-law-civil-bih-brcko-18"
+import { CASE_LAW_CIVIL_BIH_BRCKO_19 } from "./case-law-civil-bih-brcko-19"
 
 export const ALL_CASE_LAW: CaseLawInput[] = [
   ...CASE_LAW_CIVIL_SERBIA_1,
@@ -190,4 +290,86 @@ export const ALL_CASE_LAW: CaseLawInput[] = [
   ...CASE_LAW_ADMINISTRATIVE_BIH_RS_30,
   ...CASE_LAW_ADMINISTRATIVE_BIH_RS_31,
   ...CASE_LAW_ADMINISTRATIVE_BIH_RS_32,
-]
+  ...CASE_LAW_CIVIL_BIH_FBIH_DISKRIMINACIJA,
+  ...CASE_LAW_INHERITANCE_BIH_FBIH_1,
+  ...CASE_LAW_CIVIL_BIH_FBIH_NOVE_ODLUKE,
+  ...CASE_LAW_CIVIL_BIH_FBIH_1,
+  ...CASE_LAW_PROCEDURAL_BIH_FBIH_1,
+  ...CASE_LAW_FAMILY_BIH_FBIH_1,
+  ...CASE_LAW_CIVIL_BIH_FBIH_PRAVNA_SHVATANJA,
+  ...CASE_LAW_CIVIL_BIH_FBIH_SPORNO_PITANJE,
+  ...CASE_LAW_COMMERCIAL_BIH_FBIH_1,
+  ...CASE_LAW_LABOR_BIH_FBIH_1,
+  ...CASE_LAW_CIVIL_BIH_FBIH_STAMBENO,
+  ...CASE_LAW_CIVIL_BIH_FBIH_KLEVETA,
+  ...CASE_LAW_CIVIL_BIH_FBIH_STVARNO,
+  ...CASE_LAW_PROCEDURAL_BIH_FBIH_2,
+  ...CASE_LAW_ADMINISTRATIVE_BIH_BRCKO_1,
+  ...CASE_LAW_ADMINISTRATIVE_BIH_BRCKO_2,
+  ...CASE_LAW_ADMINISTRATIVE_BIH_BRCKO_3,
+  ...CASE_LAW_ADMINISTRATIVE_BIH_BRCKO_4,
+  ...CASE_LAW_ADMINISTRATIVE_BIH_BRCKO_5,
+  ...CASE_LAW_ADMINISTRATIVE_BIH_BRCKO_6,
+  ...CASE_LAW_ADMINISTRATIVE_BIH_BRCKO_7,
+  ...CASE_LAW_ADMINISTRATIVE_BIH_BRCKO_8,
+  ...CASE_LAW_ADMINISTRATIVE_BIH_FBIH_1,
+  ...CASE_LAW_ADMINISTRATIVE_BIH_FBIH_2,
+  ...CASE_LAW_ADMINISTRATIVE_BIH_FBIH_3,
+  ...CASE_LAW_ADMINISTRATIVE_BIH_FBIH_4,
+  ...CASE_LAW_ADMINISTRATIVE_BIH_FBIH_5,
+  ...CASE_LAW_ADMINISTRATIVE_BIH_FBIH_6,
+  ...CASE_LAW_ADMINISTRATIVE_BIH_FBIH_7,
+  ...CASE_LAW_ADMINISTRATIVE_BIH_FBIH_8,
+  ...CASE_LAW_ADMINISTRATIVE_BIH_FBIH_9,
+  ...CASE_LAW_ADMINISTRATIVE_BIH_FBIH_10,
+  ...CASE_LAW_ADMINISTRATIVE_BIH_FBIH_11,
+  ...CASE_LAW_ADMINISTRATIVE_BIH_FBIH_12,
+  ...CASE_LAW_ADMINISTRATIVE_BIH_FBIH_13,
+  ...CASE_LAW_ADMINISTRATIVE_BIH_FBIH_14,
+  ...CASE_LAW_ADMINISTRATIVE_BIH_FBIH_PRAVNA_SHVATANJA,
+  ...CASE_LAW_ADMINISTRATIVE_BIH_FBIH_15,
+  ...CASE_LAW_ADMINISTRATIVE_BIH_FBIH_16,
+  ...CASE_LAW_ADMINISTRATIVE_BIH_FBIH_17,
+  ...CASE_LAW_ADMINISTRATIVE_BIH_FBIH_18,
+  ...CASE_LAW_ADMINISTRATIVE_BIH_FBIH_19,
+  ...CASE_LAW_ADMINISTRATIVE_BIH_FBIH_20,
+  ...CASE_LAW_ADMINISTRATIVE_BIH_FBIH_21,  ...CASE_LAW_CIVIL_BIH_BRCKO_1,
+  ...CASE_LAW_CIVIL_BIH_BRCKO_2,
+  ...CASE_LAW_CIVIL_BIH_BRCKO_3,
+  ...CASE_LAW_CIVIL_BIH_BRCKO_4,
+  ...CASE_LAW_CIVIL_BIH_BRCKO_5,
+  ...CASE_LAW_CIVIL_BIH_BRCKO_6,
+  ...CASE_LAW_CIVIL_BIH_BRCKO_7,
+  ...CASE_LAW_CIVIL_BIH_BRCKO_8,
+  ...CASE_LAW_CIVIL_BIH_BRCKO_9,
+  ...CASE_LAW_CIVIL_BIH_BRCKO_10,
+  ...CASE_LAW_CIVIL_BIH_BRCKO_11,
+  ...CASE_LAW_CIVIL_BIH_BRCKO_12,
+  ...CASE_LAW_CIVIL_BIH_BRCKO_13,
+  ...CASE_LAW_CIVIL_BIH_BRCKO_14,
+  ...CASE_LAW_CIVIL_BIH_BRCKO_15,
+  ...CASE_LAW_CIVIL_BIH_BRCKO_16,
+  ...CASE_LAW_CIVIL_BIH_BRCKO_17,
+  ...CASE_LAW_CIVIL_BIH_BRCKO_18,
+  ...CASE_LAW_CIVIL_BIH_BRCKO_19,
+  ...CASE_LAW_CRIMINAL_BIH_BRCKO_1,
+  ...CASE_LAW_CRIMINAL_BIH_BRCKO_2,
+  ...CASE_LAW_CRIMINAL_BIH_BRCKO_3,
+  ...CASE_LAW_CRIMINAL_BIH_BRCKO_4,
+  ...CASE_LAW_CRIMINAL_BIH_BRCKO_5,
+  ...CASE_LAW_CRIMINAL_BIH_BRCKO_6,
+  ...CASE_LAW_CRIMINAL_BIH_BRCKO_7,
+  ...CASE_LAW_CRIMINAL_BIH_BRCKO_8,
+  ...CASE_LAW_CRIMINAL_BIH_BRCKO_9,
+  ...CASE_LAW_CRIMINAL_BIH_BRCKO_10,
+  ...CASE_LAW_CRIMINAL_BIH_BRCKO_11,
+  ...CASE_LAW_CRIMINAL_BIH_BRCKO_12,
+  ...CASE_LAW_CRIMINAL_BIH_BRCKO_13,
+  ...CASE_LAW_CRIMINAL_BIH_BRCKO_14,
+  ...CASE_LAW_CRIMINAL_BIH_BRCKO_15,
+  ...CASE_LAW_CRIMINAL_BIH_BRCKO_16,
+  ...CASE_LAW_CRIMINAL_BIH_BRCKO_17,
+  ...CASE_LAW_CRIMINAL_BIH_BRCKO_18,
+  ...CASE_LAW_CRIMINAL_BIH_BRCKO_19,
+  ...CASE_LAW_CRIMINAL_BIH_BRCKO_20,
+  ...CASE_LAW_CRIMINAL_BIH_BRCKO_21,]

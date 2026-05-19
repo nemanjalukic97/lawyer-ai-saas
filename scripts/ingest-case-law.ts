@@ -393,8 +393,12 @@ async function testRetrieval() {
       jurisdiction: "croatia",
     },
     {
-      query: "Working hours and overtime compensation",
+      query: "prekovremeni rad naknada FBiH",
       jurisdiction: "bih_fbih",
+    },
+    {
+      query: "otkaz ugovor o radu RS",
+      jurisdiction: "bih_rs",
     },
   ]
 

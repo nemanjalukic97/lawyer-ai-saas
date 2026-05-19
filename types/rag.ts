@@ -4,8 +4,11 @@ export type CaseLawSource = {
   decision_date: string | null
   legal_question: string
   court_position: string
+  reasoning: string
   headnote: string | null
   outcome: string | null
+  keywords: string[] | null
+  related_articles: string[] | null
   similarity: number
 }
 

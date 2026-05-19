@@ -17,6 +17,7 @@ import type { TablesInsert } from "@/lib/supabase/types"
 import type { RagMetadata } from "@/types/rag"
 import { PLAN_ENTITLEMENTS } from "@/app/dashboard/lib/entitlements"
 import { getSubscriptionContextForUser } from "@/app/dashboard/lib/getEntitlementPlan"
+import { normalizeJurisdiction } from "@/lib/normalizeJurisdiction"
 
 type FeatureType =
   | "contract_generation"
@@ -176,12 +177,14 @@ export async function POST(req: NextRequest) {
       caseLawConfidence: "none",
     }
 
-    if (JURISDICTION_FEATURES.has(featureType) && body.jurisdiction) {
+    const ragJurisdiction = normalizeJurisdiction(body.jurisdiction ?? null)
+
+    if (JURISDICTION_FEATURES.has(featureType) && ragJurisdiction) {
       try {
         const k = FEATURE_K[featureType] ?? 6
         const ragResult = await retrieveLegalContext(
           userPrompt,
-          body.jurisdiction,
+          ragJurisdiction,
           {
             category: body.category ?? undefined,
             k,
@@ -197,7 +200,7 @@ export async function POST(req: NextRequest) {
         if (CASE_LAW_FEATURES.has(featureType)) {
           caseLawResult = await retrieveCaseLawContext(
             userPrompt,
-            body.jurisdiction,
+            ragJurisdiction,
             {
               legalArea: body.category,
               k,
@@ -216,14 +219,14 @@ export async function POST(req: NextRequest) {
                 systemPrompt,
                 ragResult,
                 caseLawResult,
-                body.jurisdiction,
+                ragJurisdiction,
                 resolvedOutputLanguage,
                 answerMode,
               )
             : buildRagSystemPrompt(
                 systemPrompt,
                 ragResult,
-                body.jurisdiction,
+                ragJurisdiction,
                 resolvedOutputLanguage,
                 answerMode,
               )
@@ -252,8 +255,11 @@ export async function POST(req: NextRequest) {
               decision_date: c.decision_date,
               legal_question: c.legal_question,
               court_position: c.court_position,
+              reasoning: c.reasoning,
               headnote: c.headnote,
               outcome: c.outcome,
+              keywords: c.keywords,
+              related_articles: c.related_articles,
               similarity: Math.round(c.similarity * 1000) / 1000,
             })),
             caseLawConfidence: caseLawResult.confidence,
@@ -261,7 +267,7 @@ export async function POST(req: NextRequest) {
 
           if (process.env.NODE_ENV !== "production") {
             console.log(
-              `[RAG] ${body.jurisdiction} | statute chunks: ${ragResult.chunks.length}` +
+              `[RAG] ${ragJurisdiction} | statute chunks: ${ragResult.chunks.length}` +
                 ` | case law: ${caseLawResult.cases.length}` +
                 ` | statute conf: ${hasStatutes ? ragResult.confidence : "none"}` +
                 ` | case-law conf: ${caseLawResult.confidence}` +
