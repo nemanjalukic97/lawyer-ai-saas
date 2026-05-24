@@ -3,6 +3,17 @@
 
 import type { CaseLawInput } from "./ingest-case-law"
 import { CASE_LAW_CIVIL_SERBIA_1 } from "./case-law-civil-serbia-1"
+// croatia-visoki-upravni
+import { CASE_LAW_ADMINISTRATIVE_CROATIA_1 } from "./case-law-administrative-croatia-1"
+import { CASE_LAW_ADMINISTRATIVE_CROATIA_2 } from "./case-law-administrative-croatia-2"
+import { CASE_LAW_ADMINISTRATIVE_CROATIA_3 } from "./case-law-administrative-croatia-3"
+import { CASE_LAW_ADMINISTRATIVE_CROATIA_4 } from "./case-law-administrative-croatia-4"
+import { CASE_LAW_ADMINISTRATIVE_CROATIA_5 } from "./case-law-administrative-croatia-5"
+import { CASE_LAW_ADMINISTRATIVE_CROATIA_6 } from "./case-law-administrative-croatia-6"
+import { CASE_LAW_ADMINISTRATIVE_CROATIA_7 } from "./case-law-administrative-croatia-7"
+import { CASE_LAW_ADMINISTRATIVE_CROATIA_8 } from "./case-law-administrative-croatia-8"
+import { CASE_LAW_ADMINISTRATIVE_CROATIA_9 } from "./case-law-administrative-croatia-9"
+import { CASE_LAW_ADMINISTRATIVE_CROATIA_10 } from "./case-law-administrative-croatia-10"
 import { CASE_LAW_CIVIL_SERBIA_2 } from "./case-law-civil-serbia-2"
 import { CASE_LAW_CIVIL_SERBIA_3 } from "./case-law-civil-serbia-3"
 import { CASE_LAW_CIVIL_SERBIA_4 } from "./case-law-civil-serbia-4"
@@ -213,7 +224,18 @@ import { CASE_LAW_CIVIL_BIH_BRCKO_16 } from "./case-law-civil-bih-brcko-16"
 import { CASE_LAW_CIVIL_BIH_BRCKO_17 } from "./case-law-civil-bih-brcko-17"
 import { CASE_LAW_CIVIL_BIH_BRCKO_18 } from "./case-law-civil-bih-brcko-18"
 import { CASE_LAW_CIVIL_BIH_BRCKO_19 } from "./case-law-civil-bih-brcko-19"
-// montenegro-vrhovni
+// croatia-vrhovni
+import { CASE_LAW_CIVIL_CROATIA_1 } from "./case-law-civil-croatia-1"
+import { CASE_LAW_CIVIL_CROATIA_2 } from "./case-law-civil-croatia-2"
+import { CASE_LAW_CIVIL_CROATIA_3 } from "./case-law-civil-croatia-3"
+import { CASE_LAW_CIVIL_CROATIA_4 } from "./case-law-civil-croatia-4"
+import { CASE_LAW_CIVIL_CROATIA_5 } from "./case-law-civil-croatia-5"
+import { CASE_LAW_CIVIL_CROATIA_6 } from "./case-law-civil-croatia-6"
+import { CASE_LAW_CIVIL_CROATIA_7 } from "./case-law-civil-croatia-7"
+import { CASE_LAW_CIVIL_CROATIA_8 } from "./case-law-civil-croatia-8"
+import { CASE_LAW_CIVIL_CROATIA_9 } from "./case-law-civil-croatia-9"
+import { CASE_LAW_CIVIL_CROATIA_10 } from "./case-law-civil-croatia-10"
+import { CASE_LAW_CRIMINAL_CROATIA_VRHOVNI_1 } from "./case-law-criminal-croatia-vrhovni-1"
 // montenegro-apelacioni
 import { CASE_LAW_ADMINISTRATIVE_MONTENEGRO_APELACIONI_1 } from "./case-law-administrative-montenegro-apelacioni-1"
 import { CASE_LAW_CIVIL_MONTENEGRO_APELACIONI_1 } from "./case-law-civil-montenegro-apelacioni-1"
@@ -254,6 +276,19 @@ import { CASE_LAW_CIVIL_MONTENEGRO_8 } from "./case-law-civil-montenegro-8"
 import { CASE_LAW_CIVIL_MONTENEGRO_9 } from "./case-law-civil-montenegro-9"
 import { CASE_LAW_CIVIL_MONTENEGRO_10 } from "./case-law-civil-montenegro-10"
 import { CASE_LAW_CRIMINAL_MONTENEGRO_1 } from "./case-law-criminal-montenegro-1"
+// croatia-vks
+import { CASE_LAW_CRIMINAL_CROATIA_1 } from "./case-law-criminal-croatia-1"
+import { CASE_LAW_CRIMINAL_CROATIA_2 } from "./case-law-criminal-croatia-2"
+import { CASE_LAW_CRIMINAL_CROATIA_3 } from "./case-law-criminal-croatia-3"
+import { CASE_LAW_CRIMINAL_CROATIA_4 } from "./case-law-criminal-croatia-4"
+import { CASE_LAW_CRIMINAL_CROATIA_5 } from "./case-law-criminal-croatia-5"
+import { CASE_LAW_CRIMINAL_CROATIA_6 } from "./case-law-criminal-croatia-6"
+import { CASE_LAW_CRIMINAL_CROATIA_7 } from "./case-law-criminal-croatia-7"
+import { CASE_LAW_CRIMINAL_CROATIA_8 } from "./case-law-criminal-croatia-8"
+import { CASE_LAW_CRIMINAL_CROATIA_9 } from "./case-law-criminal-croatia-9"
+import { CASE_LAW_CRIMINAL_CROATIA_10 } from "./case-law-criminal-croatia-10"
+import { CASE_LAW_CRIMINAL_CROATIA_11 } from "./case-law-criminal-croatia-11"
+import { CASE_LAW_CRIMINAL_CROATIA_12 } from "./case-law-criminal-croatia-12"
 // montenegro-privredni
 import { CASE_LAW_COMMERCIAL_MONTENEGRO_1 } from "./case-law-commercial-montenegro-1"
 import { CASE_LAW_COMMERCIAL_MONTENEGRO_2 } from "./case-law-commercial-montenegro-2"
@@ -266,9 +301,41 @@ import { CASE_LAW_COMMERCIAL_MONTENEGRO_8 } from "./case-law-commercial-monteneg
 import { CASE_LAW_COMMERCIAL_MONTENEGRO_9 } from "./case-law-commercial-montenegro-9"
 import { CASE_LAW_COMMERCIAL_MONTENEGRO_10 } from "./case-law-commercial-montenegro-10"
 import { CASE_LAW_COMMERCIAL_MONTENEGRO_11 } from "./case-law-commercial-montenegro-11"
+import { CASE_LAW_PROCEDURAL_CROATIA_1 } from "./case-law-procedural-croatia-1"
+import { CASE_LAW_PROCEDURAL_CROATIA_2 } from "./case-law-procedural-croatia-2"
+import { CASE_LAW_PROCEDURAL_CROATIA_3 } from "./case-law-procedural-croatia-3"
+import { CASE_LAW_PROCEDURAL_CROATIA_4 } from "./case-law-procedural-croatia-4"
+import { CASE_LAW_PROCEDURAL_CROATIA_5 } from "./case-law-procedural-croatia-5"
+import { CASE_LAW_PROCEDURAL_CROATIA_6 } from "./case-law-procedural-croatia-6"
+import { CASE_LAW_PROCEDURAL_CROATIA_7 } from "./case-law-procedural-croatia-7"
+import { CASE_LAW_PROCEDURAL_CROATIA_8 } from "./case-law-procedural-croatia-8"
+import { CASE_LAW_PROCEDURAL_CROATIA_9 } from "./case-law-procedural-croatia-9"
+import { CASE_LAW_PROCEDURAL_CROATIA_10 } from "./case-law-procedural-croatia-10"
+// croatia-vts
+import { CASE_LAW_COMMERCIAL_CROATIA_1 } from "./case-law-commercial-croatia-1"
+import { CASE_LAW_COMMERCIAL_CROATIA_2 } from "./case-law-commercial-croatia-2"
+import { CASE_LAW_COMMERCIAL_CROATIA_3 } from "./case-law-commercial-croatia-3"
+import { CASE_LAW_COMMERCIAL_CROATIA_4 } from "./case-law-commercial-croatia-4"
+import { CASE_LAW_COMMERCIAL_CROATIA_5 } from "./case-law-commercial-croatia-5"
+import { CASE_LAW_COMMERCIAL_CROATIA_6 } from "./case-law-commercial-croatia-6"
+import { CASE_LAW_COMMERCIAL_CROATIA_7 } from "./case-law-commercial-croatia-7"
+import { CASE_LAW_COMMERCIAL_CROATIA_8 } from "./case-law-commercial-croatia-8"
+import { CASE_LAW_COMMERCIAL_CROATIA_9 } from "./case-law-commercial-croatia-9"
+import { CASE_LAW_COMMERCIAL_CROATIA_10 } from "./case-law-commercial-croatia-10"
 
 export const ALL_CASE_LAW: CaseLawInput[] = [
   ...CASE_LAW_CIVIL_SERBIA_1,
+// croatia-visoki-upravni
+  ...CASE_LAW_ADMINISTRATIVE_CROATIA_1,
+  ...CASE_LAW_ADMINISTRATIVE_CROATIA_2,
+  ...CASE_LAW_ADMINISTRATIVE_CROATIA_3,
+  ...CASE_LAW_ADMINISTRATIVE_CROATIA_4,
+  ...CASE_LAW_ADMINISTRATIVE_CROATIA_5,
+  ...CASE_LAW_ADMINISTRATIVE_CROATIA_6,
+  ...CASE_LAW_ADMINISTRATIVE_CROATIA_7,
+  ...CASE_LAW_ADMINISTRATIVE_CROATIA_8,
+  ...CASE_LAW_ADMINISTRATIVE_CROATIA_9,
+  ...CASE_LAW_ADMINISTRATIVE_CROATIA_10,
   ...CASE_LAW_CIVIL_SERBIA_2,
   ...CASE_LAW_CIVIL_SERBIA_3,
   ...CASE_LAW_CIVIL_SERBIA_4,
@@ -441,6 +508,18 @@ export const ALL_CASE_LAW: CaseLawInput[] = [
   ...CASE_LAW_CIVIL_BIH_BRCKO_17,
   ...CASE_LAW_CIVIL_BIH_BRCKO_18,
   ...CASE_LAW_CIVIL_BIH_BRCKO_19,
+// croatia-vrhovni
+  ...CASE_LAW_CIVIL_CROATIA_1,
+  ...CASE_LAW_CIVIL_CROATIA_2,
+  ...CASE_LAW_CIVIL_CROATIA_3,
+  ...CASE_LAW_CIVIL_CROATIA_4,
+  ...CASE_LAW_CIVIL_CROATIA_5,
+  ...CASE_LAW_CIVIL_CROATIA_6,
+  ...CASE_LAW_CIVIL_CROATIA_7,
+  ...CASE_LAW_CIVIL_CROATIA_8,
+  ...CASE_LAW_CIVIL_CROATIA_9,
+  ...CASE_LAW_CIVIL_CROATIA_10,
+  ...CASE_LAW_CRIMINAL_CROATIA_VRHOVNI_1,
 // montenegro-vrhovni
 // montenegro-apelacioni
   ...CASE_LAW_ADMINISTRATIVE_MONTENEGRO_APELACIONI_1,
@@ -482,6 +561,19 @@ export const ALL_CASE_LAW: CaseLawInput[] = [
   ...CASE_LAW_CIVIL_MONTENEGRO_9,
   ...CASE_LAW_CIVIL_MONTENEGRO_10,
   ...CASE_LAW_CRIMINAL_MONTENEGRO_1,
+// croatia-vks
+  ...CASE_LAW_CRIMINAL_CROATIA_1,
+  ...CASE_LAW_CRIMINAL_CROATIA_2,
+  ...CASE_LAW_CRIMINAL_CROATIA_3,
+  ...CASE_LAW_CRIMINAL_CROATIA_4,
+  ...CASE_LAW_CRIMINAL_CROATIA_5,
+  ...CASE_LAW_CRIMINAL_CROATIA_6,
+  ...CASE_LAW_CRIMINAL_CROATIA_7,
+  ...CASE_LAW_CRIMINAL_CROATIA_8,
+  ...CASE_LAW_CRIMINAL_CROATIA_9,
+  ...CASE_LAW_CRIMINAL_CROATIA_10,
+  ...CASE_LAW_CRIMINAL_CROATIA_11,
+  ...CASE_LAW_CRIMINAL_CROATIA_12,
 // montenegro-privredni
   ...CASE_LAW_COMMERCIAL_MONTENEGRO_1,
   ...CASE_LAW_COMMERCIAL_MONTENEGRO_2,
@@ -494,6 +586,27 @@ export const ALL_CASE_LAW: CaseLawInput[] = [
   ...CASE_LAW_COMMERCIAL_MONTENEGRO_9,
   ...CASE_LAW_COMMERCIAL_MONTENEGRO_10,
   ...CASE_LAW_COMMERCIAL_MONTENEGRO_11,
+  ...CASE_LAW_PROCEDURAL_CROATIA_1,
+  ...CASE_LAW_PROCEDURAL_CROATIA_2,
+  ...CASE_LAW_PROCEDURAL_CROATIA_3,
+  ...CASE_LAW_PROCEDURAL_CROATIA_4,
+  ...CASE_LAW_PROCEDURAL_CROATIA_5,
+  ...CASE_LAW_PROCEDURAL_CROATIA_6,
+  ...CASE_LAW_PROCEDURAL_CROATIA_7,
+  ...CASE_LAW_PROCEDURAL_CROATIA_8,
+  ...CASE_LAW_PROCEDURAL_CROATIA_9,
+  ...CASE_LAW_PROCEDURAL_CROATIA_10,
+// croatia-vts
+  ...CASE_LAW_COMMERCIAL_CROATIA_1,
+  ...CASE_LAW_COMMERCIAL_CROATIA_2,
+  ...CASE_LAW_COMMERCIAL_CROATIA_3,
+  ...CASE_LAW_COMMERCIAL_CROATIA_4,
+  ...CASE_LAW_COMMERCIAL_CROATIA_5,
+  ...CASE_LAW_COMMERCIAL_CROATIA_6,
+  ...CASE_LAW_COMMERCIAL_CROATIA_7,
+  ...CASE_LAW_COMMERCIAL_CROATIA_8,
+  ...CASE_LAW_COMMERCIAL_CROATIA_9,
+  ...CASE_LAW_COMMERCIAL_CROATIA_10,
   ...CASE_LAW_CRIMINAL_BIH_BRCKO_1,
   ...CASE_LAW_CRIMINAL_BIH_BRCKO_2,
   ...CASE_LAW_CRIMINAL_BIH_BRCKO_3,
