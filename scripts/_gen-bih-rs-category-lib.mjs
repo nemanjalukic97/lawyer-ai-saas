@@ -1,5 +1,6 @@
 import fs from "fs"
 import path from "path"
+import { summarizeCyrillicCase } from "./_gen-prepare-text.mjs"
 
 export function createCategoryGenerator(cfg) {
   const { title, label, artMin, artMax, defaultQ } = cfg
@@ -101,8 +102,8 @@ export function createCategoryGenerator(cfg) {
     const pi = chunk.search(pres)
     const ri = chunk.search(rjes)
     const start = pi === -1 ? (ri === -1 ? 0 : ri) : pi
-    if (start === 0 && pi === -1 && ri === -1) return chunk.slice(0, 1400)
-    return chunk.slice(start, start + 1800)
+    if (start === 0 && pi === -1 && ri === -1) return chunk
+    return chunk.slice(start)
   }
 
   function zzlParty(full) {
@@ -171,30 +172,20 @@ export function createCategoryGenerator(cfg) {
   }
 
   function summarizeNumbered(full, izrekaCyr) {
-    const lat = cyrToLatin(full.slice(0, 6000))
-    const izLat = cyrToLatin(izrekaCyr)
+    const lat = cyrToLatin(full)
     const dq = categoryLegalQuestion(lat)
-    let cp = scrubCyrillicRuns(
-      izLat
-        .replace(/^\s*(P\s+R\s+E\s+S\s+U\s+D\s+U|R\s+J\s+E\s+Š\s+E\s+N\s+J\s+E)\s*/i, "")
-        .slice(0, 520)
-        .replace(/\s+/g, " ")
-        .trim(),
-    )
-    if (cp.length > 420) cp = cp.slice(0, 417).trim() + "…"
-    const reasoning = `Sud ocjenjuje žalbene ili ZZL prigovore u predmetima ${title} (čl. ${artMin}–${artMax}. KZ RS i srodni članovi), uključujući kvalifikaciju, namjeru i postupovne povrede iz čl. 350–356. ZKOP RS.`
-    const head = scrubCyrillicRuns(
-      izLat
-        .replace(/^\s*(P\s+R\s+E\s+S\s+U\s+D\s+U|R\s+J\s+E\s+Š\s+E\s+N\s+J\s+E)\s*/i, "")
-        .slice(0, 220)
-        .replace(/\s+/g, " ")
-        .trim(),
+    const fallback = `Sud ocjenjuje žalbene ili ZZL prigovore u predmetima ${title} (čl. ${artMin}–${artMax}. KZ RS i srodni članovi), uključujući kvalifikaciju, namjeru i postupovne povrede iz čl. 350–356. ZKOP RS.`
+    const sum = summarizeCyrillicCase(
+      full,
+      izrekaCyr,
+      (s) => scrubCyrillicRuns(cyrToLatin(s)),
+      fallback,
     )
     return {
       legal_question: scrubCyrillicRuns(dq),
-      court_position: scrubCyrillicRuns(cp || lat.slice(0, 350)),
-      reasoning,
-      headnote: head.slice(0, 160),
+      court_position: sum.court_position,
+      reasoning: sum.reasoning,
+      headnote: sum.headnote,
     }
   }
 

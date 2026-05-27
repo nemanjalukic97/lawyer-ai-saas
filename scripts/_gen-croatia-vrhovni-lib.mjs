@@ -1,5 +1,7 @@
 import fs from "fs"
+import { prepareText, extractObrazlozenje } from "./_gen-prepare-text.mjs"
 import path from "path"
+import { extractLegalQuestion as extractLegalQuestionFromText } from "./_gen-extract-legal-question.mjs"
 
 const COURT = "Vrhovni sud Republike Hrvatske"
 
@@ -110,12 +112,12 @@ function extractIzreka(text) {
   const start = pi === -1 ? (ri === -1 ? 0 : ri) : pi
   if (start === 0 && pi === -1 && ri === -1) {
     const iz = chunk.match(
-      /(?:r\s+i\s+j\s+e\s+š\s+i\s+o|p\s+r\s+e\s+s\s+u\s+d\s+i\s+o|Odbija|Odbacuje|Prihvaća|Usvaja|Potvrđuje|Preinačuje|Ukida|dopušta)[\s\S]{0,1500}/i,
+      /(?:r\s+i\s+j\s+e\s+š\s+i\s+o|p\s+r\s+e\s+s\s+u\s+d\s+i\s+o|Odbija|Odbacuje|Prihvaća|Usvaja|Potvrđuje|Preinačuje|Ukida|dopušta)[\s\S]*/i,
     )
-    if (iz) return iz[0]
-    return chunk.slice(0, 1800)
+    if (iz) return prepareText(iz[0])
+    return prepareText(chunk)
   }
-  return chunk.slice(start, start + 2200)
+  return prepareText(chunk.slice(start))
 }
 
 function outcomeFromText(izLat) {
@@ -169,42 +171,21 @@ function statuteLabel(legal_area) {
   }
 }
 
-function extractLegalQuestion(full, caseNum) {
-  const quoted = full.match(/„([^„]{20,400})\?"/)
-  if (quoted) return quoted[1].replace(/\s+/g, " ").trim() + "?"
-
-  const q = full.match(/pravn[aoe]\s+pitanj[aoe][^?]{0,350}\?/i)
-  if (q) return q[0].replace(/\s+/g, " ").trim()
-
-  return `Koje pravno pitanje je razmatrao Vrhovni sud Republike Hrvatske u predmetu ${caseNum}?`
-}
-
 function summarize(full, izrekaRaw, caseNum, legal_area) {
-  const izLat = izrekaRaw.replace(/\s+/g, " ").trim()
-  let cp = izLat
-    .replace(/^(P\s*R\s*E\s*S\s*U\s*D\s*A|R\s*J\s*E\s*Š\s*E\s*N\s*J\s*E)\s*/i, "")
-    .slice(0, 520)
-    .trim()
-  if (cp.length > 420) cp = cp.slice(0, 417).trim() + "…"
-
+  let cp = prepareText(izrekaRaw).replace(
+    /^(P\s*R\s*E\s*S\s*U\s*D\s*A|R\s*J\s*E\s*Š\s*E\s*N\s*J\s*E)\s*/i,
+    "",
+  )
   const obrazIdx = full.search(/\bObrazloženje\b/i)
-  let reasoning = ""
-  if (obrazIdx >= 0) {
-    reasoning = full
-      .slice(obrazIdx, obrazIdx + 1400)
-      .replace(/\s+/g, " ")
-      .trim()
-  }
+  let reasoning = obrazIdx >= 0 ? prepareText(full.slice(obrazIdx)) : ""
   if (reasoning.length < 80) {
     reasoning = `Vrhovni sud Republike Hrvatske u predmetu ${caseNum} obrazlaže odluku primjenom ${statuteLabel(legal_area)}.`
   }
-  if (reasoning.length > 950) reasoning = reasoning.slice(0, 947).trim() + "…"
-
   return {
-    legal_question: extractLegalQuestion(full, caseNum),
-    court_position: cp || full.slice(0, 400).replace(/\s+/g, " ").trim(),
+    legal_question: extractLegalQuestionFromText({ body: full, izreka: izrekaRaw }),
+    court_position: cp || prepareText(full),
     reasoning,
-    headnote: cp.slice(0, 180) || full.slice(0, 180).replace(/\s+/g, " ").trim(),
+    headnote: cp.slice(0, 180) || prepareText(full).slice(0, 180),
   }
 }
 

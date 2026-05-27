@@ -1,5 +1,6 @@
 import fs from "fs"
 import path from "path"
+import { extractLegalQuestion } from "./_gen-extract-legal-question.mjs"
 
 export const COURT = "Visoki prekršajni sud Republike Hrvatske"
 
@@ -144,7 +145,7 @@ function extractIzreka(body) {
     start = pres === -1 ? (rjes === -1 ? 0 : rjes) : pres
   }
 
-  return chunk.slice(start, start + 2200).replace(/\s+/g, " ").trim()
+  return chunk.slice(start).replace(/\s+/g, " ").trim()
 }
 
 function outcomeFromIzreka(iz) {
@@ -173,14 +174,12 @@ function extractArticles(text) {
 function summarize(body, izreka, case_number) {
   let cp = izreka
     .replace(/^(?:P\s*R\s*E\s*S\s*U\s*D\s*A|R\s*J\s*E\s*Š\s*E\s*N\s*J\s*E|p\s+r\s+e\s+s\s+u\s+d\s+i\s+o\s+j\s+e|r\s+i\s+j\s+e\s+š\s+i\s+o\s+j\s+e)\s*/i, "")
-    .slice(0, 520)
     .replace(/\s+/g, " ")
     .trim()
-  if (cp.length > 420) cp = cp.slice(0, 417).trim() + "…"
   const head = cp.slice(0, 160) || body.slice(0, 200).replace(/\s+/g, " ").trim()
   return {
-    legal_question: `Koje procesno pitanje u prekršajnom postupku razmatra Visoki prekršajni sud u predmetu ${case_number}?`,
-    court_position: cp || body.slice(0, 400).replace(/\s+/g, " ").trim(),
+    legal_question: extractLegalQuestion({ body, izreka }),
+    court_position: cp || body.replace(/\s+/g, " ").trim(),
     reasoning: `Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu ${case_number} o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.`,
     headnote: head,
   }

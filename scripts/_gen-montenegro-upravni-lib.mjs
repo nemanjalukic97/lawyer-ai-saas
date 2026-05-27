@@ -1,5 +1,7 @@
 import fs from "fs"
+import { prepareText, extractObrazlozenje } from "./_gen-prepare-text.mjs"
 import path from "path"
+import { extractLegalQuestion } from "./_gen-extract-legal-question.mjs"
 
 const COURT = "Upravni sud Crne Gore"
 const LEGAL_AREA = "administrative"
@@ -14,51 +16,6 @@ export function parseFilename(fn) {
   const sifra = sifraRaw.replace(/_/g, " ").replace(/\s+/g, " ").replace(/ - /g, "-").trim()
   const case_number = `${sifra} ${broj}/${godina}`
   return { sifra: sifraRaw, broj, godina, dbid, case_number }
-}
-
-function cyrToLatin(s) {
-  const trip = [
-    ["Љ", "Lj"],
-    ["љ", "lj"],
-    ["Њ", "Nj"],
-    ["њ", "nj"],
-    ["Џ", "Dž"],
-    ["џ", "dž"],
-  ]
-  const one = {
-    А: "A", а: "a", Б: "B", б: "b", В: "V", в: "v", Г: "G", г: "g", Д: "D", д: "d",
-    Ђ: "Đ", ђ: "đ", Е: "E", е: "e", Ж: "Ž", ж: "ž", З: "Z", з: "z", И: "I", и: "i",
-    Ј: "J", ј: "j", К: "K", к: "k", Л: "L", л: "l", М: "M", м: "m", Н: "N", н: "n",
-    О: "O", о: "o", П: "P", п: "p", Р: "R", р: "r", С: "S", с: "s", Т: "T", т: "t",
-    Ћ: "Ć", ћ: "ć", У: "U", у: "u", Ф: "F", ф: "f", Х: "H", х: "h", Ц: "C", ц: "c",
-    Ч: "Č", ч: "č", Ш: "Š", ш: "š",
-  }
-  let out = ""
-  for (let i = 0; i < s.length; i++) {
-    const two = s.slice(i, i + 2)
-    const tr = trip.find((x) => x[0] === two)
-    if (tr) {
-      out += tr[1]
-      i++
-      continue
-    }
-    out += one[s[i]] ?? s[i]
-  }
-  return out
-}
-
-function scrubCyrillicRuns(s) {
-  return s.replace(/[\u0400-\u04FF]+/g, (chunk) => cyrToLatin(chunk))
-}
-
-function deSpacePdfArtifact(s) {
-  return s.replace(/((?:[A-Za-z\u0400-\u04FF]\s+){2,}[A-Za-z\u0400-\u04FF])/g, (chunk) =>
-    chunk.replace(/\s+/g, ""),
-  )
-}
-
-function prepareText(raw) {
-  return scrubCyrillicRuns(deSpacePdfArtifact(raw))
 }
 
 function isoFromNumeric(dayS, monthS, yearS) {
@@ -103,9 +60,9 @@ function extractIzreka(text) {
     const lat = prepareText(chunk)
     const iz = lat.match(/(?:IZ\s+REKE|UTVRĐUJE|Usvaja|Odbija|Tužba)[\s\S]{0,1200}/i)
     if (iz) return iz[0]
-    return chunk.slice(0, 1600)
+    return prepareText(chunk)
   }
-  return chunk.slice(start, start + 2000)
+  return chunk.slice(start)
 }
 
 function outcomeFromText(_full, izLat) {
@@ -136,18 +93,21 @@ function extractArticles(text) {
 }
 
 function summarize(full, izrekaRaw, caseNum) {
-  const izLat = prepareText(izrekaRaw)
-  let cp = izLat
-    .replace(/^\s*(P\s*R\s*E\s*S\s*U\s*D\s*U|R\s*J\s*E\s*Š\s*E\s*N\s*J\s*E)\s*/i, "")
-    .slice(0, 520)
-    .replace(/\s+/g, " ")
-    .trim()
-  if (cp.length > 420) cp = cp.slice(0, 417).trim() + "…"
-  const head = cp.slice(0, 160) || prepareText(full.slice(0, 200))
+  const cp =
+    prepareText(izrekaRaw).replace(
+      /^\s*(P\s*R\s*E\s*S\s*U\s*D\s*U|R\s*J\s*E\s*Š\s*E\s*N\s*J\s*E)\s*/i,
+      "",
+    ) || prepareText(full)
+  const obraz = extractObrazlozenje(full)
+  const reasoning =
+    obraz.length >= 120
+      ? obraz
+      : `Upravni sud Crne Gore odlučuje u predmetu ${caseNum}, primjenjujući Zakon o upravnim sporovima Crne Gore i povezane procesne propise.`
+  const head = cp.slice(0, 160) || prepareText(full).slice(0, 200)
   return {
-    legal_question: `Koje pravno pitanje je razmatrao Upravni sud Crne Gore u predmetu ${caseNum}?`,
-    court_position: cp || prepareText(full.slice(0, 400)),
-    reasoning: `Upravni sud Crne Gore odlučuje u predmetu ${caseNum}, primjenjujući Zakon o upravnim sporovima Crne Gore i povezane procesne propise.`,
+    legal_question: extractLegalQuestion({ body: full, izreka: izrekaRaw, prepareText }),
+    court_position: cp,
+    reasoning,
     headnote: head,
   }
 }

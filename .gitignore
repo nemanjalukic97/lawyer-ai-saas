@@ -44,3 +44,16 @@ next-env.d.ts
 tmp-*.html
 tmp-*.pdf
 tmp-*.json
+
+# local datasets / generated artifacts
+downloads/
+tmp-*/
+tmp-bih-*/
+tmp-serbia-*/
+
+# python cache
+**/__pycache__/
+
+# local agent artifacts
+.claude/
+AGENT-HISTORY-CATALOG.md

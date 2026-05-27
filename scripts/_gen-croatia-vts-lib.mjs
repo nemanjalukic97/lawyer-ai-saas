@@ -1,5 +1,7 @@
 import fs from "fs"
+import { prepareText, extractObrazlozenje } from "./_gen-prepare-text.mjs"
 import path from "path"
+import { extractLegalQuestion } from "./_gen-extract-legal-question.mjs"
 
 const COURT = "Visoki trgovački sud Republike Hrvatske"
 const LEGAL_AREA = "commercial"
@@ -137,17 +139,17 @@ function extractIzreka(text) {
     /(?:p\s*r\s*e\s*s\s*u\s*d\s*i\s*o|r\s*i\s*j\s*e\s*š\s*i\s*o)\s*(?:\s*j\s*e)?/i,
   )
   const sliceStart = decided === -1 ? 0 : decided
-  let iz = afterHeader.slice(sliceStart, sliceStart + 2200)
+  let iz = afterHeader.slice(sliceStart)
 
   if (iz.length < 40) {
     const alt = chunk.match(
-      /(?:Odbija|Usvaja|Potvrđuje|Ukida|Preinačava|Utvrđuje|Odbacuje)[\s\S]{0,900}/i,
+      /(?:Odbija|Usvaja|Potvrđuje|Ukida|Preinačava|Utvrđuje|Odbacuje)[\s\S]*/i,
     )
     if (alt) iz = alt[0]
-    else iz = chunk.slice(0, 1600)
+    else iz = prepareText(chunk)
   }
 
-  return iz.replace(/\s+/g, " ").trim()
+  return prepareText(iz)
 }
 
 function outcomeFromText(iz) {
@@ -162,6 +164,25 @@ function outcomeFromText(iz) {
   if (/Preinačava|djelomično/i.test(s)) return "partially"
   if (/obustavlja\s+se|produžava\s+se/i.test(s)) return "procedural"
   return "partially"
+}
+
+function summarize(full, izrekaRaw, caseNum) {
+  let cp = prepareText(izrekaRaw).replace(
+    /^(?:p\s*resudio|r\s*iješio)\s*(?:je)?\s*/i,
+    "",
+  )
+  const obraz = extractObrazlozenje(full)
+  const reasoning =
+    obraz.length >= 80
+      ? obraz
+      : `Visoki trgovački sud Republike Hrvatske odlučuje u predmetu ${caseNum}, primjenjujući hrvatsko trgovačko i procesno pravo te povezane propise.`
+  const head = cp.slice(0, 160) || prepareText(full).slice(0, 200)
+  return {
+    legal_question: extractLegalQuestion({ body: full, izreka: izrekaRaw }),
+    court_position: cp || prepareText(full),
+    reasoning,
+    headnote: head,
+  }
 }
 
 const LAW_HINTS = [
@@ -195,22 +216,6 @@ function extractArticles(text) {
     else set.add(`čl. ${m[1]}. ${tag}`)
   }
   return [...set].slice(0, 10)
-}
-
-function summarize(full, izrekaRaw, caseNum) {
-  let cp = izrekaRaw
-    .replace(/^(?:p\s*resudio|r\s*iješio)\s*(?:je)?\s*/i, "")
-    .slice(0, 520)
-    .replace(/\s+/g, " ")
-    .trim()
-  if (cp.length > 420) cp = cp.slice(0, 417).trim() + "…"
-  const head = cp.slice(0, 160) || full.slice(0, 200).replace(/\s+/g, " ").trim()
-  return {
-    legal_question: `Koje pravno pitanje je razmatrao Visoki trgovački sud Republike Hrvatske u predmetu ${caseNum}?`,
-    court_position: cp || full.slice(0, 400).replace(/\s+/g, " ").trim(),
-    reasoning: `Visoki trgovački sud Republike Hrvatske odlučuje u predmetu ${caseNum}, primjenjujući hrvatsko trgovačko i procesno pravo te povezane propise.`,
-    headnote: head,
-  }
 }
 
 function tsEscape(s) {

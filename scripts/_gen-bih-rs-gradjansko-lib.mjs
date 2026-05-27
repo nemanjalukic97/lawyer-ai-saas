@@ -1,5 +1,6 @@
 import fs from "fs"
 import path from "path"
+import { summarizeCyrillicCase } from "./_gen-prepare-text.mjs"
 
 export function createGradjanskoGenerator(cfg) {
   const { title, label, legal_area, defaultQ, statuteLabel, statuteTag } = cfg
@@ -117,8 +118,8 @@ export function createGradjanskoGenerator(cfg) {
     const pi = chunk.search(pres)
     const ri = chunk.search(rjes)
     const start = pi === -1 ? (ri === -1 ? 0 : ri) : pi
-    if (start === 0 && pi === -1 && ri === -1) return chunk.slice(0, 1400)
-    return chunk.slice(start, start + 1800)
+    if (start === 0 && pi === -1 && ri === -1) return chunk
+    return chunk.slice(start)
   }
 
   function civilParty(full) {
@@ -166,19 +167,17 @@ export function createGradjanskoGenerator(cfg) {
   }
 
   function summarize(full, izrekaCyr) {
-    const izLat = scrubCyrillicRuns(cyrToLatin(izrekaCyr))
-    let cp = izLat
-      .replace(/^\s*(P\s+R\s+E\s+S\s+U\s+D\s+U|R\s+J\s+E\s+Š\s+E\s+N\s+J\s+E)\s*/i, "")
-      .slice(0, 520)
-      .replace(/\s+/g, " ")
-      .trim()
-    if (cp.length > 420) cp = cp.slice(0, 417).trim() + "…"
-    const head = cp.slice(0, 160)
+    const sum = summarizeCyrillicCase(
+      full,
+      izrekaCyr,
+      (s) => scrubCyrillicRuns(cyrToLatin(s)),
+      `Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti ${title}, primjenjujući ${statuteLabel} i odredbe parničnog postupka (ZPP RS).`,
+    )
     return {
       legal_question: defaultQ,
-      court_position: cp || scrubCyrillicRuns(cyrToLatin(full.slice(0, 350))),
-      reasoning: `Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti ${title}, primjenjujući ${statuteLabel} i odredbe parničnog postupka (ZPP RS).`,
-      headnote: head,
+      court_position: sum.court_position,
+      reasoning: sum.reasoning,
+      headnote: sum.headnote,
     }
   }
 

@@ -1,5 +1,9 @@
 import fs from "fs"
 import path from "path"
+import {
+  prepareText as sharedPrepareText,
+  extractObrazlozenje as sharedExtractObrazlozenje,
+} from "./_gen-prepare-text.mjs"
 
 const CASE_NUM_RE =
   /\b(Rev2?|Us|Už|Uvp|Uv|Gž\d?|Gzz|Kzz|Kž\d?\s*(?:Po\d?\s*)?|Su|Iu|IIu|IIIu|IUz|KPo\d?|Gž2?)\s*[\w\-\.]*\s*\d+\s*\/\s*\d{2,4}\b/gi
@@ -52,15 +56,12 @@ export function createSerbiaGenerator(cfg) {
     return s.replace(/[\u0400-\u04FF]+/g, (chunk) => cyrToLatin(chunk))
   }
 
-  /** Collapse PDF artifacts like "P R E S U D U" → "PRESUDU". */
-  function deSpacePdfArtifact(s) {
-    return s.replace(/((?:[A-Za-z\u0400-\u04FF]\s+){2,}[A-Za-z\u0400-\u04FF])/g, (chunk) =>
-      chunk.replace(/\s+/g, ""),
-    )
+  function prepareText(raw) {
+    return sharedPrepareText(scrubCyrillicRuns(raw))
   }
 
-  function prepareText(raw) {
-    return scrubCyrillicRuns(deSpacePdfArtifact(raw))
+  function extractObrazlozenje(text) {
+    return sharedExtractObrazlozenje(scrubCyrillicRuns(text))
   }
 
   function normCase(fn) {
@@ -175,10 +176,11 @@ export function createSerbiaGenerator(cfg) {
     return null
   }
 
+
   function extractIzrekaUtf8(text) {
     const spacedObrazlozenje = /О\s+б\s+р\s+а\s+з\s+л\s+о\s+ж\s+е\s+њ\s+е/i
     const ix = text.search(spacedObrazlozenje)
-    const chunk = ix === -1 ? text.slice(0, 9000) : text.slice(0, ix)
+    const chunk = ix === -1 ? text : text.slice(0, ix)
     const pres = /П\s+Р\s+Е\s+С\s+У\s+Д\s+У/i
     const rjes = /Р\s+Ј\s+Е\s+Ш\s+Е\s+Њ\s+Е/i
     const pi = chunk.search(pres)
@@ -186,11 +188,13 @@ export function createSerbiaGenerator(cfg) {
     const start = pi === -1 ? (ri === -1 ? 0 : ri) : pi
     if (start === 0 && pi === -1 && ri === -1) {
       const lat = prepareText(chunk)
-      const iz = lat.match(/IZ\s+REKE[\s\S]{0,1200}/i) || lat.match(/UTVRĐUJE[\s\S]{0,1200}/i)
+      const iz =
+        lat.match(/IZ\s+REKE[\s\S]{0,8000}/i) ||
+        lat.match(/UTVRĐUJE[\s\S]{0,8000}/i)
       if (iz) return iz[0]
-      return chunk.slice(0, 1600)
+      return prepareText(chunk).replace(/\s+/g, " ").trim()
     }
-    return chunk.slice(start, start + 2000)
+    return prepareText(chunk.slice(start)).replace(/\s+/g, " ").trim()
   }
 
   function outcomeFromText(full, izLat) {
@@ -221,18 +225,43 @@ export function createSerbiaGenerator(cfg) {
   }
 
   function summarize(full, izrekaCyr, caseNum) {
-    const izLat = prepareText(izrekaCyr)
-    let cp = izLat
-      .replace(/^\s*(P\s*R\s*E\s*S\s*U\s*D\s*U|R\s*J\s*E\s*Š\s*E\s*N\s*J\s*E)\s*/i, "")
-      .slice(0, 520)
-      .replace(/\s+/g, " ")
-      .trim()
-    if (cp.length > 420) cp = cp.slice(0, 417).trim() + "…"
-    const head = cp.slice(0, 160) || prepareText(full.slice(0, 200))
+    const izLat = prepareText(izrekaCyr).replace(/\s+/g, " ").trim()
+    let cp = izLat.replace(
+      /^\s*(P\s*R\s*E\s*S\s*U\s*D\s*A|R\s*J\s*E\s*Š\s*E\s*N\s*J\s*E|PRESUDA|RJEŠENJE)\s*/i,
+      "",
+    )
+
+    const looksLikeDispositif =
+      cp.length >= 80 &&
+      /(Odbija|Usvaja|Uvažava|Potvrđuje|Preinačava|utvrđuje|UTVRĐUJE|proglašava|UKIDA|potvrđuje)/i.test(
+        cp,
+      )
+
+    if (!looksLikeDispositif) {
+      const obraz = extractObrazlozenje(full)
+      if (obraz.length >= 200) {
+        cp = obraz
+      } else {
+        const fullLat = prepareText(full)
+        const holding =
+          fullLat.match(
+            /(?:pravno\s+shvaćanje|sud\s+je\s+zauzeo|utvrđuje\s+da|UTVRĐUJE\s+DA|Pravno\s+shvaćanje)[\s\S]*/i,
+          ) || fullLat.match(/UTVRĐUJE[\s\S]*/i)
+        cp = holding ? holding[0].trim() : fullLat
+      }
+    }
+
+    const obraz = extractObrazlozenje(full)
+    const reasoning =
+      obraz.length >= 120
+        ? obraz
+        : `Sud ${echr ? "u Strazburu" : "u Srbiji"} razmatra ${title} u predmetu ${caseNum}, primenjujući ${statuteLabel || "važeće propise Republike Srbije"}.`
+
+    const head = cp.slice(0, 180) || prepareText(full.slice(0, 200))
     return {
       legal_question: defaultQ.replace("{case}", caseNum),
-      court_position: cp || prepareText(full.slice(0, 400)),
-      reasoning: `Sud ${echr ? "u Strazburu" : "u Srbiji"} razmatra ${title} u predmetu ${caseNum}, primenjujući ${statuteLabel || "važeće propise Republike Srbije"}.`,
+      court_position: cp,
+      reasoning,
       headnote: head,
     }
   }
@@ -268,7 +297,7 @@ export function createSerbiaGenerator(cfg) {
       const end =
         i + 1 < matches.length
           ? Math.min(text.length, matches[i + 1].index)
-          : Math.min(text.length, matches[i].index + 3500)
+          : text.length
       const slice = raw.slice(
         Math.max(0, start - 200),
         Math.min(raw.length, end + 200),

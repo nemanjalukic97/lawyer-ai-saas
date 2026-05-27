@@ -1,4 +1,5 @@
 import fs from "fs"
+import { summarizeBihCase } from "./_gen-prepare-text.mjs"
 import path from "path"
 
 const DEFAULT_COURT = "Apelacioni sud Brčko Distrikta BiH"
@@ -76,7 +77,7 @@ export function createBrckoKrivicnoGenerator(cfg) {
     const oslob = chunk.search(/OSLOBAĐA\s+SE|OSLOBA\s*Đ\s*AJU\s+SE/i)
     const start =
       pres !== -1 ? pres : rjes !== -1 ? rjes : oslob !== -1 ? oslob : 0
-    return chunk.slice(start, start + 2000)
+    return chunk.slice(start)
   }
 
   function appealParty(full) {
@@ -144,31 +145,23 @@ export function createBrckoKrivicnoGenerator(cfg) {
     return [...set].slice(0, 10)
   }
 
-  function cleanSnippet(s, max = 480) {
-    return s.replace(/\s+/g, " ").trim().slice(0, max)
+  function cleanSnippet(s, max) {
+    const t = s.replace(/\s+/g, " ").trim()
+    if (typeof max === "number" && max > 0) return t.slice(0, max)
+    return t
   }
 
   function summarize(full, iz) {
-    const dq =
-      defaultQ ||
-      `Da li je osnovana žalba ili zahtjev za zaštitu zakonitosti u predmetu iz oblasti ${title} pred Apelacionim sudom Brčko Distrikta BiH?`
-    let cp = cleanSnippet(
-      iz.replace(/^(R\s*J\s*E\s*Š\s*E\s*N\s*J\s*E|P\s*R\s*E\s*S\s*U\s*D\s*U|RJEŠENJE|PRESUDA|OSLOBAĐA\s+SE)\s*/i, ""),
-      450,
+    const sum = summarizeBihCase(
+      full,
+      iz,
+      `Sud ocjenjuje žalbene ili ZZL prigovore u predmetima ${title}, primjenjujući KZ Brčko i ZKP Brčko.`,
     )
-    if (!cp) cp = cleanSnippet(full.slice(0, 400), 350)
-    const crime = full.match(/krivičnog\s+djela\s*[–-]?\s*([^,]{5,80})/i)
-    const crimeBit = crime ? ` (${crime[1].trim()})` : ""
-    const reasoning = cleanSnippet(
-      `Sud ocjenjuje žalbene ili ZZL prigovore u predmetima ${title}${crimeBit}, primjenjujući KZ Brčko i ZKP Brčko. ${full.slice(0, 1200).replace(/\s+/g, " ").slice(0, 600)}`,
-      900,
-    )
-    const head = cleanSnippet(cp, 160)
     return {
-      legal_question: dq,
-      court_position: cp,
-      reasoning,
-      headnote: head,
+      legal_question: defaultQ,
+      court_position: sum.court_position,
+      reasoning: sum.reasoning,
+      headnote: sum.headnote,
     }
   }
 

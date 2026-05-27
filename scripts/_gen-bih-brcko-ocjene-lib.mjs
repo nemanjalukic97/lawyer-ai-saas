@@ -1,4 +1,5 @@
 import fs from "fs"
+import { prepareText, summarizeBihCase } from "./_gen-prepare-text.mjs"
 import path from "path"
 
 const DEFAULT_COURT = "Apelacioni sud Brčko Distrikta BiH"
@@ -94,7 +95,7 @@ export function createBrckoOcjeneGenerator(cfg) {
     )
     const start =
       pravno !== -1 ? pravno : pres !== -1 ? pres : rjes !== -1 ? rjes : 0
-    return chunk.slice(start, start + 2500)
+    return prepareText(chunk.slice(start))
   }
 
   function outcomeFromIzreka(iz, full) {
@@ -156,30 +157,19 @@ export function createBrckoOcjeneGenerator(cfg) {
     return [...set].slice(0, 10)
   }
 
-  function cleanSnippet(s, max = 480) {
-    return s.replace(/\s+/g, " ").trim().slice(0, max)
+  function cleanSnippet(s, max) {
+    const t = s.replace(/\s+/g, " ").trim()
+    if (typeof max === "number" && max > 0) return t.slice(0, max)
+    return t
   }
 
   function summarize(full, iz) {
-    let cp = cleanSnippet(
-      iz.replace(
-        /^(R\s*J\s*E\s*Š\s*E\s*N\s*J\s*E|P\s*R\s*E\s*S\s*U\s*D\s*U|RJEŠENJE|PRESUDA|PRAVNO\s+SHVATANJE)\s*/i,
-        "",
-      ),
-      450,
-    )
-    if (!cp || cp.length < 40) {
-      cp = cleanSnippet(full.replace(/[\x00-\x08\x0b\x0c\x0e-\x1f]/g, " ").slice(0, 1500), 450)
-    }
-    const reasoning = cleanSnippet(
-      `Apelacioni sud Brčko Distrikta BiH odlučuje u postupku ${title}, primjenjujući ${STATUTE_LABEL}. ${full.slice(0, 1500).replace(/\s+/g, " ").slice(0, 650)}`,
-      900,
-    )
+    const sum = summarizeBihCase(full, iz, `Apelacioni sud Brčko Distrikta BiH odlučuje u postupku ${title}, primjenjujući ${STATUTE_LABEL}.`)
     return {
       legal_question: defaultQ,
-      court_position: cp,
-      reasoning,
-      headnote: cleanSnippet(cp, 160),
+      court_position: sum.court_position,
+      reasoning: sum.reasoning,
+      headnote: sum.headnote,
     }
   }
 

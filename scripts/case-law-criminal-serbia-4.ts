@@ -15,12 +15,12 @@ export const CASE_LAW_CRIMINAL_SERBIA_4: CaseLawInput[] = [
     legal_question:
       "Koje pravno shvatanje sadrži sentenca Vrhovnog suda u predmetu Zakljucak - troskovi kod zastupanja vise okr. od strane jednog branioca?",
     court_position:
-      "ZAKЉUČAK ISPLATA TROŠKOVA KOD ZASTUPAЊA VI ŠE OKRIVЉENIH OD STRANE JEDNOG BRANIOCAUsituaciji kada je izabrani branilac zastupao više okrivљenih, te kada je postupak okončanuodnosu na jednog od okrivљenih obustavom ili oslobađaњem, a protiv ostalih okrivљenih seidaљe vodi postupak, obračun troškova vrši se primenom Tarifeonagradamainaknadama troškova za rad advokata, u skladu sa Zakonomoadvokaturi, te će nagrada bi…",
+      "ZAKLjUČAK ISPLATA TROŠKOVAKOD ZASTUPANjAVIŠE OKRIVLjENIHOD STRANE JEDNOG BRANIOCAUsituaciji kadaje izabrani branilac zastupao više okrivljenih, te kadaje postupak okončanuodnosuna jednogod okrivljenih obustavomili oslobađanjem, a protiv ostalih okrivljenih seidalje vodi postupak, obračun troškova vršise primenom Tarifeonagradamainaknadama troškovazarad advokata, u skladusa Zakonomoadvokaturi, teće nagrada biti uvećanaza svaku radnju koju preduzima za 50% za drugogisvakog narednog okrivljenog, a okrivljenom kojije oslobođenilije protiv njega postupak obustavljen isplaćujese srazmerandeo obračunatog iznosa, srazmerno broju okrivljenih koje zastupa isti branilac. (Zaključak usvojenna sednici Krivičnog odeljenja Vrhovnog suda održanoj 17.6.2024. godine)",
     reasoning:
       "Sud u Srbiji razmatra sentence — krivična materija u predmetu Zakljucak - troskovi kod zastupanja vise okr. od strane jednog branioca, primenjujući Krivični zakonik.",
     keywords: ["krivična sentenca","Vrhovni sud Srbije","KZ"],
     related_articles: ["čl. KZ"],
-    headnote: "ZAKЉUČAK ISPLATA TROŠKOVA KOD ZASTUPAЊA VI ŠE OKRIVЉENIH OD STRANE JEDNOG BRANIOCAUsituaciji kada je izabrani branilac zastupao više okrivљenih, te kada je post",
+    headnote: "ZAKLjUČAK ISPLATA TROŠKOVAKOD ZASTUPANjAVIŠE OKRIVLjENIHOD STRANE JEDNOG BRANIOCAUsituaciji kadaje izabrani branilac zastupao više okrivljenih, te kadaje postupak okončanuodnosuna ",
     outcome: "partially",
   },
   {
@@ -33,12 +33,12 @@ export const CASE_LAW_CRIMINAL_SERBIA_4: CaseLawInput[] = [
     legal_question:
       "Koje pravno shvatanje sadrži sentenca Vrhovnog suda u predmetu Zakljucak - u vezi sa ucescem odnosno izuzecem sudije koji je odlucivao o potvrdjivanju optuz?",
     court_position:
-      "ZAKЉUČAK BITNA POVREDA ODREDABA KRIVIČNOG POSTUPKA IZ ČLANA 438. STAV 1. TAČKA 4) I IZUZEĆE SUDIJA Bitna povreda odredaba krivičnog postupka iz člana 438. stav 1. tačka 4) ZKP postoji ako je na glavnom pretresu učestvovao sudija ili sudija porotnik koji se morao izuzeti, te sledstveno tome, sudija koji jeuistom predmetu postupao kao sudija za prethodni postupak ili je odlučivaoopotvrđivaњu optužnice, ne može učest…",
+      "ZAKLjUČAK BITNA POVREDA ODREDABA KRIVIČNOG POSTUPKAIZ ČLANA 438. STAV 1. TAČKA 4) I IZUZEĆE SUDIJA Bitna povreda odredaba krivičnog postupkaiz člana 438. stav 1. tačka 4) ZKP postojiako jena glavnom pretresu učestvovao sudijaili sudija porotnik kojise morao izuzeti, te sledstveno tome, sudija koji jeuistom predmetu postupaokao sudijaza prethodni postupakilije odlučivaoopotvrđivanju optužnice, ne može učestvovatina glavnom pretresuudonošenju meritorne odluke, ali može postupatiudonošenju drugih procesnih odluka (mereza obezbeđenje prisustva okrivljenogidrugo) u istom predmetu budućida tone predstavlja bitnu povredu odredaba krivičnog postupka. (Zaključak usvojenna sednici Krivičnog odeljenja Vrhovnog suda održanoj 17.6.2024. godine)",
     reasoning:
       "Sud u Srbiji razmatra sentence — krivična materija u predmetu Zakljucak - u vezi sa ucescem odnosno izuzecem sudije koji je odlucivao o potvrdjivanju optuz, primenjujući Krivični zakonik.",
     keywords: ["krivična sentenca","Vrhovni sud Srbije","KZ"],
     related_articles: ["čl. 438. st. 1. KZ","čl. 438. KZ"],
-    headnote: "ZAKЉUČAK BITNA POVREDA ODREDABA KRIVIČNOG POSTUPKA IZ ČLANA 438. STAV 1. TAČKA 4) I IZUZEĆE SUDIJA Bitna povreda odredaba krivičnog postupka iz člana 438. stav ",
+    headnote: "ZAKLjUČAK BITNA POVREDA ODREDABA KRIVIČNOG POSTUPKAIZ ČLANA 438. STAV 1. TAČKA 4) I IZUZEĆE SUDIJA Bitna povreda odredaba krivičnog postupkaiz člana 438. stav 1. tačka 4) ZKP posto",
     outcome: "partially",
   }
 ]

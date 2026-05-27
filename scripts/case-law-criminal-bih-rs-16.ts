@@ -4,78 +4,95 @@
 
 import type { CaseLawInput } from "./ingest-case-law"
 
-export const CASE_LAW_CRIMINAL_BIH_RS_16: CaseLawInput[] = [{
-      jurisdiction: "bih_rs",
-      court: "Vrhovni sud Republike Srpske",
-      court_level: "supreme",
-      case_number: "14_0_K_001105_11_K_",
-      decision_date: "2011-01-01",
-      legal_area: "criminal",
-      legal_question:
-        "Kako je sud odlučio u predmetu 14_0_K_001105_11_K_?",
-      court_position:
-        "Iz tekstualnog izvoda nije pouzdano izvučen sadržaj odluke jer tekst ima manje od 200 znakova.",
-      reasoning:
-        "Automatska ekstrakcija ne omogućava pouzdano čitanje izreke; potrebno je ponovo obraditi izvorni PDF.",
-      keywords: ["kratak izvod","životna sredina","potrebno OCR"],
-      related_articles: [],
-      headnote: "Nedovoljan tekst izvoda.",
-      outcome: "procedural",
-    },
+export const CASE_LAW_CRIMINAL_BIH_RS_16: CaseLawInput[] = [
   {
-      jurisdiction: "bih_rs",
-      court: "Vrhovni sud Republike Srpske",
-      court_level: "supreme",
-      case_number: "73_0_K_000487_10_Kvlz",
-      decision_date: "2011-01-01",
-      legal_area: "criminal",
-      legal_question:
-        "Kako je sud odlučio u predmetu 73_0_K_000487_10_Kvlz?",
-      court_position:
-        "Iz tekstualnog izvoda nije pouzdano izvučen sadržaj odluke jer tekst ima manje od 200 znakova.",
-      reasoning:
-        "Automatska ekstrakcija ne omogućava pouzdano čitanje izreke; potrebno je ponovo obraditi izvorni PDF.",
-      keywords: ["kratak izvod","životna sredina","potrebno OCR"],
-      related_articles: [],
-      headnote: "Nedovoljan tekst izvoda.",
-      outcome: "procedural",
-    },
+    jurisdiction: "bih_rs",
+    court: "Vrhovni sud Republike Srpske",
+    court_level: "supreme",
+    case_number: "14_0_K_001105_11_K_",
+    decision_date: "2011-01-01",
+    legal_area: "criminal",
+    legal_question:
+      "Kako je sud odlučio u predmetu 14_0_K_001105_11_K_?",
+    court_position:
+      "Iz tekstualnog izvoda nije pouzdano izvučen sadržaj odluke jer tekst ima manje od 200 znakova.",
+    reasoning:
+      "Automatska ekstrakcija ne omogućava pouzdano čitanje izreke; potrebno je ponovo obraditi izvorni PDF.",
+    keywords: ["kratak izvod","životna sredina","potrebno OCR"],
+    related_articles: [],
+    headnote: "Nedovoljan tekst izvoda.",
+    outcome: "procedural",
+  },
   {
-      jurisdiction: "bih_rs",
-      court: "Vrhovni sud Republike Srpske",
-      court_level: "supreme",
-      case_number: "85_0_K_045966_19_Kvlz",
-      decision_date: "2019-04-09",
-      legal_area: "criminal",
-      legal_question:
-        "Da li je osnovana žalba ili zahtjev za zaštitu zakonitosti u predmetu krivičnog djela protiv životne sredine pred Vrhovnim sudom RS?",
-      court_position:
-        "Odbija se zahtjev za zaštitu zakonitosti okružnog javnog tužioca u Doboju podnijet protiv pravosnažne presude Okružnog suda u Doboju broj 85 0 K 045966 17 Kžk od 24.08.2018. godine.",
-      reasoning:
-        "Sud ocjenjuje žalbene ili ZZL prigovore u predmetima krivična djela protiv životne sredine (čl. 240–260. KZ RS i srodni članovi), uključujući kvalifikaciju, namjeru i postupovne povrede iz čl. 350–356. ZKOP RS.",
-      keywords: ["zaštita zakonitosti","životna sredina","ZKOP RS"],
-      related_articles: ["čl. 436. st. 1. KZ RS","čl. 312. st. 1. ZKOP RS","čl. 311. st. 1. ZKOP RS","čl. 392. st. 1. KZ RS","čl. 95. st. 1. KZ RS","čl. 96. st. 2. KZ RS","čl. 4. st. 2. KZ RS","čl. 95. st. 1. ZKOP RS","čl. 436. st. 3. KZ RS","čl. 392. st. 4. KZ RS"],
-      headnote: "Odbija se zahtjev za zaštitu zakonitosti okružnog javnog tužioca u Doboju podnijet protiv pravosnažne presude Okružnog suda u Doboju broj 85 0 K 045966 17 Kžk o",
-      outcome: "defendant_won",
-    },
+    jurisdiction: "bih_rs",
+    court: "Vrhovni sud Republike Srpske",
+    court_level: "supreme",
+    case_number: "73_0_K_000487_10_Kvlz",
+    decision_date: "2011-01-01",
+    legal_area: "criminal",
+    legal_question:
+      "Kako je sud odlučio u predmetu 73_0_K_000487_10_Kvlz?",
+    court_position:
+      "Iz tekstualnog izvoda nije pouzdano izvučen sadržaj odluke jer tekst ima manje od 200 znakova.",
+    reasoning:
+      "Automatska ekstrakcija ne omogućava pouzdano čitanje izreke; potrebno je ponovo obraditi izvorni PDF.",
+    keywords: ["kratak izvod","životna sredina","potrebno OCR"],
+    related_articles: [],
+    headnote: "Nedovoljan tekst izvoda.",
+    outcome: "procedural",
+  },
   {
-      jurisdiction: "bih_rs",
-      court: "Vrhovni sud Republike Srpske",
-      court_level: "supreme",
-      case_number: "85_0_K_048229_16_Kvlz",
-      decision_date: "2015-12-01",
-      legal_area: "criminal",
-      legal_question:
-        "Da li je osnovana žalba ili zahtjev za zaštitu zakonitosti u predmetu krivičnog djela protiv životne sredine pred Vrhovnim sudom RS?",
-      court_position:
-        "Zahtjev za zaštitu zakonitosti se odbija kao neosnovan.",
-      reasoning:
-        "Sud ocjenjuje žalbene ili ZZL prigovore u predmetima krivična djela protiv životne sredine (čl. 240–260. KZ RS i srodni članovi), uključujući kvalifikaciju, namjeru i postupovne povrede iz čl. 350–356. ZKOP RS.",
-      keywords: ["zaštita zakonitosti","životna sredina","ZKOP RS"],
-      related_articles: ["čl. 436. st. 1. KZ RS","čl. 108. st. 3. ZKOP RS","čl. 311. st. 1. ZKOP RS","čl. 311. ZKOP RS","čl. 354. ZKOP RS","čl. 350. ZKOP RS","čl. 355. ZKOP RS"],
-      headnote: "Zahtjev za zaštitu zakonitosti se odbija kao neosnovan.",
-      outcome: "plaintiff_won",
-    }
-
-
+    jurisdiction: "bih_rs",
+    court: "Vrhovni sud Republike Srpske",
+    court_level: "supreme",
+    case_number: "85_0_K_045966_19_Kvlz",
+    decision_date: "2019-04-09",
+    legal_area: "criminal",
+    legal_question:
+      "Da li je osnovana žalba ili zahtjev za zaštitu zakonitosti u predmetu krivičnog djela protiv životne sredine pred Vrhovnim sudom RS?",
+    court_position:
+      "PRESUDUOdbijase zahtjevza zaštitu zakonitosti okružnog javnog tužiocauDoboju podnijet protiv pravosnažne presude Okružnog sudauDoboju broj 85 0 K 045966 17 Kžk od 24.08.2018. godine.",
+    reasoning:
+      "Sud ocjenjuje žalbene ili ZZL prigovore u predmetima krivična djela protiv životne sredine (čl. 240–260. KZ RS i srodni članovi), uključujući kvalifikaciju, namjeru i postupovne povrede iz čl. 350–356. ZKOP RS.",
+    keywords: ["zaštita zakonitosti","životna sredina","ZKOP RS"],
+    related_articles: ["čl. 436. st. 1. KZ RS","čl. 312. st. 1. ZKOP RS","čl. 311. st. 1. ZKOP RS","čl. 392. st. 1. KZ RS","čl. 95. st. 1. KZ RS","čl. 96. st. 2. KZ RS","čl. 4. st. 2. KZ RS","čl. 95. st. 1. ZKOP RS","čl. 436. st. 3. KZ RS","čl. 392. st. 4. KZ RS"],
+    headnote: "PRESUDUOdbijase zahtjevza zaštitu zakonitosti okružnog javnog tužiocauDoboju podnijet protiv pravosnažne presude Okružnog sudauDoboju broj 85 0 K 045966 17 Kžk od 24.08.2018. godin",
+    outcome: "defendant_won",
+  },
+  {
+    jurisdiction: "bih_rs",
+    court: "Vrhovni sud Republike Srpske",
+    court_level: "supreme",
+    case_number: "85_0_K_048229_16_Kvlz",
+    decision_date: "2015-12-01",
+    legal_area: "criminal",
+    legal_question:
+      "Da li je osnovana žalba ili zahtjev za zaštitu zakonitosti u predmetu krivičnog djela protiv životne sredine pred Vrhovnim sudom RS?",
+    court_position:
+      "PRESUDUZahtjevza zaštitu zakonitostise odbijakao neosnovan.",
+    reasoning:
+      "Sud ocjenjuje žalbene ili ZZL prigovore u predmetima krivična djela protiv životne sredine (čl. 240–260. KZ RS i srodni članovi), uključujući kvalifikaciju, namjeru i postupovne povrede iz čl. 350–356. ZKOP RS.",
+    keywords: ["zaštita zakonitosti","životna sredina","ZKOP RS"],
+    related_articles: ["čl. 436. st. 1. KZ RS","čl. 108. st. 3. ZKOP RS","čl. 311. st. 1. ZKOP RS","čl. 311. ZKOP RS","čl. 354. ZKOP RS","čl. 350. ZKOP RS","čl. 355. ZKOP RS"],
+    headnote: "PRESUDUZahtjevza zaštitu zakonitostise odbijakao neosnovan.",
+    outcome: "plaintiff_won",
+  },
+  {
+    jurisdiction: "bih_rs",
+    court: "Vrhovni sud Republike Srpske",
+    court_level: "supreme",
+    case_number: "SENTENCA",
+    decision_date: "2011-01-01",
+    legal_area: "criminal",
+    legal_question:
+      "Da li je osnovana žalba ili zahtjev za zaštitu zakonitosti u predmetu krivičnog djela protiv životne sredine pred Vrhovnim sudom RS?",
+    court_position:
+      "OBRAZACZA EVIDENCIJU SUDSKIH ODLUKA VRHOVNOG SUDARS Pripremio / la : Predsjednik vijeća Obren Bužanin NAZIV SUDA VRHOVNISUD REPUBLIKE SRPSKE BROJ PREDMETA 85 0 K 045966 19 Kvlz SENTENCA Kadaiz činjeničnog opisa djelauoptužnici proizlazidase radnja izvršenja djela ogledaunezakonitom lovu visoke divljači izvršenomza vrijeme lovostaja , onda primjenom Krivičnog zakonika Republike Srpskena takav činjenični substrat proizilazidaove radnje manifestuju bitne elemente bića kvalifikovanog oblika krivičnog djela nezakonitloviz člana 392.stav 4. Krivičnog zakonika, a ne osnovni oblik ovog djelaiz stava 1. iste zakonske odredbe, kakoseto zahtjevomza zaštitu zakonitosti sugeriše. PRAVNA OBLAST Krivična PRAVNI INSTITUTI Krivično djelo nezakonitlov PRIMJENjENI PROPISnaziv propisa , broj članaibroj ( evi ) službenog glasilaukojemje propis objavljen - Član 392. Krivičnog zakonika Republike Srpske ( „Službeni glasnik Republike Srpske“ broj 64/17) PRETHODNE ODLUKEbroj ( evi ) predmetainaziv suda kojije donio odluku - Broj 85 0 K 045966 17 Kžk, Okružni suduDobojuBroj 8 5 0 K 0 45966 1 6 K 2, Osnovni suduDobojuDa lije zauzeti stavusaglasnostisa stavomiz odluka ovog suda - DA ODLUKA USTAVNOG SUDA BiH %",
+    reasoning:
+      "Sud ocjenjuje žalbene ili ZZL prigovore u predmetima krivična djela protiv životne sredine (čl. 240–260. KZ RS i srodni članovi), uključujući kvalifikaciju, namjeru i postupovne povrede iz čl. 350–356. ZKOP RS.",
+    keywords: ["zaštita zakonitosti","životna sredina","ZKOP RS"],
+    related_articles: ["čl. 392. st. 4. KZ RS"],
+    headnote: "OBRAZACZA EVIDENCIJU SUDSKIH ODLUKA VRHOVNOG SUDARS Pripremio / la : Predsjednik vijeća Obren Bužanin NAZIV SUDA VRHOVNISUD REPUBLIKE SRPSKE BROJ PREDMETA 85 0 K 045966 19 Kvlz SEN",
+    outcome: "partially",
+  }
 ]

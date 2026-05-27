@@ -4,7 +4,7 @@
 import fs from "fs"
 import path from "path"
 import { fileURLToPath } from "url"
-import * as pdfjs from "pdfjs-dist/legacy/build/pdf.mjs"
+import { openPdfFromFileBuffer } from "./_pdf-get-document.mjs"
 import { createBrckoKrivicnoGenerator, safePdfStem } from "./_gen-bih-brcko-krivicno-lib.mjs"
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -264,7 +264,7 @@ async function extractPdf(pdfPath, outPath) {
   if (!fs.existsSync(pdfPath)) return { ok: false, chars: 0, error: "missing" }
   try {
     const buf = fs.readFileSync(pdfPath)
-    const doc = await pdfjs.getDocument({ data: new Uint8Array(buf), disableWorker: true }).promise
+    const doc = await openPdfFromFileBuffer(buf)
     let full = ""
     for (let i = 1; i <= doc.numPages; i++) {
       const page = await doc.getPage(i)

@@ -128,7 +128,7 @@ function extractIzrekaUtf8(text) {
   const chunk = ix === -1 ? text.slice(0, 6000) : text.slice(0, ix)
   const pres = /П\s+Р\s+Е\s+С\s+У\s+Д\s+У/i
   const pi = chunk.search(pres)
-  if (pi === -1) return chunk.slice(0, 1200)
+  if (pi === -1) return chunk
   return chunk.slice(pi, pi + 1600)
 }
 
@@ -145,7 +145,7 @@ function zzlParty(full) {
 }
 
 function outcomeNumbered(full, izLat) {
-  const iz = izLat.slice(0, 1400)
+  const iz = izLat
   const party = zzlParty(full)
 
   if (/Zahtjev\s+za\s+zaštitu\s+zakonitosti\s+se\s+uvažava/i.test(iz)) return "remanded"
@@ -230,11 +230,9 @@ function summarizeNumbered(full, izrekaCyr) {
   let cp = scrubCyrillicRuns(
     izLat
       .replace(/^\s*P\s+R\s+E\s+S\s+U\s+D\s+U\s*/i, "")
-      .slice(0, 520)
       .replace(/\s+/g, " ")
       .trim(),
   )
-  if (cp.length > 420) cp = cp.slice(0, 417).trim() + "…"
 
   const reasoning =
     "Sud razmatra prigovore na primjenu materijalnog prava i postupka te standarde iz čl. 311. i 356. ZKOP RS kada je riječ o zaštiti zakonitosti i žalbama u predmetima protiv života i tijela."
@@ -248,7 +246,7 @@ function summarizeNumbered(full, izrekaCyr) {
   )
   return {
     legal_question: scrubCyrillicRuns(dq),
-    court_position: scrubCyrillicRuns(cp || lat.slice(0, 350)),
+    court_position: scrubCyrillicRuns(cp || lat),
     reasoning,
     headnote: head.slice(0, 160),
   }
@@ -266,7 +264,7 @@ function outcomeKz(t) {
   if (/Œ‰·Ëº‡\s+ÒÂ\s+Í‡Ó\s+ÌÂÓÒÌÓ‚‡Ì‡\s+Ê‡Î·Â/.test(head)) {
     return mangTuži ? "defendant_won" : "plaintiff_won"
   }
-  if (/Œ‰·Ëº‡\s+ÒÂ\s+Í‡Ó\s+ÌÂÓÒÌÓ‚‡Ì‡/.test(head) && /Ê‡Î·/.test(head.slice(0, 900))) {
+  if (/Œ‰·Ëº‡\s+ÒÂ\s+Í‡Ó\s+ÌÂÓÒÌÓ‚‡Ì‡/.test(head) && /Ê‡Î·/.test(head.slice(0))) {
     return mangTuži ? "defendant_won" : "plaintiff_won"
   }
   if (/ÔÂËÌ‡˜‡‚‡/.test(head)) return "partially"

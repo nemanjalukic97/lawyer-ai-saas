@@ -134,8 +134,8 @@ function extractIzrekaUtf8(text) {
   const pi = chunk.search(pres)
   const ri = chunk.search(rjes)
   const start = pi === -1 ? (ri === -1 ? 0 : ri) : pi
-  if (start === 0 && pi === -1 && ri === -1) return chunk.slice(0, 1400)
-  return chunk.slice(start, start + 1800)
+  if (start === 0 && pi === -1 && ri === -1) return chunk
+  return chunk.slice(start)
 }
 
 function zzlParty(full) {
@@ -228,27 +228,20 @@ function healthLegalQuestion(lat) {
 }
 
 function summarizeNumbered(full, izrekaCyr) {
-  const lat = fixIjTerms(cyrToLatin(full.slice(0, 6000)))
-  const izLat = fixIjTerms(cyrToLatin(izrekaCyr))
-  const dq = healthLegalQuestion(lat)
-  let cp = scrubCyrillicRuns(
-    izLat
-      .replace(/^\s*(P\s+R\s+E\s+S\s+U\s+D\s+U|R\s+J\s+E\s+Š\s+E\s+N\s+J\s+E)\s*/i, "")
-      .slice(0, 520)
-      .replace(/\s+/g, " ")
-      .trim(),
+  const lat = fixIjTerms(cyrToLatin(full))
+  const dq = officialDutyLegalQuestion(lat)
+  const sum = summarizeCyrillicCase(
+    full,
+    izrekaCyr,
+    (s) => fixIjTerms(scrubCyrillicRuns(cyrToLatin(s))),
+    "Sud ocjenjuje žalbene ili ZZL prigovore u predmetima krivičnih djela protiv službene dužnosti (zloupotreba službenog položaja, primanje mita, nesavjesno postupanje službenog lica, čl. 379–385. KZ RS), uključujući dokaz o službenom položaju, namjeri, protivpravnosti i postupovne povrede iz čl. 350–356. ZKOP RS.",
   )
-  if (cp.length > 420) cp = cp.slice(0, 417).trim() + "…"
-  const reasoning =
-    "Sud ocjenjuje žalbene ili ZZL prigovore u predmetima krivičnih djela protiv zdravlja ljudi (narkotici čl. 282–286., opojna sredstva, lijekovi, otrovi), uključujući kvalifikaciju djela, količinu i vrstu supstance, namjeru, stićaj i postupovne povrede iz čl. 350–356. ZKOP RS."
-  const head = scrubCyrillicRuns(
-    izLat
-      .replace(/^\s*(P\s+R\s+E\s+S\s+U\s+D\s+U|R\s+J\s+E\s+Š\s+E\s+N\s+J\s+E)\s*/i, "")
-      .slice(0, 220)
-      .replace(/\s+/g, " ")
-      .trim(),
-  )
-  return { legal_question: scrubCyrillicRuns(dq), court_position: scrubCyrillicRuns(cp || lat.slice(0, 350)), reasoning, headnote: head.slice(0, 160) }
+  return {
+    legal_question: scrubCyrillicRuns(dq),
+    court_position: sum.court_position,
+    reasoning: sum.reasoning,
+    headnote: sum.headnote,
+  }
 }
 
 function outcomeKz(t) {

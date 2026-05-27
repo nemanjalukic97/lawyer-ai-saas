@@ -12,7 +12,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-09-03",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3401/2025-2?",
+      "Da li je osnovan zahtjev radi novčane pomoći za roditelja odgojitelja?",
     court_position:
       "I. Žalba se odbija i potvrđuje presuda Upravnog suda u Zagrebu, poslovni broj: Us I- 970/25-8 od 10. srpnja 2025. II. Odbija se zahtjev tužitelja za naknadu troškova sastava žalbe.",
     reasoning:
@@ -31,9 +31,9 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-07-16",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3402/2024-4?",
+      "Da li je osnovan zahtjev radi teške povrede službene dužnosti?",
     court_position:
-      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca toga Suda Blanše Turić, predsjednice vijeća, Borisa Markovića i Željke Zrilić Ježek članova vijeća te sudske savjetnice Marte Sraka, zapisničarke, u upravnom sporu tužitelja JS iz [adresa], zastupan po opunomoćeniku Tomislavu Keseru, odvjetniku u Zagrebu, Turinina ulica 5, protiv tuženika Republike Hrvatske Višeg službeničkog suda u Zagrebu, Zag…",
+      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca toga Suda Blanše Turić, predsjednice vijeća, Borisa Markovića i Željke Zrilić Ježek članova vijeća te sudske savjetnice Marte Sraka, zapisničarke, u upravnom sporu tužitelja JS iz [adresa], zastupan po opunomoćeniku Tomislavu Keseru, odvjetniku u Zagrebu, Turinina ulica 5, protiv tuženika Republike Hrvatske Višeg službeničkog suda u Zagrebu, Zagreb, Ulica grada Vukovara 49, radi teške povrede službene dužnosti, odlučujući o žalbi Državnog inspektorata Republike Hrvatske, Središnjeg ureda, Sektora za unutarnji i kontrolno instruktivni nadzor, Službe za unutarnji nadzor izjavljenoj protiv presude Upravnog suda u Zagrebu, poslovni broj: Us I-2000/2023-8 od 19. srpnja 2024., na sjednici vijeća održanoj 16. srpnja 2025. Žalba se odbacuje.",
     reasoning:
       "Visoki upravni sud Republike Hrvatske odlučuje u predmetu Usž-3402/2024-4, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.",
     keywords: ["administrative","Visoki upravni sud","Usž-3402"],
@@ -50,7 +50,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-10-08",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3407/2024-4?",
+      "Da li je osnovan zahtjev radi usklađivanja novčane pomoći za roditelja odgojitelja?",
     court_position:
       "I. Odbija se žalba tužiteljice i potvrđuje presude Upravnog suda u Zagrebu, poslovnog broja: Us I-2060/2023-11 od 8. srpnja 2024. II. Odbija se zahtjev tužiteljice za naknadu troška žalbenog dijela spora.",
     reasoning:
@@ -69,7 +69,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-07-04",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3408/2024-3?",
+      "Da li je osnovan zahtjev radi novčane pomoći roditelja odgojitelja?",
     court_position:
       "I. Odbija se žalba i potvrđuje presuda Upravnog suda u Zagrebu, poslovni broj: Us I-3455/2023-8 od 8. srpnja 2024. II. Odbija se zahtjev tužiteljice za naknadu troška sastava žalbe.",
     reasoning:
@@ -88,9 +88,9 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-05-14",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-341/2025-2?",
+      "Da li je osnovan zahtjev radi sudske pristojbe?",
     court_position:
-      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca tog suda Blanše Turić, predsjednice vijeća, Borisa Markovića i Željke Zrilić Ježek, članova vijeća te sudske savjetnice Marte Sraka, zapisničarke, u upravnom sporu tužiteljice LŽ, iz [adresa], OIB: [osobni identifikacijski broj], koju zastupa opunomoćenik Martin Sherri, odvjetnik u Zagrebu, Kordunska 1, protiv tuženika Grada Zagreba, Gradonačeln…",
+      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca tog suda Blanše Turić, predsjednice vijeća, Borisa Markovića i Željke Zrilić Ježek, članova vijeća te sudske savjetnice Marte Sraka, zapisničarke, u upravnom sporu tužiteljice LŽ, iz [adresa], OIB: [osobni identifikacijski broj], koju zastupa opunomoćenik Martin Sherri, odvjetnik u Zagrebu, Kordunska 1, protiv tuženika Grada Zagreba, Gradonačelnika, Zagreb, Trg Stjepana Radića, OIB: 61817894937, radi sudske pristojbe, odlučujući o žalbi tužiteljice izjavljenoj protiv rješenja Upravnog suda u Zagrebu, poslovni broj: Us I-264/2024-12 od 10. siječnja 2025., na sjednici vijeća održanoj 14. svibnja 2025. I. Odbija se žalba tužiteljice i potvrđuje rješenje Upravnog suda u Zagrebu, poslovni broj: Us I-264/2024-12 od 10. siječnja 2025. II. Odbija se zahtjev tužiteljice za naknadu troškova žalbenog postupka.",
     reasoning:
       "Visoki upravni sud Republike Hrvatske odlučuje u predmetu Usž-341/2025-2, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.",
     keywords: ["administrative","Visoki upravni sud","Usž-341"],
@@ -107,7 +107,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-07-09",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3411/2024-2?",
+      "Da li je osnovan zahtjev radi usklađivanja novčane pomoći za roditelja odgojitelja?",
     court_position:
       "I. Odbija se žalba i potvrđuje presuda Upravnog suda u Zagrebu, poslovni broj: Us I-3614/2023-9 od 8. srpnja 2024. II. Odbija se zahtjev tužiteljice za naknadu troška za sastav žalbe.",
     reasoning:
@@ -126,9 +126,9 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-09-10",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3416/2025-2?",
+      "Da li je osnovan zahtjev radi statusa zaštićenog najmoprimca?",
     court_position:
-      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca toga Suda Borisa Markovića, predsjednika vijeća, Željke Zrilić Ježek i Blanše Turić, članica vijeća te sudske savjetnice Marte Srake, zapisničarke, u upravnom sporu tužiteljice BR iz [adresa], OIB: [osobni identifikacijski broj], zastupana po opunomoćenicima iz Zajedničkog odvjetničkog ureda Goran Veljović, Merima Ibrahimović, Ivana Bilić Kompar…",
+      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca toga Suda Borisa Markovića, predsjednika vijeća, Željke Zrilić Ježek i Blanše Turić, članica vijeća te sudske savjetnice Marte Srake, zapisničarke, u upravnom sporu tužiteljice BR iz [adresa], OIB: [osobni identifikacijski broj], zastupana po opunomoćenicima iz Zajedničkog odvjetničkog ureda Goran Veljović, Merima Ibrahimović, Ivana Bilić Komparić, Vladimir Veljović i Alan Alagić, u Puli, Dobrilina 9, protiv tuženika Ministarstvo prostornog uređenja, graditeljstva i državne imovine, Zagreb, Ulica Republike Austrije 14, OIB: 95093210687, uz sudjelovanje zainteresirane osobe VR iz [adresa], koju zastupa opunomoćenica Katarina Jukić Jakopič, odvjetnica u Puli, Ulica Sv. Teodora 2, radi statusa zaštićenog najmoprimca, odlučujući o žalbi zainteresirane osobe izjavljene protiv rješenja Upravnog suda u Rijeci poslovni broj: Us I-423/2025-8 od 12. lipnja 2025. na sjednici vijeća održanoj 10. rujna 2025. Odbija se žalba zainteresirane osobe i potvrđuje rješenje Upravnog suda u Rijeci, poslovni broj: Us I-423/2025-8 od 12. lipnja 2025.",
     reasoning:
       "Visoki upravni sud Republike Hrvatske odlučuje u predmetu Usž-3416/2025-2, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.",
     keywords: ["administrative","Visoki upravni sud","Usž-3416"],
@@ -145,7 +145,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-03-27",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3422/2024-3?",
+      "Da li je osnovan zahtjev radi poreznog nadzora?",
     court_position:
       "I. Odbija se žalba tužitelja i potvrđuje se presuda Upravnog suda u Osijeku, poslovni broj: Us l-1069/2023-6 od 29. svibnja 2024. II. Odbija se zahtjev tužitelja za naknadu troškova žalbenog postupka.",
     reasoning:
@@ -164,9 +164,9 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-09-10",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3422/2025-2?",
+      "Da li je osnovan zahtjev radi statusa zaštićenog najmoprimca?",
     court_position:
-      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca toga Suda Borisa Markovića, predsjednika vijeća, Željke Zrilić Ježek i Blanše Turić, članica vijeća te sudske savjetnice Marte Srake, zapisničarke, u upravnom sporu tužiteljice IT iz [adresa], OIB: [osobni identifikacijski broj], zastupana po opunomoćenicima iz Zajedničkog odvjetničkog ureda Goran Veljović, Merima Ibrahimović, Ivana Bilić Kompar…",
+      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca toga Suda Borisa Markovića, predsjednika vijeća, Željke Zrilić Ježek i Blanše Turić, članica vijeća te sudske savjetnice Marte Srake, zapisničarke, u upravnom sporu tužiteljice IT iz [adresa], OIB: [osobni identifikacijski broj], zastupana po opunomoćenicima iz Zajedničkog odvjetničkog ureda Goran Veljović, Merima Ibrahimović, Ivana Bilić Komparić, Vladimir Veljović i Alan Alagić, u Puli, Dobrilina 9, protiv tuženika Ministarstvo prostornog uređenja, graditeljstva i državne imovine, Zagreb, Ulica Republike Austrije 14, OIB: 95093210687, uz sudjelovanje zainteresirane osobe FT iz [adresa], koju zastupa opunomoćenica Katarina Jukić Jakopič, odvjetnica u Puli, Ulica Sv. Teodora 2, radi statusa zaštićenog najmoprimca, odlučujući o žalbi zainteresirane osobe izjavljene protiv rješenja Upravnog suda u Rijeci poslovni broj: Us I-423/2025-10 od 27. lipnja 2025. na sjednici vijeća održanoj 10. rujna 2025. Odbija se žalba zainteresirane osobe i potvrđuje rješenje Upravnog suda u Rijeci, poslovni broj: Us I-423/2025-10 od 27. lipnja 2025.",
     reasoning:
       "Visoki upravni sud Republike Hrvatske odlučuje u predmetu Usž-3422/2025-2, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.",
     keywords: ["administrative","Visoki upravni sud","Usž-3422"],
@@ -183,7 +183,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-03-20",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3432/2024-4?",
+      "Da li tužitelj ima pravo na utvrđivanja naknade za isporučenu električnu energiju?",
     court_position:
       "I. Odbija se žalba tužitelja i potvrđuje se presuda Upravnog suda u Splitu, poslovni broj: Us l-2782/2023-13 od 20. svibnja 2024. II. Odbija se zahtjev tužitelja za naknadu troškova žalbenog postupka.",
     reasoning:
@@ -202,9 +202,9 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-09-11",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3452/2025-2?",
+      "Da li je osnovan zahtjev radi naplate trošarine?",
     court_position:
-      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca toga suda Sanje Štefan, predsjednice vijeća, Ljiljane Karlovčan-Đurović i Borisa Markovića, članova vijeća te sudskog savjetnika Matije Vurneka, zapisničara, u upravnom sporu tužitelja \"TVORNICA DUHANA UDBINA\" d.o.o. Udbina, Podudbina 14 kojeg zastupaju opunomoćenici Mate Matić i Danijel Hanik, odvjetnici u Odvjetničkom društvu \"Matić i partneri…",
+      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca toga suda Sanje Štefan, predsjednice vijeća, Ljiljane Karlovčan-Đurović i Borisa Markovića, članova vijeća te sudskog savjetnika Matije Vurneka, zapisničara, u upravnom sporu tužitelja \"TVORNICA DUHANA UDBINA\" d.o.o. Udbina, Podudbina 14 kojeg zastupaju opunomoćenici Mate Matić i Danijel Hanik, odvjetnici u Odvjetničkom društvu \"Matić i partneri\" d.o.o., Zagreb, Trg hrvatskih velikana 4, protiv tuženika Ministarstva financija Republike Hrvatske, Samostalnog sektora za drugostupanjski upravni postupak iz Zagreba, Katančićeva 5, radi naplate trošarine, odlučujući o žalbi tužitelja protiv presude Upravnog suda u Zagrebu, poslovni broj: Usl-4792/2023-6 od 17. lipnja 2025., na sjednici vijeća održanoj 11. rujna 2025. Odbacuje se žalba izjavljena protiv presude Upravnog suda u Zagrebu, poslovni broj: Usl-4792/2023-6 od 17. lipnja 2025.",
     reasoning:
       "Visoki upravni sud Republike Hrvatske odlučuje u predmetu Usž-3452/2025-2, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.",
     keywords: ["administrative","Visoki upravni sud","Usž-3452"],
@@ -221,7 +221,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-05-15",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3459/2024-2?",
+      "Da li je osnovan zahtjev radi izdavanja potvrde izvršnosti?",
     court_position:
       "I. Žalba se odbija i potvrđuje se presuda Upravnog suda u Zagrebu, broj: Us I-3677/2023 od 25. lipnja 2024. II. Odbija se zahtjev tužiteljice za naknadu troškova žalbenog dijela upravnog spora.",
     reasoning:
@@ -240,7 +240,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-09-11",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3459/2025-2?",
+      "Da li je osnovan zahtjev radi novčane pomoći za roditelja odgojitelja?",
     court_position:
       "I. Odbija se žalba tužiteljice i potvrđuje presuda Upravnog suda u Zagrebu, poslovni broj: Us I-3219/2024-7 od 12. lipnja 2025. II. Odbija se zahtjev tužiteljice za naknadom troškova upravnog spora.",
     reasoning:
@@ -259,7 +259,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-07-02",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-346/2025-2?",
+      "Da li tužitelj ima pravo na prava na naknadu zbog tjelesnog oštećenja?",
     court_position:
       "Odbija se žalba i potvrđuje presuda Upravnog suda u Rijeci, poslovni broj: Us I-746/2023-8 od 7. siječnja 2025.",
     reasoning:
@@ -278,7 +278,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-05-15",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3460/2024-2?",
+      "Da li je osnovan zahtjev radi izdavanja potvrde izvršnosti?",
     court_position:
       "I. Odbija se žalba tužiteljice i potvrđuje presuda Upravnog suda u Zagrebu, poslovnog broja: Us I-3679/2023-10 od 25. lipnja 2024. II. Odbija se zahtjev tužiteljice za naknadom troškova dijela upravnog spora.",
     reasoning:
@@ -297,9 +297,9 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-09-10",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3463/2025-2?",
+      "Da li je osnovan zahtjev radi priznavanja statusa ratnog vojnog invalida?",
     court_position:
-      "I. Poništava se presuda i rješenje Upravnog suda u Splitu, poslovni broj: 7 UsImio-861/18-30 od 5. ožujka 2019. II. Odbija se zahtjev tužitelja za poništavanje rješenja tuženika Ministarstva branitelja Republike Hrvatske, KLASA: UP/II-562-02/13-0015/11, URBROJ: 522-04/1-2-13-2 od 26. srpnja 2013. III. Odbija se zahtjev tužitelja za naknadu troškova upravnog spora. IV. Odbija se zahtjev tužitelja za naknadu troška…",
+      "I. Poništava se presuda i rješenje Upravnog suda u Splitu, poslovni broj: 7 UsImio-861/18-30 od 5. ožujka 2019. II. Odbija se zahtjev tužitelja za poništavanje rješenja tuženika Ministarstva branitelja Republike Hrvatske, KLASA: UP/II-562-02/13-0015/11, URBROJ: 522-04/1-2-13-2 od 26. srpnja 2013. III. Odbija se zahtjev tužitelja za naknadu troškova upravnog spora. IV. Odbija se zahtjev tužitelja za naknadu troška sastava odgovora na zahtjev za izvanredno preispitivanje zakonitosti.",
     reasoning:
       "Visoki upravni sud Republike Hrvatske odlučuje u predmetu Usž-3463/2025-2, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.",
     keywords: ["administrative","Visoki upravni sud","Usž-3463"],
@@ -316,9 +316,9 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-07-16",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3471/2024-3?",
+      "Da li je osnovan zahtjev radi troškova spora?",
     court_position:
-      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca toga suda, Jelene Rajić predsjednice vijeća, Marine Kosović Marković i mr. sc. Inge Vezmar Barlek, članica vijeća, te sudskog savjetnika Alana Vučkovečkog, zapisničara, u upravnom sporu tužitelja Odvodnje Poreč d.o.o., iz Poreča, Mlinska 1, kojeg zastupaju opunomoćenici u Odvjetničkom društvu Kožul i Petrinović, u Zagrebu, Radnička cesta 47, pro…",
+      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca toga suda, Jelene Rajić predsjednice vijeća, Marine Kosović Marković i mr. sc. Inge Vezmar Barlek, članica vijeća, te sudskog savjetnika Alana Vučkovečkog, zapisničara, u upravnom sporu tužitelja Odvodnje Poreč d.o.o., iz Poreča, Mlinska 1, kojeg zastupaju opunomoćenici u Odvjetničkom društvu Kožul i Petrinović, u Zagrebu, Radnička cesta 47, protiv tuženika Republike Hrvatske, Ministarstva regionalnog razvoja i fondova Europske unije, Zagreb, Miramarska cesta 22, radi troškova spora, odlučujući o žalbi tuženika, protiv točke IV. presude Upravnog suda u Rijeci, poslovni broj: Us I-60/2024- 9 od 19. lipnja 2024., koja je ispravljena rješenjem, poslovni broj Us I-81/2024-11 od 8. kolovoza 2024., na sjednici vijeća održanoj 16. srpnja 2025. Odbija se žalba te potvrđuje točka IV. izreke presude Upravnog suda u Rijeci, poslovni broj: Us I-60/2024-9 od 19. lipnja 2024., koja je ispravljena rješenjem poslovni broj: Us I-81/2024-11 od 8. kolovoza 2024.",
     reasoning:
       "Visoki upravni sud Republike Hrvatske odlučuje u predmetu Usž-3471/2024-3, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.",
     keywords: ["administrative","Visoki upravni sud","Usž-3471"],
@@ -335,9 +335,9 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-04-30",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3474/2024-2?",
+      "Da li je osnovan zahtjev radi prekida upravnog spora?",
     court_position:
-      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca toga suda, Ane Berlengi Fellner, predsjednice vijeća, Arme Vagner Popović i Mirjane Čačić, članica vijeća te više sudske savjetnice-specijalistice Ivane Mamić Vuković, zapisničarke, u upravnom sporu tužitelja Grada Vodnjana-Dignano, Vodnjan, Trgovačka 2, protiv tuženika Istarske županije, Upravnog odjela za prostorno uređenje i gradnju, Odsjeka…",
+      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca toga suda, Ane Berlengi Fellner, predsjednice vijeća, Arme Vagner Popović i Mirjane Čačić, članica vijeća te više sudske savjetnice-specijalistice Ivane Mamić Vuković, zapisničarke, u upravnom sporu tužitelja Grada Vodnjana-Dignano, Vodnjan, Trgovačka 2, protiv tuženika Istarske županije, Upravnog odjela za prostorno uređenje i gradnju, Odsjeka za drugostupanjski upravni postupak, Pula, Riva 8, uz sudjelovanje zainteresiranih osoba EN i AN, oboje iz [adresa], Republika Slovenija, oboje zastupani po opunomoćenicima Odvjetničkom društvu Čohilj i partneri d.o.o., Pula, Dalmatinova 4, radi prekida upravnog spora, odlučujući o žalbi zainteresiranih osoba protiv rješenja Upravnog suda u Rijeci, poslovni broj: Us I- 176/2024-12 od 24. lipnja 2024., na sjednici vijeća održanoj 30. travnja 2025. I. Odbija se žalba i potvrđuje rješenje Upravnog suda u Rijeci, poslovni broj: Us I-176/2024-12 od 24. lipnja 2024. II. Odbija se zahtjev zainteresiranih osoba za naknadu troškova sastava žalbe.",
     reasoning:
       "Visoki upravni sud Republike Hrvatske odlučuje u predmetu Usž-3474/2024-2, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.",
     keywords: ["administrative","Visoki upravni sud","Usž-3474"],
@@ -354,7 +354,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-05-13",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3485/2024-3?",
+      "Da li je osnovan zahtjev za poništaj upravnog rješenja?",
     court_position:
       "Odbija se žalba tužitelja i potvrđuje presuda Upravnog suda u Rijeci, poslovni broj: Us I-2180/2023-13 od 21. lipnja 2024",
     reasoning:
@@ -373,7 +373,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-09-03",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3491/2024-2?",
+      "Da li je osnovan zahtjev radi povrata poreza na dodanu vrijednost?",
     court_position:
       "I. Poništava se presude Upravnog suda u Splitu, poslovni broj: Us I- 409/2024-7 od 30. travnja 2024. i sudi: Odbija se tužbeni zahtjev tužitelja za poništenje rješenja tuženika Ministarstva financija Republike Hrvatske, Samostalnog sektora za drugostupanjski upravni postupak, klasa: UP/II-410-19/23-01/47, urbroj: 513- 04-23-2 od 21. prosinca 2023. II. Odbija se zahtjev tužitelja za naknadu troškova upravnog spora.",
     reasoning:
@@ -392,7 +392,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-07-17",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3503/2023-6?",
+      "Da li je osnovan zahtjev radi raskida ugovora o koncesiji?",
     court_position:
       "I. Žalba se odbija i potvrđuje se presuda i rješenje Upravnog suda u Splitu, poslovni broj: Us I-1799/22 od 19. svibnja 2023. II. Odbija se zahtjev tužiteljice za naknadu troškova žalbenog dijela upravnog spora.",
     reasoning:
@@ -411,7 +411,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-09-11",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3506/2025-2?",
+      "Da li je osnovan zahtjev radi novčane pomoći za roditelja odgojitelja?",
     court_position:
       "I. Odbija se žalba tužitelja i potvrđuje presuda Upravnog suda u Zagrebu, poslovni broj: Us I-5186/2024-6 od 11. lipnja 2025. II. Odbija se zahtjev tužitelja za naknadom troškova upravnog spora.",
     reasoning:
@@ -430,7 +430,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-06-11",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3508/2024-2?",
+      "Da li je osnovan zahtjev radi tjelesnog oštećenja?",
     court_position:
       "Žalba tužitelja se odbija te se potvrđuje presuda Upravnog suda u Zagrebu, poslovni broj Us I-1107/2023-10 od 17. lipnja 2024.",
     reasoning:
@@ -449,7 +449,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-07-10",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-351/2025-2?",
+      "Da li tužitelj ima pravo na naknade za promjenu namjene poljoprivrednog zemljišta?",
     court_position:
       "I. Odbija se žalba tužitelja i potvrđuje presuda Upravnog suda u Osijeku, poslovni broj: Us I-1437/2023-20 od 13. prosinca 2024.",
     reasoning:
@@ -468,7 +468,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-07-09",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3512/2023-2?",
+      "Da li je osnovan zahtjev radi promjene katastarskog upisa?",
     court_position:
       "Odbija se žalba te potvrđuje presuda Upravnog suda u Splitu, poslovni broj: Us I-486/2022-6 od 3. srpnja 2023.",
     reasoning:
@@ -487,7 +487,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-09-10",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3512/2025-2?",
+      "Da li je osnovan zahtjev radi novčane pomoći za roditelja odgojitelja?",
     court_position:
       "I. Žalba se odbija i potvrđuje presuda Upravnog suda u Zagrebu, poslovni broj: Us I- 5178/2024-6 od 11. lipnja 2025. II. Odbija se zahtjev tužiteljice za naknadu troška za sastav žalbe.",
     reasoning:
@@ -506,7 +506,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-05-22",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-352/2024-2?",
+      "Da li je osnovan zahtjev radi uklanjanja građevine?",
     court_position:
       "Žalba se odbija i potvrđuje se presuda Upravnog suda u Splitu, poslovni broj: Us I-1984/2022 od 9. svibnja 2023. i r i j e š i o j e I. Odbacuje se žalba tužitelja izjavljena protiv rješenja prvostupanjskog suda, poslovni broj: Us I-1984/2022 od 9. svibnja 2023. II. Odbacuje se prijedlog tužitelja za određivanje odgodnog učinka tužbe do pravomoćnog okončanja upravnog spora.",
     reasoning:
@@ -525,9 +525,9 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-09-24",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3524/2025-2?",
+      "Da li je osnovan zahtjev radi prava iz mirovinskog osiguranja?",
     court_position:
-      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sutkinja toga suda Snježane Horvat-Paliska, predsjednice vijeća, Gordane Marušić-Babić i dr.sc. Sanje Otočan, članica vijeća, te više sudske savjetnice Glorjane Čičak, zapisničarke, u upravnom sporu tužitelja UŠ iz [adresa], kojeg zastupa opunomoćenik Krunoslav Jandriček, odvjetnik u Virovitici, Tomaša Masaryka 4, protiv tuženika Hrvatskog zavoda za mi…",
+      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sutkinja toga suda Snježane Horvat-Paliska, predsjednice vijeća, Gordane Marušić-Babić i dr.sc. Sanje Otočan, članica vijeća, te više sudske savjetnice Glorjane Čičak, zapisničarke, u upravnom sporu tužitelja UŠ iz [adresa], kojeg zastupa opunomoćenik Krunoslav Jandriček, odvjetnik u Virovitici, Tomaša Masaryka 4, protiv tuženika Hrvatskog zavoda za mirovinsko osiguranje, Središnje službe, Zagreb, A. Mihanovića 3., radi prava iz mirovinskog osiguranja, odlučujući o žalbi tužitelja protiv rješenja Upravnog suda u Osijeku, poslovni broj: Us I-364/2025-19 od 1. kolovoza 2025., na sjednici vijeća održanoj 24. rujna 2025. Žalba se odbija i potvrđuje rješenje Upravnog suda u Osijeku, poslovni broj: Us I-364/2025-19 od 1. kolovoza 2025.",
     reasoning:
       "Visoki upravni sud Republike Hrvatske odlučuje u predmetu Usž-3524/2025-2, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.",
     keywords: ["administrative","Visoki upravni sud","Usž-3524"],
@@ -544,9 +544,9 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-05-27",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3526/2024-3?",
+      "Da li je osnovan zahtjev radi odobrenja za samostalni rad prvostupnika fizioterapeuta?",
     court_position:
-      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sutkinja toga suda Kristine Senjak Krunić, predsjednice vijeća, Eveline Čolović Tomić i Senke Orlić- Zaninović, članica vijeća, te više sudske savjetnice Ane Matacin, zapisničarke, u upravnom sporu tužiteljice SD iz [adresa], OIB: [osobni identifikacijski broj], koju zastupa opunomoćenica Natalija Labavić, odvjetnica iz Zagreba, Avenija Većeslava Holje…",
+      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sutkinja toga suda Kristine Senjak Krunić, predsjednice vijeća, Eveline Čolović Tomić i Senke Orlić- Zaninović, članica vijeća, te više sudske savjetnice Ane Matacin, zapisničarke, u upravnom sporu tužiteljice SD iz [adresa], OIB: [osobni identifikacijski broj], koju zastupa opunomoćenica Natalija Labavić, odvjetnica iz Zagreba, Avenija Većeslava Holjevca 40, protiv tuženika Hrvatske komore fizioterapeuta, Zagreb, Donje Svetice 46C, OIB: 48223065486, uz sudjelovanje zainteresirane osobe Ministarstva zdravstva Republike Hrvatske, Zagreb, Ksaver 200a, OIB: 88362248492, radi odobrenja za samostalni rad prvostupnika fizioterapeuta, odlučujući o žalbi zainteresirane osobe protiv presude Upravnog suda u Osijeku, poslovni broj: Us I- 1465/2023-14 od 2. kolovoza 2024., na sjednici vijeća održanoj 27. svibnja 2025. Odbacuje se žalba Ministarstva zdravstva Republike Hrvatske izjavljena protiv presude Upravnog suda u Osijeku, poslovni broj: Us I-1465/2023-14 od 2. kolovoza 2024.",
     reasoning:
       "Visoki upravni sud Republike Hrvatske odlučuje u predmetu Usž-3526/2024-3, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.",
     keywords: ["administrative","Visoki upravni sud","Usž-3526"],
@@ -563,7 +563,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-09-25",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3527/2025-2?",
+      "Da li je osnovan zahtjev za poništaj upravnog rješenja?",
     court_position:
       "Odbija se žalba tužitelja i potvrđuje presuda Upravnog suda u Osijeku, poslovni broj: Us I-73/2025-7 od 30. lipnja 2025.",
     reasoning:
@@ -582,7 +582,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-05-14",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3529/2024-2?",
+      "Da li je osnovan zahtjev radi obnove upravnog postupka?",
     court_position:
       "I. Žalba se odbija i potvrđuje presuda Upravnog suda u Osijeku, poslovni broj: Us I-13/2023-13 od 20. veljače 2024. II. Odbija se zahtjev tužitelja za naknadu troška za sastav žalbe.",
     reasoning:
@@ -601,7 +601,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-09-17",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3532/2025-2?",
+      "Da li je osnovan zahtjev radi novčane pomoći roditelja odgojitelja?",
     court_position:
       "I. Odbija se žalba i potvrđuje presuda Upravnog suda u Zagrebu, poslovni broj: Us I-820/2024-10 od 17. srpnja 2025. II. Odbija se zahtjev tužiteljice za naknadu troška sastava žalbe.",
     reasoning:
@@ -620,7 +620,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-09-25",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3538/2025-2?",
+      "Da li je osnovan zahtjev radi novčane pomoći za roditelja odgojitelja?",
     court_position:
       "I. Odbija se žalba tužiteljice i potvrđuje presuda Upravnog suda u Zagrebu, poslovni broj: Us I-844/2024-9 od 17. srpnja 2025. II. Odbija se zahtjev za naknadu troškova upravnog spora.",
     reasoning:
@@ -639,7 +639,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-09-18",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3546/2025-2?",
+      "Da li je osnovan zahtjev radi novčane pomoći za roditelja odgojitelja?",
     court_position:
       "I. Žalba se odbija i potvrđuje presuda Upravnog suda u Zagrebu, poslovni broj: UsI-785/2024-9 od 26. svibnja 2025. II. Odbija se zahtjev tužiteljice za naknadu troška za sastav žalbe.",
     reasoning:
@@ -658,7 +658,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-09-25",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3550/2025-2?",
+      "Da li je osnovan zahtjev radi novčane pomoći za roditelja odgojitelja?",
     court_position:
       "I. Odbija se žalba tužiteljice i potvrđuje presuda Upravnog suda u Zagrebu, poslovni broj: Us I-640/2024-9 od 26. svibnja 2025. II. Odbija se zahtjev tužiteljice za naknadu troška žalbenog postupka.",
     reasoning:
@@ -677,9 +677,9 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-04-16",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3551/2024-2?",
+      "Da li je osnovan zahtjev radi novčane pomoći?",
     court_position:
-      "I. Poništava se presuda Upravnog suda u Zagrebu, poslovni broj: Upravnog suda u Zagrebu, poslovni broj: Us I-6247/2023-7 od 17. svibnja 2024. II. Poništava se rješenje Ministarstva prostornoga uređenja, graditeljstva i državne imovine Republike Hrvatske, Uprave za graditeljstvo i obnovu, KLASA: UP/I-000-06/22-14/435, URBROJ: 531-06-3-23-13 od 20. studenoga 2023. III. Nalaže se tuženiku naknaditi tužiteljici troško…",
+      "I. Poništava se presuda Upravnog suda u Zagrebu, poslovni broj: Upravnog suda u Zagrebu, poslovni broj: Us I-6247/2023-7 od 17. svibnja 2024. II. Poništava se rješenje Ministarstva prostornoga uređenja, graditeljstva i državne imovine Republike Hrvatske, Uprave za graditeljstvo i obnovu, KLASA: UP/I-000-06/22-14/435, URBROJ: 531-06-3-23-13 od 20. studenoga 2023. III. Nalaže se tuženiku naknaditi tužiteljici troškove upravnog spora u iznosu od 4.062,50 eur (četiritisućešezdesetdvaeuraipedesetcenti) u roku od 60 dana od dana dostave presude, dok se u preostalom dijelu zahtjev tužiteljice odbija.",
     reasoning:
       "Visoki upravni sud Republike Hrvatske odlučuje u predmetu Usž-3551/2024-2, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.",
     keywords: ["administrative","Visoki upravni sud","Usž-3551"],
@@ -696,7 +696,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-10-08",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3554/2025-2?",
+      "Da li je osnovan zahtjev radi prava na razmjerni dio starosne mirovine?",
     court_position:
       "Žalba se odbija i potvrđuje presuda Upravnog suda u Zagrebu, poslovni broj: Us I-1285/2024-7 od 20. svibnja 2025.",
     reasoning:
@@ -715,7 +715,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-04-01",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3555/2024-2?",
+      "Da li je osnovan zahtjev radi utroška upravnog postupka?",
     court_position:
       "I. Odbija se žalba i potvrđuje presuda Upravnog suda u Zagrebu poslovni broj: Us I-1597/2023-14 od 18. srpnja 2024. II. Odbija se zahtjev tužiteljice za naknadu troška žalbenog postupka.",
     reasoning:
@@ -734,7 +734,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-10-01",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-356/2025-3?",
+      "Da li je osnovan zahtjev za poništaj upravnog rješenja?",
     court_position:
       "I. Odbija se žalba i potvrđuje presuda Upravnog suda u Rijeci, poslovni broj: Us I-1383/2023-10 od 23. listopada 2024. II. Odbija se zahtjev tužitelja za naknadu troškova sastava žalbe.",
     reasoning:
@@ -753,7 +753,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-07-02",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3560/2024-4?",
+      "Da li je osnovan zahtjev radi poreza na promet nekretnina?",
     court_position:
       "I. Odbija se žalba tužiteljice i potvrđuje se presuda Upravnog suda u Rijeci, poslovni broj: Us l-758/2024-6 od 12. srpnja 2024. II. Odbija se zahtjev tužiteljice za naknadu troškova žalbenog postupka.",
     reasoning:
@@ -772,7 +772,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-07-09",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3563/2024-2?",
+      "Da li je osnovan zahtjev radi izlaska iz sustava obveznika plaćanja poreza na dodanu vrijednost?",
     court_position:
       "I. Odbija se žalba tužitelja ĆŽ iz [adresa] i potvrđuje presuda Upravnog suda u Rijeci, poslovni broj: Us I-2589/2023-6 od 18. srpnja 2024. II. Odbija se zahtjev tužitelja za naknadu troškova žalbenog postupka.",
     reasoning:
@@ -791,9 +791,9 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-09-24",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3564/2025-2?",
+      "Da li tužitelj ima pravo na naknade za tjelesno oštećenje?",
     court_position:
-      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sutkinja toga suda Gordane Marušić-Babić, predsjednice vijeća, Snježane Horvat-Paliska i dr. sc. Sanje Otočan, članica vijeća, te više sudske savjetnice Glorjane Čičak, zapisničarke, u upravnom sporu tužitelja DA, [adresa], kojeg zastupa opunomoćenik Davorin Ivančić, odvjetnik u Zagrebu, Trnsko 44A, protiv tuženika Hrvatskog zavoda za mirovinsko osigur…",
+      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sutkinja toga suda Gordane Marušić-Babić, predsjednice vijeća, Snježane Horvat-Paliska i dr. sc. Sanje Otočan, članica vijeća, te više sudske savjetnice Glorjane Čičak, zapisničarke, u upravnom sporu tužitelja DA, [adresa], kojeg zastupa opunomoćenik Davorin Ivančić, odvjetnik u Zagrebu, Trnsko 44A, protiv tuženika Hrvatskog zavoda za mirovinsko osiguranje, Središnje službe, Zagreb, Antuna Mihanovića 3, radi naknade za tjelesno oštećenje, odlučujući o žalbi tuženika protiv točke V. izreke presude Upravnog suda u Zagrebu, poslovni broj: Us I- 1964/2023-18 od 15. srpnja 2025., na sjednici vijeća održanoj 24. rujna 2025. Žalba se odbija i potvrđuje točka V. izreke presude Upravnog suda u Zagrebu, poslovni broj: Us I-1964/2023-18 od 15. srpnja 2025.",
     reasoning:
       "Visoki upravni sud Republike Hrvatske odlučuje u predmetu Usž-3564/2025-2, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.",
     keywords: ["administrative","Visoki upravni sud","Usž-3564"],
@@ -810,7 +810,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-09-17",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3565/2025-2?",
+      "Da li je osnovan zahtjev radi osiguranja naplate i ako je to razmjerno svrsi koja se želi postići?",
     court_position:
       "Odbija se žalba tužitelja i potvrđuje presuda Upravnog suda u Zagrebu, poslovni broj: Us I-6090/2023-11 od 2. lipnja 2025.",
     reasoning:
@@ -829,7 +829,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-05-22",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3566/2023-3?",
+      "Da li je osnovan zahtjev radi utvrđenja nastupa zastare?",
     court_position:
       "I. Odbija se žalba tužitelja i potvrđuje presuda Upravnog suda u Splitu, poslovni broj: 8 Us I-1521/23-6 od 20. rujna 2023. II. Odbija se zahtjev tužitelja za naknadom troškova žalbenog postupka.",
     reasoning:
@@ -848,7 +848,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-07-02",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3568/2024-2?",
+      "Da li je osnovan zahtjev radi inspekcijskog nadzora?",
     court_position:
       "Odbija se žalba tužitelja i potvrđuje se presuda Upravnog suda u Osijeku, poslovni broj: Us I-604/2022-14 od 19. ožujka 2024.",
     reasoning:
@@ -867,7 +867,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-05-08",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3571/2024-2?",
+      "Ispiši Preuzmi Kopiraj poveznicu Vidi detalje?",
     court_position:
       "Ispiši Preuzmi Kopiraj poveznicu Vidi detalje",
     reasoning:
@@ -886,7 +886,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-10-08",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3577/2024-2?",
+      "Da li je osnovan zahtjev radi poreznog nadzora?",
     court_position:
       "Odbija se žalba tužitelja i potvrđuje se presuda Upravnog suda u Zagrebu, poslovni broj: Us I-580/2022-18 od 9. srpnja 2024.",
     reasoning:
@@ -905,7 +905,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-05-06",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3579/2023-3?",
+      "Da li je osnovan zahtjev radi izdavanja lokacijske dozvole?",
     court_position:
       "I. Odbija se žalba tužitelja i potvrđuje presuda Upravnog suda u Splitu, poslovni broj: 3 Us I-3359/21-9 od 2. lipnja 2023. II. Odbija se zahtjev tužitelja za naknadu troška žalbenog postupka.",
     reasoning:
@@ -924,7 +924,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-05-14",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3580/2024-2?",
+      "Da li je osnovan zahtjev radi osobne invalidnine?",
     court_position:
       "I. Žalba se odbija i potvrđuje presuda Upravnog suda u Zagrebu, poslovni broj: Us I-2913/2022-23 od 11. srpnja 2024. II. Odbija se tužiteljičin zahtjev za naknadu troškova žalbenog postupka.",
     reasoning:
@@ -943,7 +943,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-06-25",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3582/2024-2?",
+      "Da li je osnovan zahtjev radi naplate trošarine na duhanske prerađevine?",
     court_position:
       "I. Odbija se žalba tužitelja i potvrđuje se presuda Upravnog suda u Zagrebu, poslovni broj: Us I-2983/2023-9 od 22. srpnja 2024. II. Odbija se zahtjev tužitelja za naknadu troškova žalbenog postupka.",
     reasoning:
@@ -962,9 +962,9 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-04-29",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3583/2024-3?",
+      "Da li je osnovan zahtjev radi šutnje uprave?",
     court_position:
-      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sutkinja toga suda, Radmile Bolanča Vuković, predsjednice vijeća, dr. sc. Sanje Otočan i Mire Kovačić, članica vijeća, te višeg sudskog savjetnika Filipa Mihaljevića, zapisničara, u upravnom sporu tužiteljice KOL iz [adresa], OIB: [osobni identifikacijski broj], koju zastupa opunomoćenik Karlo Novosel, odvjetnik u Zagrebu, Radnička cesta 32, protiv tuž…",
+      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sutkinja toga suda, Radmile Bolanča Vuković, predsjednice vijeća, dr. sc. Sanje Otočan i Mire Kovačić, članica vijeća, te višeg sudskog savjetnika Filipa Mihaljevića, zapisničara, u upravnom sporu tužiteljice KOL iz [adresa], OIB: [osobni identifikacijski broj], koju zastupa opunomoćenik Karlo Novosel, odvjetnik u Zagrebu, Radnička cesta 32, protiv tuženika Ministarstva unutarnjih poslova Republike Hrvatske, Policijske uprave zagrebačke, Sektora za imigraciju, državljanstvo i upravne poslove, Zagreb, Ilica 335, OIB:36162371878, radi šutnje uprave, odlučujući o žalbi tužiteljice protiv rješenja Upravnog suda u Zagrebu, poslovni broj: Us I-1066/24-4 od 9. srpnja 2024., na sjednici vijeća održanoj 29. travnja 2025., I. Žalba se odbija i potvrđuje rješenje Upravnog suda u Zagrebu, poslovni broj: Us I-1066/24-4 od 9. srpnja 2024. II. Odbija se zahtjev tužiteljice za naknadu troškova sastava žalbe.",
     reasoning:
       "Visoki upravni sud Republike Hrvatske odlučuje u predmetu Usž-3583/2024-3, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.",
     keywords: ["administrative","Visoki upravni sud","Usž-3583"],
@@ -981,7 +981,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-04-30",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3594/2024-2?",
+      "Da li je osnovan zahtjev radi izdavanja identifikacije katastarskih čestica?",
     court_position:
       "Žalba se odbija i potvrđuje se presuda Upravnog suda u Rijeci, poslovni broj: Us I-788/2023 od 3. srpnja 2024.",
     reasoning:
@@ -1000,9 +1000,9 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-09-19",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3594/2025-2?",
+      "Da li je osnovan zahtjev radi upisa u obrtni registar?",
     court_position:
-      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca toga suda Mirjane Čačić, predsjednice vijeća, Ane Berlengi Fellner i Kristine Senjak Krunić, članica vijeća, te više sudske savjetnice-specijalistice Ivane Mamić Vuković, zapisničarke, u upravnom sporu tužitelja OŠ iz [adresa], protiv tuženika Ministarstva gospodarstva i održivog razvoja, Zagreb, Ulica grada Vukovara 78, u predmetu radi upisa u…",
+      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca toga suda Mirjane Čačić, predsjednice vijeća, Ane Berlengi Fellner i Kristine Senjak Krunić, članica vijeća, te više sudske savjetnice-specijalistice Ivane Mamić Vuković, zapisničarke, u upravnom sporu tužitelja OŠ iz [adresa], protiv tuženika Ministarstva gospodarstva i održivog razvoja, Zagreb, Ulica grada Vukovara 78, u predmetu radi upisa u obrtni registar, odlučujući o žalbi protiv rješenja Upravnog suda u Splitu, broj: Us I-340/2024 od 8. srpnja 2025., na sjednici vijeća održanoj 19. rujna 2025. Žalba se odbija i potvrđuje se rješenje Upravnog suda u Splitu, broj: Us I-340/2024 od 8. srpnja 2025.",
     reasoning:
       "Visoki upravni sud Republike Hrvatske odlučuje u predmetu Usž-3594/2025-2, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.",
     keywords: ["administrative","Visoki upravni sud","Usž-3594"],
@@ -1019,7 +1019,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-04-01",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3598/2024-2?",
+      "Da li je osnovan zahtjev radi zabrane izvođenja rudarskih radova?",
     court_position:
       "I. Žalba se odbija i potvrđuje presuda Upravnog suda u Rijeci, poslovni broj: Us I-1282/2023-6 od 19. srpnja 2024. II. Odbija se zahtjev tužitelja za naknadu troška žalbenog postupka.",
     reasoning:
@@ -1038,9 +1038,9 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-03-27",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3602/2024-2?",
+      "Da li je osnovan zahtjev radi prijma u državnu službu?",
     court_position:
-      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca toga Suda Borisa Markovića, predsjednika vijeća, Blanše Turić i Ljiljane Karlovčan- Đurović, članica vijeća te sudske savjetnice Marte Sraka, zapisničarke, u upravnom sporu tužiteljice ŠEF, OIB: [osobni identifikacijski broj], [adresa], koju zastupa opunomoćenik Miro Marinović, OIB: 40327299757, odvjetnik u Zagrebu, Pere Budmanija 5/IV, protiv t…",
+      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca toga Suda Borisa Markovića, predsjednika vijeća, Blanše Turić i Ljiljane Karlovčan- Đurović, članica vijeća te sudske savjetnice Marte Sraka, zapisničarke, u upravnom sporu tužiteljice ŠEF, OIB: [osobni identifikacijski broj], [adresa], koju zastupa opunomoćenik Miro Marinović, OIB: 40327299757, odvjetnik u Zagrebu, Pere Budmanija 5/IV, protiv tuženika Odbora za državnu službu, OIB: 58831547726, Zagreb, Palmotićeva 5, uz sudjelovanje zainteresirane osobe ŠE, OIB: [osobni identifikacijski broj], [adresa], koju zastupa opunomoćenik, odvjetnik Nikola Horvat, OIB: 77042644344, u Zajedničkom odvjetničkom uredu Nikola Horvat i Dean Radišić, Karlovac, Preradovićeva 16, radi prijma u državnu službu, odlučujući o žalbi tuženika protiv presude Upravnog suda u Rijeci, poslovni broj: Us I-920/2024-7 od 19. kolovoza 2024., na sjednici vijeća održanoj 27. ožujka 2025. I. Odbacuje se žalba tuženika izjavljena protiv točke I., II., III. izreke presude Upravnog suda u Rijeci, poslovni broj: Us I-920/2024-7 od 19. kolovoza 2024. II. Odbija se žalba tuženika i potvrđuje točka IV. izreke presude Upravnog suda u Rijeci, poslovni broj: Us I-920/2024-7 od 19. kolovoza 2024.",
     reasoning:
       "Visoki upravni sud Republike Hrvatske odlučuje u predmetu Usž-3602/2024-2, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.",
     keywords: ["administrative","Visoki upravni sud","Usž-3602"],
@@ -1057,7 +1057,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-04-15",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3605/2024-3?",
+      "Da li je osnovan zahtjev radi usklađivanja novčane pomoći za roditelja odgojitelja?",
     court_position:
       "I. Odbija se žalba i potvrđuje presuda Upravnog suda u Zagrebu, poslovni broj: Us I-3553/2023-8 od 8. srpnja 2024. II. Odbija se zahtjev tužiteljice za naknadu troška žalbenog postupka.",
     reasoning:
@@ -1076,7 +1076,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-09-24",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3607/2025-2?",
+      "Da li je osnovan zahtjev radi novčane pomoći roditelja odgojitelja?",
     court_position:
       "I. Odbija se žalba i potvrđuje presuda Upravnog suda u Zagrebu, poslovni broj: Us I-5280/2024-5 od 2. srpnja 2025. II. Odbija se zahtjev tužiteljice za naknadu troška sastava žalbe.",
     reasoning:
@@ -1095,7 +1095,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-06-12",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3608/2024-3?",
+      "Da li je osnovan zahtjev radi novčane pomoći za roditelja odgojitelja?",
     court_position:
       "I. Odbija se žalba i potvrđuje presuda Upravnog suda u Zagrebu, poslovni broj: Us I-2131/2023-11 od 8. srpnja 2024. II. Odbija se zahtjev tužiteljice za naknadu troška sastava žalbe.",
     reasoning:
@@ -1114,7 +1114,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-03-27",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-361/2025-2?",
+      "Da li je osnovan zahtjev radi obračuna i naplate posebnog poreza na motorna vozila?",
     court_position:
       "I. Odbija se žalba tužitelja i potvrđuje se presuda Upravnog suda u Splitu, poslovni broj: Us l-3379/2023-9 od 11. rujna 2024. II. Odbija se zahtjev tužitelja za naknadu troškova žalbenog postupka",
     reasoning:
@@ -1133,9 +1133,9 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-10-01",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3610/2024-3?",
+      "Da li je osnovan zahtjev radi poreza na dohodak?",
     court_position:
-      "I. Poništava se presuda Upravnog suda u Zagrebu, poslovni broj: Us l- 3431/2022-6 od 28. svibnja 2024. II. Odbija se tužbeni zahtjev za poništenje rješenja tuženika, klasa: UP/II- 410-18/19-01/345, urbroj: 513-04-22-10 od 27. rujna 2022. i rješenja Ministarstva financija-Porezne uprave, Područnog ureda Zagreb, Ispostave Dubrava, klasa: UP/I-410-23/2014-05/54, urbroj: 513-07-01-03-17-7 od 22. studenoga 2018. III. O…",
+      "I. Poništava se presuda Upravnog suda u Zagrebu, poslovni broj: Us l- 3431/2022-6 od 28. svibnja 2024. II. Odbija se tužbeni zahtjev za poništenje rješenja tuženika, klasa: UP/II- 410-18/19-01/345, urbroj: 513-04-22-10 od 27. rujna 2022. i rješenja Ministarstva financija-Porezne uprave, Područnog ureda Zagreb, Ispostave Dubrava, klasa: UP/I-410-23/2014-05/54, urbroj: 513-07-01-03-17-7 od 22. studenoga 2018. III. Odbija se zahtjev tužitelja za naknadom troškova upravnog spora.",
     reasoning:
       "Visoki upravni sud Republike Hrvatske odlučuje u predmetu Usž-3610/2024-3, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.",
     keywords: ["administrative","Visoki upravni sud","Usž-3610"],
@@ -1152,7 +1152,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-04-09",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3611/2024-2?",
+      "Da li je osnovan zahtjev radi zastare prava na naplatu poreznog duga?",
     court_position:
       "Odbija se žalba tužiteljice i potvrđuje se presuda Upravnog suda u Zagrebu, poslovni broj: Us I-4654/2023-6 od 9. srpnja 2024.",
     reasoning:
@@ -1171,7 +1171,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-09-24",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3611/2025-2?",
+      "Da li je osnovan zahtjev radi novčane pomoći za roditelja odgojitelja?",
     court_position:
       "I. Žalba se odbija i potvrđuje presuda Upravnog suda u Zagrebu, poslovni broj: Us I- 5282/2024-5 od 2. srpnja 2025 II. Odbija se zahtjev tužiteljice za naknadu troška za sastav žalbe.",
     reasoning:
@@ -1190,7 +1190,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-04-09",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3613/2024-2?",
+      "Da li je osnovan zahtjev radi obnove postupka?",
     court_position:
       "Odbija se tužiteljice ĐKD iz [adresa] i potvrđuje presuda Upravnog suda u Zagrebu, poslovni broj: Us I-3568/2022-14 od 29. svibnja 2024.",
     reasoning:
@@ -1209,9 +1209,9 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-07-17",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3623/2024-2?",
+      "Da li je osnovan zahtjev radi koncesijskog odobrenja?",
     court_position:
-      "I. Poništava se presuda Upravnog suda u Splitu, poslovni broj: Us I- 390/2024-7 od 27. lipnja 2024. II. Poništava se rješenje tuženika Ministarstva mora, prometa i infrastrukture Republike Hrvatske, klasa: UP/II-342-22/23-01/51, urbroj: 530- 03-1-2-2-23-4 od 15. prosinca 2023. III. Poništava se rješenje Vijeća za davanje koncesijskog odobrenja Grada Makarska, klasa: UP/I-342-01/23-01/7, urbroj: 2181-6-05-13-23-3 o…",
+      "I. Poništava se presuda Upravnog suda u Splitu, poslovni broj: Us I- 390/2024-7 od 27. lipnja 2024. II. Poništava se rješenje tuženika Ministarstva mora, prometa i infrastrukture Republike Hrvatske, klasa: UP/II-342-22/23-01/51, urbroj: 530- 03-1-2-2-23-4 od 15. prosinca 2023. III. Poništava se rješenje Vijeća za davanje koncesijskog odobrenja Grada Makarska, klasa: UP/I-342-01/23-01/7, urbroj: 2181-6-05-13-23-3 od 26. lipnja 2023. IV. Nalaže se tuženiku da tužiteljici naknadi trošak prvostupanjskog upravnog spora u iznosu od 1.250,00 eura, sve u roku od 30 dana od dana primitka ove presude. V. Nalaže se tuženiku naknaditi tužiteljici trošak žalbenog dijela spora u iznosu od ukupno 1.562,50 eura, sve u roku od 30 dana od dana dostave ove presude.",
     reasoning:
       "Visoki upravni sud Republike Hrvatske odlučuje u predmetu Usž-3623/2024-2, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.",
     keywords: ["administrative","Visoki upravni sud","Usž-3623"],
@@ -1228,9 +1228,9 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-09-24",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3625/2025-2?",
+      "Da li je osnovan zahtjev radi rasporeda na radno mjesto?",
     court_position:
-      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca toga suda Borisa Markovića, predsjednika vijeća, Blanše Turić i Željke Zrilić Ježek, članova vijeća te sudske savjetnice Tajane Šimunović, zapisničarke, u upravnom sporu tužiteljice FT iz [adresa], OIB: [osobni identifikacijski broj], koju zastupa opunomoćenica Bojana Ivanišević, odvjetnica u Zagrebu, Ulica Pavla Hatza 30, protiv tuženika Odbora…",
+      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca toga suda Borisa Markovića, predsjednika vijeća, Blanše Turić i Željke Zrilić Ježek, članova vijeća te sudske savjetnice Tajane Šimunović, zapisničarke, u upravnom sporu tužiteljice FT iz [adresa], OIB: [osobni identifikacijski broj], koju zastupa opunomoćenica Bojana Ivanišević, odvjetnica u Zagrebu, Ulica Pavla Hatza 30, protiv tuženika Odbora za državnu službu, Zagreb, Palmotićeva 5, OIB: 58831547726, radi rasporeda na radno mjesto, odlučujući o žalbi tuženika protiv točke II. presude Upravnog suda u Zagrebu, poslovni broj: Us l-1229/2025-6 od 20. svibnja 2025., na sjednici vijeća održanoj 24. rujna 2025. I. Odbija se žalba tuženika i potvrđuje se točka II. izreke presude Upravnog suda u Zagrebu, poslovni broj: Us l-1229/2025-6 od 20. svibnja 2025. II. Odbija se zahtjev tužiteljice za naknadu troškova sastava odgovora na žalbu.",
     reasoning:
       "Visoki upravni sud Republike Hrvatske odlučuje u predmetu Usž-3625/2025-2, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.",
     keywords: ["administrative","Visoki upravni sud","Usž-3625"],
@@ -1247,7 +1247,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-04-02",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3626/2024-2?",
+      "Da li je osnovan zahtjev radi utvrđivanja statusa hrvatskog branitelja iz Domovinskog rata?",
     court_position:
       "Odbija se žalba i potvrđuje presuda Upravnog suda u Splitu, poslovni broj: Us I-2625/2023-6 od 2. travnja 2024.",
     reasoning:
@@ -1266,9 +1266,9 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-07-01",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3633/2024-3?",
+      "Da li je osnovan zahtjev radi bespravne gradnje?",
     court_position:
-      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca toga suda, Eveline Čolović Tomić, predsjednice vijeća, Senke Orlić-Zaninović i Kristine Senjak Krunić, članica vijeća te više sudske savjetnice Ane Matacin, zapisničarke, u upravnom sporu tužitelja ZS, OIB: [osobni identifikacijski broj], [adresa], zastupanog po opunomoćeniku Morenu Pajkoviću, odvjetniku u Rijeci, Ante Starčevića 5, protiv tužen…",
+      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca toga suda, Eveline Čolović Tomić, predsjednice vijeća, Senke Orlić-Zaninović i Kristine Senjak Krunić, članica vijeća te više sudske savjetnice Ane Matacin, zapisničarke, u upravnom sporu tužitelja ZS, OIB: [osobni identifikacijski broj], [adresa], zastupanog po opunomoćeniku Morenu Pajkoviću, odvjetniku u Rijeci, Ante Starčevića 5, protiv tuženika Državnog inspektorata, Područnog ureda Rijeka, Službe građevinske inspekcije, Rijeka, Blaža Polića 2, radi bespravne gradnje, odlučujući o žalbi tužitelja protiv presude Upravnog suda u Rijeci, poslovni broj: Us I-2419/2023-8 od 21. lipnja 2024., na sjednici vijeća održanoj 1. srpnja 2025. Obustavlja se žalbeni postupak.",
     reasoning:
       "Visoki upravni sud Republike Hrvatske odlučuje u predmetu Usž-3633/2024-3, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.",
     keywords: ["administrative","Visoki upravni sud","Usž-3633"],
@@ -1285,9 +1285,9 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-09-24",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3658/2025-2?",
+      "Da li je osnovan zahtjev radi izvršenja presude Upravnog suda u Rijeci?",
     court_position:
-      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sutkinja tog suda Mire Kovačić, predsjednice vijeća, Radmile Bolanča Vuković i dr. sc. Sanje Otočan, članica vijeća te sudske savjetnice Jelene Maltar Benjak, zapisničarke, u upravnom sporu tužitelja DF iz [adresa], OIB: [osobni identifikacijski broj], protiv tuženika Primorsko-goranske županije, Upravnog odjela za socijalnu politiku i mlade, Rijeka, S…",
+      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sutkinja tog suda Mire Kovačić, predsjednice vijeća, Radmile Bolanča Vuković i dr. sc. Sanje Otočan, članica vijeća te sudske savjetnice Jelene Maltar Benjak, zapisničarke, u upravnom sporu tužitelja DF iz [adresa], OIB: [osobni identifikacijski broj], protiv tuženika Primorsko-goranske županije, Upravnog odjela za socijalnu politiku i mlade, Rijeka, Slogin kula 2, OIB: 32420472134, radi izvršenja presude Upravnog suda u Rijeci, poslovni broj Us I-347/2022-8 od 15. lipnja 2022., odlučujući o žalbi tužitelja protiv rješenja Upravnog suda u Rijeci, poslovni broj: Usi-5/2025-6 od 24. lipnja 2025., na sjednici vijeća održanoj 24. rujna 2025., Odbacuje se žalba podnesena protiv rješenja Upravnog suda u Rijeci, poslovni broj: Usi-5/2025-6 od 24. lipnja 2025.",
     reasoning:
       "Visoki upravni sud Republike Hrvatske odlučuje u predmetu Usž-3658/2025-2, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.",
     keywords: ["administrative","Visoki upravni sud","Usž-3658"],
@@ -1304,7 +1304,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-05-21",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-366/2024-2?",
+      "Ispiši Preuzmi Kopiraj poveznicu Vidi detalje?",
     court_position:
       "Ispiši Preuzmi Kopiraj poveznicu Vidi detalje",
     reasoning:
@@ -1323,9 +1323,9 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-05-15",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-368/2025-2?",
+      "Da li je osnovan zahtjev radi građevinske dozvole?",
     court_position:
-      "I. Odbija se žalba i potvrđuje presuda Upravnog suda u Splitu, poslovni broj: Us I-692/2023-12 od 10. listopada 2024. II. Odbija se zahtjev tužiteljice za naknadu troškova sastava žalbe. III. Nalaže se tužiteljici da zainteresiranoj osobi DŽ nadoknadi trošak sastava odgovora na žalbu u iznosu od 1.562,50 EUR u roku od 60 dana od dostave ove presude, zajedno sa zakonskim zateznim kamatama koje teku od dana donošenj…",
+      "I. Odbija se žalba i potvrđuje presuda Upravnog suda u Splitu, poslovni broj: Us I-692/2023-12 od 10. listopada 2024. II. Odbija se zahtjev tužiteljice za naknadu troškova sastava žalbe. III. Nalaže se tužiteljici da zainteresiranoj osobi DŽ nadoknadi trošak sastava odgovora na žalbu u iznosu od 1.562,50 EUR u roku od 60 dana od dostave ove presude, zajedno sa zakonskim zateznim kamatama koje teku od dana donošenja ove presude do isplate, ukoliko trošak ne bude podmiren u navedenom roku.",
     reasoning:
       "Visoki upravni sud Republike Hrvatske odlučuje u predmetu Usž-368/2025-2, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.",
     keywords: ["administrative","Visoki upravni sud","Usž-368"],
@@ -1342,7 +1342,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-09-24",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3689/2025-2?",
+      "Da li je žalba osnovana?",
     court_position:
       "Odbija se žalba tužitelja i potvrđuje presuda Upravnog suda u Osijeku, poslovni broj: Us I-1776/2023-10 od 2. svibnja 2025.",
     reasoning:
@@ -1361,7 +1361,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-07-17",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-37/2025-3?",
+      "Da li je osnovan zahtjev radi izvlaštenja?",
     court_position:
       "I. Žalba se odbija i potvrđuje se presuda Upravnog suda u Zagrebu, poslovni broj: Us l-1364/2022 od 30. listopada 2024. II. Odbija se zahtjev tužitelja za naknadu troškova žalbenog dijela upravnog spora.",
     reasoning:
@@ -1380,7 +1380,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-10-01",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3702/2025-2?",
+      "Da li je osnovan zahtjev radi invalidske mirovine?",
     court_position:
       "Žalba se odbija i potvrđuje presuda Upravnog suda u Zagrebu, poslovni broj: Us I-327/2024-12 od 15. srpnja 2025.",
     reasoning:
@@ -1399,9 +1399,9 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-04-29",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3703/2024-2?",
+      "Da li je osnovan zahtjev radi uklanjanja?",
     court_position:
-      "I. Usvaja se žalba tužitelja i poništava se presuda Upravnog suda u Rijeci, poslovni broj: Us I-1175/2023-8 od 1. srpnja 2024. II. Poništava se rješenje Državnog inspektorata, Područnog ureda Rijeka, Službe građevinske inspekcije, Ispostave u Pazinu, KLASA: UP/I-362- 02/23-02/562, URBROJ: 443-02-02-17-23-1 od 2. lipnja 2023. III. Nalaže se tuženiku naknaditi tužitelju troškove upravnog spora u iznosu od 4.062,50 E…",
+      "I. Usvaja se žalba tužitelja i poništava se presuda Upravnog suda u Rijeci, poslovni broj: Us I-1175/2023-8 od 1. srpnja 2024. II. Poništava se rješenje Državnog inspektorata, Područnog ureda Rijeka, Službe građevinske inspekcije, Ispostave u Pazinu, KLASA: UP/I-362- 02/23-02/562, URBROJ: 443-02-02-17-23-1 od 2. lipnja 2023. III. Nalaže se tuženiku naknaditi tužitelju troškove upravnog spora u iznosu od 4.062,50 EUR (slovima: četiri tisuće šezdeset i dva eura i 50 centi) u roku od 60 (slovima: šezdeset) dana od dana dostave pravomoćne odluke o troškovima spora, zajedno sa zateznim kamatama koje teku, ako tuženik dobrovoljno ne plati trošak u određenom roku, od dana donošenja odluke o troškovima do isplate, po stopi koja se određuje za svako polugodište, uvećanjem referentne stope za osam postotnih poena, pri čemu se za prvo polugodište primjenjuje referentna stopa koja je na snazi na dan 1. siječnja, a za drugo polugodište referentna stopa koja je na snazi na dan 1. srpnja te godine, dok se u preostalom dijelu zahtjev tužitelja za naknadu troškova upravnog spora odbija kao neosnovan.",
     reasoning:
       "Visoki upravni sud Republike Hrvatske odlučuje u predmetu Usž-3703/2024-2, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.",
     keywords: ["administrative","Visoki upravni sud","Usž-3703"],
@@ -1418,7 +1418,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-09-25",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3703/2025-2?",
+      "Da li je osnovan zahtjev radi novčane pomoći za roditelja odgojitelja?",
     court_position:
       "Odbija se žalba tužiteljice i potvrđuje presuda Upravnog suda u Zagrebu, poslovni broj: Us I-4460/2023-10 od 22. svibnja 2025.",
     reasoning:
@@ -1437,9 +1437,9 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-10-01",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3708/2025-2?",
+      "Da li je osnovan zahtjev radi potvrde izvršnosti?",
     court_position:
-      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sutkinja toga suda, dr. sc. Sanje Otočan, predsjednice vijeća, Mire Kovačić i Radmile Bolanča Vuković, članica vijeća, te višeg sudskog savjetnika Filipa Mihaljevića, zapisničara, u upravnom sporu tužiteljice IB, OIB: [osobni identifikacijski broj], [adresa], koju zastupa opunomoćenik Martin Sherri, odvjetnik u Zagrebu, Kordunska 1, protiv tuženika Gra…",
+      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sutkinja toga suda, dr. sc. Sanje Otočan, predsjednice vijeća, Mire Kovačić i Radmile Bolanča Vuković, članica vijeća, te višeg sudskog savjetnika Filipa Mihaljevića, zapisničara, u upravnom sporu tužiteljice IB, OIB: [osobni identifikacijski broj], [adresa], koju zastupa opunomoćenik Martin Sherri, odvjetnik u Zagrebu, Kordunska 1, protiv tuženika Grada Zagreba, Gradonačelnika, OIB: 61817894937, Zagreb, Trg Stjepana Radića 1, radi potvrde izvršnosti, odlučujući o žalbi tuženika protiv točke III. izreke presude Upravnog suda u Zagrebu, poslovni broj: Us I-5351/2023-8 od 29. srpnja 2025., na sjednici vijeća održanoj 1. listopada 2025. I. Poništava se točka III. izreke presude Upravnog suda u Zagrebu, poslovni broj: Us I-5351/2023-8 od 29. srpnja 2025. II. Nalaže se tuženiku naknaditi tužiteljici trošak upravnog spora u iznosu od 1.250,00 (slovima: tisućudvjestopedeset) eura u roku od 60 dana od dana dostave pravomoćne odluke o troškovima spora, zajedno sa zateznim kamatama koje teku, ako tuženik dobrovoljno ne plati trošak u određenom roku, od dana donošenja odluke o troškovima do isplate, po stopi koja se određuje za svako polugodište, uvećanjem referentne stope za tri postotna poena, pri čemu se za prvo polugodište primjenjuje referentna stopa koja je na snazi na dan 1. siječnja, a za drugo polugodište referentna stopa koja je na snazi na dan 1. srpnja te godine. III. Odbija se zahtjev tužiteljice za naknadu troškova upravnog spora preko iznosa iz točke II. izreke ovog rješenja. IV. Odbija se zahtjev tužiteljice za naknadu troška sastava odgovora na žalbu.",
     reasoning:
       "Visoki upravni sud Republike Hrvatske odlučuje u predmetu Usž-3708/2025-2, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.",
     keywords: ["administrative","Visoki upravni sud","Usž-3708"],
@@ -1456,7 +1456,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-05-15",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-371/2025-2?",
+      "Da li je osnovan zahtjev za poništaj upravnog rješenja?",
     court_position:
       "I. Odbija se žalba i potvrđuje presuda i rješenje Upravnog suda u Splitu, poslovni broj: Us I-38/24-6 od 18. rujna 2024. II. Odbija se zahtjev tužitelja za naknadu troškova sastava žalbe.",
     reasoning:
@@ -1475,7 +1475,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-05-14",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3714/2024-2?",
+      "Da li je osnovan zahtjev radi sukoba interesa?",
     court_position:
       "Žalba se odbija i potvrđuje presuda Upravnog suda u Zagrebu, poslovni broj: Us I-1261/24-6 od 17. svibnja 2024.",
     reasoning:
@@ -1494,7 +1494,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-10-01",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3715/2025-2?",
+      "Da li je osnovan zahtjev radi prava iz obveznog zdravstvenog osiguranja s osnove ozljede na radu?",
     court_position:
       "I. Žalbe se odbijaju i potvrđuje presuda Upravnog suda u Zagrebu, poslovni broj: Us I-2181/2024-47 od 15. srpnja 2025. II. Odbijaju se zahtjevi tužitelja i zainteresirane osobe za naknadu troškova žalbenog postupka.",
     reasoning:
@@ -1513,7 +1513,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-10-01",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3716/2025-3?",
+      "Da li je osnovan zahtjev radi izdavanja potvrde o stradavanju hrvatskog branitelja iz Domovinskog rata?",
     court_position:
       "I Žalba se odbija i potvrđuje presuda Upravnog suda u Splitu, poslovni broj: Us I-815/2024-8 od 15. svibnja 2025. II. Odbija se zahtjev tužitelja za naknadu troška za sastav odgovora na žalbu.",
     reasoning:
@@ -1532,7 +1532,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-06-12",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3719/2023-5?",
+      "Da li je osnovan zahtjev radi teške povrede službene dužnosti?",
     court_position:
       "I. Poništava se presuda Upravnog suda u Rijeci, poslovni broj: Us I- 353/2023-8 od 3. listopada 2023. te sudi: Odbija se tužbeni zahtjev za poništenje točke II. izreke rješenja Višeg službeničkog suda, klasa: UP/II-114-02/23-01/14, urbroj: 514-31/01-23-02 od 7. ožujka 2023. II. Odbija se zahtjev zainteresirane osobe PJ za naknadu troška upravnog spora.",
     reasoning:
@@ -1551,7 +1551,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-10-01",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3722/2025-2?",
+      "Da li je osnovan zahtjev radi naplate trošarine na energente?",
     court_position:
       "Odbija se žalba tužitelja i potvrđuje se presuda Upravnog suda u Zagrebu, poslovni broj: Us l-5867/2023-6 od 15. srpnja 2025.",
     reasoning:
@@ -1570,9 +1570,9 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-04-02",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-373/2025-2?",
+      "Da li je osnovan zahtjev radi lakše povrede dužnosti i ugleda ljekarništva?",
     court_position:
-      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca toga suda Blanše Turić, predsjednice vijeća, Borisa Markovića i Željke Zrilić Ježek, članova vijeća te sudske savjetnice Marte Srake, zapisničarke, u upravnom sporu tužiteljice AF, iz [adresa], koju zastupa opunomoćenik Davorin Ivančić, odvjetnik u Zagrebu, Trnsko 44a, protiv tuženika Stegovnog suda II stupnja Hrvatske ljekarničke komore, Zagreb…",
+      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca toga suda Blanše Turić, predsjednice vijeća, Borisa Markovića i Željke Zrilić Ježek, članova vijeća te sudske savjetnice Marte Srake, zapisničarke, u upravnom sporu tužiteljice AF, iz [adresa], koju zastupa opunomoćenik Davorin Ivančić, odvjetnik u Zagrebu, Trnsko 44a, protiv tuženika Stegovnog suda II stupnja Hrvatske ljekarničke komore, Zagreb, Martićeva ulica 27, OIB: 49353978858, radi lakše povrede dužnosti i ugleda ljekarništva, odlučujući o žalbi tuženika izjavljenoj protiv presude i rješenja Upravnog suda u Splitu, poslovni broj: Us I-842/2024-16 od 30. rujna 2024., na sjednici vijeća održanoj 2. travnja 2025. I. Odbacuje se žalba tuženika izjavljena protiv presude Upravnog suda u Splitu, poslovni broj: Us I-842/2024-16 od 30. rujna 2024. II. Odbija se žalba tuženika izjavljena protiv rješenja i potvrđuje rješenje Upravnog suda u Splitu, poslovni broj: Us I-842/2024-16 od 30. rujna 2024.",
     reasoning:
       "Visoki upravni sud Republike Hrvatske odlučuje u predmetu Usž-373/2025-2, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.",
     keywords: ["administrative","Visoki upravni sud","Usž-373"],
@@ -1589,9 +1589,9 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-09-24",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3732/2025-3?",
+      "Da li je osnovan zahtjev radi šutnje uprave?",
     court_position:
-      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sutkinja toga suda Snježane Horvat-Paliska, predsjednice vijeća, Gordane Marušić Babić i dr. sc. Sanje Otočan, članica vijeća, uz sudjelovanje više sudske savjetnice Glorjane Čičak kao zapisničara, u upravnom sporu tužitelja FG iz [adresa], OIB: [osobni identifikacijski broj], protiv tuženika Predsjednika Hrvatskog sabora, Zagreb, Ilica 256B, OIB: 3859…",
+      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sutkinja toga suda Snježane Horvat-Paliska, predsjednice vijeća, Gordane Marušić Babić i dr. sc. Sanje Otočan, članica vijeća, uz sudjelovanje više sudske savjetnice Glorjane Čičak kao zapisničara, u upravnom sporu tužitelja FG iz [adresa], OIB: [osobni identifikacijski broj], protiv tuženika Predsjednika Hrvatskog sabora, Zagreb, Ilica 256B, OIB: 38597506234, radi šutnje uprave, odlučujući o žalbi tužitelja protiv rješenja Upravnog suda u Splitu, poslovni broj: Us I-153/2025-2 od 18. srpnja 2025., na sjednici vijeća održanoj 24. rujna 2025. Žalba se odbija i potvrđuje rješenje Upravnog suda u Splitu, poslovni broj: Us I-153/2025-2 od 18. srpnja 2025.",
     reasoning:
       "Visoki upravni sud Republike Hrvatske odlučuje u predmetu Usž-3732/2025-3, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.",
     keywords: ["administrative","Visoki upravni sud","Usž-3732"],
@@ -1608,7 +1608,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-04-16",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3748/2024-2?",
+      "Da li je osnovan zahtjev radi odobravanja reda plovidbe na liniji bez obveze javne usluge?",
     court_position:
       "Odbija se žalba i potvrđuje presuda Upravnog suda u Splitu, poslovni broj: 8 Us I-1726/2023-12 od 27. svibnja 2024.",
     reasoning:
@@ -1627,9 +1627,9 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-09-24",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3748/2025-2?",
+      "Da li je osnovan zahtjev radi izdavanja odobrenja za samostalni rad?",
     court_position:
-      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca toga Suda Borisa Markovića, predsjednika vijeća, Željke Zrilić Ježek i Blanše Turić, članice vijeća te sudske savjetnice Tajane Šimunović, zapisničarke, u upravnom sporu tužitelja Hrvatske komore fizioterapeuta, Zagreb, Donje Svetice 46c, OIB: 48223065486, protiv tuženika Ministarstva zdravstva Republike Hrvatske, Zagreb, Ksaver 200A, OIB: 88362…",
+      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca toga Suda Borisa Markovića, predsjednika vijeća, Željke Zrilić Ježek i Blanše Turić, članice vijeća te sudske savjetnice Tajane Šimunović, zapisničarke, u upravnom sporu tužitelja Hrvatske komore fizioterapeuta, Zagreb, Donje Svetice 46c, OIB: 48223065486, protiv tuženika Ministarstva zdravstva Republike Hrvatske, Zagreb, Ksaver 200A, OIB: 88362248492, radi izdavanja odobrenja za samostalni rad, odlučujući o žalbi tužitelja protiv rješenja Upravnog suda u Rijeci, poslovni broj: Us I-946/2025-2 od 25. lipnja 2025., na sjednici vijeća održanoj 24. rujna 2025. Odbija se žalba i potvrđuje rješenje Upravnog suda u Rijeci, poslovni broj: Us I-946/2025-2 od 25. lipnja 2025.",
     reasoning:
       "Visoki upravni sud Republike Hrvatske odlučuje u predmetu Usž-3748/2025-2, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.",
     keywords: ["administrative","Visoki upravni sud","Usž-3748"],
@@ -1646,7 +1646,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-06-17",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3749/2024-3?",
+      "Da li tužitelj ima pravo na naknade za oduzetu imovinu?",
     court_position:
       "Odbija se žalba i potvrđuje presuda Upravnog suda u Splitu, poslovni broj: Us l-1367/2023-7 od 29. svibnja 2024.",
     reasoning:
@@ -1665,9 +1665,9 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-05-28",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-375/2025-3?",
+      "Da li je osnovan zahtjev radi šutnje uprave?",
     court_position:
-      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sutkinja Mire Kovačić, predsjednice vijeća, Radmile Bolanča Vuković i dr. sc. Sanje Otočan, članica vijeća te sudske savjetnice Jelene Maltar Benjak, zapisničarke, u upravnom sporu tužitelja FG iz [adresa], OIB: [osobni identifikacijski broj], protiv tuženika Predsjednika Vlade Republike Hrvatske, Zagreb, Trg svetog Marka 2, OIB: 64434885131, radi šutn…",
+      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sutkinja Mire Kovačić, predsjednice vijeća, Radmile Bolanča Vuković i dr. sc. Sanje Otočan, članica vijeća te sudske savjetnice Jelene Maltar Benjak, zapisničarke, u upravnom sporu tužitelja FG iz [adresa], OIB: [osobni identifikacijski broj], protiv tuženika Predsjednika Vlade Republike Hrvatske, Zagreb, Trg svetog Marka 2, OIB: 64434885131, radi šutnje uprave, odlučujući o žalbi tužitelja protiv rješenja Upravnog suda u Splitu, poslovni broj: Us I-2317/2024-2 od 2. siječnja 2025., na sjednici vijeća održanoj 28. svibnja 2025., Odbija se žalba i potvrđuje rješenje Upravnog suda u Splitu, poslovni broj: Us I-2317/2024-2 od 2. siječnja 2025.",
     reasoning:
       "Visoki upravni sud Republike Hrvatske odlučuje u predmetu Usž-375/2025-3, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.",
     keywords: ["administrative","Visoki upravni sud","Usž-375"],
@@ -1684,9 +1684,9 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-04-02",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3757/2024-3?",
+      "Da li je osnovan zahtjev radi šutnje uprave?",
     court_position:
-      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sutkinja toga suda Radmile Bolanča Vuković, predsjednice vijeća, dr. sc. Sanje Otočan i Mire Kovačić, članica vijeća, uz sudjelovanje višeg sudskog savjetnika Filipa Mihaljevića, zapisničara, u upravnom sporu tužitelja TO iz [adresa], OIB: [osobni identifikacijski broj], protiv tuženika Grada Siska, Rimska 26, Sisak, OIB: 08686015790, radi šutnje uprav…",
+      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sutkinja toga suda Radmile Bolanča Vuković, predsjednice vijeća, dr. sc. Sanje Otočan i Mire Kovačić, članica vijeća, uz sudjelovanje višeg sudskog savjetnika Filipa Mihaljevića, zapisničara, u upravnom sporu tužitelja TO iz [adresa], OIB: [osobni identifikacijski broj], protiv tuženika Grada Siska, Rimska 26, Sisak, OIB: 08686015790, radi šutnje uprave, odlučujući o žalbi tužitelja protiv rješenja Upravnog suda u Splitu, poslovni broj: Us I-399/2024-3 od 30. kolovoza 2024., na sjednici vijeća održanoj 2. travnja 2025. Žalba se odbija i potvrđuje rješenje Upravnog suda u Splitu, poslovni broj: Us I- 399/2024-3 od 30. kolovoza 2024.",
     reasoning:
       "Visoki upravni sud Republike Hrvatske odlučuje u predmetu Usž-3757/2024-3, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.",
     keywords: ["administrative","Visoki upravni sud","Usž-3757"],
@@ -1703,7 +1703,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-09-30",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3761/2025-2?",
+      "Da li je osnovan zahtjev radi novčane pomoći roditelja odgojitelja?",
     court_position:
       "I. Odbija se žalba i potvrđuje presuda Upravnog suda u Zagrebu, poslovni broj: UsI-1749/2024-01 od 30. srpnja 2025. II. Odbija se zahtjev tužiteljice za naknadu troška sastava žalbe.",
     reasoning:
@@ -1722,7 +1722,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-09-25",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3762/2025-2?",
+      "Da li je osnovan zahtjev radi novčane pomoći za roditelja odgojitelja?",
     court_position:
       "I. Odbija se žalba tužiteljice i potvrđuje presuda Upravnog suda u Zagrebu, poslovni broj: Us I-855/2024-8 od 30. srpnja 2025. II. Odbija se zahtjev tužiteljice za naknadu troška žalbenog postupka.",
     reasoning:
@@ -1741,9 +1741,9 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-03-25",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3765/2024-2?",
+      "Da li je osnovan zahtjev radi troškova upravnog spora?",
     court_position:
-      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sutkinja toga suda Eveline Čolović Tomić, predsjednice vijeća, Senke Orlić-Zaninović i mr.sc. Inge Vezmar Barlek, članica vijeća, te više sudske savjetnice Ane Matacin, zapisničarke, u upravnom sporu tužitelja ĐH iz [adresa], kojeg zastupa opunomoćenik Šimun Babić, odvjetnik u Zagrebu, Mrazovićeva 5, protiv tuženika Ministarstva hrvatskih branitelja Re…",
+      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sutkinja toga suda Eveline Čolović Tomić, predsjednice vijeća, Senke Orlić-Zaninović i mr.sc. Inge Vezmar Barlek, članica vijeća, te više sudske savjetnice Ane Matacin, zapisničarke, u upravnom sporu tužitelja ĐH iz [adresa], kojeg zastupa opunomoćenik Šimun Babić, odvjetnik u Zagrebu, Mrazovićeva 5, protiv tuženika Ministarstva hrvatskih branitelja Republike Hrvatske (ranije: Ministarstva branitelja), Zagreb, Trg Nevenke Topalušić 1, kojeg zastupa Županijsko državno odvjetništvo u Splitu, Split, Gundulićeva 29 a, radi troškova upravnog spora, odlučujući o žalbi tužitelja protiv rješenja Upravnog suda u Splitu, poslovni broj: 16 Us l-2653/2023-22 od 7. ožujka 2024., na sjednici vijeća održanoj 25. ožujka 2025. Odbija se žalba tužitelja i potvrđuje rješenje Upravnog suda u Splitu, poslovni broj: 16 Us l-2653/2023-22 od 7. ožujka 2024.",
     reasoning:
       "Visoki upravni sud Republike Hrvatske odlučuje u predmetu Usž-3765/2024-2, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.",
     keywords: ["administrative","Visoki upravni sud","Usž-3765"],
@@ -1760,7 +1760,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-09-25",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3766/2025-2?",
+      "Da li je osnovan zahtjev radi novčane pomoći za roditelja odgojitelja?",
     court_position:
       "I. Odbija se žalba tužiteljice i potvrđuje presuda Upravnog suda u Zagrebu, poslovni broj: Us I-990/2024-9 od 30. srpnja 2025. II. Odbija se zahtjev za naknadu troškova žalbenog postupka.",
     reasoning:
@@ -1779,7 +1779,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-03-27",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3770/2024-2?",
+      "Da li je osnovan zahtjev radi poreznog nadzora?",
     court_position:
       "Odbija se žalba tužitelja i potvrđuje presuda Upravnog suda u Splitu, poslovni broj: 8 Us I-1843/23-17 od 27. svibnja 2024.",
     reasoning:
@@ -1798,7 +1798,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-09-17",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3772/2024-2?",
+      "Da li je osnovan zahtjev radi poreza na dobit i dohodak?",
     court_position:
       "I. Odbija se žalba tužitelja i potvrđuje se presuda Upravnog suda u Rijeci poslovni broj: Us I-2237/2023-15 od 18. srpnja 2024. II. Odbija se zahtjev tužitelja za naknadu troškova žalbenog postupka.",
     reasoning:
@@ -1817,7 +1817,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-04-29",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3773/2024-2?",
+      "Da li je osnovan zahtjev za poništaj upravnog rješenja?",
     court_position:
       "Odbija se žalba tužitelja i potvrđuje presuda Upravnog suda u Rijeci, poslovni broj: Us I-1255/2023-12 od 18. srpnja 2024.",
     reasoning:
@@ -1836,9 +1836,9 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-07-15",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3774/2024-2?",
+      "Da li je osnovan zahtjev radi šutnje uprave?",
     court_position:
-      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sutkinja toga suda, Eveline Čolović Tomić, predsjednice vijeća, Senke Orlić-Zaninović i Kristine Senjak Krunić, članica vijeća te više sudske savjetnice Ane Matacin, zapisničarke, u upravnom sporu tužitelja MR iz [adresa], OIB: [osobni identifikacijski broj], protiv tuženika Primorsko-goranske županije, Upravnog odjela za prostorno uređenje, graditeljs…",
+      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sutkinja toga suda, Eveline Čolović Tomić, predsjednice vijeća, Senke Orlić-Zaninović i Kristine Senjak Krunić, članica vijeća te više sudske savjetnice Ane Matacin, zapisničarke, u upravnom sporu tužitelja MR iz [adresa], OIB: [osobni identifikacijski broj], protiv tuženika Primorsko-goranske županije, Upravnog odjela za prostorno uređenje, graditeljstvo i zaštitu okoliša, Ispostave Crikvenica, Crikvenica, Kralja Tomislava 85A, OIB: 32420472134, radi šutnje uprave, povodom žalbe na rješenje o prigovoru tužitelja, radi naplate sudske pristojbe, odlučujući o žalbi tužitelja protiv rješenja Upravnog suda u Rijeci, poslovni broj: Us I-1060/2024-9 od 27. rujna 2024., na sjednici vijeća održanoj 15. srpnja 2025. Odbija se žalba i potvrđuje rješenje Upravnog suda u Rijeci, poslovni broj: Us I-1060/2024-9 od 27. rujna 2024.",
     reasoning:
       "Visoki upravni sud Republike Hrvatske odlučuje u predmetu Usž-3774/2024-2, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.",
     keywords: ["administrative","Visoki upravni sud","Usž-3774"],
@@ -1855,9 +1855,9 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-03-27",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3785/2023-2?",
+      "Da li je osnovan zahtjev radi odlučivanja o prigovoru?",
     court_position:
-      "I. Poništava se presuda i rješenje Upravnog suda u Splitu, poslovnog broja: Us I-63/2022-9 od 3. travnja 2023. II. Poništava se rješenje Općine Župa dubrovačka klasa: 350-05/20- 01/52, urbroj: 2117/08-07-21-17 od 29. studenoga 2021. godine. III. Prigovor tužitelja izjavljen na posebne uvjete za projektiranje prometnice na čest. zem. [katastarska čestica] k. o. [katastarska općina] od 18. lipnja 2020. godine se odb…",
+      "I. Poništava se presuda i rješenje Upravnog suda u Splitu, poslovnog broja: Us I-63/2022-9 od 3. travnja 2023. II. Poništava se rješenje Općine Župa dubrovačka klasa: 350-05/20- 01/52, urbroj: 2117/08-07-21-17 od 29. studenoga 2021. godine. III. Prigovor tužitelja izjavljen na posebne uvjete za projektiranje prometnice na čest. zem. [katastarska čestica] k. o. [katastarska općina] od 18. lipnja 2020. godine se odbacuje. IV. Odbija se zahtjev tužitelja za naknadom troškova žalbenog dijela postupka.",
     reasoning:
       "Visoki upravni sud Republike Hrvatske odlučuje u predmetu Usž-3785/2023-2, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.",
     keywords: ["administrative","Visoki upravni sud","Usž-3785"],
@@ -1874,7 +1874,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-03-27",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3786/2024-3?",
+      "Da li je osnovan zahtjev radi uvida u spis?",
     court_position:
       "I Odbija se žalba tužitelja i potvrđuje presuda Upravnog suda u Zagrebu, poslovni broj: Us I-1942/2023-6 od 10. rujna 2024. II Odbija se zahtjev tužitelja za naknadu troškova žalbenog postupka.",
     reasoning:
@@ -1893,9 +1893,9 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-10-08",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3787/2025-2?",
+      "Da li je osnovan zahtjev radi prijedloga za određivanje odgodnog učinka tužbe?",
     court_position:
-      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca toga Suda Borisa Markovića, predsjednik vijeća, Blanše Turić i Željke Zrilić Ježek, članica vijeća te sudske savjetnice Tajane Šimunović, zapisničarke, u upravnom sporu tužitelja Lovačka udruga \"Sokol\", Gornji Miholjac, Petra Zrinskog 8, OIB:31579836955, kojeg zastupa opunomoćenica, odvjetnica Katarina Šmit, Zagreb, Masarykova 15, protiv tuženik…",
+      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca toga Suda Borisa Markovića, predsjednik vijeća, Blanše Turić i Željke Zrilić Ježek, članica vijeća te sudske savjetnice Tajane Šimunović, zapisničarke, u upravnom sporu tužitelja Lovačka udruga \"Sokol\", Gornji Miholjac, Petra Zrinskog 8, OIB:31579836955, kojeg zastupa opunomoćenica, odvjetnica Katarina Šmit, Zagreb, Masarykova 15, protiv tuženika Ministarstva poljoprivrede, šumarstva i ribarstva Republike Hrvatske, Zagreb, Ulica grada Vukovara 78, OIB:76767369197, radi prijedloga za određivanje odgodnog učinka tužbe, odlučujući o žalbi tužitelja protiv rješenja Upravnog suda u Osijeku, poslovni broj: Us I-340/2025-5 od 7. srpnja 2025., na sjednici vijeća održanoj 8. listopada 2025. Odbija se žalba tužitelja i potvrđuje se rješenje Upravnog suda u Osijeku, poslovni broj: Us I-340/2025-5 od 7. srpnja 2025.",
     reasoning:
       "Visoki upravni sud Republike Hrvatske odlučuje u predmetu Usž-3787/2025-2, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.",
     keywords: ["administrative","Visoki upravni sud","Usž-3787"],
@@ -1912,9 +1912,9 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-07-01",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-379/2025-3?",
+      "Da li je osnovan zahtjev radi šutnje uprave?",
     court_position:
-      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sutkinja toga suda Kristine Senjak Krunić, predsjednice vijeća, Eveline Čolović Tomić i Senke Orlić Zaninović, članica vijeća, te više sudske savjetnice Ane Matacin, zapisničarke, u upravnom sporu tužitelja UM, [adresa], OIB: [osobni identifikacijski broj], protiv tuženika Hrvatskog Sabora, zastupnika ŽM, [adresa], OIB: [osobni identifikacijski broj],…",
+      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sutkinja toga suda Kristine Senjak Krunić, predsjednice vijeća, Eveline Čolović Tomić i Senke Orlić Zaninović, članica vijeća, te više sudske savjetnice Ane Matacin, zapisničarke, u upravnom sporu tužitelja UM, [adresa], OIB: [osobni identifikacijski broj], protiv tuženika Hrvatskog Sabora, zastupnika ŽM, [adresa], OIB: [osobni identifikacijski broj], radi šutnje uprave, odlučujući o žalbi tužitelja protiv rješenja Upravnog suda u Splitu, poslovni broj: Us I-2722/2024-2 od 2. siječnja 2025., na sjednici vijeća održanoj 1. srpnja 2025. Odbija se žalba tužitelja i potvrđuje rješenje Upravnog suda u Splitu, poslovni broj: Us I-2722/2024-2 od 2. siječnja 2025.",
     reasoning:
       "Visoki upravni sud Republike Hrvatske odlučuje u predmetu Usž-379/2025-3, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.",
     keywords: ["administrative","Visoki upravni sud","Usž-379"],
@@ -1931,7 +1931,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-10-08",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3794/2025-2?",
+      "Da li je osnovan zahtjev radi novčane pomoći za roditelja odgojitelja?",
     court_position:
       "I. Žalba se odbija i potvrđuje presuda Upravnog suda u Zagrebu, poslovni broj: Us I-1274/2024-8 od 18. lipnja 2025. II. Odbija se zahtjev tužiteljice za naknadu troška za sastav žalbe.",
     reasoning:
@@ -1950,7 +1950,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-10-01",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3797/2025-2?",
+      "Da li je osnovan zahtjev radi novčane pomoći za roditelja odgojitelja?",
     court_position:
       "I. Odbija se žalba i potvrđuje presuda Upravnog suda u Zagrebu, poslovni broj: Us I-593/2024-10 od 30. srpnja 2025. II. Odbija se zahtjev tužiteljice za naknadu troška sastava žalbe.",
     reasoning:
@@ -1969,9 +1969,9 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-03-19",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-380/2025-2?",
+      "Da li je osnovan zahtjev radi svojstva osiguranika na mirovinsko osiguranje?",
     court_position:
-      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sutkinja toga suda Gordane Marušić-Babić, predsjednice vijeća, Snježane Horvat-Paliska i dr. sc. Sanje Otočan, članica vijeća, te više sudske savjetnice specijalistice Blaženke Drdić, zapisničarke, u upravnom sporu tužiteljice AĆP, [adresa], koju zastupa opunomoćenica Miroslava Sudar Tičić, odvjetnica u Rijeci, Adamićeva 13/III, protiv tuženika Hrvatsk…",
+      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sutkinja toga suda Gordane Marušić-Babić, predsjednice vijeća, Snježane Horvat-Paliska i dr. sc. Sanje Otočan, članica vijeća, te više sudske savjetnice specijalistice Blaženke Drdić, zapisničarke, u upravnom sporu tužiteljice AĆP, [adresa], koju zastupa opunomoćenica Miroslava Sudar Tičić, odvjetnica u Rijeci, Adamićeva 13/III, protiv tuženika Hrvatskog zavoda za mirovinsko osiguranje, Središnje službe Zagreb, A. Mihanovića 3, radi svojstva osiguranika na mirovinsko osiguranje, odlučujući o žalbi tužiteljice protiv rješenja Upravnog suda u Rijeci, poslovni broj: Us I-423/2023-7 od 11. svibnja 2023., na sjednici vijeća održanoj 19. ožujka 2025. I. Žalba se odbija i potvrđuje rješenje Upravnog suda u Rijeci, poslovni broj: Us I-423/2023-7 od 11. svibnja 2023. II. Odbija se zahtjev tužiteljice za naknadu troška za sastav žalbe.",
     reasoning:
       "Visoki upravni sud Republike Hrvatske odlučuje u predmetu Usž-380/2025-2, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.",
     keywords: ["administrative","Visoki upravni sud","Usž-380"],
@@ -1988,9 +1988,9 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-10-01",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3801/2025-2?",
+      "Da li je osnovan zahtjev radi statusa sudionika Domovinskog rata?",
     court_position:
-      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca toga suda Snježane Horvat-Paliska, predsjednice vijeća, Gordane Marušić-Babić i Radmile Bolanča Vuković, članica vijeća, te više sudske savjetnice-specijalistice Blaženke Drdić, zapisničarke, u upravnom sporu tužitelja EU, [adresa], protiv tuženika Ministarstva unutarnjih poslova, Zagreb, Ulica grada Vukovara 33, radi statusa sudionika Domovinsk…",
+      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca toga suda Snježane Horvat-Paliska, predsjednice vijeća, Gordane Marušić-Babić i Radmile Bolanča Vuković, članica vijeća, te više sudske savjetnice-specijalistice Blaženke Drdić, zapisničarke, u upravnom sporu tužitelja EU, [adresa], protiv tuženika Ministarstva unutarnjih poslova, Zagreb, Ulica grada Vukovara 33, radi statusa sudionika Domovinskog rata, odlučujući o žalbi tužitelja protiv rješenja Upravnog suda u Zagrebu, poslovni broj: Us I-4683/2024-7 od 9. srpnja 2025., na sjednici vijeća održanoj 1. listopada 2025. Žalba se odbija i potvrđuje rješenje Upravnog suda u Zagrebu, poslovni broj: Us I-4683/2024-7 od 9. srpnja 2025.",
     reasoning:
       "Visoki upravni sud Republike Hrvatske odlučuje u predmetu Usž-3801/2025-2, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.",
     keywords: ["administrative","Visoki upravni sud","Usž-3801"],
@@ -2007,7 +2007,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-05-14",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3807/2024-2?",
+      "Da li je osnovan zahtjev radi nepripadne isplate mirovine?",
     court_position:
       "Žalba se odbija i potvrđuje presuda Upravnog suda u Rijeci, poslovni broj: Us I-761/2024-10 od 30. kolovoza 2024.",
     reasoning:
@@ -2026,7 +2026,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-05-28",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3810/2024-2?",
+      "Da li je osnovan zahtjev radi neisplate jednokratnog novčanog primanja?",
     court_position:
       "I. Odbija se žalba i potvrđuje presuda Upravnog suda u Rijeci, poslovni broj: Us I-1178/2024-7 od 30. rujna 2024. II. Odbija se zahtjev tužitelja za naknadu troška za sastav žalbe.",
     reasoning:
@@ -2045,9 +2045,9 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-04-30",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3813/2024-2?",
+      "Da li je osnovan zahtjev radi odobrenja za postavljanje reklamnih panoa?",
     court_position:
-      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca toga suda Mirjane Čačić predsjednice vijeća, Ane Berlengi Fellner i Arme Vagner Popović, članica vijeća, te više sudske savjetnice - specijalistice Ivane Mamić Vuković, zapisničarke, u upravnom sporu tužitelja Grada Zagreba, Zagreb, Trg Stjepana Radića 1, protiv tuženika Ministarstva prostornog uređenja, graditeljstva i državne imovine, Zagreb,…",
+      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca toga suda Mirjane Čačić predsjednice vijeća, Ane Berlengi Fellner i Arme Vagner Popović, članica vijeća, te više sudske savjetnice - specijalistice Ivane Mamić Vuković, zapisničarke, u upravnom sporu tužitelja Grada Zagreba, Zagreb, Trg Stjepana Radića 1, protiv tuženika Ministarstva prostornog uređenja, graditeljstva i državne imovine, Zagreb, Ulica Republike Austrije 14, uz sudjelovanje zainteresirane osobe Eurodigital d.o.o., Zagreb, Nazorova 34, koju zastupa opunomoćenik Šime Matak, odvjetnik iz Odvjetničkog društva Čogurić – Matak d.o.o., radi odobrenja za postavljanje reklamnih panoa, odlučujući o žalbi protiv rješenja Upravnog suda u Zagrebu, broj: Us I-30/2024 od 28. kolovoza 2024., na sjednici vijeća održanoj 30. travnja 2025. Žalba se odbija i potvrđuje se rješenje Upravnog suda u Zagrebu, broj: Us I-30/2024 od 28. kolovoza 2024.",
     reasoning:
       "Visoki upravni sud Republike Hrvatske odlučuje u predmetu Usž-3813/2024-2, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.",
     keywords: ["administrative","Visoki upravni sud","Usž-3813"],
@@ -2064,9 +2064,9 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-04-30",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3814/2024-2?",
+      "Da li je osnovan zahtjev radi odobrenja za postavljanje reklamnih panoa?",
     court_position:
-      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca toga suda Ane Berlengi Fellner, predsjednice vijeća, Mirjane Čačić i Arme Vagner Popović, članica vijeća, te više sudske savjetnice-specijalistice Ivane Mamić Vuković, zapisničarke, u upravnom sporu tužitelja Grada Zagreba, Zagreb, Trg Stjepana Radića 1, protiv tuženika Ministarstva prostornog uređenja, graditeljstva i državne imovine Republike…",
+      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca toga suda Ane Berlengi Fellner, predsjednice vijeća, Mirjane Čačić i Arme Vagner Popović, članica vijeća, te više sudske savjetnice-specijalistice Ivane Mamić Vuković, zapisničarke, u upravnom sporu tužitelja Grada Zagreba, Zagreb, Trg Stjepana Radića 1, protiv tuženika Ministarstva prostornog uređenja, graditeljstva i državne imovine Republike Hrvatske, Zagreb, Ulica Republike Austrije 14, uz sudjelovanje zainteresirane osobe Eurodigital d.o.o. Zagreb, Nazorova 34, zastupana po opunomoćeniku Šimi Mataku, odvjetniku iz Odvjetničkog društva Čogurić & Matak d.o.o., radi odobrenja za postavljanje reklamnih panoa, odlučujući o žalbi protiv rješenja Upravnog suda u Zagrebu, poslovni broj: Us I-25/2024-11 od 29. kolovoza 2024., na sjednici vijeća održanoj 30. travnja 2025., Odbija se žalba tužitelja i potvrđuje rješenje Upravnog suda u Zagrebu, poslovni broj: Us I-25/2024-11 od 29. kolovoza 2024.",
     reasoning:
       "Visoki upravni sud Republike Hrvatske odlučuje u predmetu Usž-3814/2024-2, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.",
     keywords: ["administrative","Visoki upravni sud","Usž-3814"],
@@ -2083,7 +2083,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-10-01",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3814/2025-2?",
+      "Da li je osnovan zahtjev radi ograničenja slobode kretanja?",
     court_position:
       "I. Poništava se točka I. izreke presude Upravnog suda u Zagrebu, poslovni broj: Us I-1520/2025-4 od 10. lipnja 2025. i predmet se vraća prvostupanjskom sudu na ponovni postupak. II. O troškovima žalbenog postupka odlučit će se zajedno s odlukom o glavnoj stvari.",
     reasoning:
@@ -2102,7 +2102,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-09-10",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-382/2025-2?",
+      "Da li je osnovan zahtjev radi odjave prebivališta?",
     court_position:
       "Žalba se odbija i potvrđuje presuda Upravnog suda u Osijeku, poslovni broj: Us I-1595/23-8 od 14. studenoga 2024.",
     reasoning:
@@ -2121,7 +2121,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-05-07",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3820/2023-2?",
+      "Da li je osnovan zahtjev radi poreznog nadzora?",
     court_position:
       "Odbija se žalba tužitelja i potvrđuje presuda Upravnog suda u Osijeku, poslovni broj: 7 Us I-1036/2022-11 od 22. rujna 2023.",
     reasoning:
@@ -2140,9 +2140,9 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-03-19",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3845/2024-2?",
+      "Da li je osnovan zahtjev radi postupanja javnopravnog tijela?",
     court_position:
-      "I. Poništava se presuda Upravnog suda u Zagrebu, poslovni broj: Us I-6233/23-6 od 17. lipnja 2024. II. Poništava se rješenje Ministarstva gospodarstva i održivog razvoja Republike Hrvatske, KLASA: UP/I-442-01/23-01/442, URBROJ: 517-14-23-02-02-3 od 27. studenoga 2023. III. Poništava se obavijest Ministarstva gospodarstva i održivog razvoja Republike Hrvatske od 3. studenoga 2023. u dijelu kojim je projektni prijed…",
+      "I. Poništava se presuda Upravnog suda u Zagrebu, poslovni broj: Us I-6233/23-6 od 17. lipnja 2024. II. Poništava se rješenje Ministarstva gospodarstva i održivog razvoja Republike Hrvatske, KLASA: UP/I-442-01/23-01/442, URBROJ: 517-14-23-02-02-3 od 27. studenoga 2023. III. Poništava se obavijest Ministarstva gospodarstva i održivog razvoja Republike Hrvatske od 3. studenoga 2023. u dijelu kojim je projektni prijedlog tužitelja referentne oznake MF-2023-1-1-192 uvršten na popis neprihvatljivih projektnih prijedloga i isključen iz postupka dodjele bespovratnih sredstava te se predmet vraća tom javnopravnom tijelu na ponovni postupak. IV. Nalaže se tuženiku nadoknaditi tužitelju troškove upravnog spora u iznosu od 2.500,00 eura (slovima: dvije tisuće petsto eura) u roku od 60 dana od dana dostave ove presude. V. Nalaže se tuženiku nadoknaditi tužitelju trošak za sastav žalbe u iznosu od 1.562,50 eura (slovima: tisuću petsto šezdeset dva eura i pedeset centi) u roku od 60 dana od dana dostave ove presude.",
     reasoning:
       "Visoki upravni sud Republike Hrvatske odlučuje u predmetu Usž-3845/2024-2, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.",
     keywords: ["administrative","Visoki upravni sud","Usž-3845"],
@@ -2159,9 +2159,9 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-10-01",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3847/2025-2?",
+      "Da li je žalba osnovana?",
     court_position:
-      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca toga Suda Blanše Turić, predsjednice vijeća, Borisa Markovića i Željke Zrilić Ježek, članova vijeća te sudske savjetnice Tajane Šimunović zapisničarke, u upravnom sporu tužiteljice GĆŠ, [adresa], protiv tuženika Ministarstva financija Republike Hrvatske, Samostalnog sektora za drugostupanjski upravni postupak, Zagreb, Koturaška ulica 43/IV, odlu…",
+      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca toga Suda Blanše Turić, predsjednice vijeća, Borisa Markovića i Željke Zrilić Ježek, članova vijeća te sudske savjetnice Tajane Šimunović zapisničarke, u upravnom sporu tužiteljice GĆŠ, [adresa], protiv tuženika Ministarstva financija Republike Hrvatske, Samostalnog sektora za drugostupanjski upravni postupak, Zagreb, Koturaška ulica 43/IV, odlučujući o žalbi tužiteljice izjavljenoj protiv rješenja Upravnog suda u Zagrebu, poslovni broj: Us I-1012/2025-4 od 15. travnja 2025., na sjednici vijeća održanoj 1. listopada 2025. Odbija se žalba tužiteljice GĆŠ i potvrđuje rješenje Upravnog suda u Zagrebu, poslovni broj: Us I-1012/2025-4 od 15. travnja 2025.",
     reasoning:
       "Visoki upravni sud Republike Hrvatske odlučuje u predmetu Usž-3847/2025-2, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.",
     keywords: ["administrative","Visoki upravni sud","Usž-3847"],
@@ -2178,7 +2178,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-09-03",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3849/2024-2?",
+      "Da li je osnovan zahtjev radi ispunjavanja uvjeta iz natječaja?",
     court_position:
       "Odbija se žalba tužitelja i potvrđuje se presuda Upravnog suda u Zagrebu, poslovni broj: Us I-3304/2022-9 od 28. kolovoza 2024.",
     reasoning:
@@ -2197,7 +2197,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-03-27",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3854/2024-2?",
+      "Da li je žalba osnovana?",
     court_position:
       "I. Odbija se žalba tužiteljice i potvrđuje se presuda Upravnog suda u Osijeku, poslovni broj: Us I-600/2024-5 od 13. kolovoza 2024. II. Odbija se zahtjev tužiteljice za naknadu troškova žalbenog postupka.",
     reasoning:
@@ -2216,7 +2216,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-07-17",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-386/2025-2?",
+      "Da li je osnovan zahtjev radi novčane pomoći za roditelja odgojitelja?",
     court_position:
       "I. Odbija se žalba tužiteljice i potvrđuje presuda Upravnog suda u Zagrebu, poslovni broj: Us I-2955/2023-12 od 22. studenog 2024. II. Odbija se zahtjev tužiteljice za naknadu troška žalbenog postupka.",
     reasoning:
@@ -2235,9 +2235,9 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-05-21",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-387/2025-2?",
+      "Da li je osnovan zahtjev radi šutnje uprave?",
     court_position:
-      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca toga suda Željke Zrilić Ježek, predsjednice vijeća, Blanše Turić i Borisa Markovića, članova vijeća te sudske savjetnice Marte Sraka, zapisničarke, u upravnom sporu tužiteljice BI iz [adresa], OIB: [osobni identifikacijski broj], koju zastupa opunomoćenik Martin Sherri, odvjetnik u Zagrebu, Kordunska 1, protiv tuženika Grada Zagreba, Gradonačeln…",
+      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca toga suda Željke Zrilić Ježek, predsjednice vijeća, Blanše Turić i Borisa Markovića, članova vijeća te sudske savjetnice Marte Sraka, zapisničarke, u upravnom sporu tužiteljice BI iz [adresa], OIB: [osobni identifikacijski broj], koju zastupa opunomoćenik Martin Sherri, odvjetnik u Zagrebu, Kordunska 1, protiv tuženika Grada Zagreba, Gradonačelnika, Zagreb, Trg Stjepana Radića 1, radi šutnje uprave, odlučujući o žalbi tužiteljice protiv točke II. rješenja Upravnog suda u Zagrebu, poslovni broj: Us l-4141/2023-7 od 3. prosinca 2024., na sjednici vijeća održanoj 21. svibnja 2025. I. Poništava se točka II. izreke rješenja Upravnog suda u Zagrebu, poslovni broj: Us l-4141/2023-7 od 3. prosinca 2024. II. Nalaže se tuženiku naknaditi tužiteljici trošak upravnog spora u iznosu od 1.250,00 eura u roku od 15 dana od dana dostave pravomoćne odluke o troškovima spora, zajedno sa zateznim kamatama koje teku, ako tuženik dobrovoljno ne plati trošak u određenom roku, od dana donošenja odluke o troškovima do isplate, po stopi koja se određuje za svako polugodište, uvećanjem referentne stope za tri postotna poena, pri čemu se za prvo polugodište primjenjuje referentna stopa koja je na snazi na dan 1. siječnja, a za drugo polugodište referentna stopa koja je na snazi na dan 1. srpnja te godine. Odbija se zahtjev tužiteljice za naknadu troškova upravnog spora u preostalom dijelu. III. Svaka stranka snosi svoje troškove žalbenog postupka.",
     reasoning:
       "Visoki upravni sud Republike Hrvatske odlučuje u predmetu Usž-387/2025-2, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.",
     keywords: ["administrative","Visoki upravni sud","Usž-387"],
@@ -2254,9 +2254,9 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-04-09",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3878/2024-5?",
+      "Da li je osnovan zahtjev radi potpore za zapošljavanje?",
     court_position:
-      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca Borisa Markovića, predsjednika vijeća, Željke Zrilić Ježek i Blanše Turić, članica vijeća, uz sudsku savjetnicu Martu Sraka, zapisničarka, u upravnom sporu tužitelja Odvjetničkog društva Mihalić & Pikija d.o.o., Zagreb, Ulica Ede Murtića 9, OIB: 96944931963, protiv tuženika Hrvatskog zavoda za zapošljavanje, Središnji ured, Savska cesta 64, Zagr…",
+      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca Borisa Markovića, predsjednika vijeća, Željke Zrilić Ježek i Blanše Turić, članica vijeća, uz sudsku savjetnicu Martu Sraka, zapisničarka, u upravnom sporu tužitelja Odvjetničkog društva Mihalić & Pikija d.o.o., Zagreb, Ulica Ede Murtića 9, OIB: 96944931963, protiv tuženika Hrvatskog zavoda za zapošljavanje, Središnji ured, Savska cesta 64, Zagreb, OIB: 91547293790, radi potpore za zapošljavanje, odlučujući o žalbi tužitelja protiv rješenja Upravnog suda u Zagrebu, poslovni broj: Us I-1600/2024-6 od 27. kolovoza 2024., na sjednici održanoj 9. travnja 2025. I Žalba se odbija. II Potvrđuje se rješenje Upravnog suda u Zagrebu, poslovni broj: Us I- 1600/2024-6 od 27. kolovoza 2024. III Odbija se zahtjev tužitelja za naknadu troškova za sastav žalbe.",
     reasoning:
       "Visoki upravni sud Republike Hrvatske odlučuje u predmetu Usž-3878/2024-5, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.",
     keywords: ["administrative","Visoki upravni sud","Usž-3878"],
@@ -2273,9 +2273,9 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-07-10",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-388/2025-2?",
+      "Da li je osnovan zahtjev za poništaj upravnog rješenja?",
     court_position:
-      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca toga Suda Suda Sanje Štefan, predsjednice vijeća, Ljiljane Karlovčan-Đurović i Željke Zrilić Ježek, članova vijeća te sudskog savjetnika Matije Vurneka, u upravnom sporu tužiteljice KČ iz [adresa], OIB: [osobni identifikacijski broj], koju zastupa Martin Sherri, odvjetnik iz Zagreba, Kordunska 1, protiv tuženika Grada Zagreba, Gradonačelnika, Tr…",
+      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca toga Suda Suda Sanje Štefan, predsjednice vijeća, Ljiljane Karlovčan-Đurović i Željke Zrilić Ježek, članova vijeća te sudskog savjetnika Matije Vurneka, u upravnom sporu tužiteljice KČ iz [adresa], OIB: [osobni identifikacijski broj], koju zastupa Martin Sherri, odvjetnik iz Zagreba, Kordunska 1, protiv tuženika Grada Zagreba, Gradonačelnika, Trg Stjepana Radića 1, OIB: 61817894937, radi nedonošenja rješenja, odlučujući o žalbi protiv točke II. rješenja Upravnog suda u Zagrebu, poslovni broj: Us I-2786/2023-7 od 3. prosinca 2024., na sjednici vijeća održanoj dana 10. srpnja 2025. I. Poništava se točka II. izreke rješenja Upravnog suda u Zagrebu, poslovni broj: Us I-2786/2023-7 od 3. prosinca 2024., te se nalaže tuženiku da nadoknadi tužiteljici troškove upravnog spora u iznosu od 1.250,00 eura u roku od 15 dana od dana dostave ovog rješenja, a za slučaj da tuženik u navedenom roku za dobrovoljno ispunjenje ne podmiri troškove tužitelju pripadaju i zatezne kamate koje teku od dana donošenja rješenja, pa do isplate. II. Nalaže se tuženiku da naknadi tužiteljici trošak sastava žalbe u iznosu od 1.562,00 eura u roku od 15 dana od dana dostave ovog rješenja zajedno sa zateznim kamatama koje teku od dana donošenja rješenja, pa do isplate.",
     reasoning:
       "Visoki upravni sud Republike Hrvatske odlučuje u predmetu Usž-388/2025-2, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.",
     keywords: ["administrative","Visoki upravni sud","Usž-388"],
@@ -2292,7 +2292,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-06-18",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3887/2023-3?",
+      "Da li je osnovan zahtjev radi zastare prava na naplatu poreznog duga?",
     court_position:
       "I. Odbija se žalba tužitelja i potvrđuje se točka II. i III. presude Upravnog suda u Zagrebu, poslovni broj: Us l-249/23-8 od 30. listopada 2023. II. Odbija se zahtjev tužitelja za naknadu troškova žalbenog postupka.",
     reasoning:
@@ -2311,7 +2311,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-04-01",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3888/2024-2?",
+      "Da li je osnovan zahtjev radi prigovora na izlaganje katastarskih podataka?",
     court_position:
       "I. Žalba se odbija i potvrđuje presuda Upravnog suda u Splitu, poslovni broj: Us I-2195/2023-8 od 15. srpnja 2024. II. Odbija se zahtjev tužitelja za naknadu troška žalbenog postupka.",
     reasoning:
@@ -2330,7 +2330,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-05-20",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3890/2024-2?",
+      "Da li je osnovan zahtjev za poništaj upravnog rješenja?",
     court_position:
       "I. Odbija se žalba i potvrđuje presuda Upravnog suda u Splitu, poslovni broj: Us I-3104/2023-12 od 11. srpnja 2024. II. Odbija se zahtjev tužitelja za naknadu troška žalbenog postupka.",
     reasoning:
@@ -2349,7 +2349,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-04-30",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3894/2024-2?",
+      "Da li je osnovan zahtjev radi nepripadne isplate mirovine?",
     court_position:
       "I. Žalba se odbija i potvrđuje presuda Upravnog suda u Splitu, poslovni broj: Us I-1492/2023-7 od 24. lipnja 2024. II. Odbija se zahtjev tužitelja za naknadu troška žalbenog postupka.",
     reasoning:
@@ -2368,7 +2368,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-05-27",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3895/2024-2?",
+      "Da li je osnovan zahtjev za poništaj upravnog rješenja?",
     court_position:
       "Odbija se žalba tužiteljice i potvrđuje presuda Upravnog suda u Splitu, poslovni broj: Us I-632/2024-12 od 16. srpnja 2024.",
     reasoning:
@@ -2387,7 +2387,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-07-03",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3896/2024-2?",
+      "Da li je osnovan zahtjev radi provedbe geodetskog elaborata?",
     court_position:
       "I. Odbija se žalba tužitelja i potvrđuje presuda Upravnog suda u Splitu, poslovni broj: Us I-1951/2023-14 od 15. srpnja 2024. II. Odbija se zahtjev tužitelja za naknadu troškova sastava žalbe.",
     reasoning:
@@ -2406,7 +2406,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-07-17",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3898/2023-4?",
+      "Da li je osnovan zahtjev radi obnove postupka izdavanja građevinske dozvole?",
     court_position:
       "I. Žalba tužitelja se odbija i potvrđuje presuda Upravnog suda u Splitu, poslovni broj: Us I-22/2023-13 od 25. travnja 2023. II. Odbija se zahtjev tužitelja za naknadom troška žalbenog dijela spora. III. Odbija se zahtjev zainteresirane osobe za naknadu troškova odgovora na žalbu.",
     reasoning:
@@ -2425,9 +2425,9 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-07-08",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3899/2024-3?",
+      "Da li je osnovan zahtjev radi šutnje tuženika o prigovoru tužitelja na obavijest o poništenju postupka javnog nadmetanja od 01. prosinca 2022?",
     court_position:
-      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sutkinja toga suda, Kristine Senjak Krunić, predsjednice vijeća, Senke Orlić-Zaninović i Eveline Čolović Tomić, članica vijeća te više sudske savjetnice Ane Matacin, zapisničarke, u upravnom sporu tužitelja Baketina d.o.o., Split, Ulica Slobode 46., OIB: 67040883669, zastupan po opunomoćenici Saneli Antoniji Šegvić, odvjetnici u Splitu, Ulica Slobode 4…",
+      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sutkinja toga suda, Kristine Senjak Krunić, predsjednice vijeća, Senke Orlić-Zaninović i Eveline Čolović Tomić, članica vijeća te više sudske savjetnice Ane Matacin, zapisničarke, u upravnom sporu tužitelja Baketina d.o.o., Split, Ulica Slobode 46., OIB: 67040883669, zastupan po opunomoćenici Saneli Antoniji Šegvić, odvjetnici u Splitu, Ulica Slobode 46., protiv tuženika Hrvatske ceste d.o.o., Zagreb, Vončinina 3., OIB: 55545787885, odlučujući o žalbi tužitelja protiv rješenja Upravnog suda u Splitu, poslovni broj: Us I- 1117/2023-4 od 29. ožujka 2024., na sjednici vijeća održanoj 8. srpnja 2025. I. Žalba se odbija i potvrđuje rješenje Upravnog suda u Splitu, poslovni broj: Us I-1117/2023-4 od 29. ožujka 2024. godine. II. Odbija se zahtjev tužitelja za naknadu troška žalbenog postupka.",
     reasoning:
       "Visoki upravni sud Republike Hrvatske odlučuje u predmetu Usž-3899/2024-3, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.",
     keywords: ["administrative","Visoki upravni sud","Usž-3899"],
@@ -2444,9 +2444,9 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-04-29",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-39/2025-2?",
+      "Da li je osnovan zahtjev radi šutnje uprave?",
     court_position:
-      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sutkinja tog suda, Mire Kovačić, predsjednice vijeća, Radmile Bolanča Vuković i dr. sc. Sanje Otočan, članica vijeća te višeg sudskog savjetnika Filipa Mihaljevića, zapisničara, u upravnom sporu tužiteljice PH iz [adresa], OIB: [osobni identifikacijski broj], zastupane po opunomoćeniku Martinu Sherriu, odvjetniku iz Zagreba, Kordunska 1, OIB: [osobni i…",
+      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sutkinja tog suda, Mire Kovačić, predsjednice vijeća, Radmile Bolanča Vuković i dr. sc. Sanje Otočan, članica vijeća te višeg sudskog savjetnika Filipa Mihaljevića, zapisničara, u upravnom sporu tužiteljice PH iz [adresa], OIB: [osobni identifikacijski broj], zastupane po opunomoćeniku Martinu Sherriu, odvjetniku iz Zagreba, Kordunska 1, OIB: [osobni identifikacijski broj], protiv tuženika Grada Zagreba, Gradonačelnika, Zagreb, Trg Stjepana Radića 1, OIB: 61817894937, radi šutnje uprave, odlučujući o žalbi tužiteljice protiv rješenja Upravnog suda u Zagrebu, poslovni broj: Us l-96/2024- 6 od 25. listopada 2024., na sjednici vijeća održanoj 29. travnja 2025., I. Žalba se odbija i potvrđuje rješenje Upravnog suda u Zagrebu, poslovni broj: Us l-96/2024-6 od 25. listopada 2024. II. Odbija se zahtjev tužiteljice za naknadu troška za sastav žalbe.",
     reasoning:
       "Visoki upravni sud Republike Hrvatske odlučuje u predmetu Usž-39/2025-2, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.",
     keywords: ["administrative","Visoki upravni sud","Usž-39"],
@@ -2463,9 +2463,9 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-06-17",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3900/2024-2?",
+      "Da li je osnovan zahtjev radi nedonošenja odluke u propisanom roku?",
     court_position:
-      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca toga suda mr.sc. Inge Vezmar Barlek, predsjednice vijeća, Jelene Rajić i Mirjane Čačić, članica vijeća, te sudskog savjetnika Alana Vučkovečkog, zapisničara, u upravnom sporu tužitelja ZP iz [adresa], kojeg zastupa opunomoćenica Maja Bilić Paulić, odvjetnica u Zagrebu, Kružna ulica 48, protiv tuženika Ministarstva prostornoga uređenja, graditelj…",
+      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca toga suda mr.sc. Inge Vezmar Barlek, predsjednice vijeća, Jelene Rajić i Mirjane Čačić, članica vijeća, te sudskog savjetnika Alana Vučkovečkog, zapisničara, u upravnom sporu tužitelja ZP iz [adresa], kojeg zastupa opunomoćenica Maja Bilić Paulić, odvjetnica u Zagrebu, Kružna ulica 48, protiv tuženika Ministarstva prostornoga uređenja, graditeljstva i državne imovine Republike Hrvatske, Ulica Republike Austrije 14, radi nedonošenja odluke u propisanom roku, odlučujući o žalbi tuženika protiv dijela rješenja Upravnog suda u Splitu poslovni broj: Us I-262/2024-7 od 23.kolovoza 2024., na sjednici vijeća održanoj 17. lipnja 2025. Poništava se točka I. izreke rješenja Upravnog suda u Splitu poslovni broj: Us I-262/2024-7 od 23. kolovoza 2024.",
     reasoning:
       "Visoki upravni sud Republike Hrvatske odlučuje u predmetu Usž-3900/2024-2, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.",
     keywords: ["administrative","Visoki upravni sud","Usž-3900"],
@@ -2482,7 +2482,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-08-27",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3901/2024-2?",
+      "Da li je osnovan zahtjev radi statusa hrvatskog ratnog vojnog invalida iz Domovinskog rata?",
     court_position:
       "Žalba se odbija i potvrđuje presuda i rješenje Upravnog suda u Splitu, poslovni broj: Us I-3226/2021-34 od 17. lipnja 2024.",
     reasoning:
@@ -2501,7 +2501,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-03-20",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3905/2024-2?",
+      "Da li je osnovan zahtjev radi obveze doprinosa?",
     court_position:
       "I. Odbija se žalba tužitelja i potvrđuje presuda Upravnog suda u Splitu, poslovni broj: Us I-1970/2023-7 od 29. svibnja 2024. II. Odbija se zahtjev tužitelja za naknadu troškova postupka.",
     reasoning:
@@ -2520,7 +2520,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-03-19",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3906/2024-2?",
+      "Da li je osnovan zahtjev radi odjave prebivališta?",
     court_position:
       "Odbija se žalba i potvrđuje presuda Upravnog suda u Splitu, poslovni broj: Us I-2153/2023-6 od 1. srpnja 2024.",
     reasoning:
@@ -2539,7 +2539,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-09-03",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3907/2024-2?",
+      "Da li je osnovan zahtjev radi rješavanja statusa u službi po prestanku udaljenja iz službe?",
     court_position:
       "I. Odbija se žalba tužitelja LĆ iz [adresa] i potvrđuje presuda Upravnog suda u Splitu, poslovni broj: Us I-263/2024-9 od 5. lipnja 2024. II. Odbija se zahtjev tužitelja za naknadu troškova žalbenog postupka.",
     reasoning:
@@ -2558,7 +2558,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-03-19",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3912/2024-2?",
+      "Da li je osnovan zahtjev radi statusa hrvatskog ratnog vojnog invalida iz Domovinskog rata?",
     court_position:
       "I. Odbija se žalba i potvrđuje presuda Upravnog suda u Rijeci, poslovni broj: Us I- 2674/2023-21 od 9. rujna 2024. II. Odbija se zahtjev tužitelja za naknadu troška za sastav žalbe.",
     reasoning:
@@ -2577,7 +2577,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-03-27",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3916/2024-2?",
+      "Da li je osnovan zahtjev radi stavljanja na raspolaganje?",
     court_position:
       "I. Odbija se žalba tužiteljice i potvrđuje se presuda i rješenje Upravnog suda u Splitu, poslovni broj: Us I-697/2023-7 od 17. lipnja 2024. II. Odbija se zahtjev tužiteljice za naknadu troškova žalbenog postupka.",
     reasoning:
@@ -2596,7 +2596,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-10-08",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3932/2024-2?",
+      "Da li je osnovan zahtjev radi teže povrede službene dužnosti?",
     court_position:
       "I. Odbija se žalba tužitelja i potvrđuje se presuda Upravnog suda u Rijeci, poslovni broj: Us I-850/2024-9 od 13. rujna 2024. II. Odbija se zahtjev tužitelja za naknadu troškova žalbenog postupka.",
     reasoning:
@@ -2615,7 +2615,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-07-10",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3937/2024-2?",
+      "Da li je osnovan zahtjev radi prijma namještenika?",
     court_position:
       "Odbija se žalba tužitelja i potvrđuje presuda Upravnog suda u Zagrebu, poslovni broj: Us I-5704/2023-7 od 10. rujna 2024.",
     reasoning:
@@ -2634,7 +2634,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-06-25",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3938/2024-2?",
+      "Da li je osnovan zahtjev radi poreznog nadzora?",
     court_position:
       "I. Odbija se žalba tužitelja i potvrđuje se presuda Upravnog suda u Zagrebu, poslovni broj: Us I-5043/2023-8 od 17. rujna 2024. II. Odbija se zahtjev tužitelja za naknadu troškova žalbenog postupka.",
     reasoning:
@@ -2653,7 +2653,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-10-08",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3940/2024-2?",
+      "Da li je osnovan zahtjev radi ponovnog određivanja mirovine?",
     court_position:
       "Žalba se odbija i potvrđuje presuda Upravnog suda u Zagrebu, poslovni broj: Us I-2691/24-6 od 30. rujna 2024.",
     reasoning:
@@ -2672,7 +2672,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-07-02",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3943/2024-2?",
+      "Da li je osnovan zahtjev radi utvrđivanja rezervi?",
     court_position:
       "I. Odbija se žalba i potvrđuje presuda Upravnog suda u Zagrebu, poslovni broj: Us I-3930/2023-10 od 18. rujna 2024. II. Odbija se zahtjev tužitelja za naknadu troškova sastava žalbe.",
     reasoning:
@@ -2691,7 +2691,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-07-23",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3946/2024-2?",
+      "Da li je osnovan zahtjev radi poreza na dodanu vrijednost?",
     court_position:
       "I. Odbija se žalba tužitelja i potvrđuje se presuda Upravnog suda u Rijeci, poslovni broj: Us I-762/2024-7 od 2. rujna 2024. II. Odbija se zahtjev tužitelja za naknadu troškova žalbenog postupka.",
     reasoning:
@@ -2710,9 +2710,9 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-04-23",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3949/2024-2?",
+      "Da li je osnovan zahtjev radi rasporeda na radno mjesto?",
     court_position:
-      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca toga suda Blanše Turić, predsjednice vijeća, Borisa Markovića i Željke Zrilić Ježek, članova vijeća te sudske savjetnice Marte Srake, zapisničarke, u upravnom sporu tužiteljice ZH, iz [adresa], koju zastupa opunomoćenik Leon Zrnić, odvjetnik u odvjetničkom društvu Kasalo&Raić d.o.o., u Splitu, Poljička cesta 26D, protiv tuženika Odbora za državn…",
+      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca toga suda Blanše Turić, predsjednice vijeća, Borisa Markovića i Željke Zrilić Ježek, članova vijeća te sudske savjetnice Marte Srake, zapisničarke, u upravnom sporu tužiteljice ZH, iz [adresa], koju zastupa opunomoćenik Leon Zrnić, odvjetnik u odvjetničkom društvu Kasalo&Raić d.o.o., u Splitu, Poljička cesta 26D, protiv tuženika Odbora za državnu službu, Zagreb, Palmotićeva 5, radi rasporeda na radno mjesto, odlučujući o žalbi tuženika izjavljenoj protiv presude i rješenja Upravnog suda u Splitu, poslovni broj: Us I-1982/2023-9 od 9. svibnja 2024., na sjednici vijeća održanoj 23. travnja 2025. I. Odbacuje se žalba tuženika izjavljena protiv presude Upravnog suda u Splitu, poslovni broj: Us I-1982/2023-9 od 9. svibnja 2024. II. Odbija se žalba tuženika i potvrđuje rješenje Upravnog suda u Splitu, poslovni broj: Us I-1982/2023-9 od 9. svibnja 2024. III. Odbija se zahtjev tužiteljice za naknadu troškova odgovora na žalbu.",
     reasoning:
       "Visoki upravni sud Republike Hrvatske odlučuje u predmetu Usž-3949/2024-2, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.",
     keywords: ["administrative","Visoki upravni sud","Usž-3949"],
@@ -2729,7 +2729,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-04-01",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3950/2024-2?",
+      "Da li je osnovan zahtjev radi prigovora na izlaganje katastarskih podataka?",
     court_position:
       "I. Žalba se odbija i potvrđuje presuda Upravnog suda u Splitu, poslovni broj: Us I-1950/2023-5 od 28. lipnja 2024. II. Odbija se zahtjev tužitelja za naknadu troška žalbenog postupka.",
     reasoning:
@@ -2748,7 +2748,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-09-17",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3951/2024-2?",
+      "Da li je osnovan zahtjev za poništaj upravnog rješenja?",
     court_position:
       "I. Odbija se žalba i potvrđuje presuda Upravnog suda u Splitu, poslovni broj: Us I-620/2024-8 od 24. lipnja 2024. II. Odbija se zahtjev tužiteljice za naknadu troška sastava žalbe.",
     reasoning:
@@ -2767,7 +2767,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-05-13",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3958/2024-2?",
+      "Da li je osnovan zahtjev radi sanacije rudarskih radova?",
     court_position:
       "Odbija se žalba tužitelja i potvrđuje presuda Upravnog suda u Splitu, poslovni broj: Us I-1342/2023-9 od 18. lipnja 2024.",
     reasoning:
@@ -2786,7 +2786,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-05-21",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-396/2025-2?",
+      "Da li je osnovan zahtjev radi novčane pomoći roditelja odgajatelja?",
     court_position:
       "I. Odbija se žalba tužiteljice i potvrđuje se presuda Upravnog suda u Zagrebu, poslovni broj: Us l- 3147/2023-11 od 22. studenoga 2024. II. Odbija se zahtjev tužiteljice za naknadu troška žalbenog postupka.",
     reasoning:
@@ -2805,7 +2805,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-07-17",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3960/2024-3?",
+      "Da li je osnovan zahtjev za poništaj upravnog rješenja?",
     court_position:
       "Odbija se žalba tužitelja i potvrđuje presuda i rješenje Upravnog suda u Splitu, poslovni broj: Us I-495/2023-8 od 30. listopada 2023.",
     reasoning:
@@ -2824,7 +2824,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-05-15",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3965/2024-2?",
+      "Da li je osnovan zahtjev radi prigovora na izlaganje katastarskih podataka?",
     court_position:
       "Žalba se odbija i potvrđuje se presuda Upravnog suda u Splitu, broj: Us I-3301/2023 od 26. srpnja 2024.",
     reasoning:
@@ -2843,9 +2843,9 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-03-27",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3969/2024-2?",
+      "Da li je osnovan zahtjev radi prestanka državne službe?",
     court_position:
-      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca tog suda Blanše Turić, predsjednice vijeća, Borisa Markovića i Ljiljane Karlovčan-Đurović, članova vijeća te sudske savjetnice Marte Srake, zapisničarke, u upravnom sporu tužiteljice EC, iz [adresa], koju zastupa opunomoćenica Martina Radić Šunjić, odvjetnica u Splitu, Tolstojeva 37/II, protiv tuženika Grada Solina, Gradonačelnika, Solin, Ulica…",
+      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca tog suda Blanše Turić, predsjednice vijeća, Borisa Markovića i Ljiljane Karlovčan-Đurović, članova vijeća te sudske savjetnice Marte Srake, zapisničarke, u upravnom sporu tužiteljice EC, iz [adresa], koju zastupa opunomoćenica Martina Radić Šunjić, odvjetnica u Splitu, Tolstojeva 37/II, protiv tuženika Grada Solina, Gradonačelnika, Solin, Ulica Stjepana Radića 42, radi prestanka državne službe, odlučujući o žalbi tužiteljice izjavljenoj protiv rješenja Upravnog suda u Splitu, poslovni broj: 10 Us I-3616/2023-7 od 22. ožujka 2024., na sjednici vijeća održanoj 27. ožujka 2025. I Odbija se žalba tužiteljice i potvrđuje rješenje Upravnog suda u Splitu, poslovni broj: 10 Us I-3616/2023-7 od 22. ožujka 2024. II Odbija se zahtjev tužiteljice za naknadu troškova žalbenog postupka.",
     reasoning:
       "Visoki upravni sud Republike Hrvatske odlučuje u predmetu Usž-3969/2024-2, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.",
     keywords: ["administrative","Visoki upravni sud","Usž-3969"],
@@ -2862,9 +2862,9 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-03-27",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3970/2024-2?",
+      "Da li je osnovan zahtjev radi prestanka službe?",
     court_position:
-      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca tog suda Blanše Turić, predsjednice vijeća, Borisa Markovića i Ljiljane Karlovčan-Đurović, članova vijeća te sudske savjetnice Marte Srake, zapisničarke, u upravnom sporu tužiteljice UG, iz [adresa], OIB: [osobni identifikacijski broj], koju zastupa opunomoćenica Martina Radić Šunjić, odvjetnica u Splitu, Tolstojeva 37/II, protiv tuženika Grada…",
+      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca tog suda Blanše Turić, predsjednice vijeća, Borisa Markovića i Ljiljane Karlovčan-Đurović, članova vijeća te sudske savjetnice Marte Srake, zapisničarke, u upravnom sporu tužiteljice UG, iz [adresa], OIB: [osobni identifikacijski broj], koju zastupa opunomoćenica Martina Radić Šunjić, odvjetnica u Splitu, Tolstojeva 37/II, protiv tuženika Grada Solina, Gradonačelnika, Solin, Ulica Stjepana Radića 42, OIB: 40642464411, radi prestanka službe, radi zahtjeva KOMUNALNOG DRUŠTVA GRADA SOLINA d.o.o., Solin, Stjepana Radića 42, kojeg zastupa opunomoćenik Damir Primorac, odvjetnik u Odvjetničkom društvu Primorac i partneri d.o.o., Split, Trg hrvatske bratske zajednice 2b, za naknadu troškova upravnog spora, odlučujući o žalbi KOMUNALNOG DRUŠTVA GRADA SOLINA d.o.o. protiv rješenja Upravnog suda u Splitu, poslovni broj: Us I-3616/2023-13 od 7. kolovoza 2024., na sjednici vijeća održanoj 27. ožujka 2025. I. Odbija se žalba KOMUNALNOG DRUŠTVA GRADA SOLINA d.o.o. i potvrđuje rješenje Upravnog suda u Splitu, poslovni broj: Us I-3616/2023-13 od 7. kolovoza 2024. II. Odbija se zahtjev KOMUNALNOG DRUŠTVA GRADA SOLINA d.o.o. za naknadu troškova žalbenog postupka.",
     reasoning:
       "Visoki upravni sud Republike Hrvatske odlučuje u predmetu Usž-3970/2024-2, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.",
     keywords: ["administrative","Visoki upravni sud","Usž-3970"],
@@ -2881,9 +2881,9 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-03-27",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3971/2024-2?",
+      "Da li je osnovan zahtjev radi prestanka službe?",
     court_position:
-      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca toga Suda Sanje Štefan, predsjednice vijeća, Ljiljane Karlovčan-Đurović i Borisa Markovića članova vijeća te sudske savjetnice Marte Sraka kao zapisničarke, u upravnom sporu tužitelja VB, [adresa], OIB: [osobni identifikacijski broj], kojeg zastupa Martina Radić Šunjić, odvjetnica iz Splita, Tolstojeva 37/II, protiv tuženika Grada Solina, Gradon…",
+      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca toga Suda Sanje Štefan, predsjednice vijeća, Ljiljane Karlovčan-Đurović i Borisa Markovića članova vijeća te sudske savjetnice Marte Sraka kao zapisničarke, u upravnom sporu tužitelja VB, [adresa], OIB: [osobni identifikacijski broj], kojeg zastupa Martina Radić Šunjić, odvjetnica iz Splita, Tolstojeva 37/II, protiv tuženika Grada Solina, Gradonačelnika, Solin, Ulica Stjepana Radića 42, OIB: 40642464411, radi prestanka službe, odlučujući o žalbi tužitelja izjavljenoj protiv rješenja Upravnog suda u Splitu, poslovni broj: 10 Us I-3612/2023-7 od 22. ožujka 2024., na sjednici vijeća održanoj dana 27. ožujka 2025. I. Odbija se žalba tužitelja i potvrđuje rješenje Upravnog suda u Splitu, poslovni broj: 10 Us I-3612/2023-7 od 22. ožujka 2024. II. Odbija se zahtjev tužitelja za naknadu troškova žalbenog postupka.",
     reasoning:
       "Visoki upravni sud Republike Hrvatske odlučuje u predmetu Usž-3971/2024-2, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.",
     keywords: ["administrative","Visoki upravni sud","Usž-3971"],
@@ -2900,9 +2900,9 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-03-27",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3972/2024-2?",
+      "Da li je osnovan zahtjev radi prestanka službe?",
     court_position:
-      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca toga Suda Sanje Štefan, predsjednice vijeća, Ljiljane Karlovčan-Đurović i Borisa Markovića članova vijeća te sudske savjetnice Marte Sraka kao zapisničarke, u upravnom sporu tužitelja ŽE, [adresa], OIB: [osobni identifikacijski broj], kojeg zastupa Martina Radić Šunjić, odvjetnica iz Splita, Tolstojeva 37/II, protiv tuženika Grada Solina, Gradon…",
+      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca toga Suda Sanje Štefan, predsjednice vijeća, Ljiljane Karlovčan-Đurović i Borisa Markovića članova vijeća te sudske savjetnice Marte Sraka kao zapisničarke, u upravnom sporu tužitelja ŽE, [adresa], OIB: [osobni identifikacijski broj], kojeg zastupa Martina Radić Šunjić, odvjetnica iz Splita, Tolstojeva 37/II, protiv tuženika Grada Solina, Gradonačelnika, Solin, Ulica Stjepana Radića 42, OIB: 40642464411, radi prestanka službe, zahtjeva Komunalnog društva Grada Solina d.o.o., Solin, Stjepna Radića 42, OIB: 19526025847, kojeg zastupa Damir Primorac, odvjetnik u Odvjetničkom društvu Primorac i partneri d.o.o., Split, Trg hrvatske bratske zajednice 2b, za naknadu troškova upravnog spora, odlučujući o žalbi Komunalnog društva Grada Solina d.o.o., Solin izjavljenoj protiv rješenja Upravnog suda u Splitu, poslovni broj: Us I-3612/2023-13 od 7. kolovoza 2024., na sjednici vijeća održanoj dana 27. ožujka 2025. I. Odbija se žalba Komunalnog društva Grada Solina d.o.o., Solin i potvrđuje rješenje Upravnog suda u Splitu, poslovni broj: Us I-3612/2023-13 od 7. kolovoza 2024. II. Odbija se zahtjev Komunalnog društva Grada Solina d.o.o., Solin za naknadu troškova žalbenog postupka.",
     reasoning:
       "Visoki upravni sud Republike Hrvatske odlučuje u predmetu Usž-3972/2024-2, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.",
     keywords: ["administrative","Visoki upravni sud","Usž-3972"],
@@ -2919,7 +2919,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-05-27",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3974/2024-2?",
+      "Da li je osnovan zahtjev radi dodjele bespovratnih sredstava?",
     court_position:
       "Odbija se žalba tužitelja i potvrđuje presuda Upravnog suda u Zagrebu, poslovni broj: Us I-653/2024-10 od 11. rujna 2024.",
     reasoning:
@@ -2938,9 +2938,9 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-05-14",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3976/2024-2?",
+      "Da li je osnovan zahtjev radi statusa hrvatskog ratnog vojnog invalida iz Domovinskog rata?",
     court_position:
-      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sutkinja toga suda Snježane Horvat-Paliska, predsjednice vijeća, Gordane Marušić-Babić, i Radmile Bolanča-Vuković, članica vijeća, te više sudske savjetnice-specijalistice Blaženke Drdić, zapisničarke, u upravnom sporu tužitelja UD iz [adresa], kojeg zastupa opunomoćenik Mate Knezović, odvjetnik u Zagrebu, Frana Vrbanića 20, protiv tuženika Ministarstv…",
+      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sutkinja toga suda Snježane Horvat-Paliska, predsjednice vijeća, Gordane Marušić-Babić, i Radmile Bolanča-Vuković, članica vijeća, te više sudske savjetnice-specijalistice Blaženke Drdić, zapisničarke, u upravnom sporu tužitelja UD iz [adresa], kojeg zastupa opunomoćenik Mate Knezović, odvjetnik u Zagrebu, Frana Vrbanića 20, protiv tuženika Ministarstva hrvatskih branitelja Republike Hrvatske, Zagreb, Trg Nevenke Topalušić 8, radi statusa hrvatskog ratnog vojnog invalida iz Domovinskog rata, odlučujući o žalbi tuženika protiv presude Upravnog suda u Zagrebu, poslovni broj: Us I-3642/2023-10 od 26. rujna 2024., na sjednici vijeća održanoj 14. svibnja 2025. I. Odbacuje se žalba tuženika protiv točke I. izreke presude Upravnog suda u Zagrebu, poslovni broj: Us I-3642/2023-10 od 26. rujna 2024. II. Odbija se žalba tuženika i potvrđuje se točka II. izreke presude Upravnog suda u Zagrebu, poslovni broj: Us I-3642/2023-10 od 26. rujna 2024. III. Odbija se zahtjev tužitelja za naknadu troška sastava odgovora na žalbu.",
     reasoning:
       "Visoki upravni sud Republike Hrvatske odlučuje u predmetu Usž-3976/2024-2, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.",
     keywords: ["administrative","Visoki upravni sud","Usž-3976"],
@@ -2957,7 +2957,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-03-27",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3986/2024-2?",
+      "Da li je osnovan zahtjev radi oduzimanja vozila i naplate trošarinskog duga?",
     court_position:
       "Odbija se žalba tužitelja i potvrđuje presuda Upravnog suda u Zagrebu, poslovni broj: Us I-791/2023-9 od 20. rujna 2024.",
     reasoning:
@@ -2976,7 +2976,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-07-16",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-399/2025-2?",
+      "Da li je osnovan zahtjev radi novčane pomoći za roditelje odgojitelje?",
     court_position:
       "I. Odbija se žalba i potvrđuje presuda Upravnog suda u Zagrebu, poslovni broj: Us l-2689/2023-11 od 22. studenoga 2024. II. Odbija se zahtjev tužiteljice za naknadu troška sastava žalbe.",
     reasoning:
@@ -2995,9 +2995,9 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-06-02",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3993/2024-2?",
+      "Da li je osnovan zahtjev radi dodjele dozvola na pomorskom dobru?",
     court_position:
-      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca toga suda Ane Berlengi Fellner, predsjednice vijeća, Mirjane Čačić i Arme Vagner Popović, članica vijeća, te više sudske savjetnice-specijalistice Ivane Mamić Vuković, zapisničarke, u upravnom sporu tužitelja TRAMONTO d.o.o. sa sjedištem u Crikvenici, Strossmayerovo šetalište 4, zastupan po opunomoćenici Lari Denona, odvjetnici iz Rijeke, Dolac…",
+      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca toga suda Ane Berlengi Fellner, predsjednice vijeća, Mirjane Čačić i Arme Vagner Popović, članica vijeća, te više sudske savjetnice-specijalistice Ivane Mamić Vuković, zapisničarke, u upravnom sporu tužitelja TRAMONTO d.o.o. sa sjedištem u Crikvenici, Strossmayerovo šetalište 4, zastupan po opunomoćenici Lari Denona, odvjetnici iz Rijeke, Dolac 9/II protiv tuženika Ministarstva mora, prometa i infrastrukture Zagreb, Prisavlje 14, radi dodjele dozvola na pomorskom dobru, odlučujući o žalbi tužitelja protiv rješenja Upravnog suda u Rijeci, poslovnog broja: Us I –957/2024-4 od 2. kolovoza 2024., na sjednici vijeća održanoj dana 2. lipnja 2025. I. Poništava se rješenje Upravnog suda u Rijeci, poslovni broj: Us I- 957/2024 od 2. kolovoza 2024. II. Predmet se vraća Upravnom sudu u Rijeci na ponovni postupak.",
     reasoning:
       "Visoki upravni sud Republike Hrvatske odlučuje u predmetu Usž-3993/2024-2, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.",
     keywords: ["administrative","Visoki upravni sud","Usž-3993"],
@@ -3014,9 +3014,9 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-03-27",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-3997/2024-2?",
+      "Da li je osnovan zahtjev radi šutnje uprave?",
     court_position:
-      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca toga suda Ane Berlengi Fellner, predsjednice vijeća, Mirjane Čačić i Arme Vagner Popović, članica vijeća, te više sudske savjetnice-specijalistice Ivane Mamić Vuković, zapisničarke, u upravnom sporu tužitelja LS iz [adresa], OIB: [osobni identifikacijski broj], kojeg zastupa opunomoćenik Domagoj Rešetar, odvjetnik iz Odvjetničkog društva Rešetar…",
+      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca toga suda Ane Berlengi Fellner, predsjednice vijeća, Mirjane Čačić i Arme Vagner Popović, članica vijeća, te više sudske savjetnice-specijalistice Ivane Mamić Vuković, zapisničarke, u upravnom sporu tužitelja LS iz [adresa], OIB: [osobni identifikacijski broj], kojeg zastupa opunomoćenik Domagoj Rešetar, odvjetnik iz Odvjetničkog društva Rešetar & partneri d.o.o., Osijek, Šetalište Petra Preradovića 7, protiv tuženika Ministarstva prostornog uređenja, graditeljstva i državne imovine Republike Hrvatske, Zagreb, Ulica Republike Austrije 14, OIB:95093210687, radi šutnje uprave, odlučujući o žalbi tužitelja protiv rješenja Upravnog suda u Osijeku, poslovni broj: Us I-530/2024-7 od 13. rujna 2024., na sjednici vijeća održanoj 27. ožujka 2025. Odbija se žalba tužitelja i potvrđuje rješenje Upravnog suda u Osijeku, poslovni broj: Us I-530/2024-7 od 13. rujna 2024.",
     reasoning:
       "Visoki upravni sud Republike Hrvatske odlučuje u predmetu Usž-3997/2024-2, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.",
     keywords: ["administrative","Visoki upravni sud","Usž-3997"],
@@ -3033,7 +3033,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-03-27",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-4006/2024-2?",
+      "Da li tužitelj ima pravo na novčane naknade za vrijeme nezaposlenosti?",
     court_position:
       "I Odbija se žalba tužiteljice i potvrđuje presuda Upravnog suda u Zagrebu, poslovni broj: Us I-2615/2023-10 od 10. rujna 2024. II Odbija se zahtjev tužiteljice za naknadu troškova žalbenog postupka.",
     reasoning:
@@ -3052,7 +3052,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-04-02",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-402/2024-2?",
+      "Da li je osnovan zahtjev radi invalidske mirovine?",
     court_position:
       "I. Žalba se odbija i potvrđuje presuda Upravnog suda u Zagrebu, poslovni broj: Us I-2102/22-21 od 19. prosinca 2023. II. Odbija se tužiteljev zahtjev za naknadu troškova žalbenog postupka.",
     reasoning:
@@ -3071,7 +3071,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-07-09",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-4022/2024-2?",
+      "Da li je osnovan zahtjev radi utvrđivanja povrede prava za zaštitu osobnih podataka?",
     court_position:
       "I. Žalba se odbija i potvrđuje presuda Upravnog suda u Rijeci, poslovni broj: Us I-791/2024-13 od 9. rujna 2024. II. Odbija se zahtjev tužiteljice za naknadu troška sastava žalbe.",
     reasoning:
@@ -3090,7 +3090,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-05-13",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-4023/2024-2?",
+      "Da li je osnovan zahtjev radi nenadležnosti. Budući da joj je žalba vraćena 10. lipnja 2021. godine?",
     court_position:
       "Odbija se žalba tužiteljice i potvrđuje presuda Upravnog suda u Rijeci, poslovni broj: UsI-2743/2023-5 od 17. rujna 2024.",
     reasoning:
@@ -3109,7 +3109,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-04-09",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-4027/2024-2?",
+      "Da li je osnovan zahtjev radi ovrhe poreza i drugih javnih davanja?",
     court_position:
       "I. Odbija se žalba tužitelja i potvrđuje se presuda Upravnog suda u Splitu, poslovni broj: Us I-749/2022-6 od 26. siječnja 2024. II. Odbija se zahtjev tužitelja za naknadu troškova žalbenog postupka.",
     reasoning:
@@ -3128,7 +3128,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-07-01",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-4028/2024-3?",
+      "Da li je osnovan zahtjev radi uklanjanja rekonstrukcije građevine?",
     court_position:
       "I. Odbija se žalba tužitelja i potvrđuju presuda i točka II. izreke rješenja Upravnog suda u Splitu, poslovni broj: Us I-280/2024-7 od 27. lipnja 2024. II. Odbija se zahtjev tužitelja za naknadu troška žalbenog postupka.",
     reasoning:
@@ -3147,9 +3147,9 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-03-18",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-4034/2024-2?",
+      "Da li tužitelj ima pravo na troškova spora u predmetu isplate naknade za korištenje javne površine?",
     court_position:
-      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sutkinja toga suda, Senke Orlić-Zaninović, predsjednice vijeća, Eveline Čolović Tomić i Jelene Rajić, članica vijeća, te više sudske savjetnice Ane Matacin, zapisničarke, u upravnom sporu tužitelja Općine Dugopolje, OIB 57240842564, Dugopolje, Trg Franje Tuđmana, zastupane po opunomoćeniku Vinku Samardžiću, odvjetniku u Splitu, Ljudevita Posavskom 12A,…",
+      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sutkinja toga suda, Senke Orlić-Zaninović, predsjednice vijeća, Eveline Čolović Tomić i Jelene Rajić, članica vijeća, te više sudske savjetnice Ane Matacin, zapisničarke, u upravnom sporu tužitelja Općine Dugopolje, OIB 57240842564, Dugopolje, Trg Franje Tuđmana, zastupane po opunomoćeniku Vinku Samardžiću, odvjetniku u Splitu, Ljudevita Posavskom 12A, protiv tuženika Splitsko-dalmatinske županije, Upravnog odjela za zaštitu okoliša, komunalne poslove, infrastrukturu i investicije, OIB 40781519492, Split, Domovinskog rata 2, uz sudjelovanje zainteresirane osobe HRVATSKI TELEKOM d.d., OIB 81793146560, Zagreb, Radnička cesta, koju zastupaju opunomoćenici Ivo Smrke i Maja Smrke, odvjetnici u Zajedničkom odvjetničkom uredu, Split, Riječka 18, radi troškova spora u predmetu isplate naknade za korištenje javne površine, odlučujući o žalbi tuženika protiv točke I. izreke rješenja Upravnog suda u Splitu, poslovni broj: Us I-1203/2024-17 od 3. rujna 2024., na sjednici vijeća održanoj 18. ožujka 2025. Poništava se točka I. izreke rješenja Upravnog suda u Splitu, poslovni broj: Us I-1203/2024-17 od 3. rujna 2024.",
     reasoning:
       "Visoki upravni sud Republike Hrvatske odlučuje u predmetu Usž-4034/2024-2, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.",
     keywords: ["administrative","Visoki upravni sud","Usž-4034"],
@@ -3166,7 +3166,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-07-02",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-404/2025-2?",
+      "Da li je osnovan zahtjev radi komunalnog doprinosa?",
     court_position:
       "Odbija se žalba i potvrđuje presuda Upravnog suda u Zagrebu, poslovni broj Us I-2044/2024-10 od 8. studenog 2024.",
     reasoning:
@@ -3185,7 +3185,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-05-14",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-4042/2024-2?",
+      "Da li je osnovan zahtjev radi prava iz mirovinskog osiguranja?",
     court_position:
       "Žalba se odbija i potvrđuje presuda Upravnog suda u Splitu, poslovni broj: Us I-3151/2023-11 od 28. lipnja 2024.",
     reasoning:
@@ -3204,7 +3204,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-04-29",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-4045/2024-3?",
+      "Da li je osnovan zahtjev za poništaj upravnog rješenja?",
     court_position:
       "I. Odbija se žalba tužitelja i potvrđuju presuda i rješenje Upravnog suda u Splitu, poslovni broj: Us I-607/2024-6 od 19. srpnja 2024. II. Odbija se zahtjev tužitelja za naknadu troška žalbenog postupka.",
     reasoning:
@@ -3223,7 +3223,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-05-15",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-4046/2024-2?",
+      "Da li je osnovan zahtjev radi povrata sredstava uloženih u obnovu ratom oštećene kuće?",
     court_position:
       "Odbija se žalba i potvrđuje presuda Upravnog suda u Splitu, poslovni broj: Us I-3854/2021-11 od 19. travnja 2023.",
     reasoning:
@@ -3242,7 +3242,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-05-07",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-4047/2024-2?",
+      "Da li je osnovan zahtjev radi teže povrede službene dužnosti?",
     court_position:
       "I. Odbija se žalba tužitelja i potvrđuje presuda Upravnog suda u Splitu, poslovni broj: Us I-611/2024-8 od 14. kolovoza 2024. II. Odbija se zahtjev tužitelja za naknadu troška žalbenog postupka.",
     reasoning:
@@ -3261,7 +3261,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-05-27",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-4048/2024-2?",
+      "Da li je osnovan zahtjev radi građevinske dozvole?",
     court_position:
       "Odbija se žalba tužiteljice i potvrđuje presuda Upravnog suda u Splitu, poslovni broj: Us I-699/23-8 od 11. lipnja 2024.",
     reasoning:
@@ -3280,7 +3280,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-09-25",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-405/2025-2?",
+      "Da li je osnovan zahtjev radi naplate trošarine na djelomično usitnjeni duhan u listu?",
     court_position:
       "I. Žalba se odbija i potvrđuje presuda Upravnog suda u Zagrebu, poslovni broj: Us l-1623/2023-6 od 11. listopada 2024. II. Odbija se zahtjev tužitelja za naknadu troškova žalbenog postupka.",
     reasoning:
@@ -3299,7 +3299,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-09-24",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-4053/2024-2?",
+      "Da li je osnovan zahtjev radi izdavanja potvrde izvršnosti?",
     court_position:
       "I. Žalba se odbija i potvrđuje presuda Upravnog suda u Zagrebu, poslovni broj: Us I-5524/2023-9 od 5. rujna 2024. II. Odbija se zahtjev tužiteljice za naknadu troškova sastava žalbe.",
     reasoning:
@@ -3318,9 +3318,9 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-08-27",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-4055/2024-2?",
+      "Da li je osnovan zahtjev radi priznavanja prava iz obveznog zdravstvenog osiguranja s osnove ozljede na radu?",
     court_position:
-      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sutkinja toga suda, dr. sc. Sanje Otočan, predsjednice vijeća, Mire Kovačić i Radmile Bolanča Vuković, članica vijeća te sudske savjetnice Jelene Maltar Benjak, zapisničarke, u upravnom sporu tužitelja LĆ ,OIB: [osobni identifikacijski broj], [adresa], kojeg zastupa opunomoćenica Jasna Orešić, odvjetnica u Zagrebu, Kozarčaninova 5, protiv tuženika Hrva…",
+      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sutkinja toga suda, dr. sc. Sanje Otočan, predsjednice vijeća, Mire Kovačić i Radmile Bolanča Vuković, članica vijeća te sudske savjetnice Jelene Maltar Benjak, zapisničarke, u upravnom sporu tužitelja LĆ ,OIB: [osobni identifikacijski broj], [adresa], kojeg zastupa opunomoćenica Jasna Orešić, odvjetnica u Zagrebu, Kozarčaninova 5, protiv tuženika Hrvatskog zavoda za zdravstveno osiguranje, Direkcije,OIB:02958272670, Zagreb, Margaretska 3, radi priznavanja prava iz obveznog zdravstvenog osiguranja s osnove ozljede na radu, odlučujući o žalbi tužitelja protiv točke II. izreke rješenja i žalbi tuženika podnesenoj protiv rješenja Upravnog suda u Zagrebu, poslovni broj: Us I-3717/2021-51 od 24. rujna 2024., na sjednici vijeća održanoj 27. kolovoza 2025. I. Odbija se žalba tuženika i potvrđuje rješenje Upravnog suda u Zagrebu, poslovni broj: Us I-3717/2021-51 od 24. rujna 2024. II. Poništava se točka II. izreke rješenja Upravnog suda u Zagrebu, poslovni broj: Us I-3717/2021-51 od 24. rujna 2024. III. Nalaže se tuženiku da tužitelju naknadi daljnji trošak ovog upravnog spora u iznosu od ukupno 3.307, 49 eura (tritisućetristosedam eura i četrdesetdevet centi) u roku od 30 dana od dostave ovog rješenja. IV. Nalaže se tuženiku da tužitelju naknadi trošak za sastav žalbe u iznosu od 312,50 eura (tristotinedvanaest eura i pedeset centi) u roku od 30 dana od dana dostave ovog rješenja. V. Odbija se zahtjev tužitelja za naknadu troška za sastav odgovora na žalbu.",
     reasoning:
       "Visoki upravni sud Republike Hrvatske odlučuje u predmetu Usž-4055/2024-2, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.",
     keywords: ["administrative","Visoki upravni sud","Usž-4055"],
@@ -3337,7 +3337,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-04-16",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-4068/2024-2?",
+      "Da li je osnovan zahtjev radi poreznog nadzora?",
     court_position:
       "I. Odbija se žalba tužitelja i potvrđuje presuda Upravnog suda u Zagrebu, poslovni broj: Us I-1336/2019-45 od 3. srpnja 2024. II. Odbija se zahtjev tužitelja za naknadu troškova žalbenog postupka.",
     reasoning:
@@ -3356,7 +3356,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-04-16",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-407/2025-3?",
+      "Da li je osnovan zahtjev radi stegovne mjere?",
     court_position:
       "I. Poništava se presuda Upravnog suda u Zagrebu, poslovni broj: Us I- 3930/2024-6 od 2. prosinca 2024. II. Odbija se tužbeni zahtjev za poništavanje rješenja Ministarstva obrane Republike Hrvatske, Vojnostegovnog suda, klasa: UP/I-815-01/22-01/142, urbroj: 512-21-24-92 od 12. srpnja 2024. III. Odbija se zahtjev tužiteljice za naknadu troška upravnog spora.",
     reasoning:
@@ -3375,9 +3375,9 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-05-08",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-4072/2024-2?",
+      "Da li je osnovan zahtjev radi ocjene zakonitosti propuštanja javnopravnog tijela?",
     court_position:
-      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca toga suda Mirjane Čačić predsjednice vijeća, Ane Berlengi Fellner i Arme Vagner Popović, članica vijeća, te više sudske savjetnice-specijalistice Ivane Mamić Vuković, zapisničarke, u upravnom sporu tužitelja PT iz [adresa], protiv tuženika KOMUNALAC d.o.o., Slavonski Brod, Stjepana pl. Horvata 38., u predmetu radi ocjene zakonitosti propuštanja…",
+      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca toga suda Mirjane Čačić predsjednice vijeća, Ane Berlengi Fellner i Arme Vagner Popović, članica vijeća, te više sudske savjetnice-specijalistice Ivane Mamić Vuković, zapisničarke, u upravnom sporu tužitelja PT iz [adresa], protiv tuženika KOMUNALAC d.o.o., Slavonski Brod, Stjepana pl. Horvata 38., u predmetu radi ocjene zakonitosti propuštanja javnopravnog tijela, odlučujući o žalbi protiv presude Upravnog suda u Osijeku, broj: Us I-602/2023 od 26. rujna 2024., na sjednici vijeća održanoj 8. svibnja 2025. Žalba se odbija i potvrđuje se rješenje Upravnog suda u Osijeku, broj: Us I-602/2023 od 26. rujna 2024.",
     reasoning:
       "Visoki upravni sud Republike Hrvatske odlučuje u predmetu Usž-4072/2024-2, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.",
     keywords: ["administrative","Visoki upravni sud","Usž-4072"],
@@ -3394,7 +3394,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-04-29",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-4073/2024-2?",
+      "Da li tužitelj ima pravo na naknade plaće za vrijeme privremene nesposobnosti za rad?",
     court_position:
       "Poništava se presuda Upravnog suda u Osijeku, poslovni broj: Us I- 840/2023-4 od 20. veljače 2024. i predmet se vraća tom sudu na ponovni postupak.",
     reasoning:
@@ -3413,7 +3413,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-04-15",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-4075/2024-2?",
+      "Da li je osnovan zahtjev radi povrata sredstava?",
     court_position:
       "I. Odbija se žalba i potvrđuje presuda Upravnog suda u Rijeci, poslovni broj: Us I-1052/2024-8 od 30. rujna 2024. II. Odbija se zahtjev tužitelja za naknadu troškova žalbenog postupka.",
     reasoning:
@@ -3432,9 +3432,9 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-07-23",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-4077/2024-2?",
+      "Da li je osnovan zahtjev radi procjene utjecaja zahvata na okoliš?",
     court_position:
-      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca toga suda Jelene Rajić, predsjednice vijeća, Marine Kosović Marković i Kristine Senjak Krunić, te sudskog savjetnika Alana Vučkovečkog, zapisničara, u upravnom sporu tužitelja Liderato Mare d.o.o., OIB: 95283061448, Umag, Bruštoni 7, kojeg zastupaju odvjetnici iz Zajedničkog odvjetničkog ureda Arsen Stipinović, Dušan Miočić, Iva Glavota i Dajana…",
+      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca toga suda Jelene Rajić, predsjednice vijeća, Marine Kosović Marković i Kristine Senjak Krunić, te sudskog savjetnika Alana Vučkovečkog, zapisničara, u upravnom sporu tužitelja Liderato Mare d.o.o., OIB: 95283061448, Umag, Bruštoni 7, kojeg zastupaju odvjetnici iz Zajedničkog odvjetničkog ureda Arsen Stipinović, Dušan Miočić, Iva Glavota i Dajana Miškulin Frelih, Rijeka, Prolaz Marije Krucifikse Kožulić 2, protiv rješenja tuženika, Ministarstva gospodarstva i održivog razvoja, OIB: 19370100881, Zagreb, Radnička cesta 80, klasa: UP/I-351-03/18-08/12, urbroj: 517-05-1-2-23-88 od 21. veljače 2023., radi procjene utjecaja zahvata na okoliš, odlučujući o žalbi tuženika protiv točke III. izreke presude Upravnog suda u Rijeci, poslovni broj: Us I-430/23-6 od 4. rujna 2024., na sjednici vijeća održanoj 23. srpnja 2025. Odbija se žalba i potvrđuje točka III. izreke presude Upravnog suda u Rijeci, poslovni broj: Us I-430/23-6 od 4. rujna 2024.",
     reasoning:
       "Visoki upravni sud Republike Hrvatske odlučuje u predmetu Usž-4077/2024-2, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.",
     keywords: ["administrative","Visoki upravni sud","Usž-4077"],
@@ -3451,9 +3451,9 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-07-08",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-4078/2024-2?",
+      "Da li je osnovan zahtjev radi obnove postupka izdavanja uporabne dozvole?",
     court_position:
-      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sutkinja toga suda Senke Orlić-Zaninović, predsjednice vijeća, Eveline Čolović Tomić i Kristine Senjak Krunić, članica vijeća, te više sudske savjetnice Ane Matacin, zapisničarke, u upravnom sporu tužitelja BĆ, [adresa], OIB: [osobni identifikacijski broj] i TĆ, [adresa], protiv tuženika Ministarstva prostornoga uređenja, graditeljstva i državne imovin…",
+      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sutkinja toga suda Senke Orlić-Zaninović, predsjednice vijeća, Eveline Čolović Tomić i Kristine Senjak Krunić, članica vijeća, te više sudske savjetnice Ane Matacin, zapisničarke, u upravnom sporu tužitelja BĆ, [adresa], OIB: [osobni identifikacijski broj] i TĆ, [adresa], protiv tuženika Ministarstva prostornoga uređenja, graditeljstva i državne imovine, Zagreb, Ulica Republike Austrije 20, OIB: 95093210687, radi obnove postupka izdavanja uporabne dozvole, protiv rješenja Upravnog suda u Rijeci, poslovni broj: Us I- 1402/2022-32 od 28. kolovoza 2024., na sjednici vijeća održanoj 8. srpnja 2025. Odbija se žalba tužitelja i potvrđuje rješenje Upravnog suda u Rijeci, poslovni broj: Us I-1402/2022-32 od 28. kolovoza 2024.",
     reasoning:
       "Visoki upravni sud Republike Hrvatske odlučuje u predmetu Usž-4078/2024-2, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.",
     keywords: ["administrative","Visoki upravni sud","Usž-4078"],
@@ -3470,7 +3470,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-05-13",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-408/2024-2?",
+      "Da li je osnovan zahtjev radi ocjene o potrebi procjene utjecaja na okoliš?",
     court_position:
       "I. Odbija se žalba i potvrđuje presuda Upravnog suda u Splitu, poslovni broj: 19 Us I-897/2023-6 od 14. rujna 2023. II. Odbija se zahtjev tužitelja za naknadu troška žalbenog postupka.",
     reasoning:
@@ -3489,7 +3489,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-03-13",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-4080/2024-3?",
+      "Da li je osnovan zahtjev radi zaštite osobnih podataka?",
     court_position:
       "I. Odbija se žalba tužitelja i potvrđuje presuda Upravnog suda u Rijeci, poslovni broj: Us I-833/2024-15 od 7. listopada 2024. II. Odbija se zahtjev zainteresirane osobe za naknadu troška sastava odgovora na žalbu.",
     reasoning:
@@ -3508,9 +3508,9 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-04-02",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-4087/2024-2?",
+      "Da li je osnovan zahtjev radi utvrđivanja nastupa zastare prava na naplatu poreznog duga?",
     court_position:
-      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca tog Suda Blanše Turić, predsjednice vijeća, Borisa Markovića i Željke Zrilić Ježek, članova vijeća te sudske savjetnice Marte Srake, zapisničarke, u upravnom sporu tužiteljice HŽJ, iz [adresa], OIB: [osobni identifikacijski broj], koju zastupa opunomoćenik Zoran Sloković, odvjetnik u Pazinu, Franine i Jurine 7, protiv tuženika Ministarstva finan…",
+      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca tog Suda Blanše Turić, predsjednice vijeća, Borisa Markovića i Željke Zrilić Ježek, članova vijeća te sudske savjetnice Marte Srake, zapisničarke, u upravnom sporu tužiteljice HŽJ, iz [adresa], OIB: [osobni identifikacijski broj], koju zastupa opunomoćenik Zoran Sloković, odvjetnik u Pazinu, Franine i Jurine 7, protiv tuženika Ministarstva financija Republike Hrvatske, Samostalnog sektora za drugostupanjski upravni postupak, Zagreb, Katančićeva 5, OIB: 18683136487, radi utvrđivanja nastupa zastare prava na naplatu poreznog duga, odlučujući o žalbi tužiteljice izjavljenoj protiv presude Upravnog suda u Rijeci, poslovni broj: Us I- 2070/2023-8 od 30. kolovoza 2024., na sjednici vijeća održanoj 2. travnja 2025. I Žalba tužiteljice se usvaja i poništava točka III. izreke presude Upravnog suda u Rijeci, poslovni broj: Us I-2070/2023-8 od 30. kolovoza 2024. II Nalaže se tuženiku da tužiteljici naknadi trošak upravnog spora u iznosu od 628,12 eura u roku od 15 dana od dana primitka ovog rješenja. III Nalaže se tuženiku naknaditi tužiteljici trošak žalbenog postupka u iznosu od 156,25 eura u roku od 15 dana od dana primitka ovog rješenja.",
     reasoning:
       "Visoki upravni sud Republike Hrvatske odlučuje u predmetu Usž-4087/2024-2, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.",
     keywords: ["administrative","Visoki upravni sud","Usž-4087"],
@@ -3527,7 +3527,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-07-08",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-4090/2024-2?",
+      "Da li je osnovan zahtjev radi obnove postupka izdavanja uporabne dozvole?",
     court_position:
       "Odbija se žalba tužitelja i potvrđuje presuda Upravnog suda u Rijeci, poslovni broj: Us I-1402/2022-33 od 28. kolovoza 2024.",
     reasoning:
@@ -3546,9 +3546,9 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-04-03",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-4092/2024-2?",
+      "Da li je osnovan zahtjev radi odluke o trošku upravnog spora?",
     court_position:
-      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca toga suda Ane Berlengi Fellner, predsjednice vijeća, Mirjane Čačić i Arme Vagner Popović, članica vijeća, te više sudske savjetnice-specijalistice Ivane Mamić Vuković, zapisničarke, u upravnom sporu tužiteljice ĐĐ iz [adresa], zastupana po punomoćniku Martinu Sherriu, odvjetniku iz Zagreba, Kordunska 1, protiv tuženika Grada Zagreba, Gradskog ur…",
+      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca toga suda Ane Berlengi Fellner, predsjednice vijeća, Mirjane Čačić i Arme Vagner Popović, članica vijeća, te više sudske savjetnice-specijalistice Ivane Mamić Vuković, zapisničarke, u upravnom sporu tužiteljice ĐĐ iz [adresa], zastupana po punomoćniku Martinu Sherriu, odvjetniku iz Zagreba, Kordunska 1, protiv tuženika Grada Zagreba, Gradskog ureda za socijalnu zaštitu, zdravstvo, branitelje i osobe s invaliditetom, Zagreb, Trg Stjepana Radića 1, radi odluke o trošku upravnog spora, odlučujući o žalbi tužiteljice protiv rješenja Upravnog suda u Zagrebu, poslovnog broja: Us I-5920/2023-7 od 13. rujna 2024., na sjednici vijeća održanoj 3. travnja 2025. I. Odbija se žalba tužiteljice i potvrđuje rješenje Upravnog suda u Zagrebu, poslovnog broja: Us I-5920/2023-7 od 13. rujna 2024. II. Odbija se zahtjev tužiteljice za naknadom troškova žalbenog dijela upravnog spora.",
     reasoning:
       "Visoki upravni sud Republike Hrvatske odlučuje u predmetu Usž-4092/2024-2, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.",
     keywords: ["administrative","Visoki upravni sud","Usž-4092"],
@@ -3565,7 +3565,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-05-15",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-4096/2024-2?",
+      "Da li je osnovan zahtjev radi izdavanja potvrde izvršnosti i pravomoćnosti?",
     court_position:
       "I. Žalba se usvaja i poništava se točka III. presude Upravnog suda u Zagrebu, broj: Us I-5345/2023 od 23. rujna 2024. II. Odbija se zahtjev tužiteljice za naknadu troškova upravnog postupka.",
     reasoning:
@@ -3584,7 +3584,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-06-17",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-4099/2024-2?",
+      "Da li je osnovan zahtjev radi postupanja?",
     court_position:
       "Odbija se žalba i potvrđuje točka III. izreke presude Upravnog suda u Zagrebu, poslovni broj: Us I-5366/2023-12 od 23. rujna 2024.",
     reasoning:
@@ -3603,7 +3603,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-03-27",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-4100/2024-2?",
+      "Da li je osnovan zahtjev radi utvrđivanja građevne čestice?",
     court_position:
       "Odbija se žalba i potvrđuje presuda Upravnog suda u Zagrebu, poslovni broj: Us I-562/2023-13 od 25. rujna 2024.",
     reasoning:
@@ -3622,7 +3622,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-06-03",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-4101/2024-2?",
+      "Da li je osnovan zahtjev radi izdavanja potvrde izvršnosti i pravomoćnosti?",
     court_position:
       "I. Odbija se žalba tuženika i potvrđuje točka III. izreke presuda Upravnog suda u Zagrebu, poslovni broj: Us I-5318/2023-14 od 23. rujna 2024. II. Odbija se zahtjev tužiteljice za naknadu troška žalbenog postupka.",
     reasoning:
@@ -3641,7 +3641,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-07-17",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-4107/2024-2?",
+      "Da li je osnovan zahtjev radi postupanja-izdavanja potvrde izvršnosti i pravomoćnosti?",
     court_position:
       "I. Žalba tuženika se usvaja i poništava točka III. izreke presude Upravnog suda u Zagrebu, poslovnog broja: Us I-5277/2023-12 od 23. rujna 2024. II. Odbija se zahtjev tužiteljice za naknadom troškova upravnog postupka. III. Odbija se zahtjev tužiteljice za naknadom troškova sastava odgovora na žalbu.",
     reasoning:
@@ -3660,7 +3660,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-03-27",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-4112/2024-2?",
+      "Da li je osnovan zahtjev radi geodetskog elaborata?",
     court_position:
       "Odbija se žalba i potvrđuje presuda Upravnog suda u Osijeku, poslovni broj: Us I-1717/2023-11 od 18. rujna 2024.",
     reasoning:
@@ -3679,7 +3679,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-05-08",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-4113/2024-2?",
+      "Da li je osnovan zahtjev radi promjene u katastarskom operatu?",
     court_position:
       "I. Žalba se odbija i potvrđuje se presuda Upravnog suda u Rijeci, poslovni broj: Us I-96/2023 od 6. rujna 2024. II. Odbija se zahtjev tužiteljice za naknadu troška žalbenog dijela upravnog spora.",
     reasoning:
@@ -3698,7 +3698,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-08-06",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-4116/2024-2?",
+      "Da li je osnovan zahtjev za poništaj upravnog rješenja?",
     court_position:
       "I. Žalba se odbija i potvrđuju točke II., III. i IV. izreke presude Upravnog suda u Rijeci, poslovni broj: 11 Us l-928/2023-3 od 22. kolovoza 2024. II. Odbija se zahtjev tužiteljice za naknadu troška žalbenog postupka.",
     reasoning:
@@ -3717,7 +3717,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-04-02",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-412/2025-2?",
+      "Da li je osnovan zahtjev radi povrede službene dužnosti?",
     court_position:
       "I. Odbija se žalba tužitelja i potvrđuju presuda i rješenje Upravnog suda u Splitu, poslovni broj: Us I-3176/2023-8 od 11. listopada 2024. II. Odbija se zahtjev tužitelja za naknadu troškova žalbenog postupka.",
     reasoning:
@@ -3736,9 +3736,9 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-07-02",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-4121/2024-2?",
+      "Da li je osnovan zahtjev radi ocjene zakonitosti propuštanja donošenja odluke javnopravnog tijela?",
     court_position:
-      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca toga Suda Blanše Turić, predsjednice vijeća, Borisa Markovića i Željke Zrilić Ježek, članova vijeća te sudske savjetnice Tajane Šimunović, zapisničarke, u upravnom sporu tužiteljice SH iz [adresa], OIB: [osobni identifikacijski broj], koju zastupa opunomoćenik Domagoj Jugović, odvjetnik u Zajedničkom odvjetničkom uredu Jurica Borojević i Domagoj…",
+      "Visoki upravni sud Republike Hrvatske u vijeću sastavljenom od sudaca toga Suda Blanše Turić, predsjednice vijeća, Borisa Markovića i Željke Zrilić Ježek, članova vijeća te sudske savjetnice Tajane Šimunović, zapisničarke, u upravnom sporu tužiteljice SH iz [adresa], OIB: [osobni identifikacijski broj], koju zastupa opunomoćenik Domagoj Jugović, odvjetnik u Zajedničkom odvjetničkom uredu Jurica Borojević i Domagoj Jugović, Nova Gradiška, Alojzija Stepinca 16A, protiv tuženika Ministarstva unutarnjih poslova Republike Hrvatske, Zagreb, Ulica grada Vukovara 33, OIB: 86162371878, radi ocjene zakonitosti propuštanja donošenja odluke javnopravnog tijela, odlučujući o žalbi tužiteljice izjavljenoj protiv rješenja Upravnog suda u Osijeku, poslovni broj: Us I-360/2024-5 od 17. rujna 2024., na sjednici vijeća održanoj 2. srpnja 2025. I. Odbija se žalba tužiteljice i potvrđuje rješenje Upravnog suda u Osijeku, poslovni broj: Us I-360/2024-5 od 17. rujna 2024. II. Odbija se zahtjev tužiteljice za naknadu troškova žalbenog postupka.",
     reasoning:
       "Visoki upravni sud Republike Hrvatske odlučuje u predmetu Usž-4121/2024-2, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.",
     keywords: ["administrative","Visoki upravni sud","Usž-4121"],
@@ -3755,7 +3755,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-03-27",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-4126/2024-2?",
+      "Da li je osnovan zahtjev radi naplate posebnog poreza na motorna vozila?",
     court_position:
       "Odbija se žalba tužitelja i potvrđuje presuda Upravnog suda u Splitu, poslovni broj: Us I-1435/2023-10 od 1. kolovoza 2024.",
     reasoning:
@@ -3774,9 +3774,9 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-07-01",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-413/2025-2?",
+      "Da li tužitelj ima pravo na komunalne naknade?",
     court_position:
-      "I. Usvaja se žalba tužitelja i poništava presuda Upravnog suda u Splitu, poslovni broj: Us I-890/2024-6 od 4. studenog 2024. II. Poništava se rješenje Dubrovačko-neretvanske županije, Upravnog odjela za zaštitu okoliša i komunalne poslove, KLASA: UP/II-363-03/23-02/18, URBROJ: 2117-09/5-24-2 od 31. siječnja 2024. III. Poništava se rješenje Grada Ploče, Upravnog odjela za gospodarski razvoj, KLASA: UP/I-363-02/23-0…",
+      "I. Usvaja se žalba tužitelja i poništava presuda Upravnog suda u Splitu, poslovni broj: Us I-890/2024-6 od 4. studenog 2024. II. Poništava se rješenje Dubrovačko-neretvanske županije, Upravnog odjela za zaštitu okoliša i komunalne poslove, KLASA: UP/II-363-03/23-02/18, URBROJ: 2117-09/5-24-2 od 31. siječnja 2024. III. Poništava se rješenje Grada Ploče, Upravnog odjela za gospodarski razvoj, KLASA: UP/I-363-02/23-01/86, URBROJ: 2117-12-4-23-1 od 15. veljače 2023.",
     reasoning:
       "Visoki upravni sud Republike Hrvatske odlučuje u predmetu Usž-413/2025-2, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.",
     keywords: ["administrative","Visoki upravni sud","Usž-413"],
@@ -3793,7 +3793,7 @@ export const CASE_LAW_ADMINISTRATIVE_CROATIA_8: CaseLawInput[] = [
     decision_date: "2025-03-26",
     legal_area: "administrative",
     legal_question:
-      "Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu Usž-4133/2024-4?",
+      "Da li tužitelj ima pravo na obnove postupka priznavanja prava na naknadu zbog tjelesnog oštećenja?",
     court_position:
       "Odbija se žalba i potvrđuje presuda Upravnog suda u Splitu, poslovni broj: Us I-1775/2023-21 od 27. svibnja 2024.",
     reasoning:

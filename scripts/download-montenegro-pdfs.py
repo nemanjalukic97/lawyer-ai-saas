@@ -4,6 +4,7 @@ Download Montenegro court decisions as .txt from sudovi.me.
 
 Run from repo root: python scripts/download-montenegro-pdfs.py
 Smoke test: python scripts/download-montenegro-pdfs.py --max-decisions 3
+Dedicated courts only: python scripts/download-montenegro-pdfs.py --court visi-podgorica osnovni-bar
 """
 
 from __future__ import annotations
@@ -25,24 +26,35 @@ from urllib3.exceptions import ProtocolError
 SEARCH_URL = "https://sudovi.me/api/search/decisions"
 DECISION_URL = "https://sudovi.me/api/decision/{dbid}"
 DETAIL_PAGE_URL = "https://sudovi.me/vrhs/odluka/{dbid}"
-COURT_CODE = "sdvi"
 ROWS = 1000
 
-INCLUDE_COURTS = frozenset(
+COURTS: list[dict[str, str | int | None]] = [
+    {"name": "VRHOVNI SUD CG", "courtCode": "sdvi", "folder": "vrhovni", "year": None},
+    {"name": "APELACIONI SUD CG", "courtCode": "sdvi", "folder": "apelacioni", "year": None},
+    {"name": "UPRAVNI SUD CG", "courtCode": "sdvi", "folder": "upravni", "year": None},
     {
-        "VRHOVNI SUD CG",
-        "APELACIONI SUD CG",
-        "UPRAVNI SUD CG",
-        "PRIVREDNI SUD CRNE GORE",
-    }
-)
+        "name": "PRIVREDNI SUD CRNE GORE",
+        "courtCode": "sdvi",
+        "folder": "privredni",
+        "year": None,
+    },
+    {
+        "name": "VIŠI SUD U PODGORICI",
+        "courtCode": "vspg",
+        "folder": "visi-podgorica",
+        "year": 2025,
+    },
+    {
+        "name": "OSNOVNI SUD U BARU",
+        "courtCode": "osbr",
+        "folder": "osnovni-bar",
+        "year": 2025,
+    },
+]
 
-COURT_TO_FOLDER = {
-    "VRHOVNI SUD CG": "vrhovni",
-    "APELACIONI SUD CG": "apelacioni",
-    "UPRAVNI SUD CG": "upravni",
-    "PRIVREDNI SUD CRNE GORE": "privredni",
-}
+DEDICATED_FOLDERS = frozenset(
+    str(c["folder"]) for c in COURTS if str(c["courtCode"]) != "sdvi"
+)
 
 USER_AGENT = (
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
@@ -69,6 +81,17 @@ class WorkItem:
 
 def repo_root() -> Path:
     return Path(__file__).resolve().parents[1]
+
+
+def resolve_court_folders(names: list[str], parser: argparse.ArgumentParser) -> frozenset[str]:
+    invalid = [n for n in names if n not in DEDICATED_FOLDERS]
+    if invalid:
+        valid = ", ".join(sorted(DEDICATED_FOLDERS))
+        parser.error(
+            f"invalid dedicated court folder(s): {', '.join(invalid)}. "
+            f"Valid folders: {valid}"
+        )
+    return frozenset(names)
 
 
 def sanitize_filename(raw: str) -> str:
@@ -144,9 +167,17 @@ def find_existing_txt(directory: Path, filename: str, url: str) -> Path | None:
     return None
 
 
-def fetch_search_page(session: PoliteSession, start: int) -> dict:
+def fetch_search_page(
+    session: PoliteSession, start: int, court_code: str, year: int | None
+) -> dict:
     last_err: Exception | None = None
-    body = {"courtCode": COURT_CODE, "start": start, "rows": ROWS}
+    body: dict[str, str | int] = {
+        "courtCode": court_code,
+        "start": start,
+        "rows": ROWS,
+    }
+    if year is not None:
+        body["year"] = year
     headers = {"Content-Type": "application/json", "Accept": "application/json"}
     for attempt in range(FETCH_RETRIES):
         try:
@@ -167,52 +198,129 @@ def fetch_search_page(session: PoliteSession, start: int) -> dict:
 
 
 def collect_work_items(
-    session: PoliteSession, max_items: int | None = None
+    session: PoliteSession,
+    max_items: int | None = None,
+    court_folders: frozenset[str] | None = None,
 ) -> list[WorkItem]:
     items: list[WorkItem] = []
-    start = 0
-    num_found: int | None = None
 
-    while True:
-        data = fetch_search_page(session, start)
-        if num_found is None:
-            num_found = int(data.get("numFound") or 0)
-            print(f"Search catalog: {num_found} total decisions")
+    # Phase 1: shared sdvi index; filter by courtName from response.
+    if court_folders is None:
+        legacy_name_to_folder = {
+            str(c["name"]): str(c["folder"])
+            for c in COURTS
+            if str(c["courtCode"]) == "sdvi"
+        }
+        legacy_names = frozenset(legacy_name_to_folder.keys())
 
-        docs = data.get("docs") or []
-        for doc in docs:
-            court_name = str(doc.get("courtName") or "")
-            if court_name not in INCLUDE_COURTS:
-                continue
-            if "OSNOVNI SUD" in court_name.upper():
-                continue
-            dbid = doc.get("dbid")
-            if not isinstance(dbid, int):
-                continue
-            folder = COURT_TO_FOLDER[court_name]
-            sifra = str(doc.get("sifraPredmeta") or "").strip()
-            upisnik_broj = int(doc.get("upisnikBroj") or 0)
-            upisnik_godina = int(doc.get("upisnikGodina") or 0)
-            items.append(
-                WorkItem(
-                    dbid=dbid,
-                    court_name=court_name,
-                    folder=folder,
-                    sifra_predmeta=sifra,
-                    upisnik_broj=upisnik_broj,
-                    upisnik_godina=upisnik_godina,
-                    detail_url=DETAIL_PAGE_URL.format(dbid=dbid),
+        start = 0
+        num_found: int | None = None
+        while True:
+            data = fetch_search_page(session, start, "sdvi", None)
+            if num_found is None:
+                num_found = int(data.get("numFound") or 0)
+                print(f"Search catalog: {num_found} total decisions (courtCode=sdvi)")
+
+            docs = data.get("docs") or []
+            for doc in docs:
+                court_name = str(doc.get("courtName") or "")
+                if court_name not in legacy_names:
+                    continue
+                if "OSNOVNI SUD" in court_name.upper():
+                    continue
+                dbid = doc.get("dbid")
+                if not isinstance(dbid, int):
+                    continue
+                folder = legacy_name_to_folder[court_name]
+                sifra = str(doc.get("sifraPredmeta") or "").strip()
+                upisnik_broj = int(doc.get("upisnikBroj") or 0)
+                upisnik_godina = int(doc.get("upisnikGodina") or 0)
+                items.append(
+                    WorkItem(
+                        dbid=dbid,
+                        court_name=court_name,
+                        folder=folder,
+                        sifra_predmeta=sifra,
+                        upisnik_broj=upisnik_broj,
+                        upisnik_godina=upisnik_godina,
+                        detail_url=DETAIL_PAGE_URL.format(dbid=dbid),
+                    )
                 )
-            )
-            if max_items is not None and len(items) >= max_items:
-                print(f"Collected {len(items)} decisions from included courts")
-                return items
+                if max_items is not None and len(items) >= max_items:
+                    print(f"Collected {len(items)} decisions from included courts")
+                    return items
 
-        start += ROWS
-        if num_found and start % (ROWS * 10) == 0:
-            print(f"  scanned {min(start, num_found)}/{num_found}, matched {len(items)}")
-        if num_found is not None and start >= num_found:
+            start += ROWS
+            if num_found and start % (ROWS * 10) == 0:
+                print(
+                    f"  scanned {min(start, num_found)}/{num_found}, matched {len(items)}"
+                )
+            if num_found is not None and start >= num_found:
+                break
+
+    # Phase 2: dedicated courtCode streams (each entry in COURTS order).
+    for cfg in COURTS:
+        if max_items is not None and len(items) >= max_items:
             break
+        if str(cfg["courtCode"]) == "sdvi":
+            continue
+        if court_folders is not None and str(cfg["folder"]) not in court_folders:
+            continue
+
+        cc = str(cfg["courtCode"])
+        year_val = cfg["year"]
+        year_filter: int | None = int(year_val) if year_val is not None else None
+        folder_g = str(cfg["folder"])
+        name_fallback = str(cfg["name"])
+
+        start = 0
+        num_found_cfg: int | None = None
+        while True:
+            data = fetch_search_page(session, start, cc, year_filter)
+            if num_found_cfg is None:
+                num_found_cfg = int(data.get("numFound") or 0)
+                y_suffix = (
+                    f", year={year_filter}" if year_filter is not None else ""
+                )
+                print(
+                    f"Search catalog: {num_found_cfg} total decisions "
+                    f"(courtCode={cc}{y_suffix})"
+                )
+
+            docs = data.get("docs") or []
+            for doc in docs:
+                dbid = doc.get("dbid")
+                if not isinstance(dbid, int):
+                    continue
+                court_disp = (
+                    str(doc.get("courtName") or "").strip() or name_fallback
+                )
+                sifra = str(doc.get("sifraPredmeta") or "").strip()
+                upisnik_broj = int(doc.get("upisnikBroj") or 0)
+                upisnik_godina = int(doc.get("upisnikGodina") or 0)
+                items.append(
+                    WorkItem(
+                        dbid=dbid,
+                        court_name=court_disp,
+                        folder=folder_g,
+                        sifra_predmeta=sifra,
+                        upisnik_broj=upisnik_broj,
+                        upisnik_godina=upisnik_godina,
+                        detail_url=DETAIL_PAGE_URL.format(dbid=dbid),
+                    )
+                )
+                if max_items is not None and len(items) >= max_items:
+                    print(f"Collected {len(items)} decisions from included courts")
+                    return items
+
+            start += ROWS
+            if num_found_cfg and start % (ROWS * 10) == 0:
+                print(
+                    f"  scanned {min(start, num_found_cfg)}/{num_found_cfg}, "
+                    f"matched {len(items)}"
+                )
+            if num_found_cfg is not None and start >= num_found_cfg:
+                break
 
     print(f"Collected {len(items)} decisions from included courts")
     return items
@@ -356,7 +464,20 @@ def main() -> int:
             "(download/skip/fail; for testing)."
         ),
     )
+    parser.add_argument(
+        "--court",
+        nargs="+",
+        metavar="folder",
+        help=(
+            "Run only dedicated courts with these folder names "
+            "(e.g. visi-podgorica osnovni-bar). Skips sdvi Phase 1."
+        ),
+    )
     args = parser.parse_args()
+
+    court_filter: frozenset[str] | None = None
+    if args.court is not None:
+        court_filter = resolve_court_folders(args.court, parser)
 
     out_root = repo_root() / "downloads" / "montenegro"
     log_path = out_root / "download-log.json"
@@ -371,7 +492,9 @@ def main() -> int:
     )
 
     try:
-        items = collect_work_items(session, max_items=decision_budget)
+        items = collect_work_items(
+            session, max_items=decision_budget, court_folders=court_filter
+        )
         process_decisions(
             session,
             items,

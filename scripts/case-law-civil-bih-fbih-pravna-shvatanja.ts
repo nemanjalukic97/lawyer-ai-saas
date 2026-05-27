@@ -15,12 +15,12 @@ export const CASE_LAW_CIVIL_BIH_FBIH_PRAVNA_SHVATANJA: CaseLawInput[] = [
     legal_question:
       "Koje pravno shvatanje je zauzeo Vrhovni sud FBiH u građanskoj materiji?",
     court_position:
-      "Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije BiH održanoj dana 18. i 19.01.2022. godine, usvojeno je slijedeće PRAVNO SHVATANJE: Prema općim pravilima o odgovornosti u slučaju udesa izazvanog motornim vozilom u pokretu, odgovara imalac vozila koji je kriv za udes, a ako postoji obostrana krivica odgovaraju srazmjerno stepenu krivice. Treća lica kao oštećeni u saobraćajnoj nezgodi izazvanoj osiguranim vozilom čiji je vozač kriv u cij",
+      "Na sjednici Građanskog odjeljenja Vrhovnog suda FederacijeBiH održanoj dana 18. i 19.01.2022. godine, usvojenoje slijedeće PRAVNO SHVATANJE: Prema općim pravilimaoodgovornostiuslučaju udesa izazvanog motornim vozilomupokretu, odgovara imalac vozila kojije krivza udes, a ako postoji obostrana krivica odgovaraju srazmjerno stepenu krivice. Treća licakao oštećeniusaobraćajnoj nezgodi izazvanoj osiguranim vozilom čijije vozač krivucijelostiili djelimično, a koja imaju pravo tražiti odštetuod vozača, imajuiizravnu tražbinuod osiguravaoca. To pravo pripadaibračnom partneru vlasnika vozilakao trećem licu koje nije zaključilo policu osiguranjasa osiguravaocemkao ugovorna strana, iakoje bračni partner krivza nezgodu. Predsjednica Građanskog odjeljenja Vrhovnog suda FederacijeBiH Slavica Čindrak",
     reasoning:
-      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH). Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije BiH održanoj dana 18. i 19.01.2022. godine, usvojeno je slijedeće PRAVNO SHVATANJE: Prema općim pravilima o odgovornosti u slučaju udesa izazvanog motornim vozilom u pokretu, odgovara imalac vozila koji je kriv za udes, a ako postoji obostrana krivica odgovaraju srazmjerno stepenu krivice. Treća lica kao oštećeni u saobraćajnoj nezgodi izazvanoj osiguranim vozilom čiji je vozač kriv u cijelosti ili djelimično, a koja imaju pravo tražiti",
+      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH).",
     keywords: ["pravna shvatanja","Zakon","ZPP FBiH","Vrhovni sud Federacije Bosne i Hercegovine"],
     related_articles: ["čl. ZOO FBiH"],
-    headnote: "Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije BiH održanoj dana 18. i 19.01.2022. godine, usvojeno je slijedeće PRAVNO SHVATANJE: Prema općim pravi",
+    headnote: "Na sjednici Građanskog odjeljenja Vrhovnog suda FederacijeBiH održanoj dana 18. i 19.01.2022. godine, usvojenoje slijedeće PRAVNO SHVATANJE: Prema općim pravilimaoodgovornostiusluč",
     outcome: "partially",
   },
   {
@@ -33,12 +33,12 @@ export const CASE_LAW_CIVIL_BIH_FBIH_PRAVNA_SHVATANJA: CaseLawInput[] = [
     legal_question:
       "Koje pravno shvatanje je zauzeo Vrhovni sud FBiH u građanskoj materiji?",
     court_position:
-      "o troškovima parničnog postupka nije rješenje iz člana 254 (1) ZPP protiv kojeg bi bila dopuštena revizija”. „Kako se odlukom o troškovima postupka, pravomoćno ne završava postupak po tužbi, to nema ni osnova za dopuštanje revizije iz čl. 237 st.3 i st.4. ZPP.“",
+      "o troškovima parničnog postupka nije rješenjeiz člana 254 (1) ZPP protiv kojegbi bila dopuštena revizija”. „Kakose odlukomotroškovima postupka, pravomoćnone završava postupakpo tužbi, to nemani osnovaza dopuštanje revizijeiz čl. 237 st.3 i st.4. ZPP.“",
     reasoning:
-      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH). BOSNA I HERCEGOVINA FEDERACIJA BOSNE I HERCEGOVINE VRHOVNI SUD FEDERACIJE BOSNE I HERCEGOVINE Broj: 070-0-Su-21-000945 PRAVNO SHVATANJE zauzeto na sjednici Građanskog odjeljenja Vrhovnog suda Federacije BiH od 21.12.2021 godine „Pravomoćno rješenje o troškovima parničnog postupka nije rješenje iz člana 254 (1) ZPP protiv kojeg bi bila dopuštena revizija”. „Kako se odlukom o troškovima postupka, pravomoćno ne završava postupak po tužbi, to nema ni osnova za dopuštanje revizije iz čl. 237 st.3 i s",
+      "Obrazloženje: Za odlučivanjeodopušenosti revizijena odlukuotroškovima, mjerodavnaje odredba čl. 383 (1) ZPP koja propisujedasu parnični troškovi izdatciutoku iliupovodu postupka, kaoiodredba čl. 396 (1) i (3)ZPP koja propisujedasud odlučujeotroškovima samona određen zahtjev strankeitoupresudiili rješenju kojimse završava postupak, s timšto se, po čl. 174 (4) ZPP, odlukaotroškovima postupkaupresudi smatra rešenjem. Tošto sudonaknadi troškova postupka odlučujena određeni zahtjev stranke, ne predstavlja rješenje drugostepenog suda kojimse postupak završavausmislu čl. 254 (1) ZPP, jer parnica počela teći dostavom tužbe tuženom (čl. 60 (1) ZPP), a okončavase pravosnažnom presudomili rješenjemozahtjevuiz tužbe, a neozahtjevuza naknadu troškova postupka. To značidase pravosnažnom odlukomotroškovima postupkane završava parnični postupak, bez obzirada lije takva odluka donesenauobliku presudeilirj ešenja, zbog čega, u smislu čl. 254 (1) ZPP, strankene mogu izjaviti reviziju protiv odluke drugostepenog suda kojomje odlučenootroškovima postupka. Revizijskisudje dužan samouslučajevima propisanim zakonom odlučivatioodluciotroškovima postupka, a tosu slučajeviiz čl. 397 ZPP, kada odbaciili odbije pravni lijek, kada preinači odlukuili ukinetu odlukuiodbaci tužbuili samo djelimičnoukine odluku, dakle slučajevi kojise odnosena izdatke nastaleutokuili povodom predmetnog spora. Odredbom čl. 237 (3) propisanaje mogućnostda izuzetno, Vrhovnisud Federacije može dopustiti revizijuusvim predmetimaako ocjenidabi odlučivanjepo reviziji bilood značajaza primjenu pravaudrugim slučajevima. Zakonska formulacija prema kojojse dopušta revizijausvim premetima, podrazumijevaone predmete kojisu pravosnažno završeni odlukom pred drugostepenim sudom, aliza koje odluke revizija nije dopuštenapo odredbama nekog zakona, kaoštosu neki vanparnični postupci (izvršni, stečajniisl.). Kako odlukaotroškovima postupkane spadautu vrstu predmeta, jerse odnosina izdatkeutokuili povodom postupka, dakle kojomse pravomoćnone završava postupakpo tužbi, odredbaoizuzetnoj revizijisene može primijenitinatu odluku, jersene radiseozakonskoj zabrani izjavljivanja revizije, većo nepostojanju pravosnažne odlukeookončanju postupka. Predsjednica Građanskog odjeljenja Slavica Čindrak",
     keywords: ["pravna shvatanja","Zakon","ZPP FBiH","Vrhovni sud Federacije Bosne i Hercegovine"],
     related_articles: ["čl. 254. ZPP FBiH","čl. ZPP FBiH"],
-    headnote: "o troškovima parničnog postupka nije rješenje iz člana 254 (1) ZPP protiv kojeg bi bila dopuštena revizija”. „Kako se odlukom o troškovima postupka, pravomoćno ",
+    headnote: "o troškovima parničnog postupka nije rješenjeiz člana 254 (1) ZPP protiv kojegbi bila dopuštena revizija”. „Kakose odlukomotroškovima postupka, pravomoćnone završava postupakpo tuž",
     outcome: "partially",
   },
   {
@@ -51,12 +51,12 @@ export const CASE_LAW_CIVIL_BIH_FBIH_PRAVNA_SHVATANJA: CaseLawInput[] = [
     legal_question:
       "Koje pravno shvatanje je zauzeo Vrhovni sud FBiH u građanskoj materiji?",
     court_position:
-      "Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije BiH održanoj dana 21.04.2022. godine zauzeto je i usvojeno slijedeće PRAVNO SHVATANJE: „Protiv presude drugostepenog suda, u dijelu odluke o zakonskoj zateznoj kamati, kao sporednom potraživanju, revizija nije dopuštena po odredbi člana 237 st.3 i st.4. ZPP, budući da je izjavljena na odluku o sporednom, a ne glavnom zahtjevu.“ Član 237. Zakona o parničnom postupku Federacije Bosne i Herc",
+      "Na sjednici Građanskog odjeljenja Vrhovnog suda FederacijeBiH održanoj dana 21.04.2022. godine zauzeto jeiusvojeno slijedeće PRAVNO SHVATANJE: „Protiv presude drugostepenog suda, u dijelu odlukeozakonskoj zateznoj kamati, kao sporednom potraživanju, revizija nije dopuštenapo odredbi člana 237 st.3 i st.4. ZPP, budućidaje izjavljenana odlukuosporednom, a ne glavnom zahtjevu.“ Član 237. Zakonaoparničnom postupku Federacije BosneiHercegovine („Službene novineFBiH, broj 53/03, 73/05, 19/06 i 98/15). Predsjednik Građanskog odjeljenja Vrhovnog suda FederacijeBiH Radenko Blagojević",
     reasoning:
-      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH). Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije BiH održanoj dana 21.04.2022. godine zauzeto je i usvojeno slijedeće PRAVNO SHVATANJE: „Protiv presude drugostepenog suda, u dijelu odluke o zakonskoj zateznoj kamati, kao sporednom potraživanju, revizija nije dopuštena po odredbi člana 237 st.3 i st.4. ZPP, budući da je izjavljena na odluku o sporednom, a ne glavnom zahtjevu.“ Član 237. Zakona o parničnom postupku Federacije Bosne i Hercegovine („Službene novine F BiH, broj 53/03, 73/05",
+      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH).",
     keywords: ["pravna shvatanja","Zakon","ZPP FBiH","Vrhovni sud Federacije Bosne i Hercegovine"],
     related_articles: ["čl. 237. ZPP FBiH","čl. ZPP FBiH"],
-    headnote: "Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije BiH održanoj dana 21.04.2022. godine zauzeto je i usvojeno slijedeće PRAVNO SHVATANJE: „Protiv presud",
+    headnote: "Na sjednici Građanskog odjeljenja Vrhovnog suda FederacijeBiH održanoj dana 21.04.2022. godine zauzeto jeiusvojeno slijedeće PRAVNO SHVATANJE: „Protiv presude drugostepenog suda, u",
     outcome: "partially",
   },
   {
@@ -69,12 +69,12 @@ export const CASE_LAW_CIVIL_BIH_FBIH_PRAVNA_SHVATANJA: CaseLawInput[] = [
     legal_question:
       "Koje pravno shvatanje je zauzeo Vrhovni sud FBiH u građanskoj materiji?",
     court_position:
-      "Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije BiH održanoj dana 23.05.2024. godine, usvojeno je PRAVNO SHVATANJE: „U postupcima u kojima se traži utvrđenje prava vlasništva na poljoprivrednom zemljištu pasivno je legitimisana država Bosna i Hercegovina budući da se radi o državnoj imovini.“ Član 1. Zakona o izmjenama i dopunama Zakona o privremenoj zabrani raspolaganja državnom imovinom Bosne i Hercegovine („Službeni glasnik BiH“, br",
+      "Na sjednici Građanskog odjeljenja Vrhovnog suda FederacijeBiH održanoj dana 23.05.2024. godine, usvojenoje PRAVNO SHVATANJE: „U postupcimaukojimase traži utvrđenje prava vlasništvana poljoprivrednom zemljištu pasivnoje legitimisana država BosnaiHercegovina budućidase radiodržavnoj imovini.“ Član 1. Zakonaoizmjenamaidopunama Zakonaoprivremenoj zabrani raspolaganja državnom imovinom BosneiHercegovine („Službeni glasnik BiH“, broj 22/22).",
     reasoning:
-      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH). Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije BiH održanoj dana 23.05.2024. godine, usvojeno je PRAVNO SHVATANJE: „U postupcima u kojima se traži utvrđenje prava vlasništva na poljoprivrednom zemljištu pasivno je legitimisana država Bosna i Hercegovina budući da se radi o državnoj imovini.“ Član 1. Zakona o izmjenama i dopunama Zakona o privremenoj zabrani raspolaganja državnom imovinom Bosne i Hercegovine („Službeni glasnik BiH“, broj 22/22).",
+      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH).",
     keywords: ["pravna shvatanja","Zakon","ZPP FBiH","Vrhovni sud Federacije Bosne i Hercegovine"],
     related_articles: ["čl. 1. ZOO FBiH"],
-    headnote: "Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije BiH održanoj dana 23.05.2024. godine, usvojeno je PRAVNO SHVATANJE: „U postupcima u kojima se traži u",
+    headnote: "Na sjednici Građanskog odjeljenja Vrhovnog suda FederacijeBiH održanoj dana 23.05.2024. godine, usvojenoje PRAVNO SHVATANJE: „U postupcimaukojimase traži utvrđenje prava vlasništva",
     outcome: "partially",
   },
   {
@@ -87,12 +87,12 @@ export const CASE_LAW_CIVIL_BIH_FBIH_PRAVNA_SHVATANJA: CaseLawInput[] = [
     legal_question:
       "Koje pravno shvatanje je zauzeo Vrhovni sud FBiH u građanskoj materiji?",
     court_position:
-      "Na sjednici Građanskog odjeljenja Vrhovnog suda F BiH održanoj dana 23.05.2024. godine, usvojeno je PRAVNO SHVATANJE: „ Gra dsko građevinsko zemljište koje nije privatizirano jeste imovina subjekata javne vlasti, ali ne i državna imovina koja pripada državi BiH, a samim time nije ni pod zabranom raspolaganja u smislu člana 1. Zakona o privremenoj zabrani raspolaganja državnom imovinom Bosne i Hercegovine “. Član 1. stav (2) Zakona o izmjenama i d",
+      "Na sjednici Građanskog odjeljenja Vrhovnog sudaFBiH održanoj dana 23.05.2024. godine, usvojenoje PRAVNO SHVATANJE: „ Gra dsko građevinsko zemljište koje nije privatizirano jeste imovina subjekata javne vlasti, ali neidržavna imovina koja pripada državi BiH, a samim time nijenipod zabranom raspolaganjausmislu člana 1. Zakonaoprivremenoj zabrani raspolaganja državnom imovinom BosneiHercegovine “. Član 1. stav (2) Zakonaoizmjenamaidopunama Zakonaoprivremenoj zabrani raspolaganja državnom imovinom BosneiHercegovine („Službeni glasnik BiH“ broj: 22/22). Predsjednik Građanskog odjeljenja Vrhovnog suda FederacijeBiH Radenko Blagojević",
     reasoning:
-      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH). Na sjednici Građanskog odjeljenja Vrhovnog suda F BiH održanoj dana 23.05.2024. godine, usvojeno je PRAVNO SHVATANJE: „ Gra dsko građevinsko zemljište koje nije privatizirano jeste imovina subjekata javne vlasti, ali ne i državna imovina koja pripada državi BiH, a samim time nije ni pod zabranom raspolaganja u smislu člana 1. Zakona o privremenoj zabrani raspolaganja državnom imovinom Bosne i Hercegovine “. Član 1. stav (2) Zakona o izmjenama i dopunama Zakona o privremenoj zabrani raspolaganja",
+      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH).",
     keywords: ["pravna shvatanja","Zakon","ZPP FBiH","Vrhovni sud Federacije Bosne i Hercegovine"],
     related_articles: ["čl. 1. ZOO FBiH"],
-    headnote: "Na sjednici Građanskog odjeljenja Vrhovnog suda F BiH održanoj dana 23.05.2024. godine, usvojeno je PRAVNO SHVATANJE: „ Gra dsko građevinsko zemljište koje nije",
+    headnote: "Na sjednici Građanskog odjeljenja Vrhovnog sudaFBiH održanoj dana 23.05.2024. godine, usvojenoje PRAVNO SHVATANJE: „ Gra dsko građevinsko zemljište koje nije privatizirano jeste im",
     outcome: "partially",
   },
   {
@@ -105,12 +105,12 @@ export const CASE_LAW_CIVIL_BIH_FBIH_PRAVNA_SHVATANJA: CaseLawInput[] = [
     legal_question:
       "Koje pravno shvatanje je zauzeo Vrhovni sud FBiH u građanskoj materiji?",
     court_position:
-      "Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije BiH održanoj dana 16.03.2016. godine, zauzeto je i usvojeno slijedeće PRAVNO SHVATANJE: „Ugovor o radu u kome se poslodavac poziva na nepovoljno finansijsko -ekonomsko poslovanje, te utvrđuje pravo na plaću ispod minimuma plaće propisane zakonom, kolektivnim ugovorom, odnosno Pravilnikom, ne može ograničiti minimum prava zaposleniku na plaću . Za slučaj objektivno postojećih finansijsko -",
+      "Na sjednici Građanskog odjeljenja Vrhovnog suda FederacijeBiH održanoj dana 16.03.2016. godine, zauzeto jeiusvojeno slijedeće PRAVNO SHVATANJE: „Ugovororaduukomese poslodavac pozivana nepovoljno finansijskoekonomsko poslovanje, te utvrđuje pravona plaću ispod minimuma plaće propisane zakonom, kolektivnim ugovorom, odnosno Pravilnikom, ne može ograničiti minimum prava zaposlenikuna plaću . Za slučaj objektivno postojećih finansijskoekonomskih uslovaove mogu samo predstavljati okolnosti koje ovlašćuju poslodavcadapod zakonom, odnosnoGKU izvrši umanjenje pripadajuće plaće zaposleniku, pa timeizaposlenikusa kojimje zaključio ugovororadupod ovakvim uslovima, gdjeje pripadajuća platatih zaposlenikaona kojaje najmanjapo GKU.“",
     reasoning:
-      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH). Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije BiH održanoj dana 16.03.2016. godine, zauzeto je i usvojeno slijedeće PRAVNO SHVATANJE: „Ugovor o radu u kome se poslodavac poziva na nepovoljno finansijsko -ekonomsko poslovanje, te utvrđuje pravo na plaću ispod minimuma plaće propisane zakonom, kolektivnim ugovorom, odnosno Pravilnikom, ne može ograničiti minimum prava zaposleniku na plaću . Za slučaj objektivno postojećih finansijsko -ekonomskih uslova-ove mogu samo predstavljati okol",
+      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH).",
     keywords: ["pravna shvatanja","Zakon","ZPP FBiH","Vrhovni sud Federacije Bosne i Hercegovine"],
     related_articles: ["čl. ZOO FBiH"],
-    headnote: "Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije BiH održanoj dana 16.03.2016. godine, zauzeto je i usvojeno slijedeće PRAVNO SHVATANJE: „Ugovor o rad",
+    headnote: "Na sjednici Građanskog odjeljenja Vrhovnog suda FederacijeBiH održanoj dana 16.03.2016. godine, zauzeto jeiusvojeno slijedeće PRAVNO SHVATANJE: „Ugovororaduukomese poslodavac poziv",
     outcome: "partially",
   },
   {
@@ -123,12 +123,12 @@ export const CASE_LAW_CIVIL_BIH_FBIH_PRAVNA_SHVATANJA: CaseLawInput[] = [
     legal_question:
       "Koje pravno shvatanje je zauzeo Vrhovni sud FBiH u građanskoj materiji?",
     court_position:
-      "US FBiH ). Predsjednik Građanskog odjeljenja Vrhovnog suda Federacije BiH Radenko Blagojević",
+      "US FBiH ). Predsjednik Građanskog odjeljenja Vrhovnog suda FederacijeBiH Radenko Blagojević",
     reasoning:
-      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH). Na sjednici Građanskog odjeljenja Vrhovnog suda F BiH održanoj dana 05.03.2025. godine, usvojeno je PRAVNO SHVATANJE: Mijenja se pravno shvatanje usvojeno na sjednici Građanskog odjeljenja dana 04.11.2024 godine tako da glasi: „Sticanje prava vlasništva dosjelošću na poljoprivrednom zemljištu u državno m vlasništvu predstavlja raspolaganje koje je zabranjeno Zakonom o privremenoj zabrani raspolaganja državnom imovinom Bosne i Hercegovine.“ Član 52., 58. Zakona o stvarnim pravima („Službene novin",
+      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH).",
     keywords: ["pravna shvatanja","Zakon","ZPP FBiH","Vrhovni sud Federacije Bosne i Hercegovine"],
     related_articles: ["čl. 52. ZOO FBiH"],
-    headnote: "US FBiH ). Predsjednik Građanskog odjeljenja Vrhovnog suda Federacije BiH Radenko Blagojević",
+    headnote: "US FBiH ). Predsjednik Građanskog odjeljenja Vrhovnog suda FederacijeBiH Radenko Blagojević",
     outcome: "partially",
   },
   {
@@ -141,12 +141,12 @@ export const CASE_LAW_CIVIL_BIH_FBIH_PRAVNA_SHVATANJA: CaseLawInput[] = [
     legal_question:
       "Koje pravno shvatanje je zauzeo Vrhovni sud FBiH u građanskoj materiji?",
     court_position:
-      "Na sjednici Građanskog odjeljenja Vrhovnog suda F BiH održanoj dana 19.03.2025. godine, usvojeno je PRAVNO SHVATANJE: Izmijenjeno je dosadašnj e pravno shvatanje Vrhovnog suda Federacije BiH po pitanju troškova specijalizacije i subspecijalizacije tako da ist o sada glasi: „U troškove specijalizacije ne spadaju isplaćene bruto i neto plaće i druge naknade vezane za radni odnos bez obzira gdje je specijalizant obavljao rad.“ Članak 155 Zakona o zd",
+      "Na sjednici Građanskog odjeljenja Vrhovnog sudaFBiH održanoj dana 19.03.2025. godine, usvojenoje PRAVNO SHVATANJE: Izmijenjenoje dosadašnjepravno shvatanje Vrhovnog suda FederacijeBiHpo pitanju troškova specijalizacijeisubspecijalizacije takoda istosada glasi: „U troškove specijalizacijene spadaju isplaćene brutoineto plaćeidruge naknade vezaneza radni odnosbez obzira gdjeje specijalizant obavljao rad.“ Članak 155 Zakonaozdravstvenoj zaštiti („Sl.novineFBiH“, br. 46/10 i 75/13), čl. 13, 14 i 16 ranijeg Pravilnikaospecijalizacijamaisubspecijalizacijama doktora medicine, doktora stomatologijeimagistara farmacije („Sl.novineFBiH“, br. 11/11, 17/1 1, 22/11, 26/11, 82/11, 41/12, 79/12, 55/13, 52/14 i 84/14), članak 38 važećeg Pravilnikaospecijalizacijamaisubspecijalizacijama zdravstvenih radnikaizdravstvenih suradnika („Sl.novineFBiH“, broj 75/2020), Čl. 75 - 83 važećeg ZakonaoraduFBiH (“Službene novine Federacije BiH”, br. 26/16 i 89/18), Čl. 68 - 74 ranijeg Zakonaoradu („Službene novine Federacije BiH”, br. 43/99, 32/00 i 29/03), Članak 138 st. 1, 3 i 4 Zakonaoizvršnom postupkuFBiH (\"Službenenovine Federacije BiH\", br. 32/2003, 52/2003 - ispr., 33/2006, 39/2006 - ispravka, 39/2009, 35/2012 i 46/2016 i \"Službeni glasnik BiH\", br. 42/2018 - odluka Ustavnog Suda i 19/2025), članak 7 Međunarodnog paktaoekonomskim, socijalnimikulturnim pravima. Predsjednik Građanskog odjeljenja Vrhovnog suda FederacijeBiH Radenko Blagojević",
     reasoning:
-      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH). Na sjednici Građanskog odjeljenja Vrhovnog suda F BiH održanoj dana 19.03.2025. godine, usvojeno je PRAVNO SHVATANJE: Izmijenjeno je dosadašnj e pravno shvatanje Vrhovnog suda Federacije BiH po pitanju troškova specijalizacije i subspecijalizacije tako da ist o sada glasi: „U troškove specijalizacije ne spadaju isplaćene bruto i neto plaće i druge naknade vezane za radni odnos bez obzira gdje je specijalizant obavljao rad.“ Članak 155 Zakona o zdravstvenoj zaštiti („Sl.novine F BiH“, br. 46/10 i",
+      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH).",
     keywords: ["pravna shvatanja","Zakon","ZPP FBiH","Vrhovni sud Federacije Bosne i Hercegovine"],
     related_articles: ["čl. ZOO FBiH"],
-    headnote: "Na sjednici Građanskog odjeljenja Vrhovnog suda F BiH održanoj dana 19.03.2025. godine, usvojeno je PRAVNO SHVATANJE: Izmijenjeno je dosadašnj e pravno shvatanj",
+    headnote: "Na sjednici Građanskog odjeljenja Vrhovnog sudaFBiH održanoj dana 19.03.2025. godine, usvojenoje PRAVNO SHVATANJE: Izmijenjenoje dosadašnjepravno shvatanje Vrhovnog suda Federacije",
     outcome: "partially",
   },
   {
@@ -159,12 +159,12 @@ export const CASE_LAW_CIVIL_BIH_FBIH_PRAVNA_SHVATANJA: CaseLawInput[] = [
     legal_question:
       "Koje pravno shvatanje je zauzeo Vrhovni sud FBiH u građanskoj materiji?",
     court_position:
-      "Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije Bosne i Hercegovine održanoj dana 15.03.2019. godine, zauzeto je i usvojeno slijedeć e PRAVNO SHVATANJE: „Državnom službeniku/namješteniku pripada pravo na isplatu jubilarne nagrade kada tužena stranka ne dokaže nedostatak sredstava za isplatu“",
+      "Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije BosneiHercegovine održanoj dana 15.03.2019. godine, zauzeto jeiusvojeno slijedeće PRAVNO SHVATANJE: „Državnom službeniku/namješteniku pripada pravona isplatu jubilarne nagrade kada tužena strankane dokaže nedostatak sredstavaza isplatu“",
     reasoning:
-      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH). Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije Bosne i Hercegovine održanoj dana 15.03.2019. godine, zauzeto je i usvojeno slijedeć e PRAVNO SHVATANJE: „Državnom službeniku/namješteniku pripada pravo na isplatu jubilarne nagrade kada tužena stranka ne dokaže nedostatak sredstava za isplatu“",
+      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH).",
     keywords: ["pravna shvatanja","Zakon","ZPP FBiH","Vrhovni sud Federacije Bosne i Hercegovine"],
     related_articles: ["čl. ZOO FBiH"],
-    headnote: "Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije Bosne i Hercegovine održanoj dana 15.03.2019. godine, zauzeto je i usvojeno slijedeć e PRAVNO SHVATAN",
+    headnote: "Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije BosneiHercegovine održanoj dana 15.03.2019. godine, zauzeto jeiusvojeno slijedeće PRAVNO SHVATANJE: „Državnom službeniku/",
     outcome: "partially",
   },
   {
@@ -177,12 +177,12 @@ export const CASE_LAW_CIVIL_BIH_FBIH_PRAVNA_SHVATANJA: CaseLawInput[] = [
     legal_question:
       "Koje pravno shvatanje je zauzeo Vrhovni sud FBiH u građanskoj materiji?",
     court_position:
-      " Sjednica Građanskog odjeljenja održana dana 18.10.2017. godine , „ Kriteriji za bodovanje na osnovu kojih je sačinjena lista uposlenika sa ukupnim brojem bodova mogu biti predmet ispitivanja u postupku poslovno uslovljenog otkaza, odnosno otkaza ugovora o radu iz ekonomskih, tehničkih i organizacijskih razloga.“",
+      " Sjednica Građanskog odjeljenja održana dana 18.10.2017. godine , „ Kriterijiza bodovanjena osnovu kojihje sačinjena lista uposlenikasa ukupnim brojem bodova mogu biti predmet ispitivanjaupostupku poslovno uslovljenog otkaza, odnosno otkaza ugovoraoraduiz ekonomskih, tehničkihiorganizacijskih razloga.“",
     reasoning:
-      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH).  Sjednica Građanskog odjeljenja održana dana 18.10.2017. godine , „ Kriteriji za bodovanje na osnovu kojih je sačinjena lista uposlenika sa ukupnim brojem bodova mogu biti predmet ispitivanja u postupku poslovno uslovljenog otkaza, odnosno otkaza ugovora o radu iz ekonomskih, tehničkih i organizacijskih razloga.“",
+      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH).",
     keywords: ["pravna shvatanja","Zakon","ZPP FBiH","Vrhovni sud Federacije Bosne i Hercegovine"],
     related_articles: ["čl. ZOO FBiH"],
-    headnote: " Sjednica Građanskog odjeljenja održana dana 18.10.2017. godine , „ Kriteriji za bodovanje na osnovu kojih je sačinjena lista uposlenika sa ukupnim brojem bodo",
+    headnote: " Sjednica Građanskog odjeljenja održana dana 18.10.2017. godine , „ Kriterijiza bodovanjena osnovu kojihje sačinjena lista uposlenikasa ukupnim brojem bodova mogu biti predmet isp",
     outcome: "partially",
   },
   {
@@ -195,12 +195,12 @@ export const CASE_LAW_CIVIL_BIH_FBIH_PRAVNA_SHVATANJA: CaseLawInput[] = [
     legal_question:
       "Koje pravno shvatanje je zauzeo Vrhovni sud FBiH u građanskoj materiji?",
     court_position:
-      "Pravno shvatanje usvojeno na sjednici Građanskog odjeljenja Vrhovnog suda Federacije BiH održanoj 25.01.2023. godine PRAVNO SHVATANJE: Valjanu vlastitu mjenicu u pravnom i poslovnom prometu predstavlja mjenica izdata na odštampanom blanketu trasirane mjenice, koja sadrži sve bitne elemente vlastite mjenice (član 106. ZOM) i bez prepravljanja bezuslovnog uputa „platiti za ovu – mjenicu“ bezuslovnim obećanjem da će se određena svota platiti „platit",
+      "Pravno shvatanje usvojenona sjednici Građanskog odjeljenja Vrhovnog suda FederacijeBiH održanoj 25.01.2023. godine PRAVNO SHVATANJE: Valjanu vlastitu mjenicuupravnomiposlovnom prometu predstavlja mjenica izdatana odštampanom blanketu trasirane mjenice, koja sadržisve bitne elemente vlastite mjenice (član 106. ZOM) i bez prepravljanja bezuslovnog uputa „platitiza ovu – mjenicu“ bezuslovnim obećanjemda ćese određena svota platiti „platiti ću“",
     reasoning:
-      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH). Pravno shvatanje usvojeno na sjednici Građanskog odjeljenja Vrhovnog suda Federacije BiH održanoj 25.01.2023. godine PRAVNO SHVATANJE: Valjanu vlastitu mjenicu u pravnom i poslovnom prometu predstavlja mjenica izdata na odštampanom blanketu trasirane mjenice, koja sadrži sve bitne elemente vlastite mjenice (član 106. ZOM) i bez prepravljanja bezuslovnog uputa „platiti za ovu – mjenicu“ bezuslovnim obećanjem da će se određena svota platiti „platiti ću“",
+      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH).",
     keywords: ["pravna shvatanja","Zakon","ZPP FBiH","Vrhovni sud Federacije Bosne i Hercegovine"],
     related_articles: ["čl. 106. ZOO FBiH"],
-    headnote: "Pravno shvatanje usvojeno na sjednici Građanskog odjeljenja Vrhovnog suda Federacije BiH održanoj 25.01.2023. godine PRAVNO SHVATANJE: Valjanu vlastitu mjenicu ",
+    headnote: "Pravno shvatanje usvojenona sjednici Građanskog odjeljenja Vrhovnog suda FederacijeBiH održanoj 25.01.2023. godine PRAVNO SHVATANJE: Valjanu vlastitu mjenicuupravnomiposlovnom prom",
     outcome: "partially",
   },
   {
@@ -213,12 +213,12 @@ export const CASE_LAW_CIVIL_BIH_FBIH_PRAVNA_SHVATANJA: CaseLawInput[] = [
     legal_question:
       "Koje pravno shvatanje je zauzeo Vrhovni sud FBiH u građanskoj materiji?",
     court_position:
-      "Na sjednici Građansko g odjeljenja Vrhovnog suda Federacije Bosne i Hercegovine održanoj dana 05.03.2025. godine razmatrani su i prihvaćeni: ORIJENTACIONI KRITERIJI i iznosi za utvrđivanje visine pravične novčane naknade nematerijalne štete Mijenjaju se Orijentacioni kriteriji i iznosi za utvrđivanje visine pravične novčane naknade nematerijalne štete Vrhovnog suda Federacije BiH od 27.01.2016. godine u primjeni Zakona o obligacionim odnosima (Sl",
+      "Na sjednici Građanskogodjeljenja Vrhovnog suda Federacije BosneiHercegovine održanoj dana 05.03.2025. godine razmatrani suiprihvaćeni: ORIJENTACIONI KRITERIJIiiznosiza utvrđivanje visine pravične novčane naknade nematerijalne štete Mijenjajuse Orijentacioni kriterijiiiznosiza utvrđivanje visine pravične novčane naknade nematerijalne štete Vrhovnog suda FederacijeBiH od 27.01.2016. godineuprimjeni Zakonaoobligacionim odnosima (Sl užbeni list SFRJ broj: 29/78, 39/85 i 57/89, Službeni list RBiH broj: 2/92 i 13/93, Sl užbene novine FBiH broj: 29/03 i 42/11) , na načindase tada prihvaćeni novčani iznosiKMpo svim osnovima povećavaju za 50%.",
     reasoning:
-      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH). Na sjednici Građansko g odjeljenja Vrhovnog suda Federacije Bosne i Hercegovine održanoj dana 05.03.2025. godine razmatrani su i prihvaćeni: ORIJENTACIONI KRITERIJI i iznosi za utvrđivanje visine pravične novčane naknade nematerijalne štete Mijenjaju se Orijentacioni kriteriji i iznosi za utvrđivanje visine pravične novčane naknade nematerijalne štete Vrhovnog suda Federacije BiH od 27.01.2016. godine u primjeni Zakona o obligacionim odnosima (Sl užbeni list SFRJ broj: 29/78, 39/85 i 57/89, Služ",
+      "ObrazloženjeNa sjednici Građanskog odjeljenja Vrhovnog suda FederacijeBiH od 27.01.2016. godine, prihvaćeni suidoneseni Orijentacioni kriterijiiiznosiza utvrđivanje visine pravične novčane naknade nematerijalne štete Vrhovnog suda Federacije BiH (u daljnjem tekstu: Orijentacioni kriteriji). Kakojeod njihovog donošenja proteklo znatno vrijemesinflatornim kretanje, toje bilo potrebno uskladiti postojeće Orijentacione kriterijesnavedenim promjenama. Prilikom donošenja odlukeoizmjeni Orijentacionih kriterija, uz pomoć kojih sudovi određuju visinu pravične novčane naknade nematerijalne šteteuprimjeni Zakonaoobligacionim odnosima , Vrhovnisud Federacije BiH, se koristioipodacima Agencijeza statistiku FederacijeBiHkao službenih podataka nadležnog entitetskog tijela, o stopi inflacije mjerenoj indeksom promjena potrošačkih cijenauodnosuna početnu 2016. godinuiindeksom promjena prosječnih mjesečno isplaćenih neto plaćapo zaposlenomuFederaciji BiHuodnosuna početnu 2016. godinu. Osnovomtih podataka, pokazaloseda navedeni indeks promjena potrošačkih cijenaunaznačenom vremenskom razdoblju iznosi 135,4 što značidaje inflacija iznosila 35,4 %, pri čemu indeks promjene prosječnih mjesečnih isplaćenih neto plaća iznosi 163,6. Iz toga proizilazidasu prosječne isplaćene mjesečne neto plaćeuodnosuna početnu 2016. godinu porasle za 63,6 %. Dakle, prosjek je 49,5%, a najbliža cifra zaokruživanja je 50%. Polazećiod ciljaisvrhe odredbi Zakonaoobligacionim odnosimaonaknadi nematerijalne štete, imajućiuvidu navedene statističke podatke, na sjednici Građanskog odjeljenja Vrhovnog suda FederacijeBiHje odlučenodase visina pravične naknadepo svim vidovima nematerijalne šteteuodnosuna iznose iz 2016. godine poveća za 50%. Predsjednik Građanskog odjeljenja Radenko Blagojević",
     keywords: ["pravna shvatanja","Zakon","ZPP FBiH","Vrhovni sud Federacije Bosne i Hercegovine"],
     related_articles: ["čl. ZOO FBiH"],
-    headnote: "Na sjednici Građansko g odjeljenja Vrhovnog suda Federacije Bosne i Hercegovine održanoj dana 05.03.2025. godine razmatrani su i prihvaćeni: ORIJENTACIONI KRITE",
+    headnote: "Na sjednici Građanskogodjeljenja Vrhovnog suda Federacije BosneiHercegovine održanoj dana 05.03.2025. godine razmatrani suiprihvaćeni: ORIJENTACIONI KRITERIJIiiznosiza utvrđivanje ",
     outcome: "partially",
   },
   {
@@ -231,12 +231,12 @@ export const CASE_LAW_CIVIL_BIH_FBIH_PRAVNA_SHVATANJA: CaseLawInput[] = [
     legal_question:
       "Koje pravno shvatanje je zauzeo Vrhovni sud FBiH u građanskoj materiji?",
     court_position:
-      "Na sjednici Građanskog odjeljenja Vrhovnog suda F BiH održanoj dana 09.07.2025. godine, usvojeno je PRAVNO SHVATANJE: Mikroproizvođačima električne energije iz obnovljivih izvora energije ne pripada pravo na garantovanu cijenu ex lege. Član 10. stav 1. tačka g) i član 27. stav 4. Zakona o korištenju obnovljivih izvora električne energije i efikasne kogeneracije („Službene novine FBiH“ broj: 70/30 Predsjednik Građanskog odjeljenja Vrhovnog suda Fe",
+      "Na sjednici Građanskog odjeljenja Vrhovnog sudaFBiH održanoj dana 09.07.2025. godine, usvojenoje PRAVNO SHVATANJE: Mikroproizvođačima električne energijeiz obnovljivih izvora energijene pripada pravona garantovanu cijenuex lege. Član 10. stav 1. tačka g) i član 27. stav 4. Zakonaokorištenju obnovljivih izvora električne energijeiefikasne kogeneracije („Službene novine FBiH“ broj: 70/30 Predsjednik Građanskog odjeljenja Vrhovnog suda FederacijeBiH Radenko Blagojević",
     reasoning:
-      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH). Na sjednici Građanskog odjeljenja Vrhovnog suda F BiH održanoj dana 09.07.2025. godine, usvojeno je PRAVNO SHVATANJE: Mikroproizvođačima električne energije iz obnovljivih izvora energije ne pripada pravo na garantovanu cijenu ex lege. Član 10. stav 1. tačka g) i član 27. stav 4. Zakona o korištenju obnovljivih izvora električne energije i efikasne kogeneracije („Službene novine FBiH“ broj: 70/30 Predsjednik Građanskog odjeljenja Vrhovnog suda Federacije BiH Radenko Blagojević",
+      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH).",
     keywords: ["pravna shvatanja","Zakon","ZPP FBiH","Vrhovni sud Federacije Bosne i Hercegovine"],
     related_articles: ["čl. 10. st. 1. ZOO FBiH","čl. 27. st. 4. ZOO FBiH","čl. 10. ZOO FBiH","čl. 27. ZOO FBiH"],
-    headnote: "Na sjednici Građanskog odjeljenja Vrhovnog suda F BiH održanoj dana 09.07.2025. godine, usvojeno je PRAVNO SHVATANJE: Mikroproizvođačima električne energije iz ",
+    headnote: "Na sjednici Građanskog odjeljenja Vrhovnog sudaFBiH održanoj dana 09.07.2025. godine, usvojenoje PRAVNO SHVATANJE: Mikroproizvođačima električne energijeiz obnovljivih izvora energ",
     outcome: "partially",
   },
   {
@@ -249,12 +249,12 @@ export const CASE_LAW_CIVIL_BIH_FBIH_PRAVNA_SHVATANJA: CaseLawInput[] = [
     legal_question:
       "Koje pravno shvatanje je zauzeo Vrhovni sud FBiH u građanskoj materiji?",
     court_position:
-      "M RASPOREĐEN NA RADNO MJESTO I KOJEM JE UTVRĐENO PRAVO NA PLAĆU I VISINA PLAĆE, NEMA PRAVO NA ISPLATU PLAĆE PO VEĆEM KOEFICIJENTU DOK NE ISHODI RJEŠENJE KOJIM ĆE SE UTVRDITI PRIPADAJUĆA VISINA PLAĆE ZA POSLOVE KOJE OBAVLJA PREMA VAŽEĆIM PROPISIMA“ Član 21. stav 1. i član 31. stav 1. Zakona o državnoj službi u Federaciji BiH Član 27. stav 4. Zakona o plaćama i naknadama u organima vlasti Federacije BiH Iz obrazloženja: Analiziranjem navedenih odre",
+      "M RASPOREĐENNA RADNO MJESTOIKOJEMJE UTVRĐENO PRAVONA PLAĆUIVISINA PLAĆE, NEMA PRAVONA ISPLATU PLAĆEPO VEĆEM KOEFICIJENTUDOKNE ISHODI RJEŠENJE KOJIMĆESE UTVRDITI PRIPADAJUĆA VISINA PLAĆEZA POSLOVE KOJE OBAVLJA PREMA VAŽEĆIM PROPISIMA“ Član 21. stav 1. i član 31. stav 1. Zakonaodržavnoj službiuFederacijiBiH Član 27. stav 4. Zakonaoplaćamainaknadamauorganima vlasti FederacijeBiHIz obrazloženja: Analiziranjem navedenih odredbi proizilazida jeza državnog službenika pravni osnovza sticanje njegovog pravana plaću, obračuniisplatu plaćesa većim koeficijentom rješenje rukovodioca državne službe. U situaciji kada državni službenik nije ishodio rješenjeoplaćisa koeficijentom većimod onog kojije propisanzato radno mjesto, nebi mogaoni steći pravona isplatu plaćesa većim koeficijentom. Pravona isplatu plaće državni službenikne stičepo samom zakonu. Toje lično imovinsko pravo državnog službenika koje rješenjem utvrđuje rukovodilac državne službe. Dospijeće iznosa plaće nastupa donošenjem rješenjaopravuna plaćuivisini plaće, a timse rješenjem određujeidan početka isplate plaćena osnovu priznatog prava.",
     reasoning:
-      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH). Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije BiH održanoj dana 11.10.2018. godine, usvojeno je slijedeće PRAVNO SHVATANJE: „DRŽAVNI SLUŽBENIK/NAMJEŠTENIK KOJI JE RJEŠENJEM RASPOREĐEN NA RADNO MJESTO I KOJEM JE UTVRĐENO PRAVO NA PLAĆU I VISINA PLAĆE, NEMA PRAVO NA ISPLATU PLAĆE PO VEĆEM KOEFICIJENTU DOK NE ISHODI RJEŠENJE KOJIM ĆE SE UTVRDITI PRIPADAJUĆA VISINA PLAĆE ZA POSLOVE KOJE OBAVLJA PREMA VAŽEĆIM PROPISIMA“ Član 21. stav 1. i član 31. stav 1. Zakona o državnoj službi u Feder",
+      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH).",
     keywords: ["pravna shvatanja","Zakon","ZPP FBiH","Vrhovni sud Federacije Bosne i Hercegovine"],
     related_articles: ["čl. 21. st. 1. ZOO FBiH","čl. 31. st. 1. ZOO FBiH","čl. 27. st. 4. ZOO FBiH","čl. 21. ZOO FBiH","čl. 31. ZOO FBiH","čl. 27. ZOO FBiH"],
-    headnote: "M RASPOREĐEN NA RADNO MJESTO I KOJEM JE UTVRĐENO PRAVO NA PLAĆU I VISINA PLAĆE, NEMA PRAVO NA ISPLATU PLAĆE PO VEĆEM KOEFICIJENTU DOK NE ISHODI RJEŠENJE KOJIM Ć",
+    headnote: "M RASPOREĐENNA RADNO MJESTOIKOJEMJE UTVRĐENO PRAVONA PLAĆUIVISINA PLAĆE, NEMA PRAVONA ISPLATU PLAĆEPO VEĆEM KOEFICIJENTUDOKNE ISHODI RJEŠENJE KOJIMĆESE UTVRDITI PRIPADAJUĆA VISINA ",
     outcome: "partially",
   },
   {
@@ -267,12 +267,12 @@ export const CASE_LAW_CIVIL_BIH_FBIH_PRAVNA_SHVATANJA: CaseLawInput[] = [
     legal_question:
       "Koje pravno shvatanje je zauzeo Vrhovni sud FBiH u građanskoj materiji?",
     court_position:
-      "Na sjednici Građanskog odjeljenja Vrhovnog suda F BiH održanoj dana 18.12.2024. godine, usvojeno je PRAVNO SHVATANJE: 1. „ Odgovornost lovačkog društva za štetu koju na cesti prouzrokuje divljač iznenadnim naletom na motorno vozilo ima se procjenjivati primjenom odredbi Zakona o lovstvu Federacije BiH, Zakona o cestama Federacije BiH i Zakona o obligacionim odnosima Federacije BiH. 2. Odgovornost lovačkog društva je objektivna i nije isključena s",
+      "Na sjednici Građanskog odjeljenja Vrhovnog sudaFBiH održanoj dana 18.12.2024. godine, usvojenoje PRAVNO SHVATANJE: 1. „ Odgovornost lovačkog društvaza štetu kojuna cesti prouzrokuje divljač iznenadnim naletomna motorno voziloimase procjenjivati primjenom odredbi Zakonaolovstvu Federacije BiH, Zakonaocestama Federacije BiHiZakonaoobligacionim odnosima Federacije BiH. 2. Odgovornost lovačkog društvaje objektivnainije isključena samom činjenicomda jedo štete došlona cesti. “ Član 6. stav 2. tačka 2., član 31. stav 1., član 32., član 68., član 69. i član 70. stav 1. i 2. ZakonaolovstvuFBiH („Službene novineFBiH“ broj: 4/06, 8/10 i 81/14). Član 20. ZakonaocestamaFBiH („Službene novineFBiH“ broj: 12/10, 16/10 -ispr. i 66/13). Član 154., član 173. i član 174. Zakonaoobligacionim odnosima („Službeni list SFRJ“ broj: 29/78, 39/85, 45/89 i 57/89, „Službeni listRBiH“ broj: 2/92, 13/93 i 13/94 i „Službene novineFBiH“ broj: 29/03 i 42/11) Predsjednik Građanskog odjeljenja Vrhovnog suda FederacijeBiH Radenko Blagojević",
     reasoning:
-      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH). Na sjednici Građanskog odjeljenja Vrhovnog suda F BiH održanoj dana 18.12.2024. godine, usvojeno je PRAVNO SHVATANJE: 1. „ Odgovornost lovačkog društva za štetu koju na cesti prouzrokuje divljač iznenadnim naletom na motorno vozilo ima se procjenjivati primjenom odredbi Zakona o lovstvu Federacije BiH, Zakona o cestama Federacije BiH i Zakona o obligacionim odnosima Federacije BiH. 2. Odgovornost lovačkog društva je objektivna i nije isključena samom činjenicom da je do štete došlo na cesti. “ Č",
+      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH).",
     keywords: ["pravna shvatanja","Zakon","ZPP FBiH","Vrhovni sud Federacije Bosne i Hercegovine"],
     related_articles: ["čl. 6. st. 2. ZOO FBiH","čl. 31. st. 1. ZOO FBiH","čl. 70. st. 1. ZOO FBiH","čl. 6. ZOO FBiH","čl. 31. ZOO FBiH","čl. 32. ZOO FBiH","čl. 68. ZOO FBiH","čl. 69. ZOO FBiH","čl. 70. ZOO FBiH","čl. 20. ZOO FBiH"],
-    headnote: "Na sjednici Građanskog odjeljenja Vrhovnog suda F BiH održanoj dana 18.12.2024. godine, usvojeno je PRAVNO SHVATANJE: 1. „ Odgovornost lovačkog društva za štetu",
+    headnote: "Na sjednici Građanskog odjeljenja Vrhovnog sudaFBiH održanoj dana 18.12.2024. godine, usvojenoje PRAVNO SHVATANJE: 1. „ Odgovornost lovačkog društvaza štetu kojuna cesti prouzrokuj",
     outcome: "partially",
   },
   {
@@ -285,12 +285,12 @@ export const CASE_LAW_CIVIL_BIH_FBIH_PRAVNA_SHVATANJA: CaseLawInput[] = [
     legal_question:
       "Koje pravno shvatanje je zauzeo Vrhovni sud FBiH u građanskoj materiji?",
     court_position:
-      "Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije BiH održanoj dana 22.12.2022. godine, zauzeta su i usvojena PRAVNA SHVATANJA: 1. „U situaciji kada tužba sadrži novčani i nenovčani tužbeni zahtjev onda se vrijednost predmeta spora naznačena u tužbi odnosi na nenovčani tužbeni zahtjev, dok je vrijednost spora novčanog zahtjeva određena samim iznosom tog tužbenog zahtjeva.“ 2. „Ako više tužitelja u jednoj tužbi protiv istog tuženog postav",
+      "Na sjednici Građanskog odjeljenja Vrhovnog suda FederacijeBiH održanoj dana 22.12.2022. godine, zauzeta suiusvojena PRAVNA SHVATANJA: 1. „U situaciji kada tužba sadrži novčaniinenovčani tužbeni zahtjev ondase vrijednost predmeta spora naznačenautužbi odnosina nenovčani tužbeni zahtjev, dokje vrijednost spora novčanog zahtjeva određena samim iznosomtog tužbenog zahtjeva.“ 2. „Ako više tužiteljaujednoj tužbi protiv istog tuženog postave više nenovčanih zahtjevaza koje odrede jednu vrijednost predmeta spora, vrijednost predmeta sporaza svakog tužitelja određujese takoštose ukupno označena vrijednost predmeta spora podijelisa brojem tužitelja.“ Član 318. i 321. Zakonaoparničnom postupku („Službene novineFBiH“ broj 53/03, 75/05, 19/06 i 98/15) Predsjednik Građanskog odjeljenja Vrhovnog suda FederacijeBiH Radenko Blagojević",
     reasoning:
-      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH). Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije BiH održanoj dana 22.12.2022. godine, zauzeta su i usvojena PRAVNA SHVATANJA: 1. „U situaciji kada tužba sadrži novčani i nenovčani tužbeni zahtjev onda se vrijednost predmeta spora naznačena u tužbi odnosi na nenovčani tužbeni zahtjev, dok je vrijednost spora novčanog zahtjeva određena samim iznosom tog tužbenog zahtjeva.“ 2. „Ako više tužitelja u jednoj tužbi protiv istog tuženog postave više nenovčanih zahtjeva za koje odrede jednu vr",
+      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH).",
     keywords: ["pravna shvatanja","Zakon","ZPP FBiH","Vrhovni sud Federacije Bosne i Hercegovine"],
     related_articles: ["čl. 318. ZPP FBiH","čl. ZPP FBiH"],
-    headnote: "Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije BiH održanoj dana 22.12.2022. godine, zauzeta su i usvojena PRAVNA SHVATANJA: 1. „U situaciji kada tu",
+    headnote: "Na sjednici Građanskog odjeljenja Vrhovnog suda FederacijeBiH održanoj dana 22.12.2022. godine, zauzeta suiusvojena PRAVNA SHVATANJA: 1. „U situaciji kada tužba sadrži novčaniineno",
     outcome: "partially",
   },
   {
@@ -303,12 +303,12 @@ export const CASE_LAW_CIVIL_BIH_FBIH_PRAVNA_SHVATANJA: CaseLawInput[] = [
     legal_question:
       "Koje pravno shvatanje je zauzeo Vrhovni sud FBiH u građanskoj materiji?",
     court_position:
-      "Član 200. Zakona o obligacionim odnosima Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije BiH održanoj dana 27.01.2016. godine razmatrani su i prihvaćeni: ORIJENTACIONI KRITERIJI i iznosi za utvrđivanje visine pravične novčane naknade nematerijalne štete Ovi orijentacioni kriteriji trebaju omogućiti ujednačenu primjenu člana 200. stav 1. Zakona o obligacionim odnosima (“Sl. list SFRJ“ broj: 29/78, 39/85 i 57/89, „Sl. list RBiH“ broj: 2/",
+      "Član 200. Zakonaoobligacionim odnosimaNa sjednici Građanskog odjeljenja Vrhovnog suda FederacijeBiH održanoj dana 27.01.2016. godine razmatrani suiprihvaćeni: ORIJENTACIONI KRITERIJIiiznosiza utvrđivanje visine pravične novčane naknade nematerijalne šteteOvi orijentacioni kriteriji trebaju omogućiti ujednačenu primjenu člana 200. stav 1. Zakonaoobligacionim odnosima (“Sl. list SFRJ“ broj: 29/78, 39/85 i 57/89, „Sl. list RBiH“ broj: 2/92 i 13/93, „Sl. novine FBiH“ broj: 29/03 i 42/11 – u daljnjem tekstu: ZOO). Orijentacioni kriterijine predstavljaju formulu koja automatizmom služiza izračunavanje pravične novčane naknade. U primjeni navedenog zakona valja uvijek imatina umusve okolnosti slučaja, pri čemu trajanjeijačina fizičkihiduševnih bolovaistraha imajutek značaj naročito važnih, ali neijedinih okolnosti kojesud mora imatina umupri određivanju iznosa pravične novčane naknade. Ovi kriteriji primjenjujuse nasve parnične postupkena naknadu nematerijalne šteteusvim stepenima suđenja. Uzove orijentacione kriterijeza pojedine oblike nematerijalne štete podsjeća seina dugogodišnje pravne stavove sudske prakse. Timese željelo podsjetiti upravonasve okolnosti slučaja kojesud mora imatiuvidukad primjenjuje odredbu člana 200. ZOO. FIZIČKI BOLOVI Orijentacioni kriterijiiiznosza utvrđivanje visine naknadeza fizičke bolove (po danima): • Jaki bolovi - 70,00 KM • Srednji bolovi - 40,00 KM • Slabi bolovi - 10,00 KMKod utvrđivanja iznosa naknade treba imatina umudasu trajanjeijačina fizičkih bolovadva naročito važna elementaza dosuđivanje pravične novčane naknade, alisud mora voditi računaiodrugim okolnostima slučaja. Pravni stav glasi: „1. Nelagodnostiutoku liječenja (npr. kraća nesvjestica, hospitalizacija, vezanostza krevet, razne vrste imobilizacijaifiksacija, rendgensko snimanje, broj operacija, infuzija, transfuzija, injekcije, previjanje rana, odstranjenje šavova, upotrebainv alidskih kolica, bolovanje, posjećivanje ambulante, fizioterapija, trajanje rehabilitacionog postupkaisl.) koje trpi oštećenik razmatraju seuokviru naknadeza fizički bol“. 2. Može liipod kojim uslovima pojedinaod navedenih nelagodnosti prerastiukakav drugi samostalni oblik nematerijalne štete (npr. duševni bolovi zbog smanjenja životne aktivnosti) valja ocijeniti uzimajućiuobzirsve okolnosti slučaja.“ STRAH Orijentacioni kriterijiiiznosza utvrđivanje visine naknadeza strah ( po danima ): • veoma jakog intenziteta ................ 70,00 KM • jakog intenziteta............................. 60,00 KM • srednjeg intenziteta ....................... 30,00 KM • slabog intenziteta ........................... 5,00 KM Korekcijana višeilina niže prema istim kriterijima kaoikod fizičkih bolova, odnosno kriterijima koje propisuje član 200. ZOO, imajući takođerna umuisve ostale okolnosti svakog konkretnog slučaja. Pravni stav glasi: „Pravična novčana naknadaza pretrpljeni strah dosuđujeseako okolnosti slučaja, a naročito trajanjeijačina strahato opravdavaju.“ DUŠEVNI BOLOVI ZBOG SMANJENJA ŽIVOTNE AKTIVNOSTI • do 25% .......................................... 5.000,00 KMza svakih 10 % • preko 25 do 40% ........................... 6.000,00 KMza svakih 10 % • preko 40 do 60%............................ 7.000,00 KMza svakih 10 % • preko 60 do 80% .......................... 8.000,00 KMza svakih 10 % • preko 80 do 100%......................... do 10.000,00 KMza svakih 10 % Korekcija prema obimuitežini utvrđenih trajnih posljedica, a kao dodatne kriterije treba imatinaumu životnu dob, vrstu zanimanja oštećenikaisl. Ovaj oblik štete jeupravilu trajnog karaktera, ali novčana naknadase može dosuditiikadje smanjenje životne aktivnosti privremeno, akoje jačeg intenzitetaidužeg trajanjaili akoto posebne okolnosti opravdavaju. Pravni stav glasi: „1. Smanjenje životne aktivnosti, kao posebna osnovaza naknadu štete zbog duševnih bolova, obuhvaćasva ograničenjau životnim aktivnostima oštećenog kojeje ostvarivaoili biihpo redovnom toku stvariubudućnosti izvjesno ostvarivao. Pod ograničenjemse podrazumijevaiobavljanje aktivnostiuz povećane naporeilipod posebnim uslovima.“ 2. Ovaj oblik štete jeupravilu trajnog karaktera, ali novčana naknadase može dosuditiikadje smanjenje životne aktivnosti privremeno, akoje jačeg intenzitetaidužeg trajanjaili akoto posebne okolnosti opravdavaju.“ DUŠEVNI BOLOVI ZBOG NARUŽENOSTI • izrazito jaki stepen.......................................................... 10.000,00 KM • jak stepenvrlo uočljivo trećima .................................. 7.000,00 KMuočljivo samo ponekad (ukućanima, na plažiisl.).. 6.000,00 KM • srednji stepen – vrlo uočljivo trećima ........................... 6.000,00 KMuočljivo samo ponekad ...........................................3.000,00 KM • laki stepenvrlo uočljivo trećima ................................. 1.500,00 KMuočljivo trećima samo ponekad ............................ 700,00 KM Korekcija naknade zavisnood životne dobi, vrste zanimanja, lokaciji povredaisl. Pol oštećenika, sampo sebi, ne utičena visinu naknadesosnove naruženja. Pravni stav glasi: „Osnovaza priznanje novčane naknadeza naruženost nije samoutomeda liiukojoj mjeri izmijenjena vanjština oštećenog izazivauokolini gađanje, sažaljenjeili druge negativne reakcije, većse uzimajuuobzirisubjektivna mjerilaoutjecaju svih eleme nata (izmijenjena vanjština, primjetnost, obim itd.) na psihičku ravnotežu oštećenog, odnosnona njegovo psihičko stanjeucjelini. Pri tomese subjektivne osobine oštećenog uzimajuuobzirurazumnoj mjeri.“ Ovaj stav treba tumačiti takodasud vodi računa kakooobjektivnim, takoiosubjektivnim okolnostima. DUŠEVNI BOLOVI ZBOG SMRTI BLISKOG SRODNIKA (bračniivanbračni partner; dijete; gubitak ploda; roditelji; braćaisestre) • Za slučaj smrti bračnogivanbračnog partneraidjeteta ….... 20.000,00 KM • Za slučaj gubitka ploda roditeljima......................................... 7.000,00 KM • Za slučaj smrti roditelja........................................................... 20.000,00 KM • Za slučaj smrti brataili sestre ................................................. 7.000,00 KM Pravni stav glasi: „Pravična novčana naknadaza duševne bolove djeteta zbog smrti roditelja predstavlja naknadu kakozabol izazvanu samim saznanjemza smrt, takoizasve kasnije bolove koje dijete trpi zbog gubitka roditelja – ljubavi, njegeipažnje kojubimu roditelj pružao, pa pripada djetetu koje zbog uzrasta nije moglo osjetitibol zbog same smrti roditelja, jer jeupitanju naknadaza jedinstveni oblik nematerijalne štete.“ • akose začeto nerođeno dijete (nasciturus) rodi živoza slučaj smrti roditelja 20.000,00 KM. DUŠEVNI BOLOVI ZBOG NAROČITO TEŠKOG INVALIDITETA BLISKE OSOBE • Za slučaj naročito teškog invaliditeta bračnogivanbračnog druga (trajnija zajednica života) i djeteta .......... 20.000,00 KM • Za slučaj naročito teškog invaliditeta roditelja: - djetetu kojese nalazina odgojuiizdržavanjukod roditelja............ 20.000,00 KMdjetetu ............ 12.000,00 KM NEOPRAVDANA OSUDAILI NEOSNOVANO LIŠENJE SLOBODE • 100,00 KMpo danu “Duševni bolovi zbog neopravdane osude, odnosno neosnovanog lišenja slobode predstavljaju jedinstvenvid štete koji obuhvatasve štetne posljedice nematerijalne štete vezaneza ličnost oštećenog proistekleiz neopravdane osude odnosno neosnovanog lišenja slobode. Zaovu štetu dosuđujese jedan iznos naknadepri čijem odmjeravanjusud uzimauobzirsve okolnosti slučaja (ugled kojije oštećeni ranije uživaousvojoj sredini, odnos sredine prema njemu poslije osude, odnosno lišenja slobode, težinaipriroda krivičnog djela, vrijeme trajanja lišenja slobodeisve druge okolnosti koje s",
     reasoning:
-      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH). Član 200. Zakona o obligacionim odnosima Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije BiH održanoj dana 27.01.2016. godine razmatrani su i prihvaćeni: ORIJENTACIONI KRITERIJI i iznosi za utvrđivanje visine pravične novčane naknade nematerijalne štete Ovi orijentacioni kriteriji trebaju omogućiti ujednačenu primjenu člana 200. stav 1. Zakona o obligacionim odnosima (“Sl. list SFRJ“ broj: 29/78, 39/85 i 57/89, „Sl. list RBiH“ broj: 2/92 i 13/93, „Sl. novine FBiH“ broj: 29/03 i 42/11",
+      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH).",
     keywords: ["pravna shvatanja","Zakon","ZPP FBiH","Vrhovni sud Federacije Bosne i Hercegovine"],
     related_articles: ["čl. 200. st. 1. ZOO FBiH","čl. 200. ZOO FBiH","čl. ZPP FBiH"],
-    headnote: "Član 200. Zakona o obligacionim odnosima Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije BiH održanoj dana 27.01.2016. godine razmatrani su i prihvać",
+    headnote: "Član 200. Zakonaoobligacionim odnosimaNa sjednici Građanskog odjeljenja Vrhovnog suda FederacijeBiH održanoj dana 27.01.2016. godine razmatrani suiprihvaćeni: ORIJENTACIONI KRITERI",
     outcome: "partially",
   },
   {
@@ -321,12 +321,12 @@ export const CASE_LAW_CIVIL_BIH_FBIH_PRAVNA_SHVATANJA: CaseLawInput[] = [
     legal_question:
       "Koje pravno shvatanje je zauzeo Vrhovni sud FBiH u građanskoj materiji?",
     court_position:
-      "Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije Bosne i Hercegovine održanoj dana 09.10.2019. godine, zauzeto je i usvojeno slijedeće PRAVNO SHVATANJE: „TUŽITELJ JE PREKLUDIRAN TUŽBOM U POGLEDU OZNAČAVANJA VRIJEDNOSTI SPORA AKO SE TUŽBENI ZAHTJEV NE ODNOSI NA NOVČANI IZNOS. TAKO NAZNAČENU VRIJEDNOST SPORA OVLAŠTEN JE MIJENJATI SAMO SUD, POD USLOVIMA PROPISANIM ODREDBOM ČLANA 321. STAV (3) ZPP.”",
+      "Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije BosneiHercegovine održanoj dana 09.10.2019. godine, zauzeto jeiusvojeno slijedeće PRAVNO SHVATANJE: „TUŽITELJJE PREKLUDIRAN TUŽBOMUPOGLEDU OZNAČAVANJA VRIJEDNOSTI SPORAAKOSE TUŽBENI ZAHTJEVNE ODNOSINA NOVČANI IZNOS. TAKO NAZNAČENU VRIJEDNOST SPORA OVLAŠTENJE MIJENJATI SAMO SUD, POD USLOVIMA PROPISANIM ODREDBOM ČLANA 321. STAV (3) ZPP.”",
     reasoning:
-      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH). Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije Bosne i Hercegovine održanoj dana 09.10.2019. godine, zauzeto je i usvojeno slijedeće PRAVNO SHVATANJE: „TUŽITELJ JE PREKLUDIRAN TUŽBOM U POGLEDU OZNAČAVANJA VRIJEDNOSTI SPORA AKO SE TUŽBENI ZAHTJEV NE ODNOSI NA NOVČANI IZNOS. TAKO NAZNAČENU VRIJEDNOST SPORA OVLAŠTEN JE MIJENJATI SAMO SUD, POD USLOVIMA PROPISANIM ODREDBOM ČLANA 321. STAV (3) ZPP.”",
+      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH).",
     keywords: ["pravna shvatanja","Zakon","ZPP FBiH","Vrhovni sud Federacije Bosne i Hercegovine"],
     related_articles: ["čl. 321. ZPP FBiH","čl. ZPP FBiH"],
-    headnote: "Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije Bosne i Hercegovine održanoj dana 09.10.2019. godine, zauzeto je i usvojeno slijedeće PRAVNO SHVATANJ",
+    headnote: "Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije BosneiHercegovine održanoj dana 09.10.2019. godine, zauzeto jeiusvojeno slijedeće PRAVNO SHVATANJE: „TUŽITELJJE PREKLUDIR",
     outcome: "partially",
   },
   {
@@ -339,12 +339,12 @@ export const CASE_LAW_CIVIL_BIH_FBIH_PRAVNA_SHVATANJA: CaseLawInput[] = [
     legal_question:
       "Koje pravno shvatanje je zauzeo Vrhovni sud FBiH u građanskoj materiji?",
     court_position:
-      "Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije BiH održane dana 15.10.2022. godine, zauzeto je i usvojeno slijedeće PRAVNO SHVATANJE: „U ograničenje propisano odredbom člana 31. stav 5. Zakona o advokaturi Federaciji Bosne i Hercegovine ne uračunava se trošak PDV - a.“ Predsjednik Građanskog odjeljenja Vrhovnog suda Federacije BiH Radenko Blagojević",
+      "Na sjednici Građanskog odjeljenja Vrhovnog suda FederacijeBiH održane dana 15.10.2022. godine, zauzeto jeiusvojeno slijedeće PRAVNO SHVATANJE: „U ograničenje propisano odredbom člana 31. stav 5. Zakonaoadvokaturi Federaciji BosneiHercegovinene uračunavase trošak PDVa.“ Predsjednik Građanskog odjeljenja Vrhovnog suda FederacijeBiH Radenko Blagojević",
     reasoning:
-      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH). Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije BiH održane dana 15.10.2022. godine, zauzeto je i usvojeno slijedeće PRAVNO SHVATANJE: „U ograničenje propisano odredbom člana 31. stav 5. Zakona o advokaturi Federaciji Bosne i Hercegovine ne uračunava se trošak PDV - a.“ Predsjednik Građanskog odjeljenja Vrhovnog suda Federacije BiH Radenko Blagojević",
+      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH).",
     keywords: ["pravna shvatanja","Zakon","ZPP FBiH","Vrhovni sud Federacije Bosne i Hercegovine"],
     related_articles: ["čl. 31. st. 5. ZOO FBiH","čl. 31. ZOO FBiH"],
-    headnote: "Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije BiH održane dana 15.10.2022. godine, zauzeto je i usvojeno slijedeće PRAVNO SHVATANJE: „U ograničenje",
+    headnote: "Na sjednici Građanskog odjeljenja Vrhovnog suda FederacijeBiH održane dana 15.10.2022. godine, zauzeto jeiusvojeno slijedeće PRAVNO SHVATANJE: „U ograničenje propisano odredbom čla",
     outcome: "partially",
   },
   {
@@ -357,12 +357,12 @@ export const CASE_LAW_CIVIL_BIH_FBIH_PRAVNA_SHVATANJA: CaseLawInput[] = [
     legal_question:
       "Koje pravno shvatanje je zauzeo Vrhovni sud FBiH u građanskoj materiji?",
     court_position:
-      "Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije Bosne i Hercegovine održanoj dana 21.05.2019. godine, zauzeto je i usvojeno slijedeće PRAVNO SHVATANJE: „NIJE DOZVOLJENA REVIZIJA KOJU JE U SPORU ZBOG ZABRANE DISKRIMINACIJE PODNIJELA STRANKA KOJA NEMA POLOŽEN PRAVOSUDNI ISPIT”",
+      "Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije BosneiHercegovine održanoj dana 21.05.2019. godine, zauzeto jeiusvojeno slijedeće PRAVNO SHVATANJE: „NIJE DOZVOLJENA REVIZIJA KOJU JEUSPORU ZBOG ZABRANE DISKRIMINACIJE PODNIJELA STRANKA KOJA NEMA POLOŽEN PRAVOSUDNI ISPIT”",
     reasoning:
-      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH). Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije Bosne i Hercegovine održanoj dana 21.05.2019. godine, zauzeto je i usvojeno slijedeće PRAVNO SHVATANJE: „NIJE DOZVOLJENA REVIZIJA KOJU JE U SPORU ZBOG ZABRANE DISKRIMINACIJE PODNIJELA STRANKA KOJA NEMA POLOŽEN PRAVOSUDNI ISPIT”",
+      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH).",
     keywords: ["pravna shvatanja","Zakon","ZPP FBiH","Vrhovni sud Federacije Bosne i Hercegovine"],
     related_articles: ["čl. ZOO FBiH"],
-    headnote: "Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije Bosne i Hercegovine održanoj dana 21.05.2019. godine, zauzeto je i usvojeno slijedeće PRAVNO SHVATANJ",
+    headnote: "Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije BosneiHercegovine održanoj dana 21.05.2019. godine, zauzeto jeiusvojeno slijedeće PRAVNO SHVATANJE: „NIJE DOZVOLJENA REVI",
     outcome: "partially",
   },
   {
@@ -375,12 +375,12 @@ export const CASE_LAW_CIVIL_BIH_FBIH_PRAVNA_SHVATANJA: CaseLawInput[] = [
     legal_question:
       "Koje pravno shvatanje je zauzeo Vrhovni sud FBiH u građanskoj materiji?",
     court_position:
-      "Na sjednici Građanskog odjeljenja Vrhovnog suda F BiH održanoj dana 16.10.2024. godine, usvojeno je PRAVNO SHVATANJE: „Kada stranka podnese prvostepenom sudu prijedlog za rješavanje spornog pravnog pitanja, a sud takav prijedlog odmah proslijedi Vrhovnom sudu Federacije Bosne i Hercegovine na odlučivanje, bez da odluči o opravdanosti takvog prijedloga ili povodom prijedloga sačini zahtjev za rješavanje spornog pravnog pitanja, takav prijedlog se ",
+      "Na sjednici Građanskog odjeljenja Vrhovnog sudaFBiH održanoj dana 16.10.2024. godine, usvojenoje PRAVNO SHVATANJE: „Kada stranka podnese prvostepenom sudu prijedlogza rješavanje spornog pravnog pitanja, a sud takav prijedlog odmah proslijedi Vrhovnom sudu Federacije BosneiHercegovinena odlučivanje, bezda odlučioopravdanosti takvog prijedlogaili povodom prijedloga sačini zahtjevza rješavanje spornog pravnog pitanja, takav prijedlogseima vratiti prvostepenom sududa podnese zahtjevza rješavanje spornog pravnog pitanjailida prijedlog stranke odbije“. Član 61.a i 61.b Zakonaoparničnom postupku („Službene novineFBiH“ broj: 53/03, 73/05, 19/06 i 98/15). Predsjednik Građanskog odjeljenja Vrhovnog suda FederacijeBiH Radenko Blagojević",
     reasoning:
-      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH). Na sjednici Građanskog odjeljenja Vrhovnog suda F BiH održanoj dana 16.10.2024. godine, usvojeno je PRAVNO SHVATANJE: „Kada stranka podnese prvostepenom sudu prijedlog za rješavanje spornog pravnog pitanja, a sud takav prijedlog odmah proslijedi Vrhovnom sudu Federacije Bosne i Hercegovine na odlučivanje, bez da odluči o opravdanosti takvog prijedloga ili povodom prijedloga sačini zahtjev za rješavanje spornog pravnog pitanja, takav prijedlog se ima vratiti prvostepenom sudu da podnese zahtjev z",
+      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH).",
     keywords: ["pravna shvatanja","Zakon","ZPP FBiH","Vrhovni sud Federacije Bosne i Hercegovine"],
     related_articles: ["čl. 61. ZPP FBiH","čl. ZPP FBiH"],
-    headnote: "Na sjednici Građanskog odjeljenja Vrhovnog suda F BiH održanoj dana 16.10.2024. godine, usvojeno je PRAVNO SHVATANJE: „Kada stranka podnese prvostepenom sudu pr",
+    headnote: "Na sjednici Građanskog odjeljenja Vrhovnog sudaFBiH održanoj dana 16.10.2024. godine, usvojenoje PRAVNO SHVATANJE: „Kada stranka podnese prvostepenom sudu prijedlogza rješavanje sp",
     outcome: "partially",
   },
   {
@@ -393,12 +393,12 @@ export const CASE_LAW_CIVIL_BIH_FBIH_PRAVNA_SHVATANJA: CaseLawInput[] = [
     legal_question:
       "Koje pravno shvatanje je zauzeo Vrhovni sud FBiH u građanskoj materiji?",
     court_position:
-      "Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije Bosne i Hercegovine održanoj dana 11.12.2019. godine, zauzeto je i usvojeno slijedeće PRAVNO SHVATANJE: „ SPOROVI KOJI SE ODNOSE NA POVRAT NEOSNOVANO NAPLAĆENE KOMUNALNE TAKSE NE PREDSTAVLJAJU GRAĐANSKOPRAVNI SPOR I NE POSTOJI NADLEŽNOST PARNIČNOG SUDA”",
+      "Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije BosneiHercegovine održanoj dana 11.12.2019. godine, zauzeto jeiusvojeno slijedeće PRAVNO SHVATANJE: „ SPOROVI KOJISE ODNOSENA POVRAT NEOSNOVANO NAPLAĆENE KOMUNALNE TAKSENE PREDSTAVLJAJU GRAĐANSKOPRAVNI SPORINE POSTOJI NADLEŽNOST PARNIČNOG SUDA”",
     reasoning:
-      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH). Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije Bosne i Hercegovine održanoj dana 11.12.2019. godine, zauzeto je i usvojeno slijedeće PRAVNO SHVATANJE: „ SPOROVI KOJI SE ODNOSE NA POVRAT NEOSNOVANO NAPLAĆENE KOMUNALNE TAKSE NE PREDSTAVLJAJU GRAĐANSKOPRAVNI SPOR I NE POSTOJI NADLEŽNOST PARNIČNOG SUDA”",
+      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH).",
     keywords: ["pravna shvatanja","Zakon","ZPP FBiH","Vrhovni sud Federacije Bosne i Hercegovine"],
     related_articles: ["čl. ZPP FBiH"],
-    headnote: "Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije Bosne i Hercegovine održanoj dana 11.12.2019. godine, zauzeto je i usvojeno slijedeće PRAVNO SHVATANJ",
+    headnote: "Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije BosneiHercegovine održanoj dana 11.12.2019. godine, zauzeto jeiusvojeno slijedeće PRAVNO SHVATANJE: „ SPOROVI KOJISE ODNO",
     outcome: "partially",
   },
   {
@@ -411,12 +411,12 @@ export const CASE_LAW_CIVIL_BIH_FBIH_PRAVNA_SHVATANJA: CaseLawInput[] = [
     legal_question:
       "Koje pravno shvatanje je zauzeo Vrhovni sud FBiH u građanskoj materiji?",
     court_position:
-      "Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije BiH održanoj dana 07.03.2017. godine zauzeto je slijedeće PRAVNO SHVATANJE: „Kada tužitelj nije dokazao da je Kanton Sarajevo pristupio Federalnom GKU, te kako isti ima sopstveni GKU za zaposlenike osnovnih škola sa područja Kantona Sarajevo, ne mogu se primjeniti odredbe Federalnog GKU, nego jedino GKU za djelatnost osnovnog obrazovanja u Kantonu Sarajevo.”",
+      "Na sjednici Građanskog odjeljenja Vrhovnog suda FederacijeBiH održanoj dana 07.03.2017. godine zauzetoje slijedeće PRAVNO SHVATANJE: „Kada tužitelj nije dokazaodaje Kanton Sarajevo pristupio Federalnom GKU, te kako istiima sopstveniGKUza zaposlenike osnovnih školasa područja Kantona Sarajevo, ne moguse primjeniti odredbe Federalnog GKU, nego jedinoGKUza djelatnost osnovnog obrazovanjauKantonu Sarajevo.”",
     reasoning:
-      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH). Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije BiH održanoj dana 07.03.2017. godine zauzeto je slijedeće PRAVNO SHVATANJE: „Kada tužitelj nije dokazao da je Kanton Sarajevo pristupio Federalnom GKU, te kako isti ima sopstveni GKU za zaposlenike osnovnih škola sa područja Kantona Sarajevo, ne mogu se primjeniti odredbe Federalnog GKU, nego jedino GKU za djelatnost osnovnog obrazovanja u Kantonu Sarajevo.”",
+      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH).",
     keywords: ["pravna shvatanja","Zakon","ZPP FBiH","Vrhovni sud Federacije Bosne i Hercegovine"],
     related_articles: ["čl. ZOO FBiH"],
-    headnote: "Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije BiH održanoj dana 07.03.2017. godine zauzeto je slijedeće PRAVNO SHVATANJE: „Kada tužitelj nije dokaz",
+    headnote: "Na sjednici Građanskog odjeljenja Vrhovnog suda FederacijeBiH održanoj dana 07.03.2017. godine zauzetoje slijedeće PRAVNO SHVATANJE: „Kada tužitelj nije dokazaodaje Kanton Sarajevo",
     outcome: "partially",
   },
   {
@@ -429,12 +429,12 @@ export const CASE_LAW_CIVIL_BIH_FBIH_PRAVNA_SHVATANJA: CaseLawInput[] = [
     legal_question:
       "Koje pravno shvatanje je zauzeo Vrhovni sud FBiH u građanskoj materiji?",
     court_position:
-      "Na sjednici Građanskog odjeljenja Vrhovnog suda F BiH održanoj dana 12.02.2025. godine, usvojeno je PRAVNO SHVATANJE: Razlog važnosti za odlučivanje o vanrednoj reviziji može biti i različita praksa jednog drugostepenog suda. Član 237. stav 4. tačka 1. Zakona o parničnom postupku („Službene novine FBiH“ broj: 53/03. 73/05, 19/06 i 98/15). Predsjednik Građanskog odjeljenja Vrhovnog suda Federacije BiH Radenko Blagojević",
+      "Na sjednici Građanskog odjeljenja Vrhovnog sudaFBiH održanoj dana 12.02.2025. godine, usvojenoje PRAVNO SHVATANJE: Razlog važnostiza odlučivanjeovanrednoj reviziji može bitiirazličita praksa jednog drugostepenog suda. Član 237. stav 4. tačka 1. Zakonaoparničnom postupku („Službene novine FBiH“ broj: 53/03. 73/05, 19/06 i 98/15). Predsjednik Građanskog odjeljenja Vrhovnog suda FederacijeBiH Radenko Blagojević",
     reasoning:
-      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH). Na sjednici Građanskog odjeljenja Vrhovnog suda F BiH održanoj dana 12.02.2025. godine, usvojeno je PRAVNO SHVATANJE: Razlog važnosti za odlučivanje o vanrednoj reviziji može biti i različita praksa jednog drugostepenog suda. Član 237. stav 4. tačka 1. Zakona o parničnom postupku („Službene novine FBiH“ broj: 53/03. 73/05, 19/06 i 98/15). Predsjednik Građanskog odjeljenja Vrhovnog suda Federacije BiH Radenko Blagojević",
+      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH).",
     keywords: ["pravna shvatanja","Zakon","ZPP FBiH","Vrhovni sud Federacije Bosne i Hercegovine"],
     related_articles: ["čl. 237. st. 4. ZOO FBiH","čl. 237. ZPP FBiH","čl. ZPP FBiH"],
-    headnote: "Na sjednici Građanskog odjeljenja Vrhovnog suda F BiH održanoj dana 12.02.2025. godine, usvojeno je PRAVNO SHVATANJE: Razlog važnosti za odlučivanje o vanrednoj",
+    headnote: "Na sjednici Građanskog odjeljenja Vrhovnog sudaFBiH održanoj dana 12.02.2025. godine, usvojenoje PRAVNO SHVATANJE: Razlog važnostiza odlučivanjeovanrednoj reviziji može bitiirazlič",
     outcome: "partially",
   },
   {
@@ -447,12 +447,12 @@ export const CASE_LAW_CIVIL_BIH_FBIH_PRAVNA_SHVATANJA: CaseLawInput[] = [
     legal_question:
       "Koje pravno shvatanje je zauzeo Vrhovni sud FBiH u građanskoj materiji?",
     court_position:
-      "Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije Bosne i Hercegovine održanoj dana 05.04.2021. godine, zauzeto je i usvojeno slijedeće PRAVNO SHVATANJE: „Odluke donesene u predmetima po reviziji, kojima je odlučeno i o pravnom pitanju koje je predmetom zahtjeva za rješavanje spornog pravnog pitanja podnesenog od strane prvostepenog suda, nisu osnova za odbačaj zahtjeva po članu 61.c stav 2) ZPP, već mogu biti samo argument za razmatranj",
+      "Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije BosneiHercegovine održanoj dana 05.04.2021. godine, zauzeto jeiusvojeno slijedeće PRAVNO SHVATANJE: „Odluke doneseneupredmetimapo reviziji, kojimaje odlučenoiopravnom pitanju kojeje predmetom zahtjevaza rješavanje spornog pravnog pitanja podnesenogod strane prvostepenog suda, nisu osnovaza odbačaj zahtjevapo članu 61.c stav 2) ZPP, već mogu biti samo argumentza razmatranjetog stavana Građanskom odjeljenjuupostupkupotom zahtjevu“. Član 61.c) stav 2. Zakonaoparničnom postupku Predsjednica Građanskog odjeljenja Vrhovnog suda FederacijeBiH Slavica Čindrak",
     reasoning:
-      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH). Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije Bosne i Hercegovine održanoj dana 05.04.2021. godine, zauzeto je i usvojeno slijedeće PRAVNO SHVATANJE: „Odluke donesene u predmetima po reviziji, kojima je odlučeno i o pravnom pitanju koje je predmetom zahtjeva za rješavanje spornog pravnog pitanja podnesenog od strane prvostepenog suda, nisu osnova za odbačaj zahtjeva po članu 61.c stav 2) ZPP, već mogu biti samo argument za razmatranje tog stava na Građanskom odjeljenju u postupku po",
+      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH).",
     keywords: ["pravna shvatanja","Zakon","ZPP FBiH","Vrhovni sud Federacije Bosne i Hercegovine"],
     related_articles: ["čl. 61. ZPP FBiH","čl. ZPP FBiH"],
-    headnote: "Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije Bosne i Hercegovine održanoj dana 05.04.2021. godine, zauzeto je i usvojeno slijedeće PRAVNO SHVATANJ",
+    headnote: "Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije BosneiHercegovine održanoj dana 05.04.2021. godine, zauzeto jeiusvojeno slijedeće PRAVNO SHVATANJE: „Odluke doneseneupred",
     outcome: "partially",
   },
   {
@@ -465,12 +465,12 @@ export const CASE_LAW_CIVIL_BIH_FBIH_PRAVNA_SHVATANJA: CaseLawInput[] = [
     legal_question:
       "Koje pravno shvatanje je zauzeo Vrhovni sud FBiH u građanskoj materiji?",
     court_position:
-      "Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije Bosne i Hercegovine održanoj dana 12.06.2019. godine, zauzeto je i usvojeno slijedeće PRAVNO SHVATANJE: „NEOTPLAĆENI IZNOS KREDITA NAKON PRESTANKA BRAČNE ZAJEDNICE JE TERET BRAČNE STEČEVINE KOJI SNOSE OBA BRAČNA PARTNERA NA JEDNAKE DIJELOVE. ISPLATOM CJELOKUPNOG PREOSTALOG DUGA OD STRANE JEDNOG BRAČNOG PARTNERA, ON JE UJEDNO ISPUNIO I OBAVEZU DRUGOG BRAČNOG PARTNERA U PODMIRENJU ISTE KAO ",
+      "Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije BosneiHercegovine održanoj dana 12.06.2019. godine, zauzeto jeiusvojeno slijedeće PRAVNO SHVATANJE: „NEOTPLAĆENI IZNOS KREDITA NAKON PRESTANKA BRAČNE ZAJEDNICEJE TERET BRAČNE STEČEVINE KOJI SNOSEOBA BRAČNA PARTNERANA JEDNAKE DIJELOVE. ISPLATOM CJELOKUPNOG PREOSTALOG DUGAOD STRANE JEDNOG BRAČNOG PARTNERA, ONJE UJEDNO ISPUNIOIOBAVEZU DRUGOG BRAČNOG PARTNERAUPODMIRENJU ISTEKAO DUGA BRAČNE STEČEVINE, PA ISPLATILACIMA PRAVO TRAŽITI POVRAT ½ IZNOSAKAO DOSPJELE OBAVEZE DRUGOG BRAČNOG PARTNERA“",
     reasoning:
-      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH). Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije Bosne i Hercegovine održanoj dana 12.06.2019. godine, zauzeto je i usvojeno slijedeće PRAVNO SHVATANJE: „NEOTPLAĆENI IZNOS KREDITA NAKON PRESTANKA BRAČNE ZAJEDNICE JE TERET BRAČNE STEČEVINE KOJI SNOSE OBA BRAČNA PARTNERA NA JEDNAKE DIJELOVE. ISPLATOM CJELOKUPNOG PREOSTALOG DUGA OD STRANE JEDNOG BRAČNOG PARTNERA, ON JE UJEDNO ISPUNIO I OBAVEZU DRUGOG BRAČNOG PARTNERA U PODMIRENJU ISTE KAO DUGA BRAČNE STEČEVINE, PA ISPLATILAC IMA PRAVO TRA",
+      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH).",
     keywords: ["pravna shvatanja","Zakon","ZPP FBiH","Vrhovni sud Federacije Bosne i Hercegovine"],
     related_articles: ["čl. ZOO FBiH"],
-    headnote: "Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije Bosne i Hercegovine održanoj dana 12.06.2019. godine, zauzeto je i usvojeno slijedeće PRAVNO SHVATANJ",
+    headnote: "Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije BosneiHercegovine održanoj dana 12.06.2019. godine, zauzeto jeiusvojeno slijedeće PRAVNO SHVATANJE: „NEOTPLAĆENI IZNOS KR",
     outcome: "partially",
   },
   {
@@ -483,12 +483,12 @@ export const CASE_LAW_CIVIL_BIH_FBIH_PRAVNA_SHVATANJA: CaseLawInput[] = [
     legal_question:
       "Koje pravno shvatanje je zauzeo Vrhovni sud FBiH u građanskoj materiji?",
     court_position:
-      "odnosno rješenje je 15 dana (pravni stav VS FBiH donijet na sjednici Građanskog odjeljenja dana 18.12.2018. godine). Prema tome, kako je tužitelj prvostepenu presudu primio dana 25.10.2013.godine i žalba izjavio dana 23.11.2013. godine, pravilno je odlučio drugostepeni sud kada je predmetnu žalbu odbacio kao neblagovremenu saglasno odredbama člana 422. u vezi sa članom 225. stav. 1. ZPP, budući je izjavljena mimo zakonom propisanog roka. (Rješenj",
+      "presudu odnosno rješenje je 15 dana (pravni stavVS FBiH donijetna sjednici Građanskog odjeljenja dana 18.12.2018. godine). Prema tome, kakoje tužitelj prvostepenu presudu primio dana 25.10.2013.godinei žalba izjavio dana 23.11.2013. godine, pravilnoje odlučio drugostepenisud kadaje predmetnu žalbu odbaciokao neblagovremenu saglasno odredbama člana 422. u vezisa članom 225. stav. 1. ZPP, budućije izjavljena mimo zakonom propisanog roka. (Rješenje Vrhovnog suda Federacije BosneiHercegovine broj: 65 0 Rs 190615 18 Rev od 24.12.2018. godine)",
     reasoning:
-      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH). N a sjednici Građanskog odjeljenja Vrhovnog suda Federacije BiH održanoj dana 18.12.2018 . godine , usvojeno je slijedeće PRAVNO SHVATANJE: „SPOR IZMEĐU ZAPOSLENIKA I POSLODAVCA U POGLEDU OSTVARIVANJA SUDSKE ZAŠTITE ZBOG MOBINGA PREDSTAVLJA U PROCESNOM SMISLU PARNICU IZ RADNIH ODNOSA, U KOJOJ ROK ZA PODNOŠENJE ŽALBE PROTIV PRESUDE ODNOSNO RJEŠENJA JE 15 DANA“ Član 4. stav 3., član 12. stav 3. i član 13. Zakona o zabrani diskriminacije BiH u vezi sa članom 225. stav 1. i članom 422. Zakona o parn",
+      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH).",
     keywords: ["pravna shvatanja","Zakon","ZPP FBiH","Vrhovni sud Federacije Bosne i Hercegovine"],
     related_articles: ["čl. 4. st. 3. ZOO FBiH","čl. 12. st. 3. ZOO FBiH","čl. 4. ZOO FBiH","čl. 12. ZOO FBiH","čl. 13. ZOO FBiH","čl. 12. ZPP FBiH","čl. 13. ZPP FBiH","čl. 422. ZPP FBiH","čl. ZPP FBiH"],
-    headnote: "odnosno rješenje je 15 dana (pravni stav VS FBiH donijet na sjednici Građanskog odjeljenja dana 18.12.2018. godine). Prema tome, kako je tužitelj prvostepenu pr",
+    headnote: "presudu odnosno rješenje je 15 dana (pravni stavVS FBiH donijetna sjednici Građanskog odjeljenja dana 18.12.2018. godine). Prema tome, kakoje tužitelj prvostepenu presudu primio da",
     outcome: "partially",
   },
   {
@@ -501,12 +501,12 @@ export const CASE_LAW_CIVIL_BIH_FBIH_PRAVNA_SHVATANJA: CaseLawInput[] = [
     legal_question:
       "Koje pravno shvatanje je zauzeo Vrhovni sud FBiH u građanskoj materiji?",
     court_position:
-      "Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije BiH održanoj dana 26.04.2016. godine, zauzeto je i usvojeno slijedeće PRAVNO SHVATANJE: „Za slučaj da federalni ministar odbrane ne da svoju saglasnost za otvaranje stečajnog postupka nad stečajnim dužnikom koji proizvodi naoružanje i vojnu opremu (član 5. stav 5. u vezi sa stavom 3. i 4. Zakona o stečajnom postupku Federacije BiH) znači da je saglasnost uskraćena povodom određenog prijed",
+      "Na sjednici Građanskog odjeljenja Vrhovnog suda FederacijeBiH održanoj dana 26.04.2016. godine, zauzeto jeiusvojeno slijedeće PRAVNO SHVATANJE: „Za slučajda federalni ministar odbraneneda svoju saglasnostza otvaranje stečajnog postupkanad stečajnim dužnikom koji proizvodi naoružanjeivojnu opremu (član 5. stav 5. u vezisa stavom 3. i 4. Zakonaostečajnom postupku Federacije BiH) značidaje saglasnost uskraćena povodom određenog prijedlogaza otvaranje stečajnog postupkaiodređenog potraživanja podnosioca prijedloga prema stečajnom dužniku, za koga podnosilac tvrdidaje platežno nesposoban. Samimtim ustanovljenaje solidarna odgovornost FederacijeBiHza obaveze stečajnog dužnikase isključivo odnosina obaveze sadržaneuprijedloguza otvaranje stečajnog postupka, a neuslučaju, za obaveze izvan predmeta raspravljanjapo prijedlogu. Posebnose solidarna odgovornost Federacije BiHneodnosina obaveze prema trećim osobama.”",
     reasoning:
-      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH). Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije BiH održanoj dana 26.04.2016. godine, zauzeto je i usvojeno slijedeće PRAVNO SHVATANJE: „Za slučaj da federalni ministar odbrane ne da svoju saglasnost za otvaranje stečajnog postupka nad stečajnim dužnikom koji proizvodi naoružanje i vojnu opremu (član 5. stav 5. u vezi sa stavom 3. i 4. Zakona o stečajnom postupku Federacije BiH) znači da je saglasnost uskraćena povodom određenog prijedloga za otvaranje stečajnog postupka i određenog p",
+      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH).",
     keywords: ["pravna shvatanja","Zakon","ZPP FBiH","Vrhovni sud Federacije Bosne i Hercegovine"],
     related_articles: ["čl. 5. st. 5. ZOO FBiH","čl. 5. ZOO FBiH"],
-    headnote: "Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije BiH održanoj dana 26.04.2016. godine, zauzeto je i usvojeno slijedeće PRAVNO SHVATANJE: „Za slučaj da",
+    headnote: "Na sjednici Građanskog odjeljenja Vrhovnog suda FederacijeBiH održanoj dana 26.04.2016. godine, zauzeto jeiusvojeno slijedeće PRAVNO SHVATANJE: „Za slučajda federalni ministar odbr",
     outcome: "partially",
   },
   {
@@ -519,12 +519,12 @@ export const CASE_LAW_CIVIL_BIH_FBIH_PRAVNA_SHVATANJA: CaseLawInput[] = [
     legal_question:
       "Koje pravno shvatanje je zauzeo Vrhovni sud FBiH u građanskoj materiji?",
     court_position:
-      "Na sjednici Građanskog odjeljenja Vrhovnog suda F BiH održanoj dana 16.10.2024. godine, usvojeno je PRAVNO SHVATANJE: „Odluka Vlade Federacije Bosne i Hercegovine o provođenju postupka finansijske konsolidacije nad privrednim društvom ne može se poistovijetiti sa uskraćivanjem davanja saglasnosti nadležnog ministarstva za otvaranje stečajnog postupka, pa se stoga na odredb i člana 5. Zakona o stečajnom postupku ne može ni zasnovati solidarna odgo",
+      "Na sjednici Građanskog odjeljenja Vrhovnog sudaFBiH održanoj dana 16.10.2024. godine, usvojenoje PRAVNO SHVATANJE: „Odluka Vlade Federacije BosneiHercegovineoprovođenju postupka finansijske konsolidacijenad privrednim društvomne možese poistovijetitisa uskraćivanjem davanja saglasnosti nadležnog ministarstvaza otvaranje stečajnog postupka, pase stogana odredbi člana 5. Zakonaostečajnom postupkune moženi zasnovati solidarna odgovornost Federacije BosneiHercegovineza dugovetog privrednog društva“. Član 5. Zakonaostečajnom postupku Federacije BosneiHercegovine („Službene novineFBiH“ broj: 29/03, 32/04, 4/17-Odluka Ustavnog suda i 52/18). Predsjednik Građanskog odjeljenja Vrhovnog suda FederacijeBiH Radenko Blagojević",
     reasoning:
-      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH). Na sjednici Građanskog odjeljenja Vrhovnog suda F BiH održanoj dana 16.10.2024. godine, usvojeno je PRAVNO SHVATANJE: „Odluka Vlade Federacije Bosne i Hercegovine o provođenju postupka finansijske konsolidacije nad privrednim društvom ne može se poistovijetiti sa uskraćivanjem davanja saglasnosti nadležnog ministarstva za otvaranje stečajnog postupka, pa se stoga na odredb i člana 5. Zakona o stečajnom postupku ne može ni zasnovati solidarna odgovornost Federacije Bosne i Hercegovine za dugove t",
+      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH).",
     keywords: ["pravna shvatanja","Zakon","ZPP FBiH","Vrhovni sud Federacije Bosne i Hercegovine"],
     related_articles: ["čl. 5. ZOO FBiH"],
-    headnote: "Na sjednici Građanskog odjeljenja Vrhovnog suda F BiH održanoj dana 16.10.2024. godine, usvojeno je PRAVNO SHVATANJE: „Odluka Vlade Federacije Bosne i Hercegovi",
+    headnote: "Na sjednici Građanskog odjeljenja Vrhovnog sudaFBiH održanoj dana 16.10.2024. godine, usvojenoje PRAVNO SHVATANJE: „Odluka Vlade Federacije BosneiHercegovineoprovođenju postupka fi",
     outcome: "partially",
   },
   {
@@ -537,12 +537,12 @@ export const CASE_LAW_CIVIL_BIH_FBIH_PRAVNA_SHVATANJA: CaseLawInput[] = [
     legal_question:
       "Koje pravno shvatanje je zauzeo Vrhovni sud FBiH u građanskoj materiji?",
     court_position:
-      "Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije Bosne i Hercegovine održanoj dana 25.10.2022. godine, zauzeto je i usvojeno slijedeće PRAVNO SHVATANJE: „Moguće je posjedovati stan i kada nije uspostavljeno etažno vlasništvo tog stana, ali nije moguće biti vlasnik stana kao posebnog dijela nekretnine, dok ne bude uspostavljeno vlasništvo tog posebnog dijela i povezano s nečijim suvlasničkim dijelom.“ Predsjednik Građanskog odjeljenja Vr",
+      "Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije BosneiHercegovine održanoj dana 25.10.2022. godine, zauzeto jeiusvojeno slijedeće PRAVNO SHVATANJE: „Mogućeje posjedovati stanikada nije uspostavljeno etažno vlasništvotog stana, ali nije moguće biti vlasnik stanakao posebnog dijela nekretnine, dokne bude uspostavljeno vlasništvotog posebnog dijelaipovezanosnečijim suvlasničkim dijelom.“ Predsjednik Građanskog odjeljenja Vrhovnog suda FederacijeBiH Radenko Blagojević",
     reasoning:
-      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH). Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije Bosne i Hercegovine održanoj dana 25.10.2022. godine, zauzeto je i usvojeno slijedeće PRAVNO SHVATANJE: „Moguće je posjedovati stan i kada nije uspostavljeno etažno vlasništvo tog stana, ali nije moguće biti vlasnik stana kao posebnog dijela nekretnine, dok ne bude uspostavljeno vlasništvo tog posebnog dijela i povezano s nečijim suvlasničkim dijelom.“ Predsjednik Građanskog odjeljenja Vrhovnog suda Federacije BiH Radenko Blagojević",
+      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH).",
     keywords: ["pravna shvatanja","Zakon","ZPP FBiH","Vrhovni sud Federacije Bosne i Hercegovine"],
     related_articles: ["čl. ZOO FBiH"],
-    headnote: "Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije Bosne i Hercegovine održanoj dana 25.10.2022. godine, zauzeto je i usvojeno slijedeće PRAVNO SHVATANJ",
+    headnote: "Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije BosneiHercegovine održanoj dana 25.10.2022. godine, zauzeto jeiusvojeno slijedeće PRAVNO SHVATANJE: „Mogućeje posjedovati",
     outcome: "partially",
   },
   {
@@ -555,12 +555,12 @@ export const CASE_LAW_CIVIL_BIH_FBIH_PRAVNA_SHVATANJA: CaseLawInput[] = [
     legal_question:
       "Koje pravno shvatanje je zauzeo Vrhovni sud FBiH u građanskoj materiji?",
     court_position:
-      "Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije Bosne i Hercegovine održanoj dana 15.03.2019. godine, zauzeto je i usvojeno slijedeće PRAVNO SHVATANJE: „TUŽITELJ JE DUŽAN DOKAZATI DA TUŽENOG OBAVEZUJE GRANSKI KOLEKTIVNI UGOVOR (GKU), JER ISTINITOST ODREĐENE TVRDNJE DOKAZUJE, U PRAVILU, ONAJ KO TVRDI DA ODREĐENA ČINJENICA POSTOJI, A NE ONAJ KOJI PORIČE NJENO POSTOJANJE”",
+      "Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije BosneiHercegovine održanoj dana 15.03.2019. godine, zauzeto jeiusvojeno slijedeće PRAVNO SHVATANJE: „TUŽITELJJE DUŽAN DOKAZATIDA TUŽENOG OBAVEZUJE GRANSKI KOLEKTIVNI UGOVOR (GKU), JER ISTINITOST ODREĐENE TVRDNJE DOKAZUJE, U PRAVILU, ONAJKO TVRDIDA ODREĐENA ČINJENICA POSTOJI, A NE ONAJ KOJI PORIČE NJENO POSTOJANJE”",
     reasoning:
-      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH). Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije Bosne i Hercegovine održanoj dana 15.03.2019. godine, zauzeto je i usvojeno slijedeće PRAVNO SHVATANJE: „TUŽITELJ JE DUŽAN DOKAZATI DA TUŽENOG OBAVEZUJE GRANSKI KOLEKTIVNI UGOVOR (GKU), JER ISTINITOST ODREĐENE TVRDNJE DOKAZUJE, U PRAVILU, ONAJ KO TVRDI DA ODREĐENA ČINJENICA POSTOJI, A NE ONAJ KOJI PORIČE NJENO POSTOJANJE”",
+      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH).",
     keywords: ["pravna shvatanja","Zakon","ZPP FBiH","Vrhovni sud Federacije Bosne i Hercegovine"],
     related_articles: ["čl. ZOO FBiH"],
-    headnote: "Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije Bosne i Hercegovine održanoj dana 15.03.2019. godine, zauzeto je i usvojeno slijedeće PRAVNO SHVATANJ",
+    headnote: "Na sjednici Građanskog odjeljenja Vrhovnog suda Federacije BosneiHercegovine održanoj dana 15.03.2019. godine, zauzeto jeiusvojeno slijedeće PRAVNO SHVATANJE: „TUŽITELJJE DUŽAN DOK",
     outcome: "partially",
   },
   {
@@ -573,12 +573,12 @@ export const CASE_LAW_CIVIL_BIH_FBIH_PRAVNA_SHVATANJA: CaseLawInput[] = [
     legal_question:
       "Koje pravno shvatanje je zauzeo Vrhovni sud FBiH u građanskoj materiji?",
     court_position:
-      "Na sjednici Građanskog odjeljenja Vrhovnog suda F BiH održanoj dana 23.5.2022. godine, zauzeto je i usvojeno PRAVNO SHVATANJE: „Na tuženim nasljednicima je teret dokazivanja činjenice kolika je visina vrijednosti naslijeđene imovine“. Član 123. i 126. Zakona o parničnom postupku Federacije Bosne i Hercegovine („Službene novine F BiH, broj 53/03, 73/05, 19/06 i 98/15) Član 143. Zakona o nasljeđivanju („Službeni list SR BiH“, broj 7/80 i 15/80). Pr",
+      "Na sjednici Građanskog odjeljenja Vrhovnog sudaFBiH održanoj dana 23.5.2022. godine, zauzeto jeiusvojeno PRAVNO SHVATANJE: „Na tuženim nasljednicimaje teret dokazivanja činjenice kolikaje visina vrijednosti naslijeđene imovine“. Član 123. i 126. Zakonaoparničnom postupku Federacije BosneiHercegovine („Službene novineFBiH, broj 53/03, 73/05, 19/06 i 98/15) Član 143. Zakonaonasljeđivanju („Službeni listSR BiH“, broj 7/80 i 15/80). Predsjednik Građanskog odjeljenja Vrhovnog suda FederacijeBiH Radenko Blagojević",
     reasoning:
-      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH). Na sjednici Građanskog odjeljenja Vrhovnog suda F BiH održanoj dana 23.5.2022. godine, zauzeto je i usvojeno PRAVNO SHVATANJE: „Na tuženim nasljednicima je teret dokazivanja činjenice kolika je visina vrijednosti naslijeđene imovine“. Član 123. i 126. Zakona o parničnom postupku Federacije Bosne i Hercegovine („Službene novine F BiH, broj 53/03, 73/05, 19/06 i 98/15) Član 143. Zakona o nasljeđivanju („Službeni list SR BiH“, broj 7/80 i 15/80). Predsjednik Građanskog odjeljenja Vrhovnog suda Fede",
+      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH).",
     keywords: ["pravna shvatanja","Zakon","ZPP FBiH","Vrhovni sud Federacije Bosne i Hercegovine"],
     related_articles: ["čl. 123. ZPP FBiH","čl. 143. ZPP FBiH","čl. ZPP FBiH"],
-    headnote: "Na sjednici Građanskog odjeljenja Vrhovnog suda F BiH održanoj dana 23.5.2022. godine, zauzeto je i usvojeno PRAVNO SHVATANJE: „Na tuženim nasljednicima je tere",
+    headnote: "Na sjednici Građanskog odjeljenja Vrhovnog sudaFBiH održanoj dana 23.5.2022. godine, zauzeto jeiusvojeno PRAVNO SHVATANJE: „Na tuženim nasljednicimaje teret dokazivanja činjenice k",
     outcome: "partially",
   },
   {
@@ -591,12 +591,12 @@ export const CASE_LAW_CIVIL_BIH_FBIH_PRAVNA_SHVATANJA: CaseLawInput[] = [
     legal_question:
       "Koje pravno shvatanje je zauzeo Vrhovni sud FBiH u građanskoj materiji?",
     court_position:
-      "Na sjednici Građanskog odjeljenja Vrhovnog suda F BiH održanoj dana 09.07.2025. godine, usvojeno je PRAVNO SHVATANJE: Odluka Ustavnog suda Bosne i Hercegovine kojom je utvrđeno da zakon nije u skladu sa odredbom člana II.4. Ustava Bosne i Hercegovine (nediskriminacija), ne isključuje pravo osobe koja smatra da je diskriminisana takvim postupanjem zakonodavca, da na osnovu odredaba Zakona o zabrani diskriminacije, traži utvrđenje postojanja diskri",
+      "Na sjednici Građanskog odjeljenja Vrhovnog sudaFBiH održanoj dana 09.07.2025. godine, usvojenoje PRAVNO SHVATANJE: Odluka Ustavnog suda BosneiHercegovine kojomje utvrđenoda zakon nijeuskladusa odredbom člana II.4. Ustava BosneiHercegovine (nediskriminacija), ne isključuje pravo osobe koja smatradaje diskriminisana takvim postupanjem zakonodavca, dana osnovu odredaba Zakonaozabrani diskriminacije, traži utvrđenje postojanja diskriminacijeiuperiodu prije donošenja odluke Ustavnog suda BosneiHercegovine, kaoinaknadu štete zbog tako učinjene diskriminacije. Član 1. stav 2., član 6., član 11. stav 1. i član 12. stav 1. tačka a) i c) i stav 3. Zakonaozabrani diskriminacije („Službeniglasnik BiH“ broj: 59/09 i 66/16) Predsjednik Građanskog odjeljenja Vrhovnog suda FederacijeBiH Radenko Blagojević",
     reasoning:
-      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH). Na sjednici Građanskog odjeljenja Vrhovnog suda F BiH održanoj dana 09.07.2025. godine, usvojeno je PRAVNO SHVATANJE: Odluka Ustavnog suda Bosne i Hercegovine kojom je utvrđeno da zakon nije u skladu sa odredbom člana II.4. Ustava Bosne i Hercegovine (nediskriminacija), ne isključuje pravo osobe koja smatra da je diskriminisana takvim postupanjem zakonodavca, da na osnovu odredaba Zakona o zabrani diskriminacije, traži utvrđenje postojanja diskriminacije i u periodu prije donošenja odluke Ustavn",
+      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH).",
     keywords: ["pravna shvatanja","Zakon","ZPP FBiH","Vrhovni sud Federacije Bosne i Hercegovine"],
     related_articles: ["čl. 1. st. 2. ZOO FBiH","čl. 11. st. 1. ZOO FBiH","čl. 12. st. 1. ZOO FBiH","čl. 1. ZOO FBiH","čl. 6. ZOO FBiH","čl. 11. ZOO FBiH","čl. 12. ZOO FBiH"],
-    headnote: "Na sjednici Građanskog odjeljenja Vrhovnog suda F BiH održanoj dana 09.07.2025. godine, usvojeno je PRAVNO SHVATANJE: Odluka Ustavnog suda Bosne i Hercegovine k",
+    headnote: "Na sjednici Građanskog odjeljenja Vrhovnog sudaFBiH održanoj dana 09.07.2025. godine, usvojenoje PRAVNO SHVATANJE: Odluka Ustavnog suda BosneiHercegovine kojomje utvrđenoda zakon n",
     outcome: "partially",
   },
   {
@@ -609,12 +609,12 @@ export const CASE_LAW_CIVIL_BIH_FBIH_PRAVNA_SHVATANJA: CaseLawInput[] = [
     legal_question:
       "Koje pravno shvatanje je zauzeo Vrhovni sud FBiH u građanskoj materiji?",
     court_position:
-      "Sjednica Građanskog odjeljenja Vrhovnog suda Federacije BiH održana dana 20.04.2016. godine u predmetu br. 33 0 Rs 020930 15 Rev: „Prestankom važenja Zakona prestaje važiti i Pravilnik donesen na osnovu njega.“",
+      "Sjednica Građanskog odjeljenja Vrhovnog suda FederacijeBiH održana dana 20.04.2016. godineupredmetu br. 33 0 Rs 020930 15 Rev: „Prestankom važenja Zakona prestaje važitiiPravilnik donesenna osnovu njega.“",
     reasoning:
-      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH). Sjednica Građanskog odjeljenja Vrhovnog suda Federacije BiH održana dana 20.04.2016. godine u predmetu br. 33 0 Rs 020930 15 Rev: „Prestankom važenja Zakona prestaje važiti i Pravilnik donesen na osnovu njega.“",
+      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH).",
     keywords: ["pravna shvatanja","Zakon","ZPP FBiH","Vrhovni sud Federacije Bosne i Hercegovine"],
     related_articles: ["čl. ZOO FBiH"],
-    headnote: "Sjednica Građanskog odjeljenja Vrhovnog suda Federacije BiH održana dana 20.04.2016. godine u predmetu br. 33 0 Rs 020930 15 Rev: „Prestankom važenja Zakona pre",
+    headnote: "Sjednica Građanskog odjeljenja Vrhovnog suda FederacijeBiH održana dana 20.04.2016. godineupredmetu br. 33 0 Rs 020930 15 Rev: „Prestankom važenja Zakona prestaje važitiiPravilnik ",
     outcome: "partially",
   },
   {
@@ -627,12 +627,12 @@ export const CASE_LAW_CIVIL_BIH_FBIH_PRAVNA_SHVATANJA: CaseLawInput[] = [
     legal_question:
       "Koje pravno shvatanje je zauzeo Vrhovni sud FBiH u građanskoj materiji?",
     court_position:
-      "Na sjednici Građanskog odjeljenja Vrhovnog suda F BiH održanoj dana 11.07.2024. godine, usvojeno je PRAVNO SHVATANJE: „Kada tužitelj u istoj tužbi postavlja više nenovčanih tužbenih zahtjeva koji nisu zasnovani na istoj činjeničnoj i pravnoj osnovi za koje označi jednu vrijednost predmeta spora, tako označena vrijednost predmeta spora se odnosi na sve zahtjeve i ne može se dijeliti sa brojem zahtjeva “. Član 316. i 321. Zakona o parničnom postupk",
+      "Na sjednici Građanskog odjeljenja Vrhovnog sudaFBiH održanoj dana 11.07.2024. godine, usvojenoje PRAVNO SHVATANJE: „Kada tužiteljuistoj tužbi postavlja više nenovčanih tužbenih zahtjeva koji nisu zasnovanina istoj činjeničnojipravnoj osnoviza koje označi jednu vrijednost predmeta spora, tako označena vrijednost predmeta sporase odnosinasve zahtjeveine možese dijelitisa brojem zahtjeva “. Član 316. i 321. Zakonaoparničnom postupku („Službene novineFBiH“ broj: 53/03, 73/05, 19/06 i 98/15). Predsjednik Građanskog odjeljenja Vrhovnog suda FederacijeBiH Radenko Blagojević",
     reasoning:
-      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH). Na sjednici Građanskog odjeljenja Vrhovnog suda F BiH održanoj dana 11.07.2024. godine, usvojeno je PRAVNO SHVATANJE: „Kada tužitelj u istoj tužbi postavlja više nenovčanih tužbenih zahtjeva koji nisu zasnovani na istoj činjeničnoj i pravnoj osnovi za koje označi jednu vrijednost predmeta spora, tako označena vrijednost predmeta spora se odnosi na sve zahtjeve i ne može se dijeliti sa brojem zahtjeva “. Član 316. i 321. Zakona o parničnom postupku („Službene novine F BiH“ broj: 53/03, 73/05, 19/",
+      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH).",
     keywords: ["pravna shvatanja","Zakon","ZPP FBiH","Vrhovni sud Federacije Bosne i Hercegovine"],
     related_articles: ["čl. 316. ZPP FBiH","čl. ZPP FBiH"],
-    headnote: "Na sjednici Građanskog odjeljenja Vrhovnog suda F BiH održanoj dana 11.07.2024. godine, usvojeno je PRAVNO SHVATANJE: „Kada tužitelj u istoj tužbi postavlja viš",
+    headnote: "Na sjednici Građanskog odjeljenja Vrhovnog sudaFBiH održanoj dana 11.07.2024. godine, usvojenoje PRAVNO SHVATANJE: „Kada tužiteljuistoj tužbi postavlja više nenovčanih tužbenih zah",
     outcome: "partially",
   },
   {
@@ -645,12 +645,12 @@ export const CASE_LAW_CIVIL_BIH_FBIH_PRAVNA_SHVATANJA: CaseLawInput[] = [
     legal_question:
       "Koje pravno shvatanje je zauzeo Vrhovni sud FBiH u građanskoj materiji?",
     court_position:
-      "Na sjednici Građanskog odjeljenja Vrhovnog suda F BiH održanoj dana 14.09.2023. godine, zauzeto je i usvojeno PRAVNO SHVATANJE: „Korisniku penzije kome su pojedini mjesečni iznosi penzije, bez zakonskog osnova isplaćeni sa zakašnjenjem, pripada pravo na isplatu zakonskih zateznih kamata na te iznose“. Član 277. Zakona o obligacionim odnosima („Službeni list SFRJ“ broj: 29/78, 39/85 i 57/89, „Službeni list R BiH“ broj: 2/92 i 13/93 i „Službene nov",
+      "Na sjednici Građanskog odjeljenja Vrhovnog sudaFBiH održanoj dana 14.09.2023. godine, zauzeto jeiusvojeno PRAVNO SHVATANJE: „Korisniku penzije komesu pojedini mjesečni iznosi penzije, bez zakonskog osnova isplaćenisa zakašnjenjem, pripada pravona isplatu zakonskih zateznih kamatanate iznose“. Član 277. Zakonaoobligacionim odnosima („Službeni list SFRJ“ broj: 29/78, 39/85 i 57/89, „Službeni listRBiH“ broj: 2/92 i 13/93 i „Službene novineFBiH“ broj: 29/03 i 42/11) Predsjednik Građanskog odjeljenja Vrhovnog suda FederacijeBiH Radenko Blagojević",
     reasoning:
-      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH). Na sjednici Građanskog odjeljenja Vrhovnog suda F BiH održanoj dana 14.09.2023. godine, zauzeto je i usvojeno PRAVNO SHVATANJE: „Korisniku penzije kome su pojedini mjesečni iznosi penzije, bez zakonskog osnova isplaćeni sa zakašnjenjem, pripada pravo na isplatu zakonskih zateznih kamata na te iznose“. Član 277. Zakona o obligacionim odnosima („Službeni list SFRJ“ broj: 29/78, 39/85 i 57/89, „Službeni list R BiH“ broj: 2/92 i 13/93 i „Službene novine F BiH“ broj: 29/03 i 42/11) Predsjednik Građan",
+      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH).",
     keywords: ["pravna shvatanja","Zakon","ZPP FBiH","Vrhovni sud Federacije Bosne i Hercegovine"],
     related_articles: ["čl. 277. ZOO FBiH"],
-    headnote: "Na sjednici Građanskog odjeljenja Vrhovnog suda F BiH održanoj dana 14.09.2023. godine, zauzeto je i usvojeno PRAVNO SHVATANJE: „Korisniku penzije kome su pojed",
+    headnote: "Na sjednici Građanskog odjeljenja Vrhovnog sudaFBiH održanoj dana 14.09.2023. godine, zauzeto jeiusvojeno PRAVNO SHVATANJE: „Korisniku penzije komesu pojedini mjesečni iznosi penzi",
     outcome: "partially",
   },
   {
@@ -663,12 +663,12 @@ export const CASE_LAW_CIVIL_BIH_FBIH_PRAVNA_SHVATANJA: CaseLawInput[] = [
     legal_question:
       "Koje pravno shvatanje je zauzeo Vrhovni sud FBiH u građanskoj materiji?",
     court_position:
-      "Na osnovu člana 19. Pravilnika o unutrašnjem sudskom poslovanju (\"Službeni glasnik BiH\", br. 6612, 40/14, 54/17, 60/17, 30/18 i 83/22) i članova 5. i 12. Poslovnika o radu Građanskog odjeljenja Vrhovnog suda Federacije BiH, na sjednici Građanskog odjeljenja Vrhovnog suda Federacije Bosne i Hercegovine održanoj dana 25.5.2023. godine usvojeno je sljedeće P R A V N O S H V A T A N J E “Uporno podnošenje velikog broja tužbi istog tužitelja protiv is",
+      "Na osnovu člana 19. Pravilnikaounutrašnjem sudskom poslovanju (\"Službeni glasnik BiH\", br. 6612, 40/14, 54/17, 60/17, 30/18 i 83/22) i članova 5. i 12. Poslovnikaoradu Građanskog odjeljenja Vrhovnog suda Federacije BiH, na sjednici Građanskog odjeljenja Vrhovnog suda Federacije BosneiHercegovine održanoj dana 25.5.2023. godine usvojenoje sljedećePRAVNOSHVATANJE “Uporno podnošenje velikog broja tužbi istog tužitelja protiv istih tuženih (Kanton Sarajevo, Općinski suduSarajevu, postupajući sudija) sa istim tužbenim zahtjevom, za utvrđenje diskriminacije tužitelja zbog činjeniceda sumu njegove ranije tužbe vraćenena ispravkuIdopunu, predstavlja zloupotrebu prava kojusu sudovi dužni spriječitiusmislu člana 9. u vezisa članom 10. stav (2) Zakonaoparničnom postupku.” Predsjednik Građanskog odjeljenja Radenko Blagojević",
     reasoning:
-      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH). Na osnovu člana 19. Pravilnika o unutrašnjem sudskom poslovanju (\"Službeni glasnik BiH\", br. 6612, 40/14, 54/17, 60/17, 30/18 i 83/22) i članova 5. i 12. Poslovnika o radu Građanskog odjeljenja Vrhovnog suda Federacije BiH, na sjednici Građanskog odjeljenja Vrhovnog suda Federacije Bosne i Hercegovine održanoj dana 25.5.2023. godine usvojeno je sljedeće P R A V N O S H V A T A N J E “Uporno podnošenje velikog broja tužbi istog tužitelja protiv istih tuženih (Kanton Sarajevo, Općinski sud u Saraj",
+      "Sud ocjenjuje reviziju, žalbu ili drugi pravni lijek u predmetu iz oblasti pravna shvatanja, primjenjujući Zakon o obligacionim odnosima FBiH i Zakon o parničnom postupku FBiH (ZPP FBiH).",
     keywords: ["pravna shvatanja","Zakon","ZPP FBiH","Općinski sud u Sarajevu"],
     related_articles: ["čl. 19. ZOO FBiH","čl. 9. ZPP FBiH","čl. ZPP FBiH"],
-    headnote: "Na osnovu člana 19. Pravilnika o unutrašnjem sudskom poslovanju (\"Službeni glasnik BiH\", br. 6612, 40/14, 54/17, 60/17, 30/18 i 83/22) i članova 5. i 12. Poslov",
+    headnote: "Na osnovu člana 19. Pravilnikaounutrašnjem sudskom poslovanju (\"Službeni glasnik BiH\", br. 6612, 40/14, 54/17, 60/17, 30/18 i 83/22) i članova 5. i 12. Poslovnikaoradu Građanskog o",
     outcome: "partially",
   }
 ]

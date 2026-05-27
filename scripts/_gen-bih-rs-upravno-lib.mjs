@@ -1,5 +1,6 @@
 import fs from "fs"
 import path from "path"
+import { prepareText, extractObrazlozenje } from "./_gen-prepare-text.mjs"
 
 export function createUpravnoGenerator(cfg) {
   const { title, label, legal_area, defaultQ, statuteTag } = cfg
@@ -136,8 +137,8 @@ export function createUpravnoGenerator(cfg) {
     const pi = chunk.search(pres)
     const ri = chunk.search(rjes)
     const start = pi === -1 ? (ri === -1 ? 0 : ri) : pi
-    if (start === 0 && pi === -1 && ri === -1) return chunk.slice(0, 1400)
-    return chunk.slice(start, start + 1800)
+    if (start === 0 && pi === -1 && ri === -1) return chunk
+    return chunk.slice(start)
   }
 
   function adminParty(full) {
@@ -182,19 +183,23 @@ export function createUpravnoGenerator(cfg) {
   }
 
   function summarize(full, izrekaCyr) {
-    const izLat = scrubCyrillicRuns(cyrToLatin(izrekaCyr))
-    let cp = izLat
-      .replace(/^\s*(P\s+R\s+E\s+S\s+U\s+D\s+U|R\s+J\s+E\s+Š\s+E\s+N\s+J\s+E)\s*/i, "")
-      .slice(0, 520)
-      .replace(/\s+/g, " ")
-      .trim()
-    if (cp.length > 420) cp = cp.slice(0, 417).trim() + "…"
-    const head = cp.slice(0, 160)
+    const cp =
+      prepareText(
+        scrubCyrillicRuns(cyrToLatin(izrekaCyr)).replace(
+          /^\s*(P\s+R\s+E\s+S\s+U\s+D\s+U|R\s+J\s+E\s+Š\s+E\s+N\s+J\s+E)\s*/i,
+          "",
+        ),
+      ) || prepareText(scrubCyrillicRuns(cyrToLatin(full)))
+    const obraz = extractObrazlozenje(scrubCyrillicRuns(cyrToLatin(full)))
+    const reasoning =
+      obraz.length >= 120
+        ? obraz
+        : `Sud ocjenjuje tužbu, žalbu, vanredno preispitivanje ili drugi lijek u upravnom sporu iz oblasti ${title}, primjenjujući materijalni propis i ${statuteLabel}.`
     return {
       legal_question: defaultQ,
-      court_position: cp || scrubCyrillicRuns(cyrToLatin(full.slice(0, 350))),
-      reasoning: `Sud ocjenjuje tužbu, žalbu, vanredno preispitivanje ili drugi lijek u upravnom sporu iz oblasti ${title}, primjenjujući materijalni propis i ${statuteLabel}.`,
-      headnote: head,
+      court_position: cp,
+      reasoning,
+      headnote: cp.slice(0, 160),
     }
   }
 
@@ -237,11 +242,9 @@ export function createUpravnoGenerator(cfg) {
         legal_question = sum.legal_question
         let cp = sum.court_position
         if (/^BOSNA I HERCEGOVINA|VRHOVNI SUD REPUBLIKE/i.test(cp) && cp.length > 200) {
-          cp = izLatFull
-            .replace(/^\s*(P\s+R\s+E\s+S\s+U\s+D\s+U|R\s+J\s+E\s+Š\s+E\s+N\s+J\s+E)\s*/i, "")
-            .slice(0, 420)
-            .replace(/\s+/g, " ")
-            .trim()
+          cp = prepareText(
+            izLatFull.replace(/^\s*(P\s+R\s+E\s+S\s+U\s+D\s+U|R\s+J\s+E\s+Š\s+E\s+N\s+J\s+E)\s*/i, ""),
+          )
         }
         court_position = cp || sum.court_position
         reasoning = sum.reasoning

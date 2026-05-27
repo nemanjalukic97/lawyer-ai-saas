@@ -1,5 +1,6 @@
 import fs from "fs"
 import path from "path"
+import { extractLegalQuestion } from "./_gen-extract-legal-question.mjs"
 
 const COURT = "Visoki kazneni sud Republike Hrvatske"
 const COURT_LEVEL = "high"
@@ -97,7 +98,7 @@ function extractIzreka(text) {
           : spaced !== -1
             ? spaced
             : 0
-  return chunk.slice(start, start + 2200)
+  return chunk.slice(start)
 }
 
 function appealParty(full) {
@@ -160,31 +161,37 @@ function extractArticles(text) {
   return [...set].slice(0, 10)
 }
 
-function cleanSnippet(s, max = 480) {
-  return s.replace(/\s+/g, " ").trim().slice(0, max)
-}
+function cleanSnippet(s, max) {
+    const t = s.replace(/\s+/g, " ").trim()
+    if (typeof max === "number" && max > 0) return t.slice(0, max)
+    return t
+  }
 
 function summarize(full, iz, caseNumber) {
   let cp = cleanSnippet(
     iz
       .replace(/^(P\s*R\s*E\s*S\s*U\s*D\s*U|R\s*J\s*E\s*Š\s*E\s*N\s*J\s*E|PRESUDA|RJEŠENJE)\s*/i, "")
       .replace(/^[IVX]+\s*[\.\)]\s*/i, ""),
-    450,
   )
   if (!cp || cp === ".") {
     const m = full.match(
       /(?:Odbija\s+se|Djelomično\s+se\s+prihvaća|prihvaća\s+se\s+žalb|Potvrđuje\s+se|Preinačuje\s+se|ukida\s+se)[^.]{0,200}\./i,
     )
-    cp = m ? cleanSnippet(m[0], 450) : cleanSnippet(full.slice(0, 500), 350)
+    cp = m ? cleanSnippet(m[0]) : cleanSnippet(full)
   }
   const crime = full.match(/kaznen\w+\s+djel\w+\s+([^,]{5,90})/i)
   const crimeBit = crime ? ` (${crime[1].trim()})` : ""
-  const reasoning = cleanSnippet(
-    `Visoki kazneni sud Republike Hrvatske ocjenjuje žalbene prigovore u predmetu ${caseNumber}${crimeBit}, primjenjujući KZ/11 i ZKP/08. ${full.slice(0, 1400).replace(/\s+/g, " ").slice(0, 650)}`,
-    900,
-  )
+  const obrazIdx = full.search(/\bObrazloženje\b/i)
+  let reasoning = ""
+  if (obrazIdx >= 0) {
+    reasoning = cleanSnippet(full.slice(obrazIdx))
+  } else {
+    reasoning = cleanSnippet(
+      `Visoki kazneni sud Republike Hrvatske ocjenjuje žalbene prigovore u predmetu ${caseNumber}${crimeBit}, primjenjujući KZ/11 i ZKP/08. ${full.replace(/\s+/g, " ").trim()}`,
+    )
+  }
   return {
-    legal_question: `Kakvo je pravno pitanje razmatrao Visoki kazneni sud Republike Hrvatske u predmetu ${caseNumber}?`,
+    legal_question: extractLegalQuestion({ body: full, izreka: iz }),
     court_position: cp,
     reasoning,
     headnote: cleanSnippet(cp, 160),

@@ -1,5 +1,7 @@
 import fs from "fs"
+import { prepareText, extractObrazlozenje, summarizeBihCase, cleanSnippet } from "./_gen-prepare-text.mjs"
 import path from "path"
+import { extractLegalQuestion } from "./_gen-extract-legal-question.mjs"
 
 const COURT = "Visoki upravni sud Republike Hrvatske"
 const LEGAL_AREA = "administrative"
@@ -125,13 +127,13 @@ function extractIzreka(body) {
   if (start === 0 && pres === -1 && rjes === -1) {
     const iz = chunk.match(/(?:I\.\s|II\.\s|Žalba|Tužba|Odbija)[\s\S]{0,1200}/i)
     if (iz) return iz[0]
-    return chunk.slice(0, 1600)
+    return prepareText(chunk)
   }
 
   const afterHeading = chunk.slice(start)
   const verdict = afterHeading.search(/\b(?:p\s*r\s*e\s*s\s*u\s*d\s*i\s*o| r\s*i\s*j\s*e\s*š\s*i\s*o)\s+j\s*e\b/i)
   const sliceStart = verdict === -1 ? 0 : verdict
-  return afterHeading.slice(sliceStart, sliceStart + 2200)
+  return afterHeading.slice(sliceStart)
 }
 
 function outcomeFromText(iz) {
@@ -169,14 +171,12 @@ function summarize(body, izrekaRaw, caseNum) {
   let cp = izrekaRaw
     .replace(/^\s*(P\s*R\s*E\s*S\s*U\s*D\s*A|R\s*J\s*E\s*Š\s*E\s*N\s*J\s*E)\s*/i, "")
     .replace(/\b(?:p\s*r\s*e\s*s\s*u\s*d\s*i\s*o|r\s*i\s*j\s*e\s*š\s*i\s*o)\s+j\s*e\b/i, "")
-    .slice(0, 520)
     .replace(/\s+/g, " ")
     .trim()
-  if (cp.length > 420) cp = cp.slice(0, 417).trim() + "…"
   const head = cp.slice(0, 160) || body.slice(0, 200).replace(/\s+/g, " ").trim()
   return {
-    legal_question: `Koje pravno pitanje je razmatrao Visoki upravni sud Republike Hrvatske u predmetu ${caseNum}?`,
-    court_position: cp || body.slice(0, 400).replace(/\s+/g, " ").trim(),
+    legal_question: extractLegalQuestion({ body, izreka: izrekaRaw }),
+    court_position: cp || body.replace(/\s+/g, " ").trim(),
     reasoning: `Visoki upravni sud Republike Hrvatske odlučuje u predmetu ${caseNum}, primjenjujući Zakon o upravnim sporovima i Zakon o općem upravnom postupku.`,
     headnote: head,
   }

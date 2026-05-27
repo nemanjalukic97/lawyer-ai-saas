@@ -139,8 +139,8 @@ function extractIzrekaUtf8(text) {
   const pi = chunk.search(pres)
   const ri = chunk.search(rjes)
   const start = pi === -1 ? (ri === -1 ? 0 : ri) : pi
-  if (start === 0 && pi === -1 && ri === -1) return chunk.slice(0, 1400)
-  return chunk.slice(start, start + 1800)
+  if (start === 0 && pi === -1 && ri === -1) return chunk
+  return chunk.slice(start)
 }
 
 function zzlParty(full) {
@@ -250,18 +250,16 @@ function sexualLegalQuestion(lat) {
 }
 
 function summarizeNumbered(full, izrekaCyr) {
-  const lat = fixIjTerms(cyrToLatin(full.slice(0, 6000)))
+  const lat = fixIjTerms(cyrToLatin(full))
   const izLat = fixIjTerms(cyrToLatin(izrekaCyr))
   const dq = sexualLegalQuestion(lat)
 
   let cp = scrubCyrillicRuns(
     izLat
       .replace(/^\s*(P\s+R\s+E\s+S\s+U\s+D\s+U|R\s+J\s+E\s+Š\s+E\s+N\s+J\s+E)\s*/i, "")
-      .slice(0, 520)
       .replace(/\s+/g, " ")
       .trim(),
   )
-  if (cp.length > 420) cp = cp.slice(0, 417).trim() + "…"
 
   const reasoning =
     "Sud ocjenjuje žalbene ili ZZL prigovore u predmetima protiv polnog integriteta i seksualnog zlostavljanja djeteta, uključujući primjenu čl. 172. i 179. KZ RS, zakonitost dokaznog postupka (saslušanje maloljetnih svjedoka, čl. 186. Zakona o zaštiti djece) te b bitne povrede iz čl. 311. ZKOP RS."
@@ -273,7 +271,7 @@ function summarizeNumbered(full, izrekaCyr) {
       .replace(/\s+/g, " ")
       .trim(),
   )
-  return { legal_question: scrubCyrillicRuns(dq), court_position: scrubCyrillicRuns(cp || lat.slice(0, 350)), reasoning, headnote: head.slice(0, 160) }
+  return { legal_question: scrubCyrillicRuns(dq), court_position: scrubCyrillicRuns(cp || lat), reasoning, headnote: head.slice(0, 160) }
 }
 
 function outcomeKz(t) {
@@ -282,7 +280,7 @@ function outcomeKz(t) {
     /ÚÛÊËÓˆ‡|žalbi\s+Okružnog\s+tužioca/i.test(head) || /Ó\s+Ê‡Î·Ë\s+ŒÍÛÊÌÓ„/.test(head)
   if (/”‚‡Ê‡‚‡úÂÏ\s+Ê‡Î·Â/.test(head)) return mangTuži ? "plaintiff_won" : "defendant_won"
   if (/Œ‰·Ëº‡\s+ÒÂ\s+Í‡Ó\s+ÌÂÓÒÌÓ‚‡Ì‡\s+Ê‡Î·Â/.test(head)) return mangTuži ? "defendant_won" : "plaintiff_won"
-  if (/Œ‰·Ëº‡\s+ÒÂ\s+Í‡Ó\s+ÌÂÓÒÌÓ‚‡Ì‡/.test(head) && /Ê‡Î·/.test(head.slice(0, 900)))
+  if (/Œ‰·Ëº‡\s+ÒÂ\s+Í‡Ó\s+ÌÂÓÒÌÓ‚‡Ì‡/.test(head) && /Ê‡Î·/.test(head.slice(0)))
     return mangTuži ? "defendant_won" : "plaintiff_won"
   if (/ÔÂËÌ‡˜‡‚‡/.test(head)) return "partially"
   if (/ÔÓÚ‚êÛºÛ\s+ÒÂ/.test(head) || /potvrđuje\s+se/i.test(head)) return "plaintiff_won"
