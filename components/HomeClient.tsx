@@ -12,6 +12,7 @@ import { SignupSuccessToast } from "@/components/SignupSuccessToast"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { useLanguage } from "@/components/LanguageProvider"
+import { createClient } from "@/lib/supabase/client"
 import { cn } from "@/lib/utils"
 import { FEATURES, PRICING_TIERS } from "@/types"
 
@@ -179,7 +180,24 @@ type Props = {
 
 export function HomeClient({ signupStatus, initialSignedIn }: Props) {
   const { t } = useLanguage()
+  const [signedIn, setSignedIn] = useState(() => Boolean(initialSignedIn))
   const [openFaqItem, setOpenFaqItem] = useState<number | null>(null)
+
+  useEffect(() => {
+    const supabase = createClient()
+
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSignedIn(Boolean(session?.user))
+    })
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSignedIn(Boolean(session?.user))
+    })
+
+    return () => subscription.unsubscribe()
+  }, [])
 
   useEffect(() => {
     setOpenFaqItem(null)
@@ -353,7 +371,11 @@ export function HomeClient({ signupStatus, initialSignedIn }: Props) {
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row sm:flex-wrap sm:gap-4">
               <Button asChild size="lg" className="h-11 min-w-[200px] text-base sm:h-11 sm:text-sm">
-                <Link href="/signup">{t("home.hero.getStartedFree")}</Link>
+                {signedIn ? (
+                  <Link href="/dashboard">{t("nav.dashboard")}</Link>
+                ) : (
+                  <Link href="/signup">{t("home.hero.getStartedFree")}</Link>
+                )}
               </Button>
               <Button
                 asChild

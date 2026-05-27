@@ -7,9 +7,15 @@ import {
   matchLegalArticles,
   retrieveCaseLawContext,
   type CaseLawChunk,
+  type CaseLawContextResult,
   type LegalChunk,
 } from "@/lib/legalRag"
+import { parseSearchTokens } from "@/lib/highlightSearchTerms"
 import { normalizeJurisdiction } from "@/lib/normalizeJurisdiction"
+import {
+  inferLegalAreasFromLawChunks,
+  normalizeResearchCategory,
+} from "@/lib/normalizeResearchCategory"
 import type { TablesInsert } from "@/lib/supabase/types"
 
 type ResearchSearchScope = "laws" | "caselaw" | "both"
@@ -79,6 +85,33 @@ function parseScope(value: unknown): ResearchSearchScope {
   return "both"
 }
 
+async function fetchCaseLawForJurisdictions(
+  query: string,
+  jurisdictions: string[],
+  category: string | null,
+  matchCount: number,
+): Promise<CaseLawContextResult[]> {
+  const caseLawOpts = {
+    k: Math.max(10, matchCount),
+    ...(category ? { legalArea: category } : {}),
+  }
+
+  return Promise.all(
+    jurisdictions.map((j) =>
+      retrieveCaseLawContext(query, j, caseLawOpts).catch((err) => {
+        const message = err instanceof Error ? err.message : String(err)
+        // eslint-disable-next-line no-console
+        console.error("[research/search] case law failed", j, message, err)
+        return {
+          cases: [] as CaseLawChunk[],
+          confidence: "none" as const,
+          topSimilarity: 0,
+        }
+      }),
+    ),
+  )
+}
+
 function excerptAround(
   haystack: string,
   needle: string,
@@ -96,23 +129,33 @@ function excerptAround(
   return `${prefix}${h.slice(start, end).trim()}${suffix}`
 }
 
-function buildExcerpt(chunk: LegalChunk, query: string): string {
-  const primary = excerptAround(chunk.text_local ?? "", query) ?? excerptAround(chunk.text, query)
-  if (primary) return primary
-  const fallbackSource = (chunk.text_local && chunk.text_local.trim()) ? chunk.text_local : chunk.text
-  const s = (fallbackSource ?? "").trim()
-  if (!s) return ""
-  if (s.length <= 260) return s
-  return `${s.slice(0, 260).trim()}…`
+/** Try full query, then individual query tokens (more hits on long natural-language searches). */
+function excerptAroundQuery(haystack: string, query: string, radius = 160): string | null {
+  const h = haystack?.trim() ?? ""
+  const q = query?.trim() ?? ""
+  if (!h || !q) return null
+  const attempts = [q, ...parseSearchTokens(q, 3, 10)]
+  for (const needle of attempts) {
+    const ex = excerptAround(h, needle, radius)
+    if (ex) return ex
+  }
+  return null
+}
+
+function buildExcerpt(chunk: LegalChunk, _query: string): string {
+  const s =
+    (chunk.text_local && chunk.text_local.trim() ? chunk.text_local : chunk.text) ??
+    ""
+  return s.trim()
 }
 
 function buildCaseExcerpt(chunk: CaseLawChunk, query: string): string {
   const headnote = chunk.headnote ?? ""
   const position = chunk.court_position ?? ""
   const primary =
-    excerptAround(headnote, query) ??
-    excerptAround(position, query) ??
-    excerptAround(chunk.legal_question ?? "", query)
+    excerptAroundQuery(headnote, query) ??
+    excerptAroundQuery(position, query) ??
+    excerptAroundQuery(chunk.legal_question ?? "", query)
   if (primary) return primary
   const fallback = (headnote.trim() || position.trim() || chunk.legal_question.trim())
   if (!fallback) return ""
@@ -213,10 +256,7 @@ export async function POST(req: NextRequest) {
     typeof body?.jurisdiction === "string" && body.jurisdiction.trim()
       ? body.jurisdiction.trim()
       : null
-  const category =
-    typeof body?.category === "string" && body.category.trim()
-      ? body.category.trim()
-      : null
+  const category = normalizeResearchCategory(body?.category)
   const normalizedJurisdiction = normalizeJurisdiction(jurisdiction)
 
   const page = parsePage(body?.page ?? url.get("page"), 1)
@@ -270,6 +310,18 @@ export async function POST(req: NextRequest) {
       ? [normalizedJurisdiction]
       : ALL_JURISDICTIONS.map((j) => normalizeJurisdiction(j)!)
 
+    if (fetchCaseLaw) {
+      // eslint-disable-next-line no-console
+      console.error("[research/search] case law fetch start", {
+        jurisdictions,
+        category,
+        normalizedJurisdiction,
+        scope,
+        matchCount,
+        fetchCaseLaw,
+      })
+    }
+
     const [searches, caseLawSearches] = await Promise.all([
       fetchLaws
         ? Promise.all(
@@ -290,37 +342,86 @@ export async function POST(req: NextRequest) {
           )
         : Promise.resolve([]),
       fetchCaseLaw
-        ? Promise.all(
-            jurisdictions.map((j) =>
-              retrieveCaseLawContext(query, j, {
-                legalArea: category ?? undefined,
-                k: matchCount,
-              }).catch(() => ({
-                cases: [] as CaseLawChunk[],
-                confidence: "none" as const,
-                topSimilarity: 0,
-              })),
-            ),
+        ? fetchCaseLawForJurisdictions(
+            query,
+            jurisdictions,
+            category,
+            matchCount,
           )
-        : Promise.resolve([]),
+        : Promise.resolve([] as CaseLawContextResult[]),
     ])
 
     const sorted = fetchLaws ? mergeLegalChunks(searches) : []
     const totalResults = sorted.length
     const lawPage = sorted.slice(offset, offset + limit)
     const results = lawPage.map((c) => toResultItem(c, query))
-    const hasMoreLaws = fetchLaws && results.length === limit
+    const hasMoreLaws = fetchLaws && totalResults > offset + limit
 
-    const sortedCases = fetchCaseLaw ? mergeCaseLawChunks(caseLawSearches) : []
+    let caseLawSearchRuns: CaseLawContextResult[] = caseLawSearches
+    let sortedCases = fetchCaseLaw ? mergeCaseLawChunks(caseLawSearchRuns) : []
+
+    if (
+      fetchCaseLaw &&
+      category == null &&
+      page === 1 &&
+      sortedCases.length === 0 &&
+      sorted.length > 0
+    ) {
+      const inferredAreas = inferLegalAreasFromLawChunks(sorted)
+      if (inferredAreas.length > 0) {
+        // eslint-disable-next-line no-console
+        console.error("[research/search] case law retry by inferred areas", {
+          inferredAreas,
+          jurisdictions,
+        })
+        const retries = await Promise.all(
+          inferredAreas.map((area) =>
+            fetchCaseLawForJurisdictions(
+              query,
+              jurisdictions,
+              area,
+              matchCount,
+            ),
+          ),
+        )
+        caseLawSearchRuns = [...caseLawSearchRuns, ...retries.flat()]
+        sortedCases = mergeCaseLawChunks(caseLawSearchRuns)
+      }
+    }
     const totalCaseLawResults = sortedCases.length
     const casePage = sortedCases.slice(offset, offset + limit)
     const caseLawResults = casePage.map((c) => toCaseLawResultItem(c, query))
-    const hasMoreCaseLaw = fetchCaseLaw && caseLawResults.length === limit
+    const hasMoreCaseLaw = fetchCaseLaw && totalCaseLawResults > offset + limit
+
+    if (fetchCaseLaw) {
+      // eslint-disable-next-line no-console
+      console.error("[research/search] case law fetch done", {
+        jurisdiction: normalizedJurisdiction ?? "all",
+        categoryFilter: category,
+        scope,
+        perJurisdiction: jurisdictions.map((j) => {
+          const runs = caseLawSearchRuns.filter((r) =>
+            (r.cases ?? []).some((c) => c.jurisdiction === j),
+          )
+          const cases = runs.flatMap((r) => r.cases ?? []).filter(
+            (c) => c.jurisdiction === j,
+          ).length
+          let confidence: CaseLawContextResult["confidence"] = "none"
+          const rank = { none: 0, low: 1, medium: 2, high: 3 }
+          for (const r of runs) {
+            if (rank[r.confidence] > rank[confidence]) confidence = r.confidence
+          }
+          return { jurisdiction: j, cases, confidence }
+        }),
+        sortedCases: sortedCases.length,
+        caseLawResultsPage: caseLawResults.length,
+      })
+    }
 
     let caseLawConfidence: "high" | "medium" | "low" | "none" = "none"
-    if (fetchCaseLaw && caseLawSearches.length > 0) {
+    if (fetchCaseLaw && caseLawSearchRuns.length > 0) {
       const rank = { none: 0, low: 1, medium: 2, high: 3 }
-      for (const s of caseLawSearches) {
+      for (const s of caseLawSearchRuns) {
         if (rank[s.confidence] > rank[caseLawConfidence]) {
           caseLawConfidence = s.confidence
         }

@@ -84,8 +84,15 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 })
 
-/** text-embedding-3-small rejects inputs over ~8192 tokens */
-const MAX_EMBEDDING_INPUT_CHARS = 24_000
+/** text-embedding-3-small hard limit: 8192 tokens. Chars ≠ tokens; stay conservative. */
+const MAX_EMBEDDING_INPUT_CHARS = 10_000
+
+function buildEmbeddingSource(c: CaseLawInput): string {
+  const kw = (c.keywords ?? []).join(" ")
+  return [c.legal_question, c.court_position, c.reasoning, kw]
+    .filter(Boolean)
+    .join("\n\n")
+}
 
 function sanitizeEmbeddingSource(raw: string): string {
   let s = raw.replace(/\0/g, "")
@@ -183,9 +190,7 @@ async function loadExistingCaseLawIds(): Promise<Set<string>> {
 }
 
 export async function embedCaseLaw(c: CaseLawInput): Promise<number[]> {
-  const input = truncateEmbeddingInput(
-    `${c.legal_question} ${c.court_position} ${c.reasoning}`,
-  )
+  const input = truncateEmbeddingInput(buildEmbeddingSource(c))
 
   const res = await openai.embeddings.create({
     model: "text-embedding-3-small",
@@ -218,8 +223,31 @@ export async function checkExistingCaseLaw(): Promise<number> {
   return total
 }
 
-export async function ingest() {
+function parseUpdateJurisdictions(): Set<string> {
+  const set = new Set<string>()
+  for (const arg of process.argv.slice(2)) {
+  const m = /^--update-jurisdictions=(.+)$/.exec(arg)
+    if (m) {
+      for (const j of m[1].split(",")) {
+        const t = j.trim()
+        if (t) set.add(t)
+      }
+    }
+  }
+  return set
+}
+
+export async function ingest(options?: { updateJurisdictions?: Set<string> }) {
   verifyCaseLawIngestEnv()
+
+  const updateJurisdictions =
+    options?.updateJurisdictions ?? parseUpdateJurisdictions()
+  if (updateJurisdictions.size > 0) {
+    // eslint-disable-next-line no-console
+    console.log(
+      `♻️  Update mode for jurisdictions: ${[...updateJurisdictions].sort().join(", ")}`,
+    )
+  }
 
   // eslint-disable-next-line no-console
   console.log("📊 Case law counts in DB (before ingest):\n")
@@ -229,13 +257,21 @@ export async function ingest() {
 
   const existingIds = await loadExistingCaseLawIds()
 
+  const rowsToProcess =
+    updateJurisdictions.size > 0
+      ? ALL_CASE_LAW.filter(
+          (row) => row?.jurisdiction && updateJurisdictions.has(row.jurisdiction),
+        )
+      : ALL_CASE_LAW
+
   const jurisdictionSet = new Set<string>()
   const embeddedByJurisdiction = new Map<string, number>()
   const skippedByJurisdiction = new Map<string, number>()
   let embedded = 0
+  let updated = 0
   let skippedExisting = 0
 
-  for (const row of ALL_CASE_LAW) {
+  for (const row of rowsToProcess) {
     if (!row?.jurisdiction || !row.case_number) {
       // eslint-disable-next-line no-console
       console.warn("Skipping invalid ALL_CASE_LAW entry (missing row or fields).")
@@ -245,8 +281,9 @@ export async function ingest() {
     jurisdictionSet.add(row.jurisdiction)
 
     const id = stableIdForCase(row)
+    const shouldUpdate = updateJurisdictions.has(row.jurisdiction)
 
-    if (existingIds.has(id)) {
+    if (existingIds.has(id) && !shouldUpdate) {
       skippedExisting += 1
       skippedByJurisdiction.set(
         row.jurisdiction,
@@ -285,18 +322,24 @@ export async function ingest() {
       const { supabaseAdmin } = await import("../lib/supabase/admin")
       const { error } = await (supabaseAdmin as any)
         .from("case_law")
-        .upsert(payload, { onConflict: "id", ignoreDuplicates: true })
+        .upsert(payload, { onConflict: "id" })
 
       if (error) throw error
 
       existingIds.add(id)
-      embedded += 1
+      if (shouldUpdate) {
+        updated += 1
+      } else {
+        embedded += 1
+      }
       embeddedByJurisdiction.set(
         row.jurisdiction,
         (embeddedByJurisdiction.get(row.jurisdiction) ?? 0) + 1,
       )
       // eslint-disable-next-line no-console
-      console.log(`✓ ${row.jurisdiction} / ${row.court} / ${row.case_number}`)
+      console.log(
+        `${shouldUpdate ? "↻" : "✓"} ${row.jurisdiction} / ${row.court} / ${row.case_number}`,
+      )
     } catch (err) {
       // eslint-disable-next-line no-console
       console.error(
@@ -305,7 +348,7 @@ export async function ingest() {
       )
     }
 
-    await sleep(200)
+    await sleep(shouldUpdate ? 50 : 200)
   }
 
   const jurisdictionOrder = [...jurisdictionSet].sort((a, b) =>
@@ -325,7 +368,7 @@ export async function ingest() {
   }
   // eslint-disable-next-line no-console
   console.log(
-    `✅ Embedded: ${embedded} | Skipped (existing id): ${skippedExisting} | ` +
+    `✅ Embedded: ${embedded} | Updated: ${updated} | Skipped (existing id): ${skippedExisting} | ` +
       `Jurisdictions in index: ${jurisdictionSet.size}`,
   )
 

@@ -18,6 +18,7 @@ import type { RagMetadata } from "@/types/rag"
 import { PLAN_ENTITLEMENTS } from "@/app/dashboard/lib/entitlements"
 import { getSubscriptionContextForUser } from "@/app/dashboard/lib/getEntitlementPlan"
 import { normalizeJurisdiction } from "@/lib/normalizeJurisdiction"
+import { normalizeResearchCategory } from "@/lib/normalizeResearchCategory"
 
 type FeatureType =
   | "contract_generation"
@@ -178,6 +179,7 @@ export async function POST(req: NextRequest) {
     }
 
     const ragJurisdiction = normalizeJurisdiction(body.jurisdiction ?? null)
+    const categoryFilter = normalizeResearchCategory(body.category)
 
     if (JURISDICTION_FEATURES.has(featureType) && ragJurisdiction) {
       try {
@@ -186,7 +188,7 @@ export async function POST(req: NextRequest) {
           userPrompt,
           ragJurisdiction,
           {
-            category: body.category ?? undefined,
+            category: categoryFilter ?? undefined,
             k,
           }
         )
@@ -198,13 +200,12 @@ export async function POST(req: NextRequest) {
         }
 
         if (CASE_LAW_FEATURES.has(featureType)) {
+          const caseLawOpts: { k: number; legalArea?: string } = { k }
+          if (categoryFilter) caseLawOpts.legalArea = categoryFilter
           caseLawResult = await retrieveCaseLawContext(
             userPrompt,
             ragJurisdiction,
-            {
-              legalArea: body.category,
-              k,
-            },
+            caseLawOpts,
           )
         }
 

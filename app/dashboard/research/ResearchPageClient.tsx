@@ -8,6 +8,7 @@ import {
   Scale,
   BookOpen,
   ChevronDown,
+  Trash2,
 } from "lucide-react"
 
 import { Card } from "@/components/ui/card"
@@ -26,7 +27,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useLanguage } from "@/components/LanguageProvider"
 import { cn } from "@/lib/utils"
 import {
-  highlightCaseLawText,
   highlightSubstring,
 } from "@/lib/highlightSearchTerms"
 import { CaseLawExpandableBody } from "@/components/CaseLawExpandableBody"
@@ -258,9 +258,6 @@ function ResearchCaseLawResults({
                 day: "numeric",
               })
             : null
-        const positionParts = c.court_position
-          ? highlightCaseLawText(c.court_position, results.query)
-          : []
         return (
           <Card
             key={c.id}
@@ -271,7 +268,6 @@ function ResearchCaseLawResults({
           >
             <CaseLawResultCardBody
               c={c}
-              positionParts={positionParts}
               outcomeLabel={outcomeLabel}
               decisionLabel={decisionLabel}
               t={t}
@@ -287,7 +283,6 @@ function ResearchCaseLawResults({
 
 function CaseLawResultCardBody({
   c,
-  positionParts,
   outcomeLabel,
   decisionLabel,
   t,
@@ -295,7 +290,6 @@ function CaseLawResultCardBody({
   confidenceBadgeClass,
 }: {
   c: ResearchCaseLawResultItem
-  positionParts: Array<string | { mark: string }>
   outcomeLabel: string | null
   decisionLabel: string | null
   t: (key: string) => string
@@ -334,12 +328,12 @@ function CaseLawResultCardBody({
       <CaseLawExpandableBody
         legalQuestion={c.legal_question}
         courtPosition={c.court_position}
-        courtPositionParts={
-          positionParts.length > 0 ? positionParts : undefined
-        }
+        courtPositionSnippet={c.excerpt}
+        plainText
         reasoning={c.reasoning}
         keywords={c.keywords}
         relatedArticles={c.related_articles}
+        showAllDetails
         t={t}
       />
     </>
@@ -430,10 +424,9 @@ function ResearchResultsTabs({
           ) : (
             <div className="space-y-4">
               {results.results.map((r) => {
-                const text =
-                  r.text_local && r.text_local.trim() ? r.text_local : r.text
-                const excerpt = r.excerpt || (text?.slice(0, 260) ?? "")
-                const parts = highlightSubstring(excerpt, results.query)
+                const displayText =
+                  r.text_local && r.text_local.trim() ? r.text_local : r.text ?? ""
+                const parts = highlightSubstring(displayText, results.query)
                 return (
                   <Card key={r.id} className="p-5">
                     <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
@@ -555,6 +548,7 @@ export function ResearchPageClient({ planId }: { planId: EntitlementPlanId }) {
   const [historyLoading, setHistoryLoading] = useState(false)
   const [historyError, setHistoryError] = useState<string | null>(null)
   const [history, setHistory] = useState<SavedSession[]>([])
+  const [deletingId, setDeletingId] = useState<string | null>(null)
 
   const hasResults =
     (results?.results?.length ?? 0) > 0 ||
@@ -578,6 +572,7 @@ export function ResearchPageClient({ planId }: { planId: EntitlementPlanId }) {
     return {
       query: input,
       jurisdiction: jurisdiction === "all" ? null : jurisdiction,
+      // API expects null for "all categories", not the string "all"
       category: category === "all" ? null : category,
       page,
       limit: results?.limit ?? 10,
@@ -697,6 +692,33 @@ export function ResearchPageClient({ planId }: { planId: EntitlementPlanId }) {
       setHistoryError(t("research.errors.historyFailed"))
     } finally {
       setHistoryLoading(false)
+    }
+  }
+
+  async function deleteSession(s: SavedSession) {
+    if (!canSave) return
+    const ok = window.confirm(t("research.sessions.deleteConfirm"))
+    if (!ok) return
+
+    setDeletingId(s.id)
+    setHistoryError(null)
+    try {
+      const resp = await fetch(`/api/research/sessions/${s.id}`, {
+        method: "DELETE",
+      })
+      const json = await resp.json().catch(() => null)
+      if (!resp.ok) {
+        setHistoryError(
+          (json && typeof json.error === "string" && json.error) ||
+            t("research.errors.deleteFailed"),
+        )
+        return
+      }
+      setHistory((prev) => prev.filter((item) => item.id !== s.id))
+    } catch {
+      setHistoryError(t("research.errors.deleteFailed"))
+    } finally {
+      setDeletingId(null)
     }
   }
 
@@ -947,24 +969,9 @@ export function ResearchPageClient({ planId }: { planId: EntitlementPlanId }) {
           </div>
 
           <aside className="space-y-3">
-            <div className="flex items-baseline justify-between gap-4">
-              <h2 className="text-base font-semibold mb-3">
-                {t("research.sessions.title")}
-              </h2>
-              {canSave ? (
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  onClick={() => void loadHistory()}
-                  disabled={historyLoading}
-                >
-                  {historyLoading
-                    ? t("research.sessions.refreshing")
-                    : t("research.sessions.refresh")}
-                </Button>
-              ) : null}
-            </div>
+            <h2 className="text-base font-semibold mb-3">
+              {t("research.sessions.title")}
+            </h2>
 
             {!canSave ? (
               <Card className="p-6">
@@ -993,38 +1000,57 @@ export function ResearchPageClient({ planId }: { planId: EntitlementPlanId }) {
                 ) : (
                   <div className="space-y-3 p-4">
                     {history.map((s) => (
-                      <button
+                      <div
                         key={s.id}
-                        type="button"
-                        onClick={() => onOpenSession(s)}
                         className={cn(
-                          "flex items-start justify-between gap-4 rounded-lg border border-border/40 bg-muted/10 px-4 py-3 hover:bg-muted/20 transition-colors w-full text-left",
+                          "flex items-start gap-2 rounded-lg border border-border/40 bg-muted/10 px-4 py-3 hover:bg-muted/20 transition-colors",
                         )}
                       >
-                        <div className="min-w-0">
-                          <p className="text-sm font-semibold text-foreground line-clamp-2">
-                            {s.query}
-                          </p>
-                          <div className="mt-1.5 flex flex-wrap gap-1.5">
-                            {[
-                              s.jurisdiction_filter ?? "all",
-                              s.category_filter ?? "all",
-                            ].map((tag) => (
-                              <span
-                                key={tag}
-                                className="rounded-md bg-muted/60 px-2 py-0.5 text-xs text-muted-foreground/60"
-                              >
-                                {tag}
-                              </span>
-                            ))}
+                        <button
+                          type="button"
+                          onClick={() => onOpenSession(s)}
+                          className="flex min-w-0 flex-1 items-start justify-between gap-4 text-left"
+                        >
+                          <div className="min-w-0">
+                            <p className="text-sm font-semibold text-foreground line-clamp-2">
+                              {s.query}
+                            </p>
+                            <div className="mt-1.5 flex flex-wrap gap-1.5">
+                              {[
+                                s.jurisdiction_filter ?? "all",
+                                s.category_filter ?? "all",
+                              ].map((tag) => (
+                                <span
+                                  key={tag}
+                                  className="rounded-md bg-muted/60 px-2 py-0.5 text-xs text-muted-foreground/60"
+                                >
+                                  {tag}
+                                </span>
+                              ))}
+                            </div>
                           </div>
-                        </div>
-                        <div className="shrink-0 text-right">
-                          <p className="text-xs text-muted-foreground/40">
-                            {formatDate(s.created_at)}
-                          </p>
-                        </div>
-                      </button>
+                          <div className="shrink-0 text-right">
+                            <p className="text-xs text-muted-foreground/40">
+                              {formatDate(s.created_at)}
+                            </p>
+                          </div>
+                        </button>
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="icon"
+                          className="shrink-0 text-muted-foreground hover:text-destructive"
+                          disabled={deletingId === s.id}
+                          onClick={() => void deleteSession(s)}
+                          aria-label={t("research.sessions.deleteAria")}
+                        >
+                          {deletingId === s.id ? (
+                            <Loader2 className="h-4 w-4 animate-spin" />
+                          ) : (
+                            <Trash2 className="h-4 w-4" />
+                          )}
+                        </Button>
+                      </div>
                     ))}
                   </div>
                 )}

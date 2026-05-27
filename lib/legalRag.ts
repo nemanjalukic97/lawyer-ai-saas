@@ -1,4 +1,8 @@
 import OpenAI from "openai"
+import {
+  normalizeLegalAreaFilter,
+  normalizeResearchCategory,
+} from "./normalizeResearchCategory"
 import { supabaseAdmin } from "./supabase/admin"
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
@@ -71,6 +75,7 @@ const LOWER_THRESHOLD_JURISDICTIONS = new Set([
   "bih_brcko",
   "croatia",
   "montenegro",
+  "slovenia",
 ])
 
 const LOWER_SIMILARITY_THRESHOLDS = {
@@ -95,6 +100,27 @@ function getJurisdictionRpcThresholds(jurisdiction: string): {
 }
 
 const RPC_TIMEOUT_MS = 5000
+const CASE_LAW_RPC_TIMEOUT_MS = 12000
+/** Unfiltered vector search on large corpora (e.g. bih_rs) can exceed 12s. */
+const CASE_LAW_RPC_TIMEOUT_UNFILTERED_MS = 60000
+
+const LARGE_CASE_LAW_JURISDICTIONS = new Set([
+  "bih_rs",
+  "bih_fbih",
+  "bih_brcko",
+  "serbia",
+])
+
+function getCaseLawRpcTimeoutMs(
+  legalArea: string | null,
+  jurisdiction: string,
+): number {
+  if (legalArea) return CASE_LAW_RPC_TIMEOUT_MS
+  if (LARGE_CASE_LAW_JURISDICTIONS.has(jurisdiction)) {
+    return CASE_LAW_RPC_TIMEOUT_UNFILTERED_MS
+  }
+  return CASE_LAW_RPC_TIMEOUT_MS
+}
 
 const MAX_CONTEXT_CHARS = 12000
 
@@ -121,13 +147,18 @@ async function runMatchLegalArticlesRpc(args: {
   matchCount: number
   similarityThreshold: number
 }): Promise<LegalChunk[]> {
-  const rpcCall = supabaseAdmin.rpc("match_legal_articles", {
+  const rpcArgs: Record<string, unknown> = {
     query_embedding: args.embedding,
     filter_jurisdiction: args.jurisdiction,
-    filter_category: args.category,
     match_count: args.matchCount,
     similarity_threshold: args.similarityThreshold,
-  })
+  }
+  const category = normalizeResearchCategory(args.category)
+  if (category) {
+    rpcArgs.filter_category = category
+  }
+
+  const rpcCall = supabaseAdmin.rpc("match_legal_articles", rpcArgs)
 
   const timeoutPromise = new Promise<never>((_, reject) =>
     setTimeout(
@@ -155,20 +186,32 @@ async function runMatchCaseLawRpc(args: {
   courtLevel: string | null
   matchCount: number
   similarityThreshold: number
+  timeoutMs?: number
 }): Promise<CaseLawChunk[]> {
-  const rpcCall = supabaseAdmin.rpc("match_case_law", {
+  const rpcArgs: Record<string, unknown> = {
     query_embedding: args.embedding,
     filter_jurisdiction: args.jurisdiction,
-    filter_legal_area: args.legalArea,
-    filter_court_level: args.courtLevel,
     match_count: args.matchCount,
     similarity_threshold: args.similarityThreshold,
-  })
+  }
+  const legalArea = normalizeLegalAreaFilter(args.legalArea)
+  if (legalArea) {
+    rpcArgs.filter_legal_area = legalArea
+  }
+  if (args.courtLevel != null && args.courtLevel !== "") {
+    rpcArgs.filter_court_level = args.courtLevel
+  }
+
+  const rpcCall = supabaseAdmin.rpc("match_case_law", rpcArgs)
+
+  const timeoutMs =
+    args.timeoutMs ?? getCaseLawRpcTimeoutMs(legalArea, args.jurisdiction)
 
   const timeoutPromise = new Promise<never>((_, reject) =>
     setTimeout(
-      () => reject(new Error("RAG RPC timeout after 5000ms")),
-      RPC_TIMEOUT_MS,
+      () =>
+        reject(new Error(`RAG case law RPC timeout after ${timeoutMs}ms`)),
+      timeoutMs,
     ),
   )
 
@@ -244,20 +287,20 @@ function deduplicateCaseChunks(chunks: CaseLawChunk[]): CaseLawChunk[] {
   return Array.from(map.values()).sort((a, b) => b.similarity - a.similarity)
 }
 
-async function matchCaseLaw(args: {
-  query: string
+async function matchCaseLawWithEmbedding(args: {
+  embedding: number[]
   jurisdiction: string
   legalArea?: string | null
   courtLevel?: string | null
   matchCount?: number
   similarityThreshold?: number
   retryIfEmpty?: boolean
+  rpcTimeoutMs?: number
 }): Promise<{
   cases: CaseLawChunk[]
   usedThreshold: number
   retried: boolean
 }> {
-  const embedding = await embedQueryText(args.query)
   const thresholds = getJurisdictionRpcThresholds(args.jurisdiction)
 
   const initialThreshold =
@@ -268,13 +311,19 @@ async function matchCaseLaw(args: {
   let usedThreshold = initialThreshold
   let retried = false
 
+  const normalizedLegalArea = normalizeLegalAreaFilter(args.legalArea ?? null)
+  const rpcTimeoutMs =
+    args.rpcTimeoutMs ??
+    getCaseLawRpcTimeoutMs(normalizedLegalArea, args.jurisdiction)
+
   let data = await runMatchCaseLawRpc({
-    embedding,
+    embedding: args.embedding,
     jurisdiction: args.jurisdiction,
-    legalArea: args.legalArea ?? null,
+    legalArea: normalizedLegalArea,
     courtLevel: args.courtLevel ?? null,
     matchCount: args.matchCount ?? 6,
     similarityThreshold: initialThreshold,
+    timeoutMs: rpcTimeoutMs,
   })
 
   if (data.length === 0 && shouldRetry) {
@@ -285,16 +334,127 @@ async function matchCaseLaw(args: {
     retried = true
     usedThreshold = thresholds.lowRetry
     data = await runMatchCaseLawRpc({
-      embedding,
+      embedding: args.embedding,
       jurisdiction: args.jurisdiction,
-      legalArea: args.legalArea ?? null,
+      legalArea: normalizedLegalArea,
       courtLevel: args.courtLevel ?? null,
       matchCount: args.matchCount ?? 6,
       similarityThreshold: thresholds.lowRetry,
+      timeoutMs: rpcTimeoutMs,
     })
   }
 
   return { cases: data, usedThreshold, retried }
+}
+
+async function matchCaseLaw(args: {
+  query: string
+  jurisdiction: string
+  legalArea?: string | null
+  courtLevel?: string | null
+  matchCount?: number
+  similarityThreshold?: number
+  retryIfEmpty?: boolean
+  rpcTimeoutMs?: number
+}): Promise<{
+  cases: CaseLawChunk[]
+  usedThreshold: number
+  retried: boolean
+}> {
+  const embedding = await embedQueryText(args.query)
+  return matchCaseLawWithEmbedding({
+    embedding,
+    jurisdiction: args.jurisdiction,
+    legalArea: args.legalArea,
+    courtLevel: args.courtLevel,
+    matchCount: args.matchCount,
+    similarityThreshold: args.similarityThreshold,
+    retryIfEmpty: args.retryIfEmpty,
+    rpcTimeoutMs: args.rpcTimeoutMs,
+  })
+}
+
+function buildCaseLawContextResult(
+  rawCases: CaseLawChunk[],
+  jurisdiction: string,
+): CaseLawContextResult {
+  const cases = deduplicateCaseChunks(rawCases)
+  const topSimilarity = cases[0]?.similarity ?? 0
+  const { lowRetry } = getJurisdictionRpcThresholds(jurisdiction)
+
+  let confidence: CaseLawContextResult["confidence"]
+  if (cases.length === 0 || topSimilarity < lowRetry) {
+    confidence = "none"
+  } else if (topSimilarity >= SIMILARITY_THRESHOLDS.HIGH) {
+    confidence = "high"
+  } else if (topSimilarity >= SIMILARITY_THRESHOLDS.MEDIUM) {
+    confidence = "medium"
+  } else {
+    confidence = "low"
+  }
+
+  return { cases, confidence, topSimilarity }
+}
+
+export async function retrieveCaseLawContextsBatch(
+  query: string,
+  jurisdictions: string[],
+  options?: {
+    legalArea?: string | null
+    courtLevel?: string | null
+    k?: number
+  },
+): Promise<CaseLawContextResult[]> {
+  if (jurisdictions.length === 0) return []
+
+  const embedding = await embedQueryText(query)
+
+  return Promise.all(
+    jurisdictions.map(async (jurisdiction) => {
+      try {
+        const thresholds = getJurisdictionRpcThresholds(jurisdiction)
+        const similarityThreshold = LOWER_THRESHOLD_JURISDICTIONS.has(jurisdiction)
+          ? thresholds.defaultThreshold
+          : undefined
+
+        const { cases: rawCases } = await matchCaseLawWithEmbedding({
+          embedding,
+          jurisdiction,
+          legalArea: normalizeLegalAreaFilter(options?.legalArea ?? null),
+          courtLevel:
+            options?.courtLevel != null && options.courtLevel !== ""
+              ? options.courtLevel
+              : null,
+          matchCount: options?.k ?? 6,
+          similarityThreshold,
+          retryIfEmpty: true,
+        })
+
+        const result = buildCaseLawContextResult(rawCases, jurisdiction)
+        // eslint-disable-next-line no-console
+        console.error("[RAG case law] batch jurisdiction ok", {
+          jurisdiction,
+          cases: result.cases.length,
+          confidence: result.confidence,
+        })
+        return result
+      } catch (err) {
+        const message = err instanceof Error ? err.message : String(err)
+        const stack = err instanceof Error ? err.stack : undefined
+        // eslint-disable-next-line no-console
+        console.error("[RAG case law] jurisdiction search failed", {
+          jurisdiction,
+          message,
+          stack,
+        })
+        return {
+          cases: [],
+          confidence: "none" as const,
+          topSimilarity: 0,
+        }
+      }
+    }),
+  )
 }
 
 export async function matchLegalArticles(args: {
@@ -487,7 +647,7 @@ export async function retrieveLegalContext(
   const { chunks: rawChunks } = await matchLegalArticles({
     query,
     jurisdiction,
-    category: options?.category ?? null,
+    category: normalizeResearchCategory(options?.category ?? null),
     matchCount: options?.k ?? 6,
     similarityThreshold,
     retryIfEmpty: true,
@@ -524,6 +684,7 @@ export async function retrieveCaseLawContext(
     courtLevel?: string
     k?: number
     similarityThreshold?: number
+    rpcTimeoutMs?: number
   },
 ): Promise<CaseLawContextResult> {
   const thresholds = getJurisdictionRpcThresholds(jurisdiction)
@@ -533,33 +694,22 @@ export async function retrieveCaseLawContext(
       ? thresholds.defaultThreshold
       : undefined)
 
+  const normalizedLegalArea = normalizeLegalAreaFilter(options?.legalArea ?? null)
+
   const { cases: rawCases } = await matchCaseLaw({
     query,
     jurisdiction,
-    legalArea: options?.legalArea ?? null,
+    legalArea: normalizedLegalArea,
     courtLevel: options?.courtLevel ?? null,
     matchCount: options?.k ?? 6,
     similarityThreshold,
     retryIfEmpty: true,
+    rpcTimeoutMs:
+      options?.rpcTimeoutMs ??
+      getCaseLawRpcTimeoutMs(normalizedLegalArea, jurisdiction),
   })
 
-  const cases = deduplicateCaseChunks(rawCases)
-
-  const topSimilarity = cases[0]?.similarity ?? 0
-  const { lowRetry } = thresholds
-
-  let confidence: CaseLawContextResult["confidence"]
-  if (cases.length === 0 || topSimilarity < lowRetry) {
-    confidence = "none"
-  } else if (topSimilarity >= SIMILARITY_THRESHOLDS.HIGH) {
-    confidence = "high"
-  } else if (topSimilarity >= SIMILARITY_THRESHOLDS.MEDIUM) {
-    confidence = "medium"
-  } else {
-    confidence = "low"
-  }
-
-  return { cases, confidence, topSimilarity }
+  return buildCaseLawContextResult(rawCases, jurisdiction)
 }
 
 function formatCaseLawSummaryLines(cases: CaseLawChunk[]): string {
