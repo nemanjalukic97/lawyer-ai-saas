@@ -17,6 +17,7 @@ import {
   type DashboardScope,
 } from "./lib/activity"
 import { DashboardClient } from "./DashboardClient"
+import { PRICING_TIERS } from "@/types"
 
 type FeatureUsagePoint = {
   feature_type: string
@@ -117,11 +118,9 @@ async function getRoiData(
     }
   }
 
-  const tierPrices: Record<string, number> = {
-    solo: 29,
-    professional: 59,
-    firm: 79,
-  }
+  const tierPrices = Object.fromEntries(
+    PRICING_TIERS.map((tier) => [tier.id, tier.price]),
+  )
   const subscriptionCostEur = isPaidPlanId(tier) ? tierPrices[tier] : 0
 
   return {

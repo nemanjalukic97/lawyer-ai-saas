@@ -20,6 +20,9 @@ interface PricingCardProps {
   recommendedLabel: string
   recommended?: boolean
   planId: "solo" | "professional" | "firm"
+  onCtaClick?: () => void
+  ctaDisabled?: boolean
+  ctaVariant?: "default" | "outline"
 }
 
 export function PricingCard({
@@ -31,8 +34,12 @@ export function PricingCard({
   recommendedLabel,
   recommended = false,
   planId,
+  onCtaClick,
+  ctaDisabled = false,
+  ctaVariant,
 }: PricingCardProps) {
   const href = `/signup?plan=${encodeURIComponent(planId)}`
+  const buttonVariant = ctaVariant ?? (recommended ? "default" : "outline")
 
   return (
     <Card
@@ -65,13 +72,21 @@ export function PricingCard({
         </ul>
       </CardContent>
       <CardFooter>
-        <Button
-          asChild
-          variant={recommended ? "default" : "outline"}
-          className="w-full"
-        >
-          <Link href={href}>{ctaLabel}</Link>
-        </Button>
+        {onCtaClick ? (
+          <Button
+            type="button"
+            variant={buttonVariant}
+            className="w-full"
+            disabled={ctaDisabled}
+            onClick={onCtaClick}
+          >
+            {ctaLabel}
+          </Button>
+        ) : (
+          <Button asChild variant={buttonVariant} className="w-full">
+            <Link href={href}>{ctaLabel}</Link>
+          </Button>
+        )}
       </CardFooter>
     </Card>
   )

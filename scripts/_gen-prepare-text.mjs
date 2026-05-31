@@ -95,7 +95,7 @@ export function cleanSnippet(s, max) {
 }
 
 const OBRAZLOZENJE_RE =
-  /\bObrazloženje\b|O\s+b\s+r\s+a\s+z\s+l\s+o\s+ž\s+e\s+n\s+j\s+e|О\s+б\s+р\s+а\s+з\s+л\s+о\s+ж\s+е\s+њ\s+е/i
+  /\bObrazloženje\b|\bObrazložitev\b|O\s+b\s+r\s+a\s+z\s+l\s+o\s+ž\s+e\s+n\s+j\s+e|O\s+b\s+r\s+a\s+z\s+l\s+o\s+ž\s+i\s+t\s+e\s+v|О\s+б\s+р\s+а\s+з\s+л\s+о\s+ж\s+е\s+њ\s+е/i
 
 export function extractObrazlozenje(text) {
   if (!text) return ""

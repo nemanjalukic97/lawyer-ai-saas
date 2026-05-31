@@ -28,7 +28,8 @@ function ensureQuestion(s) {
   const t = normalize(s)
   if (!t) return t
   if (t.endsWith("?")) return t
-  if (/^(Da li|Je li|Može li|Jesu li|Šta je|Koje su|Kako se)/i.test(t)) return t + "?"
+  if (/^(Da li|Je li|Može li|Jesu li|Šta je|Koje su|Kako se|Ali|Ali je|Ali so|Ali lahko)/i.test(t))
+    return t + "?"
   return t.endsWith(".") ? t.slice(0, -1) + "?" : t + "?"
 }
 
@@ -57,7 +58,7 @@ function extractExplicitQuestions(text) {
   }
 
   const interrogative =
-    /(?:Da\s+li|Je\s+li|Može\s+li|Jesu\s+li|Šta\s+je|Koje\s+su|Kako\s+se)[^?]{10,350}\?/gi
+    /(?:Da\s+li|Je\s+li|Može\s+li|Jesu\s+li|Ali\s+je|Ali\s+so|Ali\s+lahko|Šta\s+je|Kaj\s+je|Koje\s+su|Kako\s+se)[^?]{10,350}\?/gi
   let m
   while ((m = interrogative.exec(text))) {
     const q = accept(m[0])
@@ -74,7 +75,7 @@ function extractExplicitQuestions(text) {
 }
 
 function subjectFromRadi(text) {
-  const radi = text.match(/radi\s+([^,\n]{10,120})/i)
+  const radi = text.match(/(?:radi|zaradi)\s+([^,\n]{10,120})/i)
   if (!radi) return null
 
   let subject = normalize(radi[1])
@@ -122,12 +123,24 @@ const VERDICT_QUESTIONS = [
   [/Ukida\s+se|ukida\s+se/i, "Da li je nižestupanjska odluka nezakonita?"],
   [/dužan\s+je\s+donijeti\s+odluku/i, "Da li sud mora donijeti odluku u razumnom roku?"],
   [/Odbacuje\s+se|odbacuje\s+se/i, "Da li je tužba dopuštena?"],
+  [/Pritožba\s+se\s+zavrne|pritožba\s+se\s+zavrne/i, "Ali je pritožba utemeljena?"],
+  [/Tožba\s+se\s+zavrne|tožba\s+se\s+zavrne/i, "Ali je tožba utemeljena?"],
+  [/Pritožba\s+se\s+usvaja|pritožba\s+se\s+usvaja/i, "Ali je pritožba utemeljena?"],
+  [/potrdi\s+se|potrdi\s+izpodbijan/i, "Ali je nižestopenjska odločitev pravilna?"],
+  [/razveljavi\s+se|vrne\s+se\s+zadeva/i, "Ali je nižestopenjska odločitev nezakonita?"],
   [/Usvaja\s+se\s+prijedlog|Usvaja\s+se\s+zahtjev/i, "Da li je podneseni zahtjev osnovan?"],
   [/Odbija\s+se\s+prijedlog|Odbija\s+se\s+zahtjev/i, "Da li je podneseni zahtjev osnovan?"],
   [/prihvaća\s+se\s+revizij/i, "Da li je revizija osnovana?"],
   [/odbija\s+se\s+revizij/i, "Da li je revizija osnovana?"],
   [/kaznen\w+\s+djel/i, "Da li su ispunjeni elementi kaznenog djela?"],
   [/pritvor/i, "Da li su ispunjeni uvjeti za pritvor?"],
+  [/Tožba\s+se\s+zavrne|Tožbo\s+zavrne|Zavrne\s+se\s+tožb/i, "Ali je tožba utemeljena?"],
+  [/Tožbi\s+se\s+ugodi|Tožba\s+se\s+usvaja/i, "Ali je tožba utemeljena?"],
+  [/Odpravi\s+se|Odpravlja\s+se/i, "Ali je izpodbijani akt nezakonit?"],
+  [/Potrdi\s+se|Potrjuje\s+se/i, "Ali je nižestopenjska odločba pravilna?"],
+  [/Preinači\s+se|Preinačuje\s+se/i, "Ali je nižestopenjska odločba nepravilna?"],
+  [/Ukine\s+se|Ukinje\s+se/i, "Ali je nižestopenjska odločba nezakonita?"],
+  [/Odbaci\s+se|Odbacuje\s+se/i, "Ali je tožba dopustna?"],
 ]
 
 function questionFromIzreka(izreka) {
@@ -163,10 +176,12 @@ function questionFromIzreka(izreka) {
 }
 
 function questionFromObrazlozenje(body) {
-  const obIdx = body.search(/\bObrazloženje\b/i)
+  const obIdx = body.search(/\bObrazloženje\b|\bObrazložitev\b/i)
   if (obIdx === -1) return null
 
-  const chunk = normalize(body.slice(obIdx + 12, obIdx + 900))
+  const labelEnd = body.indexOf(":", obIdx)
+  const start = labelEnd === -1 ? obIdx + 12 : labelEnd + 1
+  const chunk = normalize(body.slice(start, start + 900))
   const sentences = chunk.split(/(?<=[.!])\s+/).filter((s) => s.length > 30)
   for (const s of sentences.slice(0, 4)) {
     if (/tužitelj|tuženik|podnositelj|protustranka|žalitelj|tužb|zahtjev|spor|revizij/i.test(s)) {
@@ -184,6 +199,9 @@ function lastResort(collapsedBody, izreka) {
   const izQ = questionFromIzreka(izreka)
   if (izQ) return izQ
 
+  if (/pritožb|tožb|zahtevek|zavrne|potrdi/i.test(izreka)) {
+    return accept("Ali je pritožba utemeljena?")
+  }
   return "Da li je sud pravilno primijenio mjerodavno pravo?"
 }
 

@@ -6,9 +6,11 @@ import { useEffect, useMemo, useRef, useState } from "react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { PricingCard } from "@/components/PricingCard"
 import type { Tables } from "@/lib/supabase/types"
 import { cn } from "@/lib/utils"
 import { useLanguage } from "@/components/LanguageProvider"
+import { PRICING_TIERS } from "@/types"
 
 import { isPaidPlanId } from "../lib/entitlements"
 
@@ -46,11 +48,9 @@ const TIER_LABELS: Record<Tier, string> = {
   firm: "Firm",
 }
 
-const TIER_PRICES_EUR: Record<Tier, number> = {
-  solo: 29,
-  professional: 59,
-  firm: 79,
-}
+const TIER_PRICES_EUR = Object.fromEntries(
+  PRICING_TIERS.map((tier) => [tier.id, tier.price]),
+) as Record<Tier, number>
 
 function getStatusBadgeClass(status: SubscriptionStatus) {
   switch (status) {
@@ -79,56 +79,6 @@ function daysRemaining(iso: string | null) {
   const days = Math.ceil(ms / (1000 * 60 * 60 * 24))
   return Number.isFinite(days) ? Math.max(0, days) : null
 }
-
-const PRICING_CARDS: Array<{
-  tier: Tier
-  title: string
-  priceLabel: string
-  featureKeys: Array<
-    | "documentGeneration"
-    | "contractDrafting"
-    | "templateLibrary"
-    | "aiCalls20"
-    | "everythingInSolo"
-    | "caseOutcomePredictions"
-    | "documentAnalysis"
-    | "timeTrackingBilling"
-    | "clientPortal"
-    | "aiCalls100"
-    | "everythingInProfessional"
-    | "prioritySupport"
-    | "aiCalls300"
-    | "multipleTeamMembers"
-  >
-  recommended?: boolean
-}> = [
-  {
-    tier: "solo",
-    title: "Solo",
-    priceLabel: "€29/month",
-    featureKeys: ["documentGeneration", "contractDrafting", "templateLibrary", "aiCalls20"],
-  },
-  {
-    tier: "professional",
-    title: "Professional",
-    priceLabel: "€59/month",
-    recommended: true,
-    featureKeys: [
-      "everythingInSolo",
-      "caseOutcomePredictions",
-      "documentAnalysis",
-      "timeTrackingBilling",
-      "clientPortal",
-      "aiCalls100",
-    ],
-  },
-  {
-    tier: "firm",
-    title: "Firm",
-    priceLabel: "€79/month",
-    featureKeys: ["everythingInProfessional", "prioritySupport", "aiCalls300", "multipleTeamMembers"],
-  },
-]
 
 export default function BillingPageClient({ billing, success }: BillingProps) {
   const { t } = useLanguage()
@@ -422,15 +372,15 @@ export default function BillingPageClient({ billing, success }: BillingProps) {
           </CardContent>
         </Card>
 
-        <div className="grid gap-6 md:grid-cols-3">
-          {PRICING_CARDS.map((c) => {
-            const isCurrent = hasPaidPlan && c.tier === paidTierRaw
-            const isLoading = loadingTier === c.tier
+        <div className="grid gap-10 min-[767px]:gap-6 md:grid-cols-3">
+          {PRICING_TIERS.map((tier) => {
+            const isCurrent = hasPaidPlan && tier.id === paidTierRaw
+            const isLoading = loadingTier === tier.id
             const isHigher =
               !hasPaidPlan ||
               (paidTierRaw === "solo" &&
-                (c.tier === "professional" || c.tier === "firm")) ||
-              (paidTierRaw === "professional" && c.tier === "firm")
+                (tier.id === "professional" || tier.id === "firm")) ||
+              (paidTierRaw === "professional" && tier.id === "firm")
             const buttonLabel = isCurrent
               ? t("billing.actions.currentPlan")
               : !hasPaidPlan
@@ -440,42 +390,26 @@ export default function BillingPageClient({ billing, success }: BillingProps) {
                   : t("billing.actions.downgrade")
 
             return (
-              <Card
-                key={c.tier}
-                className={cn(
-                  "relative",
-                  c.recommended ? "border-primary/40 shadow-sm" : "border-border"
+              <PricingCard
+                key={tier.id}
+                name={t(`home.pricing.tiers.${tier.id}.name`)}
+                price={tier.price}
+                features={tier.features.map((feature) =>
+                  t(`home.pricing.tiers.${tier.id}.features.${feature}`)
                 )}
-              >
-                <CardHeader className="space-y-2">
-                  <div className="flex items-start justify-between gap-2">
-                    <div>
-                      <CardTitle className="text-lg">{c.title}</CardTitle>
-                      <p className="mt-1 text-sm text-muted-foreground">{c.priceLabel}</p>
-                    </div>
-                    {c.recommended && <Badge>{t("billing.badges.recommended")}</Badge>}
-                  </div>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <ul className="space-y-2 text-sm">
-                    {c.featureKeys.map((k) => (
-                      <li key={k} className="text-muted-foreground">
-                        {t(`billing.tiers.features.${k}`)}
-                      </li>
-                    ))}
-                  </ul>
-
-                  <Button
-                    type="button"
-                    className="w-full"
-                    variant={c.recommended && !isCurrent ? "default" : "outline"}
-                    disabled={isCurrent || isLoading}
-                    onClick={() => startCheckout(c.tier)}
-                  >
-                    {isLoading ? t("billing.actions.startingCheckout") : buttonLabel}
-                  </Button>
-                </CardContent>
-              </Card>
+                ctaLabel={
+                  isLoading ? t("billing.actions.startingCheckout") : buttonLabel
+                }
+                pricePeriodLabel={t("home.pricing.perMonth")}
+                recommendedLabel={t("home.pricing.recommended")}
+                recommended={tier.recommended}
+                planId={tier.id}
+                onCtaClick={() => startCheckout(tier.id)}
+                ctaDisabled={isCurrent || isLoading}
+                ctaVariant={
+                  isCurrent || !tier.recommended ? "outline" : "default"
+                }
+              />
             )
           })}
         </div>

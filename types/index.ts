@@ -12,7 +12,7 @@ export const PRICING_TIERS = [
   {
     id: "solo",
     name: "Solo",
-    price: 29,
+    price: 19,
     features: [
       "Document generation",
       "Contract drafting",
@@ -24,7 +24,7 @@ export const PRICING_TIERS = [
   {
     id: "professional",
     name: "Professional",
-    price: 59,
+    price: 49,
     features: [
       "Everything in Solo",
       "Case outcome predictions",
@@ -38,7 +38,7 @@ export const PRICING_TIERS = [
   {
     id: "firm",
     name: "Firm",
-    price: 79,
+    price: 69,
     features: [
       "Everything in Professional",
       "Priority support",

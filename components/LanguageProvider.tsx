@@ -350,6 +350,9 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         showLess: "Show less",
         expandCourtPosition: "Show full decision text",
         collapseCourtPosition: "Show shorter excerpt",
+        outdatedWarning:
+          "{outdated} of {total} displayed cases are older than 15 years. We recommend checking for more recent case law.",
+        outdatedWarningLink: "Search for more recent case law →",
         outcomes: {
           plaintiff_won: "Plaintiff won",
           defendant_won: "Defendant won",
@@ -748,6 +751,10 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         },
         empty:
           "Your generated document will appear here. Select the document type, jurisdiction, and language, fill in the key details, and click “Generate document” to create a draft tailored to your case.",
+        caseLawSection: {
+          title: "Relevant Case Law",
+          basedOn: "Based on {count} decisions from the case law database.",
+        },
       },
       sidebar: {
         title: "Document details",
@@ -1000,6 +1007,18 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         keyFactors: "Key factors",
         recommendations: "Strategic recommendations",
         fullAnalysis: "Full analysis",
+      },
+      similarCases: {
+        sectionTitle: "Similar Case Outcome Analysis",
+        cardTitle: "Similar Case Statistics",
+        plaintiffWinRate: "{pct}% of cases favored the plaintiff",
+        plaintiffWon: "Plaintiff won",
+        defendantWon: "Defendant won",
+        partially: "Partial",
+        basedOn: "Based on {count} similar rulings from the database",
+        signalGood: "Plaintiff has a strong chance",
+        signalUncertain: "Uncertain",
+        signalRisky: "Risky for the plaintiff",
       },
       caseTypes: {
         civil: "Civil Law",
@@ -2563,6 +2582,9 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         showLess: "Prikaži manje",
         expandCourtPosition: "Prikaži pun tekst odluke",
         collapseCourtPosition: "Prikaži kraći odlomak",
+        outdatedWarning:
+          "{outdated} od {total} prikazanih presuda starije od 15 godina. Preporučujemo provjeru novije sudske prakse.",
+        outdatedWarningLink: "Pretražite noviju praksu →",
         outcomes: {
           plaintiff_won: "Tužilac uspeo",
           defendant_won: "Tuženi uspeo",
@@ -3371,6 +3393,10 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         },
         empty:
           "Generisani dokument će se pojaviti ovdje. Izaberite vrstu dokumenta, jurisdikciju i jezik, unesite ključne detalje i kliknite „Generiši dokument” da kreirate nacrt prilagođen vašem slučaju.",
+        caseLawSection: {
+          title: "Relevantna sudska praksa",
+          basedOn: "Na osnovu {count} presuda iz baze sudske prakse.",
+        },
       },
       sidebar: {
         title: "Detalji dokumenta",
@@ -3623,6 +3649,18 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         keyFactors: "Ključni faktori",
         recommendations: "Strateške preporuke",
         fullAnalysis: "Kompletna analiza",
+      },
+      similarCases: {
+        sectionTitle: "Analiza Ishoda Sličnih Predmeta",
+        cardTitle: "Statistika Sličnih Predmeta",
+        plaintiffWinRate: "{pct}% slučajeva u korist tužioca",
+        plaintiffWon: "Tužilac pobijedio",
+        defendantWon: "Tuženi pobijedio",
+        partially: "Djelimično",
+        basedOn: "Na osnovu {count} sličnih presuda iz baze",
+        signalGood: "Tužilac ima dobru šansu",
+        signalUncertain: "Neizvjesno",
+        signalRisky: "Rizično za tužioca",
       },
       caseTypes: {
         civil: "Građansko pravo",
@@ -4778,6 +4816,9 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         showLess: "Prikaži manje",
         expandCourtPosition: "Prikaži pun tekst presude",
         collapseCourtPosition: "Prikaži kraći izvadak",
+        outdatedWarning:
+          "{outdated} od {total} prikazanih presuda starije od 15 godina. Preporučujemo provjeru novije sudske prakse.",
+        outdatedWarningLink: "Pretražite noviju praksu →",
         outcomes: {
           plaintiff_won: "Tužitelj uspio",
           defendant_won: "Tuženik uspio",
@@ -5586,6 +5627,10 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         },
         empty:
           "Generisani dokument će se pojaviti ovdje. Izaberite vrstu dokumenta, jurisdikciju i jezik, unesite ključne detalje i kliknite „Generiši dokument” da kreirate nacrt prilagođen vašem slučaju.",
+        caseLawSection: {
+          title: "Relevantna sudska praksa",
+          basedOn: "Na osnovu {count} presuda iz baze sudske prakse.",
+        },
       },
       sidebar: {
         title: "Detalji dokumenta",
@@ -5838,6 +5883,18 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         keyFactors: "Ključni faktori",
         recommendations: "Strateške preporuke",
         fullAnalysis: "Kompletna analiza",
+      },
+      similarCases: {
+        sectionTitle: "Analiza Ishoda Sličnih Predmeta",
+        cardTitle: "Statistika Sličnih Predmeta",
+        plaintiffWinRate: "{pct}% slučajeva u korist tužioca",
+        plaintiffWon: "Tužilac pobijedio",
+        defendantWon: "Tuženi pobijedio",
+        partially: "Djelimično",
+        basedOn: "Na osnovu {count} sličnih presuda iz baze",
+        signalGood: "Tužilac ima dobru šansu",
+        signalUncertain: "Neizvjesno",
+        signalRisky: "Rizično za tužioca",
       },
       caseTypes: {
         civil: "Građansko pravo",
@@ -6996,6 +7053,9 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         showLess: "Prikaži manje",
         expandCourtPosition: "Prikaži pun tekst presude",
         collapseCourtPosition: "Prikaži kraći izvadak",
+        outdatedWarning:
+          "{outdated} od {total} prikazanih presuda starije je od 15 godina. Preporučujemo provjeru novije sudske prakse.",
+        outdatedWarningLink: "Pretražite noviju sudsku praksu →",
         outcomes: {
           plaintiff_won: "Tužitelj uspio",
           defendant_won: "Tuženik uspio",
@@ -8327,6 +8387,10 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         },
         empty:
           "Generirani dokument će se pojaviti ovdje. Odaberite vrstu dokumenta, jurisdikciju i jezik, unesite ključne detalje i kliknite „Generiraj dokument” kako biste kreirali nacrt prilagođen vašem slučaju.",
+        caseLawSection: {
+          title: "Relevantna sudska praksa",
+          basedOn: "Na temelju {count} presuda iz baze sudske prakse.",
+        },
       },
       sidebar: {
         title: "Detalji dokumenta",
@@ -8567,6 +8631,18 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         keyFactors: "Ključni faktori",
         recommendations: "Strateške preporuke",
         fullAnalysis: "Cjelovita analiza",
+      },
+      similarCases: {
+        sectionTitle: "Analiza ishoda sličnih predmeta",
+        cardTitle: "Statistika sličnih predmeta",
+        plaintiffWinRate: "{pct}% slučajeva u korist tužitelja",
+        plaintiffWon: "Tužitelj pobijedio",
+        defendantWon: "Tuženi pobijedio",
+        partially: "Djelomično",
+        basedOn: "Na temelju {count} sličnih presuda iz baze",
+        signalGood: "Tužitelj ima dobru šansu",
+        signalUncertain: "Neizvjesno",
+        signalRisky: "Rizično za tužitelja",
       },
       caseTypes: {
         civil: "Građansko pravo",
@@ -9134,6 +9210,9 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         showLess: "Prikaži manj",
         expandCourtPosition: "Prikaži celoten besedilo sodbe",
         collapseCourtPosition: "Prikaži krajši odlomek",
+        outdatedWarning:
+          "{outdated} od {total} prikazanih odločb je starejših od 15 let. Priporočamo preveritev novejše sodne prakse.",
+        outdatedWarningLink: "Poiščite novejšo sodno prakso →",
         outcomes: {
           plaintiff_won: "Tožnik uspel",
           defendant_won: "Toženec uspel",
@@ -9941,6 +10020,10 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         },
         empty:
           "Ustvarjeni dokument se bo prikazal tukaj. Izberite vrsto dokumenta, jurisdikcijo in jezik, vnesite ključne podrobnosti in kliknite »Ustvari dokument«, da pripravite osnutek, prilagojen vašemu primeru.",
+        caseLawSection: {
+          title: "Relevantna sodna praksa",
+          basedOn: "Na podlagi {count} sodnih odločb iz baze sodne prakse.",
+        },
       },
       sidebar: {
         title: "Podrobnosti dokumenta",
@@ -10193,6 +10276,18 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         keyFactors: "Ključni dejavniki",
         recommendations: "Strateška priporočila",
         fullAnalysis: "Celotna analiza",
+      },
+      similarCases: {
+        sectionTitle: "Analiza izidov podobnih zadev",
+        cardTitle: "Statistika podobnih zadev",
+        plaintiffWinRate: "{pct}% primerov v korist tožnika",
+        plaintiffWon: "Tožnik uspel",
+        defendantWon: "Toženec uspel",
+        partially: "Delno",
+        basedOn: "Na podlagi {count} podobnih sodnih odločb iz baze",
+        signalGood: "Tožnik ima dobre možnosti",
+        signalUncertain: "Nejasno",
+        signalRisky: "Tvegano za tožnika",
       },
       caseTypes: {
         civil: "Civilno pravo",
@@ -11280,6 +11375,9 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         showLess: "Prikaži manje",
         expandCourtPosition: "Prikaži pun tekst odluke",
         collapseCourtPosition: "Prikaži kraći odlomak",
+        outdatedWarning:
+          "{outdated} od {total} prikazanih presuda starije od 15 godina. Preporučujemo provjeru novije sudske prakse.",
+        outdatedWarningLink: "Pretražite noviju praksu →",
         outcomes: {
           plaintiff_won: "Tužilac uspio",
           defendant_won: "Tuženi uspio",
@@ -12084,6 +12182,10 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         },
         empty:
           "Generisani dokument će se pojaviti ovdje. Izaberite vrstu dokumenta, jurisdikciju i jezik, unesite ključne detalje i kliknite „Generiši dokument” da kreirate nacrt prilagođen vašem slučaju.",
+        caseLawSection: {
+          title: "Relevantna sudska praksa",
+          basedOn: "Na osnovu {count} presuda iz baze sudske prakse.",
+        },
       },
       sidebar: {
         title: "Detalji dokumenta",
@@ -12324,6 +12426,18 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         keyFactors: "Ključni faktori",
         recommendations: "Strateške preporuke",
         fullAnalysis: "Kompletna analiza",
+      },
+      similarCases: {
+        sectionTitle: "Analiza Ishoda Sličnih Predmeta",
+        cardTitle: "Statistika Sličnih Predmeta",
+        plaintiffWinRate: "{pct}% slučajeva u korist tužioca",
+        plaintiffWon: "Tužilac pobijedio",
+        defendantWon: "Tuženi pobijedio",
+        partially: "Djelimično",
+        basedOn: "Na osnovu {count} sličnih presuda iz baze",
+        signalGood: "Tužilac ima dobru šansu",
+        signalUncertain: "Neizvjesno",
+        signalRisky: "Rizično za tužioca",
       },
       caseTypes: {
         civil: "Građansko pravo",

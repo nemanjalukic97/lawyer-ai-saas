@@ -21,6 +21,8 @@ import { saveAs } from "file-saver"
 import { Document as DocxDocument, Packer, Paragraph } from "docx"
 import { useLanguage } from "@/components/LanguageProvider"
 import { LawCaseLawRagTabs } from "@/components/LawCaseLawRagTabs"
+import { OutdatedCaseLawWarningBanner } from "@/components/OutdatedCaseLawWarningBanner"
+import { buildCaseLawAppendixSection } from "@/lib/formatCaseLawAppendix"
 import type { RagMetadata } from "@/types/rag"
 
 type DocumentType =
@@ -485,6 +487,18 @@ export default function GeneratePageClient({ selectedId, templateId }: Props) {
       return typeof v === "string" && v.trim().length > 0
     })
   }, [formValues, requiredFieldNames])
+
+  const displayedContent = useMemo(() => {
+    const base = generatedContent.replace(/\\n/g, "\n")
+    const appendix = buildCaseLawAppendixSection(
+      ragData?.caseLawSources ?? [],
+      {
+        title: t("generate.result.caseLawSection.title"),
+        basedOn: t("generate.result.caseLawSection.basedOn"),
+      },
+    )
+    return appendix ? `${base}\n${appendix}` : base
+  }, [generatedContent, ragData?.caseLawSources, t])
 
   function handleFieldChange(name: string, value: string) {
     setFormValues((prev) => ({
@@ -978,7 +992,7 @@ export default function GeneratePageClient({ selectedId, templateId }: Props) {
               <div className="mt-4 flex-1 rounded-md border bg-muted/40 p-4">
                 {generatedContent ? (
                   <pre className="max-h-[560px] overflow-y-auto whitespace-pre-wrap text-sm font-serif leading-relaxed text-foreground">
-                    {generatedContent.replace(/\\n/g, "\n")}
+                    {displayedContent}
                   </pre>
                 ) : loadedTemplateTitle ? (
                   <p className="text-sm text-muted-foreground">
@@ -998,6 +1012,9 @@ export default function GeneratePageClient({ selectedId, templateId }: Props) {
                 )}
               </div>
               {ragData ? <LawCaseLawRagTabs ragData={ragData} /> : null}
+              <OutdatedCaseLawWarningBanner
+                caseLawSources={ragData?.caseLawSources ?? []}
+              />
             </Card>
           </div>
         </div>

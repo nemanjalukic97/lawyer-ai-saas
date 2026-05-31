@@ -19,6 +19,9 @@ import { Loader2, Scale } from "lucide-react"
 import { createClient } from "@/lib/supabase/client"
 import { useLanguage } from "@/components/LanguageProvider"
 import { LawCaseLawRagTabs } from "@/components/LawCaseLawRagTabs"
+import { SimilarCaseOutcomeStatsCard } from "@/components/SimilarCaseOutcomeStatsCard"
+import { OutdatedCaseLawWarningBanner } from "@/components/OutdatedCaseLawWarningBanner"
+import { computeSimilarCaseOutcomeStats } from "@/lib/similarCaseOutcomeStats"
 import type { RagMetadata } from "@/types/rag"
 
 type CaseType =
@@ -389,6 +392,11 @@ export default function PredictionsPageClient({ selectedId, prefillMatterId }: C
   const [predictionContent, setPredictionContent] = useState("")
   const [saveSuccess, setSaveSuccess] = useState(false)
   const [ragData, setRagData] = useState<RagMetadata | null>(null)
+
+  const similarCaseStats = useMemo(
+    () => computeSimilarCaseOutcomeStats(ragData?.caseLawSources ?? []),
+    [ragData?.caseLawSources],
+  )
 
   const [detail, setDetail] = useState<PredictionDetail | null>(null)
   const [detailLoading, setDetailLoading] = useState(false)
@@ -916,9 +924,17 @@ export default function PredictionsPageClient({ selectedId, prefillMatterId }: C
 
               <div className="mt-4 flex-1 rounded-md border bg-muted/40 p-4">
                 {predictionContent ? (
-                  <pre className="max-h-[560px] overflow-y-auto whitespace-pre-wrap text-sm leading-relaxed text-foreground">
-                    {predictionContent}
-                  </pre>
+                  <>
+                    <pre className="max-h-[560px] overflow-y-auto whitespace-pre-wrap text-sm leading-relaxed text-foreground">
+                      {predictionContent}
+                    </pre>
+                    {similarCaseStats ? (
+                      <SimilarCaseOutcomeStatsCard stats={similarCaseStats} />
+                    ) : null}
+                    <OutdatedCaseLawWarningBanner
+                      caseLawSources={ragData?.caseLawSources ?? []}
+                    />
+                  </>
                 ) : (
                   <div className="flex flex-col items-center justify-center py-12 text-center">
                     <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-muted/60">
