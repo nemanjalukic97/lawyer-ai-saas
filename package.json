@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "ingest-legal": "npx tsx scripts/ingest-legal-texts.ts",
+    "ingest-downloaded-laws": "npx tsx scripts/ingest-downloaded-laws.ts",
     "ingest-case-law": "npx tsx scripts/ingest-case-law.ts",
     "regen-case-law": "node scripts/run-all-case-law.mjs",
     "ingest-case-law:update-all": "npx tsx scripts/ingest-case-law.ts --update-jurisdictions=croatia,serbia,montenegro,bih_fbih,bih_rs,bih_brcko",

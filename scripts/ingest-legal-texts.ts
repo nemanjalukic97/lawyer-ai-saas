@@ -145,11 +145,11 @@ export const SAMPLE_ARTICLES: LegalArticleInput[] = [
   ...(LABOR_EXTENDED_ARTICLES as LegalArticleInput[]),
 ]
 
-function sleep(ms: number) {
+export function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms))
 }
 
-function stableIdForArticle(article: LegalArticleInput): string {
+export function stableIdForArticle(article: LegalArticleInput): string {
   const key = [
     article.jurisdiction,
     article.law_name_local,
