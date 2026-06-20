@@ -11,7 +11,7 @@ import { PricingCard } from "@/components/PricingCard"
 import { SignupSuccessToast } from "@/components/SignupSuccessToast"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { useLanguage } from "@/components/LanguageProvider"
+import { useLanguage, type LanguageCode } from "@/components/LanguageProvider"
 import { createClient } from "@/lib/supabase/client"
 import { cn } from "@/lib/utils"
 import { FEATURES, PRICING_TIERS } from "@/types"
@@ -178,8 +178,23 @@ type Props = {
   initialSignedIn?: boolean
 }
 
+function renderHeroTitle(title: string, language: LanguageCode) {
+  if (language === "en") return title
+
+  const sentenceBreak = title.indexOf(". ")
+  if (sentenceBreak === -1) return title
+
+  return (
+    <>
+      {title.slice(0, sentenceBreak + 1)}
+      <br />
+      {title.slice(sentenceBreak + 2)}
+    </>
+  )
+}
+
 export function HomeClient({ signupStatus, initialSignedIn }: Props) {
-  const { t } = useLanguage()
+  const { t, language } = useLanguage()
   const [signedIn, setSignedIn] = useState(() => Boolean(initialSignedIn))
   const [openFaqItem, setOpenFaqItem] = useState<number | null>(null)
 
@@ -364,7 +379,7 @@ export function HomeClient({ signupStatus, initialSignedIn }: Props) {
               </span>
             </div>
             <h1 className="mt-6 text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">
-              {t("home.hero.title")}
+              {renderHeroTitle(t("home.hero.title"), language)}
             </h1>
             <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground">
               {t("home.hero.subtitle")}
