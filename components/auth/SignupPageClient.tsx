@@ -8,6 +8,8 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import JurisdictionSelect from "@/components/JurisdictionSelect"
 import AuthSubmitButton from "@/components/auth/AuthSubmitButton"
+import { renderAuthDescription } from "@/components/auth/renderAuthDescription"
+import { LanguageSwitcher } from "@/components/LanguageSwitcher"
 import { useLanguage } from "@/components/LanguageProvider"
 
 const PLAN_KEYS = new Set(["solo", "professional", "firm"])
@@ -23,7 +25,7 @@ export function SignupPageClient({
   hasSuccess,
   selectedPlanKey,
 }: Props) {
-  const { t } = useLanguage()
+  const { t, language } = useLanguage()
   const planTierKey =
     selectedPlanKey && PLAN_KEYS.has(selectedPlanKey)
       ? (selectedPlanKey as "solo" | "professional" | "firm")
@@ -32,15 +34,18 @@ export function SignupPageClient({
   return (
     <div className="min-h-screen flex items-center justify-center bg-background px-4 py-12 sm:py-16">
       <div className="w-full max-w-md space-y-4">
-        <Link
-          href="/"
-          className="group inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors"
-        >
-          <span className="text-base transition-transform duration-200 group-hover:scale-110">
-            ←
-          </span>
-          <span>{t("auth.returnToHomepage")}</span>
-        </Link>
+        <div className="flex items-center justify-between gap-4">
+          <Link
+            href="/"
+            className="group inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <span className="text-base transition-transform duration-200 group-hover:scale-110">
+              ←
+            </span>
+            <span>{t("auth.returnToHomepage")}</span>
+          </Link>
+          <LanguageSwitcher />
+        </div>
 
         {hasSuccess ? (
           <Card className="w-full space-y-4 p-6">
@@ -68,7 +73,11 @@ export function SignupPageClient({
                 {t("auth.signupTitle")}
               </h1>
               <p className="text-sm text-muted-foreground">
-                {t("auth.signupDescription")}
+                {renderAuthDescription(
+                  t("auth.signupDescription"),
+                  language,
+                  "signup"
+                )}
               </p>
               {planTierKey ? (
                 <p className="text-xs text-muted-foreground">

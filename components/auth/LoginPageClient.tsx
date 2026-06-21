@@ -7,6 +7,8 @@ import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import AuthSubmitButton from "@/components/auth/AuthSubmitButton"
+import { renderAuthDescription } from "@/components/auth/renderAuthDescription"
+import { LanguageSwitcher } from "@/components/LanguageSwitcher"
 import { useLanguage } from "@/components/LanguageProvider"
 
 type Props = {
@@ -15,20 +17,23 @@ type Props = {
 }
 
 export function LoginPageClient({ errorMessage, infoMessage }: Props) {
-  const { t } = useLanguage()
+  const { t, language } = useLanguage()
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background px-4">
       <div className="w-full max-w-md space-y-4">
-        <Link
-          href="/"
-          className="group inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors"
-        >
-          <span className="text-base transition-transform duration-200 group-hover:scale-110">
-            ←
-          </span>
-          <span>{t("auth.returnToHomepage")}</span>
-        </Link>
+        <div className="flex items-center justify-between gap-4">
+          <Link
+            href="/"
+            className="group inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <span className="text-base transition-transform duration-200 group-hover:scale-110">
+              ←
+            </span>
+            <span>{t("auth.returnToHomepage")}</span>
+          </Link>
+          <LanguageSwitcher />
+        </div>
 
         <Card className="w-full space-y-6 p-6">
           <div className="space-y-2 text-center">
@@ -36,7 +41,7 @@ export function LoginPageClient({ errorMessage, infoMessage }: Props) {
               {t("auth.loginTitle")}
             </h1>
             <p className="text-sm text-muted-foreground">
-              {t("auth.loginDescription")}
+              {renderAuthDescription(t("auth.loginDescription"), language, "login")}
             </p>
           </div>
 
