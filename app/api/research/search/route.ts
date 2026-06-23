@@ -331,7 +331,7 @@ export async function POST(req: NextRequest) {
                 jurisdiction: j,
                 category,
                 matchCount,
-                similarityThreshold: 0.25,
+                similarityThreshold: 0.20,
                 retryIfEmpty: true,
               }).catch(() => ({
                 chunks: [] as LegalChunk[],
