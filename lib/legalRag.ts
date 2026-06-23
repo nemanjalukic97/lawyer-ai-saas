@@ -76,7 +76,6 @@ const LOWER_THRESHOLD_JURISDICTIONS = new Set([
   "croatia",
   "montenegro",
   "slovenia",
-  "serbia",
 ])
 
 const LOWER_SIMILARITY_THRESHOLDS = {
