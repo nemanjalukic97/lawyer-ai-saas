@@ -63,6 +63,9 @@ export function SignupPageClient({
                 <p className="text-sm text-muted-foreground">
                   {t("auth.signupSuccessBody2")}
                 </p>
+                <p className="text-sm text-muted-foreground">
+                  {t("auth.signupSuccessSpam")}
+                </p>
               </div>
             </div>
           </Card>

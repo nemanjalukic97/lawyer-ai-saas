@@ -83,6 +83,14 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         "Your Legantis account has been created successfully. Please check your inbox and confirm your email address to activate your account.",
       signupSuccessBody2:
         "Once confirmed, you can log in and start using Legantis.",
+      signupSuccessSpam:
+        "If you don't see the email in your inbox, please check your Junk or Spam folder.",
+      emailConfirmedTitle: "Your account is confirmed!",
+      emailConfirmedBody:
+        "You can now log in and start using Legantis.",
+      goToDashboard: "Go to Dashboard",
+      emailConfirmError:
+        "This link has expired or is invalid. Please try again.",
       planSelected:
         "You selected the {plan} plan. You can change this later from your dashboard.",
       emailTakenBeforeLink: "Account with that email is already registered. Try",
@@ -2315,6 +2323,14 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         "Vaš Legantis nalog je uspešno napravljen. Proverite inbox i potvrdite email adresu da aktivirate nalog.",
       signupSuccessBody2:
         "Kada potvrdite, možete se prijaviti i početi koristiti Legantis.",
+      signupSuccessSpam:
+        "Ako ne vidite email u Inboxu, provjerite Junk ili Spam folder.",
+      emailConfirmedTitle: "Vaš nalog je potvrđen!",
+      emailConfirmedBody:
+        "Sada se možete prijaviti i početi koristiti Legantis.",
+      goToDashboard: "Idi na Kontrolnu tablu",
+      emailConfirmError:
+        "Link je istekao ili je nevažeći. Pokušajte ponovo.",
       planSelected:
         "Izabrali ste {plan} paket. Možete ga promeniti kasnije sa kontrolne table.",
       emailTakenBeforeLink: "Nalog sa tom email adresom već postoji. Probajte",
@@ -4549,6 +4565,14 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         "Vaš Legantis račun je uspješno kreiran. Provjerite inbox i potvrdite email adresu da aktivirate račun.",
       signupSuccessBody2:
         "Kada potvrdite, možete se prijaviti i početi koristiti Legantis.",
+      signupSuccessSpam:
+        "Ako ne vidite email u Inboxu, provjerite Junk ili Spam folder.",
+      emailConfirmedTitle: "Vaš nalog je potvrđen!",
+      emailConfirmedBody:
+        "Sada se možete prijaviti i početi koristiti Legantis.",
+      goToDashboard: "Idi na Kontrolnu tablu",
+      emailConfirmError:
+        "Link je istekao ili je nevažeći. Pokušajte ponovo.",
       planSelected:
         "Izabrali ste {plan} plan. Možete ga promijeniti kasnije sa kontrolne table.",
       emailTakenBeforeLink: "Račun sa tom email adresom već postoji. Pokušajte",
@@ -6786,6 +6810,14 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         "Vaš Legantis račun je uspješno stvoren. Provjerite pristiglu e-poštu i potvrdite adresu e-pošte kako biste aktivirali račun.",
       signupSuccessBody2:
         "Nakon potvrde možete se prijaviti i početi koristiti Legantis.",
+      signupSuccessSpam:
+        "Ako ne vidite e-mail u pristigloj pošti, provjerite mapu Junk ili Spam.",
+      emailConfirmedTitle: "Vaš račun je potvrđen!",
+      emailConfirmedBody:
+        "Sada se možete prijaviti i početi koristiti Legantis.",
+      goToDashboard: "Idi na Kontrolnu ploču",
+      emailConfirmError:
+        "Veza je istekla ili je nevažeća. Pokušajte ponovo.",
       planSelected:
         "Odabrali ste {plan} plan. Kasnije ga možete promijeniti s nadzorne ploče.",
       emailTakenBeforeLink: "Račun s tom adresom e-pošte već postoji. Pokušajte",
@@ -9010,6 +9042,14 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         "Vaš Legantis račun je bil uspešno ustvarjen. Preverite nabiralnik in potrdite e-poštni naslov za aktivacijo računa.",
       signupSuccessBody2:
         "Po potrditvi se lahko prijavite in začnete uporabljati Legantis.",
+      signupSuccessSpam:
+        "Če e-pošte ne vidite v mapi Prejeto, preverite mapo Neželena pošta (Junk/Spam).",
+      emailConfirmedTitle: "Vaš račun je potrjen!",
+      emailConfirmedBody:
+        "Zdaj se lahko prijavite in začnete uporabljati Legantis.",
+      goToDashboard: "Pojdi na Nadzorno ploščo",
+      emailConfirmError:
+        "Povezava je potekla ali je neveljavna. Poskusite znova.",
       planSelected:
         "Izbrali ste paket {plan}. Kasneje ga lahko spremenite na nadzorni plošči.",
       emailTakenBeforeLink: "Račun s tem e-poštnim naslovom že obstaja. Poskusite",
@@ -11175,6 +11215,14 @@ const MESSAGES: Record<LanguageCode, Messages> = {
         "Vaš Legantis nalog je uspješno kreiran. Provjerite inbox i potvrdite email adresu da aktivirate nalog.",
       signupSuccessBody2:
         "Kada potvrdite, možete se prijaviti i početi koristiti Legantis.",
+      signupSuccessSpam:
+        "Ako ne vidite email u Inboxu, provjerite Junk ili Spam folder.",
+      emailConfirmedTitle: "Vaš nalog je potvrđen!",
+      emailConfirmedBody:
+        "Sada se možete prijaviti i početi koristiti Legantis.",
+      goToDashboard: "Idi na Kontrolnu tablu",
+      emailConfirmError:
+        "Link je istekao ili je nevažeći. Pokušajte ponovo.",
       planSelected:
         "Izabrali ste {plan} plan. Možete ga promijeniti kasnije sa kontrolne table.",
       emailTakenBeforeLink: "Nalog sa tom email adresom već postoji. Pokušajte",
