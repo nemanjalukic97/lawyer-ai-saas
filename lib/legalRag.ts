@@ -140,6 +140,38 @@ async function embedQueryText(text: string): Promise<number[]> {
   }
 }
 
+function deduplicateLegalChunksById(chunks: LegalChunk[]): LegalChunk[] {
+  const map = new Map<string, LegalChunk>()
+  for (const chunk of chunks) {
+    const existing = map.get(chunk.id)
+    if (!existing || chunk.similarity > existing.similarity) {
+      map.set(chunk.id, chunk)
+    }
+  }
+  return Array.from(map.values()).sort((a, b) => b.similarity - a.similarity)
+}
+
+function buildMatchLegalArticlesRpcArgs(
+  args: {
+    embedding: number[]
+    jurisdiction: string
+    matchCount: number
+    similarityThreshold: number
+  },
+  filterCategory: string | null,
+): Record<string, unknown> {
+  const rpcArgs: Record<string, unknown> = {
+    query_embedding: args.embedding,
+    filter_jurisdiction: args.jurisdiction,
+    match_count: args.matchCount,
+    similarity_threshold: args.similarityThreshold,
+  }
+  if (filterCategory) {
+    rpcArgs.filter_category = filterCategory
+  }
+  return rpcArgs
+}
+
 async function runMatchLegalArticlesRpc(args: {
   embedding: number[]
   jurisdiction: string
@@ -147,18 +179,7 @@ async function runMatchLegalArticlesRpc(args: {
   matchCount: number
   similarityThreshold: number
 }): Promise<LegalChunk[]> {
-  const rpcArgs: Record<string, unknown> = {
-    query_embedding: args.embedding,
-    filter_jurisdiction: args.jurisdiction,
-    match_count: args.matchCount,
-    similarity_threshold: args.similarityThreshold,
-  }
   const category = normalizeResearchCategory(args.category)
-  if (category) {
-    rpcArgs.filter_category = category
-  }
-
-  const rpcCall = supabaseAdmin.rpc("match_legal_articles", rpcArgs)
 
   const timeoutPromise = new Promise<never>((_, reject) =>
     setTimeout(
@@ -167,16 +188,53 @@ async function runMatchLegalArticlesRpc(args: {
     ),
   )
 
-  const { data, error } = (await Promise.race([
-    rpcCall,
-    timeoutPromise,
-  ])) as { data: LegalChunk[] | null; error: { message: string } | null }
+  const rpcWork = async (): Promise<LegalChunk[]> => {
+    const baseArgs = {
+      embedding: args.embedding,
+      jurisdiction: args.jurisdiction,
+      matchCount: args.matchCount,
+      similarityThreshold: args.similarityThreshold,
+    }
 
-  if (error) {
-    throw new Error(error.message)
+    if (category && category !== "general") {
+      const [specificRes, generalRes] = await Promise.all([
+        supabaseAdmin.rpc(
+          "match_legal_articles",
+          buildMatchLegalArticlesRpcArgs(baseArgs, category),
+        ),
+        supabaseAdmin.rpc(
+          "match_legal_articles",
+          buildMatchLegalArticlesRpcArgs(baseArgs, "general"),
+        ),
+      ])
+
+      if (specificRes.error) {
+        throw new Error(specificRes.error.message)
+      }
+      if (generalRes.error) {
+        throw new Error(generalRes.error.message)
+      }
+
+      const merged = [
+        ...((specificRes.data ?? []) as LegalChunk[]),
+        ...((generalRes.data ?? []) as LegalChunk[]),
+      ]
+      return deduplicateLegalChunksById(merged).slice(0, args.matchCount)
+    }
+
+    const { data, error } = await supabaseAdmin.rpc(
+      "match_legal_articles",
+      buildMatchLegalArticlesRpcArgs(baseArgs, category),
+    )
+
+    if (error) {
+      throw new Error(error.message)
+    }
+
+    return (data ?? []) as LegalChunk[]
   }
 
-  return (data ?? []) as LegalChunk[]
+  return Promise.race([rpcWork(), timeoutPromise])
 }
 
 async function runMatchCaseLawRpc(args: {

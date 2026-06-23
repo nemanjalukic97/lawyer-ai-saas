@@ -649,7 +649,7 @@ function StatCard({
             <a
               href="/dashboard/billing"
               onClick={(e) => e.stopPropagation()}
-              className="inline-flex items-center gap-1 text-xs font-medium text-primary/70 transition-colors hover:text-primary"
+              className="pointer-events-auto inline-flex items-center gap-1 text-xs font-medium text-primary/70 transition-colors hover:text-primary"
             >
               {requiredPlan === "solo"
                 ? t("dashboard.overview.subscribeSolo")
@@ -668,7 +668,7 @@ function StatCard({
   )
 
   return locked ? (
-    <div className="group flex h-full min-h-0 w-full min-w-0">{card}</div>
+    <div className="group flex h-full min-h-0 w-full min-w-0 cursor-not-allowed pointer-events-none">{card}</div>
   ) : (
     <Link href={href} className="group flex h-full min-h-0 w-full min-w-0">
       {card}
@@ -694,46 +694,61 @@ function ActionCard({
   iconColor?: string
 }) {
   const { t } = useLanguage()
-  const finalHref = entitled ? href : "/dashboard/billing"
-  return (
-    <Link href={finalHref} className="block">
+
+  const cardContent = (
+    <>
+      {!entitled && (
+        <div className="pointer-events-none absolute inset-0 rounded-xl bg-gradient-to-br from-muted/30 via-transparent to-transparent" />
+      )}
+      <ArrowUpRight className="absolute right-3 top-3 h-3 w-3 text-muted-foreground/30 transition-colors group-hover:text-muted-foreground/60" />
+      <div className="relative space-y-4">
+        <div
+          className={cn(
+            "flex h-10 w-10 items-center justify-center rounded-lg",
+            entitled
+              ? (iconBg ?? "bg-primary/10") + " " + (iconColor ?? "text-primary")
+              : "bg-muted text-muted-foreground"
+          )}
+        >
+          <Icon className="h-[18px] w-[18px]" />
+        </div>
+        <div>
+          <p className="text-xs font-semibold text-foreground sm:text-sm">{title}</p>
+          <p className="mt-1 hidden text-xs leading-relaxed text-muted-foreground/60 sm:block">
+            {description}
+          </p>
+        </div>
+      </div>
+      {!entitled && (
+        <a
+          href="/dashboard/billing"
+          className="mt-3 inline-flex cursor-pointer items-center gap-1 text-xs text-muted-foreground transition-colors hover:text-primary"
+        >
+          <Lock className="h-3 w-3" />
+          {t("dashboard.overview.upgrade")} →
+        </a>
+      )}
+    </>
+  )
+
+  return entitled ? (
+    <Link href={href} className="block">
       <Card
         data-action-card
-        className={cn(
-          "group relative flex h-full min-h-[120px] cursor-pointer flex-col justify-between p-5 transition-all duration-200 hover:border-border/60 hover:bg-muted/30 sm:min-h-[160px]",
-          !entitled && "opacity-80"
-        )}
+        className="group relative flex h-full min-h-[120px] cursor-pointer flex-col justify-between p-5 transition-all duration-200 hover:border-border/60 hover:bg-muted/30 sm:min-h-[160px]"
       >
-        {!entitled && (
-          <div className="pointer-events-none absolute inset-0 rounded-xl bg-gradient-to-br from-muted/30 via-transparent to-transparent" />
-        )}
-        <ArrowUpRight className="absolute right-3 top-3 h-3 w-3 text-muted-foreground/30 transition-colors group-hover:text-muted-foreground/60" />
-        <div className="relative space-y-4">
-          <div
-            className={cn(
-              "flex h-10 w-10 items-center justify-center rounded-lg",
-              entitled
-                ? (iconBg ?? "bg-primary/10") + " " + (iconColor ?? "text-primary")
-                : "bg-muted text-muted-foreground"
-            )}
-          >
-            <Icon className="h-[18px] w-[18px]" />
-          </div>
-          <div>
-            <p className="text-xs font-semibold text-foreground sm:text-sm">{title}</p>
-            <p className="mt-1 hidden text-xs leading-relaxed text-muted-foreground/60 sm:block">
-              {description}
-            </p>
-          </div>
-        </div>
-        {!entitled && (
-          <p className="mt-3 inline-flex items-center gap-1 text-xs text-muted-foreground transition-colors group-hover:text-primary">
-            <Lock className="h-3 w-3" />
-            {t("dashboard.overview.upgrade")} →
-          </p>
-        )}
+        {cardContent}
       </Card>
     </Link>
+  ) : (
+    <div className="block cursor-not-allowed">
+      <Card
+        data-action-card
+        className="group relative flex h-full min-h-[120px] flex-col justify-between p-5 transition-all duration-200 sm:min-h-[160px] opacity-80"
+      >
+        {cardContent}
+      </Card>
+    </div>
   )
 }
 
