@@ -30,13 +30,13 @@ export function Header({ initialSignedIn }: HeaderProps) {
     const supabase = createClient()
 
     supabase.auth.getSession().then(({ data: { session } }) => {
-      setSignedIn(Boolean(session?.user?.email_confirmed_at))
+      setSignedIn(Boolean(session?.user))
     })
 
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSignedIn(Boolean(session?.user?.email_confirmed_at))
+      setSignedIn(Boolean(session?.user))
     })
 
     return () => subscription.unsubscribe()

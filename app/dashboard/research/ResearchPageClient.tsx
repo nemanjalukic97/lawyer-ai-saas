@@ -233,16 +233,17 @@ function caseLawOutcomeBorderClass(outcome: string | null): string {
 }
 
 function ResearchCaseLawResults({
-  items,
+  results,
   t,
   jurisdictionBadgeClass,
   confidenceBadgeClass,
 }: {
-  items: ResearchCaseLawResultItem[]
+  results: SearchResponse
   t: (key: string) => string
   jurisdictionBadgeClass: (j: string) => string
   confidenceBadgeClass: (pct: number) => string
 }) {
+  const items = results.caseLawResults ?? []
   return (
     <div className="space-y-4">
       {items.map((c) => {
@@ -350,9 +351,6 @@ function ResearchResultsTabs({
   loadingMoreCaseLaw,
   onLoadMoreLaws,
   onLoadMoreCaseLaw,
-  isAllJurisdictions,
-  lawsVisibleLimit,
-  caseLawVisibleLimit,
 }: {
   results: SearchResponse
   activeTab: "laws" | "caselaw"
@@ -364,26 +362,9 @@ function ResearchResultsTabs({
   loadingMoreCaseLaw: boolean
   onLoadMoreLaws: () => void
   onLoadMoreCaseLaw: () => void
-  isAllJurisdictions: boolean
-  lawsVisibleLimit: number
-  caseLawVisibleLimit: number
 }) {
   const lawCount = results.results?.length ?? 0
   const caseCount = results.caseLawResults?.length ?? 0
-  const visibleLaws = isAllJurisdictions
-    ? (results.results ?? []).slice(0, lawsVisibleLimit)
-    : (results.results ?? [])
-  const visibleCaseLaw = isAllJurisdictions
-    ? (results.caseLawResults ?? []).slice(0, caseLawVisibleLimit)
-    : (results.caseLawResults ?? [])
-  const shownLawCount = visibleLaws.length
-  const shownCaseCount = visibleCaseLaw.length
-  const hasMoreLaws = isAllJurisdictions
-    ? lawsVisibleLimit < lawCount || (results.hasMoreLaws ?? false)
-    : (results.hasMoreLaws ?? false)
-  const hasMoreCaseLaw = isAllJurisdictions
-    ? caseLawVisibleLimit < caseCount || (results.hasMoreCaseLaw ?? false)
-    : (results.hasMoreCaseLaw ?? false)
   const showLawsTab = lawCount > 0
   const showCaseTab = caseCount > 0
   const tabValue =
@@ -442,7 +423,7 @@ function ResearchResultsTabs({
             </Card>
           ) : (
             <div className="space-y-4">
-              {visibleLaws.map((r) => {
+              {results.results.map((r) => {
                 const displayText =
                   r.text_local && r.text_local.trim() ? r.text_local : r.text ?? ""
                 const parts = highlightSubstring(displayText, results.query)
@@ -506,8 +487,8 @@ function ResearchResultsTabs({
                 )
               })}
               <ResearchResultsPaginationFooter
-                shown={shownLawCount}
-                hasMore={hasMoreLaws}
+                shown={lawCount}
+                hasMore={results.hasMoreLaws ?? false}
                 loading={loadingMoreLaws}
                 onLoadMore={onLoadMoreLaws}
                 t={t}
@@ -520,14 +501,14 @@ function ResearchResultsTabs({
       {showCaseTab ? (
         <TabsContent value="caselaw" className="mt-3 space-y-3">
           <ResearchCaseLawResults
-            items={visibleCaseLaw}
+            results={results}
             t={t}
             jurisdictionBadgeClass={jurisdictionBadgeClass}
             confidenceBadgeClass={confidenceBadgeClass}
           />
           <ResearchResultsPaginationFooter
-            shown={shownCaseCount}
-            hasMore={hasMoreCaseLaw}
+            shown={caseCount}
+            hasMore={results.hasMoreCaseLaw ?? false}
             loading={loadingMoreCaseLaw}
             onLoadMore={onLoadMoreCaseLaw}
             t={t}
@@ -561,10 +542,6 @@ export function ResearchPageClient({ planId }: { planId: EntitlementPlanId }) {
   const [resultsTab, setResultsTab] = useState<"laws" | "caselaw">("laws")
   const [lawsPage, setLawsPage] = useState(1)
   const [caseLawPage, setCaseLawPage] = useState(1)
-  const [lawsVisibleLimit, setLawsVisibleLimit] = useState(10)
-  const [caseLawVisibleLimit, setCaseLawVisibleLimit] = useState(10)
-
-  const isAllJurisdictions = jurisdiction === "all"
 
   const [saving, setSaving] = useState(false)
 
@@ -609,8 +586,6 @@ export function ResearchPageClient({ planId }: { planId: EntitlementPlanId }) {
     setResults(null)
     setLawsPage(1)
     setCaseLawPage(1)
-    setLawsVisibleLimit(10)
-    setCaseLawVisibleLimit(10)
     try {
       const resp = await fetch("/api/research/search", {
         method: "POST",
@@ -630,8 +605,6 @@ export function ResearchPageClient({ planId }: { planId: EntitlementPlanId }) {
       setResultsTab(defaultResearchResultsTab(nextResults))
       setLawsPage(1)
       setCaseLawPage(1)
-      setLawsVisibleLimit(10)
-      setCaseLawVisibleLimit(10)
       if (canSave) void loadHistory()
     } catch {
       setError(t("research.errors.searchFailed"))
@@ -642,19 +615,6 @@ export function ResearchPageClient({ planId }: { planId: EntitlementPlanId }) {
 
   async function loadMore(scope: "laws" | "caselaw") {
     if (!results?.query) return
-
-    if (isAllJurisdictions) {
-      if (scope === "laws") {
-        if (lawsVisibleLimit < (results.results?.length ?? 0)) {
-          setLawsVisibleLimit((n) => n + 10)
-          return
-        }
-      } else if (caseLawVisibleLimit < (results.caseLawResults?.length ?? 0)) {
-        setCaseLawVisibleLimit((n) => n + 10)
-        return
-      }
-    }
-
     const nextPage = scope === "laws" ? lawsPage + 1 : caseLawPage + 1
     const setLoadingMore =
       scope === "laws" ? setLoadingMoreLaws : setLoadingMoreCaseLaw
@@ -703,11 +663,6 @@ export function ResearchPageClient({ planId }: { planId: EntitlementPlanId }) {
 
       if (scope === "laws") setLawsPage(nextPage)
       else setCaseLawPage(nextPage)
-
-      if (isAllJurisdictions) {
-        if (scope === "laws") setLawsVisibleLimit((n) => n + 10)
-        else setCaseLawVisibleLimit((n) => n + 10)
-      }
     } catch {
       setError(t("research.errors.searchFailed"))
     } finally {
@@ -825,9 +780,6 @@ export function ResearchPageClient({ planId }: { planId: EntitlementPlanId }) {
     const parsed = parseSavedSessionResults(s.results)
     setLawsPage(1)
     setCaseLawPage(1)
-    setLawsVisibleLimit(10)
-    setCaseLawVisibleLimit(10)
-    const isSessionAllJurisdictions = !s.jurisdiction_filter
     const sessionResults = {
       query: s.query,
       filters: {
@@ -839,12 +791,8 @@ export function ResearchPageClient({ planId }: { planId: EntitlementPlanId }) {
       caseLawConfidence: parsed.caseLawConfidence,
       page: 1,
       limit: 10,
-      hasMoreLaws: isSessionAllJurisdictions
-        ? parsed.law.length > 10
-        : false,
-      hasMoreCaseLaw: isSessionAllJurisdictions
-        ? parsed.caseLaw.length > 10
-        : false,
+      hasMoreLaws: false,
+      hasMoreCaseLaw: false,
     }
     setResults(sessionResults)
     setResultsTab(defaultResearchResultsTab(sessionResults))
@@ -1000,7 +948,7 @@ export function ResearchPageClient({ planId }: { planId: EntitlementPlanId }) {
                     <Search className="h-5 w-5 text-muted-foreground/40" />
                   </div>
                   <p className="text-sm text-muted-foreground/60">
-                    {t("research.results.hint")}
+                    Run a search to see relevant law articles
                   </p>
                 </div>
               ) : (
@@ -1015,9 +963,6 @@ export function ResearchPageClient({ planId }: { planId: EntitlementPlanId }) {
                   loadingMoreCaseLaw={loadingMoreCaseLaw}
                   onLoadMoreLaws={() => void loadMore("laws")}
                   onLoadMoreCaseLaw={() => void loadMore("caselaw")}
-                  isAllJurisdictions={isAllJurisdictions}
-                  lawsVisibleLimit={lawsVisibleLimit}
-                  caseLawVisibleLimit={caseLawVisibleLimit}
                 />
               )}
             </section>
