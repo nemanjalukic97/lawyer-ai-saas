@@ -99,7 +99,7 @@ function getJurisdictionRpcThresholds(jurisdiction: string): {
   }
 }
 
-const RPC_TIMEOUT_MS = 15000
+const RPC_TIMEOUT_MS = 30000
 const CASE_LAW_RPC_TIMEOUT_MS = 12000
 /** Unfiltered vector search on large corpora (e.g. bih_rs) can exceed 12s. */
 const CASE_LAW_RPC_TIMEOUT_UNFILTERED_MS = 60000
