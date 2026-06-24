@@ -176,6 +176,45 @@ function confidenceBadgeClass(pct: number): string {
   )
 }
 
+function ResearchLawMetaBadges({
+  jurisdiction,
+  category,
+  confidencePct,
+  jurisdictionBadgeClass,
+  t,
+}: {
+  jurisdiction: string
+  category: string
+  confidencePct: number
+  jurisdictionBadgeClass: (j: string) => string
+  t: (key: string, vars?: Record<string, string | number>) => string
+}) {
+  return (
+    <div className="flex flex-col items-start gap-1.5 sm:flex-row sm:flex-nowrap sm:items-center sm:justify-end">
+      <span
+        className={cn(
+          jurisdictionBadgeClass(jurisdiction),
+          "whitespace-nowrap",
+        )}
+      >
+        {jurisdiction}
+      </span>
+      <Badge variant="secondary" className="whitespace-nowrap">
+        {category}
+      </Badge>
+      <Badge
+        className={cn(
+          confidenceBadgeClass(confidencePct),
+          "whitespace-nowrap",
+        )}
+        variant="outline"
+      >
+        {t("research.results.confidenceLabel")} {confidencePct}%
+      </Badge>
+    </div>
+  )
+}
+
 const JURISDICTIONS: Array<{ id: string; labelKey: string }> = [
   { id: "all", labelKey: "research.jurisdictions.all" },
   { id: "serbia", labelKey: "research.jurisdictions.serbia" },
@@ -314,12 +353,20 @@ function CaseLawResultCardBody({
           {t("rag.caseLaw.decisionDateLabel")} {decisionLabel}
         </p>
       ) : null}
-      <div className="mt-2 flex flex-wrap items-center gap-2">
-        <span className={jurisdictionBadgeClass(c.jurisdiction)}>
+      <div className="mt-2 flex shrink-0 flex-nowrap items-center gap-1.5">
+        <span
+          className={cn(
+            jurisdictionBadgeClass(c.jurisdiction),
+            "whitespace-nowrap",
+          )}
+        >
           {c.jurisdiction}
         </span>
         <Badge
-          className={confidenceBadgeClass(c.confidencePct)}
+          className={cn(
+            confidenceBadgeClass(c.confidencePct),
+            "whitespace-nowrap",
+          )}
           variant="outline"
         >
           {t("research.results.confidenceLabel")} {c.confidencePct}%
@@ -425,51 +472,38 @@ function ResearchResultsTabs({
             <div className="space-y-4">
               {results.results.map((r) => {
                 const displayText =
-                  r.text_local && r.text_local.trim() ? r.text_local : r.text ?? ""
+                  r.excerpt?.trim() ||
+                  (r.text_local && r.text_local.trim() ? r.text_local : r.text ?? "")
                 const parts = highlightSubstring(displayText, results.query)
                 return (
                   <Card key={r.id} className="p-5">
-                    <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
-                      <div className="min-w-0">
-                        <p className="text-sm font-medium text-foreground">
-                          <span className="truncate">{r.law_name_local}</span>
+                    <div className="space-y-2">
+                      <p className="text-sm font-medium leading-snug text-foreground break-words">
+                        <span>{r.law_name_local}</span>
+                        <span className="text-muted-foreground">
                           {" "}
-                          <span className="text-muted-foreground">
-                            — {r.law_name}
-                          </span>
-                        </p>
-                        <p className="mt-1 text-xs text-muted-foreground">
+                          — {r.law_name}
+                        </span>
+                      </p>
+                      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                        <p className="text-xs text-muted-foreground">
                           {t("research.results.articleLabel")}{" "}
                           <span className="font-medium text-foreground">
                             {r.article_num}
                             {r.paragraph_num ? ` §${r.paragraph_num}` : ""}
                           </span>
                         </p>
-                      </div>
-
-                      <div className="flex flex-wrap items-center gap-2">
-                        <span className={jurisdictionBadgeClass(r.jurisdiction)}>
-                          {r.jurisdiction}
-                        </span>
-                        <Badge variant="secondary">{r.category}</Badge>
-                        <Badge
-                          className={cn(
-                            "font-medium",
-                            r.confidencePct >= 65
-                              ? "bg-emerald-500/15 text-emerald-800 dark:text-emerald-300"
-                              : r.confidencePct >= 30
-                                ? "bg-amber-500/15 text-amber-800 dark:text-amber-300"
-                                : "bg-muted text-muted-foreground",
-                          )}
-                          variant="outline"
-                        >
-                          {t("research.results.confidenceLabel")}{" "}
-                          {r.confidencePct}%
-                        </Badge>
+                        <ResearchLawMetaBadges
+                          jurisdiction={r.jurisdiction}
+                          category={r.category}
+                          confidencePct={r.confidencePct}
+                          jurisdictionBadgeClass={jurisdictionBadgeClass}
+                          t={t}
+                        />
                       </div>
                     </div>
 
-                    <div className="mt-3 text-sm leading-relaxed text-foreground">
+                    <div className="mt-3 line-clamp-6 text-sm leading-relaxed text-foreground">
                       {parts.map((p, idx) =>
                         typeof p === "string" ? (
                           <span key={idx}>{p}</span>

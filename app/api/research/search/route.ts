@@ -142,11 +142,16 @@ function excerptAroundQuery(haystack: string, query: string, radius = 160): stri
   return null
 }
 
-function buildExcerpt(chunk: LegalChunk, _query: string): string {
+function buildExcerpt(chunk: LegalChunk, query: string): string {
   const s =
     (chunk.text_local && chunk.text_local.trim() ? chunk.text_local : chunk.text) ??
     ""
-  return s.trim()
+  const trimmed = s.trim()
+  if (!trimmed) return ""
+  const primary = excerptAroundQuery(trimmed, query)
+  if (primary) return primary
+  if (trimmed.length <= 260) return trimmed
+  return `${trimmed.slice(0, 260).trim()}…`
 }
 
 function buildCaseExcerpt(chunk: CaseLawChunk, query: string): string {
