@@ -446,6 +446,7 @@ export default function ContractsWizardPage({
   const [isGenerating, setIsGenerating] = useState(false)
   const [generatedContent, setGeneratedContent] = useState("")
   const [saveSuccess, setSaveSuccess] = useState(false)
+  const [contractsListRefreshToken, setContractsListRefreshToken] = useState(0)
   const [saveError, setSaveError] = useState<string | null>(null)
   const [generateError, setGenerateError] = useState<string | null>(null)
   const [ragData, setRagData] = useState<RagMetadata | null>(null)
@@ -983,6 +984,7 @@ export default function ContractsWizardPage({
       }
 
       setSaveSuccess(true)
+      setContractsListRefreshToken((n) => n + 1)
     } catch (error) {
       const msg =
         error && typeof error === "object"
@@ -1627,7 +1629,7 @@ export default function ContractsWizardPage({
             Browse and manage your generated contracts
           </p>
           <div className="mt-4 min-w-0">
-            <ContractsListPanel />
+            <ContractsListPanel refreshToken={contractsListRefreshToken} />
           </div>
         </div>
 

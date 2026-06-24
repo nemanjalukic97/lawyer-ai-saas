@@ -24,7 +24,16 @@ function addDays(base: Date, days: number): Date {
   return d
 }
 
+function normalizeEmail(value: string): string {
+  return value.replace(/\s+/g, "").trim().toLowerCase()
+}
+
+function isValidEmail(value: string): boolean {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
+}
+
 export async function POST(request: Request) {
+  try {
   const supabase = await createClient()
   const {
     data: { user },
@@ -41,7 +50,8 @@ export async function POST(request: Request) {
 
   const contractId = typeof body.contractId === "string" ? body.contractId : null
   const signerName = typeof body.signerName === "string" ? body.signerName.trim() : ""
-  const signerEmail = typeof body.signerEmail === "string" ? body.signerEmail.trim() : ""
+  const signerEmail =
+    typeof body.signerEmail === "string" ? normalizeEmail(body.signerEmail) : ""
   const message = typeof body.message === "string" ? body.message.trim() : null
 
   const expiresAtRaw = typeof body.expiresAt === "string" ? body.expiresAt : null
@@ -52,7 +62,7 @@ export async function POST(request: Request) {
   if (!signerName) {
     return Response.json({ error: "Missing signer name" }, { status: 400 })
   }
-  if (!signerEmail || !signerEmail.includes("@")) {
+  if (!signerEmail || !isValidEmail(signerEmail)) {
     return Response.json({ error: "Missing or invalid signer email" }, { status: 400 })
   }
   if (Number.isNaN(expiresAt.getTime())) {
@@ -143,7 +153,18 @@ export async function POST(request: Request) {
     .eq("id", contractId)
 
   if (contractUpdateError) {
-    return Response.json({ error: "Failed to update contract signature status" }, { status: 500 })
+    await supabase
+      .from("signature_requests")
+      .update({ status: "cancelled" } as any)
+      .eq("id", (inserted as any).id)
+    return Response.json(
+      {
+        error:
+          contractUpdateError.message ||
+          "Failed to update contract signature status",
+      },
+      { status: 500 },
+    )
   }
 
   const { data: profile } = await supabase
@@ -156,15 +177,24 @@ export async function POST(request: Request) {
   const siteUrl = await getSiteUrl()
   const signingUrl = `${siteUrl}/sign/${token}`
 
-  await sendSignatureRequestEmail({
-    to: signerEmail,
-    signerName,
-    contractTitle: (contract as any).title as string,
-    sentByName,
-    expiresAt,
-    signingUrl,
-    message,
-  })
+  let emailSent = true
+  try {
+    await sendSignatureRequestEmail({
+      to: signerEmail,
+      signerName,
+      contractTitle: (contract as any).title as string,
+      sentByName,
+      expiresAt,
+      signingUrl,
+      message,
+    })
+  } catch (emailError) {
+    emailSent = false
+    if (process.env.NODE_ENV !== "production") {
+      // eslint-disable-next-line no-console
+      console.error("[signature-requests/create] email failed:", emailError)
+    }
+  }
 
   return Response.json({
     request: {
@@ -173,6 +203,22 @@ export async function POST(request: Request) {
       expiresAt: expiresAt.toISOString(),
       signingUrl,
     },
+    emailSent,
+    ...(emailSent
+      ? {}
+      : {
+          warning:
+            "Signature request created, but the notification email could not be sent. Use Copy signing link from the contract list.",
+        }),
   })
+  } catch (error) {
+    const message =
+      error instanceof Error ? error.message : "Failed to create signature request"
+    if (process.env.NODE_ENV !== "production") {
+      // eslint-disable-next-line no-console
+      console.error("[signature-requests/create]", error)
+    }
+    return Response.json({ error: message }, { status: 500 })
+  }
 }
 

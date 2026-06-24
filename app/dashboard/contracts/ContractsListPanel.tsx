@@ -60,7 +60,11 @@ function statusLabel(t: (k: string) => string, status: ContractRow["signature_st
   }
 }
 
-export default function ContractsListPanel() {
+export default function ContractsListPanel({
+  refreshToken = 0,
+}: {
+  refreshToken?: number
+}) {
   const supabase = useMemo(() => createClient(), [])
   const { t } = useLanguage()
 
@@ -104,7 +108,7 @@ export default function ContractsListPanel() {
   useEffect(() => {
     void load()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [refreshToken])
 
   function openSendDialog(contractId: string) {
     setDialogContractId(contractId)
@@ -131,7 +135,7 @@ export default function ContractsListPanel() {
         body: JSON.stringify({
           contractId: dialogContractId,
           signerName,
-          signerEmail,
+          signerEmail: signerEmail.replace(/\s+/g, ""),
           message,
           expiresAt: expiresAt.toISOString(),
         }),
@@ -142,6 +146,9 @@ export default function ContractsListPanel() {
         return
       }
       setDialogOpen(false)
+      if ((json as any)?.warning) {
+        setError(String((json as any).warning))
+      }
       await load()
     } catch {
       setError(t("signature.dashboard.failedToCreate"))
@@ -198,16 +205,16 @@ export default function ContractsListPanel() {
   }
 
   async function handleSoftDelete(contract: ContractRow) {
-    const ok = window.confirm("Delete this contract?")
+    const ok = window.confirm(t("signature.dashboard.deleteConfirm"))
     if (!ok) return
     setDeletingId(contract.id)
     setError(null)
     try {
-      const { error: uErr } = await supabase
-        .from("contracts")
-        .update({ deleted_at: new Date().toISOString() })
-        .eq("id", contract.id)
-      if (uErr) throw uErr
+      const res = await fetch(`/api/contracts/${contract.id}`, { method: "DELETE" })
+      const json = await res.json().catch(() => ({}))
+      if (!res.ok) {
+        throw new Error((json as { error?: string })?.error ?? "delete failed")
+      }
 
       void logActivity(
         supabase,
@@ -217,9 +224,18 @@ export default function ContractsListPanel() {
         contract.title ?? "Contract"
       )
 
-      await load()
-    } catch {
-      setError(t("signature.dashboard.failedToLoadContracts"))
+      setRows((prev) => {
+        const next = prev.filter((r) => r.id !== contract.id)
+        const nextTotalPages = Math.max(1, Math.ceil(next.length / pageSize))
+        setPage((p) => Math.min(p, nextTotalPages))
+        return next
+      })
+    } catch (e) {
+      if (process.env.NODE_ENV !== "production") {
+        // eslint-disable-next-line no-console
+        console.error("Failed to delete contract:", e)
+      }
+      setError(t("signature.dashboard.failedToDeleteContract"))
     } finally {
       setDeletingId(null)
     }
@@ -249,8 +265,14 @@ export default function ContractsListPanel() {
             </p>
           ) : null}
         </div>
-        <Button asChild variant="outline" size="sm">
-          <Link href="/dashboard/contracts">{t("signature.dashboard.refreshHint")}</Link>
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          disabled={loading}
+          onClick={() => void load()}
+        >
+          {t("signature.dashboard.refreshHint")}
         </Button>
       </div>
 
