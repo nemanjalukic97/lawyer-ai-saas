@@ -948,7 +948,7 @@ export function ResearchPageClient({ planId }: { planId: EntitlementPlanId }) {
                     <Search className="h-5 w-5 text-muted-foreground/40" />
                   </div>
                   <p className="text-sm text-muted-foreground/60">
-                    Run a search to see relevant law articles
+                    {t("research.results.hint")}
                   </p>
                 </div>
               ) : (

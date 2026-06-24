@@ -100,23 +100,39 @@ function getJurisdictionRpcThresholds(jurisdiction: string): {
 }
 
 const RPC_TIMEOUT_MS = 30000
+/** Match Postgres statement_timeout in match_legal_articles (120s) on large corpora. */
+const LEGAL_RPC_TIMEOUT_UNFILTERED_MS = 120000
 const CASE_LAW_RPC_TIMEOUT_MS = 12000
 /** Unfiltered vector search on large corpora (e.g. bih_rs) can exceed 12s. */
 const CASE_LAW_RPC_TIMEOUT_UNFILTERED_MS = 60000
 
-const LARGE_CASE_LAW_JURISDICTIONS = new Set([
+const LARGE_CORPUS_JURISDICTIONS = new Set([
   "bih_rs",
   "bih_fbih",
   "bih_brcko",
   "serbia",
+  "croatia",
+  "montenegro",
+  "slovenia",
 ])
+
+function getLegalRpcTimeoutMs(
+  category: string | null,
+  jurisdiction: string,
+): number {
+  if (category) return RPC_TIMEOUT_MS
+  if (LARGE_CORPUS_JURISDICTIONS.has(jurisdiction)) {
+    return LEGAL_RPC_TIMEOUT_UNFILTERED_MS
+  }
+  return RPC_TIMEOUT_MS
+}
 
 function getCaseLawRpcTimeoutMs(
   legalArea: string | null,
   jurisdiction: string,
 ): number {
   if (legalArea) return CASE_LAW_RPC_TIMEOUT_MS
-  if (LARGE_CASE_LAW_JURISDICTIONS.has(jurisdiction)) {
+  if (LARGE_CORPUS_JURISDICTIONS.has(jurisdiction)) {
     return CASE_LAW_RPC_TIMEOUT_UNFILTERED_MS
   }
   return CASE_LAW_RPC_TIMEOUT_MS
@@ -146,6 +162,7 @@ async function runMatchLegalArticlesRpc(args: {
   category: string | null
   matchCount: number
   similarityThreshold: number
+  timeoutMs?: number
 }): Promise<LegalChunk[]> {
   const rpcArgs: Record<string, unknown> = {
     query_embedding: args.embedding,
@@ -160,10 +177,13 @@ async function runMatchLegalArticlesRpc(args: {
 
   const rpcCall = supabaseAdmin.rpc("match_legal_articles", rpcArgs)
 
+  const timeoutMs =
+    args.timeoutMs ?? getLegalRpcTimeoutMs(category, args.jurisdiction)
+
   const timeoutPromise = new Promise<never>((_, reject) =>
     setTimeout(
-      () => reject(new Error("RAG RPC timeout after 5000ms")),
-      RPC_TIMEOUT_MS,
+      () => reject(new Error(`RAG RPC timeout after ${timeoutMs}ms`)),
+      timeoutMs,
     ),
   )
 
@@ -464,6 +484,7 @@ export async function matchLegalArticles(args: {
   matchCount?: number
   similarityThreshold?: number
   retryIfEmpty?: boolean
+  rpcTimeoutMs?: number
 }): Promise<{
   chunks: LegalChunk[]
   usedThreshold: number
@@ -480,12 +501,18 @@ export async function matchLegalArticles(args: {
   let usedThreshold = initialThreshold
   let retried = false
 
+  const normalizedCategory = normalizeResearchCategory(args.category ?? null)
+  const rpcTimeoutMs =
+    args.rpcTimeoutMs ??
+    getLegalRpcTimeoutMs(normalizedCategory, args.jurisdiction)
+
   let data = await runMatchLegalArticlesRpc({
     embedding,
     jurisdiction: args.jurisdiction,
     category: args.category ?? null,
     matchCount: args.matchCount ?? 6,
     similarityThreshold: initialThreshold,
+    timeoutMs: rpcTimeoutMs,
   })
 
   if (data.length === 0 && shouldRetry) {
@@ -501,6 +528,7 @@ export async function matchLegalArticles(args: {
       category: args.category ?? null,
       matchCount: args.matchCount ?? 6,
       similarityThreshold: thresholds.lowRetry,
+      timeoutMs: rpcTimeoutMs,
     })
   }
 

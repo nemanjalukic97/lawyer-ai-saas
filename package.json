@@ -11,7 +11,7 @@
     "ingest-case-law": "npx tsx scripts/ingest-case-law.ts",
     "regen-case-law": "node scripts/run-all-case-law.mjs",
     "ingest-case-law:update-all": "npx tsx scripts/ingest-case-law.ts --update-jurisdictions=croatia,serbia,montenegro,bih_fbih,bih_rs,bih_brcko",
-    "verify-case-law-index": "npx tsx scripts/verify-case-law-index.ts",
+    "verify-law-search": "npx tsx scripts/verify-law-search-smoke.ts",
     "rebuild-case-law-index": "node scripts/rebuild-case-law-index.mjs",
     "grant-firm-eval": "npx tsx scripts/grant-firm-evaluation.ts",
     "lint": "eslint"

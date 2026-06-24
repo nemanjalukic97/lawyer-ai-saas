@@ -333,11 +333,27 @@ export async function POST(req: NextRequest) {
                 matchCount,
                 similarityThreshold: 0.25,
                 retryIfEmpty: true,
-              }).catch(() => ({
-                chunks: [] as LegalChunk[],
-                usedThreshold: 0.25,
-                retried: false,
-              })),
+              })
+                .then((result) => {
+                  // eslint-disable-next-line no-console
+                  console.error("[research/search] laws ok", {
+                    jurisdiction: j,
+                    chunks: result.chunks.length,
+                    usedThreshold: result.usedThreshold,
+                    retried: result.retried,
+                  })
+                  return result
+                })
+                .catch((err) => {
+                  const message = err instanceof Error ? err.message : String(err)
+                  // eslint-disable-next-line no-console
+                  console.error("[research/search] laws failed", j, message, err)
+                  return {
+                    chunks: [] as LegalChunk[],
+                    usedThreshold: 0.25,
+                    retried: false,
+                  }
+                }),
             ),
           )
         : Promise.resolve([]),
