@@ -472,8 +472,9 @@ function ResearchResultsTabs({
             <div className="space-y-4">
               {results.results.map((r) => {
                 const displayText =
-                  r.excerpt?.trim() ||
-                  (r.text_local && r.text_local.trim() ? r.text_local : r.text ?? "")
+                  r.text_local && r.text_local.trim()
+                    ? r.text_local
+                    : r.text ?? ""
                 const parts = highlightSubstring(displayText, results.query)
                 return (
                   <Card key={r.id} className="p-5">
@@ -503,7 +504,7 @@ function ResearchResultsTabs({
                       </div>
                     </div>
 
-                    <div className="mt-3 line-clamp-6 text-sm leading-relaxed text-foreground">
+                    <div className="mt-3 text-sm leading-relaxed text-foreground">
                       {parts.map((p, idx) =>
                         typeof p === "string" ? (
                           <span key={idx}>{p}</span>
