@@ -22,6 +22,7 @@ type AuditLogRow = {
 
 const VALID_TYPES: (ActivityItemType | "all")[] = [
   "all",
+  "matter",
   "document",
   "contract",
   "prediction",
@@ -71,10 +72,8 @@ export default async function ActivityPage({
 
   const params = await searchParams
   const filterType = parseType(params.type)
-  const typeForFetch = filterType === "all" ? undefined : filterType
 
   const items = await getRecentActivity(supabase, scope, {
-    type: typeForFetch,
     limit: 50,
   })
 

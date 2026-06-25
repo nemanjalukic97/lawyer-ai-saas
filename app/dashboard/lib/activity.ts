@@ -67,7 +67,7 @@ export async function getRecentActivity(
   const { type, limit = 10 } = options
   const filterCol = scope.lawFirmId ? "law_firm_id" : "user_id"
   const filterVal = scope.lawFirmId ?? scope.userId
-  const limitPerTable = type ? limit : Math.ceil(limit / 6)
+  const limitPerTable = limit
 
   if (type) {
     const items = await fetchSingleType(supabase, filterCol, filterVal, type, limitPerTable)

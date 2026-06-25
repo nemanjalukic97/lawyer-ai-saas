@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label"
 import { useLanguage } from "@/components/LanguageProvider"
 import { cn } from "@/lib/utils"
 import type { EntitlementPlanId } from "../lib/entitlements"
-import { ShieldAlert } from "lucide-react"
+import { ShieldAlert, Trash2, Loader2 } from "lucide-react"
 
 type ConflictMatch = {
   source: "clients" | "contracts" | "case_predictions"
@@ -40,7 +40,7 @@ type HistoryItem = {
   override_confirmed: boolean
 }
 
-const PAGE_SIZE = 15
+const PAGE_SIZE = 12
 
 function formatDate(value: string): string {
   const d = new Date(value)
@@ -56,7 +56,7 @@ function formatDate(value: string): string {
 
 function badgeClass(kind: "clear" | "conflict"): string {
   return cn(
-    "inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium",
+    "inline-flex h-8 shrink-0 items-center rounded-full px-2.5 text-xs font-medium",
     kind === "clear"
       ? "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300"
       : "bg-amber-500/15 text-amber-800 dark:text-amber-300"
@@ -76,6 +76,7 @@ export function ConflictCheckPageClient({ planId }: { planId: EntitlementPlanId 
   const [historyError, setHistoryError] = useState<string | null>(null)
   const [history, setHistory] = useState<HistoryItem[]>([])
   const [page, setPage] = useState(1)
+  const [deletingId, setDeletingId] = useState<string | null>(null)
 
   const totalMatches = useMemo(() => {
     if (!results) return 0
@@ -152,6 +153,36 @@ export function ConflictCheckPageClient({ planId }: { planId: EntitlementPlanId 
     const start = (page - 1) * PAGE_SIZE
     return history.slice(start, start + PAGE_SIZE)
   }, [history, page])
+
+  async function handleDelete(item: HistoryItem) {
+    const ok = window.confirm(t("conflict.history.deleteConfirm"))
+    if (!ok) return
+
+    setDeletingId(item.id)
+    setHistoryError(null)
+    try {
+      const resp = await fetch(`/api/conflict-check/${item.id}`, { method: "DELETE" })
+      const json = await resp.json().catch(() => null)
+      if (!resp.ok) {
+        setHistoryError(
+          (json && typeof json.error === "string" && json.error) ||
+            t("conflict.history.deleteFailed")
+        )
+        return
+      }
+
+      setHistory((prev) => {
+        const next = prev.filter((row) => row.id !== item.id)
+        const nextTotalPages = Math.max(1, Math.ceil(next.length / PAGE_SIZE))
+        setPage((p) => Math.min(p, nextTotalPages))
+        return next
+      })
+    } catch {
+      setHistoryError(t("conflict.history.deleteFailed"))
+    } finally {
+      setDeletingId(null)
+    }
+  }
 
   function onSubmit(e: FormEvent) {
     e.preventDefault()
@@ -293,7 +324,7 @@ export function ConflictCheckPageClient({ planId }: { planId: EntitlementPlanId 
                     <ShieldAlert className="h-5 w-5 text-muted-foreground/40" />
                   </div>
                   <p className="text-sm font-medium text-muted-foreground/60">
-                    No conflict checks yet
+                    {t("conflict.history.empty")}
                   </p>
                 </div>
               ) : (
@@ -319,17 +350,34 @@ export function ConflictCheckPageClient({ planId }: { planId: EntitlementPlanId 
                           </p>
                         )}
                       </div>
-                      <span className={badgeClass(item.has_conflict ? "conflict" : "clear")}>
-                        {item.has_conflict
-                          ? t("conflict.history.badges.conflict")
-                          : t("conflict.history.badges.clear")}
-                      </span>
+                      <div className="flex shrink-0 items-center gap-1.5 self-center">
+                        <span className={badgeClass(item.has_conflict ? "conflict" : "clear")}>
+                          {item.has_conflict
+                            ? t("conflict.history.badges.conflict")
+                            : t("conflict.history.badges.clear")}
+                        </span>
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          className="h-8 w-8 p-0 text-muted-foreground hover:text-destructive"
+                          disabled={deletingId === item.id}
+                          onClick={() => void handleDelete(item)}
+                          aria-label={t("conflict.history.delete")}
+                        >
+                          {deletingId === item.id ? (
+                            <Loader2 className="h-4 w-4 animate-spin" />
+                          ) : (
+                            <Trash2 className="h-4 w-4" />
+                          )}
+                        </Button>
+                      </div>
                     </div>
                   ))}
                 </div>
               )}
 
-              {history.length > PAGE_SIZE && (
+              {totalPages > 1 && (
                 <div className="mt-4 flex items-center justify-between">
                   <Button
                     type="button"

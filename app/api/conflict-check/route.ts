@@ -287,7 +287,7 @@ export async function GET() {
       "id, created_at, user_id, law_firm_id, search_query, results_summary, has_conflict, override, override_confirmed"
     )
     .order("created_at", { ascending: false })
-    .limit(25)
+    .limit(120)
 
   const scoped = lawFirmId
     ? base.or(`law_firm_id.eq.${lawFirmId},user_id.eq.${user.id}`)

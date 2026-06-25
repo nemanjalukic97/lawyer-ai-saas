@@ -80,52 +80,68 @@ function cleanMarkdown(text: string): string {
     .replace(/#{1,6}\s/g, "")
 }
 
+type ReportSectionLabels = {
+  riskyClauses: string
+  missingProvisions: string
+  complianceIssues: string
+  ambiguousLanguage: string
+  executiveSummary: string
+  riskScore: string
+  recommendations: string
+}
+
 function getJurisdictionLabel(jurisdiction: Jurisdiction): string {
   const option = JURISDICTION_OPTIONS.find((opt) => opt.value === jurisdiction)
   return option?.label ?? jurisdiction
 }
 
-function buildSystemPrompt(
-  jurisdiction: Jurisdiction,
-  analysisFocus: AnalysisFocus,
-  outputLanguageName: string
-): string {
-  const jurisdictionLabel = getJurisdictionLabel(jurisdiction)
+function getReportSectionLabels(t: (key: string) => string): ReportSectionLabels {
+  return {
+    riskyClauses: t("analyze.report.sections.riskyClauses"),
+    missingProvisions: t("analyze.report.sections.missingProvisions"),
+    complianceIssues: t("analyze.report.sections.complianceIssues"),
+    ambiguousLanguage: t("analyze.report.sections.ambiguousLanguage"),
+    executiveSummary: t("analyze.report.sections.executiveSummary"),
+    riskScore: t("analyze.report.sections.riskScore"),
+    recommendations: t("analyze.report.sections.recommendations"),
+  }
+}
 
+function buildSystemPrompt(
+  jurisdictionLabel: string,
+  analysisFocusLabel: string,
+  outputLanguageName: string,
+  sections: ReportSectionLabels
+): string {
   return `
 You are a contract review AI for ${jurisdictionLabel}.
-Analyze this document and identify:
-1. RISKY CLAUSES - Terms unfavorable to client
-   or legally problematic
-2. MISSING PROVISIONS - Standard clauses that
-   should be included
-3. COMPLIANCE ISSUES - Violations of ${jurisdictionLabel} law
-4. AMBIGUOUS LANGUAGE - Unclear terms that could
-   cause disputes
-5. EXECUTIVE SUMMARY - Brief overall assessment
-6. RISK SCORE - Rate overall risk 1-10
-   (1=very safe, 10=very risky)
-7. RECOMMENDATIONS - Actionable improvements
+Analyze this document and structure your response using EXACTLY these section headings, each on its own line followed by a colon:
 
-Focus: ${analysisFocus}
-Write the response in ${outputLanguageName}, but keep the labels "RISK SCORE" and the phrase "Risk score:" in English and include a clear line like "Risk score: X/10" so the app can parse it.
+1. ${sections.riskyClauses}: Terms unfavorable to the client or legally problematic
+2. ${sections.missingProvisions}: Standard clauses that should be included
+3. ${sections.complianceIssues}: Violations of ${jurisdictionLabel} law
+4. ${sections.ambiguousLanguage}: Unclear terms that could cause disputes
+5. ${sections.executiveSummary}: Brief overall assessment
+6. ${sections.riskScore}: Rate overall risk 1-10 (1=very safe, 10=very risky). Include a clear line "${sections.riskScore}: X/10".
+7. ${sections.recommendations}: Actionable improvements
+
+Focus: ${analysisFocusLabel}
+Write the ENTIRE response in ${outputLanguageName}, including every section heading and the risk score line. Do not use English section headings unless the output language is English.
 Use formal but clear language suitable for lawyers.
 `.trim()
 }
 
 function buildUserPrompt(
-  jurisdiction: Jurisdiction,
-  analysisFocus: AnalysisFocus,
+  jurisdictionLabel: string,
+  analysisFocusLabel: string,
   documentText: string
 ): string {
-  const jurisdictionLabel = getJurisdictionLabel(jurisdiction)
-
   return `
 Analyze this document for a ${jurisdictionLabel} jurisdiction:
 
 ${documentText}
 
-Focus on: ${analysisFocus}
+Focus on: ${analysisFocusLabel}
 Provide detailed analysis with risk score and recommendations.
 `.trim()
 }
@@ -137,19 +153,19 @@ function formatFileSize(bytes: number): string {
 }
 
 function extractRiskScore(text: string): number | null {
-  const lower = text.toLowerCase()
+  const patterns = [
+    /risk\s*score[^0-9]{0,20}(\d{1,2})\s*\/\s*10/i,
+    /rizik\s*skor[^0-9]{0,20}(\d{1,2})\s*\/\s*10/i,
+    /ocena\s*rizika[^0-9]{0,20}(\d{1,2})\s*\/\s*10/i,
+    /ocjena\s*rizika[^0-9]{0,20}(\d{1,2})\s*\/\s*10/i,
+    /ocena\s*tveganja[^0-9]{0,20}(\d{1,2})\s*\/\s*10/i,
+    /(\d{1,2})\s*\/\s*10/,
+  ]
 
-  const riskLabelMatch = lower.match(/risk\s*score[^0-9]{0,10}(\d{1,2})/)
-  if (riskLabelMatch) {
-    const value = Number.parseInt(riskLabelMatch[1], 10)
-    if (!Number.isNaN(value) && value >= 1 && value <= 10) {
-      return value
-    }
-  }
-
-  const genericMatch = lower.match(/\b([1-9]|10)\b/)
-  if (genericMatch) {
-    const value = Number.parseInt(genericMatch[1], 10)
+  for (const pattern of patterns) {
+    const match = text.match(pattern)
+    if (!match) continue
+    const value = Number.parseInt(match[1], 10)
     if (!Number.isNaN(value) && value >= 1 && value <= 10) {
       return value
     }
@@ -174,9 +190,12 @@ function getRiskBadgeClasses(score: number | null): string {
   return "inline-flex items-center rounded-full bg-red-500/10 px-2.5 py-0.5 text-xs font-medium text-red-600 dark:text-red-400"
 }
 
-function getRiskBadgeLabel(score: number | null): string {
-  if (score == null) return "Risk score not detected"
-  return `Risk score: ${score}/10`
+function getRiskBadgeLabel(
+  score: number | null,
+  t: (key: string, vars?: Record<string, string | number>) => string
+): string {
+  if (score == null) return t("analyze.report.riskScoreNotDetected")
+  return t("analyze.report.riskScoreBadge", { score })
 }
 
 async function parseTxtFile(file: File): Promise<string> {
@@ -522,10 +541,34 @@ export default function DocumentAnalysisPage({
     setIsAnalyzing(true)
 
     try {
-      const systemPrompt = buildSystemPrompt(jurisdiction, analysisFocus, outputLanguageName)
+      const jurisdictionOption = JURISDICTION_OPTIONS.find((opt) => opt.value === jurisdiction)
+      const jurisdictionLabel = jurisdictionOption
+        ? (() => {
+            const translated = t(jurisdictionOption.translationKey)
+            return translated === jurisdictionOption.translationKey
+              ? jurisdictionOption.label
+              : translated
+          })()
+        : getJurisdictionLabel(jurisdiction)
+
+      const focusOption = ANALYSIS_FOCUS_OPTIONS.find((opt) => opt.value === analysisFocus)
+      const analysisFocusLabel = focusOption
+        ? (() => {
+            const translated = t(focusOption.translationKey)
+            return translated === focusOption.translationKey ? focusOption.label : translated
+          })()
+        : analysisFocus
+
+      const reportSections = getReportSectionLabels(t)
+      const systemPrompt = buildSystemPrompt(
+        jurisdictionLabel,
+        analysisFocusLabel,
+        outputLanguageName,
+        reportSections
+      )
       const userPrompt = buildUserPrompt(
-        jurisdiction,
-        analysisFocus,
+        jurisdictionLabel,
+        analysisFocusLabel,
         extractedText
       )
 
@@ -877,7 +920,7 @@ export default function DocumentAnalysisPage({
                   <div className="flex flex-col items-end gap-2">
                     {typeof riskScore === "number" && (
                       <span className={getRiskBadgeClasses(riskScore)}>
-                        {getRiskBadgeLabel(riskScore)}
+                        {getRiskBadgeLabel(riskScore, t)}
                       </span>
                     )}
                     <Button

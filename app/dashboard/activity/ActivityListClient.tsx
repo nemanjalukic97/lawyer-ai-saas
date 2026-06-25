@@ -1,7 +1,6 @@
 "use client"
 
 import Link from "next/link"
-import { useRouter } from "next/navigation"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -10,7 +9,7 @@ import {
   type ActivityItemType,
 } from "../lib/activity"
 import { BarChart3, FileText, Scale, User, FileSignature, Briefcase } from "lucide-react"
-import { useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { cn } from "@/lib/utils"
 import { useLanguage } from "@/components/LanguageProvider"
 
@@ -50,18 +49,28 @@ type ActivityListClientProps = {
 }
 
 export function ActivityListClient({ items, currentFilter }: ActivityListClientProps) {
-  const router = useRouter()
   const { t } = useLanguage()
+  const [filter, setFilter] = useState<"all" | ActivityItemType>(currentFilter)
   const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE)
-  const visible = items.slice(0, visibleCount)
-  const hasMore = visibleCount < items.length
+
+  useEffect(() => {
+    setFilter(currentFilter)
+  }, [currentFilter])
+
+  const filteredItems = useMemo(() => {
+    if (filter === "all") return items
+    return items.filter((item) => item.type === filter)
+  }, [filter, items])
+
+  const visible = filteredItems.slice(0, visibleCount)
+  const hasMore = visibleCount < filteredItems.length
 
   const handleFilterChange = (value: "all" | ActivityItemType) => {
-    if (value === "all") {
-      router.push("/dashboard/activity")
-    } else {
-      router.push(`/dashboard/activity?type=${value}`)
-    }
+    setFilter(value)
+    setVisibleCount(INITIAL_VISIBLE)
+    const url =
+      value === "all" ? "/dashboard/activity" : `/dashboard/activity?type=${value}`
+    window.history.replaceState(null, "", url)
   }
 
   return (
@@ -86,7 +95,7 @@ export function ActivityListClient({ items, currentFilter }: ActivityListClientP
             onClick={() => handleFilterChange(value)}
             className={cn(
               "text-xs px-3 py-1.5 rounded-full border border-border/40",
-              currentFilter === value
+              filter === value
                 ? "bg-foreground text-background"
                 : "bg-transparent text-muted-foreground/60 hover:bg-muted/40"
             )}
