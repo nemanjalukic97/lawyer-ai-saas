@@ -1,0 +1,65 @@
+name: Quarterly Legal Corpus Sync
+
+on:
+  schedule:
+    # 1st day of every 3rd month at 08:00 UTC
+    - cron: "0 8 1 */3 *"
+  workflow_dispatch:
+    inputs:
+      jurisdictions:
+        description: "Comma-separated jurisdiction keys or 'all'"
+        required: false
+        default: "all"
+        type: string
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Python dependencies
+        run: pip install requests beautifulsoup4 pdfplumber
+
+      - name: Install Node dependencies
+        run: npm ci
+
+      - name: Run legal corpus sync
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+        run: |
+          node scripts/sync-legal-corpus.mjs --jurisdictions=${{ github.event.inputs.jurisdictions || 'all' }}
+
+      - name: Notify on failure
+        if: failure()
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+        run: |
+          RUN_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          SUBJECT="Legantis quarterly legal sync FAILED"
+          HTML="<p>The quarterly legal corpus sync workflow failed.</p><p><a href=\"${RUN_URL}\">View run logs</a></p><p>Repository: ${{ github.repository }}</p><p>Ref: ${{ github.ref }}</p>"
+          curl -sS -X POST "https://api.resend.com/emails" \
+            -H "Authorization: Bearer ${RESEND_API_KEY}" \
+            -H "Content-Type: application/json" \
+            -d "$(jq -n \
+              --arg from "Legantis <noreply@legantis.app>" \
+              --arg to "support@legantis.app" \
+              --arg subject "${SUBJECT}" \
+              --arg html "${HTML}" \
+              '{from: $from, to: [$to], subject: $subject, html: $html}')"

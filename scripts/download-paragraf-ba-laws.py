@@ -27,6 +27,18 @@ from bs4 import BeautifulSoup
 from requests.exceptions import ChunkedEncodingError
 from urllib3.exceptions import ProtocolError
 
+_SCRIPTS_DIR = Path(__file__).resolve().parent
+if str(_SCRIPTS_DIR) not in sys.path:
+    sys.path.insert(0, str(_SCRIPTS_DIR))
+from _download_refresh import (
+    apply_refresh_write,
+    emit_sync_stats,
+    init_counters,
+    merge_counters,
+    print_sync_summary,
+    record_refresh_status,
+)
+
 BASE_SITE = "https://www.paragraf.ba"
 
 USER_AGENT = "Mozilla/5.0 (compatible; LegantisBot/1.0)"
@@ -337,11 +349,13 @@ def process_law(
     log_entries: list[dict],
     iso_now,
     counters: dict[str, int],
+    *,
+    force_refresh: bool = False,
 ) -> None:
     fname = law_filename(stub.slug)
 
     existing = find_existing_txt(out_root, fname, stub.url)
-    if existing is not None:
+    if not force_refresh and existing is not None:
         counters["skipped"] += 1
         log_entries.append(
             {
@@ -355,7 +369,7 @@ def process_law(
         )
         return
 
-    dest = unique_target_path(out_root, fname, stub.url)
+    dest = existing if existing is not None else unique_target_path(out_root, fname, stub.url)
     _safe_print(f"Fetching: {stub.title[:70]}…")
 
     status = "failed"
@@ -368,9 +382,20 @@ def process_law(
                 f"extracted text too short or missing articles ({len(parsed.body)} chars)"
             )
         else:
-            save_act_text(dest, format_act_file(parsed, stub))
-            status = "downloaded"
-            _safe_print(f"  -> {dest.relative_to(out_root)}")
+            content = format_act_file(parsed, stub)
+            write_status = apply_refresh_write(
+                dest,
+                content,
+                force_refresh=force_refresh,
+                existing=existing,
+                save_fn=save_act_text,
+            )
+            if force_refresh:
+                status = write_status
+                _safe_print(f"  -> {write_status}: {(existing or dest).name}")
+            else:
+                status = "downloaded"
+                _safe_print(f"  -> {dest.relative_to(out_root)}")
     except requests.HTTPError as e:
         err = str(e.response.status_code if e.response is not None else "HTTP error")
     except requests.Timeout:
@@ -388,9 +413,12 @@ def process_law(
         "status": status,
         "downloaded_at": iso_now(),
     }
-    if status == "downloaded":
-        entry["filename"] = dest.name
-        counters["downloaded"] += 1
+    if status in ("downloaded", "new", "updated", "unchanged"):
+        entry["filename"] = (existing or dest).name
+        record_refresh_status(
+            counters,
+            status if force_refresh else "downloaded",
+        )
     else:
         counters["failed"] += 1
         entry["error"] = err
@@ -404,11 +432,13 @@ def run_jurisdiction(
     jurisdiction: str,
     law_budget: int | None,
     iso_now,
+    *,
+    force_refresh: bool = False,
 ) -> dict[str, int]:
     out_root = out_dir(jurisdiction)
     log_path = out_root / "download-log.json"
     log_entries = load_log(log_path)
-    counters = {"downloaded": 0, "failed": 0, "skipped": 0}
+    counters = init_counters(force_refresh=force_refresh)
     budget = law_budget
 
     _safe_print(f"\n=== {jurisdiction.upper()} ({out_root.relative_to(repo_root())}) ===")
@@ -426,6 +456,7 @@ def run_jurisdiction(
                     log_entries,
                     iso_now,
                     counters,
+                    force_refresh=force_refresh,
                 )
             except Exception as e:
                 counters["failed"] += 1
@@ -447,10 +478,7 @@ def run_jurisdiction(
     finally:
         save_log(log_path, log_entries)
 
-    _safe_print(
-        f"{jurisdiction}: {counters['downloaded']} downloaded, "
-        f"{counters['failed']} failed, {counters['skipped']} skipped"
-    )
+    print_sync_summary(counters, prefix=f"{jurisdiction}: ")
     return counters
 
 
@@ -470,6 +498,11 @@ def main() -> int:
         default=0,
         help="If >0, stop after this many laws per jurisdiction (for testing).",
     )
+    parser.add_argument(
+        "--force-refresh",
+        action="store_true",
+        help="Re-fetch laws and overwrite only when file content changed (SHA-256).",
+    )
     args = parser.parse_args()
 
     keys = list(JURISDICTION_ORDER) if args.jurisdiction == "all" else [args.jurisdiction]
@@ -477,21 +510,25 @@ def main() -> int:
 
     session = PoliteSession()
     iso_now = lambda: dt.datetime.now(dt.UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
-    totals = {"downloaded": 0, "failed": 0, "skipped": 0}
+    totals = init_counters(force_refresh=args.force_refresh)
 
     try:
         for key in keys:
-            counts = run_jurisdiction(session, key, law_budget, iso_now)
-            for k in totals:
-                totals[k] += counts[k]
+            counts = run_jurisdiction(
+                session,
+                key,
+                law_budget,
+                iso_now,
+                force_refresh=args.force_refresh,
+            )
+            merge_counters(totals, counts)
     except Exception as e:
         _safe_print(f"Fatal: {e}", file=sys.stderr)
         return 1
 
-    _safe_print(
-        f"\nSummary: {totals['downloaded']} downloaded, "
-        f"{totals['failed']} failed, {totals['skipped']} skipped"
-    )
+    _safe_print("\nSummary: ", end="")
+    print_sync_summary(totals)
+    emit_sync_stats(totals)
     return 0 if totals["failed"] == 0 else 1
 
 

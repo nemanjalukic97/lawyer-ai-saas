@@ -10,6 +10,7 @@
     "ingest-downloaded-laws": "npx tsx scripts/ingest-downloaded-laws.ts",
     "ingest-case-law": "npx tsx scripts/ingest-case-law.ts",
     "regen-case-law": "node scripts/run-all-case-law.mjs",
+    "sync-legal-corpus": "node scripts/sync-legal-corpus.mjs",
     "ingest-case-law:update-all": "npx tsx scripts/ingest-case-law.ts --update-jurisdictions=croatia,serbia,montenegro,bih_fbih,bih_rs,bih_brcko",
     "verify-law-search": "npx tsx scripts/verify-law-search-smoke.ts",
     "rebuild-case-law-index": "node scripts/rebuild-case-law-index.mjs",

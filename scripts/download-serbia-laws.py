@@ -26,6 +26,17 @@ from bs4 import BeautifulSoup, Tag
 from requests.exceptions import ChunkedEncodingError
 from urllib3.exceptions import ProtocolError
 
+_SCRIPTS_DIR = Path(__file__).resolve().parent
+if str(_SCRIPTS_DIR) not in sys.path:
+    sys.path.insert(0, str(_SCRIPTS_DIR))
+from _download_refresh import (
+    apply_refresh_write,
+    emit_sync_stats,
+    init_counters,
+    print_sync_summary,
+    record_refresh_status,
+)
+
 PIS_SITE = "https://pravno-informacioni-sistem.rs"
 CONFIG_URL = f"{PIS_SITE}/bandleportalconf.txt"
 REPUBLIC_ROOT_NAME = "РЕПУБЛИЧКИ ПРОПИСИ"
@@ -542,6 +553,8 @@ def process_act(
     log_entries: list[dict],
     iso_now,
     counters: dict[str, int],
+    *,
+    force_refresh: bool = False,
 ) -> None:
     txt_dir = out_root / stub.category_folder
     fname = act_filename(stub.title, stub.uuid)
@@ -560,7 +573,7 @@ def process_act(
                 existing = path
                 break
 
-    if existing is not None:
+    if not force_refresh and existing is not None:
         counters["skipped"] += 1
         log_entries.append(
             {
@@ -577,7 +590,7 @@ def process_act(
         )
         return
 
-    dest = unique_target_path(txt_dir, fname, public_url)
+    dest = existing if existing is not None else unique_target_path(txt_dir, fname, public_url)
     _safe_print(f"Fetching: {stub.title[:70]}…")
 
     status = "failed"
@@ -589,9 +602,20 @@ def process_act(
         if not _body_ok(parsed):
             err = f"extracted text too short or missing articles ({len(parsed.body)} chars)"
         else:
-            save_act_text(dest, format_act_file(parsed, stub))
-            status = "downloaded"
-            _safe_print(f"  -> {dest.name}")
+            content = format_act_file(parsed, stub)
+            write_status = apply_refresh_write(
+                dest,
+                content,
+                force_refresh=force_refresh,
+                existing=existing,
+                save_fn=save_act_text,
+            )
+            if force_refresh:
+                status = write_status
+                _safe_print(f"  -> {write_status}: {(existing or dest).name}")
+            else:
+                status = "downloaded"
+                _safe_print(f"  -> {dest.name}")
     except requests.HTTPError as e:
         err = str(e.response.status_code if e.response is not None else "HTTP error")
     except requests.Timeout:
@@ -612,9 +636,12 @@ def process_act(
         "status": status,
         "downloaded_at": iso_now(),
     }
-    if status == "downloaded":
-        entry["filename"] = dest.name
-        counters["downloaded"] += 1
+    if status in ("downloaded", "new", "updated", "unchanged"):
+        entry["filename"] = (existing or dest).name
+        record_refresh_status(
+            counters,
+            status if force_refresh else "downloaded",
+        )
     else:
         counters["failed"] += 1
         entry["error"] = err
@@ -644,6 +671,11 @@ def main() -> int:
         default=0,
         help="If >0, cap level-2 categories after filter (for testing).",
     )
+    parser.add_argument(
+        "--force-refresh",
+        action="store_true",
+        help="Re-fetch laws and overwrite only when file content changed (SHA-256).",
+    )
     args = parser.parse_args()
 
     out_root = repo_root() / "downloads" / "serbia-laws"
@@ -652,7 +684,7 @@ def main() -> int:
     session = PoliteSession()
     log_entries = load_log(log_path)
     iso_now = lambda: dt.datetime.now(dt.UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
-    counters = {"downloaded": 0, "failed": 0, "skipped": 0}
+    counters = init_counters(force_refresh=args.force_refresh)
 
     law_budget = args.max_laws if args.max_laws and args.max_laws > 0 else None
     max_categories = (
@@ -731,6 +763,7 @@ def main() -> int:
                         log_entries,
                         iso_now,
                         counters,
+                        force_refresh=args.force_refresh,
                     )
                 except Exception as e:
                     counters["failed"] += 1
@@ -759,10 +792,9 @@ def main() -> int:
     finally:
         save_log(log_path, log_entries)
 
-    _safe_print(
-        f"\nSummary: {counters['downloaded']} laws downloaded, "
-        f"{counters['failed']} failed, {counters['skipped']} skipped"
-    )
+    _safe_print("\nSummary: ", end="")
+    print_sync_summary(counters)
+    emit_sync_stats(counters)
     return 0
 
 

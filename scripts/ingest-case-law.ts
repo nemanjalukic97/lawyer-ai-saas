@@ -44,6 +44,24 @@ export type CaseLawInput = {
   source_url?: string
 }
 
+export type IngestCaseLawStats = {
+  new: number
+  updated: number
+  unchanged: number
+  failed: number
+}
+
+function fingerprintCaseLaw(c: CaseLawInput): string {
+  return createHash("sha256")
+    .update([c.legal_question, c.court_position, c.reasoning].join("\n\n"))
+    .digest("hex")
+}
+
+function emitIngestCaseStats(stats: IngestCaseLawStats): void {
+  // eslint-disable-next-line no-console
+  console.log(`INGEST_CASE_STATS:${JSON.stringify(stats)}`)
+}
+
 function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms))
 }
@@ -189,6 +207,47 @@ async function loadExistingCaseLawIds(): Promise<Set<string>> {
   return ids
 }
 
+/** Content fingerprints for case_law rows in selected jurisdictions. */
+async function loadExistingCaseLawFingerprints(
+  jurisdictions: Set<string>,
+): Promise<Map<string, string>> {
+  const { supabaseAdmin } = await import("../lib/supabase/admin")
+  const fingerprints = new Map<string, string>()
+  const jurisdictionList = [...jurisdictions]
+  const pageSize = 1000
+  let offset = 0
+
+  for (;;) {
+    const { data, error } = await (supabaseAdmin as any)
+      .from("case_law")
+      .select("id, legal_question, court_position, reasoning")
+      .in("jurisdiction", jurisdictionList)
+      .range(offset, offset + pageSize - 1)
+
+    if (error) throw error
+
+    const rows = data ?? []
+    for (const row of rows) {
+      const id = (row as { id?: string }).id
+      if (!id) continue
+      const legalQuestion = (row as { legal_question?: string }).legal_question ?? ""
+      const courtPosition = (row as { court_position?: string }).court_position ?? ""
+      const reasoning = (row as { reasoning?: string }).reasoning ?? ""
+      fingerprints.set(
+        id,
+        createHash("sha256")
+          .update([legalQuestion, courtPosition, reasoning].join("\n\n"))
+          .digest("hex"),
+      )
+    }
+
+    if (rows.length < pageSize) break
+    offset += pageSize
+  }
+
+  return fingerprints
+}
+
 export async function embedCaseLaw(c: CaseLawInput): Promise<number[]> {
   const input = truncateEmbeddingInput(buildEmbeddingSource(c))
 
@@ -226,7 +285,7 @@ export async function checkExistingCaseLaw(): Promise<number> {
 function parseUpdateJurisdictions(): Set<string> {
   const set = new Set<string>()
   for (const arg of process.argv.slice(2)) {
-  const m = /^--update-jurisdictions=(.+)$/.exec(arg)
+    const m = /^--update-jurisdictions=(.+)$/.exec(arg)
     if (m) {
       for (const j of m[1].split(",")) {
         const t = j.trim()
@@ -237,7 +296,9 @@ function parseUpdateJurisdictions(): Set<string> {
   return set
 }
 
-export async function ingest(options?: { updateJurisdictions?: Set<string> }) {
+export async function ingest(options?: {
+  updateJurisdictions?: Set<string>
+}): Promise<IngestCaseLawStats | void> {
   verifyCaseLawIngestEnv()
 
   const updateJurisdictions =
@@ -256,9 +317,13 @@ export async function ingest(options?: { updateJurisdictions?: Set<string> }) {
   console.log(`Existing total: ${existingTotal}`)
 
   const existingIds = await loadExistingCaseLawIds()
+  const isUpdateMode = updateJurisdictions.size > 0
+  const existingFingerprints = isUpdateMode
+    ? await loadExistingCaseLawFingerprints(updateJurisdictions)
+    : null
 
   const rowsToProcess =
-    updateJurisdictions.size > 0
+    isUpdateMode
       ? ALL_CASE_LAW.filter(
           (row) => row?.jurisdiction && updateJurisdictions.has(row.jurisdiction),
         )
@@ -270,6 +335,15 @@ export async function ingest(options?: { updateJurisdictions?: Set<string> }) {
   let embedded = 0
   let updated = 0
   let skippedExisting = 0
+  let unchangedContent = 0
+  let failed = 0
+
+  const ingestStats: IngestCaseLawStats = {
+    new: 0,
+    updated: 0,
+    unchanged: 0,
+    failed: 0,
+  }
 
   for (const row of rowsToProcess) {
     if (!row?.jurisdiction || !row.case_number) {
@@ -282,6 +356,8 @@ export async function ingest(options?: { updateJurisdictions?: Set<string> }) {
 
     const id = stableIdForCase(row)
     const shouldUpdate = updateJurisdictions.has(row.jurisdiction)
+    const contentHash = fingerprintCaseLaw(row)
+    const hadPrior = existingFingerprints?.has(id) ?? existingIds.has(id)
 
     if (existingIds.has(id) && !shouldUpdate) {
       skippedExisting += 1
@@ -295,6 +371,24 @@ export async function ingest(options?: { updateJurisdictions?: Set<string> }) {
       )
       await sleep(10)
       continue
+    }
+
+    if (isUpdateMode && existingFingerprints) {
+      const priorHash = existingFingerprints.get(id)
+      if (priorHash !== undefined && priorHash === contentHash) {
+        unchangedContent += 1
+        ingestStats.unchanged += 1
+        skippedByJurisdiction.set(
+          row.jurisdiction,
+          (skippedByJurisdiction.get(row.jurisdiction) ?? 0) + 1,
+        )
+        // eslint-disable-next-line no-console
+        console.log(
+          `○ unchanged ${row.jurisdiction} / ${row.court} / ${row.case_number}`,
+        )
+        await sleep(10)
+        continue
+      }
     }
 
     try {
@@ -328,7 +422,14 @@ export async function ingest(options?: { updateJurisdictions?: Set<string> }) {
 
       existingIds.add(id)
       if (shouldUpdate) {
-        updated += 1
+        if (hadPrior) {
+          updated += 1
+          ingestStats.updated += 1
+        } else {
+          embedded += 1
+          ingestStats.new += 1
+        }
+        existingFingerprints?.set(id, contentHash)
       } else {
         embedded += 1
       }
@@ -336,11 +437,16 @@ export async function ingest(options?: { updateJurisdictions?: Set<string> }) {
         row.jurisdiction,
         (embeddedByJurisdiction.get(row.jurisdiction) ?? 0) + 1,
       )
+      const marker = shouldUpdate && hadPrior ? "↻" : "✓"
       // eslint-disable-next-line no-console
       console.log(
-        `${shouldUpdate ? "↻" : "✓"} ${row.jurisdiction} / ${row.court} / ${row.case_number}`,
+        `${marker} ${row.jurisdiction} / ${row.court} / ${row.case_number}`,
       )
     } catch (err) {
+      if (isUpdateMode) {
+        failed += 1
+        ingestStats.failed += 1
+      }
       // eslint-disable-next-line no-console
       console.error(
         `Error: ${row.jurisdiction} / ${row.case_number}`,
@@ -368,9 +474,19 @@ export async function ingest(options?: { updateJurisdictions?: Set<string> }) {
   }
   // eslint-disable-next-line no-console
   console.log(
-    `✅ Embedded: ${embedded} | Updated: ${updated} | Skipped (existing id): ${skippedExisting} | ` +
-      `Jurisdictions in index: ${jurisdictionSet.size}`,
+    `✅ Embedded: ${embedded} | Updated: ${updated} | Skipped (existing id): ${skippedExisting}` +
+      (isUpdateMode ? ` | Unchanged (content): ${unchangedContent}` : "") +
+      ` | Jurisdictions in index: ${jurisdictionSet.size}`,
   )
+
+  if (isUpdateMode) {
+    // eslint-disable-next-line no-console
+    console.log(
+      `♻️  Update stats: ${ingestStats.new} new, ${ingestStats.updated} updated, ` +
+        `${ingestStats.unchanged} unchanged, ${ingestStats.failed} failed`,
+    )
+    emitIngestCaseStats(ingestStats)
+  }
 
   // eslint-disable-next-line no-console
   console.log("\n📊 Case law counts in DB (after ingest):\n")
@@ -419,6 +535,10 @@ export async function ingest(options?: { updateJurisdictions?: Set<string> }) {
     console.log(
       `  ${j}: unique case_number=${uniqueCount} case_law=${dbCount} ${ok ? "OK" : "MISMATCH"}${dupNote}`,
     )
+  }
+
+  if (isUpdateMode) {
+    return ingestStats
   }
 }
 
@@ -470,8 +590,11 @@ async function testRetrieval() {
 }
 
 async function main() {
-  await ingest()
-  await testRetrieval()
+  const updateJurisdictions = parseUpdateJurisdictions()
+  await ingest({ updateJurisdictions })
+  if (updateJurisdictions.size === 0) {
+    await testRetrieval()
+  }
 }
 
 if (process.argv[1]?.includes("ingest-case-law")) {

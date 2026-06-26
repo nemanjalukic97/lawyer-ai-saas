@@ -1,3 +1,4 @@
+import { createHash } from "crypto"
 import { readdir, readFile } from "fs/promises"
 import path from "path"
 
@@ -34,6 +35,72 @@ const SOURCE_DIRS: SourceDir[] = [
   { dir: "downloads/legalist-ba-fbih", jurisdiction: "bih_fbih", recursive: false },
   { dir: "downloads/legalist-ba-rs", jurisdiction: "bih_rs", recursive: false },
 ]
+
+export type IngestLawStats = {
+  new: number
+  updated: number
+  unchanged: number
+  failed: number
+}
+
+function parseUpdateJurisdictions(): Set<string> {
+  const set = new Set<string>()
+  for (const arg of process.argv.slice(2)) {
+    const m = /^--update-jurisdictions=(.+)$/.exec(arg)
+    if (m) {
+      for (const j of m[1].split(",")) {
+        const t = j.trim()
+        if (t) set.add(t)
+      }
+    }
+  }
+  return set
+}
+
+export function hashArticleText(article: LegalArticleInput): string {
+  const raw = article.text_local ?? article.text ?? ""
+  return createHash("sha256").update(raw).digest("hex")
+}
+
+async function loadExistingArticleHashes(
+  jurisdictions: Set<string>,
+): Promise<Map<string, string>> {
+  const { supabaseAdmin } = await import("../lib/supabase/admin")
+  const hashes = new Map<string, string>()
+  const jurisdictionList = [...jurisdictions]
+  const pageSize = 1000
+  let offset = 0
+
+  for (;;) {
+    const { data, error } = await supabaseAdmin
+      .from("legal_articles")
+      .select("id, text_local, text")
+      .in("jurisdiction", jurisdictionList)
+      .range(offset, offset + pageSize - 1)
+
+    if (error) throw error
+
+    const rows = data ?? []
+    for (const row of rows) {
+      const id = (row as { id?: string }).id
+      if (!id) continue
+      const textLocal = (row as { text_local?: string | null }).text_local
+      const text = (row as { text?: string }).text
+      const raw = textLocal ?? text ?? ""
+      hashes.set(id, createHash("sha256").update(raw).digest("hex"))
+    }
+
+    if (rows.length < pageSize) break
+    offset += pageSize
+  }
+
+  return hashes
+}
+
+function emitIngestLawStats(stats: IngestLawStats): void {
+  // eslint-disable-next-line no-console
+  console.log(`INGEST_LAW_STATS:${JSON.stringify(stats)}`)
+}
 
 type ParsedLawFile = {
   naziv: string
@@ -94,7 +161,11 @@ const CATEGORY_RULES: { keywords: string[]; category: string }[] = [
   { keywords: ["imovinn", "stvarno"], category: "property" },
 ]
 
-function parseCliArgs(): { jurisdiction?: string; dryRun: boolean } {
+function parseCliArgs(): {
+  jurisdiction?: string
+  dryRun: boolean
+  updateJurisdictions: Set<string>
+} {
   const args = process.argv.slice(2)
   let jurisdiction: string | undefined
   let dryRun = false
@@ -110,7 +181,7 @@ function parseCliArgs(): { jurisdiction?: string; dryRun: boolean } {
     }
   }
 
-  return { jurisdiction, dryRun }
+  return { jurisdiction, dryRun, updateJurisdictions: parseUpdateJurisdictions() }
 }
 
 function normalizeLawNameKey(naziv: string): string {
@@ -342,17 +413,24 @@ function printStats(stats: Map<string, FileStats>, dryRun: boolean): void {
 export async function ingestDownloadedLaws(options?: {
   jurisdiction?: string
   dryRun?: boolean
-}) {
+  updateJurisdictions?: Set<string>
+}): Promise<IngestLawStats | void> {
   const jurisdictionFilter = options?.jurisdiction
   const dryRun = options?.dryRun ?? false
+  const updateJurisdictions =
+    options?.updateJurisdictions ?? parseUpdateJurisdictions()
+  const isUpdateMode = updateJurisdictions.size > 0
 
-  const sources = jurisdictionFilter
-    ? SOURCE_DIRS.filter((s) => s.jurisdiction === jurisdictionFilter)
-  : SOURCE_DIRS
+  let sources = SOURCE_DIRS
+  if (isUpdateMode) {
+    sources = SOURCE_DIRS.filter((s) => updateJurisdictions.has(s.jurisdiction))
+  } else if (jurisdictionFilter) {
+    sources = SOURCE_DIRS.filter((s) => s.jurisdiction === jurisdictionFilter)
+  }
 
   if (sources.length === 0) {
     throw new Error(
-      `No source directories for jurisdiction "${jurisdictionFilter}". ` +
+      `No source directories for requested jurisdiction(s). ` +
         `Valid: ${[...new Set(SOURCE_DIRS.map((s) => s.jurisdiction))].join(", ")}`,
     )
   }
@@ -360,7 +438,11 @@ export async function ingestDownloadedLaws(options?: {
   // eslint-disable-next-line no-console
   console.log(
     `📂 Scanning ${sources.length} source folder(s)` +
-      (jurisdictionFilter ? ` (jurisdiction: ${jurisdictionFilter})` : "") +
+      (isUpdateMode
+        ? ` (update mode: ${[...updateJurisdictions].sort().join(", ")})`
+        : jurisdictionFilter
+          ? ` (jurisdiction: ${jurisdictionFilter})`
+          : "") +
       (dryRun ? " [dry-run]" : ""),
   )
 
@@ -388,16 +470,46 @@ export async function ingestDownloadedLaws(options?: {
   // eslint-disable-next-line no-console
   console.log(`\nExisting total: ${existingTotal}`)
 
+  const ingestStats: IngestLawStats = {
+    new: 0,
+    updated: 0,
+    unchanged: 0,
+    failed: 0,
+  }
+
+  const existingHashes = isUpdateMode
+    ? await loadExistingArticleHashes(updateJurisdictions)
+    : null
+
   const jurisdictionSet = new Set<string>()
   const succeededByJurisdiction = new Map<string, number>()
   let succeeded = 0
 
   for (const article of articles) {
+    if (isUpdateMode && !updateJurisdictions.has(article.jurisdiction)) {
+      continue
+    }
+
     jurisdictionSet.add(article.jurisdiction)
+
+    const id = stableIdForArticle(article)
+    const contentHash = hashArticleText(article)
+    const hadPrior = isUpdateMode && (existingHashes?.has(id) ?? false)
+
+    if (isUpdateMode && existingHashes) {
+      const priorHash = existingHashes.get(id)
+      if (priorHash !== undefined && priorHash === contentHash) {
+        ingestStats.unchanged += 1
+        // eslint-disable-next-line no-console
+        console.log(
+          `○ unchanged ${article.jurisdiction} / ${article.law_name_local} / ${article.article_num}`,
+        )
+        continue
+      }
+    }
 
     try {
       const embedding = await embed(article)
-      const id = stableIdForArticle(article)
 
       const payload = {
         id,
@@ -415,22 +527,34 @@ export async function ingestDownloadedLaws(options?: {
       }
 
       const { supabaseAdmin } = await import("../lib/supabase/admin")
-      const { error } = await supabaseAdmin
-        .from("legal_articles")
-        .upsert(payload, { onConflict: "id", ignoreDuplicates: true })
+      const { error } = await supabaseAdmin.from("legal_articles").upsert(payload, {
+        onConflict: "id",
+        ...(isUpdateMode ? {} : { ignoreDuplicates: true }),
+      })
 
       if (error) throw error
+
+      if (isUpdateMode) {
+        if (hadPrior) {
+          ingestStats.updated += 1
+        } else {
+          ingestStats.new += 1
+        }
+        existingHashes?.set(id, contentHash)
+      }
 
       succeeded += 1
       succeededByJurisdiction.set(
         article.jurisdiction,
         (succeededByJurisdiction.get(article.jurisdiction) ?? 0) + 1,
       )
+      const marker = isUpdateMode && hadPrior ? "↻" : "✓"
       // eslint-disable-next-line no-console
       console.log(
-        `✓ ${article.jurisdiction} / ${article.law_name_local} / ${article.article_num}`,
+        `${marker} ${article.jurisdiction} / ${article.law_name_local} / ${article.article_num}`,
       )
     } catch (err) {
+      if (isUpdateMode) ingestStats.failed += 1
       // eslint-disable-next-line no-console
       console.error(
         `Error: ${article.jurisdiction} / ${article.law_name_local} / ${article.article_num}`,
@@ -452,11 +576,21 @@ export async function ingestDownloadedLaws(options?: {
   }
   // eslint-disable-next-line no-console
   console.log(`✅ Total: ${succeeded} articles (${jurisdictionSet.size} jurisdictions)`)
+
+  if (isUpdateMode) {
+    // eslint-disable-next-line no-console
+    console.log(
+      `♻️  Update stats: ${ingestStats.new} new, ${ingestStats.updated} updated, ` +
+        `${ingestStats.unchanged} unchanged, ${ingestStats.failed} failed`,
+    )
+    emitIngestLawStats(ingestStats)
+    return ingestStats
+  }
 }
 
 async function main() {
-  const { jurisdiction, dryRun } = parseCliArgs()
-  await ingestDownloadedLaws({ jurisdiction, dryRun })
+  const { jurisdiction, dryRun, updateJurisdictions } = parseCliArgs()
+  await ingestDownloadedLaws({ jurisdiction, dryRun, updateJurisdictions })
 }
 
 if (process.argv[1]?.includes("ingest-downloaded-laws")) {
