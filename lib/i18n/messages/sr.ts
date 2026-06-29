@@ -482,7 +482,7 @@ export const srMessages: Messages = {
         title: "Sve što vam treba da radite pametnije",
         titleNew: "Sve što savremenoj advokatskoj kancelariji treba",
         subtitle:
-          "Jedna platforma za pisanje, predviđanje, analizu, evidenciju vremena i saradnju sa klijentima.",
+          "Jedna platforma za AI pisanje, istraživanje, analizu, upravljanje predmetima, evidenciju vremena i saradnju sa klijentima.",
         seeAll: "Pogledaj sve funkcije →",
         items: {
           contracts: {
@@ -509,6 +509,31 @@ export const srMessages: Messages = {
             title: "Klijentski portal",
             description:
               "Sigurna razmena dokumenata i komunikacija sa klijentima. Sve poruke, fajlovi i statusi ostaju pregledni na jednom zaštićenom mestu.",
+          },
+          generate: {
+            title: "AI generisanje dokumenata",
+            description:
+              "Generišite NDA, ugovore o radu, najmove i druge pravne dokumente sa klauzulama prilagođenim jurisdikciji. Pripremite prve nacrte u minutama i doradite ih uz ugrađenu AI pomoć.",
+          },
+          redline: {
+            title: "Izmjena ugovora",
+            description:
+              "Učitajte ugovore i pregledajte AI predloge izmena klauzulu po klauzulu. Prihvatite ili odbijte promene i preuzmite ažurirani DOCX spreman za konačni pregled.",
+          },
+          research: {
+            title: "Pravno istraživanje",
+            description:
+              "Pretražite propise i pravnu bazu kroz balkanske jurisdikcije uz ocene relevantnosti. Sačuvajte istraživanja i gradite argumente sa citiranim lokalnim izvorima.",
+          },
+          matters: {
+            title: "Upravljanje predmetima",
+            description:
+              "Organizujte rad po predmetima i držite ugovore, rokove, vreme i naplatu na jednom mestu. Pratite status od prijema do zatvaranja bez menjanja alata.",
+          },
+          templates: {
+            title: "Biblioteka šablona",
+            description:
+              "Pregledajte odabrane šablone prilagođene jurisdikciji za uobičajene pravne dokumente. Krenite od jake osnove i brže prilagodite klauzule svakom klijentu.",
           },
         },
       },
@@ -638,9 +663,7 @@ export const srMessages: Messages = {
       },
     },
     footer: {
-      taglineLine1:
-        "Legantis – AI pravni asistent za Bosnu i Hercegovinu,",
-      taglineLine2: "Srbiju, Hrvatsku, Crnu Goru i Sloveniju.",
+      ctaTitle: "Profesionalni AI nivo za vašu advokatsku kancelariju",
       privacy: "Privatnost",
       terms: "Uslovi korišćenja",
       contact: "Kontakt",

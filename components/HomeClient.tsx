@@ -89,9 +89,106 @@ const FEATURE_CARD_ICONS: Record<(typeof FEATURES)[number]["id"], ReactNode> = {
       <path d="M16.5 8.5L17.5 9.5L19.5 7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   ),
+  generate: (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+      <path
+        d="M14 3H7C5.9 3 5 3.9 5 5V19C5 20.1 5.9 21 7 21H17C18.1 21 19 20.1 19 19V8L14 3Z"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path d="M14 3V8H19" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M9 13H15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.6" />
+      <path d="M9 16H12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.4" />
+      <path
+        d="M17.5 4.5L18.5 5.5L20.5 3.5"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  ),
+  redline: (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+      <path
+        d="M14 3H7C5.9 3 5 3.9 5 5V19C5 20.1 5.9 21 7 21H17C18.1 21 19 20.1 19 19V8L14 3Z"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path d="M14 3V8H19" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M8.5 13.5L15.5 13.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.35" />
+      <path d="M8.5 16.5H13.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.6" />
+      <path
+        d="M16 17.5L19 14.5"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+      />
+      <path
+        d="M16.5 14.5H19V17.5"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  ),
+  research: (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+      <circle cx="10.5" cy="10.5" r="6" stroke="currentColor" strokeWidth="1.8" />
+      <path d="M15.5 15.5L20 20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <path d="M8 10.5H13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.5" />
+      <path d="M10.5 8V13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.7" />
+    </svg>
+  ),
+  matters: (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+      <rect x="3" y="7" width="18" height="13" rx="2" stroke="currentColor" strokeWidth="1.8" />
+      <path d="M8 7V5.5C8 4.7 8.7 4 9.5 4H14.5C15.3 4 16 4.7 16 5.5V7" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+      <path d="M3 11H21" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.5" />
+      <path d="M9.5 14.5H14.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.7" />
+      <path d="M9.5 17H12.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.4" />
+    </svg>
+  ),
+  templates: (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+      <path
+        d="M7 4H15L19 8V19C19 20.1 18.1 21 17 21H7C5.9 21 5 20.1 5 19V6C5 4.9 5.9 4 7 4Z"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path d="M15 4V8H19" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+      <path
+        d="M9 4H5C3.9 4 3 4.9 3 6V17C3 18.1 3.9 19 5 19"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        opacity="0.45"
+      />
+      <path d="M9 12H15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.6" />
+      <path d="M9 15H13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.4" />
+    </svg>
+  ),
 }
 
+const FEATURE_DESKTOP_ROWS = [
+  { cols: "lg:grid-cols-[1fr_1.35fr]", indices: [1, 0], staggers: [0, 1] },
+  { cols: "lg:grid-cols-3", indices: [2, 5, 6], staggers: [2, 3, 4] },
+  { cols: "lg:grid-cols-[1fr_1.35fr]", indices: [7, 3], staggers: [5, 6] },
+  { cols: "lg:grid-cols-3", indices: [4, 8, 9], staggers: [7, 8, 9] },
+] as const
+
 const JURISDICTION_KEYS = ["ba", "rs", "hr", "me", "si"] as const
+
+const JURISDICTION_PILL_CLASS =
+  "inline-flex shrink-0 items-center rounded-full border border-border bg-background/80 px-5 py-2.5 text-base font-medium text-foreground sm:px-6 sm:py-3 sm:text-lg"
 
 const HOW_STEPS = [
   { n: 1, icon: UserPlus },
@@ -110,12 +207,17 @@ const HOME_ENTER =
 const HOME_ENTER_HERO =
   "motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-6 motion-safe:duration-[900ms] motion-safe:ease-out motion-safe:fill-mode-forwards"
 
-const STAGGER_5 = [
+const STAGGER_10 = [
   "motion-safe:delay-0",
   "motion-safe:delay-75",
   "motion-safe:delay-150",
   "motion-safe:delay-225",
   "motion-safe:delay-300",
+  "motion-safe:delay-[375ms]",
+  "motion-safe:delay-[450ms]",
+  "motion-safe:delay-[525ms]",
+  "motion-safe:delay-[600ms]",
+  "motion-safe:delay-[675ms]",
 ] as const
 
 const STAGGER_3 = [
@@ -433,7 +535,7 @@ export function HomeClient({ signupStatus, initialSignedIn }: Props) {
 
         {/* Jurisdiction bar */}
         <section
-          className="border-b border-t border-border bg-muted/10 py-8"
+          className="border-b border-t border-border bg-muted/10 py-10 sm:py-12"
           aria-labelledby="jurisdiction-bar-heading"
         >
           <div className="mx-auto max-w-6xl px-4 sm:px-6">
@@ -443,12 +545,25 @@ export function HomeClient({ signupStatus, initialSignedIn }: Props) {
             >
               {t("home.jurisdictionBar.title")}
             </h2>
-            <div className="mt-5 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+            <div className="relative mt-6 overflow-hidden jurisdiction-marquee-viewport motion-reduce:hidden">
+              <div className="jurisdiction-marquee-track flex w-max items-center gap-4 sm:gap-6">
+                {(
+                  [
+                    ...JURISDICTION_KEYS,
+                    ...JURISDICTION_KEYS,
+                    ...JURISDICTION_KEYS,
+                    ...JURISDICTION_KEYS,
+                  ] as const
+                ).map((key, i) => (
+                  <span key={`${key}-${i}`} className={JURISDICTION_PILL_CLASS}>
+                    {t(`home.jurisdictionBar.countries.${key}`)}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <div className="mt-6 hidden flex-wrap items-center justify-center gap-4 motion-reduce:flex sm:gap-6">
               {JURISDICTION_KEYS.map((key) => (
-                <span
-                  key={key}
-                  className="inline-flex items-center rounded-full border border-border bg-background/80 px-3 py-1.5 text-sm text-foreground"
-                >
+                <span key={key} className={JURISDICTION_PILL_CLASS}>
                   {t(`home.jurisdictionBar.countries.${key}`)}
                 </span>
               ))}
@@ -530,7 +645,7 @@ export function HomeClient({ signupStatus, initialSignedIn }: Props) {
                 <ScrollReveal
                   key={f.id}
                   className="h-full min-h-0"
-                  revealClassName={cn(HOME_ENTER, STAGGER_5[i])}
+                  revealClassName={cn(HOME_ENTER, STAGGER_10[i])}
                 >
                   <FeatureCard
                     title={t(`home.features.items.${f.id}.title`)}
@@ -542,40 +657,27 @@ export function HomeClient({ signupStatus, initialSignedIn }: Props) {
               ))}
             </div>
             <div className="mt-12 hidden gap-6 lg:grid">
-              <div className="grid gap-6 lg:grid-cols-[1fr_1.35fr]">
-                <ScrollReveal className="h-full min-h-0" revealClassName={cn(HOME_ENTER, STAGGER_5[0])}>
-                  <FeatureCard
-                    title={t(`home.features.items.${FEATURES[1].id}.title`)}
-                    description={t(`home.features.items.${FEATURES[1].id}.description`)}
-                    icon={FEATURE_CARD_ICONS[FEATURES[1].id]}
-                    className="h-full"
-                  />
-                </ScrollReveal>
-                <ScrollReveal className="h-full min-h-0" revealClassName={cn(HOME_ENTER, STAGGER_5[1])}>
-                  <FeatureCard
-                    title={t(`home.features.items.${FEATURES[0].id}.title`)}
-                    description={t(`home.features.items.${FEATURES[0].id}.description`)}
-                    icon={FEATURE_CARD_ICONS[FEATURES[0].id]}
-                    className="h-full"
-                  />
-                </ScrollReveal>
-              </div>
-              <div className="grid gap-6 lg:grid-cols-3">
-                {FEATURES.slice(2).map((f, i) => (
-                  <ScrollReveal
-                    key={f.id}
-                    className="h-full min-h-0"
-                    revealClassName={cn(HOME_ENTER, STAGGER_5[i + 2])}
-                  >
-                    <FeatureCard
-                      title={t(`home.features.items.${f.id}.title`)}
-                      description={t(`home.features.items.${f.id}.description`)}
-                      icon={FEATURE_CARD_ICONS[f.id]}
-                      className="h-full"
-                    />
-                  </ScrollReveal>
-                ))}
-              </div>
+              {FEATURE_DESKTOP_ROWS.map((row, rowIndex) => (
+                <div key={rowIndex} className={cn("grid gap-6", row.cols)}>
+                  {row.indices.map((featureIndex, i) => {
+                    const feature = FEATURES[featureIndex]
+                    return (
+                      <ScrollReveal
+                        key={feature.id}
+                        className="h-full min-h-0"
+                        revealClassName={cn(HOME_ENTER, STAGGER_10[row.staggers[i]])}
+                      >
+                        <FeatureCard
+                          title={t(`home.features.items.${feature.id}.title`)}
+                          description={t(`home.features.items.${feature.id}.description`)}
+                          icon={FEATURE_CARD_ICONS[feature.id]}
+                          className="h-full"
+                        />
+                      </ScrollReveal>
+                    )
+                  })}
+                </div>
+              ))}
             </div>
           </div>
         </section>

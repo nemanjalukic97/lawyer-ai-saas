@@ -6,6 +6,11 @@ export const FEATURES = [
   { id: "analysis", title: "Document Analysis", description: "Upload documents for risk and compliance review." },
   { id: "time", title: "Time Tracking", description: "Track billable time and generate invoices." },
   { id: "portal", title: "Client Portal", description: "Secure file sharing and messaging with clients." },
+  { id: "generate", title: "AI Document Generation", description: "Generate NDAs, employment contracts, leases, and other legal documents." },
+  { id: "redline", title: "Document Redlining", description: "Upload contracts and review AI-suggested edits clause by clause." },
+  { id: "research", title: "Legal Research", description: "Search statutes and legal knowledge across Balkan jurisdictions." },
+  { id: "matters", title: "Matter Management", description: "Organize work by matter and keep contracts, deadlines, time, and billing in one place." },
+  { id: "templates", title: "Template Library", description: "Browse curated, jurisdiction-specific templates for common legal documents." },
 ] as const;
 
 export const PRICING_TIERS = [

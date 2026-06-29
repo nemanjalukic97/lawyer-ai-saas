@@ -482,7 +482,7 @@ export const enMessages: Messages = {
         title: "Everything you need to work smarter",
         titleNew: "Everything a modern law firm needs",
         subtitle:
-          "One platform for drafting, prediction, analysis, time tracking, and client collaboration.",
+          "One platform for AI drafting, research, analysis, matter management, time tracking, and client collaboration.",
         seeAll: "See all features →",
         items: {
           contracts: {
@@ -509,6 +509,31 @@ export const enMessages: Messages = {
             title: "Client Portal",
             description:
               "Secure file sharing and messaging with clients. Keep conversations, documents, and status updates in one protected workspace.",
+          },
+          generate: {
+            title: "AI Document Generation",
+            description:
+              "Generate NDAs, employment contracts, leases, and other legal documents with jurisdiction-specific clauses. Produce first drafts in minutes and refine them with built-in AI assistance.",
+          },
+          redline: {
+            title: "Document Redlining",
+            description:
+              "Upload contracts and review AI-suggested edits clause by clause. Accept or reject changes and export an updated DOCX ready for final review.",
+          },
+          research: {
+            title: "Legal Research",
+            description:
+              "Search statutes and legal knowledge across Balkan jurisdictions with confidence scores. Save research sessions and build arguments with cited local sources.",
+          },
+          matters: {
+            title: "Matter Management",
+            description:
+              "Organize work by matter and keep contracts, deadlines, time, and billing in one place. Track status from intake to closure without switching tools.",
+          },
+          templates: {
+            title: "Template Library",
+            description:
+              "Browse curated, jurisdiction-specific templates for common legal documents. Start drafting from a strong baseline and adapt clauses to each client faster.",
           },
         },
       },
@@ -637,9 +662,7 @@ export const enMessages: Messages = {
       },
     },
     footer: {
-      taglineLine1:
-        "Legantis – AI legal assistant for Bosnia & Herzegovina,",
-      taglineLine2: "Serbia, Croatia, Montenegro, and Slovenia.",
+      ctaTitle: "Professional-grade AI for your law firm",
       privacy: "Privacy",
       terms: "Terms",
       contact: "Contact",

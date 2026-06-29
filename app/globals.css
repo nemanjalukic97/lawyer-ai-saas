@@ -130,3 +130,40 @@
     text-transform: capitalize;
   }
 }
+
+@keyframes jurisdiction-marquee {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.jurisdiction-marquee-viewport {
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 16%,
+    black 84%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 16%,
+    black 84%,
+    transparent 100%
+  );
+}
+
+.jurisdiction-marquee-track {
+  animation: jurisdiction-marquee 40s linear infinite;
+  width: max-content;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jurisdiction-marquee-track {
+    animation: none;
+  }
+}
