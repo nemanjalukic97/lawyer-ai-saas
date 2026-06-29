@@ -13,7 +13,7 @@ export function Footer() {
     <footer className="border-t border-border bg-muted/30">
       <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-12">
         <div className="flex flex-col items-start justify-between gap-6 border-b border-border pb-10 sm:flex-row sm:items-center">
-          <h2 className="max-w-xl text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+          <h2 className="max-w-xl text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
             {t("footer.ctaTitle")}
           </h2>
           <Button asChild size="lg" className="h-11 min-w-[200px] shrink-0 text-base sm:text-sm">

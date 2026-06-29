@@ -38,7 +38,7 @@ export default function PricingPage() {
           <div className="mx-auto max-w-6xl px-4 sm:px-6">
             <h2
               id="pricing-heading"
-              className="text-center text-2xl font-bold text-foreground sm:text-3xl"
+              className="text-center text-3xl font-bold text-foreground sm:text-4xl"
             >
               Plans
             </h2>

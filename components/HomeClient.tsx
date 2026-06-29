@@ -210,6 +210,9 @@ const HOME_ENTER =
 const HOME_ENTER_HERO =
   "motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-6 motion-safe:duration-[900ms] motion-safe:ease-out motion-safe:fill-mode-forwards"
 
+const HOME_SECTION_H2_CLASS =
+  "text-3xl font-bold tracking-tight sm:text-4xl"
+
 const HOME_HEADING_CLASS =
   "mt-6 text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl"
 
@@ -566,7 +569,10 @@ export function HomeClient({ signupStatus, initialSignedIn }: Props) {
                   {t("home.positioning.badge")}
                 </span>
               </div>
-              <h2 id="positioning-heading" className={cn(HOME_HEADING_CLASS, "text-white")}>
+              <h2
+                id="positioning-heading"
+                className={cn(HOME_SECTION_H2_CLASS, "mt-6 text-white")}
+              >
                 {t("home.positioning.titleLine1")}
                 <br />
                 {t("home.positioning.titleLine2")}
@@ -619,7 +625,7 @@ export function HomeClient({ signupStatus, initialSignedIn }: Props) {
           <div className="mx-auto max-w-6xl px-4 sm:px-6">
             <h2
               id="how-it-works-heading"
-              className="text-center text-2xl font-bold text-foreground sm:text-3xl"
+              className={cn(HOME_SECTION_H2_CLASS, "text-center text-foreground")}
             >
               {t("home.howItWorks.title")}
             </h2>
@@ -671,7 +677,7 @@ export function HomeClient({ signupStatus, initialSignedIn }: Props) {
               </Badge>
               <h2
                 id="features-heading"
-                className="text-2xl font-bold text-foreground sm:text-3xl"
+                className={cn(HOME_SECTION_H2_CLASS, "text-foreground")}
               >
                 {t("home.features.titleNew")}
               </h2>
@@ -751,7 +757,7 @@ export function HomeClient({ signupStatus, initialSignedIn }: Props) {
               </Badge>
               <h2
                 id="pricing-heading"
-                className="text-2xl font-bold text-foreground normal-case sm:text-3xl"
+                className={cn(HOME_SECTION_H2_CLASS, "text-foreground normal-case")}
               >
                 {t("home.pricing.title")}
               </h2>
@@ -864,7 +870,7 @@ export function HomeClient({ signupStatus, initialSignedIn }: Props) {
               </Badge>
               <h2
                 id="testimonials-heading"
-                className="text-2xl font-bold text-foreground sm:text-3xl"
+                className={cn(HOME_SECTION_H2_CLASS, "text-foreground")}
               >
                 {t("home.testimonials.title")}
               </h2>
@@ -903,7 +909,7 @@ export function HomeClient({ signupStatus, initialSignedIn }: Props) {
             <div className="mx-auto mb-10 max-w-2xl text-center">
               <h2
                 id="faq-heading"
-                className="text-2xl font-bold text-foreground sm:text-3xl"
+                className={cn(HOME_SECTION_H2_CLASS, "text-foreground")}
               >
                 {t("home.faq.title")}
               </h2>

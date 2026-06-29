@@ -45,6 +45,7 @@
   --radius-2xl: calc(var(--radius) + 8px);
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
+  --breakpoint-wide: 112.5rem;
 }
 
 :root {
@@ -128,6 +129,13 @@
   h2,
   h3 {
     text-transform: capitalize;
+  }
+
+  /* Scale all rem-based typography on large desktops (1800px+). */
+  @media (min-width: 1800px) {
+    html {
+      font-size: 118.75%;
+    }
   }
 }
 
