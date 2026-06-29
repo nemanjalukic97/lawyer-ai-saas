@@ -383,6 +383,21 @@ export const slMessages: Messages = {
         noCreditCard: "Kreditna kartica ni potrebna · Preklic kadarkoli",
         dashboardPreview: "Predogled nadzorne plošče",
       },
+      positioning: {
+        badge: "Več kot AI asistent",
+        titleLine1: "Pravni AI je okno za klepet.",
+        titleLine2: "Legantis vodi celoten urad.",
+        description:
+          "Večina pravnih AI orodij se konča z odgovorom v klepetu. Legantis povezuje AI pripravo in raziskovanje z vodenjem zadev, roki, evidencem časa in delom s strankami — na eni platformi, zgrajeni za balkansko prakso.",
+        pillarsAria: "Ključne funkcije urada",
+        pillars: {
+          matters: "Zadeve",
+          time: "Čas",
+          billing: "Obračunavanje",
+          schedule: "Urnik",
+          mobile: "Mobilno",
+        },
+      },
       jurisdictionBar: {
         title: "Zgrajeno za pravne redove:",
         countries: {

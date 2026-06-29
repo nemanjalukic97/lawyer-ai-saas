@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import Image from "next/image"
 import { useEffect, useRef, useState, type ReactNode } from "react"
 import { FileCheck, MessageSquare, UserPlus } from "lucide-react"
 
@@ -185,6 +186,8 @@ const FEATURE_DESKTOP_ROWS = [
   { cols: "lg:grid-cols-3", indices: [4, 8, 9], staggers: [7, 8, 9] },
 ] as const
 
+const POSITIONING_BG = "/pexels-karola-g-7876093.jpg"
+
 const JURISDICTION_KEYS = ["ba", "rs", "hr", "me", "si"] as const
 
 const JURISDICTION_PILL_CLASS =
@@ -206,6 +209,11 @@ const HOME_ENTER =
 
 const HOME_ENTER_HERO =
   "motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-6 motion-safe:duration-[900ms] motion-safe:ease-out motion-safe:fill-mode-forwards"
+
+const HOME_HEADING_CLASS =
+  "mt-6 text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl"
+
+const HOME_SUBTITLE_CLASS = "mx-auto mt-4 max-w-2xl text-lg text-muted-foreground"
 
 const STAGGER_10 = [
   "motion-safe:delay-0",
@@ -480,10 +488,10 @@ export function HomeClient({ signupStatus, initialSignedIn }: Props) {
                 {t("home.hero.trustBadge")}
               </span>
             </div>
-            <h1 className="mt-6 text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">
+            <h1 className={cn(HOME_HEADING_CLASS, "text-foreground")}>
               {renderHeroTitle(t("home.hero.title"), language)}
             </h1>
-            <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground">
+            <p className={HOME_SUBTITLE_CLASS}>
               {t("home.hero.subtitle")}
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row sm:flex-wrap sm:gap-4">
@@ -533,40 +541,71 @@ export function HomeClient({ signupStatus, initialSignedIn }: Props) {
           </div>
         </section>
 
-        {/* Jurisdiction bar */}
+        {/* Positioning + jurisdiction marquee */}
         <section
-          className="border-b border-t border-border bg-muted/10 py-10 sm:py-12"
-          aria-labelledby="jurisdiction-bar-heading"
+          className="relative overflow-hidden border-b border-border"
+          aria-labelledby="positioning-heading"
         >
-          <div className="mx-auto max-w-6xl px-4 sm:px-6">
-            <h2
-              id="jurisdiction-bar-heading"
-              className="text-center text-sm font-medium text-muted-foreground"
-            >
-              {t("home.jurisdictionBar.title")}
-            </h2>
-            <div className="relative mt-6 overflow-hidden jurisdiction-marquee-viewport motion-reduce:hidden">
-              <div className="jurisdiction-marquee-track flex w-max items-center gap-4 sm:gap-6">
-                {(
-                  [
-                    ...JURISDICTION_KEYS,
-                    ...JURISDICTION_KEYS,
-                    ...JURISDICTION_KEYS,
-                    ...JURISDICTION_KEYS,
-                  ] as const
-                ).map((key, i) => (
-                  <span key={`${key}-${i}`} className={JURISDICTION_PILL_CLASS}>
+          <div aria-hidden="true" className="pointer-events-none absolute inset-0">
+            <Image
+              src={POSITIONING_BG}
+              alt=""
+              fill
+              quality={90}
+              sizes="100vw"
+              className="object-cover object-center"
+            />
+            <div className="absolute inset-0 bg-gradient-to-br from-[#070b14]/94 via-[#0c1222]/88 to-[#070b14]/95" />
+            <div className="absolute inset-0 bg-[#1B4FD8]/[0.12]" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#070b14]/60 via-transparent to-[#070b14]/30" />
+          </div>
+          <div className="relative z-10 mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-28">
+            <ScrollReveal className="w-full text-center" revealClassName={HOME_ENTER}>
+              <div className="flex justify-center">
+                <span className="inline-flex items-center rounded-full border border-border bg-background/60 px-3 py-1 text-xs text-muted-foreground">
+                  {t("home.positioning.badge")}
+                </span>
+              </div>
+              <h2 id="positioning-heading" className={cn(HOME_HEADING_CLASS, "text-white")}>
+                {t("home.positioning.titleLine1")}
+                <br />
+                {t("home.positioning.titleLine2")}
+              </h2>
+              <p className={HOME_SUBTITLE_CLASS}>
+                {t("home.positioning.description")}
+              </p>
+            </ScrollReveal>
+
+            <div className="mt-14 sm:mt-16" aria-labelledby="jurisdiction-bar-heading">
+              <h2
+                id="jurisdiction-bar-heading"
+                className="text-center text-sm font-medium text-white/70"
+              >
+                {t("home.jurisdictionBar.title")}
+              </h2>
+              <div className="relative mt-6 overflow-hidden jurisdiction-marquee-viewport motion-reduce:hidden">
+                <div className="jurisdiction-marquee-track flex w-max items-center gap-4 sm:gap-6">
+                  {(
+                    [
+                      ...JURISDICTION_KEYS,
+                      ...JURISDICTION_KEYS,
+                      ...JURISDICTION_KEYS,
+                      ...JURISDICTION_KEYS,
+                    ] as const
+                  ).map((key, i) => (
+                    <span key={`${key}-${i}`} className={JURISDICTION_PILL_CLASS}>
+                      {t(`home.jurisdictionBar.countries.${key}`)}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <div className="mt-6 hidden flex-wrap items-center justify-center gap-4 motion-reduce:flex sm:gap-6">
+                {JURISDICTION_KEYS.map((key) => (
+                  <span key={key} className={JURISDICTION_PILL_CLASS}>
                     {t(`home.jurisdictionBar.countries.${key}`)}
                   </span>
                 ))}
               </div>
-            </div>
-            <div className="mt-6 hidden flex-wrap items-center justify-center gap-4 motion-reduce:flex sm:gap-6">
-              {JURISDICTION_KEYS.map((key) => (
-                <span key={key} className={JURISDICTION_PILL_CLASS}>
-                  {t(`home.jurisdictionBar.countries.${key}`)}
-                </span>
-              ))}
             </div>
           </div>
         </section>
@@ -574,7 +613,7 @@ export function HomeClient({ signupStatus, initialSignedIn }: Props) {
         {/* How it works */}
         <section
           id="how-it-works"
-          className="scroll-mt-14 border-b border-border py-16 sm:py-24"
+          className="scroll-mt-14 border-b border-border py-[126px] sm:py-[158px]"
           aria-labelledby="how-it-works-heading"
         >
           <div className="mx-auto max-w-6xl px-4 sm:px-6">

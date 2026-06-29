@@ -452,6 +452,21 @@ export const enMessages: Messages = {
         noCreditCard: "No credit card required · Cancel anytime",
         dashboardPreview: "Dashboard preview",
       },
+      positioning: {
+        badge: "More than an AI assistant",
+        titleLine1: "Legal AI is a chat window.",
+        titleLine2: "Legantis runs your entire practice.",
+        description:
+          "Most legal AI tools stop at a chat reply. Legantis connects AI drafting and research with matter management, deadlines, time tracking, and client work — in one platform built for Balkan law practice.",
+        pillarsAria: "Core practice areas",
+        pillars: {
+          matters: "Matters",
+          time: "Time",
+          billing: "Billing",
+          schedule: "Schedule",
+          mobile: "Mobile",
+        },
+      },
       jurisdictionBar: {
         title: "Built for the legal systems of:",
         countries: {
