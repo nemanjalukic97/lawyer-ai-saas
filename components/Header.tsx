@@ -80,49 +80,49 @@ export function Header({ initialSignedIn }: HeaderProps) {
       <nav className="mx-auto flex h-[68px] max-w-6xl items-center justify-between px-4 sm:px-6 max-[479px]:px-3">
         <NavbarBrand href="/" onClick={closeMenu} />
 
-        <div className="hidden items-center gap-6 min-[992px]:flex">
-          <Link href="#features" className={navLinkClass}>
-            {t("nav.features")}
-          </Link>
-          <Link href="#pricing" className={navLinkClass}>
-            {t("nav.pricing")}
-          </Link>
+        <div className="flex items-center gap-3">
           <LanguageSwitcher />
-          {signedIn ? (
-            <>
-              <Button asChild size="sm">
-                <Link href="/dashboard">{t("nav.dashboard")} →</Link>
-              </Button>
-              <form action="/auth/signout" method="post">
-                <Button type="submit" variant="outline" size="sm">
-                  {t("nav.logout")}
+          <div className="hidden items-center gap-6 min-[992px]:flex">
+            <Link href="#features" className={navLinkClass}>
+              {t("nav.features")}
+            </Link>
+            <Link href="#pricing" className={navLinkClass}>
+              {t("nav.pricing")}
+            </Link>
+            {signedIn ? (
+              <>
+                <Button asChild size="sm">
+                  <Link href="/dashboard">{t("nav.dashboard")} →</Link>
                 </Button>
-              </form>
-            </>
-          ) : (
-            <>
-              <Link href="/login" className={navLinkClass}>
-                {t("nav.login")}
-              </Link>
-              <Button asChild size="sm">
-                <Link href="/signup">{t("nav.getStarted")}</Link>
-              </Button>
-            </>
-          )}
-        </div>
-
-        <div className="flex items-center gap-3 min-[992px]:hidden">
-          <LanguageSwitcher />
-          <Button
-            type="button"
-            variant="ghost"
-            size="icon"
-            aria-expanded={mobileOpen}
-            aria-label={mobileOpen ? "Close menu" : "Open menu"}
-            onClick={() => (mobileOpen ? closeMenu() : openMenu())}
-          >
-            <HamburgerIcon open={mobileOpen} />
-          </Button>
+                <form action="/auth/signout" method="post">
+                  <Button type="submit" variant="outline" size="sm">
+                    {t("nav.logout")}
+                  </Button>
+                </form>
+              </>
+            ) : (
+              <>
+                <Link href="/login" className={navLinkClass}>
+                  {t("nav.login")}
+                </Link>
+                <Button asChild size="sm">
+                  <Link href="/signup">{t("nav.getStarted")}</Link>
+                </Button>
+              </>
+            )}
+          </div>
+          <div className="min-[992px]:hidden">
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              aria-expanded={mobileOpen}
+              aria-label={mobileOpen ? "Close menu" : "Open menu"}
+              onClick={() => (mobileOpen ? closeMenu() : openMenu())}
+            >
+              <HamburgerIcon open={mobileOpen} />
+            </Button>
+          </div>
         </div>
       </nav>
 

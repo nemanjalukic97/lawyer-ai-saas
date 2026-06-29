@@ -11,6 +11,9 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   /* config options here */
   turbopack: {},
+  images: {
+    qualities: [75, 90],
+  },
   typescript: {
     // Prevent Vercel TypeScript errors from blocking builds.
     ignoreBuildErrors: true,

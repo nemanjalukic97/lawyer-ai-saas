@@ -90,9 +90,16 @@ export function LanguageProvider({
   const [language, setLanguageState] = useState<LanguageCode>(initialLanguage)
 
   useEffect(() => {
-    const detected = detectLanguage()
+    const fromCookie = readLanguageFromCookie()
+    const fromStorage =
+      typeof window !== "undefined" ? window.localStorage.getItem(STORAGE_KEY) : null
+    const detected =
+      fromStorage && MESSAGES[fromStorage as LanguageCode]
+        ? (fromStorage as LanguageCode)
+        : fromCookie ?? initialLanguage
+
     setLanguageState((prev) => (detected !== prev ? detected : prev))
-  }, [])
+  }, [initialLanguage])
 
   useEffect(() => {
     if (typeof document === "undefined") return
