@@ -787,25 +787,25 @@ export function HomeClient({ signupStatus, initialSignedIn }: Props) {
                 </ScrollReveal>
               ))}
             </div>
-            <div className="mt-20 overflow-x-auto rounded-xl border border-border">
-              <table className="w-full min-w-[480px] border-collapse text-sm">
+            <div className="mt-20 overflow-x-auto rounded-xl border border-border bg-background">
+              <table className="w-full min-w-[480px] border-collapse bg-background text-sm">
                 <thead>
                   <tr className="border-b border-border bg-muted">
-                    <th className="px-4 py-3 text-left font-medium text-white opacity-100">
+                    <th className="px-4 py-3 text-left font-medium text-foreground">
                       {t("home.pricing.comparison.colFeature")}
                     </th>
-                    <th className="px-4 py-3 text-left font-medium text-white opacity-100">
+                    <th className="px-4 py-3 text-left font-medium text-foreground">
                       {t("home.pricing.comparison.colSolo")}
                     </th>
-                    <th className="px-4 py-3 text-left font-medium text-white opacity-100">
+                    <th className="px-4 py-3 text-left font-medium text-foreground">
                       {t("home.pricing.comparison.colProfessional")}
                     </th>
-                    <th className="px-4 py-3 text-left font-medium text-white opacity-100">
+                    <th className="px-4 py-3 text-left font-medium text-foreground">
                       {t("home.pricing.comparison.colFirm")}
                     </th>
                   </tr>
                 </thead>
-                <tbody className="text-white">
+                <tbody className="bg-muted/10 text-foreground">
                   <tr className="border-b border-border/80">
                     <td className="px-4 py-3">
                       {t("home.pricing.comparison.rowAiCalls")}
