@@ -341,7 +341,7 @@ export function HomeClient({ signupStatus, initialSignedIn }: Props) {
   }, [])
 
   return (
-    <div className="relative flex flex-col overflow-x-hidden">
+    <div className="relative flex flex-col overflow-x-clip">
       <div aria-hidden="true" className="pointer-events-none absolute" style={{ left: "-180px", top: "1800px", zIndex: 0 }}>
         {/* Outer ring */}
         <div
@@ -466,11 +466,12 @@ export function HomeClient({ signupStatus, initialSignedIn }: Props) {
         }}
       />
       <main className="relative z-10 flex-1">
+        <div className="sticky top-0 z-50 px-3 pt-3 sm:px-6">
+          <Header initialSignedIn={initialSignedIn} />
+        </div>
+
         {/* Hero */}
-        <section className="relative z-0 overflow-hidden flex min-h-[85dvh] flex-col border-b border-border bg-muted/20 md:min-h-[90dvh]">
-          <div className="sticky top-3 z-50 px-3 sm:px-6">
-            <Header initialSignedIn={initialSignedIn} />
-          </div>
+        <section className="relative z-0 overflow-hidden flex min-h-[calc(100dvh-4.25rem)] flex-col border-b border-border bg-muted/20">
           <div
             aria-hidden="true"
             className="pointer-events-none absolute inset-0 overflow-hidden"

@@ -5,13 +5,13 @@ import { useRouter } from "next/navigation"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useLanguage, type LanguageCode } from "@/components/LanguageProvider"
 
-const LANGUAGES: { code: LanguageCode; label: string; flag: string }[] = [
-  { code: "en", label: "EN", flag: "🇬🇧" },
-  { code: "sr", label: "SRB", flag: "🇷🇸" },
-  { code: "bs", label: "BOS", flag: "🇧🇦" },
-  { code: "hr", label: "CRO", flag: "🇭🇷" },
-  { code: "sl", label: "SLO", flag: "🇸🇮" },
-  { code: "me", label: "MNE", flag: "🇲🇪" },
+const LANGUAGES: { code: LanguageCode; label: string; countryCode: string }[] = [
+  { code: "en", label: "EN", countryCode: "gb" },
+  { code: "sr", label: "SRB", countryCode: "rs" },
+  { code: "bs", label: "BOS", countryCode: "ba" },
+  { code: "hr", label: "CRO", countryCode: "hr" },
+  { code: "sl", label: "SLO", countryCode: "si" },
+  { code: "me", label: "MNE", countryCode: "me" },
 ]
 
 export function LanguageSwitcher() {
@@ -35,9 +35,11 @@ export function LanguageSwitcher() {
         <SelectValue aria-label="Language">
           {selected ? (
             <span className="flex items-center gap-1">
-              <span aria-hidden="true" className="text-xs leading-none">
-                {selected.flag}
-              </span>
+              <span
+                className={`fi fi-${selected.countryCode} w-4`}
+                style={{ borderRadius: "2px" }}
+                aria-hidden="true"
+              />
               <span>{selected.label}</span>
             </span>
           ) : (
@@ -49,7 +51,11 @@ export function LanguageSwitcher() {
         {LANGUAGES.map((lang) => (
           <SelectItem key={lang.code} value={lang.code}>
             <span className="flex items-center gap-2">
-              <span aria-hidden="true">{lang.flag}</span>
+              <span
+                className={`fi fi-${lang.countryCode} w-4`}
+                style={{ borderRadius: "2px" }}
+                aria-hidden="true"
+              />
               <span>{lang.label}</span>
             </span>
           </SelectItem>
