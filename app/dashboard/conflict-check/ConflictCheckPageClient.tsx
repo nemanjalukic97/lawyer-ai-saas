@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useLanguage } from "@/components/LanguageProvider"
+import { localeForLanguage } from "@/lib/i18n/locale"
 import { cn } from "@/lib/utils"
 import type { EntitlementPlanId } from "../lib/entitlements"
 import { ShieldAlert, Trash2, Loader2 } from "lucide-react"
@@ -42,16 +43,25 @@ type HistoryItem = {
 
 const PAGE_SIZE = 12
 
-function formatDate(value: string): string {
+function formatDate(value: string, locale: string): string {
   const d = new Date(value)
   if (Number.isNaN(d.getTime())) return value
-  return d.toLocaleString(undefined, {
+  return d.toLocaleString(locale, {
     year: "numeric",
     month: "short",
     day: "numeric",
     hour: "2-digit",
     minute: "2-digit",
   })
+}
+
+function historySummary(
+  item: HistoryItem,
+  t: (key: string) => string
+): string {
+  return item.has_conflict
+    ? t("conflict.history.summary.hasMatches")
+    : t("conflict.history.summary.clear")
 }
 
 function badgeClass(kind: "clear" | "conflict"): string {
@@ -64,7 +74,8 @@ function badgeClass(kind: "clear" | "conflict"): string {
 }
 
 export function ConflictCheckPageClient({ planId }: { planId: EntitlementPlanId }) {
-  const { t } = useLanguage()
+  const { t, language } = useLanguage()
+  const dateLocale = localeForLanguage(language)
   const canViewHistory = planId === "professional" || planId === "firm"
 
   const [query, setQuery] = useState("")
@@ -339,10 +350,10 @@ export function ConflictCheckPageClient({ planId }: { planId: EntitlementPlanId 
                           {item.search_query}
                         </p>
                         <p className="text-xs text-muted-foreground/40">
-                          {formatDate(item.created_at)}
+                          {formatDate(item.created_at, dateLocale)}
                         </p>
                         <p className="text-xs text-muted-foreground/60 mt-0.5">
-                          {item.results_summary}
+                          {historySummary(item, t)}
                         </p>
                         {item.override && (
                           <p className="text-xs text-amber-400 mt-0.5">

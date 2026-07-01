@@ -941,7 +941,7 @@ export default function PredictionsPageClient({ selectedId, prefillMatterId }: C
                       <Scale className="h-5 w-5 text-muted-foreground/40" />
                     </div>
                     <p className="text-sm text-muted-foreground/60">
-                      Run a prediction to see the analysis
+                      {t("predictions.result.emptyShort")}
                     </p>
                   </div>
                 )}
@@ -960,7 +960,7 @@ export default function PredictionsPageClient({ selectedId, prefillMatterId }: C
                   <Scale className="h-5 w-5 text-muted-foreground/40" />
                 </div>
                 <p className="text-sm text-muted-foreground/60">
-                  Run a prediction to see the analysis
+                  {t("predictions.result.emptyShort")}
                 </p>
                 <Button asChild variant="outline" size="sm" className="mt-2">
                   <Link href="/dashboard/activity">

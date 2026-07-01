@@ -953,7 +953,7 @@ export default function DocumentAnalysisPage({
                       <FileSearch className="h-5 w-5 text-muted-foreground/40" />
                     </div>
                     <p className="text-sm text-muted-foreground/60">
-                      Upload a document and run analysis to see results
+                      {t("analyze.result.emptyShort")}
                     </p>
                   </div>
                 )}
@@ -974,7 +974,7 @@ export default function DocumentAnalysisPage({
                   <FileSearch className="h-5 w-5 text-muted-foreground/40" />
                 </div>
                 <p className="text-sm text-muted-foreground/60">
-                  Upload a document and run analysis to see results
+                  {t("analyze.result.emptyShort")}
                 </p>
                 <Button asChild variant="outline" size="sm" className="mt-2">
                   <Link href="/dashboard/activity">

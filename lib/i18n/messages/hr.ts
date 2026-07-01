@@ -736,6 +736,10 @@ export const hrMessages: Messages = {
         refreshing: "Osvježavam…",
         loading: "Učitavanje povijesti…",
         empty: "Još nema provjera sukoba.",
+        summary: {
+          clear: "Nisu pronađeni sukobi.",
+          hasMatches: "Pronađeni su potencijalni sukobi.",
+        },
         upgradeHint:
           "Povijest provjera sukoba dostupna je na Professional i Firm planovima.",
         badges: {
@@ -1567,6 +1571,7 @@ export const hrMessages: Messages = {
       },
       list: {
         empty: "Nema rokova za ovaj filter.",
+        emptyHint: "Dodajte rok kako biste pratili važne datume.",
         done: "Gotovo",
         overdueDays: "Prekoračeno {n} dana",
         dueToday: "Rok danas",
@@ -1587,6 +1592,13 @@ export const hrMessages: Messages = {
         complete: "Označi kao završeno",
         edit: "Uredi",
         delete: "Obriši",
+      },
+      testReminder: {
+        send: "Pošalji probni podsjetnik",
+        sending: "Šaljem…",
+        summary: "Poslano: {sent}",
+        summaryWithErrors: "Poslano: {sent}, Greške: {count}",
+        failed: "Pokretanje probnih podsjetnika nije uspjelo",
       },
       dialog: {
         titleNew: "Novi rok",
@@ -1714,6 +1726,7 @@ export const hrMessages: Messages = {
         },
         empty:
           "Generirani dokument će se pojaviti ovdje. Odaberite vrstu dokumenta, jurisdikciju i jezik, unesite ključne detalje i kliknite „Generiraj dokument” kako biste kreirali nacrt prilagođen vašem slučaju.",
+        emptyShort: "Generirani dokument pojavit će se ovdje",
         caseLawSection: {
           title: "Relevantna sudska praksa",
           basedOn: "Na temelju {count} presuda iz baze sudske prakse.",
@@ -1944,6 +1957,7 @@ export const hrMessages: Messages = {
         saved: "Predviđanje je spremljeno u radni prostor.",
         empty:
           "Vaše predviđanje će se pojaviti ovdje nakon analize. Vidjet ćete vjerojatnost ishoda, razinu pouzdanosti, ključne faktore, relevantne presedane, preporuke i rizike, uz jasno odricanje odgovornosti.",
+        emptyShort: "Pokrenite predviđanje da biste vidjeli analizu",
       },
       sidebar: {
         title: "Detalji predviđanja",
@@ -2056,6 +2070,7 @@ export const hrMessages: Messages = {
         saved: "Analiza je spremljena u radni prostor.",
         empty:
           "Analiza dokumenta će se pojaviti ovdje nakon što učitate datoteku i pokrenete analizu. Vidjet ćete sažetak, ukupni rizik skor te pregled rizičnih klauzula, nedostajućih odredbi, problema usklađenosti i preporučenih izmjena.",
+        emptyShort: "Prenesite dokument i pokrenite analizu da biste vidjeli rezultate",
       },
       report: {
         sections: {

@@ -28,3 +28,14 @@ export function formatDueHeading(iso: string, locale?: string): string {
     year: "numeric",
   })
 }
+
+/** Month + year label for calendar headers (month in uppercase). */
+export function formatCalendarMonth(date: Date, locale?: string): string {
+  const formatted = date.toLocaleString(locale, {
+    month: "long",
+    year: "numeric",
+  })
+  return formatted.replace(/^([\p{L}]+)/u, (month) =>
+    month.toLocaleUpperCase(locale)
+  )
+}

@@ -1,4 +1,5 @@
 import type { LanguageCode } from "@/components/LanguageProvider"
+import { localeForLanguage } from "@/lib/i18n/locale"
 import type { Database } from "@/lib/supabase/types"
 
 type DeadlineType = Database["public"]["Enums"]["deadline_type"]
@@ -32,23 +33,6 @@ function normalizeLanguage(input?: string | null): LanguageCode {
   if (!raw) return "en"
   const primary = raw.split(/[-_]/)[0] as LanguageCode
   return (SUPPORTED_LANGUAGES as readonly string[]).includes(primary) ? primary : "en"
-}
-
-function localeForLanguage(lang: LanguageCode): string {
-  switch (lang) {
-    case "en":
-      return "en-US"
-    case "sr":
-      return "sr-Latn-RS"
-    case "bs":
-      return "bs-BA"
-    case "hr":
-      return "hr-HR"
-    case "sl":
-      return "sl-SI"
-    case "me":
-      return "sr-Latn-ME"
-  }
 }
 
 function escapeHtml(input: string): string {

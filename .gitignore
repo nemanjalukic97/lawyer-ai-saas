@@ -51,6 +51,13 @@ tmp-*/
 tmp-bih-*/
 tmp-serbia-*/
 
+# outreach scripts - personal data / sending config (never commit)
+scripts/outreach/imenik_advokata_master.csv
+scripts/outreach/outreach_config.json
+scripts/outreach/*.docx
+scripts/outreach/zastupnici_zig.csv
+
+
 # python cache
 **/__pycache__/
 

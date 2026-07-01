@@ -247,7 +247,9 @@ export default function RefundPage() {
 
   return (
     <div className="flex flex-col">
-      <Header />
+      <div className="sticky top-3 z-50 px-3 sm:px-6">
+        <Header />
+      </div>
 
       <main className="flex-1">
         <section className="border-b border-border bg-muted/20 py-16 sm:py-24">

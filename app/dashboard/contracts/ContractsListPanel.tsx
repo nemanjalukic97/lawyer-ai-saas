@@ -18,6 +18,8 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import { useLanguage } from "@/components/LanguageProvider"
+import { formatContractDisplayTitle } from "@/lib/contracts/formatContractDisplayTitle"
+import { localeForLanguage } from "@/lib/i18n/locale"
 import { createClient } from "@/lib/supabase/client"
 import { logActivity } from "@/lib/activity/logActivity"
 import { Trash2 } from "lucide-react"
@@ -25,6 +27,8 @@ import { Trash2 } from "lucide-react"
 type ContractRow = {
   id: string
   title: string
+  contract_type: string | null
+  party_names: Record<string, string> | null
   created_at: string | null
   signature_status: "none" | "pending" | "signed" | "expired" | "cancelled" | null
   signature_request_id: string | null
@@ -66,7 +70,8 @@ export default function ContractsListPanel({
   refreshToken?: number
 }) {
   const supabase = useMemo(() => createClient(), [])
-  const { t } = useLanguage()
+  const { t, language } = useLanguage()
+  const dateLocale = localeForLanguage(language)
 
   const pageSize = 3
 
@@ -90,7 +95,9 @@ export default function ContractsListPanel({
     try {
       const { data, error } = await supabase
         .from("contracts")
-        .select("id, title, created_at, status, signature_status, signature_request_id, signed_pdf_path")
+        .select(
+          "id, title, contract_type, party_names, created_at, status, signature_status, signature_request_id, signed_pdf_path"
+        )
         .is("deleted_at", null)
         .order("created_at", { ascending: false })
         .limit(50)
@@ -309,11 +316,16 @@ export default function ContractsListPanel({
                       className="block text-sm font-medium break-words text-foreground hover:underline hyphens-auto sm:truncate sm:leading-snug sm:text-base"
                       href={`/dashboard/contracts?id=${r.id}`}
                     >
-                      {r.title}
+                      {formatContractDisplayTitle(
+                        r.title,
+                        r.contract_type,
+                        r.party_names,
+                        t
+                      )}
                     </Link>
                     {r.created_at ? (
                       <div className="mt-0.5 text-xs text-muted-foreground">
-                        {new Date(r.created_at).toLocaleDateString()}
+                        {new Date(r.created_at).toLocaleDateString(dateLocale)}
                       </div>
                     ) : null}
                   </div>

@@ -778,6 +778,7 @@ export const enMessages: Messages = {
         },
         empty:
           "Your generated document will appear here. Select the document type, jurisdiction, and language, fill in the key details, and click “Generate document” to create a draft tailored to your case.",
+        emptyShort: "Your generated document will appear here",
         caseLawSection: {
           title: "Relevant Case Law",
           basedOn: "Based on {count} decisions from the case law database.",
@@ -1020,6 +1021,7 @@ export const enMessages: Messages = {
         saved: "Prediction saved to workspace.",
         empty:
           "Your case prediction will appear here after you run an analysis. You will see outcome probability, confidence level, key factors, relevant precedents, strategic recommendations, and risks, together with a clear disclaimer.",
+        emptyShort: "Run a prediction to see the analysis",
       },
       sidebar: {
         title: "Prediction details",
@@ -1132,6 +1134,7 @@ export const enMessages: Messages = {
         saved: "Analysis saved to workspace.",
         empty:
           "Your document analysis will appear here after you upload a file and run an analysis. You'll see an executive summary, overall risk score, and a breakdown of risky clauses, missing provisions, compliance issues, and recommended changes, presented in clear language suitable for lawyers.",
+        emptyShort: "Upload a document and run analysis to see results",
       },
       report: {
         sections: {
@@ -1517,6 +1520,10 @@ export const enMessages: Messages = {
         refreshing: "Refreshing…",
         loading: "Loading history…",
         empty: "No conflict checks yet.",
+        summary: {
+          clear: "No conflicts found.",
+          hasMatches: "Potential conflicts found.",
+        },
         upgradeHint:
           "Conflict check history is available on Professional and Firm plans.",
         badges: {
@@ -2236,6 +2243,7 @@ export const enMessages: Messages = {
       },
       list: {
         empty: "No deadlines match this filter.",
+        emptyHint: "Add a deadline to stay on top of important dates.",
         done: "Done",
         overdueDays: "{n} days overdue",
         dueToday: "Due today",
@@ -2256,6 +2264,13 @@ export const enMessages: Messages = {
         complete: "Mark complete",
         edit: "Edit",
         delete: "Delete",
+      },
+      testReminder: {
+        send: "Send test reminder",
+        sending: "Sending…",
+        summary: "Sent: {sent}",
+        summaryWithErrors: "Sent: {sent}, Errors: {count}",
+        failed: "Failed to run test reminders",
       },
       dialog: {
         titleNew: "New deadline",

@@ -1006,7 +1006,7 @@ export default function GeneratePageClient({ selectedId, templateId }: Props) {
                       <FileText className="h-5 w-5 text-muted-foreground/40" />
                     </div>
                     <p className="text-sm text-muted-foreground/60">
-                      Your generated document will appear here
+                      {t("generate.result.emptyShort")}
                     </p>
                   </div>
                 )}
@@ -1030,7 +1030,7 @@ export default function GeneratePageClient({ selectedId, templateId }: Props) {
                   <FileText className="h-5 w-5 text-muted-foreground/40" />
                 </div>
                 <p className="text-sm text-muted-foreground/60">
-                  Your generated document will appear here
+                  {t("generate.result.emptyShort")}
                 </p>
                 <Button asChild variant="outline" size="sm" className="mt-2">
                   <Link href="/dashboard/activity">

@@ -27,6 +27,7 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { useLanguage } from "@/components/LanguageProvider"
+import { localeForLanguage } from "@/lib/i18n/locale"
 import { cn } from "@/lib/utils"
 import type { ActivityItem } from "./lib/activity"
 import { ACTIVITY_HREF_BY_TYPE } from "./lib/activity"
@@ -37,7 +38,7 @@ import {
   type EntitlementPlanId,
 } from "./lib/entitlements"
 import { getEffectiveStatus } from "./deadlines/lib/effectiveStatus"
-import { calendarDaysUntil, formatDueHeading } from "./deadlines/lib/dates"
+import { calendarDaysUntil, formatCalendarMonth, formatDueHeading } from "./deadlines/lib/dates"
 import type { Tables } from "@/lib/supabase/types"
 
 type FeatureUsagePoint = {
@@ -130,7 +131,8 @@ export function DashboardClient({
   top3Deadlines,
   activeMatters,
 }: Props) {
-  const { t } = useLanguage()
+  const { t, language } = useLanguage()
+  const dateLocale = localeForLanguage(language)
 
   const trialEndsIso = firmTrialEndsAt ?? profileTrialEndsAt
   const canPredict = hasFeature(planId, "case_prediction")
@@ -160,10 +162,7 @@ export function DashboardClient({
 
   const today = new Date()
   const calendarMonthStart = new Date(today.getFullYear(), today.getMonth(), 1)
-  const calendarMonthLabel = calendarMonthStart.toLocaleString(undefined, {
-    month: "long",
-    year: "numeric",
-  })
+  const calendarMonthLabel = formatCalendarMonth(calendarMonthStart, dateLocale)
 
   function isoDayKey(date: Date): string {
     const y = date.getFullYear()
@@ -342,7 +341,9 @@ export function DashboardClient({
                     <span className={cn("mt-1.5 size-2 shrink-0 rounded-full", urgencyDotClass(d))} aria-hidden />
                     <div className="min-w-0 flex-1">
                       <p className="text-sm font-medium leading-snug">{d.title}</p>
-                      <p className="text-xs text-muted-foreground">{formatDueHeading(d.due_date)}</p>
+                      <p className="text-xs text-muted-foreground">
+                        {formatDueHeading(d.due_date, dateLocale)}
+                      </p>
                     </div>
                   </div>
                 ))

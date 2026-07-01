@@ -1041,6 +1041,7 @@ export const bsMessages: Messages = {
       },
       list: {
         empty: "Nema rokova za ovaj filter.",
+        emptyHint: "Dodajte rok da biste pratili važne datume.",
         done: "Gotovo",
         overdueDays: "Prekoračeno {n} dana",
         dueToday: "Rok danas",
@@ -1061,6 +1062,13 @@ export const bsMessages: Messages = {
         complete: "Označi kao završeno",
         edit: "Uredi",
         delete: "Obriši",
+      },
+      testReminder: {
+        send: "Pošalji probni podsjetnik",
+        sending: "Šaljem…",
+        summary: "Poslato: {sent}",
+        summaryWithErrors: "Poslato: {sent}, Greške: {count}",
+        failed: "Pokretanje probnih podsjetnika nije uspjelo",
       },
       dialog: {
         titleNew: "Novi rok",
@@ -1188,6 +1196,7 @@ export const bsMessages: Messages = {
         },
         empty:
           "Generisani dokument će se pojaviti ovdje. Izaberite vrstu dokumenta, jurisdikciju i jezik, unesite ključne detalje i kliknite „Generiši dokument” da kreirate nacrt prilagođen vašem slučaju.",
+        emptyShort: "Generisani dokument će se pojaviti ovdje",
         caseLawSection: {
           title: "Relevantna sudska praksa",
           basedOn: "Na osnovu {count} presuda iz baze sudske prakse.",
@@ -1430,6 +1439,7 @@ export const bsMessages: Messages = {
         saved: "Predviđanje je sačuvano u radni prostor.",
         empty:
           "Vaše predviđanje će se pojaviti ovdje nakon analize. Vidjet ćete vjerovatnoću ishoda, nivo pouzdanosti, ključne faktore, relevantne presedane, preporuke i rizike, uz jasno odricanje odgovornosti.",
+        emptyShort: "Pokrenite predviđanje da vidite analizu",
       },
       sidebar: {
         title: "Detalji predviđanja",
@@ -1543,6 +1553,7 @@ export const bsMessages: Messages = {
         saved: "Analiza je sačuvana u radni prostor.",
         empty:
           "Analiza dokumenta će se pojaviti ovdje nakon što otpremite fajl i pokrenete analizu. Vidjećete sažetak, ukupni rizik skor i pregled rizičnih klauzula, nedostajućih odredbi, pitanja usklađenosti i preporučenih izmjena.",
+        emptyShort: "Otpremite dokument i pokrenite analizu da vidite rezultate",
       },
       report: {
         sections: {
@@ -1933,6 +1944,10 @@ export const bsMessages: Messages = {
         refreshing: "Osvježavam…",
         loading: "Učitavanje historije…",
         empty: "Još nema provjera sukoba.",
+        summary: {
+          clear: "Nisu pronađeni konflikti.",
+          hasMatches: "Pronađeni su potencijalni konflikti.",
+        },
         upgradeHint:
           "Historija provjera sukoba dostupna je na Professional i Firm planovima.",
         badges: {

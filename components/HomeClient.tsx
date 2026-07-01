@@ -2,10 +2,19 @@
 
 import Link from "next/link"
 import Image from "next/image"
+import dynamic from "next/dynamic"
 import { useEffect, useRef, useState, type ReactNode } from "react"
 import { FileCheck, MessageSquare, UserPlus } from "lucide-react"
 
-import DashboardMockup from "@/components/DashboardMockup"
+const DashboardMockup = dynamic(() => import("@/components/DashboardMockup"), {
+  ssr: false,
+  loading: () => (
+    <div
+      aria-hidden
+      className="aspect-[16/10] w-full rounded-xl border border-white/10 bg-[#0d1117] shadow-2xl"
+    />
+  ),
+})
 import { FeatureCard } from "@/components/FeatureCard"
 import { Header } from "@/components/Header"
 import { PricingCard } from "@/components/PricingCard"
@@ -456,11 +465,12 @@ export function HomeClient({ signupStatus, initialSignedIn }: Props) {
           zIndex: 0,
         }}
       />
-      <Header initialSignedIn={initialSignedIn} />
-
       <main className="relative z-10 flex-1">
         {/* Hero */}
-        <section className="relative z-0 overflow-hidden flex min-h-[85dvh] flex-col justify-center border-b border-border bg-muted/20 py-16 sm:py-24 md:min-h-[90dvh]">
+        <section className="relative z-0 overflow-hidden flex min-h-[85dvh] flex-col border-b border-border bg-muted/20 md:min-h-[90dvh]">
+          <div className="sticky top-3 z-50 px-3 sm:px-6">
+            <Header initialSignedIn={initialSignedIn} />
+          </div>
           <div
             aria-hidden="true"
             className="pointer-events-none absolute inset-0 overflow-hidden"
@@ -475,7 +485,7 @@ export function HomeClient({ signupStatus, initialSignedIn }: Props) {
               }}
             />
           </div>
-          <div className="relative z-10">
+          <div className="relative z-10 flex flex-1 flex-col justify-center py-16 sm:py-24">
           <div
             aria-hidden
             className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[70%] w-[60%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/[0.05] blur-[50px]"

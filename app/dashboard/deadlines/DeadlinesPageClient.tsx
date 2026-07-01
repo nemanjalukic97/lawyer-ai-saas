@@ -27,6 +27,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Textarea } from "@/components/ui/textarea"
 import { useLanguage } from "@/components/LanguageProvider"
+import { localeForLanguage } from "@/lib/i18n/locale"
 import { createClient } from "@/lib/supabase/client"
 import { Constants } from "@/lib/supabase/types"
 import type { Tables, TablesInsert, TablesUpdate } from "@/lib/supabase/types"
@@ -34,7 +35,7 @@ import { hasFeature, type EntitlementPlanId } from "../lib/entitlements"
 import { logActivity } from "@/lib/activity/logActivity"
 
 import { getEffectiveStatus } from "./lib/effectiveStatus"
-import { calendarDaysUntil, formatDueHeading } from "./lib/dates"
+import { calendarDaysUntil, formatCalendarMonth, formatDueHeading } from "./lib/dates"
 import { sendTestDeadlineReminders } from "./actions"
 
 type DeadlineRow = Tables<"deadlines">
@@ -86,7 +87,8 @@ function matchesFilter(d: DeadlineRow, filter: FilterKey): boolean {
 
 export default function DeadlinesPageClient({ planId, prefillMatterId }: Props) {
   const supabase = useMemo(() => createClient(), [])
-  const { t } = useLanguage()
+  const { t, language } = useLanguage()
+  const dateLocale = localeForLanguage(language)
   const canUse = hasFeature(planId, "deadline_tracking")
   const searchParams = useSearchParams()
 
@@ -285,9 +287,16 @@ export default function DeadlinesPageClient({ planId, prefillMatterId }: Props) 
     try {
       const result = await sendTestDeadlineReminders()
       const errCount = result.errors?.length ?? 0
-      setTestSummary(`Sent: ${result.sent}${errCount ? `, Errors: ${errCount}` : ""}`)
+      setTestSummary(
+        errCount
+          ? t("deadlines.testReminder.summaryWithErrors", {
+              sent: result.sent,
+              count: errCount,
+            })
+          : t("deadlines.testReminder.summary", { sent: result.sent })
+      )
     } catch (e) {
-      setTestSummary("Failed to run test reminders")
+      setTestSummary(t("deadlines.testReminder.failed"))
       if (process.env.NODE_ENV !== "production") {
         // eslint-disable-next-line no-console
         console.error(e)
@@ -540,7 +549,9 @@ export default function DeadlinesPageClient({ planId, prefillMatterId }: Props) 
                   disabled={testSending}
                   onClick={() => void runTestReminders()}
                 >
-                  {testSending ? "Sending…" : "Send test reminder"}
+                  {testSending
+                    ? t("deadlines.testReminder.sending")
+                    : t("deadlines.testReminder.send")}
                 </Button>
               )}
               <Button type="button" onClick={openCreate}>
@@ -608,10 +619,10 @@ export default function DeadlinesPageClient({ planId, prefillMatterId }: Props) 
                     <Calendar className="h-5 w-5 text-muted-foreground/40" />
                   </div>
                   <p className="text-sm font-medium text-muted-foreground/60">
-                    No deadlines found
+                    {t("deadlines.list.empty")}
                   </p>
                   <p className="mt-1 text-xs text-muted-foreground/40">
-                    Add a deadline to stay on top of important dates
+                    {t("deadlines.list.emptyHint")}
                   </p>
                 </div>
               ) : (
@@ -653,7 +664,7 @@ export default function DeadlinesPageClient({ planId, prefillMatterId }: Props) 
                                   {t(`deadlines.types.${d.deadline_type}`)}
                                 </span>
                                 <span className="text-xs text-muted-foreground/60">
-                                  {formatDueHeading(d.due_date)}
+                                  {formatDueHeading(d.due_date, dateLocale)}
                                 </span>
                                 <span className={inXClass}>
                                   {formatRelative(d)}
@@ -744,10 +755,7 @@ export default function DeadlinesPageClient({ planId, prefillMatterId }: Props) 
                     <ChevronLeft className="h-4 w-4" />
                   </Button>
                   <p className="text-sm font-medium">
-                    {monthCursor.toLocaleString(undefined, {
-                      month: "long",
-                      year: "numeric",
-                    })}
+                    {formatCalendarMonth(monthCursor, dateLocale)}
                   </p>
                   <Button
                     type="button"
@@ -853,7 +861,7 @@ export default function DeadlinesPageClient({ planId, prefillMatterId }: Props) 
           <DialogHeader>
             <DialogTitle>
               {dayDialog
-                ? formatDueHeading(dayDialog)
+                ? formatDueHeading(dayDialog, dateLocale)
                 : ""}
             </DialogTitle>
           </DialogHeader>

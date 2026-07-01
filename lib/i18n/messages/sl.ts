@@ -971,6 +971,7 @@ export const slMessages: Messages = {
       },
       list: {
         empty: "Ni rokov za ta filter.",
+        emptyHint: "Dodajte rok, da boste spremljali pomembne datume.",
         done: "Končano",
         overdueDays: "{n} dni zapadlo",
         dueToday: "Rok danes",
@@ -991,6 +992,13 @@ export const slMessages: Messages = {
         complete: "Označi kot končano",
         edit: "Uredi",
         delete: "Izbriši",
+      },
+      testReminder: {
+        send: "Pošlji testno opozorilo",
+        sending: "Pošiljam…",
+        summary: "Poslano: {sent}",
+        summaryWithErrors: "Poslano: {sent}, Napake: {count}",
+        failed: "Zagon testnih opozoril ni uspel",
       },
       dialog: {
         titleNew: "Nov rok",
@@ -1118,6 +1126,7 @@ export const slMessages: Messages = {
         },
         empty:
           "Ustvarjeni dokument se bo prikazal tukaj. Izberite vrsto dokumenta, jurisdikcijo in jezik, vnesite ključne podrobnosti in kliknite »Ustvari dokument«, da pripravite osnutek, prilagojen vašemu primeru.",
+        emptyShort: "Ustvarjeni dokument se bo prikazal tukaj",
         caseLawSection: {
           title: "Relevantna sodna praksa",
           basedOn: "Na podlagi {count} sodnih odločb iz baze sodne prakse.",
@@ -1360,6 +1369,7 @@ export const slMessages: Messages = {
         saved: "Napoved je shranjena v vaš prostor.",
         empty:
           "Vaša napoved zadeve se bo pojavila tukaj po analizi. Videli boste verjetnost izida, raven zaupanja, ključne dejavnike, relevantne precedense, strateška priporočila in tveganja, skupaj z jasnim opozorilom.",
+        emptyShort: "Zaženite napoved, da si ogledate analizo",
       },
       sidebar: {
         title: "Podrobnosti napovedi",
@@ -1472,6 +1482,7 @@ export const slMessages: Messages = {
         saved: "Analiza je shranjena v vaš prostor.",
         empty:
           "Analiza dokumenta se bo pojavila tukaj, ko naložite datoteko in zaženete analizo. Videli boste povzetek, skupno oceno tveganja ter razčlenitev tveganih klavzul, manjkajočih določb, vprašanj skladnosti in priporočene spremembe.",
+        emptyShort: "Naložite dokument in zaženite analizo za rezultate",
       },
       report: {
         sections: {
@@ -1747,6 +1758,10 @@ export const slMessages: Messages = {
         refreshing: "Osvežujem…",
         loading: "Nalaganje zgodovine…",
         empty: "Še ni preverjanj konfliktov.",
+        summary: {
+          clear: "Konfliktov ni bilo.",
+          hasMatches: "Najdeni so potencialni konflikti.",
+        },
         upgradeHint:
           "Zgodovina preverjanj konfliktov je na voljo v paketih Professional in Firm.",
         badges: {

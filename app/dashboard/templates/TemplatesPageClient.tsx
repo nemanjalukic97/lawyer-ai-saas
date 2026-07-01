@@ -160,8 +160,8 @@ export function TemplatesPageClient({ templates }: Props) {
 
   return (
     <div className="min-h-screen bg-background px-4 py-10">
-      <div className="mx-auto flex max-w-6xl flex-col gap-8 lg:flex-row">
-        <div className="flex-1 space-y-6">
+      <div className="mx-auto flex min-w-0 max-w-6xl flex-col gap-8 xl:flex-row">
+        <div className="min-w-0 flex-1 space-y-6">
           <header className="mb-8 pb-6 border-b border-border/40 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div className="space-y-1">
               <p className="text-xs font-medium tracking-widest text-muted-foreground/40 uppercase mb-2">
@@ -251,7 +251,7 @@ export function TemplatesPageClient({ templates }: Props) {
               </div>
             </div>
 
-            <div className="grid gap-4 md:grid-cols-2">
+            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-1 2xl:grid-cols-2">
               {filteredTemplates.map((template) => (
                 (() => {
                   const uiTitle = template.title
@@ -285,7 +285,7 @@ export function TemplatesPageClient({ templates }: Props) {
                     )}
                   </div>
 
-                  <div className="mt-3 flex items-center justify-between gap-2">
+                  <div className="mt-3 flex flex-wrap items-center gap-2 sm:justify-between">
                     <Button
                       type="button"
                       size="sm"
@@ -324,7 +324,7 @@ export function TemplatesPageClient({ templates }: Props) {
           </section>
         </div>
 
-        <aside className="mt-2 w-full max-w-md flex-shrink-0 lg:mt-0 lg:w-96">
+        <aside className="mt-2 w-full max-w-md shrink-0 xl:mt-0 xl:w-80 2xl:w-96">
           <Card className="h-full space-y-4 p-6">
             <div className="flex items-center justify-between gap-2">
               <div>
