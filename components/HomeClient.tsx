@@ -3,7 +3,7 @@
 import Link from "next/link"
 import Image from "next/image"
 import dynamic from "next/dynamic"
-import { useEffect, useRef, useState, type ReactNode } from "react"
+import { useCallback, useEffect, useLayoutEffect, useRef, useState, type ReactNode } from "react"
 import { FileCheck, MessageSquare, UserPlus } from "lucide-react"
 
 const DashboardMockup = dynamic(() => import("@/components/DashboardMockup"), {
@@ -227,6 +227,12 @@ const HOME_HEADING_CLASS =
 
 const HOME_SUBTITLE_CLASS = "mx-auto mt-4 max-w-2xl text-lg text-muted-foreground"
 
+const HERO_GRID_BACKGROUND = {
+  backgroundImage: `linear-gradient(rgba(27,79,216,0.10) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(27,79,216,0.10) 1px, transparent 1px)`,
+  backgroundSize: "60px 60px",
+} as const
+
 const STAGGER_10 = [
   "motion-safe:delay-0",
   "motion-safe:delay-75",
@@ -319,6 +325,37 @@ export function HomeClient({ signupStatus, initialSignedIn }: Props) {
   const { t, language } = useLanguage()
   const [signedIn, setSignedIn] = useState(() => Boolean(initialSignedIn))
   const [openFaqItem, setOpenFaqItem] = useState<number | null>(null)
+  const heroSectionRef = useRef<HTMLElement>(null)
+  const mainRef = useRef<HTMLElement>(null)
+  const [heroZoneHeight, setHeroZoneHeight] = useState(0)
+
+  const measureHeroZone = useCallback(() => {
+    const hero = heroSectionRef.current
+    const main = mainRef.current
+    if (!hero || !main) return
+
+    const mainTop = main.getBoundingClientRect().top + window.scrollY
+    const heroBottom = hero.getBoundingClientRect().bottom + window.scrollY
+    setHeroZoneHeight(Math.ceil(heroBottom - mainTop))
+  }, [])
+
+  useLayoutEffect(() => {
+    measureHeroZone()
+  }, [measureHeroZone])
+
+  useEffect(() => {
+    const hero = heroSectionRef.current
+    if (!hero) return
+
+    const resizeObserver = new ResizeObserver(measureHeroZone)
+    resizeObserver.observe(hero)
+    window.addEventListener("resize", measureHeroZone)
+
+    return () => {
+      resizeObserver.disconnect()
+      window.removeEventListener("resize", measureHeroZone)
+    }
+  }, [measureHeroZone])
 
   useEffect(() => {
     const supabase = createClient()
@@ -465,27 +502,24 @@ export function HomeClient({ signupStatus, initialSignedIn }: Props) {
           zIndex: 0,
         }}
       />
-      <main className="relative z-10 flex-1">
-        <div className="sticky top-0 z-50 px-3 pt-3 sm:px-6">
+      <main ref={mainRef} className="relative z-10 flex-1">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 top-0 z-0 bg-muted/20"
+          style={{ height: heroZoneHeight > 0 ? heroZoneHeight : "100dvh" }}
+        >
+          <div className="absolute inset-0" style={HERO_GRID_BACKGROUND} />
+        </div>
+
+        <div className="sticky top-0 z-50 bg-transparent px-3 pt-3 sm:px-6">
           <Header initialSignedIn={initialSignedIn} />
         </div>
 
         {/* Hero */}
-        <section className="relative z-0 overflow-hidden flex min-h-[calc(100dvh-4.25rem)] flex-col border-b border-border bg-muted/20">
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-0 overflow-hidden"
-            style={{ zIndex: 0 }}
-          >
-            <div
-              className="absolute inset-0"
-              style={{
-                backgroundImage: `linear-gradient(rgba(27,79,216,0.10) 1px, transparent 1px),
-                      linear-gradient(90deg, rgba(27,79,216,0.10) 1px, transparent 1px)`,
-                backgroundSize: "60px 60px",
-              }}
-            />
-          </div>
+        <section
+          ref={heroSectionRef}
+          className="relative z-10 flex min-h-[calc(100dvh-4.25rem)] flex-col overflow-hidden border-b border-border"
+        >
           <div className="relative z-10 flex flex-1 flex-col justify-center py-16 sm:py-24">
           <div
             aria-hidden

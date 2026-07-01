@@ -472,7 +472,7 @@ export default function SettingsPageClient({
     : t("settings.plan.statusNone")
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-10 sm:px-6">
+    <div className="mx-auto min-w-0 max-w-4xl px-4 py-10 sm:px-6">
       <div className="mb-6 space-y-1">
         <h1 className="text-2xl font-semibold tracking-tight">{t("settings.header.title")}</h1>
         <p className="text-sm text-muted-foreground">
@@ -480,14 +480,16 @@ export default function SettingsPageClient({
         </p>
       </div>
 
-      <Tabs defaultValue="profile" className="space-y-6">
-        <TabsList>
-          <TabsTrigger value="profile">{t("settings.tabs.profile")}</TabsTrigger>
-          <TabsTrigger value="preferences">{t("settings.tabs.preferences")}</TabsTrigger>
-          <TabsTrigger value="banking">{t("settings.tabs.banking")}</TabsTrigger>
-          <TabsTrigger value="security">{t("settings.tabs.security")}</TabsTrigger>
-          <TabsTrigger value="danger">{t("settings.tabs.danger")}</TabsTrigger>
-        </TabsList>
+      <Tabs defaultValue="profile" className="min-w-0 space-y-6">
+        <div className="min-w-0 overflow-x-auto [-webkit-overflow-scrolling:touch]">
+          <TabsList className="w-max [&>[data-slot=tabs-trigger]]:flex-none">
+            <TabsTrigger value="profile">{t("settings.tabs.profile")}</TabsTrigger>
+            <TabsTrigger value="preferences">{t("settings.tabs.preferences")}</TabsTrigger>
+            <TabsTrigger value="banking">{t("settings.tabs.banking")}</TabsTrigger>
+            <TabsTrigger value="security">{t("settings.tabs.security")}</TabsTrigger>
+            <TabsTrigger value="danger">{t("settings.tabs.danger")}</TabsTrigger>
+          </TabsList>
+        </div>
 
         <TabsContent value="profile">
           <Card>
