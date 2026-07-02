@@ -1,307 +1,29 @@
 "use client"
 
 import Link from "next/link"
-import Image from "next/image"
 import dynamic from "next/dynamic"
 import { useCallback, useEffect, useLayoutEffect, useRef, useState, type ReactNode } from "react"
-import { FileCheck, MessageSquare, UserPlus } from "lucide-react"
 
-const DashboardMockup = dynamic(() => import("@/components/DashboardMockup"), {
-  ssr: false,
-  loading: () => (
-    <div
-      aria-hidden
-      className="aspect-[16/10] w-full rounded-xl border border-white/10 bg-[#0d1117] shadow-2xl"
-    />
-  ),
-})
-import { FeatureCard } from "@/components/FeatureCard"
+import DashboardMockup from "@/components/DashboardMockup"
 import { Header } from "@/components/Header"
-import { PricingCard } from "@/components/PricingCard"
-import { SignupSuccessToast } from "@/components/SignupSuccessToast"
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
 import { useLanguage, type LanguageCode } from "@/components/LanguageProvider"
-import { createClient } from "@/lib/supabase/client"
 import { cn } from "@/lib/utils"
-import { FEATURES, PRICING_TIERS } from "@/types"
 
-const FEATURE_CARD_ICONS: Record<(typeof FEATURES)[number]["id"], ReactNode> = {
-  prediction: (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-      <path
-        d="M3 17L8 12L12 15L17 8L21 11"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <circle cx="21" cy="11" r="1.5" fill="currentColor" />
-      <path d="M3 21H21" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.4" />
-      <path d="M3 3V21" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.4" />
-      <circle cx="8" cy="12" r="1.5" fill="currentColor" opacity="0.6" />
-      <circle cx="12" cy="15" r="1.5" fill="currentColor" opacity="0.6" />
-      <circle cx="17" cy="8" r="1.5" fill="currentColor" opacity="0.6" />
-    </svg>
-  ),
-  contracts: (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-      <path
-        d="M14 3H7C5.9 3 5 3.9 5 5V19C5 20.1 5.9 21 7 21H17C18.1 21 19 20.1 19 19V8L14 3Z"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path d="M14 3V8H19" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M9 13H15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.6" />
-      <path d="M9 16H13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.6" />
-      <path d="M13 10.5L14.5 12L17 9.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  ),
-  analysis: (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-      <circle cx="11" cy="11" r="6.5" stroke="currentColor" strokeWidth="1.8" />
-      <path d="M16 16L20 20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-      <path d="M8 11H14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.7" />
-      <path d="M8 8.5H13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.4" />
-      <path d="M8 13.5H11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.4" />
-    </svg>
-  ),
-  time: (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-      <circle cx="12" cy="13" r="7.5" stroke="currentColor" strokeWidth="1.8" />
-      <path
-        d="M12 9V13.5L14.5 15.5"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path d="M9.5 3H14.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-      <path d="M12 3V5.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-      <path d="M19 5.5L17.5 7" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" opacity="0.5" />
-    </svg>
-  ),
-  portal: (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-      <rect x="3" y="5" width="18" height="14" rx="2.5" stroke="currentColor" strokeWidth="1.8" />
-      <circle cx="9" cy="11" r="2" stroke="currentColor" strokeWidth="1.5" opacity="0.8" />
-      <path
-        d="M5.5 17.5C5.5 15.5 7 14 9 14C11 14 12.5 15.5 12.5 17.5"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        opacity="0.7"
-      />
-      <path d="M14.5 10H18.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.6" />
-      <path d="M14.5 13H17.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.4" />
-      <path d="M16.5 8.5L17.5 9.5L19.5 7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  ),
-  generate: (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-      <path
-        d="M14 3H7C5.9 3 5 3.9 5 5V19C5 20.1 5.9 21 7 21H17C18.1 21 19 20.1 19 19V8L14 3Z"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path d="M14 3V8H19" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M9 13H15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.6" />
-      <path d="M9 16H12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.4" />
-      <path
-        d="M17.5 4.5L18.5 5.5L20.5 3.5"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  ),
-  redline: (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-      <path
-        d="M14 3H7C5.9 3 5 3.9 5 5V19C5 20.1 5.9 21 7 21H17C18.1 21 19 20.1 19 19V8L14 3Z"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path d="M14 3V8H19" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M8.5 13.5L15.5 13.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.35" />
-      <path d="M8.5 16.5H13.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.6" />
-      <path
-        d="M16 17.5L19 14.5"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-      />
-      <path
-        d="M16.5 14.5H19V17.5"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  ),
-  research: (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-      <circle cx="10.5" cy="10.5" r="6" stroke="currentColor" strokeWidth="1.8" />
-      <path d="M15.5 15.5L20 20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-      <path d="M8 10.5H13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.5" />
-      <path d="M10.5 8V13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.7" />
-    </svg>
-  ),
-  matters: (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-      <rect x="3" y="7" width="18" height="13" rx="2" stroke="currentColor" strokeWidth="1.8" />
-      <path d="M8 7V5.5C8 4.7 8.7 4 9.5 4H14.5C15.3 4 16 4.7 16 5.5V7" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-      <path d="M3 11H21" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.5" />
-      <path d="M9.5 14.5H14.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.7" />
-      <path d="M9.5 17H12.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.4" />
-    </svg>
-  ),
-  templates: (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-      <path
-        d="M7 4H15L19 8V19C19 20.1 18.1 21 17 21H7C5.9 21 5 20.1 5 19V6C5 4.9 5.9 4 7 4Z"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path d="M15 4V8H19" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-      <path
-        d="M9 4H5C3.9 4 3 4.9 3 6V17C3 18.1 3.9 19 5 19"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        opacity="0.45"
-      />
-      <path d="M9 12H15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.6" />
-      <path d="M9 15H13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.4" />
-    </svg>
-  ),
-}
+import {
+  HERO_GRID_BACKGROUND,
+  HERO_REVEAL_TRANSITION,
+  HOME_HEADING_CLASS,
+  HOME_SUBTITLE_CLASS,
+} from "@/components/home/home-styles"
 
-const FEATURE_DESKTOP_ROWS = [
-  { cols: "lg:grid-cols-[1fr_1.35fr]", indices: [1, 0], staggers: [0, 1] },
-  { cols: "lg:grid-cols-3", indices: [2, 5, 6], staggers: [2, 3, 4] },
-  { cols: "lg:grid-cols-[1fr_1.35fr]", indices: [7, 3], staggers: [5, 6] },
-  { cols: "lg:grid-cols-3", indices: [4, 8, 9], staggers: [7, 8, 9] },
-] as const
-
-const POSITIONING_BG = "/pexels-karola-g-7876093.jpg"
-
-const JURISDICTION_KEYS = ["ba", "rs", "hr", "me", "si"] as const
-
-const JURISDICTION_PILL_CLASS =
-  "inline-flex shrink-0 items-center rounded-full border border-border bg-background/80 px-5 py-2.5 text-base font-medium text-foreground sm:px-6 sm:py-3 sm:text-lg"
-
-const HOW_STEPS = [
-  { n: 1, icon: UserPlus },
-  { n: 2, icon: MessageSquare },
-  { n: 3, icon: FileCheck },
-] as const
-
-const TESTIMONIAL_KEYS = ["1", "2", "3"] as const
-
-const FAQ_ITEMS = [1, 2, 3, 4, 5, 6, 7] as const
-
-/** tw-animate-css enter: fade + slide up; `motion-safe:` respects reduced motion */
-const HOME_ENTER =
-  "motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-8 motion-safe:duration-700 motion-safe:ease-out motion-safe:fill-mode-forwards"
-
-const HOME_ENTER_HERO =
-  "motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-6 motion-safe:duration-[900ms] motion-safe:ease-out motion-safe:fill-mode-forwards"
-
-const HOME_SECTION_H2_CLASS =
-  "text-3xl font-bold tracking-tight sm:text-4xl"
-
-const HOME_HEADING_CLASS =
-  "mt-6 text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl"
-
-const HOME_SUBTITLE_CLASS = "mx-auto mt-4 max-w-2xl text-lg text-muted-foreground"
-
-const HERO_GRID_BACKGROUND = {
-  backgroundImage: `linear-gradient(rgba(27,79,216,0.10) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(27,79,216,0.10) 1px, transparent 1px)`,
-  backgroundSize: "60px 60px",
-} as const
-
-const STAGGER_10 = [
-  "motion-safe:delay-0",
-  "motion-safe:delay-75",
-  "motion-safe:delay-150",
-  "motion-safe:delay-225",
-  "motion-safe:delay-300",
-  "motion-safe:delay-[375ms]",
-  "motion-safe:delay-[450ms]",
-  "motion-safe:delay-[525ms]",
-  "motion-safe:delay-[600ms]",
-  "motion-safe:delay-[675ms]",
-] as const
-
-const STAGGER_3 = [
-  "motion-safe:delay-0",
-  "motion-safe:delay-150",
-  "motion-safe:delay-300",
-] as const
-
-type ScrollRevealProps = {
-  children: ReactNode
-  className?: string
-  /** tw-animate enter classes applied once the block intersects the viewport */
-  revealClassName?: string
-  rootMargin?: string
-  threshold?: number
-}
-
-function ScrollReveal({
-  children,
-  className,
-  revealClassName,
-  rootMargin = "0px 0px -10% 0px",
-  threshold = 0.12,
-}: ScrollRevealProps) {
-  const ref = useRef<HTMLDivElement>(null)
-  const [visible, setVisible] = useState(false)
-
-  useEffect(() => {
-    const node = ref.current
-    if (!node || visible) return
-    const io = new IntersectionObserver(
-      (entries) => {
-        if (entries[0]?.isIntersecting) {
-          setVisible(true)
-          io.disconnect()
-        }
-      },
-      { root: null, rootMargin, threshold }
-    )
-    io.observe(node)
-    return () => io.disconnect()
-  }, [visible, rootMargin, threshold])
-
-  return (
-    <div
-      ref={ref}
-      className={cn(
-        className,
-        !visible && "motion-safe:translate-y-8 motion-safe:opacity-0",
-        visible && revealClassName
-      )}
-    >
-      {children}
-    </div>
-  )
-}
+const SignupSuccessToast = dynamic(
+  () => import("@/components/SignupSuccessToast").then((m) => ({ default: m.SignupSuccessToast })),
+  { ssr: false }
+)
 
 type Props = {
+  children?: ReactNode
   signupStatus?: string
   initialSignedIn?: boolean
 }
@@ -321,10 +43,11 @@ function renderHeroTitle(title: string, language: LanguageCode) {
   )
 }
 
-export function HomeClient({ signupStatus, initialSignedIn }: Props) {
+export function HomeClient({ children, signupStatus, initialSignedIn }: Props) {
   const { t, language } = useLanguage()
   const [signedIn, setSignedIn] = useState(() => Boolean(initialSignedIn))
-  const [openFaqItem, setOpenFaqItem] = useState<number | null>(null)
+  const [heroRevealed, setHeroRevealed] = useState(false)
+  const [heroAnimating, setHeroAnimating] = useState(false)
   const heroSectionRef = useRef<HTMLElement>(null)
   const mainRef = useRef<HTMLElement>(null)
   const [heroZoneHeight, setHeroZoneHeight] = useState(0)
@@ -358,29 +81,32 @@ export function HomeClient({ signupStatus, initialSignedIn }: Props) {
   }, [measureHeroZone])
 
   useEffect(() => {
-    const supabase = createClient()
+    let unsubscribe: (() => void) | undefined
 
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSignedIn(Boolean(session?.user))
+    void import("@/lib/supabase/client").then(({ createClient }) => {
+      const supabase = createClient()
+      const {
+        data: { subscription },
+      } = supabase.auth.onAuthStateChange((_event, session) => {
+        setSignedIn(Boolean(session?.user))
+      })
+      unsubscribe = () => subscription.unsubscribe()
     })
 
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSignedIn(Boolean(session?.user))
-    })
-
-    return () => subscription.unsubscribe()
+    return () => unsubscribe?.()
   }, [])
 
   useEffect(() => {
-    setOpenFaqItem(null)
+    const frame = requestAnimationFrame(() => {
+      setHeroRevealed(true)
+      setHeroAnimating(true)
+    })
+    return () => cancelAnimationFrame(frame)
   }, [])
 
   return (
     <div className="relative flex flex-col overflow-x-clip">
       <div aria-hidden="true" className="pointer-events-none absolute" style={{ left: "-180px", top: "1800px", zIndex: 0 }}>
-        {/* Outer ring */}
         <div
           style={{
             width: "500px",
@@ -392,7 +118,6 @@ export function HomeClient({ signupStatus, initialSignedIn }: Props) {
             left: 0,
           }}
         />
-        {/* Inner ring */}
         <div
           style={{
             width: "340px",
@@ -404,7 +129,6 @@ export function HomeClient({ signupStatus, initialSignedIn }: Props) {
             left: "80px",
           }}
         />
-        {/* Radial glow */}
         <div
           style={{
             width: "500px",
@@ -515,530 +239,90 @@ export function HomeClient({ signupStatus, initialSignedIn }: Props) {
           <Header initialSignedIn={initialSignedIn} />
         </div>
 
-        {/* Hero */}
         <section
           ref={heroSectionRef}
           className="relative z-10 flex min-h-[calc(100dvh-4.25rem)] flex-col overflow-hidden border-b border-border"
         >
           <div className="relative z-10 flex flex-1 flex-col justify-center py-16 sm:py-24">
-          <div
-            aria-hidden
-            className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[70%] w-[60%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/[0.05] blur-[50px]"
-          />
-          <div
-            className={cn(
-              "relative z-10 mx-auto w-full max-w-6xl px-4 text-center sm:px-6",
-              HOME_ENTER_HERO
-            )}
-          >
-            <div className="flex justify-center">
-              <span className="inline-flex items-center rounded-full border border-border bg-background/60 px-3 py-1 text-xs text-muted-foreground">
-                {t("home.hero.trustBadge")}
-              </span>
-            </div>
-            <h1 className={cn(HOME_HEADING_CLASS, "text-foreground")}>
-              {renderHeroTitle(t("home.hero.title"), language)}
-            </h1>
-            <p className={HOME_SUBTITLE_CLASS}>
-              {t("home.hero.subtitle")}
-            </p>
-            <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row sm:flex-wrap sm:gap-4">
-              <Button asChild size="lg" className="h-11 min-w-[200px] text-base sm:h-11 sm:text-sm">
-                {signedIn ? (
-                  <Link href="/dashboard">{t("nav.dashboard")}</Link>
-                ) : (
-                  <Link href="/signup">{t("home.hero.getStartedFree")}</Link>
-                )}
-              </Button>
-              <Button
-                asChild
-                variant="outline"
-                size="lg"
-                className="h-11 min-w-[200px] text-base sm:h-11 sm:text-sm"
-              >
-                <Link href="#pricing">{t("home.hero.pricingCta")}</Link>
-              </Button>
-            </div>
-            <p className="mt-4 text-sm text-muted-foreground">{t("home.hero.noCreditCard")}</p>
-
             <div
-              className="mt-[68px] mx-auto max-w-4xl rotate-0 sm:rotate-1"
-              style={{
-                transformOrigin: "center center",
-                transition: "transform 0.08s ease-out",
-              }}
-              onMouseMove={(e) => {
-                if (window.innerWidth < 768) return
-                const el = e.currentTarget
-                el.style.transition = "transform 0.08s ease-out"
-                const rect = el.getBoundingClientRect()
-                const x = (e.clientX - rect.left) / rect.width - 0.5
-                const y = (e.clientY - rect.top) / rect.height - 0.5
-                el.style.transform = `perspective(1000px) rotateY(${x * 6}deg) rotateX(${-y * 4}deg) rotate(1deg)`
-              }}
-              onMouseLeave={(e) => {
-                if (window.innerWidth < 768) return
-                const el = e.currentTarget
-                el.style.transition = "transform 0.4s ease-out"
-                el.style.transform = ""
-              }}
-            >
-              <DashboardMockup />
-            </div>
-          </div>
-          </div>
-        </section>
-
-        {/* Positioning + jurisdiction marquee */}
-        <section
-          className="relative overflow-hidden border-b border-border"
-          aria-labelledby="positioning-heading"
-        >
-          <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-            <Image
-              src={POSITIONING_BG}
-              alt=""
-              fill
-              quality={90}
-              sizes="100vw"
-              className="object-cover object-center"
+              aria-hidden
+              className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[70%] w-[60%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/[0.05] blur-[50px]"
             />
-            <div className="absolute inset-0 bg-gradient-to-br from-[#070b14]/94 via-[#0c1222]/88 to-[#070b14]/95" />
-            <div className="absolute inset-0 bg-[#1B4FD8]/[0.12]" />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#070b14]/60 via-transparent to-[#070b14]/30" />
-          </div>
-          <div className="relative z-10 mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-28">
-            <ScrollReveal className="w-full text-center" revealClassName={HOME_ENTER}>
-              <div className="flex justify-center">
-                <span className="inline-flex items-center rounded-full border border-border bg-background/60 px-3 py-1 text-xs text-muted-foreground">
-                  {t("home.positioning.badge")}
-                </span>
-              </div>
-              <h2
-                id="positioning-heading"
-                className={cn(HOME_SECTION_H2_CLASS, "mt-6 text-white")}
-              >
-                {t("home.positioning.titleLine1")}
-                <br />
-                {t("home.positioning.titleLine2")}
-              </h2>
-              <p className={HOME_SUBTITLE_CLASS}>
-                {t("home.positioning.description")}
-              </p>
-            </ScrollReveal>
-
-            <div className="mt-14 sm:mt-16" aria-labelledby="jurisdiction-bar-heading">
-              <h2
-                id="jurisdiction-bar-heading"
-                className="text-center text-sm font-medium text-white/70"
-              >
-                {t("home.jurisdictionBar.title")}
-              </h2>
-              <div className="relative mt-6 overflow-hidden jurisdiction-marquee-viewport motion-reduce:hidden">
-                <div className="jurisdiction-marquee-track flex w-max items-center gap-4 sm:gap-6">
-                  {(
-                    [
-                      ...JURISDICTION_KEYS,
-                      ...JURISDICTION_KEYS,
-                      ...JURISDICTION_KEYS,
-                      ...JURISDICTION_KEYS,
-                    ] as const
-                  ).map((key, i) => (
-                    <span key={`${key}-${i}`} className={JURISDICTION_PILL_CLASS}>
-                      {t(`home.jurisdictionBar.countries.${key}`)}
-                    </span>
-                  ))}
-                </div>
-              </div>
-              <div className="mt-6 hidden flex-wrap items-center justify-center gap-4 motion-reduce:flex sm:gap-6">
-                {JURISDICTION_KEYS.map((key) => (
-                  <span key={key} className={JURISDICTION_PILL_CLASS}>
-                    {t(`home.jurisdictionBar.countries.${key}`)}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* How it works */}
-        <section
-          id="how-it-works"
-          className="scroll-mt-14 border-b border-border py-[126px] sm:py-[158px]"
-          aria-labelledby="how-it-works-heading"
-        >
-          <div className="mx-auto max-w-6xl px-4 sm:px-6">
-            <h2
-              id="how-it-works-heading"
-              className={cn(HOME_SECTION_H2_CLASS, "text-center text-foreground")}
-            >
-              {t("home.howItWorks.title")}
-            </h2>
-            <div className="relative mt-12 grid gap-10 md:grid-cols-3 md:gap-6">
+            <div className="relative z-10 mx-auto w-full max-w-6xl px-4 text-center sm:px-6">
               <div
-                aria-hidden
-                className="pointer-events-none absolute left-0 right-0 top-[2.5rem] hidden border-t border-dashed border-border/80 md:block"
-              />
-              {HOW_STEPS.map((step) => {
-                const Icon = step.icon
-                return (
-                  <ScrollReveal
-                    key={step.n}
-                    className="relative z-10 flex flex-col items-center text-center"
-                    revealClassName={cn(HOME_ENTER, STAGGER_3[step.n - 1])}
-                  >
-                    <div className="mb-3 flex h-8 w-8 items-center justify-center rounded-full border border-border bg-background text-sm font-semibold text-foreground">
-                      {step.n}
-                    </div>
-                    <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full border border-border bg-primary/10 text-primary">
-                      <Icon className="h-6 w-6" strokeWidth={1.75} />
-                    </div>
-                    <h3 className="text-lg font-semibold text-foreground">
-                      {t(`home.howItWorks.step${step.n}.title`)}
-                    </h3>
-                    <p className="mt-2 max-w-sm text-sm text-muted-foreground">
-                      {t(`home.howItWorks.step${step.n}.desc`)}
-                    </p>
-                  </ScrollReveal>
-                )
-              })}
-            </div>
-          </div>
-        </section>
-
-        {/* Features */}
-        <section
-          id="features"
-          className="relative z-0 scroll-mt-14 py-16 sm:py-24"
-          aria-labelledby="features-heading"
-        >
-          <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6">
-            <div className="flex flex-col items-center text-center">
-              <Badge
-                variant="secondary"
-                className="mb-3 border border-border/80 bg-background/60 font-medium"
+                className={cn(
+                  HERO_REVEAL_TRANSITION,
+                  !heroRevealed && "motion-safe:translate-y-6 motion-safe:opacity-0",
+                  heroRevealed && "motion-safe:translate-y-0 motion-safe:opacity-100",
+                  heroAnimating && "motion-safe:will-change-[opacity,transform]"
+                )}
+                onTransitionEnd={(event) => {
+                  if (event.target !== event.currentTarget) return
+                  if (event.propertyName === "opacity" || event.propertyName === "transform") {
+                    setHeroAnimating(false)
+                  }
+                }}
               >
-                {t("home.features.badge")}
-              </Badge>
-              <h2
-                id="features-heading"
-                className={cn(HOME_SECTION_H2_CLASS, "text-foreground")}
-              >
-                {t("home.features.titleNew")}
-              </h2>
-              <p className="mx-auto mt-2 max-w-xl text-muted-foreground">
-                {t("home.features.subtitle")}
-              </p>
-            </div>
-            <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:hidden">
-              {FEATURES.map((f, i) => (
-                <ScrollReveal
-                  key={f.id}
-                  className="h-full min-h-0"
-                  revealClassName={cn(HOME_ENTER, STAGGER_10[i])}
-                >
-                  <FeatureCard
-                    title={t(`home.features.items.${f.id}.title`)}
-                    description={t(`home.features.items.${f.id}.description`)}
-                    icon={FEATURE_CARD_ICONS[f.id]}
-                    className="h-full"
-                  />
-                </ScrollReveal>
-              ))}
-            </div>
-            <div className="mt-12 hidden gap-6 lg:grid">
-              {FEATURE_DESKTOP_ROWS.map((row, rowIndex) => (
-                <div key={rowIndex} className={cn("grid gap-6", row.cols)}>
-                  {row.indices.map((featureIndex, i) => {
-                    const feature = FEATURES[featureIndex]
-                    return (
-                      <ScrollReveal
-                        key={feature.id}
-                        className="h-full min-h-0"
-                        revealClassName={cn(HOME_ENTER, STAGGER_10[row.staggers[i]])}
-                      >
-                        <FeatureCard
-                          title={t(`home.features.items.${feature.id}.title`)}
-                          description={t(`home.features.items.${feature.id}.description`)}
-                          icon={FEATURE_CARD_ICONS[feature.id]}
-                          className="h-full"
-                        />
-                      </ScrollReveal>
-                    )
-                  })}
+                <div className="flex justify-center">
+                  <span className="inline-flex items-center rounded-full border border-border bg-background/60 px-3 py-1 text-xs text-muted-foreground">
+                    {t("home.hero.trustBadge")}
+                  </span>
                 </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Pricing */}
-        <section
-          id="pricing"
-          className="relative overflow-hidden scroll-mt-14 border-t border-border bg-muted/20 py-16 sm:py-24"
-          aria-labelledby="pricing-heading"
-        >
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-0 overflow-hidden"
-            style={{ zIndex: 0 }}
-          >
-            <div
-              className="absolute inset-0"
-              style={{
-                backgroundImage: `linear-gradient(rgba(27,79,216,0.10) 1px, transparent 1px),
-                      linear-gradient(90deg, rgba(27,79,216,0.10) 1px, transparent 1px)`,
-                backgroundSize: "60px 60px",
-              }}
-            />
-          </div>
-          <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6">
-            <div className="flex flex-col items-center text-center">
-              <Badge
-                variant="secondary"
-                className="mb-3 border border-border/80 bg-background/60 font-medium"
-              >
-                {t("home.pricing.noFees")}
-              </Badge>
-              <h2
-                id="pricing-heading"
-                className={cn(HOME_SECTION_H2_CLASS, "text-foreground normal-case")}
-              >
-                {t("home.pricing.title")}
-              </h2>
-              <p className="mx-auto mt-2 max-w-xl text-muted-foreground">
-                {t("home.pricing.subtitle")}
-              </p>
-            </div>
-            <div className="mt-12 grid gap-10 min-[767px]:gap-6 md:grid-cols-3">
-              {PRICING_TIERS.map((tier, i) => (
-                <ScrollReveal
-                  key={tier.id}
-                  className="h-full min-h-0"
-                  revealClassName={cn(HOME_ENTER, STAGGER_3[i])}
-                >
-                  <PricingCard
-                    name={t(`home.pricing.tiers.${tier.id}.name`)}
-                    price={tier.price}
-                    features={tier.features.map((feature) =>
-                      t(`home.pricing.tiers.${tier.id}.features.${feature}`)
+                <h1 className={cn(HOME_HEADING_CLASS, "text-foreground")}>
+                  {renderHeroTitle(t("home.hero.title"), language)}
+                </h1>
+                <p className={HOME_SUBTITLE_CLASS}>
+                  {t("home.hero.subtitle")}
+                </p>
+                <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row sm:flex-wrap sm:gap-4">
+                  <Button asChild size="lg" className="h-11 min-w-[200px] text-base sm:h-11 sm:text-sm">
+                    {signedIn ? (
+                      <Link href="/dashboard">{t("nav.dashboard")}</Link>
+                    ) : (
+                      <Link href="/signup">{t("home.hero.getStartedFree")}</Link>
                     )}
-                    ctaLabel={t("home.pricing.cta")}
-                    pricePeriodLabel={t("home.pricing.perMonth")}
-                    recommendedLabel={t("home.pricing.recommended")}
-                    recommended={tier.recommended}
-                    planId={tier.id as "solo" | "professional" | "firm"}
-                  />
-                </ScrollReveal>
-              ))}
-            </div>
-            <div className="mt-20 overflow-x-auto rounded-xl border border-border bg-background">
-              <table className="w-full min-w-[480px] border-collapse bg-background text-sm">
-                <thead>
-                  <tr className="border-b border-border bg-muted">
-                    <th className="px-4 py-3 text-left font-medium text-foreground">
-                      {t("home.pricing.comparison.colFeature")}
-                    </th>
-                    <th className="px-4 py-3 text-left font-medium text-foreground">
-                      {t("home.pricing.comparison.colSolo")}
-                    </th>
-                    <th className="px-4 py-3 text-left font-medium text-foreground">
-                      {t("home.pricing.comparison.colProfessional")}
-                    </th>
-                    <th className="px-4 py-3 text-left font-medium text-foreground">
-                      {t("home.pricing.comparison.colFirm")}
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="bg-muted/10 text-foreground">
-                  <tr className="border-b border-border/80">
-                    <td className="px-4 py-3">
-                      {t("home.pricing.comparison.rowAiCalls")}
-                    </td>
-                    <td className="px-4 py-3">20</td>
-                    <td className="px-4 py-3">100</td>
-                    <td className="px-4 py-3">300</td>
-                  </tr>
-                  <tr className="border-b border-border/80">
-                    <td className="px-4 py-3">
-                      {t("home.pricing.comparison.rowContractTypes")}
-                    </td>
-                    <td className="px-4 py-3">{t("home.pricing.comparison.all")}</td>
-                    <td className="px-4 py-3">{t("home.pricing.comparison.all")}</td>
-                    <td className="px-4 py-3">{t("home.pricing.comparison.all")}</td>
-                  </tr>
-                  <tr className="border-b border-border/80">
-                    <td className="px-4 py-3">
-                      {t("home.pricing.comparison.rowUsers")}
-                    </td>
-                    <td className="px-4 py-3">1</td>
-                    <td className="px-4 py-3">1</td>
-                    <td className="px-4 py-3">
-                      {t("home.pricing.comparison.usersFirm")}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="px-4 py-3">
-                      {t("home.pricing.comparison.rowPriority")}
-                    </td>
-                    <td className="px-4 py-3" aria-label={t("home.pricing.comparison.no")}>
-                      {t("home.pricing.comparison.no")}
-                    </td>
-                    <td className="px-4 py-3" aria-label={t("home.pricing.comparison.yes")}>
-                      {t("home.pricing.comparison.yes")}
-                    </td>
-                    <td className="px-4 py-3" aria-label={t("home.pricing.comparison.yes")}>
-                      {t("home.pricing.comparison.yes")}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <p className="mt-8 text-center text-sm text-muted-foreground">
-              {t("home.pricing.trustLine")}
-            </p>
-          </div>
-        </section>
-
-        {/* Testimonials — hidden until real quotes/avatars; drop `hidden` from className to show */}
-        <section
-          className="hidden border-t border-border bg-background py-16 sm:py-24"
-          aria-labelledby="testimonials-heading"
-        >
-          <div className="mx-auto max-w-6xl px-4 sm:px-6">
-            <div className="flex flex-col items-center text-center">
-              <Badge
-                variant="secondary"
-                className="mb-3 border border-border/80 bg-muted/40 font-medium"
-              >
-                {t("home.testimonials.badge")}
-              </Badge>
-              <h2
-                id="testimonials-heading"
-                className={cn(HOME_SECTION_H2_CLASS, "text-foreground")}
-              >
-                {t("home.testimonials.title")}
-              </h2>
-            </div>
-            <div className="mt-10 grid gap-6 md:grid-cols-3">
-              {TESTIMONIAL_KEYS.map((k) => (
-                <div
-                  key={k}
-                  className="flex flex-col rounded-xl border border-border bg-card/60 p-6 shadow-sm"
-                >
-                  <p className="text-primary" aria-hidden>
-                    ★★★★★
-                  </p>
-                  <p className="mt-3 flex-1 text-sm italic text-foreground/95">
-                    &ldquo;{t(`home.testimonials.items.${k}.quote`)}&rdquo;
-                  </p>
-                  <p className="mt-4 text-sm text-muted-foreground">
-                    {t(`home.testimonials.items.${k}.name`)}
-                  </p>
+                  </Button>
+                  <Button
+                    asChild
+                    variant="outline"
+                    size="lg"
+                    className="h-11 min-w-[200px] text-base sm:h-11 sm:text-sm"
+                  >
+                    <Link href="#pricing">{t("home.hero.pricingCta")}</Link>
+                  </Button>
                 </div>
-              ))}
-            </div>
-            <p className="mt-6 text-center text-xs text-muted-foreground">
-              {t("home.testimonials.disclaimer")}
-            </p>
-          </div>
-        </section>
-
-        {/* FAQ */}
-        <section
-          id="faq"
-          className="relative z-0 scroll-mt-14 border-t border-border bg-muted/10 py-16 sm:py-24"
-          aria-labelledby="faq-heading"
-        >
-          <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6">
-            <div className="mx-auto mb-10 max-w-2xl text-center">
-              <h2
-                id="faq-heading"
-                className={cn(HOME_SECTION_H2_CLASS, "text-foreground")}
-              >
-                {t("home.faq.title")}
-              </h2>
-              <p className="mt-3 text-muted-foreground">{t("home.faq.subtitle")}</p>
-            </div>
-
-            <ScrollReveal
-              className="rounded-2xl border border-border bg-card/70 p-6 shadow-sm md:p-8"
-              revealClassName={cn(HOME_ENTER, "motion-safe:delay-75")}
-            >
-              <div className="grid gap-8 lg:grid-cols-[1fr_1.35fr] lg:gap-10">
-                <div>
-                  <h3 className="text-xl font-semibold text-foreground sm:text-2xl">
-                    {t("home.faq.panelTitle")}
-                  </h3>
-                  <p className="mt-3 max-w-prose text-sm leading-7 text-muted-foreground">
-                    {t("home.faq.panelDescription")}
-                  </p>
-                </div>
-
-                <div className="space-y-3">
-                  {FAQ_ITEMS.map((item) => {
-                    const isOpen = openFaqItem === item
-                    return (
-                      <div
-                        key={item}
-                        className="rounded-lg border border-border/70 bg-background/50 p-4"
-                      >
-                        <button
-                          type="button"
-                          className={`flex w-full cursor-pointer items-center justify-between gap-3 text-left text-sm font-medium transition-colors ${
-                            isOpen ? "text-foreground" : "text-foreground/50"
-                          }`}
-                          aria-expanded={isOpen}
-                          aria-controls={`faq-answer-${item}`}
-                          onClick={() =>
-                            setOpenFaqItem((prev) => (prev === item ? null : item))
-                          }
-                        >
-                          {t(`home.faq.items.q${item}.question`)}
-                          <span
-                            className={`text-muted-foreground transition-transform duration-[400ms] ${
-                              isOpen ? "rotate-180" : ""
-                            }`}
-                          >
-                            <svg
-                              aria-hidden="true"
-                              viewBox="0 0 20 20"
-                              className="h-4 w-4"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                d="M5 7.5L10 12.5L15 7.5"
-                                stroke="currentColor"
-                                strokeWidth="1.8"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              />
-                            </svg>
-                          </span>
-                        </button>
-                        <div
-                          id={`faq-answer-${item}`}
-                          className={`grid transition-all duration-[550ms] ease-out ${
-                            isOpen ? "mt-3 grid-rows-[1fr]" : "grid-rows-[0fr]"
-                          }`}
-                        >
-                          <p
-                            className={`overflow-hidden pr-6 text-sm leading-7 text-muted-foreground transition-opacity duration-[550ms] ${
-                              isOpen ? "opacity-100" : "opacity-0"
-                            }`}
-                          >
-                            {t(`home.faq.items.q${item}.answer`)}
-                          </p>
-                        </div>
-                      </div>
-                    )
-                  })}
-                </div>
+                <p className="mt-4 text-sm text-muted-foreground">{t("home.hero.noCreditCard")}</p>
               </div>
-            </ScrollReveal>
+
+              <div
+                className="mt-[68px] mx-auto max-w-4xl rotate-0 sm:rotate-1"
+                style={{
+                  transformOrigin: "center center",
+                  transition: "transform 0.08s ease-out",
+                }}
+                onMouseMove={(e) => {
+                  if (window.innerWidth < 768) return
+                  const el = e.currentTarget
+                  el.style.transition = "transform 0.08s ease-out"
+                  const rect = el.getBoundingClientRect()
+                  const x = (e.clientX - rect.left) / rect.width - 0.5
+                  const y = (e.clientY - rect.top) / rect.height - 0.5
+                  el.style.transform = `perspective(1000px) rotateY(${x * 6}deg) rotateX(${-y * 4}deg) rotate(1deg)`
+                }}
+                onMouseLeave={(e) => {
+                  if (window.innerWidth < 768) return
+                  const el = e.currentTarget
+                  el.style.transition = "transform 0.4s ease-out"
+                  el.style.transform = ""
+                }}
+              >
+                <DashboardMockup />
+              </div>
+            </div>
           </div>
         </section>
+
+        {children}
       </main>
 
       {signupStatus === "success" && <SignupSuccessToast />}

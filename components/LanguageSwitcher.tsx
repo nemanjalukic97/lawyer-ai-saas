@@ -35,10 +35,15 @@ export function LanguageSwitcher() {
         <SelectValue aria-label="Language">
           {selected ? (
             <span className="flex items-center gap-1">
-              <span
-                className={`fi fi-${selected.countryCode} w-4`}
-                style={{ borderRadius: "2px" }}
+              <img
+                src={`/flags/${selected.countryCode}.svg`}
+                alt=""
+                width={16}
+                height={12}
+                className="rounded-[2px]"
                 aria-hidden="true"
+                loading="lazy"
+                decoding="async"
               />
               <span>{selected.label}</span>
             </span>
@@ -51,10 +56,15 @@ export function LanguageSwitcher() {
         {LANGUAGES.map((lang) => (
           <SelectItem key={lang.code} value={lang.code}>
             <span className="flex items-center gap-2">
-              <span
-                className={`fi fi-${lang.countryCode} w-4`}
-                style={{ borderRadius: "2px" }}
+              <img
+                src={`/flags/${lang.countryCode}.svg`}
+                alt=""
+                width={16}
+                height={12}
+                className="rounded-[2px]"
                 aria-hidden="true"
+                loading="lazy"
+                decoding="async"
               />
               <span>{lang.label}</span>
             </span>

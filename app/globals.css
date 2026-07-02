@@ -1,7 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
-@import "flag-icons/css/flag-icons.min.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -174,5 +173,16 @@
 @media (prefers-reduced-motion: reduce) {
   .jurisdiction-marquee-track {
     animation: none;
+  }
+}
+
+@layer utilities {
+  .scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
   }
 }

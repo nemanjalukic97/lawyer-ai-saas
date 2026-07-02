@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import Link from "next/link"
 
 import { Button } from "@/components/ui/button"
@@ -86,6 +86,8 @@ export default function SettingsPageClient({
 }: SettingsPageClientProps) {
   const { t } = useLanguage()
   const supabase = useMemo(() => createBrowserClient(), [])
+  const tabStripRef = useRef<HTMLDivElement>(null)
+  const [activeTab, setActiveTab] = useState("profile")
 
   // Banking tab state
   const [bankAccountId, setBankAccountId] = useState<string | null>(null)
@@ -183,6 +185,17 @@ export default function SettingsPageClient({
     void loadBanking()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  useEffect(() => {
+    const strip = tabStripRef.current
+    if (!strip) return
+    const activeTrigger = strip.querySelector<HTMLElement>('[data-slot="tabs-trigger"][data-state="active"]')
+    activeTrigger?.scrollIntoView({
+      behavior: "smooth",
+      inline: "nearest",
+      block: "nearest",
+    })
+  }, [activeTab])
 
   async function handleSaveBanking() {
     setBankingSaving(true)
@@ -480,8 +493,11 @@ export default function SettingsPageClient({
         </p>
       </div>
 
-      <Tabs defaultValue="profile" className="min-w-0 space-y-6">
-        <div className="min-w-0 overflow-x-auto [-webkit-overflow-scrolling:touch]">
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="min-w-0 space-y-6">
+        <div
+          ref={tabStripRef}
+          className="scrollbar-none min-w-0 overflow-x-auto [-webkit-overflow-scrolling:touch]"
+        >
           <TabsList className="w-max [&>[data-slot=tabs-trigger]]:flex-none">
             <TabsTrigger value="profile">{t("settings.tabs.profile")}</TabsTrigger>
             <TabsTrigger value="preferences">{t("settings.tabs.preferences")}</TabsTrigger>
