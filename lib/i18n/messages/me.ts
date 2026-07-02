@@ -385,10 +385,10 @@ export const meMessages: Messages = {
       },
       positioning: {
         badge: "Više od AI asistenta",
-        titleLine1: "Pravni AI je prozor za chat.",
+        titleLine1: "Većina pravnih AI alata završava na jednom zadatku.",
         titleLine2: "Legantis vodi cijeli ured.",
         description:
-          "Većina pravnih AI alata završava na odgovoru u chatu. Legantis spaja AI izradu i istraživanje s vođenjem predmeta, rokovima, evidencijom vremena i radom s klijentima — na jednoj platformi prilagođenoj balkanskoj praksi.",
+          "Većina pravnih AI alata završava na jednoj izradi ili pretrazi. Legantis spaja AI izradu i istraživanje s vođenjem predmeta, rokovima, evidencijom vremena i radom s klijentima — na jednoj platformi prilagođenoj balkanskoj praksi.",
         pillarsAria: "Ključne funkcije ureda",
         pillars: {
           matters: "Predmeti",

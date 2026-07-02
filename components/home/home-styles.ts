@@ -1,8 +1,15 @@
 export const SCROLL_REVEAL_TRANSITION =
-  "motion-safe:transform-gpu motion-safe:transition-[opacity,transform] motion-safe:duration-700 motion-safe:ease-out"
+  "motion-safe:transition-[opacity,transform] motion-safe:duration-700 motion-safe:ease-out"
 
 export const HERO_REVEAL_TRANSITION =
-  "motion-safe:transform-gpu motion-safe:transition-[opacity,transform] motion-safe:duration-[900ms] motion-safe:ease-out"
+  "motion-safe:transition-[opacity,transform] motion-safe:duration-[900ms] motion-safe:ease-out"
+
+export const NAV_REVEAL_TRANSITION =
+  "motion-safe:transition-[opacity,transform] motion-safe:duration-200 motion-safe:ease-out"
+
+export const HOME_ENTRANCE_NAV_DELAY_MS = 100
+export const HOME_ENTRANCE_HERO_DELAY_MS = 150
+export const HOME_ENTRANCE_MOCKUP_DELAY_AFTER_HERO_MS = 400
 
 export const STAGGER_MS_10 = [0, 75, 150, 225, 300, 375, 450, 525, 600, 675] as const
 

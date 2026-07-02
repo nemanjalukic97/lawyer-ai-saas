@@ -13,8 +13,12 @@ import { cn } from "@/lib/utils"
 import {
   HERO_GRID_BACKGROUND,
   HERO_REVEAL_TRANSITION,
+  HOME_ENTRANCE_HERO_DELAY_MS,
+  HOME_ENTRANCE_MOCKUP_DELAY_AFTER_HERO_MS,
+  HOME_ENTRANCE_NAV_DELAY_MS,
   HOME_HEADING_CLASS,
   HOME_SUBTITLE_CLASS,
+  NAV_REVEAL_TRANSITION,
 } from "@/components/home/home-styles"
 
 const SignupSuccessToast = dynamic(
@@ -46,8 +50,11 @@ function renderHeroTitle(title: string, language: LanguageCode) {
 export function HomeClient({ children, signupStatus, initialSignedIn }: Props) {
   const { t, language } = useLanguage()
   const [signedIn, setSignedIn] = useState(() => Boolean(initialSignedIn))
+  const [navRevealed, setNavRevealed] = useState(false)
   const [heroRevealed, setHeroRevealed] = useState(false)
   const [heroAnimating, setHeroAnimating] = useState(false)
+  const [mockupRevealed, setMockupRevealed] = useState(false)
+  const [mockupVisible, setMockupVisible] = useState(false)
   const heroSectionRef = useRef<HTMLElement>(null)
   const mainRef = useRef<HTMLElement>(null)
   const [heroZoneHeight, setHeroZoneHeight] = useState(0)
@@ -64,7 +71,7 @@ export function HomeClient({ children, signupStatus, initialSignedIn }: Props) {
 
   useLayoutEffect(() => {
     measureHeroZone()
-  }, [measureHeroZone])
+  }, [measureHeroZone, mockupRevealed])
 
   useEffect(() => {
     const hero = heroSectionRef.current
@@ -96,13 +103,55 @@ export function HomeClient({ children, signupStatus, initialSignedIn }: Props) {
     return () => unsubscribe?.()
   }, [])
 
-  useEffect(() => {
-    const frame = requestAnimationFrame(() => {
+  useLayoutEffect(() => {
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    if (prefersReducedMotion) {
+      setNavRevealed(true)
+      setHeroRevealed(true)
+      setMockupRevealed(true)
+      setMockupVisible(true)
+      return
+    }
+
+    const navTimer = window.setTimeout(() => setNavRevealed(true), HOME_ENTRANCE_NAV_DELAY_MS)
+
+    const heroTimer = window.setTimeout(() => {
       setHeroRevealed(true)
       setHeroAnimating(true)
-    })
-    return () => cancelAnimationFrame(frame)
+    }, HOME_ENTRANCE_HERO_DELAY_MS)
+
+    return () => {
+      window.clearTimeout(navTimer)
+      window.clearTimeout(heroTimer)
+    }
   }, [])
+
+  useEffect(() => {
+    if (!heroRevealed) return
+
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    if (prefersReducedMotion) {
+      setMockupRevealed(true)
+      return
+    }
+
+    const mockupTimer = window.setTimeout(
+      () => setMockupRevealed(true),
+      HOME_ENTRANCE_MOCKUP_DELAY_AFTER_HERO_MS
+    )
+
+    return () => window.clearTimeout(mockupTimer)
+  }, [heroRevealed])
+
+  useEffect(() => {
+    if (!mockupRevealed) {
+      setMockupVisible(false)
+      return
+    }
+
+    const frame = requestAnimationFrame(() => setMockupVisible(true))
+    return () => cancelAnimationFrame(frame)
+  }, [mockupRevealed])
 
   return (
     <div className="relative flex flex-col overflow-x-clip">
@@ -229,24 +278,31 @@ export function HomeClient({ children, signupStatus, initialSignedIn }: Props) {
       <main ref={mainRef} className="relative z-10 flex-1">
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 top-0 z-0 bg-muted/20"
+          className="pointer-events-none absolute inset-x-0 top-0 z-0 bg-background min-[992px]:bg-muted/20"
           style={{ height: heroZoneHeight > 0 ? heroZoneHeight : "100dvh" }}
         >
-          <div className="absolute inset-0" style={HERO_GRID_BACKGROUND} />
+          <div className="absolute inset-0 max-md:opacity-40" style={HERO_GRID_BACKGROUND} />
         </div>
 
-        <div className="sticky top-0 z-50 bg-transparent px-3 pt-3 sm:px-6">
+        <div
+          className={cn(
+            "sticky top-0 z-50 isolate bg-background px-3 pt-3 sm:px-6 min-[992px]:bg-transparent",
+            NAV_REVEAL_TRANSITION,
+            !navRevealed && "motion-safe:-translate-y-2 motion-safe:opacity-0",
+            navRevealed && "motion-safe:translate-y-0 motion-safe:opacity-100"
+          )}
+        >
           <Header initialSignedIn={initialSignedIn} />
         </div>
 
         <section
           ref={heroSectionRef}
-          className="relative z-10 flex min-h-[calc(100dvh-4.25rem)] flex-col overflow-hidden border-b border-border"
+          className="relative z-10 flex min-h-[calc(100dvh-4.25rem)] flex-col overflow-hidden border-b border-border max-md:[contain:paint]"
         >
           <div className="relative z-10 flex flex-1 flex-col justify-center py-16 sm:py-24">
             <div
               aria-hidden
-              className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[70%] w-[60%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/[0.05] blur-[50px]"
+              className="pointer-events-none absolute left-1/2 top-1/2 -z-10 hidden h-[70%] w-[60%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/[0.05] blur-[50px] md:block"
             />
             <div className="relative z-10 mx-auto w-full max-w-6xl px-4 text-center sm:px-6">
               <div
@@ -301,7 +357,7 @@ export function HomeClient({ children, signupStatus, initialSignedIn }: Props) {
                   transition: "transform 0.08s ease-out",
                 }}
                 onMouseMove={(e) => {
-                  if (window.innerWidth < 768) return
+                  if (!mockupVisible || window.innerWidth < 768) return
                   const el = e.currentTarget
                   el.style.transition = "transform 0.08s ease-out"
                   const rect = el.getBoundingClientRect()
@@ -310,13 +366,25 @@ export function HomeClient({ children, signupStatus, initialSignedIn }: Props) {
                   el.style.transform = `perspective(1000px) rotateY(${x * 6}deg) rotateX(${-y * 4}deg) rotate(1deg)`
                 }}
                 onMouseLeave={(e) => {
-                  if (window.innerWidth < 768) return
+                  if (!mockupVisible || window.innerWidth < 768) return
                   const el = e.currentTarget
                   el.style.transition = "transform 0.4s ease-out"
                   el.style.transform = ""
                 }}
               >
-                <DashboardMockup />
+                <div className="relative aspect-[16/10] w-full">
+                  {mockupRevealed && (
+                    <div
+                      className={cn(
+                        HERO_REVEAL_TRANSITION,
+                        !mockupVisible && "motion-safe:translate-y-8 motion-safe:opacity-0",
+                        mockupVisible && "motion-safe:translate-y-0 motion-safe:opacity-100"
+                      )}
+                    >
+                      <DashboardMockup />
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>

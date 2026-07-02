@@ -26,6 +26,7 @@ export function Header({ initialSignedIn }: HeaderProps) {
   const [signedIn, setSignedIn] = useState(() => Boolean(initialSignedIn))
   const [mobileOpen, setMobileOpen] = useState(false)
   const [menuMounted, setMenuMounted] = useState(false)
+  const [menuAnimating, setMenuAnimating] = useState(false)
   const closeTimerRef = useRef<number | null>(null)
 
   useEffect(() => {
@@ -50,11 +51,13 @@ export function Header({ initialSignedIn }: HeaderProps) {
       closeTimerRef.current = null
     }
     setMenuMounted(true)
+    setMenuAnimating(true)
     requestAnimationFrame(() => setMobileOpen(true))
   }
 
   const closeMenu = () => {
     setMobileOpen(false)
+    setMenuAnimating(true)
     if (closeTimerRef.current) window.clearTimeout(closeTimerRef.current)
     closeTimerRef.current = window.setTimeout(() => {
       setMenuMounted(false)
@@ -78,7 +81,7 @@ export function Header({ initialSignedIn }: HeaderProps) {
   }, [])
 
   return (
-    <nav className="relative mx-auto flex min-h-14 w-full max-w-6xl items-center rounded-full border border-border bg-card px-4 py-1 shadow-md sm:px-6 max-[479px]:px-3">
+    <nav className="relative mx-auto flex min-h-14 w-full max-w-6xl items-center rounded-full border border-border bg-card px-4 py-1 shadow-md max-[991px]:shadow-sm sm:px-6 max-[479px]:px-3">
       <div className="flex flex-1 items-center">
         <NavbarBrand href="/" onClick={closeMenu} />
       </div>
@@ -135,13 +138,20 @@ export function Header({ initialSignedIn }: HeaderProps) {
       {menuMounted && (
         <div
           className={cn(
-            "absolute left-0 right-0 top-[calc(100%+0.5rem)] z-50 max-h-[calc(100vh-4rem)] min-[992px]:hidden overflow-y-auto rounded-2xl border border-border bg-card px-4 py-4 shadow-lg max-[479px]:px-3 motion-safe:transform-gpu",
+            "absolute left-0 right-0 top-[calc(100%+0.5rem)] z-50 max-h-[calc(100vh-4rem)] min-[992px]:hidden overflow-y-auto rounded-2xl border border-border bg-card px-4 py-4 shadow-lg max-[479px]:px-3 max-[991px]:shadow-sm",
             mobileOpen
               ? "opacity-100 translate-y-0 motion-safe:transition-[opacity,transform] motion-safe:duration-[800ms] motion-safe:[transition-timing-function:cubic-bezier(0.25,1,0.5,1)]"
-              : "pointer-events-none opacity-0 -translate-y-2 motion-safe:transition-[opacity,transform] motion-safe:duration-[800ms] motion-safe:[transition-timing-function:cubic-bezier(0.25,1,0.5,1)]"
+              : "pointer-events-none opacity-0 -translate-y-2 motion-safe:transition-[opacity,transform] motion-safe:duration-[800ms] motion-safe:[transition-timing-function:cubic-bezier(0.25,1,0.5,1)]",
+            menuAnimating && "motion-safe:will-change-[opacity,transform]"
           )}
           role="dialog"
           aria-label="Navigation menu"
+          onTransitionEnd={(event) => {
+            if (event.target !== event.currentTarget) return
+            if (event.propertyName === "opacity" || event.propertyName === "transform") {
+              setMenuAnimating(false)
+            }
+          }}
         >
           <div className="flex flex-col gap-2 max-[991px]:items-center">
             <Link
