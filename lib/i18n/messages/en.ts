@@ -408,6 +408,10 @@ export const enMessages: Messages = {
         hint: "Run a search to see the most relevant law articles.",
         empty:
           "No relevant articles found. Try different keywords or broader category.",
+        noHighlyRelevant:
+          "No highly relevant results found — try rephrasing your query or check the law name.",
+        lowConfidenceDivider: "Low confidence matches",
+        excerptLabel: "Excerpt",
         countSuffix: "results",
         confidenceLabel: "Confidence",
         articleLabel: "Article",

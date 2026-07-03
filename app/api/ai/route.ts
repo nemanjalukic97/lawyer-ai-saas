@@ -5,6 +5,7 @@ import {
   buildCombinedRagPrompt,
   validateCitations,
   getAnswerMode,
+  summarizeMatchChannelsForLog,
   type LegalChunk,
   type CaseLawContextResult,
 } from "@/lib/legalRag"
@@ -180,6 +181,7 @@ export async function POST(req: NextRequest) {
 
     const ragJurisdiction = normalizeJurisdiction(body.jurisdiction ?? null)
     const categoryFilter = normalizeResearchCategory(body.category)
+    let ragQueryLogMetadata: Record<string, unknown> | null = null
 
     if (JURISDICTION_FEATURES.has(featureType) && ragJurisdiction) {
       try {
@@ -264,6 +266,13 @@ export async function POST(req: NextRequest) {
               similarity: Math.round(c.similarity * 1000) / 1000,
             })),
             caseLawConfidence: caseLawResult.confidence,
+          }
+
+          ragQueryLogMetadata = {
+            law_match_channels: summarizeMatchChannelsForLog(ragResult.chunks),
+            case_law_match_channels: summarizeMatchChannelsForLog(
+              caseLawResult.cases,
+            ),
           }
 
           if (process.env.NODE_ENV !== "production") {
@@ -355,7 +364,8 @@ export async function POST(req: NextRequest) {
           invalid_citations:
             ragMetadata.validation?.invalidCitations ?? [],
           response_time_ms: Date.now() - startLog,
-        })
+          metadata: ragQueryLogMetadata,
+        } as never)
       } catch (logError) {
         if (process.env.NODE_ENV !== "production") {
           console.error("[RAG] log write failed:", logError)

@@ -3,9 +3,28 @@ import {
   normalizeLegalAreaFilter,
   normalizeResearchCategory,
 } from "./normalizeResearchCategory"
+import {
+  getJurisdictionRpcThresholds,
+  LOWER_THRESHOLD_JURISDICTIONS,
+  LOWER_SIMILARITY_THRESHOLDS,
+  SIMILARITY_THRESHOLDS,
+} from "./ragThresholds"
+import {
+  escapeIlikePattern,
+  getScriptVariants,
+} from "./serbianTransliteration"
 import { supabaseAdmin } from "./supabase/admin"
 
+export {
+  getJurisdictionRpcThresholds,
+  LOWER_THRESHOLD_JURISDICTIONS,
+  LOWER_SIMILARITY_THRESHOLDS,
+  SIMILARITY_THRESHOLDS,
+} from "./ragThresholds"
+
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
+
+export type MatchChannel = "vector" | "keyword" | "both"
 
 export type LegalChunk = {
   id: string
@@ -19,6 +38,7 @@ export type LegalChunk = {
   text_local: string | null
   source_url: string | null
   similarity: number
+  matchChannel?: MatchChannel
 }
 
 export type CitationValidation = {
@@ -53,6 +73,7 @@ export type CaseLawChunk = {
   related_articles: string[] | null
   source_url: string | null
   similarity: number
+  matchChannel?: MatchChannel
 }
 
 export type CaseLawContextResult = {
@@ -63,41 +84,9 @@ export type CaseLawContextResult = {
 
 export type AnswerMode = "extracted" | "analytical" | "auto" | "drafting"
 
-const SIMILARITY_THRESHOLDS = {
-  HIGH: 0.65,
-  MEDIUM: 0.30,
-  LOW_RETRY: 0.22,
-}
-
-const LOWER_THRESHOLD_JURISDICTIONS = new Set([
-  "bih_fbih",
-  "bih_rs",
-  "bih_brcko",
-  "croatia",
-  "montenegro",
-  "slovenia",
-])
-
-const LOWER_SIMILARITY_THRESHOLDS = {
-  MEDIUM: 0.2,
-  LOW_RETRY: 0.15,
-} as const
-
-function getJurisdictionRpcThresholds(jurisdiction: string): {
-  defaultThreshold: number
-  lowRetry: number
-} {
-  if (LOWER_THRESHOLD_JURISDICTIONS.has(jurisdiction)) {
-    return {
-      defaultThreshold: LOWER_SIMILARITY_THRESHOLDS.MEDIUM,
-      lowRetry: LOWER_SIMILARITY_THRESHOLDS.LOW_RETRY,
-    }
-  }
-  return {
-    defaultThreshold: SIMILARITY_THRESHOLDS.MEDIUM,
-    lowRetry: SIMILARITY_THRESHOLDS.LOW_RETRY,
-  }
-}
+const KEYWORD_EXACT_PHRASE_SCORE = 0.95
+const KEYWORD_ALL_TERMS_SCORE = 0.82
+const KEYWORD_PARTIAL_SCORE = 0.7
 
 const RPC_TIMEOUT_MS = 30000
 /** Match Postgres statement_timeout in match_legal_articles (120s) on large corpora. */
@@ -197,6 +186,313 @@ async function runMatchLegalArticlesRpc(args: {
   }
 
   return (data ?? []) as LegalChunk[]
+}
+
+function scoreKeywordTextMatch(
+  haystack: string,
+  query: string,
+  variants: string[],
+): number {
+  const hay = haystack.toLowerCase()
+  for (const variant of variants) {
+    const needle = variant.trim().toLowerCase()
+    if (needle.length >= 3 && hay.includes(needle)) {
+      return KEYWORD_EXACT_PHRASE_SCORE
+    }
+  }
+  const terms = query
+    .toLowerCase()
+    .split(/\s+/)
+    .map((t) => t.trim())
+    .filter((t) => t.length > 2)
+  if (terms.length > 0 && terms.every((t) => hay.includes(t))) {
+    return KEYWORD_ALL_TERMS_SCORE
+  }
+  if (terms.some((t) => hay.includes(t))) {
+    return KEYWORD_PARTIAL_SCORE
+  }
+  return 0
+}
+
+function rowToLegalChunk(
+  row: Record<string, unknown>,
+  similarity: number,
+  matchChannel: MatchChannel,
+): LegalChunk {
+  return {
+    id: String(row.id ?? ""),
+    jurisdiction: String(row.jurisdiction ?? ""),
+    law_name: String(row.law_name ?? ""),
+    law_name_local: String(row.law_name_local ?? ""),
+    law_category: String(row.law_category ?? ""),
+    article_num: String(row.article_num ?? ""),
+    paragraph_num:
+      row.paragraph_num == null || row.paragraph_num === ""
+        ? null
+        : String(row.paragraph_num),
+    text: String(row.text ?? ""),
+    text_local:
+      row.text_local == null || row.text_local === ""
+        ? null
+        : String(row.text_local),
+    source_url:
+      row.source_url == null || row.source_url === ""
+        ? null
+        : String(row.source_url),
+    similarity,
+    matchChannel,
+  }
+}
+
+const KEYWORD_SEARCH_TIMEOUT_MS = 8000
+
+async function withTimeout<T>(
+  promise: Promise<T>,
+  timeoutMs: number,
+  label: string,
+): Promise<T> {
+  const timeoutPromise = new Promise<never>((_, reject) =>
+    setTimeout(
+      () => reject(new Error(`${label} timeout after ${timeoutMs}ms`)),
+      timeoutMs,
+    ),
+  )
+  return Promise.race([promise, timeoutPromise])
+}
+
+async function searchLegalArticlesByKeyword(args: {
+  query: string
+  jurisdiction: string
+  category: string | null
+  matchCount: number
+}): Promise<LegalChunk[]> {
+  return withTimeout(
+    searchLegalArticlesByKeywordInner(args),
+    KEYWORD_SEARCH_TIMEOUT_MS,
+    "keyword legal search",
+  ).catch((err) => {
+    const message = err instanceof Error ? err.message : String(err)
+    // eslint-disable-next-line no-console
+    console.error("[RAG] keyword legal search skipped", {
+      jurisdiction: args.jurisdiction,
+      message,
+    })
+    return []
+  })
+}
+
+async function searchLegalArticlesByKeywordInner(args: {
+  query: string
+  jurisdiction: string
+  category: string | null
+  matchCount: number
+}): Promise<LegalChunk[]> {
+  const query = args.query.trim()
+  if (query.length < 2) return []
+
+  const variants = getScriptVariants(query)
+  const patterns = variants.map((v) => `%${escapeIlikePattern(v)}%`)
+  if (patterns.length === 0) return []
+
+  const category = normalizeResearchCategory(args.category)
+  const orFilter = patterns
+    .map((p) => `text_local.ilike.${p}`)
+    .join(",")
+
+  let request = supabaseAdmin
+    .from("legal_articles")
+    .select(
+      "id, jurisdiction, law_name, law_name_local, law_category, article_num, paragraph_num, text, text_local, source_url",
+    )
+    .eq("jurisdiction", args.jurisdiction)
+    .or(orFilter)
+    .limit(Math.min(args.matchCount * 3, 30))
+
+  if (category) {
+    request = request.eq("law_category", category)
+  } else if (/otkaz|radu|zaposlen|radni|ugovor|otpremn/i.test(query)) {
+    request = request.eq("law_category", "labor")
+  }
+
+  const { data, error } = await request
+  if (error) {
+    throw new Error(error.message)
+  }
+
+  const scored = (data ?? [])
+    .map((row) => {
+      const r = row as Record<string, unknown>
+      const textLocal = String(r.text_local ?? r.text ?? "")
+      const score = scoreKeywordTextMatch(textLocal, query, variants)
+      if (score <= 0) return null
+      return rowToLegalChunk(r, score, "keyword")
+    })
+    .filter((c): c is LegalChunk => c != null)
+    .sort((a, b) => b.similarity - a.similarity)
+
+  return scored.slice(0, args.matchCount)
+}
+
+function mergeHybridLegalChunks(
+  vectorChunks: LegalChunk[],
+  keywordChunks: LegalChunk[],
+): LegalChunk[] {
+  const byId = new Map<string, LegalChunk>()
+
+  for (const chunk of vectorChunks) {
+    byId.set(chunk.id, { ...chunk, matchChannel: "vector" })
+  }
+
+  for (const chunk of keywordChunks) {
+    const existing = byId.get(chunk.id)
+    if (!existing) {
+      byId.set(chunk.id, { ...chunk, matchChannel: "keyword" })
+      continue
+    }
+    byId.set(chunk.id, {
+      ...existing,
+      similarity: Math.max(existing.similarity, chunk.similarity),
+      matchChannel: "both",
+    })
+  }
+
+  return Array.from(byId.values()).sort((a, b) => b.similarity - a.similarity)
+}
+
+function summarizeMatchChannels(chunks: Array<{ matchChannel?: MatchChannel }>) {
+  const counts = { vector: 0, keyword: 0, both: 0 }
+  for (const chunk of chunks) {
+    const ch = chunk.matchChannel ?? "vector"
+    counts[ch] += 1
+  }
+  return counts
+}
+
+export function summarizeMatchChannelsForLog(
+  chunks: Array<{ matchChannel?: MatchChannel; id: string; similarity: number }>,
+) {
+  return {
+    channels: summarizeMatchChannels(chunks),
+    top: chunks.slice(0, 8).map((c) => ({
+      id: c.id,
+      similarity: Math.round(c.similarity * 1000) / 1000,
+      matchChannel: c.matchChannel ?? "vector",
+    })),
+  }
+}
+
+async function searchCaseLawByKeyword(args: {
+  query: string
+  jurisdiction: string
+  legalArea: string | null
+  matchCount: number
+}): Promise<CaseLawChunk[]> {
+  return withTimeout(
+    searchCaseLawByKeywordInner(args),
+    KEYWORD_SEARCH_TIMEOUT_MS,
+    "keyword case law search",
+  ).catch((err) => {
+    const message = err instanceof Error ? err.message : String(err)
+    // eslint-disable-next-line no-console
+    console.error("[RAG] keyword case law search skipped", {
+      jurisdiction: args.jurisdiction,
+      message,
+    })
+    return []
+  })
+}
+
+async function searchCaseLawByKeywordInner(args: {
+  query: string
+  jurisdiction: string
+  legalArea: string | null
+  matchCount: number
+}): Promise<CaseLawChunk[]> {
+  const query = args.query.trim()
+  if (query.length < 2) return []
+
+  const variants = getScriptVariants(query)
+  const patterns = variants.map((v) => `%${escapeIlikePattern(v)}%`)
+  if (patterns.length === 0) return []
+
+  const legalArea = normalizeLegalAreaFilter(args.legalArea)
+  const fields = [
+    "legal_question",
+    "court_position",
+    "reasoning",
+    "headnote",
+  ] as const
+  const orParts: string[] = []
+  for (const field of fields) {
+    for (const pattern of patterns) {
+      orParts.push(`${field}.ilike.${pattern}`)
+    }
+  }
+
+  let request = supabaseAdmin
+    .from("case_law")
+    .select(
+      "id, jurisdiction, court, court_level, case_number, decision_date, legal_area, legal_question, court_position, reasoning, headnote, outcome, keywords, related_articles, source_url",
+    )
+    .eq("jurisdiction", args.jurisdiction)
+    .or(orParts.join(","))
+    .limit(Math.max(args.matchCount * 3, 15))
+
+  if (legalArea) {
+    request = request.eq("legal_area", legalArea)
+  }
+
+  const { data, error } = await request
+  if (error) {
+    throw new Error(error.message)
+  }
+
+  const scored = (data ?? [])
+    .map((raw) => {
+      const r = raw as Record<string, unknown>
+      const combined = [
+        r.legal_question,
+        r.court_position,
+        r.reasoning,
+        r.headnote,
+      ]
+        .map((v) => String(v ?? ""))
+        .join("\n")
+      const score = scoreKeywordTextMatch(combined, query, variants)
+      if (score <= 0) return null
+      const chunk = normalizeCaseLawChunks([raw])[0]
+      return { ...chunk, similarity: score, matchChannel: "keyword" as const }
+    })
+    .filter((c): c is CaseLawChunk => c != null)
+    .sort((a, b) => b.similarity - a.similarity)
+
+  return scored.slice(0, args.matchCount)
+}
+
+function mergeHybridCaseChunks(
+  vectorCases: CaseLawChunk[],
+  keywordCases: CaseLawChunk[],
+): CaseLawChunk[] {
+  const byId = new Map<string, CaseLawChunk>()
+
+  for (const item of vectorCases) {
+    byId.set(item.id, { ...item, matchChannel: "vector" })
+  }
+
+  for (const item of keywordCases) {
+    const existing = byId.get(item.id)
+    if (!existing) {
+      byId.set(item.id, { ...item, matchChannel: "keyword" })
+      continue
+    }
+    byId.set(item.id, {
+      ...existing,
+      similarity: Math.max(existing.similarity, item.similarity),
+      matchChannel: "both",
+    })
+  }
+
+  return Array.from(byId.values()).sort((a, b) => b.similarity - a.similarity)
 }
 
 async function runMatchCaseLawRpc(args: {
@@ -309,6 +605,7 @@ function deduplicateCaseChunks(chunks: CaseLawChunk[]): CaseLawChunk[] {
 
 async function matchCaseLawWithEmbedding(args: {
   embedding: number[]
+  query?: string
   jurisdiction: string
   legalArea?: string | null
   courtLevel?: string | null
@@ -335,6 +632,17 @@ async function matchCaseLawWithEmbedding(args: {
   const rpcTimeoutMs =
     args.rpcTimeoutMs ??
     getCaseLawRpcTimeoutMs(normalizedLegalArea, args.jurisdiction)
+  const matchCount = args.matchCount ?? 6
+
+  const keywordPromise =
+    args.query && args.query.trim().length >= 2
+      ? searchCaseLawByKeyword({
+          query: args.query,
+          jurisdiction: args.jurisdiction,
+          legalArea: normalizedLegalArea,
+          matchCount,
+        })
+      : Promise.resolve([] as CaseLawChunk[])
 
   let data = await runMatchCaseLawRpc({
     embedding: args.embedding,
@@ -364,7 +672,10 @@ async function matchCaseLawWithEmbedding(args: {
     })
   }
 
-  return { cases: data, usedThreshold, retried }
+  const keywordCases = await keywordPromise
+  const merged = mergeHybridCaseChunks(data, keywordCases)
+
+  return { cases: merged, usedThreshold, retried }
 }
 
 async function matchCaseLaw(args: {
@@ -384,6 +695,7 @@ async function matchCaseLaw(args: {
   const embedding = await embedQueryText(args.query)
   return matchCaseLawWithEmbedding({
     embedding,
+    query: args.query,
     jurisdiction: args.jurisdiction,
     legalArea: args.legalArea,
     courtLevel: args.courtLevel,
@@ -439,6 +751,7 @@ export async function retrieveCaseLawContextsBatch(
 
         const { cases: rawCases } = await matchCaseLawWithEmbedding({
           embedding,
+          query,
           jurisdiction,
           legalArea: normalizeLegalAreaFilter(options?.legalArea ?? null),
           courtLevel:
@@ -490,6 +803,16 @@ export async function matchLegalArticles(args: {
   usedThreshold: number
   retried: boolean
 }> {
+  const normalizedCategory = normalizeResearchCategory(args.category ?? null)
+  const matchCount = args.matchCount ?? 6
+
+  const keywordPromise = searchLegalArticlesByKeyword({
+    query: args.query,
+    jurisdiction: args.jurisdiction,
+    category: normalizedCategory,
+    matchCount,
+  })
+
   const embedding = await embedQueryText(args.query)
   const thresholds = getJurisdictionRpcThresholds(args.jurisdiction)
 
@@ -501,7 +824,6 @@ export async function matchLegalArticles(args: {
   let usedThreshold = initialThreshold
   let retried = false
 
-  const normalizedCategory = normalizeResearchCategory(args.category ?? null)
   const rpcTimeoutMs =
     args.rpcTimeoutMs ??
     getLegalRpcTimeoutMs(normalizedCategory, args.jurisdiction)
@@ -510,7 +832,7 @@ export async function matchLegalArticles(args: {
     embedding,
     jurisdiction: args.jurisdiction,
     category: args.category ?? null,
-    matchCount: args.matchCount ?? 6,
+    matchCount,
     similarityThreshold: initialThreshold,
     timeoutMs: rpcTimeoutMs,
   })
@@ -526,13 +848,16 @@ export async function matchLegalArticles(args: {
       embedding,
       jurisdiction: args.jurisdiction,
       category: args.category ?? null,
-      matchCount: args.matchCount ?? 6,
+      matchCount,
       similarityThreshold: thresholds.lowRetry,
       timeoutMs: rpcTimeoutMs,
     })
   }
 
-  return { chunks: data, usedThreshold, retried }
+  const keywordChunks = await keywordPromise
+  const merged = mergeHybridLegalChunks(data, keywordChunks)
+
+  return { chunks: merged, usedThreshold, retried }
 }
 
 function deduplicateChunks(chunks: LegalChunk[]): LegalChunk[] {

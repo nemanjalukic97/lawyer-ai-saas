@@ -6,9 +6,11 @@ import { PLAN_ENTITLEMENTS } from "@/app/dashboard/lib/entitlements"
 import {
   matchLegalArticles,
   retrieveCaseLawContext,
+  summarizeMatchChannelsForLog,
   type CaseLawChunk,
   type CaseLawContextResult,
   type LegalChunk,
+  type MatchChannel,
 } from "@/lib/legalRag"
 import { parseSearchTokens } from "@/lib/highlightSearchTerms"
 import { normalizeJurisdiction } from "@/lib/normalizeJurisdiction"
@@ -16,6 +18,7 @@ import {
   inferLegalAreasFromLawChunks,
   normalizeResearchCategory,
 } from "@/lib/normalizeResearchCategory"
+import { isScrapedExcerpt, splitByRelevanceTier } from "@/lib/ragThresholds"
 import type { TablesInsert } from "@/lib/supabase/types"
 
 type ResearchSearchScope = "laws" | "caselaw" | "both"
@@ -42,6 +45,8 @@ type ResearchResultItem = {
   similarity: number
   confidencePct: number
   excerpt: string
+  isExcerpt: boolean
+  matchChannel?: MatchChannel
 }
 
 type ResearchCaseLawResultItem = {
@@ -59,6 +64,7 @@ type ResearchCaseLawResultItem = {
   similarity: number
   confidencePct: number
   excerpt: string
+  matchChannel?: MatchChannel
 }
 
 const PER_JURIS_CAP = 50
@@ -188,6 +194,7 @@ function toCaseLawResultItem(
     similarity,
     confidencePct: Math.max(0, Math.min(100, Math.round(similarity * 100))),
     excerpt: buildCaseExcerpt(chunk, query),
+    matchChannel: chunk.matchChannel,
   }
 }
 
@@ -206,6 +213,8 @@ function toResultItem(chunk: LegalChunk, query: string): ResearchResultItem {
     similarity,
     confidencePct: Math.max(0, Math.min(100, Math.round(similarity * 100))),
     excerpt: buildExcerpt(chunk, query),
+    isExcerpt: isScrapedExcerpt(chunk.text, chunk.text_local),
+    matchChannel: chunk.matchChannel,
   }
 }
 
@@ -373,10 +382,21 @@ export async function POST(req: NextRequest) {
     ])
 
     const sorted = fetchLaws ? mergeLegalChunks(searches) : []
+    const { primary: primaryLaws, lowConfidence: lowConfidenceLaws } =
+      splitByRelevanceTier(sorted)
     const totalResults = sorted.length
-    const lawPage = sorted.slice(offset, offset + limit)
+    const lawPage = primaryLaws.slice(offset, offset + limit)
+    const lowLawPage = lowConfidenceLaws.slice(offset, offset + limit)
     const results = lawPage.map((c) => toResultItem(c, query))
-    const hasMoreLaws = fetchLaws && totalResults > offset + limit
+    const lowConfidenceResults = lowLawPage.map((c) => toResultItem(c, query))
+    const hasHighlyRelevantLaws = primaryLaws.length > 0
+    const hasMoreLaws = fetchLaws && primaryLaws.length > offset + limit
+    const hasMoreLowConfidenceLaws =
+      fetchLaws && lowConfidenceLaws.length > offset + limit
+
+    const lawMatchLog = fetchLaws
+      ? summarizeMatchChannelsForLog(sorted.slice(0, 20))
+      : null
 
     let caseLawSearchRuns: CaseLawContextResult[] = caseLawSearches
     let sortedCases = fetchCaseLaw ? mergeCaseLawChunks(caseLawSearchRuns) : []
@@ -410,9 +430,22 @@ export async function POST(req: NextRequest) {
       }
     }
     const totalCaseLawResults = sortedCases.length
-    const casePage = sortedCases.slice(offset, offset + limit)
+    const { primary: primaryCases, lowConfidence: lowConfidenceCases } =
+      splitByRelevanceTier(sortedCases)
+    const casePage = primaryCases.slice(offset, offset + limit)
+    const lowCasePage = lowConfidenceCases.slice(offset, offset + limit)
     const caseLawResults = casePage.map((c) => toCaseLawResultItem(c, query))
-    const hasMoreCaseLaw = fetchCaseLaw && totalCaseLawResults > offset + limit
+    const lowConfidenceCaseLawResults = lowCasePage.map((c) =>
+      toCaseLawResultItem(c, query),
+    )
+    const hasHighlyRelevantCaseLaw = primaryCases.length > 0
+    const hasMoreCaseLaw = fetchCaseLaw && primaryCases.length > offset + limit
+    const hasMoreLowConfidenceCaseLaw =
+      fetchCaseLaw && lowConfidenceCases.length > offset + limit
+
+    const caseLawMatchLog = fetchCaseLaw
+      ? summarizeMatchChannelsForLog(sortedCases.slice(0, 20))
+      : null
 
     if (fetchCaseLaw) {
       // eslint-disable-next-line no-console
@@ -470,6 +503,10 @@ export async function POST(req: NextRequest) {
             similarity_threshold: 0.25,
             page,
             limit,
+            law_match_channels: lawMatchLog,
+            case_law_match_channels: caseLawMatchLog,
+            has_highly_relevant_laws: hasHighlyRelevantLaws,
+            has_highly_relevant_case_law: hasHighlyRelevantCaseLaw,
           } as any,
         }
         await supabase.from("usage_stats").insert(usageRow as never)
@@ -482,14 +519,20 @@ export async function POST(req: NextRequest) {
       query,
       filters: { jurisdiction, category },
       results,
+      lowConfidenceResults,
+      hasHighlyRelevantLaws,
       caseLawResults,
+      lowConfidenceCaseLawResults,
+      hasHighlyRelevantCaseLaw,
       caseLawConfidence,
       page,
       limit,
       totalResults,
       totalCaseLawResults,
       hasMoreLaws,
+      hasMoreLowConfidenceLaws,
       hasMoreCaseLaw,
+      hasMoreLowConfidenceCaseLaw,
     })
   } catch {
     return Response.json({ error: "Internal server error" }, { status: 500 })

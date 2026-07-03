@@ -145,6 +145,68 @@ export const SAMPLE_ARTICLES: LegalArticleInput[] = [
   ...(LABOR_EXTENDED_ARTICLES as LegalArticleInput[]),
 ]
 
+/** Curated articles from scripts/legal-articles-labor-extended.ts (also in SAMPLE_ARTICLES). */
+export const ALL_ARTICLES: LegalArticleInput[] = SAMPLE_ARTICLES
+
+export type IngestLegalOptions = {
+  dryRun?: boolean
+  onlyMissing?: boolean
+  /** e.g. "labor-extended" — ingest only LABOR_EXTENDED_ARTICLES */
+  onlySource?: "labor-extended"
+  skipRetrievalTest?: boolean
+}
+
+function parseIngestCliArgs(): IngestLegalOptions {
+  const args = process.argv.slice(2)
+  let dryRun = false
+  let onlyMissing = false
+  let onlySource: IngestLegalOptions["onlySource"]
+  let skipRetrievalTest = false
+
+  for (const arg of args) {
+    if (arg === "--dry-run") dryRun = true
+    else if (arg === "--only-missing") onlyMissing = true
+    else if (arg === "--skip-retrieval-test") skipRetrievalTest = true
+    else if (arg === "--only-source=labor-extended") onlySource = "labor-extended"
+  }
+
+  return { dryRun, onlyMissing, onlySource, skipRetrievalTest }
+}
+
+function resolveArticlesToIngest(
+  options: IngestLegalOptions,
+): LegalArticleInput[] {
+  if (options.onlySource === "labor-extended") {
+    return LABOR_EXTENDED_ARTICLES as LegalArticleInput[]
+  }
+  return SAMPLE_ARTICLES
+}
+
+async function loadExistingArticleIds(
+  articles: LegalArticleInput[],
+): Promise<Set<string>> {
+  const ids = articles.map((a) => stableIdForArticle(a))
+  const { supabaseAdmin } = await import("../lib/supabase/admin")
+  const existing = new Set<string>()
+  const chunkSize = 100
+
+  for (let i = 0; i < ids.length; i += chunkSize) {
+    const batch = ids.slice(i, i + chunkSize)
+    const { data, error } = await supabaseAdmin
+      .from("legal_articles")
+      .select("id")
+      .in("id", batch)
+
+    if (error) throw error
+    for (const row of data ?? []) {
+      const id = (row as { id?: string }).id
+      if (id) existing.add(id)
+    }
+  }
+
+  return existing
+}
+
 export function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms))
 }
@@ -249,25 +311,81 @@ export async function checkExisting(): Promise<number> {
   return (data ?? []).length
 }
 
-export async function ingest() {
+export async function ingest(options: IngestLegalOptions = {}) {
+  const articles = resolveArticlesToIngest(options)
+  const existingTotal = await checkExisting()
+  // eslint-disable-next-line no-console
+  console.log(`Existing total: ${existingTotal}`)
+  // eslint-disable-next-line no-console
+  console.log(
+    `Ingest scope: ${articles.length} article(s)` +
+      (options.onlySource ? ` (only-source=${options.onlySource})` : "") +
+      (options.dryRun ? " [dry-run]" : "") +
+      (options.onlyMissing ? " [only-missing]" : ""),
+  )
+
+  const existingIds =
+    options.dryRun || options.onlyMissing
+      ? await loadExistingArticleIds(articles)
+      : new Set<string>()
+
+  const toProcess = options.onlyMissing
+    ? articles.filter((a) => !existingIds.has(stableIdForArticle(a)))
+    : articles
+
+  if (options.dryRun) {
+    let wouldInsert = 0
+    let wouldSkip = 0
+    for (const article of articles) {
+      const id = stableIdForArticle(article)
+      const exists = existingIds.has(id)
+      if (exists && options.onlyMissing) {
+        wouldSkip += 1
+        // eslint-disable-next-line no-console
+        console.log(
+          `○ skip (exists) ${article.jurisdiction} / ${article.law_name_local} / ${article.article_num}`,
+        )
+      } else if (exists) {
+        wouldSkip += 1
+        // eslint-disable-next-line no-console
+        console.log(
+          `○ skip (duplicate id) ${article.jurisdiction} / ${article.law_name_local} / ${article.article_num}`,
+        )
+      } else {
+        wouldInsert += 1
+        // eslint-disable-next-line no-console
+        console.log(
+          `+ would insert ${article.jurisdiction} / ${article.law_name_local} / ${article.article_num}`,
+        )
+      }
+    }
+    // eslint-disable-next-line no-console
+    console.log(
+      `✅ Dry-run: ${wouldInsert} would insert, ${wouldSkip} would skip (${articles.length} in scope)`,
+    )
+    return
+  }
+
   if (!process.env.OPENAI_API_KEY) {
     throw new Error("Missing OPENAI_API_KEY env var.")
   }
 
-  const existingTotal = await checkExisting()
-  // eslint-disable-next-line no-console
-  console.log(`Existing total: ${existingTotal}`)
-
   const jurisdictionSet = new Set<string>()
   const succeededByJurisdiction = new Map<string, number>()
   let succeeded = 0
+  let skipped = 0
 
-  for (const article of SAMPLE_ARTICLES) {
+  for (const article of toProcess) {
     jurisdictionSet.add(article.jurisdiction)
+    const id = stableIdForArticle(article)
+
+    if (options.onlyMissing && existingIds.has(id)) {
+      skipped += 1
+      continue
+    }
 
     try {
       const embedding = await embed(article)
-      const id = stableIdForArticle(article)
 
       const payload = {
         id,
@@ -321,7 +439,10 @@ export async function ingest() {
     console.log(`  ${j}: ${succeededByJurisdiction.get(j) ?? 0}`)
   }
   // eslint-disable-next-line no-console
-  console.log(`✅ Total: ${succeeded} articles (${jurisdictionSet.size} jurisdictions)`)
+  console.log(
+    `✅ Total: ${succeeded} articles (${jurisdictionSet.size} jurisdictions)` +
+      (skipped > 0 ? `, ${skipped} skipped (already present)` : ""),
+  )
 }
 
 async function testRetrieval() {
@@ -372,8 +493,11 @@ async function testRetrieval() {
 }
 
 async function main() {
-  await ingest()
-  await testRetrieval()
+  const options = parseIngestCliArgs()
+  await ingest(options)
+  if (!options.dryRun && !options.skipRetrievalTest) {
+    await testRetrieval()
+  }
 }
 
 // Allow running directly with `npx tsx scripts/ingest-legal-texts.ts`

@@ -45,6 +45,8 @@ type ResearchResultItem = {
   similarity: number
   confidencePct: number
   excerpt: string
+  isExcerpt?: boolean
+  matchChannel?: "vector" | "keyword" | "both"
 }
 
 type ResearchCaseLawResultItem = {
@@ -62,20 +64,27 @@ type ResearchCaseLawResultItem = {
   similarity: number
   confidencePct: number
   excerpt: string
+  matchChannel?: "vector" | "keyword" | "both"
 }
 
 type SearchResponse = {
   query: string
   filters: { jurisdiction: string | null; category: string | null }
   results: ResearchResultItem[]
+  lowConfidenceResults?: ResearchResultItem[]
+  hasHighlyRelevantLaws?: boolean
   caseLawResults?: ResearchCaseLawResultItem[]
+  lowConfidenceCaseLawResults?: ResearchCaseLawResultItem[]
+  hasHighlyRelevantCaseLaw?: boolean
   caseLawConfidence?: "high" | "medium" | "low" | "none"
   page?: number
   limit?: number
   totalResults?: number
   totalCaseLawResults?: number
   hasMoreLaws?: boolean
+  hasMoreLowConfidenceLaws?: boolean
   hasMoreCaseLaw?: boolean
+  hasMoreLowConfidenceCaseLaw?: boolean
 }
 
 function mergeResultItemsById<T extends { id: string }>(
@@ -88,9 +97,101 @@ function mergeResultItemsById<T extends { id: string }>(
 }
 
 function defaultResearchResultsTab(
-  data: Pick<SearchResponse, "results" | "caseLawResults">,
+  data: Pick<
+    SearchResponse,
+    "results" | "caseLawResults" | "hasHighlyRelevantLaws" | "hasHighlyRelevantCaseLaw"
+  >,
 ): "laws" | "caselaw" {
+  if (data.hasHighlyRelevantLaws || (data.results?.length ?? 0) > 0) return "laws"
+  if (data.hasHighlyRelevantCaseLaw || (data.caseLawResults?.length ?? 0) > 0) {
+    return "caselaw"
+  }
   return (data.results?.length ?? 0) > 0 ? "laws" : "caselaw"
+}
+
+function ResearchLowConfidenceDivider({ t }: { t: (key: string) => string }) {
+  return (
+    <div className="flex items-center gap-3 py-2">
+      <div className="h-px flex-1 bg-border" />
+      <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+        {t("research.results.lowConfidenceDivider")}
+      </span>
+      <div className="h-px flex-1 bg-border" />
+    </div>
+  )
+}
+
+function ResearchNoHighlyRelevantBanner({ t }: { t: (key: string) => string }) {
+  return (
+    <Card className="border-amber-500/30 bg-amber-500/5 p-4">
+      <p className="text-sm text-foreground">
+        {t("research.results.noHighlyRelevant")}
+      </p>
+    </Card>
+  )
+}
+
+function ResearchLawResultCard({
+  r,
+  query,
+  t,
+  jurisdictionBadgeClass,
+  confidenceBadgeClass,
+}: {
+  r: ResearchResultItem
+  query: string
+  t: (key: string, vars?: Record<string, string | number>) => string
+  jurisdictionBadgeClass: (j: string) => string
+  confidenceBadgeClass: (pct: number) => string
+}) {
+  const displayText =
+    r.text_local && r.text_local.trim() ? r.text_local : r.text ?? ""
+  const parts = highlightSubstring(displayText, query)
+  const unitLabel = r.isExcerpt
+    ? t("research.results.excerptLabel")
+    : t("research.results.articleLabel")
+
+  return (
+    <Card key={r.id} className="p-5">
+      <div className="space-y-2">
+        <p className="text-sm font-medium leading-snug text-foreground break-words">
+          <span>{r.law_name_local}</span>
+          <span className="text-muted-foreground"> — {r.law_name}</span>
+        </p>
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-xs text-muted-foreground">
+            {unitLabel}{" "}
+            <span className="font-medium text-foreground">
+              {r.article_num}
+              {r.paragraph_num ? ` §${r.paragraph_num}` : ""}
+            </span>
+          </p>
+          <ResearchLawMetaBadges
+            jurisdiction={r.jurisdiction}
+            category={r.category}
+            confidencePct={r.confidencePct}
+            jurisdictionBadgeClass={jurisdictionBadgeClass}
+            t={t}
+          />
+        </div>
+      </div>
+
+      <div className="mt-3 text-sm leading-relaxed text-foreground">
+        {parts.map((p, idx) =>
+          typeof p === "string" ? (
+            <span key={idx}>{p}</span>
+          ) : (
+            <mark
+              key={idx}
+              className="rounded bg-primary/15 px-0.5 text-foreground"
+            >
+              {p.mark}
+            </mark>
+          ),
+        )}
+      </div>
+    </Card>
+  )
 }
 
 function ResearchResultsPaginationFooter({
@@ -273,19 +374,35 @@ function caseLawOutcomeBorderClass(outcome: string | null): string {
 
 function ResearchCaseLawResults({
   results,
+  lowConfidenceResults = [],
+  showNoHighlyRelevantBanner = false,
   t,
   jurisdictionBadgeClass,
   confidenceBadgeClass,
 }: {
-  results: SearchResponse
+  results: ResearchCaseLawResultItem[]
+  lowConfidenceResults?: ResearchCaseLawResultItem[]
+  showNoHighlyRelevantBanner?: boolean
   t: (key: string) => string
   jurisdictionBadgeClass: (j: string) => string
   confidenceBadgeClass: (pct: number) => string
 }) {
-  const items = results.caseLawResults ?? []
+  if (results.length === 0 && lowConfidenceResults.length === 0) {
+    return (
+      <Card className="p-6">
+        <p className="text-sm text-muted-foreground">
+          {t("research.caseLaw.empty")}
+        </p>
+      </Card>
+    )
+  }
+
   return (
     <div className="space-y-4">
-      {items.map((c) => {
+      {showNoHighlyRelevantBanner ? (
+        <ResearchNoHighlyRelevantBanner t={t} />
+      ) : null}
+      {results.map((c) => {
         const outcomeKey = c.outcome ? `rag.caseLaw.outcomes.${c.outcome}` : null
         const outcomeLabel =
           outcomeKey && t(outcomeKey) !== outcomeKey ? t(outcomeKey) : c.outcome
@@ -316,6 +433,46 @@ function ResearchCaseLawResults({
           </Card>
         )
       })}
+      {lowConfidenceResults.length > 0 ? (
+        <>
+          <ResearchLowConfidenceDivider t={t} />
+          {lowConfidenceResults.map((c) => {
+            const outcomeKey = c.outcome
+              ? `rag.caseLaw.outcomes.${c.outcome}`
+              : null
+            const outcomeLabel =
+              outcomeKey && t(outcomeKey) !== outcomeKey
+                ? t(outcomeKey)
+                : c.outcome
+            const decisionLabel =
+              c.decision_date && c.decision_date.trim()
+                ? new Date(c.decision_date).toLocaleDateString(undefined, {
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric",
+                  })
+                : null
+            return (
+              <Card
+                key={c.id}
+                className={cn(
+                  "border-l-2 border-dashed p-5 opacity-90",
+                  caseLawOutcomeBorderClass(c.outcome),
+                )}
+              >
+                <CaseLawResultCardBody
+                  c={c}
+                  outcomeLabel={outcomeLabel}
+                  decisionLabel={decisionLabel}
+                  t={t}
+                  jurisdictionBadgeClass={jurisdictionBadgeClass}
+                  confidenceBadgeClass={confidenceBadgeClass}
+                />
+              </Card>
+            )
+          })}
+        </>
+      ) : null}
     </div>
   )
 }
@@ -411,9 +568,13 @@ function ResearchResultsTabs({
   onLoadMoreCaseLaw: () => void
 }) {
   const lawCount = results.results?.length ?? 0
+  const lowLawCount = results.lowConfidenceResults?.length ?? 0
   const caseCount = results.caseLawResults?.length ?? 0
-  const showLawsTab = lawCount > 0
-  const showCaseTab = caseCount > 0
+  const lowCaseCount = results.lowConfidenceCaseLawResults?.length ?? 0
+  const showLawsTab = lawCount > 0 || lowLawCount > 0
+  const showCaseTab = caseCount > 0 || lowCaseCount > 0
+  const lawsTabLabelCount = lawCount + (results.hasHighlyRelevantLaws ? 0 : 0)
+  const caseTabLabelCount = caseCount
   const tabValue =
     activeTab === "laws" && showLawsTab
       ? "laws"
@@ -427,7 +588,7 @@ function ResearchResultsTabs({
     return (
       <Card className="p-6">
         <p className="text-sm text-muted-foreground">
-          {t("research.results.empty")}
+          {t("research.results.noHighlyRelevant")}
         </p>
       </Card>
     )
@@ -446,7 +607,7 @@ function ResearchResultsTabs({
             className="flex-1 cursor-pointer gap-2 px-6 py-3 text-base font-semibold text-foreground/70 data-[state=active]:text-lg data-[state=active]:font-bold data-[state=active]:text-blue-800 data-[state=active]:shadow-sm dark:text-foreground/60 dark:data-[state=active]:text-blue-300"
           >
             <BookOpen className="h-5 w-5 shrink-0 text-blue-600 dark:text-blue-400" />
-            {t("research.results.lawsTab")} ({lawCount})
+            {t("research.results.lawsTab")} ({lawsTabLabelCount || lowLawCount})
           </TabsTrigger>
         ) : null}
         {showCaseTab ? (
@@ -455,75 +616,55 @@ function ResearchResultsTabs({
             className="flex-1 cursor-pointer gap-2 px-6 py-3 text-base font-semibold text-foreground/70 data-[state=active]:text-lg data-[state=active]:font-bold data-[state=active]:text-amber-800 data-[state=active]:shadow-sm dark:text-foreground/60 dark:data-[state=active]:text-amber-300"
           >
             <Scale className="h-5 w-5 shrink-0 text-amber-600 dark:text-amber-400" />
-            {t("research.results.caseLawTab")} ({caseCount})
+            {t("research.results.caseLawTab")} ({caseTabLabelCount || lowCaseCount})
           </TabsTrigger>
         ) : null}
       </TabsList>
 
       {showLawsTab ? (
         <TabsContent value="laws" className="mt-3 space-y-3">
-          {lawCount === 0 ? (
+          {lawCount === 0 && lowLawCount === 0 ? (
             <Card className="p-6">
               <p className="text-sm text-muted-foreground">
-                {t("research.results.empty")}
+                {t("research.results.noHighlyRelevant")}
               </p>
             </Card>
           ) : (
             <div className="space-y-4">
-              {results.results.map((r) => {
-                const displayText =
-                  r.text_local && r.text_local.trim()
-                    ? r.text_local
-                    : r.text ?? ""
-                const parts = highlightSubstring(displayText, results.query)
-                return (
-                  <Card key={r.id} className="p-5">
-                    <div className="space-y-2">
-                      <p className="text-sm font-medium leading-snug text-foreground break-words">
-                        <span>{r.law_name_local}</span>
-                        <span className="text-muted-foreground">
-                          {" "}
-                          — {r.law_name}
-                        </span>
-                      </p>
-                      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                        <p className="text-xs text-muted-foreground">
-                          {t("research.results.articleLabel")}{" "}
-                          <span className="font-medium text-foreground">
-                            {r.article_num}
-                            {r.paragraph_num ? ` §${r.paragraph_num}` : ""}
-                          </span>
-                        </p>
-                        <ResearchLawMetaBadges
-                          jurisdiction={r.jurisdiction}
-                          category={r.category}
-                          confidencePct={r.confidencePct}
-                          jurisdictionBadgeClass={jurisdictionBadgeClass}
-                          t={t}
-                        />
-                      </div>
-                    </div>
-
-                    <div className="mt-3 text-sm leading-relaxed text-foreground">
-                      {parts.map((p, idx) =>
-                        typeof p === "string" ? (
-                          <span key={idx}>{p}</span>
-                        ) : (
-                          <mark
-                            key={idx}
-                            className="rounded bg-primary/15 px-0.5 text-foreground"
-                          >
-                            {p.mark}
-                          </mark>
-                        ),
-                      )}
-                    </div>
-                  </Card>
-                )
-              })}
+              {!results.hasHighlyRelevantLaws && lowLawCount > 0 ? (
+                <ResearchNoHighlyRelevantBanner t={t} />
+              ) : null}
+              {results.results.map((r) => (
+                <ResearchLawResultCard
+                  key={r.id}
+                  r={r}
+                  query={results.query}
+                  t={t}
+                  jurisdictionBadgeClass={jurisdictionBadgeClass}
+                  confidenceBadgeClass={confidenceBadgeClass}
+                />
+              ))}
+              {(results.lowConfidenceResults ?? []).length > 0 ? (
+                <>
+                  <ResearchLowConfidenceDivider t={t} />
+                  {(results.lowConfidenceResults ?? []).map((r) => (
+                    <ResearchLawResultCard
+                      key={r.id}
+                      r={r}
+                      query={results.query}
+                      t={t}
+                      jurisdictionBadgeClass={jurisdictionBadgeClass}
+                      confidenceBadgeClass={confidenceBadgeClass}
+                    />
+                  ))}
+                </>
+              ) : null}
               <ResearchResultsPaginationFooter
-                shown={lawCount}
-                hasMore={results.hasMoreLaws ?? false}
+                shown={lawCount + lowLawCount}
+                hasMore={
+                  (results.hasMoreLaws ?? false) ||
+                  (results.hasMoreLowConfidenceLaws ?? false)
+                }
                 loading={loadingMoreLaws}
                 onLoadMore={onLoadMoreLaws}
                 t={t}
@@ -536,14 +677,21 @@ function ResearchResultsTabs({
       {showCaseTab ? (
         <TabsContent value="caselaw" className="mt-3 space-y-3">
           <ResearchCaseLawResults
-            results={results}
+            results={results.caseLawResults ?? []}
+            lowConfidenceResults={results.lowConfidenceCaseLawResults ?? []}
+            showNoHighlyRelevantBanner={
+              !results.hasHighlyRelevantCaseLaw && lowCaseCount > 0
+            }
             t={t}
             jurisdictionBadgeClass={jurisdictionBadgeClass}
             confidenceBadgeClass={confidenceBadgeClass}
           />
           <ResearchResultsPaginationFooter
-            shown={caseCount}
-            hasMore={results.hasMoreCaseLaw ?? false}
+            shown={caseCount + lowCaseCount}
+            hasMore={
+              (results.hasMoreCaseLaw ?? false) ||
+              (results.hasMoreLowConfidenceCaseLaw ?? false)
+            }
             loading={loadingMoreCaseLaw}
             onLoadMore={onLoadMoreCaseLaw}
             t={t}
@@ -587,7 +735,9 @@ export function ResearchPageClient({ planId }: { planId: EntitlementPlanId }) {
 
   const hasResults =
     (results?.results?.length ?? 0) > 0 ||
-    (results?.caseLawResults?.length ?? 0) > 0
+    (results?.lowConfidenceResults?.length ?? 0) > 0 ||
+    (results?.caseLawResults?.length ?? 0) > 0 ||
+    (results?.lowConfidenceCaseLawResults?.length ?? 0) > 0
 
   const selectedJurisdictionLabel = useMemo(() => {
     const found = JURISDICTIONS.find((j) => j.id === jurisdiction)
@@ -680,7 +830,14 @@ export function ResearchPageClient({ planId }: { planId: EntitlementPlanId }) {
           return {
             ...prev,
             results: mergeResultItemsById(prev.results, json.results ?? []),
+            lowConfidenceResults: mergeResultItemsById(
+              prev.lowConfidenceResults ?? [],
+              json.lowConfidenceResults ?? [],
+            ),
+            hasHighlyRelevantLaws:
+              json.hasHighlyRelevantLaws ?? prev.hasHighlyRelevantLaws,
             hasMoreLaws: json.hasMoreLaws ?? false,
+            hasMoreLowConfidenceLaws: json.hasMoreLowConfidenceLaws ?? false,
             limit: json.limit ?? prev.limit,
           }
         }
@@ -690,7 +847,15 @@ export function ResearchPageClient({ planId }: { planId: EntitlementPlanId }) {
             prev.caseLawResults ?? [],
             json.caseLawResults ?? [],
           ),
+          lowConfidenceCaseLawResults: mergeResultItemsById(
+            prev.lowConfidenceCaseLawResults ?? [],
+            json.lowConfidenceCaseLawResults ?? [],
+          ),
+          hasHighlyRelevantCaseLaw:
+            json.hasHighlyRelevantCaseLaw ?? prev.hasHighlyRelevantCaseLaw,
           hasMoreCaseLaw: json.hasMoreCaseLaw ?? false,
+          hasMoreLowConfidenceCaseLaw:
+            json.hasMoreLowConfidenceCaseLaw ?? false,
           caseLawConfidence: json.caseLawConfidence ?? prev.caseLawConfidence,
           limit: json.limit ?? prev.limit,
         }

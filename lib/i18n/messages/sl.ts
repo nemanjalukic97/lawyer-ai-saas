@@ -339,6 +339,10 @@ export const slMessages: Messages = {
         hint: "Zaženite iskanje za najbolj relevantne člene zakona.",
         empty:
           "Ni najdenih relevantnih členov. Poskusite druge ključne besede ali širšo kategorijo.",
+        noHighlyRelevant:
+          "Ni zelo relevantnih rezultatov — poskusite drugačno formulacijo ali preverite naziv zakona.",
+        lowConfidenceDivider: "Rezultati z nizko zanesljivostjo",
+        excerptLabel: "Odlomek",
         countSuffix: "rezultatov",
         confidenceLabel: "Zanesljivost",
         articleLabel: "Člen",

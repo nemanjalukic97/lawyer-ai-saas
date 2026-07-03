@@ -408,6 +408,10 @@ export const srMessages: Messages = {
         hint: "Pokrenite pretragu da biste videli najrelevantnije članke zakona.",
         empty:
           "Nema relevantnih članaka. Pokušajte druge ključne reči ili širu kategoriju.",
+        noHighlyRelevant:
+          "Nema visoko relevantnih rezultata — pokušajte drugačiju formulaciju ili proverite naziv zakona.",
+        lowConfidenceDivider: "Rezultati niske pouzdanosti",
+        excerptLabel: "Odlomak",
         countSuffix: "rezultata",
         confidenceLabel: "Pouzdanost",
         articleLabel: "Član",
