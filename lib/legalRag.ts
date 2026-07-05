@@ -10,9 +10,9 @@ import {
   SIMILARITY_THRESHOLDS,
 } from "./ragThresholds"
 import {
-  escapeIlikePattern,
-  getScriptVariants,
-} from "./serbianTransliteration"
+  buildKeywordIlikePatterns,
+  scoreKeywordPatternMatch,
+} from "./keywordVariants"
 import { supabaseAdmin } from "./supabase/admin"
 
 export {
@@ -24,7 +24,11 @@ export {
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
 
-export type MatchChannel = "vector" | "keyword" | "both"
+export type MatchChannel =
+  | "vector"
+  | "keyword_exact"
+  | "keyword_stem"
+  | "both"
 
 export type LegalChunk = {
   id: string
@@ -84,9 +88,6 @@ export type CaseLawContextResult = {
 
 export type AnswerMode = "extracted" | "analytical" | "auto" | "drafting"
 
-const KEYWORD_EXACT_PHRASE_SCORE = 0.95
-const KEYWORD_ALL_TERMS_SCORE = 0.82
-const KEYWORD_PARTIAL_SCORE = 0.7
 
 const RPC_TIMEOUT_MS = 30000
 /** Match Postgres statement_timeout in match_legal_articles (120s) on large corpora. */
@@ -190,28 +191,17 @@ async function runMatchLegalArticlesRpc(args: {
 
 function scoreKeywordTextMatch(
   haystack: string,
-  query: string,
-  variants: string[],
-): number {
-  const hay = haystack.toLowerCase()
-  for (const variant of variants) {
-    const needle = variant.trim().toLowerCase()
-    if (needle.length >= 3 && hay.includes(needle)) {
-      return KEYWORD_EXACT_PHRASE_SCORE
-    }
-  }
-  const terms = query
-    .toLowerCase()
-    .split(/\s+/)
-    .map((t) => t.trim())
-    .filter((t) => t.length > 2)
-  if (terms.length > 0 && terms.every((t) => hay.includes(t))) {
-    return KEYWORD_ALL_TERMS_SCORE
-  }
-  if (terms.some((t) => hay.includes(t))) {
-    return KEYWORD_PARTIAL_SCORE
-  }
-  return 0
+  patterns: ReturnType<typeof buildKeywordIlikePatterns>,
+): { score: number; matchChannel: "keyword_exact" | "keyword_stem" } | null {
+  return scoreKeywordPatternMatch(haystack, patterns)
+}
+
+function buildKeywordOrFilter(
+  patterns: ReturnType<typeof buildKeywordIlikePatterns>,
+  field: string,
+): string {
+  const allPatterns = [...patterns.exactPatterns, ...patterns.stemPatterns]
+  return allPatterns.map((p) => `${field}.ilike.${p}`).join(",")
 }
 
 function rowToLegalChunk(
@@ -290,14 +280,16 @@ async function searchLegalArticlesByKeywordInner(args: {
   const query = args.query.trim()
   if (query.length < 2) return []
 
-  const variants = getScriptVariants(query)
-  const patterns = variants.map((v) => `%${escapeIlikePattern(v)}%`)
-  if (patterns.length === 0) return []
+  const patterns = buildKeywordIlikePatterns(query)
+  if (
+    patterns.exactPatterns.length === 0 &&
+    patterns.stemPatterns.length === 0
+  ) {
+    return []
+  }
 
   const category = normalizeResearchCategory(args.category)
-  const orFilter = patterns
-    .map((p) => `text_local.ilike.${p}`)
-    .join(",")
+  const orFilter = buildKeywordOrFilter(patterns, "text_local")
 
   let request = supabaseAdmin
     .from("legal_articles")
@@ -310,7 +302,7 @@ async function searchLegalArticlesByKeywordInner(args: {
 
   if (category) {
     request = request.eq("law_category", category)
-  } else if (/otkaz|radu|zaposlen|radni|ugovor|otpremn/i.test(query)) {
+  } else if (/otkaz|radu|zaposlen|radni|otpremn|ugovor o radu/i.test(query)) {
     request = request.eq("law_category", "labor")
   }
 
@@ -323,9 +315,9 @@ async function searchLegalArticlesByKeywordInner(args: {
     .map((row) => {
       const r = row as Record<string, unknown>
       const textLocal = String(r.text_local ?? r.text ?? "")
-      const score = scoreKeywordTextMatch(textLocal, query, variants)
-      if (score <= 0) return null
-      return rowToLegalChunk(r, score, "keyword")
+      const match = scoreKeywordTextMatch(textLocal, patterns)
+      if (!match) return null
+      return rowToLegalChunk(r, match.score, match.matchChannel)
     })
     .filter((c): c is LegalChunk => c != null)
     .sort((a, b) => b.similarity - a.similarity)
@@ -346,7 +338,7 @@ function mergeHybridLegalChunks(
   for (const chunk of keywordChunks) {
     const existing = byId.get(chunk.id)
     if (!existing) {
-      byId.set(chunk.id, { ...chunk, matchChannel: "keyword" })
+      byId.set(chunk.id, { ...chunk })
       continue
     }
     byId.set(chunk.id, {
@@ -360,10 +352,17 @@ function mergeHybridLegalChunks(
 }
 
 function summarizeMatchChannels(chunks: Array<{ matchChannel?: MatchChannel }>) {
-  const counts = { vector: 0, keyword: 0, both: 0 }
+  const counts = {
+    vector: 0,
+    keyword_exact: 0,
+    keyword_stem: 0,
+    both: 0,
+  }
   for (const chunk of chunks) {
     const ch = chunk.matchChannel ?? "vector"
-    counts[ch] += 1
+    if (ch in counts) {
+      counts[ch as keyof typeof counts] += 1
+    }
   }
   return counts
 }
@@ -411,9 +410,13 @@ async function searchCaseLawByKeywordInner(args: {
   const query = args.query.trim()
   if (query.length < 2) return []
 
-  const variants = getScriptVariants(query)
-  const patterns = variants.map((v) => `%${escapeIlikePattern(v)}%`)
-  if (patterns.length === 0) return []
+  const patterns = buildKeywordIlikePatterns(query)
+  if (
+    patterns.exactPatterns.length === 0 &&
+    patterns.stemPatterns.length === 0
+  ) {
+    return []
+  }
 
   const legalArea = normalizeLegalAreaFilter(args.legalArea)
   const fields = [
@@ -424,9 +427,7 @@ async function searchCaseLawByKeywordInner(args: {
   ] as const
   const orParts: string[] = []
   for (const field of fields) {
-    for (const pattern of patterns) {
-      orParts.push(`${field}.ilike.${pattern}`)
-    }
+    orParts.push(buildKeywordOrFilter(patterns, field))
   }
 
   let request = supabaseAdmin
@@ -458,10 +459,10 @@ async function searchCaseLawByKeywordInner(args: {
       ]
         .map((v) => String(v ?? ""))
         .join("\n")
-      const score = scoreKeywordTextMatch(combined, query, variants)
-      if (score <= 0) return null
+      const match = scoreKeywordTextMatch(combined, patterns)
+      if (!match) return null
       const chunk = normalizeCaseLawChunks([raw])[0]
-      return { ...chunk, similarity: score, matchChannel: "keyword" as const }
+      return { ...chunk, similarity: match.score, matchChannel: match.matchChannel }
     })
     .filter((c): c is CaseLawChunk => c != null)
     .sort((a, b) => b.similarity - a.similarity)
@@ -482,7 +483,7 @@ function mergeHybridCaseChunks(
   for (const item of keywordCases) {
     const existing = byId.get(item.id)
     if (!existing) {
-      byId.set(item.id, { ...item, matchChannel: "keyword" })
+      byId.set(item.id, { ...item })
       continue
     }
     byId.set(item.id, {

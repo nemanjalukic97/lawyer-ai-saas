@@ -10,6 +10,22 @@ const GLUE_PAIRS: Array<[from: string, to: string]> = [
   ["postupkausmislu", "postupka u smislu"],
   ["Odlučujućiopredloguza", "Odlučujući o predlogu za"],
   ["Odlučujućiopodignutom", "Odlučujući o podignutom"],
+  ["Trgovačkog sudau", "Trgovačkog suda u"],
+  ["Trgovački sudu", "Trgovački sud u"],
+  ["presudioje", "presudio je"],
+  ["riješioje", "riješio je"],
+  ["Odbijase", "Odbija se"],
+  ["Odbacujese", "Odbacuje se"],
+  ["Ukidase", "Ukida se"],
+  ["Prihvaćase", "Prihvaća se"],
+  ["žalbakao", "žalba kao"],
+  ["ipotvrđuje", "i potvrđuje"],
+  ["prvostupanjskisud", "prvostupanjski sud"],
+  ["proizlazidaje", "proizlazi da je"],
+  ["utvrdioda", "utvrdio da"],
+  ["utvrdiodaje", "utvrdio da je"],
+  ["Sudje", "Sud je"],
+  ["odbioje", "odbio je"],
   ["Odlučujućiopredlogu", "Odlučujući o predlogu"],
   ["Zakonaoparničnom", "Zakona o parničnom"],
   ["zakonaoparničnom", "zakona o parničnom"],
@@ -69,10 +85,69 @@ const GLUE_PAIRS: Array<[from: string, to: string]> = [
   ["suda Srbijene može", "suda Srbije ne može"],
 ]
 
-const U_SINGLE_CAP = /(?<=[a-zćčđšžč])u([A-ZČĆĐŠŽ])(?=\s*\.)/g
+const LOWER_LAT = "a-zčćžšđ"
+const UPPER_LAT = "A-ZČĆŽŠĐ"
+const LOWER_CLASS = `[${LOWER_LAT}]`
+const UPPER_CLASS = `[${UPPER_LAT}]`
+
+const U_SINGLE_CAP = new RegExp(`(?<=${LOWER_CLASS})u(${UPPER_CLASS})(?=\\s*\\.)`, "g")
 
 function collapseWhitespace(s: string): string {
   return s.replace(/\s+/g, " ").trim()
+}
+
+/** Croatian preposition "u" glued before a place name: sudauZagrebu → suda u Zagrebu */
+function splitCroatianPrepositionU(s: string): string {
+  return s.replace(
+    new RegExp(`(${LOWER_CLASS}{2,}?)u(${UPPER_CLASS}${LOWER_CLASS}+)`, "g"),
+    "$1 u $2",
+  )
+}
+
+function shouldSkipLowerUpperSplit(
+  before: string,
+  lower: string,
+  upper: string,
+  after: string,
+): boolean {
+  const tail = after.slice(0, 12)
+  const head = before.slice(-4)
+
+  if (lower === "s" && upper === "I" && /U$/i.test(head) && /^[-/0-9]/i.test(tail)) {
+    return true
+  }
+  if (lower === "s" && upper === "i" && /U$/i.test(head) && /^[-/]/i.test(tail)) {
+    return true
+  }
+
+  if (lower === "i" && upper === "I" && /^I[\s.IVXLCDM]/i.test(tail)) {
+    return true
+  }
+  if (lower === "v" && upper === "I" && /^I[\s.IVXLCDM]/i.test(tail)) {
+    return true
+  }
+
+  if (upper === "R" && /(?:e|v)$/i.test(lower + head.slice(-1))) {
+    const window = (head + lower + upper + tail).toLowerCase()
+    if (/rev|revr|revd/.test(window)) return true
+  }
+
+  if (upper === "S" && lower === "r" && /^t[\s.]/i.test(tail)) return true
+
+  return false
+}
+
+/** Insert space at lowercase→uppercase boundaries (PDF extraction glue). */
+export function splitLowerUpperBoundary(s: string): string {
+  const re = new RegExp(`(${LOWER_CLASS})(${UPPER_CLASS})`, "g")
+  return s.replace(re, (match, low: string, up: string, offset: number, str: string) => {
+    const before = str.slice(Math.max(0, offset - 4), offset)
+    const after = str.slice(offset + 2)
+    if (shouldSkipLowerUpperSplit(before, low, up, after)) {
+      return match
+    }
+    return `${low} ${up}`
+  })
 }
 
 /** Space before letter after `.` unless the dot ends a numeric token (dates, decimals). */
@@ -104,6 +179,8 @@ export function repairLegalTextSpacing(text: string): string {
     }
   }
 
+  s = splitCroatianPrepositionU(s)
+  s = splitLowerUpperBoundary(s)
   s = s.replace(U_SINGLE_CAP, "u $1")
   return collapseWhitespace(s)
 }

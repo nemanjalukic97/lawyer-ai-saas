@@ -1,5 +1,7 @@
 /** Shared PDF / OCR text cleanup for case-law generators. */
 
+import { repairLegalTextSpacing } from "./_repair-legal-text-spacing.mjs"
+
 const CYR_TRIP = [
   ["Љ", "Lj"],
   ["љ", "lj"],
@@ -84,7 +86,9 @@ export function prepareText(raw) {
   s = fixDiacriticSpacing(s)
   s = fixHyphenBreaks(s)
   s = fixSyllableBreaks(s)
-  return collapseWhitespace(s)
+  s = collapseWhitespace(s)
+  s = repairLegalTextSpacing(s)
+  return s
 }
 
 /** Legacy alias used in some generators. */

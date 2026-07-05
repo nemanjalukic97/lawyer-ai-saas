@@ -22,13 +22,17 @@ const HR_MONTHS = {
 
 export function legalAreaFromCaseNumber(caseNum) {
   const s = caseNum.replace(/\s+/g, "")
-  if (/Revr|Revt|Revd|^Rev/i.test(s)) return "civil"
-  if (/Kzz|Kž|Kž/i.test(s)) return "criminal"
+  // Croatian Vrhovni registers — order matters (Rev* prefixes overlap).
+  if (/^Revr/i.test(s)) return "labor" // revizija iz radnog prava
+  if (/^Revt/i.test(s)) return "commercial" // revizija iz trgovačkog prava
+  if (/^Revd/i.test(s)) return "civil" // postupak o dopuštenosti revizije (čl. 385.a ZPP)
+  if (/^Rev/i.test(s)) return "civil" // revizija u građanskim stvarima (merits)
+  if (/Kzz|Kž/i.test(s)) return "criminal"
   if (/(^|[^a-zA-Z])Kr(-|[\d/])/i.test(s)) return "criminal"
   if (/Gzz/i.test(s)) return "civil"
   if (/Pzz/i.test(s)) return "commercial"
   if (/Uzp/i.test(s)) return "administrative"
-  if (/^Ž|[-/]Ž/i.test(s)) return "labor"
+  // No Ž-prefixed Vrhovni cases in corpus; labor uses Revr / Gž R upstream.
   return "civil"
 }
 

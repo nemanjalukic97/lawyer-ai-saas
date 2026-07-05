@@ -36,6 +36,7 @@ USER_AGENT = (
 )
 REQUEST_TIMEOUT = (15, 90)
 SLEEP_SEC = 1.0
+PROBE_SLEEP_SEC = 0.35
 FETCH_RETRIES = 3
 MIN_TEXT_LEN = 50
 
@@ -46,26 +47,26 @@ COURTS: list[dict[str, str | int]] = [
         "code": "vks",
         "name": "Visoki kazneni sud",
         "folder": "visoki-kazneni",
-        "max_pages": 235,
+        "max_pages": 500,
     },
     {
         "code": "vps",
         "name": "Visoki prekršajni sud",
         "folder": "visoki-prekrsajni",
-        "max_pages": 200,
+        "max_pages": 500,
     },
-    {"code": "vs", "name": "Vrhovni sud", "folder": "vrhovni", "max_pages": 200},
+    {"code": "vs", "name": "Vrhovni sud", "folder": "vrhovni", "max_pages": 500, "listing_filters": [None, "Revr"]},
     {
         "code": "vts",
         "name": "Visoki trgovački sud",
         "folder": "visoki-trgovacki",
-        "max_pages": 200,
+        "max_pages": 500,
     },
     {
         "code": "vus",
         "name": "Visoki upravni sud",
         "folder": "visoki-upravni",
-        "max_pages": 200,
+        "max_pages": 500,
     },
 ]
 
@@ -130,12 +131,16 @@ def decision_filename(case_number: str, guid: str) -> str:
 
 
 class PoliteSession(requests.Session):
+    def __init__(self, sleep_sec: float = SLEEP_SEC) -> None:
+        super().__init__()
+        self._sleep_sec = sleep_sec
+
     def request(self, method, url, **kwargs):  # type: ignore[override]
         kwargs.setdefault("timeout", REQUEST_TIMEOUT)
         kwargs.setdefault("headers", {})
         kwargs["headers"].setdefault("User-Agent", USER_AGENT)
         r = super().request(method, url, **kwargs)
-        time.sleep(SLEEP_SEC)
+        time.sleep(self._sleep_sec)
         return r
 
 
@@ -204,10 +209,11 @@ def find_existing_txt(directory: Path, filename: str, url: str) -> Path | None:
     return None
 
 
-def listing_url(court_code: str, page: int) -> str:
-    return (
-        f"{BASE}/Document/DisplayList?sort=dat&ct={court_code}&page={page}"
-    )
+def listing_url(court_code: str, page: int, pb: str | None = None) -> str:
+    url = f"{BASE}/Document/DisplayList?sort=dat&ct={court_code}&page={page}"
+    if pb:
+        url += f"&pb={pb}"
+    return url
 
 
 def detail_url(guid: str) -> str:
@@ -482,62 +488,145 @@ def scrape_court(
     folder = str(court["folder"])
     court_name = str(court["name"])
     txt_dir = out_root / folder
+    filters: list[str | None] = court.get("listing_filters") or [None]  # type: ignore[assignment]
+    if not isinstance(filters, list):
+        filters = [None]
 
-    print(f"\n=== {court_name} ({code}), pages 1–{max_pages} ===")
+    for pb_filter in filters:
+        pass_label = f", pb={pb_filter}" if pb_filter else ""
+        print(f"\n=== {court_name} ({code}), pages 1–{max_pages}{pass_label} ===")
 
-    for page in range(1, max_pages + 1):
-        list_url = listing_url(code, page)
-        print(f"Listing page {page}/{max_pages}: {list_url}")
+        for page in range(1, max_pages + 1):
+            list_url = listing_url(code, page, pb_filter)
+            print(f"Listing page {page}/{max_pages}: {list_url}")
 
-        try:
-            html = fetch_html(session, list_url)
-        except requests.RequestException as e:
-            counters["failed"] += 1
-            log_entries.append(
-                {
-                    "court": court_name,
-                    "folder": folder,
-                    "filename": "",
-                    "url": list_url,
-                    "status": "failed",
-                    "downloaded_at": iso_now(),
-                    "error": f"listing fetch: {e}",
-                }
-            )
-            print(f"  [list failed] page {page}: {e}", file=sys.stderr)
-            continue
-
-        links = extract_detail_links(html, list_url)
-        if not links:
-            print(f"  [no links] page {page}", file=sys.stderr)
-            continue
-
-        print(f"  found {len(links)} decision(s)")
-        for link in links:
             try:
-                process_decision(
-                    session,
-                    link,
-                    court,
-                    txt_dir,
-                    log_entries,
-                    iso_now,
-                    counters,
-                )
-            except Exception as e:
+                html = fetch_html(session, list_url)
+            except requests.RequestException as e:
                 counters["failed"] += 1
                 log_entries.append(
                     {
                         "court": court_name,
                         "folder": folder,
                         "filename": "",
-                        "url": link.url,
+                        "url": list_url,
                         "status": "failed",
                         "downloaded_at": iso_now(),
-                        "error": str(e),
+                        "error": f"listing fetch: {e}",
                     }
                 )
-                print(f"  -> error: {e}", file=sys.stderr)
+                print(f"  [list failed] page {page}: {e}", file=sys.stderr)
+                continue
+
+            links = extract_detail_links(html, list_url)
+            if not links:
+                print(f"  [no links] page {page}", file=sys.stderr)
+                continue
+
+            print(f"  found {len(links)} decision(s)")
+            for link in links:
+                try:
+                    process_decision(
+                        session,
+                        link,
+                        court,
+                        txt_dir,
+                        log_entries,
+                        iso_now,
+                        counters,
+                    )
+                except Exception as e:
+                    counters["failed"] += 1
+                    log_entries.append(
+                        {
+                            "court": court_name,
+                            "folder": folder,
+                            "filename": "",
+                            "url": link.url,
+                            "status": "failed",
+                            "downloaded_at": iso_now(),
+                            "error": str(e),
+                        }
+                    )
+                    print(f"  -> error: {e}", file=sys.stderr)
+
+
+def probe_listings(
+    session: PoliteSession,
+    courts: list[dict],
+    max_page: int,
+) -> list[dict[str, object]]:
+    """
+    Listing-only probe: count decisions per page without downloading bodies.
+    Stops early when two consecutive pages return zero links (end of catalog).
+
+    Incremental dedup (re-run behaviour):
+    process_decision() calls find_existing_txt() before fetch; skips when a valid
+    .txt already exists (canonical filename or *-{guid_short}.txt variant).
+    """
+    rows: list[dict[str, object]] = []
+    for court in courts:
+        code = str(court["code"])
+        court_name = str(court["name"])
+        folder = str(court["folder"])
+
+        filters: list[str | None] = court.get("listing_filters") or [None]  # type: ignore[assignment]
+        if not isinstance(filters, list):
+            filters = [None]
+
+        for pb_filter in filters:
+            pass_label = f", pb={pb_filter}" if pb_filter else ""
+            print(f"\n--- Probe {court_name} ({code}) up to page {max_page}{pass_label} ---")
+            total_links = 0
+            pages_with_links = 0
+            last_page_links = 0
+            empty_streak = 0
+
+            for page in range(1, max_page + 1):
+                list_url = listing_url(code, page, pb_filter)
+                try:
+                    html = fetch_html(session, list_url)
+                except requests.RequestException as e:
+                    print(f"  page {page}: fetch failed ({e})", file=sys.stderr)
+                    break
+
+                links = extract_detail_links(html, list_url)
+                n = len(links)
+                if n == 0:
+                    empty_streak += 1
+                    print(f"  page {page}: 0 links (empty streak {empty_streak})")
+                    if empty_streak >= 2:
+                        break
+                    continue
+
+                empty_streak = 0
+                pages_with_links += 1
+                total_links += n
+                last_page_links = n
+                if page <= 3 or page == max_page or page % 50 == 0:
+                    print(f"  page {page}: {n} links")
+
+            est_decisions = total_links
+            rows.append(
+                {
+                    "code": code,
+                    "name": court_name,
+                    "folder": folder,
+                    "pb_filter": pb_filter or "",
+                    "configured_max_pages": int(court["max_pages"]),
+                    "pages_probed": max_page,
+                    "pages_with_links": pages_with_links,
+                    "links_counted": total_links,
+                    "last_page_links": last_page_links,
+                    "est_decisions_at_max_page": est_decisions,
+                }
+            )
+            print(
+                f"  => {pages_with_links} pages with links, "
+                f"{total_links} decision links counted (probe cap page {max_page})"
+            )
+
+    return rows
 
 
 def main() -> int:
@@ -555,16 +644,47 @@ def main() -> int:
         choices=sorted(COURT_BY_CODE.keys()),
         help="Scrape only this court code (vks, vps, vs, vts, vus).",
     )
+    parser.add_argument(
+        "--probe-listings",
+        action="store_true",
+        help=(
+            "Listing-only mode: count decision links per court without downloading. "
+            "Uses --max-pages as probe depth (default: 500 per court)."
+        ),
+    )
     args = parser.parse_args()
 
     courts = COURTS
     if args.court:
         courts = [COURT_BY_CODE[args.court]]
 
+    session = PoliteSession()
+
+    if args.probe_listings:
+        probe_depth = args.max_pages if args.max_pages and args.max_pages > 0 else 500
+        probe_session = PoliteSession(sleep_sec=PROBE_SLEEP_SEC)
+        rows = probe_listings(probe_session, courts, probe_depth)
+        print("\n=== Probe summary ===")
+        print(
+            f"{'court':<28} {'code':<5} {'pages':>6} {'links':>8} "
+            f"{'last_pg':>7} {'cfg_max':>8}"
+        )
+        for r in rows:
+            print(
+                f"{r['name']:<28} {r['code']:<5} {r['pages_with_links']:>6} "
+                f"{r['links_counted']:>8} {r['last_page_links']:>7} "
+                f"{r['configured_max_pages']:>8}"
+            )
+        print(
+            "\nNote: odluke.sudovi.hr advanced search supports Vrsta upisnika filters "
+            "(e.g. Revr, Gž R, Ž) but DisplayList?ct=&page= does not — labor cases "
+            "surface via deeper Vrhovni pagination or a future filtered search URL."
+        )
+        return 0
+
     out_root = repo_root() / "downloads" / "croatia"
     log_path = out_root / "download-log.json"
 
-    session = PoliteSession()
     log_entries = load_log(log_path)
     iso_now = lambda: dt.datetime.now(dt.UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
 
