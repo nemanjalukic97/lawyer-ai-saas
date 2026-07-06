@@ -1,9 +1,28 @@
 // scripts/case-law-procedural-croatia-1.ts
-// Croatia Visoki prekršajni sud — procedural (200 cases, file 1/10)
+// Croatia Visoki prekršajni sud — procedural (200 cases, file 1/25)
 
 import type { CaseLawInput } from "./ingest-case-law"
 
 export const CASE_LAW_PROCEDURAL_CROATIA_1: CaseLawInput[] = [
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-1/2026-2",
+    decision_date: "2026-01-02",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi o djelu od prije godine dana a od tada da nije počinio nikakav prekršaj i uključio se u rehabilitaciju. Dodao je da smat?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Mladena Genca, kao predsjednika vijeća, te Sanje Gospočić i Tomislava Tomašića, kao članova vijeća, uz sudjelovanje više sudske savjetnice – specijalistice Mirjane Laljek, kao zapisničarke, u prekršajnom postupku protiv okrivljenika OF, zbog prekršaja iz članka 6. Zakona o prekršajima protiv javnog reda i mira („Narodne novine“ broj: 41/77, 52/87, 41/89, 55/89, 05/90, 30/90, 47/90, 29/94, 114/22, 47/23), rješavajući o žalbi okrivljenika OF, podnesenoj po branitelju Damiru Đapiću, odvjetniku iz Odvjetničkog društva Santica & Đapić iz Splita, protiv rješenja Općinskog prekršajnog suda u Splitu, Stalne službe u Supetru, od 24. prosinca 2025. godine, broj: Pp-18212/2025-4, na sjednici vijeća održanoj dana 2. siječnja 2026., r i j e š i o j e Žalba okrivljenika OF odbija se kao neosnovana i potvrđuje se pobijano rješenje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-1/2026-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-1"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Mladena Genca, kao predsjednika vijeća, te Sanje Gospočić i Tomislava Tomašića, kao čl",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=476174b3-0069-4368-b270-a1d93bff5de7",
+  },
   {
     jurisdiction: "croatia",
     court: "Visoki prekršajni sud Republike Hrvatske",
@@ -22,6 +41,44 @@ export const CASE_LAW_PROCEDURAL_CROATIA_1: CaseLawInput[] = [
     headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sutkinja: Mirjane Medić kao predsjednice vijeća te Anđe Ćorluka i Ivanke Mašić kao članica vi",
     outcome: "remanded",
     source_url: "https://odluke.sudovi.hr/Document/View?id=0fa96211-9c92-4000-a3c0-4bfda80d426f",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-11/2026-2",
+    decision_date: "2026-01-22",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi se o prekršaju protiv javnog reda i mira?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sutkinja Mirjane Medić, kao predsjednice vijeća te Anđe Ćorluka i Ivanke Mašić, kao članica vijeća, uz sudjelovanje sudskog savjetnika Ivice Ožbolta, kao zapisničara, u prekršajnom postupku protiv okrivljenog TL, zbog prekršaja iz članka 286. stavka 13. Zakona o sigurnosti prometa na cestama i dr. („Narodne novine\" broj: 67/08, 48/10, 74/11, 80/13, 158/13, 92/14, 64/15, 108/17, 70/19, 42/20, 85/22, 114/22, 133/23, 145/24) odlučujući o žalbi okrivljenog TL, podnesenoj po branitelju Denisu Meczneru, odvjetniku iz Samobora protiv rješenja Općinskog suda u Novom Zagrebu, Stalne službe u Samoboru broj: Pp-191/2026-4 od 20. siječnja 2026., na sjednici vijeća održanoj 22. siječnja 2026. r i j e š i o j e Odbija se kao neosnovana žalba okrivljenog TL i pobijano rješenje potvrđuje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-11/2026-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-11"],
+    related_articles: ["čl. 135. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sutkinja Mirjane Medić, kao predsjednice vijeća te Anđe Ćorluka i Ivanke Mašić, kao članica v",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=e2909806-55b1-4263-b423-58f8ded3631a",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-12/2026-2",
+    decision_date: "2026-01-26",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi razloga navedenih u žalbi?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca : Sanje Gospočić, kao predsjednice vijeća, te Mladena Genca i Tomislava Tomašića, kao članova vijeća, uz sudjelovanje više sudske savjetnice - specijalistice Sanje Radeljak, kao zapisničarke, u prekršajnom postupku protiv okrivljenika DO, zbog prekršaja iz čl.289. st.4. i 286. st.12. Zakona o sigurnosti prometa na cestama (Narodne novine, broj : 67/08., 48/10., 74/11., 80/13., 158/13., 92/14., 64/15., 108/17., 70/19., 42/20., 85/22., 114/22., 133/23., 145/24.), odlučujući o žalbi okrivljenika DO, podnesenoj protiv rješenja Općinskog suda u Gospiću, od 12. siječnja 2026., Poslovni broj : Pp – 39/2026-4, o određivanju zadržavanja, na sjednici vijeća održanoj 26. siječnja 2026., r i j e š i o j e: Odbija se kao neosnovana žalba okrivljenika DO i potvrđuje pobijano rješenje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-12/2026-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-12"],
+    related_articles: ["čl. 289. Prekršajni zakon","čl. 135. Prekršajni zakon","čl. 286. Prekršajni zakon","čl. 238. Prekršajni zakon","čl. 53. Prekršajni zakon","čl. 229. Prekršajni zakon","čl. 22. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca : Sanje Gospočić, kao predsjednice vijeća, te Mladena Genca i Tomislava Tomašića, kao č",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=3f28d8dc-b349-4308-9503-ed780ab6a674",
   },
   {
     jurisdiction: "croatia",
@@ -103,6 +160,139 @@ export const CASE_LAW_PROCEDURAL_CROATIA_1: CaseLawInput[] = [
     jurisdiction: "croatia",
     court: "Visoki prekršajni sud Republike Hrvatske",
     court_level: "high",
+    case_number: "IR-150/2025-2",
+    decision_date: "2025-12-18",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi se o događaju od prije godine dana i pet mjeseci?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca ovog suda Gordane Korotaj, predsjednice vijeća te Kristine Gašparac Orlić i Roberta Završkog, članova vijeća, uz sudjelovanje više sudske savjetnice Emine Bašić, zapisničarke, u prekršajnom predmetu protiv ZA, u povodu prijedloga za izricanje mjere zabrane prisustvovanja športskim natjecanjima na temelju čl. 34.a Zakona o sprječavanju nereda na športskim natjecanjima („Narodne novine“, broj: 117/03, 71/06, 43/09, 34/11 i 114/22), odlučujući o žalbi ZA podnesenoj protiv rješenja Općinskog prekršajnog suda u Splitu, broj: Pp Prz-324/2025-5 od 9. srpnja 2025., na sjednici vijeća održanoj 18. prosinca 2025. r i j e š i o j e Odbija se kao neosnovana žalba ZA i potvrđuje pobijano rješenje. O b r a z l o ž e n j e 1. Pobijanim rješenjem Općinskog prekršajnog suda u Splitu, broj: Pp Prz-324/2025-5 od **.**.2025., ZA je izrečena zabrana prisustvovanja svim nogometnim utakmicama na kojima nastupa nogometni klub HNK „Hajduk“ i Hrvatska nogometna reprezentacija u trajanju od jedne godine. 2. Protiv tog rješenja je ZA putem Sebastiana Miše, odvjetnika u Odvjetničkom društvu Miše & Pavić d.o.o. u Zagrebu, pravodobno podnio žalbu iz svih žalbenih osnova, predlažući usvojiti žalbu te ukinuti pobijano rješenje. 3. Žalba nije osnovana. 4. Razmotrivši predmet, uz ocjenu navoda žalbe, odlučujući sukladno odredbi čl. 211. st. 3. Prekršajnog zakona (Narodne novine, broj 107/07, 39/13, 157/13, 110/15, 70/17, 118/18 i 114/22, dalje: PZ), Visoki prekršajni sud Republike Hrvatske je utvrdio da je pobijana odluka prvostupanjskog suda kojom je izrečena predmetna zabrana prisustvovanja športskim natjecanjima, pravilna i zakonita te u skladu s odredbom članka 34.a Zakona o sprječavanju nereda na športskim natjecanjima. 5. Žalitelj ZA u žalbi ističe da su pogrešni navodi iz obrazloženja pobijane odluke da je on bio na mjestu događaja na kojem su se sukobile navijačke skupine Torcida i Bad Blue Boys i da je tamo bio uhićen, budući da je uhićen 1,5 km dalje od toga. Ističe i da nisu jasne evidencije kojima raspolaže policija jer nisu konkretizirane protupravnosti žalitelja koji je kazneno i prekršajno neosuđivana osoba, a da se izricanje mjere opravdava prvom evidencijom navodnog protupravnog ponašanja žalitelja, što je suprotno zakonskom normi koja propisuje da se mjera može izreći osobi koja se „već ranije protupravno ponašala“. Navodi i da činjenica koja se navodi u pobijanoj odluci da je žalitelj pripadnik navijačke skupine Torcida nije ničim dokazana kao i ostale ključne činjenice koje se ne mogu temeljiti na subjektivnom dojmu policijskih službenika, bez kontrolnih dokaza, zatim da nije jasan navod izreke rješenja kojim se ukazuje na propisane novčane kazne i koji je smisao istog te da sama činjenica podnošenja kaznene prijave od strane policije ništa ne govori o kaznenoj odgovornosti žalitelja, a radi se o događaju od prije godine dana i pet mjeseci, uz izostanak opisanih konkretnih radnji u spisu što govori koliko je prijava neozbiljna. Uz to, sud nije obrazložio niti zabranu odlaska na nogometne utakmice hrvatske reprezentacije, a istom se zadire u osobnu slobodu žalitelja kao temeljnu ustavnu vrijednost. 5.1. Neosnovano žalitelj pobija pravilnost utvrđenja činjenice da je on bio uhićen i da je bio na mjestu na kojem je došlo do sukoba između navijačkih skupina te nedostatak konkretnih podataka na temelju kojih se može sa sigurnošću tvrditi da se isti ranije protupravno ponašao, budući da suprotno proizlazi iz obrazloženog prijedloga za izricanje predmetne mjere u koje navode prvostupanjski sud, a niti ovaj drugostupanjski, nema razloga posumnjati. Naime, pobijano rješenje (kao i prijedlog predlagatelja) jasno sadrži podatke o tome u kojim konkretno događajima je žalitelj sudjelovao te je tako jasno navedeno da je isti dana 3. svibnja 2025. u Splitu uhićen na mjestu događaja fizičkog sukoba između oko 250 pripadnika navijačkih skupina „Torcida“ i „Bad blue boys“ nakon čega je protiv njega podnesena kaznena prijava zbog kaznenog djela „Sudjelovanja u tučnjavi ili napadu na gledatelje ili druge osobe“ opisanog u čl. 31.a Zakona o sprječavanju nereda na športskim natjecanjima. Osim toga, iz priležeće kaznene prijave u prijedlogu, jasno je vidljivo da je uz ostale osobe, i protiv ZA podnesena kaznena prijava zbog navedenog kaznenog djela u vezi naprijed navedenog događaja koji se dogodio prije početka nogometne utakmice na stadionu Poljud u Splitu između HNK „Hajduk“ i GNK „Dinamo“. Pritom uopće nije relevantan podatak je li i gdje točno ZA uhićen, već su relevantna operativna saznanja podnositelja prijedloga o njegovom protupravnom ponašanju vezanom uz neko športsko natjecanje. 5.2. Nije u pravu žalitelj niti kada ističe nedostatnu težinu i ozbiljnost navoda iz prijedloga policije za izricanjem predmetne preventivne mjere te u vezi s tim vjerodostojnost popisa protupravnih ponašanja žalitelja. Naime, ističe se da je odredbom čl. 34.a Zakona o sprječavanju nereda na športskim natjecanjima izričito propisano da se predmetna mjera može izreći „osobi za koju postoje saznanja da se već ranije protupravno ponašala za vrijeme dolaska, održavanja ili odlaska s nekog športskog natjecanja“ pa se, dakle, ne radi o mjeri koja se donosi na temelju podataka Ministarstva pravosuđa, uprave i digitalne transformacije Republike Hrvatske, Odjela za prekršajne evidencije već je dostatnu istu izreći i na temelju evidencije ovlaštenog predlagatelja (policije) o protupravnom ponašanju određene osobe. Upravo je, između ostalog, i u svrhu izricanja mjere iz čl. 34.a Zakona o sprječavanju nereda na športskim natjecanjima, odredbom čl. 39.b istog Zakona, propisano da Ministarstvo nadležno za unutarnje poslove ustrojava i vodi Zbirku podataka o osobama i događajima vezanim uz športska natjecanja. Znači, Zbirka podataka o osobama i događajima vezanim uz športska natjecanja vodi se radi pripreme poduzimanja odgovarajućih mjera za održavanje javnog reda i sigurnosti za vrijeme športskih natjecanja, koja mogu biti ugrožena od strane pojedinaca koji svojim radnjama čine potencijalnu prijetnju zakonitosti, redu i sigurnosti i ta operativna saznanja predstavljaju bitnu okolnost i valjanu osnovu za izricanje mjere iz čl. 34.a Zakona o sprječavanju nereda na športskim natjecanjima, kako je to pravilno i osnovano zaključio i prvostupanjski sud. Stoga se ne radi o činjenicama utvrđenim na „subjektivnom dojmu policijskih službenika“ već o činjenicama dostatno ispitanim i utvrđenim na temelju operativnih saznanja ovlaštenog tijela o protupravnom ponašanju žalitelja, što je dovoljan i zakonit temelj za izricanje predmetne mjere. 5.3. Nadalje, drugi događaj za koji ovlašteni predlagatelj ima saznanja da je u istome sudjelovao ZA, je onaj iz 3. travnja 2024. u Splitu, kada je po završetku nogometne utakmice HNK „Hajduk“ i GNK „Dinamo“, lomio plastične sjedalice na stadionu i ostali inventar bacajući ga na policijske službenike, zbog čega je protiv njega podnesena kaznena prijava zbog kaznenog djela „Izazivanja nereda“ i „Prisile prema službenoj osobi“, što je isto tako dostatno operativno saznanje o njegovom protupravnom ponašanju vezanom uz športska natjecanja, odnosno bitna okolnost i pravilna osnova za izricanje mjere iz čl. 34.a Zakona o sprječavanju nereda na športskim natjecanjima, što je pravilno zaključio i prvostupanjski sud. 5.4. U odnosu na navod žalbe da iz pobijanog rješenja nije vidljivo na temelju kojih odlučnih činjenica je utvrđeno da se radi o pripadniku navijačke skupine Torcida, ističe se da je isto netočno budući da iz obrazloženja pobijanog rješenja proizlazi da je taj podatak utvrđen na temelju Zbirke podataka o osobama i događajima vezano uz športska natjecanja, utemeljene na Informacijskom sustavu Ministarstva unutarnjih poslova Republike Hrvatske, a koja čini operativno saznanje policije kao dovoljne osnove za izricanje ove mjere. Osim toga, pripadnost krajnje žestokim članovima ili „običnim“ pripadnicima određene navijačke skupine nije odlučna činjenica o kojoj ovisi izricanje zabrane prisustvovanja određenim športskim natjecanjima pa ona ne treba niti biti posebno utvrđivana odnosno obrazložena već može predstavljati osnov za odluku o tome u odnosu na eventualno koji klub će se izreći zabrana odlaska na športska natjecanja. 5.5. Stoga, protupravna ponašanja od kojih je svako vezano uz športske događaje, a koja predstavljaju operativna saznanja policije, čine ispunjenje uvjeta iz čl. 34. a Zakona o sprječavanju nereda na športskim natjecanjima. 5.6. U odnosu na navod žalbe da nije jasno zašto je predmetna mjera izrečena i za zabranu posjećivanja utakmica u kojima sudjeluje Hrvatska nogometna reprezentacija, što sud nije obrazložio, ističe se da su po ocjeni ovog suda iz pobijanog rješenja vidljivi razlozi za izricanje mjere kao u izreci, dakle i u odnosu na Hrvatsku nogometnu reprezentaciju (zadnji odlomak). No, potrebno je ukazati žalitelju da, osim općepoznate činjenice da u Hrvatskoj nogometnoj reprezentaciji često igraju i igrači HNK „Hajduk“ čije utakmice okrivljenik posjećuje, relevantna je i činjenica da su utakmice hrvatske nogometne reprezentacije u vrhu posjećenosti svih športskih natjecanja, praćene iznimnom zainteresiranošću kako posjetitelja tako i ostale javnosti zbog čega je nužno na takvim događanjima zaštiti sigurnost svih sudionika. Budući da je žalitelj, a temeljem legitimnih saznanja nadležne policijske uprave, pokazao ustrajnost u činjenju protupravnih ponašanja prilikom odnosno prije i poslije odigravanja športskih natjecanja te da predmetna mjera koja je preventivnog karaktera, ima cilj sprječavanja nepoželjnog ponašanja i na međunarodnom planu, to su u konkretnom slučaju ispunjeni zakonski uvjeti za izricanje navedene zabrane prisustvovanja i utakmicama u kojima sudjeluje Hrvatska nogometna reprezentacija. 5.7. Iz tog razloga je i po ocjeni ovog suda izrečena mjera koja u sebi sadrži određeno ograničenje slobode kretanja žalitelja, razmjerna potrebi zaštite javnog mira i reda i javne sigurnosti, budući da u ovom slučaju nad interesom pojedinca za navijanje i gledanje športskih natjecanja, pretežu javni interes i pravo drugih osoba da neometano i sigurno prisustvovanje i uživanje u športskom natjecanju. Osim toga, treba napomenuti da je takva posebna mjera – mjera prevencije o čijoj primjeni i u europskom pravnom prostoru postoje jasna i detaljno utvrđena pravila, po ocjeni Ustavnog suda (broj odluke U-I-2186/2008 od 29. svibnja 2012. g.), razmjerna navedenom legitimnom cilju. 6. U odnosu na žalbeni navod da je nejasan smisao djela izreke u kojem je žalitelju ukazano na plaćanje novčanih kazni, ističe da je pravilno prvostupanjski sud u izreci uputio žalitelja na posljedice ne postupanja po izrečenoj mjeri sukladno čl. 39.a st. 2. Zakona o sprječavanju nereda na športskim natjecanjima. 7. Na temelju svega iznesenog, sukladno čl. 211. st. 2. t. 2. PZ-a odlučeno je kao u izreci ovog rješenja. U Zagrebu, 18. prosinca 2025. Zapisničarka: Predsjednica vijeća: Emina Bašić, v.r. Gordana Korotaj, v.r. Rješenje se dostavlja Općinskom prekršajnom sudu u Splitu u 4 otpravka: za spis, žalitelja, odvjetnika i tužitelja.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-150/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-150"],
+    related_articles: ["čl. 34. Prekršajni zakon","čl. 211. Prekršajni zakon","čl. 31. Prekršajni zakon","čl. 39. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca ovog suda Gordane Korotaj, predsjednice vijeća te Kristine Gašparac Orlić i Roberta Za",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=3317506e-e0da-44af-aea7-31e611d2deea",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-152/2025-3",
+    decision_date: "2025-12-03",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je žalba osnovana?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Kristine Gašparac Orlić, predsjednice vijeća te Gordane Korotaj i Roberta Završkog članova vijeća, uz sudjelovanje više sudske savjetnice Emine Bašić, zapisničarke, u prekršajnom postupku protiv okr. ĆI, zbog prekršaja iz članka 22. stavka 1. Zakona o zaštiti od nasilja u obitelji („Narodne novine“ broj 70/2017., 126/2019., 84/2021., 114/2022. i 36/2024.) odlučujući o žalbi okr. ĆI, podnesenoj protiv rješenja Općinskog suda u Osijeku, Stalne službe u Donjem Miholjcu od 3. listopada 2025., broj: Pp - 3522/2025-4, u sjednici vijeća održanoj 3. prosinca 2025., r i j e š i o j e Odbija se žalba okr. ĆI kao neosnovana te se potvrđuje pobijano prvostupanjsko rješenje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-152/2025-3 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-152"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Kristine Gašparac Orlić, predsjednice vijeća te Gordane Korotaj i Roberta Završkog čla",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=0410e89e-4725-4ad8-9803-18476875b3ee",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-153/2025-2",
+    decision_date: "2025-12-10",
+    legal_area: "procedural",
+    legal_question:
+      "Odbija se kao neosnovana žalba okrivljenog SD i potvrđuje prvostupanjsko rješenje?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sutkinja Anđe Ćorluka kao predsjednice vijeća, te Mirjane Medić i Ivanke Mašić kao članica vijeća, uz sudjelovanje više sudske savjetnice Koraljke Polak Medaković kao zapisničarke, u prekršajnom postupku protiv okrivljenog SD, zbog prekršaja iz članka 70. stavak 1. točka 12. Zakona o nabavi i posjedovanju oružja građana (Narodne novine broj 94/18. i 42/20.), odlučujući o žalbi okrivljenog SD podnesenoj protiv rješenja Općinskog suda u Šibeniku, Stalne službe u Kninu, broj Pp-274/2025 od 29. listopada 2025., u sjednici vijeća održanoj 10. prosinca 2025., r i j e š i o j e Odbija se kao neosnovana žalba okrivljenog SD i potvrđuje prvostupanjsko rješenje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-153/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-153"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sutkinja Anđe Ćorluka kao predsjednice vijeća, te Mirjane Medić i Ivanke Mašić kao članica vij",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=2ed8e616-e5d0-40d1-a2d6-03d641cc66d9",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-155/2025-2",
+    decision_date: "2025-12-10",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi o okrivljeniku koji je evidentirani recidivist u počinjenju kaznenih djela i prekršaja s elementima nasilja. 6. Međutim?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sutkinja Mirjane Medić, kao predsjednice vijeća te Anđe Ćorluka i Ivanke Mašić, kao članica vijeća, uz sudjelovanje više sudske savjetnice Koraljke Polak Medaković, kao zapisničarke, u prekršajnom predmetu protiv okrivljenog BU, zbog prekršaja iz članka 70. stavka 1. točke 11. Zakona o nabavi i posjedovanju oružja građana („Narodne Novine“ broj: 94/18, 42/20) odlučujući o žalbi okrivljenog BU, podnesenoj protiv rješenja Općinskog suda u Makarskoj broj: Pp-1892/2025-6 od 29. listopada 2025., na sjednici vijeća održanoj 10. prosinca 2025. r i j e š i o j e Prihvaća se žalba okrivljenog BU, pobijano rješenje se ukida i predmet dostavlja prvostupanjskom sudu na ponovno odlučivanje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-155/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-155"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sutkinja Mirjane Medić, kao predsjednice vijeća te Anđe Ćorluka i Ivanke Mašić, kao članica v",
+    outcome: "remanded",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=c59e2673-283b-4e8e-bc12-ed953363409d",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-156/2025-2",
+    decision_date: "2025-12-10",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi osiguranja nazočnosti okrivljenika u postupku?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Kristine Gašparac Orlić, predsjednice vijeća te Roberta Završkog i Gordane Korotaj, članova vijeća, uz sudjelovanje više sudske savjetnice Emine Bašić, zapisničarke, u prekršajnom postupku protiv okr. OD i dr., zbog prekršaja iz članka 22. stavka 1. Zakona o zaštiti od nasilja u obitelji („Narodne novine“ broj 70/2017., 126/2019., 84/2021., 114/2022. i 36/2024.) odlučujući o žalbi okr. OD, podnesenoj protiv rješenja Općinskog suda u Puli-Pola od 11. studenog 2025., broj: Pp - 2805/2024-55, u sjednici vijeća održanoj 10. prosinca 2025., r i j e š i o j e Odbija se žalba okr. OD kao neosnovana te se potvrđuje pobijano prvostupanjsko rješenje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-156/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-156"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Kristine Gašparac Orlić, predsjednice vijeća te Roberta Završkog i Gordane Korotaj, čl",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=a503174b-78a0-4283-8505-7f1f8ea76480",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-157/2025-2",
+    decision_date: "2025-12-10",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je sud pravilno primijenio mjerodavno pravo?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sutkinja Anđe Ćorluka kao predsjednice vijeća, te Mirjane Medić i Ivanke Mašić kao članica vijeća, uz sudjelovanje više sudske savjetnice Koraljke Polak Medaković kao zapisničarke, u prekršajnom postupku protiv okrivljenog ŠS, zbog prekršaja iz članka 70. stavak 1. točka 1. Zakona o nabavi i posjedovanju oružja građana (Narodne novine broj 94/18., 42/20. i 114/22.), odlučujući o žalbi okrivljenog ŠS podnesenoj protiv rješenja Općinskog suda u Rijeci, Stalne službe u Delnicama, broj Pp-2733/2024 od 24. listopada 2025., u sjednici vijeća održanoj 10. prosinca 2025., r i j e š i o j e Prihvaća se osnovanom žalba okrivljenog ŠS, ukida pobijano rješenje i predmet na ponovno odlučivanje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-157/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-157"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sutkinja Anđe Ćorluka kao predsjednice vijeća, te Mirjane Medić i Ivanke Mašić kao članica vij",
+    outcome: "remanded",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=c59a7f9c-3da2-4d56-aeb3-8c6d57bff00f",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-158/2025-2",
+    decision_date: "2025-12-03",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi o jednom od najtežih prometnih prekršaja?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca: Karmen Novak Hrgović kao predsjednice vijeća, te Nediljka Bobana i Davorka Kučana kao članova vijeća, uz sudjelovanje sudske savjetnice Mirne Prišlin kao zapisničarke, u prekršajnom predmetu protiv okrivljenika LS kojeg brani Bojan Doneski, odvjetnik u Garešnici, zbog prekršaja iz članka 199. stavka 8. Zakona o sigurnosti prometa na cestama („N.N“.67/08,48/10 i 74/11, 80/13, 158/13, 92/14, 64/15, 108/17, 70/19, 40/20, 85/22, 114/22, 133/23), rješavajući o žalbi okrivljenika, podnijetoj protiv rješenja Općinskog suda u Bjelovaru, Stalna služba u Daruvaru, od 21. studenog 2025., broj: Pp-3411/2025-3 na sjednici vijeća održanoj dana 3.prosinca 2025., r i j e š i o j e: Žalba okrivljenika LS odbija se kao neosnovana i potvrđuje se pobijano rješenje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-158/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-158"],
+    related_articles: ["čl. 58. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca: Karmen Novak Hrgović kao predsjednice vijeća, te Nediljka Bobana i Davorka Kučana kao",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=82118f5b-3f4a-45ab-b4be-bd883ca9a469",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
     case_number: "IR-16/2026-2",
     decision_date: "2026-02-03",
     legal_area: "procedural",
@@ -122,6 +312,158 @@ export const CASE_LAW_PROCEDURAL_CROATIA_1: CaseLawInput[] = [
     jurisdiction: "croatia",
     court: "Visoki prekršajni sud Republike Hrvatske",
     court_level: "high",
+    case_number: "IR-160/2025-2",
+    decision_date: "2025-12-04",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi razloga navedenih u žalbi?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Renate Popović, kao predsjednice vijeća, te Nediljka Bobana i Davorka Kučana , kao članova vijeća, uz sudjelovanje više sudske savjetnice Sofije Kovačević, kao zapisničarke, u prekršajnom postupku protiv okrivljenika DČ, kojeg brani Natali Kotlar, odvjetnica iz Zagreba, zbog prekršaja iz članka 54. stavak 3. Zakona o suzbijanju zlouporabe opojnih droga te članka 249. stavak 8. Zakona o strancima, rješavajući o žalbi okrivljenika DČ, podnesenoj protiv rješenja Općinskog suda u Velikoj Gorici, Stalna služba u Ivanić-Gradu od 23. studenog 2025. godine, broj: Pp - 1837/2025-4, o određivanju zadržavanja, na sjednici vijeća održanoj dana 4. prosinca 2025. godine, r i j e š i o j e: Odbija se kao neosnovana žalba okrivljenika DČ i potvrđuje pobijano rješenje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-160/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-160"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Renate Popović, kao predsjednice vijeća, te Nediljka Bobana i Davorka Kučana , kao čla",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=57209400-8a33-4592-b369-88b57fd4ff6b",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-161/2025-2",
+    decision_date: "2025-12-10",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi osiguranja nazočnosti okrivljenika u postupku?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sutkinja Anđe Ćorluke, kao predsjednice vijeća, te Ivanke Mašić i Mirjane Medić, kao članica vijeća, uz sudjelovanje sudskog savjetnika Ivice Ožbolta, kao zapisničara, u prekršajnom postupku protiv okrivljene BR zastupane po braniteljici TR, odvjetnici iz [adresa], zbog prekršaja iz članka 22. st. 2. Zakona o zaštiti od nasilja u obitelji („ Narodne novine„ broj: 70/17, 126/19, 84/21, 114/22, 36/24), rješavajući o žalbi okr. BR podnesenoj protiv rješenja Općinskog prekršajnog suda u Splitu od 27. studenog 2025. , poslovni broj: Pp -16915/2025-4, na sjednici vijeća održanoj dana 10. prosinca 2025. r i j e š i o j e Prihvaćanjem žalbe okrivljene BR ukida se pobijano rješenje i predmet vraća prvostupanjskom sudu na ponovni postupak i odlučivanje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-161/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-161"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sutkinja Anđe Ćorluke, kao predsjednice vijeća, te Ivanke Mašić i Mirjane Medić, kao članica ",
+    outcome: "remanded",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=9c1e017d-e43e-42fe-888f-76f614a23a3b",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-163/2025-3",
+    decision_date: "2025-12-09",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi razloga navedenih u žalbi?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca : Sanje Gospočić, kao predsjednice vijeća, te Mladena Genca i Tomislava Tomašića, kao članova vijeća, uz sudjelovanje više sudske savjetnice - specijalistice Sanje Radeljak, kao zapisničarke, u prekršajnom postupku protiv okrivljenika FL zbog prekršaja iz čl. 22. st. 2. Zakona o zaštiti od nasilja u obitelji i dr., odlučujući o žalbi VL, oca okrivljenika FL, podnesenoj protiv rješenja Općinskog suda u Karlovcu, Prekršajnog odjela, od 1. prosinca 2025., Posl.broj: Pp-3462/2025-6, o određivanju zadržavanja, na sjednici vijeća održanoj 9. prosinca 2025., r i j e š i o j e : Odbija se kao neosnovana žalba VL, oca okrivljenika FL i potvrđuje pobijano rješenje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-163/2025-3 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-163"],
+    related_articles: ["čl. 22. Prekršajni zakon","čl. 136. Prekršajni zakon","čl. 17. Prekršajni zakon","čl. 6. Prekršajni zakon","čl. 135. Prekršajni zakon","čl. 161. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca : Sanje Gospočić, kao predsjednice vijeća, te Mladena Genca i Tomislava Tomašića, kao č",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=a0a9f845-b05f-4e4c-b3a2-adb9f72c3b2d",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-164/2025-2",
+    decision_date: "2025-12-17",
+    legal_area: "procedural",
+    legal_question:
+      "Odbija se kao neosnovana žalba MU i prvostupanjsko rješenje potvrđuje?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sutkinja: Anđe Ćorluka kao predsjednice vijeća, te Ivanke Mašić i Mirjane Medić kao članica vijeća, uz sudjelovanje sudskog savjetnika Ivice Ožbolta kao zapisničara u postupku izricanja mjere zabrane prisustvovanja športskim natjecanjima MU, odlučujući o žalbi MU protiv rješenja Općinskog prekršajnog suda u Splitu od 8. listopada 2025., broj: Pp Prz-279/2025-2, u sjednici vijeća održanoj 17. prosinca 2025. r i j e š i o j e: Odbija se kao neosnovana žalba MU i prvostupanjsko rješenje potvrđuje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-164/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-164"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sutkinja: Anđe Ćorluka kao predsjednice vijeća, te Ivanke Mašić i Mirjane Medić kao članica v",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=af188709-d363-4173-aa8d-bb0bf01816ae",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-166/2025-2",
+    decision_date: "2025-12-30",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je nižestupanjska odluka nezakonita?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca: predsjednice vijeća Gordane Korotaj, te članova vijeća Roberta Završkog i Kristine Gašparac Orlić, uz sudjelovanje sudske savjetnice Nine Lukić kao zapisničarke, u prekršajnom predmetu protiv okrivljenog TU kojeg brani Jasminka Perković, odvjetnica iz Šibenika, zbog prekršaja iz članka 22. stavka 2. Zakona o zaštiti od nasilja u obitelji („Narodne novine“ broj 70/2017, 126/2019, 84/2021, 114/2022 i 36/2024), odlučujući o žalbi okrivljenika podnijetoj protiv rješenja o produljenju mjere opreza Općinskog suda u Šibeniku od 27. kolovoza 2025. broj: Pp-2393/2024, na sjednici vijeća 30. prosinca 2025., r i j e š i o j e: Povodom žalbe okrivljenog TU a po službenoj dužnosti, ukida se pobijano rješenje kojim je okrivljeniku produljena mjera opreza zabrane približavanja bivšoj supruzi AU na udaljenost manju od 100 metara i zabrane uspostavljanja i održavanja veze s njom. O b r a z l o ž e n j e 1. Pobijanim rješenjem je na temelju članka 130. stavka 2. točke 3. Prekršajnog zakona („Narodne novine“, broj 107/07, 39/13, 157/13, 110/15, 70/17, 118/18 i 114/22), okrivljeniku produljena mjera opreza zabrane približavanja bivšoj supruzi AU na udaljenost manju od 100 metara i zabrane uspostavljanja i održavanja veze s njom, a u najduljem trajanju do pravomoćnosti odluke u prekršajnom postupku, koja mjera je produljena zbog postojanja opasnosti ponavljanja prekršaja. 2. Protiv tog rješenja okrivljenik je pravodobno putem braniteljice podnio žalbu zbog povrede materijalnog prava, te zbog pogrešno i nepotpuno utvrđenih činjenica o kojima ovisi primjena mjere opreza, predlažući da se iz razloga navedenih u žalbi ista prihvati i rješenje ukine. 3. Žalba je bespredmetna. 4. Ispitujući pobijano rješenje u smislu članka 211. Prekršajnog zakon, ovaj sud je utvrdio da je u predmetu Općinskog suda u Šibeniku broj: Pp-2393/2024 dana 26. kolovoza 2025. donesena oslobađajuća prvostupanjska presuda protiv koje su tužitelj i oštećenica podnijeli žalbu. Spis je dostavljen Visokom prekršajnom sudu Republike Hrvatske, koji je povodom žalbi 5. studenog 2025. donio presudu pod poslovnim brojem Ppž-9697/2025 (potvrdivši prvostupanjsku presudu, dok je žalba oštećenice odbačena), čime je i prvostupanjska presuda istog dana postala pravomoćna. 5. S obzirom da primijenjena mjera opreza u smislu članka 130. stavka 5. Prekršajnog zakona smije trajati najdulje do pravomoćnosti odluke o prekršaju, ovaj sud je po službenoj dužnosti ukinuo gore navedenu mjeru opreza, ne ulazeći dalje u ocjenu osnovanosti istaknutih žalbenih navoda. 6. Imajući u vidu naprijed navedeno, odlučeno je kao u izreci ovog rješenja. U Zagrebu, 30. prosinca 2025. Zapisničarka: Predsjednica vijeća: Nina Lukić, v. r Gordana Korotaj, v.r. Rješenje se dostavlja Općinskom sudu u Šibeniku u 7 otpravaka: za spis, okrivljenika, braniteljicu, oštećenicu, punomoćnicu oštećenice i tužitelja.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-166/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-166"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca: predsjednice vijeća Gordane Korotaj, te članova vijeća Roberta Završkog i Kristine Ga",
+    outcome: "remanded",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=22537c8d-6c5b-4633-b567-17b60d87a780",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-167/2025-2",
+    decision_date: "2025-12-19",
+    legal_area: "procedural",
+    legal_question:
+      "Odbija se kao neosnovana žalba okrivljenika OE i potvrđuje pobijano rješenje?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Tomislava Tomašića, kao predsjednika vijeća, te Maria Soljačića i Marjane Rajić kao članova vijeća, uz sudjelovanje više sudske savjetnice Diane Pavlečić, kao zapisničarke, u prekršajnom postupku protiv okrivljenika OE, zastupan po branitelju Zdenki Nakićen Vukičević odvjetniku u [adresa], zbog prekršaja iz članka 199. stavak 8. i dr. Zakona o sigurnosti prometa na cestama (NN br.: 67/08, 48/10, 74/11, 80/13, 158/13, 92/14, 64/15, 89/15, 108/17, 70/19, 42/20, 85/22, 114/22 i 133/23), rješavajući o žalbi okrivljenika OE, podnijetoj protiv rješenja o zadržavanju Općinskog suda u Šibeniku, poslovni broj: Pp-3902/2025 od 14. prosinca 2025. u sjednici vijeća održanoj dana 19. prosinca 2025., r i j e š i o j e : - Odbija se kao neosnovana žalba okrivljenika OE i potvrđuje pobijano rješenje. - - -",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-167/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-167"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Tomislava Tomašića, kao predsjednika vijeća, te Maria Soljačića i Marjane Rajić kao čl",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=f8cc995a-4e50-4fc4-93d9-cbb45884a523",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-168/2025-2",
+    decision_date: "2025-12-22",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi o odmazdi za njegovo dugogodišnje djelovanje na razvoju grada. 5. Žalitelj predlaže da se iz razloga navedenih u žalbi?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Sanje Gospočić kao predsjednice vijeća, te Tomislava Tomašića i Marjane Rajić kao članova vijeća uz sudjelovanje sudske savjetnice Diane Pavlečić kao zapisničarke, u prekršajnom postupku protiv okrivljenog FN, zastupan po Željku Gulišiji, odvjetniku iz [adresa], zbog prekršaja iz članka 45. stavka 1. i 4. u svezi s člankom 293. stavkom 1. članka 176. stavka 2. i 5. i članka 286. stavka 13. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj 67/08., 48/10., 74/11., 80/13., 158/13., 92/14., 64/15., 108/17., 70/19., 42/20., 85/22., 114/22., 133/23., 145/24.) rješavajući o žalbi okrivljenika FN podnesenoj putem branitelja, protiv rješenja o zadržavanju Općinskog prekršajnog suda u Splitu, broj: Pp-17893/2025-5 od 15. prosinca 2025. godine, na sjednici vijeća održanoj dana 22. prosinca 2025., r i j e š i o j e: Odbija se kao neosnovana žalba okrivljenika FN i potvrđuje se prvostupanjsko rješenje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-168/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-168"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Sanje Gospočić kao predsjednice vijeća, te Tomislava Tomašića i Marjane Rajić kao član",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=7e99c173-ffdc-4026-8679-e298e32768e5",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-169/2025-2",
+    decision_date: "2025-12-22",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi se o osobi sa invaliditetom čije zdravstveno stanje se može znatno pogoršati zbog zadržavanja?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Sanje Gospočić kao predsjednice vijeća, te Tomislava Tomašića i Marjane Rajić kao članova vijeća uz sudjelovanje sudske savjetnice Diane Pavlečić kao zapisničarke, u prekršajnom postupku protiv okrivljenog ŠN, zbog prekršaja iz članka 216. stavka 3. i dr. Zakona o sigurnosti prometa na cestama i članka 72. stavak 1. točka 1. Zakona o nabavi i posjedovanju oružja građana rješavajući o žalbi okrivljenika ŠN podnesenoj putem branitelja, protiv rješenja o zadržavanja Općinskog prekršajnog suda u Splitu, broj: Pp-17927/2025-4 od 16. prosinca 2025. godine, na sjednici vijeća održanoj dana 22. prosinca 2025., r i j e š i o j e: Odbija se kao neosnovana žalba okrivljenika ŠN i potvrđuje se prvostupanjsko rješenje",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-169/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-169"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Sanje Gospočić kao predsjednice vijeća, te Tomislava Tomašića i Marjane Rajić kao član",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=e556896b-5334-46df-b62f-1647fb9cf0a2",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
     case_number: "IR-17/2026-2",
     decision_date: "2026-02-11",
     legal_area: "procedural",
@@ -136,6 +478,101 @@ export const CASE_LAW_PROCEDURAL_CROATIA_1: CaseLawInput[] = [
     headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Kristine Gašparac Orlić, predsjednice vijeća te Gordane Korotaj i Roberta Završkog, čl",
     outcome: "defendant_won",
     source_url: "https://odluke.sudovi.hr/Document/View?id=cfae73a4-1f8d-4351-bfca-fdda7236162f",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-170/2025-2",
+    decision_date: "2025-12-23",
+    legal_area: "procedural",
+    legal_question:
+      "ĐČ i dr., zbog prekršaja iz čl. Zakona o zaštiti od nasilja u obitelji („Narodne novine“, broj: 70/17, 126/19, 84/21, 114/22 i 36/24), odlučujući o žalbi okr?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca ovog suda Gordane Korotaj, predsjednice vijeća te Kristine Gašparac Orlić i Roberta Završkog, članova vijeća, uz sudjelovanje više sudske savjetnice Emine Bašić kao zapisničarke, u prekršajnom predmetu protiv okr. ĐČ i dr., zbog prekršaja iz čl. 22. st. 1. Zakona o zaštiti od nasilja u obitelji („Narodne novine“, broj: 70/17, 126/19, 84/21, 114/22 i 36/24), odlučujući o žalbi okr. ĐČ podnesenoj protiv rješenja Općinskog suda u Vinkovcima, broj: Pp-1969/2025-8 od 1. prosinca 2025., na sjednici vijeća održanoj 23. prosinca 2025., r i j e š i o j e Prihvaća se žalba okr. ĐČ te ukida rješenje Općinskog prekršajnog suda u Vinkovcima, broj: Pp-1969/2025-8 od 1. prosinca 2025. kojom je okr. ĐČ produljena mjera opreza zabrane približavanja, uznemiravanja ili uhođenja žrtvi nasilja u obitelji.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-170/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-170"],
+    related_articles: ["čl. 22. Prekršajni zakon","čl. 130. Prekršajni zakon","čl. 211. Prekršajni zakon","čl. 16. Prekršajni zakon","čl. 131. Prekršajni zakon","čl. 50. Prekršajni zakon","čl. 58. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca ovog suda Gordane Korotaj, predsjednice vijeća te Kristine Gašparac Orlić i Roberta Za",
+    outcome: "remanded",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=4fbca56f-6d40-41bd-9ef6-d1ddb589c0e1",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-171/2025-2",
+    decision_date: "2025-12-29",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi prekršaja iz čl. 22. st. 3. Zakona o zaštiti od nasilja u obitelji (Narodne novine?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Katice Lučić kao predsjednice vijeća, te Ivane Bosnić-Kovačić i Mladena Genca kao članova vijeća uz sudjelovanje više sudske savjetnice Ivane Vorel Mikša kao zapisničarke, u prekršajnom postupku protiv I. okrivljenika FJ i II. okrivljenice ČJ, radi prekršaja iz čl. 22. st. 3. Zakona o zaštiti od nasilja u obitelji (Narodne novine, broj: 70/17., 126/19., 84/21., 114/22., 36/24.), rješavajući o žalbi I. okrivljenika FJ podnesenoj protiv rješenja Općinskog prekršajnog suda u Splitu o određivanju zadržavanja, broj: Pp-18148/2025, od 22. prosinca 2025., na sjednici vijeća održanoj dana 29. prosinca 2025., r i j e š i o j e: Odbija se kao neosnovana žalba I. okrivljenika FJ i potvrđuje pobijano rješenje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-171/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-171"],
+    related_articles: ["čl. 22. Prekršajni zakon","čl. 135. Prekršajni zakon","čl. 161. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Katice Lučić kao predsjednice vijeća, te Ivane Bosnić-Kovačić i Mladena Genca kao član",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=98ce9816-42ee-49ac-9521-8d9a3af2ae70",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-172/2025-2",
+    decision_date: "2025-12-30",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je nižestupanjska odluka nezakonita?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od suca Roberta Završkog, predsjednika vijeća te sutkinja Gordane Korotaj i Kristine Gašparac Orlić, članica vijeća, uz sudjelovanje sudske savjetnice Nine Lukić, zapisničarke, u prekršajnom postupku protiv ŽH, u povodu prijedloga Ministarstva unutarnjih poslova Republike Hrvatske, Policijske uprave sisačko-moslavačke, Policijske postaje Petrinja za izricanje zabrane prisustvovanja športskim natjecanjima na temelju čl. 34.a Zakona o sprječavanju nereda na športskim natjecanjima („Narodne novine“, broj: 117/03., 71/06., 43/09., 34/11. i 114/22.), odlučujući o žalbi ŽH, podnesenoj protiv rješenja Općinskog suda u Sisku, broj: Pp Prz-55/2025-2 od 5. prosinca 2025., na sjednici vijeća održanoj 30. prosinca 2025. r i j e š i o j e Prihvaća se žalba okr. ŽH, ukida se pobijano rješenje te se predmet dostavlja prvostupanjskom sudu na ponovno odlučivanje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-172/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-172"],
+    related_articles: ["čl. 34. Prekršajni zakon","čl. 195. Prekršajni zakon","čl. 211. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od suca Roberta Završkog, predsjednika vijeća te sutkinja Gordane Korotaj i Kristine Gašparac Or",
+    outcome: "remanded",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=d9922daf-92e4-4354-b397-296087164ee1",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-173/2025-2",
+    decision_date: "2026-01-07",
+    legal_area: "procedural",
+    legal_question:
+      "Odbija se kao neosnovana žalba MC i prvostupanjsko rješenje potvrđuje?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sutkinja: Anđe Ćorluka kao predsjednice vijeća, te Ivanke Mašić i Mirjane Medić kao članica vijeća, uz sudjelovanje sudskog savjetnika Ivice Ožbolta kao zapisničara u postupku izricanja mjere zabrane prisustvovanja športskim natjecanjima ZC, odlučujući o žalbi MC protiv rješenja Općinskog suda u Sisku od 5. prosinca 2025., broj: Pp Prz-56/2025-2, u sjednici vijeća održanoj 7. siječnja 2026. r i j e š i o j e: Odbija se kao neosnovana žalba MC i prvostupanjsko rješenje potvrđuje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-173/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-173"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sutkinja: Anđe Ćorluka kao predsjednice vijeća, te Ivanke Mašić i Mirjane Medić kao članica v",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=e3fc8ab7-df16-4a8f-a10f-a423a038d4d0",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-174/2025-2",
+    decision_date: "2026-01-22",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je žalba osnovana?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Renate Popović, predsjednice, te Davorka Kučana i Ivanke Mašić, članova vijeća, uz sudjelovanje Nade Horvatović u svojstvu više sudske savjetnice specijalistice, kao zapisničarke, u prekršajnom postupku protiv okrivljenog PB zbog prekršaja iz članka 286. stavka 12. i dr. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj: 67/08., 48/10., 74/11., 80/13., 158/13., 92/14., 64/15., 108/17., 70/19., 42/20., 85/22. i 114/22.) u povodu odluke o privremeno oduzetom predmetu, rješavajući o žalbi tužitelja Ministarstva unutarnjih poslova Republike Hrvatske, Policijske uprave sisačko-moslavačke, Postaje prometne policije Kutina, protiv rješenja Općinskog suda u Kutini poslovni broj: Pp-1810/2025-5 od 16. prosinca 2025., u sjednici vijeća održanoj 22. siječnja 2026. r i j e š i o j e Odbija se žalba tužitelja Ministarstva unutarnjih poslova Republike Hrvatske, Policijske uprave sisačko-moslavačke, Postaje prometne policije Kutina kao neosnovana.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-174/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-174"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Renate Popović, predsjednice, te Davorka Kučana i Ivanke Mašić, članova vijeća, uz sudj",
+    outcome: "partially",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=cb6f2cea-06cf-4f2f-bc34-19a59dc6c5bc",
   },
   {
     jurisdiction: "croatia",
@@ -174,6 +611,44 @@ export const CASE_LAW_PROCEDURAL_CROATIA_1: CaseLawInput[] = [
     headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Maria Soljačića kao predsjednika vijeća, te Marjane Rajić i Tomislava Tomašića kao čla",
     outcome: "defendant_won",
     source_url: "https://odluke.sudovi.hr/Document/View?id=91385b71-4e25-4b34-9d3f-f859a835a0bf",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-2/2026-2",
+    decision_date: "2026-01-12",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi o jednom od težih prometnih prekršaja i okrivljenik je recidivist?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca: Nediljka Bobana kao predsjednika vijeća, te Karmen Novak Hrgović i Davorka Kučana kao članova vijeća, uz sudjelovanje više sudske savjetnice Sofije Kovačević kao zapisničarke, u prekršajnom predmetu protiv okrivljenika UG, kojeg brani Milan Jurčević, odvjetnik iz Splita, zbog prekršaja iz članka 199. stavka 8. i dr. Zakona o sigurnosti prometa na cestama („N.N“.67/08,48/10 i 74/11, 80/13, 158/13, 92/14, 64/15, 108/17, 70/19, 40/20, 85/22, 114/22, 133/23, 145/24), rješavajući o žalbi okrivljenika UG, podnijetoj protiv rješenja Općinskog prekršajnog suda u Splitu od 13. studenog 2025., broj: Pp-14850/2025-5, na sjednici vijeća održanoj dana 12. siječnja 2026., r i j e š i o j e: Žalba okrivljenika UG odbija se kao neosnovana i potvrđuje se pobijano rješenje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-2/2026-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-2"],
+    related_articles: ["čl. 58. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca: Nediljka Bobana kao predsjednika vijeća, te Karmen Novak Hrgović i Davorka Kučana kao",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=2764aaa7-237c-4d9b-8e2e-d046cfa3ed88",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-20/2026-2",
+    decision_date: "2026-05-13",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi zaštite opće sigurnosti javnog poretka?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sutkinja Ivanke Mašić kao predsjednice vijeća te Anđe Ćorluke i Mirjane Medić kao članica vijeća, uz sudjelovanje sudskog savjetnika Ivice Ožbolta kao zapisničara, u prekršajnom postupku protiv okrivljenog AR zbog prekršaja iz članka 70. stavka 1. točke 7., članka 72. stavka 1. točke 15. Zakona o nabavi i posjedovanju oružja građana („Narodne novine“ broj: 94/18., 42/20. i 114/22.) odlučujući o žalbi okrivljenog AR podnesenoj po branitelju Krešimiru Harambašiću, odvjetniku iz Osijeka protiv rješenja Općinskog suda u Osijeku, Stalne službe u Donjem Miholjcu broj: Pp-258/2022-14 od 29. srpnja 2025., na sjednici vijeća održanoj 13. svibnja 2026., r i j e š i o j e Odbija se kao neosnovana žalba okrivljenog AR i potvrđuje prvostupanjsko rješenje. - -",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-20/2026-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-20"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sutkinja Ivanke Mašić kao predsjednice vijeća te Anđe Ćorluke i Mirjane Medić kao članica vij",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=8efe0677-4a5d-4008-8fda-55f48f3382ee",
   },
   {
     jurisdiction: "croatia",
@@ -221,7 +696,7 @@ export const CASE_LAW_PROCEDURAL_CROATIA_1: CaseLawInput[] = [
     decision_date: "2026-02-19",
     legal_area: "procedural",
     legal_question:
-      "Da li je sud pravilno primijenio mjerodavno pravo?",
+      "Rješenje se dostavlja Općinskom prekršajnom sudu u Splitu, u 4 otpravka: za spis, žalitelja, punomoćnika i ovlaštenog tužitelja?",
     court_position:
       "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Davorka Kučana, kao predsjednika vijeća, te Renate Popović i Drage Klasnića, kao članova vijeća, uz sudjelovanje više sudske savjetnice Sanje Klauda, kao zapisničara, u prekršajnom postupku protiv osuđenika CIČ, zbog prekršaja iz članka 112. stavka 10. i 14. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj 67/08, 48/10, 74/11, 80/13, 92/14, 64/15, 108/17, 70/19, 42/20 i 114/22) i članka 54. stavak 3. Zakona o suzbijanju zlouporabe droga („Narodne novine“ broj 107/01, 87/02, 163/03, 141/04, 40/07, 149/09, 84/11, 80/13 i 39/19), rješavajući o žalbi CI vlasnika oduzetog vozila, kojeg zastupa Marijo Depolo odvjetnik u Splitu, podnesenoj protiv rješenja Općinskog prekršajnog suda u Splitu broj Pp-10934/2025-14 od 11. prosinca 2025., na sjednici vijeća održanoj dana 19. veljače 2026., r i j e š i o j e: Povodom žalbe vlasnika oduzetog romobila CI, a po službenoj dužnosti, pobijano rješenje se ukida.",
     reasoning:
@@ -231,6 +706,82 @@ export const CASE_LAW_PROCEDURAL_CROATIA_1: CaseLawInput[] = [
     headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Davorka Kučana, kao predsjednika vijeća, te Renate Popović i Drage Klasnića, kao članov",
     outcome: "remanded",
     source_url: "https://odluke.sudovi.hr/Document/View?id=bb6c3842-07a7-4c60-aee2-e67928151d0b",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-24/2026-2",
+    decision_date: "2026-05-13",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi razloga navedenih u žalbi?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sutkinja: Anđe Ćorluka, kao predsjednice vijeća te Mirjane Medić i Ivanke Mašić, kao članica vijeća, uz sudjelovanje sudskog savjetnika Ivice Ožbolta, kao zapisničara, u prekršajnom predmetu za izricanje mjere zabrane prisustvovanja šprtskim natjecanjima ABC, odlučujući o žalbi ABC kojeg brani Jurica Tomić, odvjetnik iz Splita podnesenoj protiv rješenja Općinskog prekršajnog suda u Splitu od 12. prosinca 2025., broj PpPrz-570/2025-2, na sjednici vijeća održanoj 13. svibnja 2026., r i j e š i o j e Prihvaća se žalba ABC, preinačuje se pobijano rješenje tako da se odbija prijedlog MUP-a, Policijske uprave splitsko-dalmatinske za izricanje ABC mjere zabrana prisustvovanja športskim natjecanjima.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-24/2026-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-24"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sutkinja: Anđe Ćorluka, kao predsjednice vijeća te Mirjane Medić i Ivanke Mašić, kao članica v",
+    outcome: "remanded",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=85aac2b7-161a-4a1f-b8e9-48cdf477215f",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-25/2026-2",
+    decision_date: "2026-04-28",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi o osobi nasilnog?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sutkinje Nade Horvatović, predsjednice vijeća, te sudaca Gordane Korotaj i Roberta Završkog, članova vijeća, uz sudjelovanje sudske savjetnice Nine Lukić, zapisničarke, u postupku oduzimanja predmeta, odlučujući o žalbi tužitelja Ministarstva unutarnjih poslova Republike Hrvatske, Policijske uprave zadarske, Policijske postaje Zadar, podnesenoj protiv rješenja Općinskog suda u Zadru od 27. siječnja 2026., broj: Pp-1386/2021, u sjednici vijeća održanoj 28. travnja 2026., r i j e š i o j e Odbija se žalba tužitelja Ministarstva unutarnjih poslova Republike Hrvatske, Policijske uprave zadarske, Policijske postaje Zadar kao neosnovana.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-25/2026-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-25"],
+    related_articles: ["čl. 76. Prekršajni zakon","čl. 51. Prekršajni zakon","čl. 50. Prekršajni zakon","čl. 1. Prekršajni zakon","čl. 211. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sutkinje Nade Horvatović, predsjednice vijeća, te sudaca Gordane Korotaj i Roberta Završkog, č",
+    outcome: "partially",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=00f5ef41-93fe-469f-8471-4ce246fb05bc",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-26/2026-2",
+    decision_date: "2026-05-13",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi o izoliranom događaju koji ne predstavlja obrazac njegovog ponašanja niti upućuje na povećanu opasnost od ponavljanja sl?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sutkinja: Anđe Ćorluka, kao predsjednice vijeća te Mirjane Medić i Ivanke Mašić, kao članica vijeća, uz sudjelovanje sudskog savjetnika Ivice Ožbolta, kao zapisničara, u prekršajnom predmetu za izricanje mjere zabrane prisustvovanja šprtskim natjecanjima JN, odlučujući o žalbi JN podnesenoj protiv rješenja Općinskog prekršajnog suda u Zagrebu od 26. studenog 2025., na sjednici vijeća održanoj 13. svibnja 2026., r i j e š i o j e Prihvaća se žalba JN, preinačuje se pobijano rješenje tako da se odbija prijedlog MUP-a, Policijske uprave zagrebačke, Sektora za javni red i sigurnost, službe za osiguranja za izricanje JN mjere zabrane prisustvovanja svim športskim natjecanjima.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-26/2026-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-26"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sutkinja: Anđe Ćorluka, kao predsjednice vijeća te Mirjane Medić i Ivanke Mašić, kao članica v",
+    outcome: "remanded",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=1eea9020-f4a9-4d17-8f18-4f24097fd42f",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-27/2026-2",
+    decision_date: "2026-05-07",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je žalba osnovana?",
+    court_position:
+      "Odbija se žalba tužitelja Ministarstva unutarnjih poslova, Policijske uprave bjelovarsko-bilogorske, Policijske postaje Bjelovar kao neosnovana i prvostupanjsko rješenje potvrđuje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-27/2026-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-27"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Odbija se žalba tužitelja Ministarstva unutarnjih poslova, Policijske uprave bjelovarsko-bilogorske, Policijske postaje Bjelovar kao neosnovana i prvostupanjsko",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=4c2d0045-3405-49d3-8d41-22134a2f7b07",
   },
   {
     jurisdiction: "croatia",
@@ -331,6 +882,25 @@ export const CASE_LAW_PROCEDURAL_CROATIA_1: CaseLawInput[] = [
     jurisdiction: "croatia",
     court: "Visoki prekršajni sud Republike Hrvatske",
     court_level: "high",
+    case_number: "IR-35/2026-2",
+    decision_date: "2026-05-08",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi sudjelovanja u djelima vezanim uz športska natjecanja i navijačke nerede?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca: predsjednice vijeća Kristine Gašparac Orlić, te članova vijeća Roberta Završkog i Eufemije Nanković, uz sudjelovanje više sudske savjetnice Emine Bašić kao zapisničarke, rješavajući u smislu odredbe članka 211. stavka 2. Prekršajnog zakona („Narodne novine“, broj 107/07, 39/13, 157/13, 110/15, 70/17, 118/18 i 114/22), o žalbi MP, podnijetoj po njegovom opunomoćeniku Odvjetničkom društvu Ivančević Marinković i partneri, protiv rješenja Općinskog prekršajnog suda u Splitu od 4. veljače 2026., broj: Pp Prz-27/2026-2, na sjednici vijeća 8. svibnja 2026., r i j e š i o j e Odbija se kao neosnovana žalba MP i potvrđuje se pobijano rješenje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-35/2026-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-35"],
+    related_articles: ["čl. 31. Prekršajni zakon","čl. 34. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca: predsjednice vijeća Kristine Gašparac Orlić, te članova vijeća Roberta Završkog i Euf",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=0f7bc98f-4def-464d-a339-0df81769009f",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
     case_number: "IR-36/2026-2",
     decision_date: "2026-04-22",
     legal_area: "procedural",
@@ -364,6 +934,25 @@ export const CASE_LAW_PROCEDURAL_CROATIA_1: CaseLawInput[] = [
     headnote: ": Odbija se kao neosnovana žalba okrivljenika KP i potvrđuje pobijano rješenje.",
     outcome: "defendant_won",
     source_url: "https://odluke.sudovi.hr/Document/View?id=2b0727f1-d5f0-43ba-b6ed-4a5fa08471b3",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-38/2026-3",
+    decision_date: "2026-05-13",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi razloga navedenih u žalbi?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sutkinja: Anđe Ćorluka, kao predsjednice vijeća te Mirjane Medić i Ivanke Mašić, kao članica vijeća, uz sudjelovanje sudskog savjetnika Ivice Ožbolta, kao zapisničara, u prekršajnom predmetu protiv okrivljenog RT zbog prekršaja iz članka 22. stavka 1. Zakona o zaštiti od nasilja u obitelji (NN 70/17., 136/19., 84/21., 114/22. i 36/24.), odlučujući o žalbi okrivljenog RT kojeg brani Marina Mraković, odvjetnica iz Buzeta podnesenoj protiv rješenja Općinskog suda u Puli-Pola od 25. veljače 2025. broj Pp-341/2026-5, na sjednici vijeća održanoj 13. svibnja 2026., r i j e š i o j e Prihvaća se žalba okrivljenog RT, ukida se pobijano rješenje i predmet dostavlja prvostupanjskom sudu na ponovno odlučivanje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-38/2026-3 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-38"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sutkinja: Anđe Ćorluka, kao predsjednice vijeća te Mirjane Medić i Ivanke Mašić, kao članica v",
+    outcome: "remanded",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=5417d32e-3c79-42d4-bc4b-cab197d92b23",
   },
   {
     jurisdiction: "croatia",
@@ -521,6 +1110,25 @@ export const CASE_LAW_PROCEDURAL_CROATIA_1: CaseLawInput[] = [
     jurisdiction: "croatia",
     court: "Visoki prekršajni sud Republike Hrvatske",
     court_level: "high",
+    case_number: "IR-47/2026-2",
+    decision_date: "2026-05-05",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je nižestupanjska odluka nezakonita?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sutkinje Gordane Korotaj, predsjednice vijeća te sutkinje Nade Horvatović i suca Roberta Završkog, članova vijeća, uz sudjelovanje sudske savjetnice Nine Lukić, zapisničarke, u prekršajnom postupku protiv Aranda Vučaka, u povodu prijedloga Ministarstva unutarnjih poslova Republike Hrvatske, Policijske uprave splitsko-dalmatinske, za izricanje zabrane prisustvovanja športskim natjecanjima na temelju čl. 34.a Zakona o sprječavanju nereda na športskim natjecanjima („Narodne novine“, broj: 117/03., 71/06., 43/09., 34/11. i 114/22.), odlučujući o žalbi Aranda Vučaka, podnesenoj protiv rješenja Općinskog prekršajnog suda u Splitu, broj: Pp Prz-40/2026-3 od 20. veljače 2026., na sjednici vijeća održanoj 5. svibnja 2026., r i j e š i o j e Prihvaća se žalba Aranda Vučaka, ukida se pobijano rješenje te se predmet dostavlja prvostupanjskom sudu na ponovno odlučivanje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-47/2026-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-47"],
+    related_articles: ["čl. 34. Prekršajni zakon","čl. 195. Prekršajni zakon","čl. 211. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sutkinje Gordane Korotaj, predsjednice vijeća te sutkinje Nade Horvatović i suca Roberta Zavr",
+    outcome: "remanded",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=f659df58-b7b8-4531-ad85-056ce2637ce4",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
     case_number: "IR-48/2026-2",
     decision_date: "2026-04-08",
     legal_area: "procedural",
@@ -559,6 +1167,25 @@ export const CASE_LAW_PROCEDURAL_CROATIA_1: CaseLawInput[] = [
     jurisdiction: "croatia",
     court: "Visoki prekršajni sud Republike Hrvatske",
     court_level: "high",
+    case_number: "IR-5/2026-2",
+    decision_date: "2026-01-09",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi se o prekršaju protiv javnog reda i mira?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca ovog suda Anđe Ćorluka kao predsjednice vijeća, te Ivanke Mašić i Gordane Korotaj kao članica vijeća, uz sudjelovanje sudskog savjetnika Ivice Ožbolta kao zapisničara, u prekršajnom postupku protiv okr. VĐ, zbog prekršaja iz članka 29 .st. 3. i dr. Zakona o nabavi i posjedovanju oružja građana ( „Narodne novine“: 94/18, 42/20, 114/22 ) i dr., odlučujući o žalbi okr. VĐ, podnijetoj po branitelju Marinu Radiću, odvjetniku iz Splita, protiv rješenja Općinskog prekršajnog suda u Splitu, od 6. siječnja 2026., broj: Pp-46/2026-4 , u sjednici vijeća održanoj dana 9. siječnja 2026. r i j e š i o j e: Odbija se kao neosnovana žalba okrivljenika VĐD i pobijano rješenje o zadržavanju se potvrđuje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-5/2026-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-5"],
+    related_articles: ["čl. 13. Prekršajni zakon","čl. 62. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca ovog suda Anđe Ćorluka kao predsjednice vijeća, te Ivanke Mašić i Gordane Korotaj kao č",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=14fd17bb-90fe-4c8e-a682-36b592839d8f",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
     case_number: "IR-50/2026-2",
     decision_date: "2026-04-15",
     legal_area: "procedural",
@@ -573,6 +1200,25 @@ export const CASE_LAW_PROCEDURAL_CROATIA_1: CaseLawInput[] = [
     headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Kristine Gašparac Orlić, predsjednice vijeća te Roberta Završkog i Eufemije Nanković, ",
     outcome: "remanded",
     source_url: "https://odluke.sudovi.hr/Document/View?id=8542618f-9ae4-4f24-a307-c2a0fed06e86",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-51/2026-2",
+    decision_date: "2026-06-09",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi zaštite javne sigurnosti te da je dovoljna procjena da bi zadržavanje oružja kod okrivljenika moglo predstavljati rizik?",
+    court_position:
+      "Odbija se kao neosnovana žalba tužitelja Ministarstva unutarnjih poslova, Policijske uprave sisačko-moslavačke, Policijske postaje Sisak te potvrđuje pobijano rješenje. - -",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-51/2026-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-51"],
+    related_articles: ["čl. 76. Prekršajni zakon"],
+    headnote: "Odbija se kao neosnovana žalba tužitelja Ministarstva unutarnjih poslova, Policijske uprave sisačko-moslavačke, Policijske postaje Sisak te potvrđuje pobijano r",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=4160e85a-eaeb-4acb-9b0e-5bfd813b9fef",
   },
   {
     jurisdiction: "croatia",
@@ -616,6 +1262,63 @@ export const CASE_LAW_PROCEDURAL_CROATIA_1: CaseLawInput[] = [
     jurisdiction: "croatia",
     court: "Visoki prekršajni sud Republike Hrvatske",
     court_level: "high",
+    case_number: "IR-55/2026-2",
+    decision_date: "2026-05-12",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je žalba osnovana?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sutkinja Gordane Korotaj, predsjednice vijeća, te Nade Horvatović i Ivanke Mašić, članica vijeća, uz sudjelovanje sudske savjetnice Nine Lukić, zapisničarke, u prekršajnom postupku protiv okr. FP, zbog prekršaja iz čl. 22. st. 1. Zakona o zaštiti od nasilja u obitelji („Narodne novine“, broj 70/17., 126/19., 84/21., 114/22. i 36/24.), odlučujući o žalbi okrivljenika, podnesenoj protiv rješenja Općinskog suda u Osijeku od 1. travnja 2026., broj: Pp-959/2026-5, u sjednici vijeća održanoj 12. svibnja 2026. r i j e š i o j e Odbija se žalba okr. FP kao neosnovana.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-55/2026-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-55"],
+    related_articles: ["čl. 22. Prekršajni zakon","čl. 130. Prekršajni zakon","čl. 195. Prekršajni zakon","čl. 211. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sutkinja Gordane Korotaj, predsjednice vijeća, te Nade Horvatović i Ivanke Mašić, članica vij",
+    outcome: "partially",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=6dc6370a-ae3c-47dc-b242-831d8e8e467a",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-57/2026-2",
+    decision_date: "2026-05-26",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi pripreme poduzimanja odgovarajućih mjera za održavanje javnog reda i sigurnosti za vrijeme športskih natjecanja?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sutkinja Gordane Korotaj, predsjednice vijeća, te Nade Horvatović i Ivanke Mašić članica vijeća, uz sudjelovanje sudske savjetnice Nine Lukić, zapisničarke, u prekršajnom predmetu protiv MP, u povodu prijedloga Ministarstva unutarnjih poslova Republike Hrvatske, Policijske uprave splitsko-dalmatinske za izricanje zabrane prisustvovanja športskim natjecanjima na temelju čl. 34.a Zakona o sprječavanju nereda na športskim natjecanjima („Narodne novine“, broj: 117/03., 71/06., 43/09., 34/11. i 114/22.), odlučujući o žalbi MP, podnesenoj protiv rješenja Općinskog prekršajnog suda u Splitu broj: Pp Prz-29/2026-2 od 29. siječnja 2026., u sjednici vijeća održanoj 26. svibnja 2026. r i j e š i o j e Odbija se kao neosnovana žalba MP i potvrđuje pobijano rješenje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-57/2026-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-57"],
+    related_articles: ["čl. 34. Prekršajni zakon","čl. 39. Prekršajni zakon","čl. 31. Prekršajni zakon","čl. 211. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sutkinja Gordane Korotaj, predsjednice vijeća, te Nade Horvatović i Ivanke Mašić članica vije",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=7ad02c3e-8f27-444d-9d8c-353c13a1217c",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-59/2026-2",
+    decision_date: "2026-05-26",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi pripreme poduzimanja odgovarajućih mjera za održavanje javnog reda i sigurnosti za vrijeme športskih natjecanja?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sutkinja Gordane Korotaj, predsjednice vijeća, te Nade Horvatvoić i Ivanke Mašić, članica vijeća, uz sudjelovanje sudske savjetnice Nine Lukić, zapisničarke, u prekršajnom predmetu protiv ŠP, u povodu prijedloga Ministarstva unutarnjih poslova Republike Hrvatske, Policijske uprave splitsko-dalmatinske za izricanje zabrane prisustvovanja športskim natjecanjima na temelju čl. 34.a stavka 1. Zakona o sprječavanju nereda na športskim natjecanjima („Narodne novine“, broj: 117/03., 71/06., 43/09., 34/11. i 114/22.), odlučujući o žalbi ŠP, podnesenoj protiv rješenja Općinskog prekršajnog suda u Splitu broj: Pp Prz-49/2026-3 od 16. veljače 2026., u sjednici vijeća održanoj 26. svibnja 2026. r i j e š i o j e Odbija se kao neosnovana žalba ŠP i potvrđuje pobijano rješenje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-59/2026-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-59"],
+    related_articles: ["čl. 34. Prekršajni zakon","čl. 31. Prekršajni zakon","čl. 211. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sutkinja Gordane Korotaj, predsjednice vijeća, te Nade Horvatvoić i Ivanke Mašić, članica vij",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=f947be30-056b-454c-b3ff-6d42d5fd20a5",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
     case_number: "IR-61/2026-2",
     decision_date: "2026-04-24",
     legal_area: "procedural",
@@ -654,6 +1357,766 @@ export const CASE_LAW_PROCEDURAL_CROATIA_1: CaseLawInput[] = [
     jurisdiction: "croatia",
     court: "Visoki prekršajni sud Republike Hrvatske",
     court_level: "high",
+    case_number: "IR-64/2026-2",
+    decision_date: "2026-05-04",
+    legal_area: "procedural",
+    legal_question:
+      "Odbija se kao neosnovana žalba okrivljenog IG?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Davorka Kučana kao predsjednika vijeća, te Renate Popović i Nade Horvatović kao članica vijeća, uz sudjelovanje višeg sudskog savjetnika specijalista Zlatka Hasića, kao zapisničara, u prekršajnom predmetu protiv okrivljenog IG zbog prekršaja iz članka 289. stavka 4. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj: 67/08., 48/10. 74/11., 80/13., 158/13., 92/14., 64/15., 108/17., 70/19., 42/20., 85/22., 114/22., 145/24.) rješavajući o žalbi okrivljenog IG, podnijetoj protiv rješenja o zadržavanju Općinskog suda u Šibeniku, Stalna služba u Kninu, broj: Pp-1198/2026 od 27. travnja 2026., u sjednici vijeća održanoj dana 4. svibnja 2026., r i j e š i o j e Odbija se kao neosnovana žalba okrivljenog IG.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-64/2026-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-64"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Davorka Kučana kao predsjednika vijeća, te Renate Popović i Nade Horvatović kao članica",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=f2a12ae5-1e67-464f-9a37-77e7de01b73f",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-66/2026-2",
+    decision_date: "2026-05-21",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi osiguranja nazočnosti okrivljenika u postupku?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Kristine Gašparac Orlić, predsjednice vijeća te Eufemije Nanković i Gordane Korotaj, članica vijeća, uz sudjelovanje više sudske savjetnice Emine Bašić, zapisničarke, u prekršajnom postupku protiv okr. FO, zbog prekršaja iz članka 13. Zakona o prekršajima protiv javnog reda i mira („Narodne novine“ broj 5/1990., 30/1990., 47/1990., 29/1994., 114/2022. i 47/2023.), odlučujući o žalbi okr. FO, podnesenoj protiv rješenja Općinskog suda u Puli-Pola od 14. travnja 2026., broj: Pp - 1781/2025-24, u sjednici vijeća održanoj 21. svibnja 2026., r i j e š i o j e Odbija se žalba okr. FO kao neosnovana te se potvrđuje pobijano prvostupanjsko rješenje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-66/2026-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-66"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Kristine Gašparac Orlić, predsjednice vijeća te Eufemije Nanković i Gordane Korotaj, č",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=9d1d75b6-65bb-4415-bf0d-87a850078f6b",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-68/2026-2",
+    decision_date: "2026-05-20",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi se o prekršaju protiv javnog reda i mira?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sutkinja ovog suda Katice Lučić kao predsjednice vijeća, te Ivanke Mašić i Renate Popović kao članica vijeća, uz sudjelovanje sudskog savjetnika Ivice Ožbolta kao zapisničara, u prekršajnom postupku protiv okr. ČK, zbog prekršaja iz članka 17. Zakona o prekršajima protiv javnog reda i mira ( „Narodne novine“: 41/77, 55/89, 5/90, 30/90, 47/90, 29/94, /22 i 47/23) , odlučujući o žalbi okr. ČK, protiv rješenja Općinskog prekršajnog suda u Zagrebu, od 11. svibnja 2026., Broj: Pp-6994/2026, u sjednici vijeća održanoj dana 20. svibnja 2026. r i j e š i o j e Odbija se kao neosnovana žalba okrivljenika ČK i pobijano rješenje o zadržavanju se potvrđuje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-68/2026-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-68"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sutkinja ovog suda Katice Lučić kao predsjednice vijeća, te Ivanke Mašić i Renate Popović kao ",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=be0a0c3b-12ab-4f0a-af11-5005dc9127b3",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-69/2026-2",
+    decision_date: "2026-05-22",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je tužba dopuštena?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca ovog Suda: Ivanke Mašić predsjednice vijeća, te Karmen Novak Hrgović i Davorka Kučana, članova vijeća, uz sudjelovanje više sudske savjetnice Marcele Soljačić Prester kao zapisničara, u prekršajnom postupku protiv okrivljenika ĆN, zbog prekršaja iz članka 199. stavka 8. Zakona o sigurnosti prometa na cestama (Narodne novine broj: 67/2008, 48/2010, 74/2011, 80/2013, 158/2013, 92/2014, 64/2015, 108/2017, 70/2019, 42/2020, 85/2022, 114/2022, 133/2023, 145/2024), kojeg brani Vjeran Pajić, odvjetnik u Šibeniku, odlučujući o žalbi okrivljenika ĆN, podnesenoj protiv rješenja Općinskog suda u Šibeniku, od 13. svibnja 2026. godine, broj: Pp-1409/2026, na sjednici vijeća održanoj dana 22. svibnja 2026. godine, r i j e š i o j e: Žalba okrivljenika ĆN odbacuje se kao nepravodobna, temeljem članka 211. stavak 2. i članka 203. stavak 1. Prekršajnog zakona (Narodne novine broj: 107/2007, 39/2013, 157/2013, 110/2015, 70/2017, 118/2018, 114/2022).",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-69/2026-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-69"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca ovog Suda: Ivanke Mašić predsjednice vijeća, te Karmen Novak Hrgović i Davorka Kučana, ",
+    outcome: "procedural",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=4d7cb834-7ba3-4976-862a-3832cfa36e9e",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-7/2026-2",
+    decision_date: "2026-01-15",
+    legal_area: "procedural",
+    legal_question:
+      "Odbija se kao neosnovana žalba okrivljenog UL i potvrđuje pobijano rješenje?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Maria Soljačića kao predsjednika vijeća, te Marjane Rajić i Mladena Genca kao članova vijeća, uz sudjelovanje sudske savjetnice Diane Pavlečić, kao zapisničarke, u prekršajnom postupku protiv okrivljenika UL, zastupan po Stefanu Laban-Sabol, odvjetniku iz [adresa], zbog prekršaja iz članka 286. Zakona o sigurnosti prometa na cestama („Narodne novine“, broj: 67/2008, 48/2010, 74/2011, 80/2013, 158/2013, 92/2014, 64/2015, 108/2017, 70/2019, 42/2020, 85/2022, 114/2022, 133/2023 i 145/2024), rješavajući o žalbi okrivljenika UL podnesenoj putem branitelja, protiv rješenja o zadržavanju Općinskog suda u Bjelovaru, broj: Pp-95/2026-4 od 11. siječnja 2026., na sjednici vijeća održanoj 15. siječnja 2026., r i j e š i o j e Odbija se kao neosnovana žalba okrivljenog UL i potvrđuje pobijano rješenje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-7/2026-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-7"],
+    related_articles: ["čl. 135. Prekršajni zakon","čl. 286. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Maria Soljačića kao predsjednika vijeća, te Marjane Rajić i Mladena Genca kao članova ",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=0536c8ac-91aa-4b21-b5ed-5785b221ce3a",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-70/2026-2",
+    decision_date: "2026-05-22",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je nižestupanjska odluka pravilna?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca ovog suda Davorka Kučana, predsjednika vijeća, te Karmen Novak Hrgović i Tomislava Tomašića, članova vijeća, uz sudjelovanje više sudske savjetnice Marcele Soljačić Prester kao zapisničara, u prekršajnom predmetu protiv okrivljenika ŽP, zbog prekršaja iz članka 238. stavak 7., zbog prekršaja iz članka 216. stavak 3. Zakona o sigurnosti prometa na cestama (Narodne novine broj: 67/2008, 48/2010, 74/2011, 80/2013, 158/2013, 92/2014, 64/2015, 89/2015, 108/2017, 70/2019, 42/2020, 85/2022, 114/2022, 133/2023, 145/2024) i zbog prekršaja iz članka 29. Zakona o osobnoj iskaznici, kojeg brani Neven Gotal, odvjetnik u Zagrebu, rješavajući o žalbi okrivljenika ŽP, podnijetoj protiv rješenja Općinskog prekršajnog suda u Zagrebu, od 20. svibnja 2026., broj: Pp-7440/2026, na sjednici vijeća održanoj dana 22. svibnja 2026., r i j e š i o j e: Žalba okrivljenika ŽP odbija se kao neosnovana i potvrđuje se pobijano rješenje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-70/2026-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-70"],
+    related_articles: ["čl. 250. Prekršajni zakon","čl. 216. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca ovog suda Davorka Kučana, predsjednika vijeća, te Karmen Novak Hrgović i Tomislava Toma",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=1eaf390f-c0c0-497c-9fcc-89d049c3b437",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-74/2026-2",
+    decision_date: "2026-05-29",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi se o prekršaju protiv javnog reda i mira?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca ovog Suda Renate Popović kao predsjednice vijeća, te Karmen Novak Hrgović i Anđe Ćorluka kao članica vijeća, uz sudjelovanje više sudske savjetnice Marcele Soljačić Prester kao zapisničarke, u prekršajnom postupku protiv okrivljenika ŽI, zbog prekršaja iz članka 286. stavka 4. i stavka 12. Zakona o sigurnosti prometa na cestama (Narodne novine broj: 67/2008, 48/2010, 74/2011, 80/2013, 158/2013, 92/2014, 64/2015, 108/2017, 70/2019, 42/2020, 85/2022, 114/2022, 133/2023), odlučujući o žalbi okrivljenika ŽI, podnijetoj po branitelju Zoranu Mataiću, odvjetniku u Slavonskom Brodu, protiv rješenja Općinskog suda u Slavonskom Brodu od 22. svibnja 2026., na sjednici vijeća dana 29. svibnja 2026., r i j e š i o j e Odbija se kao neosnovana žalba okrivljenika ŽI i pobijano rješenje o zadržavanju se potvrđuje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-74/2026-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-74"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca ovog Suda Renate Popović kao predsjednice vijeća, te Karmen Novak Hrgović i Anđe Ćorluk",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=aaaf75bf-28c8-451e-b5e4-9b45cf4e3c21",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-75/2026-3",
+    decision_date: "2026-06-01",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi se o prekršaju protiv javnog reda i mira?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Katice Lučić kao predsjednice vijeća, te Ivane Bosnić-Kovačić i Jasne Momirović kao članica vijeća, uz sudjelovanje više sudske savjetnice Ivane Vorel Mikša, kao zapisničarke, u prekršajnom predmetu protiv okrivljenika GU, zbog prekršaja iz čl. 199. st. 8. i čl. 282. st. 9. Zakona o sigurnosti prometa na cestama (Narodne novine, broj: 67/08., 48/10., 74/11., 80/13., 158/13., 92/14., 64/15., 108/17., 70/19., 42/20., 85/22., 114/22., 133/23., 145/24.), rješavajući o žalbi okrivljenika podnesenoj po branitelju Josipu Anzuloviću Miroševiću, odvjetniku iz Supetra, protiv rješenja Općinskog prekršajnog suda u Splitu, broj: Pp-7042/2026, od 24. svibnja 2026., u sjednici vijeća održanoj 1. lipnja 2026., r i j e š i o j e Odbija se kao neosnovana žalba okrivljenika GU i potvrđuje pobijano rješenje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-75/2026-3 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-75"],
+    related_articles: ["čl. 199. Prekršajni zakon","čl. 282. Prekršajni zakon","čl. 135. Prekršajni zakon","čl. 161. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Katice Lučić kao predsjednice vijeća, te Ivane Bosnić-Kovačić i Jasne Momirović kao čl",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=b36c8d9a-66ab-45d1-961c-17a197b11db0",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-77/2024-2",
+    decision_date: "2026-05-13",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi razloga navedenih u žalbi?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sutkinja: Anđe Ćorluka, kao predsjednice vijeća te Mirjane Medić i Ivanke Mašić, kao članica vijeća, uz sudjelovanje sudskog savjetnika Ivice Ožbolta, kao zapisničara, u prekršajnom predmetu za izricanje mjere zabrane prisustvovanja športskim natjecanjima ABC, odlučujući o žalbi ABC kojeg brani Hrvoje Lukavec, odvjetnik iz Zagreba podnesenoj protiv rješenja Općinskog prekršajnog suda u Zagrebu od 28. veljače 2024. broj 57. PpPrz-9/2024, na sjednici vijeća održanoj 13. svibnja 2026., r i j e š i o j e Prihvaća se žalba ABC, preinačuje se pobijano rješenje tako da se odbija prijedlog MUP-a, Policijske uprave zagrebačke, Sektora za javni red i sigurnost, službe za osiguranja za izricanje ABC mjere zabrane prisustvovanja svim športskim natjecanjima.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-77/2024-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-77"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sutkinja: Anđe Ćorluka, kao predsjednice vijeća te Mirjane Medić i Ivanke Mašić, kao članica v",
+    outcome: "remanded",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=3067cfbe-95dc-48f5-9641-20e3dfbdaf3b",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-8/2026-2",
+    decision_date: "2026-01-21",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi o supružnicima koji su prekinuli zajednički život?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca: predsjednice vijeća Gordane Korotaj, te članova vijeća Roberta Završkog i Kristine Gašparac Orlić, uz sudjelovanje više sudske savjetnice Emine Bašić kao zapisničarke, u prekršajnom predmetu protiv okrivljenog IČ, zbog prekršaja iz članka 22. stavka 1. Zakona o zaštiti od nasilja u obitelji („Narodne novine“ broj 70/2017, 126/2019, 84/2021, 114/2022 i 36/2024), odlučujući o žalbi okrivljenika podnijetoj protiv rješenja o određivanju mjera opreza Općinskog suda u Varaždinu od 6. siječnja 2026. broj: Pp-28/2026-4, na sjednici vijeća održanoj 21. siječnja 2026., r i j e š i o j e: Odbija se kao neosnovana žalba okrivljenog IČ i potvrđuje pobijano rješenje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-8/2026-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-8"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca: predsjednice vijeća Gordane Korotaj, te članova vijeća Roberta Završkog i Kristine Ga",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=114fd223-0993-4bf9-96a2-5e816ae27d55",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-9/2026-2",
+    decision_date: "2026-01-19",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi se o prekršaju za koji se može izreći kazna zatvora ili novčana kazna veća od 1327?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Maria Soljačića kao predsjednika vijeća, te Tomislava Tomašića i Marjane Rajić kao članova vijeća uz sudjelovanje sudske savjetnice Diane Pavlečić kao zapisničarke, u prekršajnom postupku protiv okrivljenog RC, zastupan po Milenku Ščetar, odvjetniku iz [adresa], zbog iz članka 286. i dr. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj 67/08., 48/10., 74/11., 80/13., 158/13., 92/14., 64/15., 108/17., 70/19., 42/20., 85/22., 114/22., 133/23., 145/24.) rješavajući o žalbi okrivljenika RC podnesenoj putem branitelja, protiv rješenja o zadržavanju Općinskog suda u Bjelovaru broj: Pp-96/2026-4 od 11. siječnja 2026. godine, na sjednici vijeća održanoj dana 19. siječnja 2026., r i j e š i o j e: Odbija se kao neosnovana žalba okrivljenika RC i potvrđuje se prvostupanjsko rješenje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-9/2026-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-9"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Maria Soljačića kao predsjednika vijeća, te Tomislava Tomašića i Marjane Rajić kao čla",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=bc498d59-3473-4067-930e-ff62d974efc1",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-eu-1/2026-2",
+    decision_date: "2026-01-20",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi o djelima za koja se dvostruka kažnjivost ne provjerava) te provjeriti postoje li razlozi za odbijanje izvršenja iz član?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Tomislava Tomašića, predsjednika vijeća te Gordane Korotaj i Renate Popović, članica vijeća, uz sudjelovanje više sudske savjetnice Emine Bašić, zapisničarke, u prekršajnom postupku protiv osuđenika CE, u postupku priznanja i izvršenja odluke o novčanoj kazni Savezne Republike Njemačke, broj: 155523045974, odlučujući o žalbi osuđenika CE, podnesenoj protiv presude Općinskog suda u Novom Zagrebu od 20. listopad 2025., broj: Pp Ikp-eu 102/2025-2, u sjednici vijeća održanoj 20. siječnja 2026., p r e s u d i o j e Odbija se žalba osuđenika CE kao neosnovana te se potvrđuje pobijana prvostupanjska presuda.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-eu-1/2026-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-eu-1"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Tomislava Tomašića, predsjednika vijeća te Gordane Korotaj i Renate Popović, članica vi",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=c8b09fba-d2ca-4371-96b8-e30ef79b08cc",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-eu-10/2026-2",
+    decision_date: "2026-05-05",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi o djelima za koja se dvostruka kažnjivost ne provjerava) te provjeriti postoje li razlozi za odbijanje izvršenja iz član?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Gordane Korotaj kao predsjednice vijeća te Tomislava Tomašića i Renate Popović kao članova vijeća, uz sudjelovanje više sudske savjetnice Emine Bašić kao zapisničarke, u predmetu protiv osuđene ĆŽ, u postupku priznanja i izvršenja odluke o novčanoj kazni, odlučujući o žalbi osuđene ĆŽ protiv presude Općinskog suda u Sesvetama od 7. siječnja 2026., broj:. Pp Ikp-eu-51/2025-2 na sjednici vijeća održanoj 5. svibnja 2026., p r e s u d i o j e Odbija se žalba osuđene ĆŽ kao neosnovana i potvrđuje se prvostupanjska presuda",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-eu-10/2026-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-eu-10"],
+    related_articles: ["čl. 34. Prekršajni zakon","čl. 80. Prekršajni zakon","čl. 6. Prekršajni zakon","čl. 13. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Gordane Korotaj kao predsjednice vijeća te Tomislava Tomašića i Renate Popović kao član",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=cb2e5fca-758a-4bd0-bddf-321931e1cf11",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-eu-12/2026-2",
+    decision_date: "2026-05-05",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi o nekom od kažnjivih djela iz članka 10. i članka 77. stavka 1. ZPSKS-EU?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Tomislava Tomašića predsjednika vijeća te Renate Popović i Gordane Korotaj članica vijeća, uz sudjelovanje više sudske savjetnice Emine Bašić kao zapisničarke, u predmetu protiv osuđenog UV, u postupku priznanja i izvršenja odluke o novčanoj kazni Republike Austrije, odlučujući o žalbi osuđenog UV, podnesenoj protiv presude Općinskog prekršajnog suda u Zagrebu od 5. lipnja 2025., broj: Pp Ikp-eu-169/2025, u sjednici vijeća održanoj 5. svibnja 2026. p r e s u d i o j e Odbija se žalba osuđenog UV kao neosnovana i prvostupanjska presuda se potvrđuje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-eu-12/2026-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-eu-12"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Tomislava Tomašića predsjednika vijeća te Renate Popović i Gordane Korotaj članica vije",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=4eca9c97-71ae-4795-b9da-218abce83a8d",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-eu-13/2026-2",
+    decision_date: "2026-05-05",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi o odluci Okrajnog sodišča v Celju?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Tomislava Tomašića, predsjednika vijeća, te Gordane Korotaj i Renate Popović, članica vijeća, uz sudjelovanje više sudske savjetnice Emine Bašić, zapisničarke, u postupku priznanja i izvršenja odluke o novčanoj kazni, odlučujući o žalbi osuđenog ŠF, podnesenoj protiv presude Općinskog suda u Pazinu, Stalne službe u Poreču-Parenzo od 13. veljače 2026., broj: Ikp-eu-45/2025, u sjednici vijeća održanoj 5. svibnja 2026., p r e s u d i o j e Odbija se kao neosnovana žalba osuđenog ŠF i potvrđuje se pobijana prvostupanjska presuda.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-eu-13/2026-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-eu-13"],
+    related_articles: ["čl. 77. Prekršajni zakon","čl. 4. Prekršajni zakon","čl. 2. Prekršajni zakon","čl. 10. Prekršajni zakon","čl. 80. Prekršajni zakon","čl. 205. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Tomislava Tomašića, predsjednika vijeća, te Gordane Korotaj i Renate Popović, članica v",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=dcf75985-1f4e-4684-85f8-a0ea18a5ed5a",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-eu-14/2026-2",
+    decision_date: "2026-05-05",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je nižestupanjska odluka nezakonita?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Gordane Korotaj kao predsjednice vijeća te Tomislava Tomašića i Renate Popović kao članova vijeća, uz sudjelovanje sudske savjetnice Emine Bašić kao zapisničarke, u predmetu protiv osuđene SĐ u postupku priznanja i izvršenja odluke o novčanoj kazni, odlučujući o žalbi osuđene SĐ protiv presude Općinskog suda u Novom Zagrebu od 25. veljače 2026., broj: Pp Ikp-eu-21/2026-2, na sjednici vijeća održanoj 5. svibnja 2026., r i j e š i o j e Prihvaća se žalba osuđene SĐ ukida se pobijana prvostupanjska presuda te se predmet dostavlja prvostupanjskom sudu na ponovno odlučivanje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-eu-14/2026-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-eu-14"],
+    related_articles: ["čl. 80. Prekršajni zakon","čl. 87. Prekršajni zakon","čl. 6. Prekršajni zakon","čl. 13. Prekršajni zakon","čl. 206. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Gordane Korotaj kao predsjednice vijeća te Tomislava Tomašića i Renate Popović kao član",
+    outcome: "remanded",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=4e506e19-5b15-4b44-9600-e91b5314ce49",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-eu-15/2026-2",
+    decision_date: "2026-05-05",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi o očitoj pogrešci u pisanju koaje ne dovodi u sumnju zakonitost i pravilnost pobijane presude. Naime?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Tomislava Tomašića, predsjednika vijeća te Gordane Korotaj i Renate Popović, članica vijeća, uz sudjelovanje više sudske savjetnice Emine Bašić, zapisničarke, u prekršajnom postupku protiv osuđenog IT, u postupku priznanja i izvršenja odluke o novčanoj kazni u postupku priznanja i izvršenja odluke o novčanoj kazni, odluke Republike Austrije, Bezirshauptmannschaft Liezenbh Liezen broj: BHLI/612250006023/2025 od 28. siječnja 2025., odlučujući o žalbi osuđenog IT, podnesenoj protiv presude Općinskog prekršajnog suda u Zagrebu od 17. veljače 2026., broj: Pp Ikp-eu 28/2026, u sjednici vijeća održanoj 5. svibnja 2026., p r e s u d i o j e Odbija se žalba osuđenog IT kao neosnovana te se potvrđuje pobijana prvostupanjska presuda.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-eu-15/2026-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-eu-15"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Tomislava Tomašića, predsjednika vijeća te Gordane Korotaj i Renate Popović, članica vi",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=514cc98d-1c73-47d4-bc4a-eb023454070d",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-eu-16/2026-2",
+    decision_date: "2026-05-05",
+    legal_area: "procedural",
+    legal_question:
+      "Odbija se kao neosnovana žalba osuđenika MP i potvrđuje pobijano rješenje o odbačaju žalbe kao nepravodobne?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Gordane Korotaj kao predsjednice vijeća te Tomislava Tomašića i Renate Popović kao članova vijeća, uz sudjelovanje sudske savjetnice Emine Bašić kao zapisničarke, u prekršajnom postupku protiv osuđenika MP u postupku priznanja i izvršenja odluke o novčanoj kazni, odlučujući o žalbi osuđenika MP, protiv rješenja Općinskog suda u Slavonskom Brodu od 16. ožujka 2026. godine , broj: Pp Ikp-eu-22/2025-6, u sjednici vijeća održanoj dana 5. svibnja 2026. r i j e š i o j e Odbija se kao neosnovana žalba osuđenika MP i potvrđuje pobijano rješenje o odbačaju žalbe kao nepravodobne. -",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-eu-16/2026-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-eu-16"],
+    related_articles: ["čl. 199. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Gordane Korotaj kao predsjednice vijeća te Tomislava Tomašića i Renate Popović kao član",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=19138d8a-b155-4f63-bb55-3f88c5a18cf3",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-eu-18/2026-2",
+    decision_date: "2026-06-09",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je nižestupanjska odluka nezakonita?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Tomislava Tomašića, predsjednika vijeća te Gordane Korotaj i Renate Popović, članica vijeća, uz sudjelovanje više sudske savjetnice Emine Bašić, zapisničarke, u prekršajnom postupku protiv osuđene UA, u postupku priznanja i izvršenja odluke o novčanoj kazni, odlučujući o žalbi osuđenika, podnesenoj protiv presude Općinskog suda u Bjelovaru, Stalne službe u Križevcima od 13. srpnja 2025., broj: Pp Ikp-eu-4/2026-2, u sjednici vijeća održanoj 9. lipnja 2026., r i j e š i o j e Prihvaća se žalba osuđene UA, ukida se pobijana prvostupanjska presuda te se predmet dostavlja prvostupanjskom sudu na ponovno odlučivanje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-eu-18/2026-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-eu-18"],
+    related_articles: ["čl. 77. Prekršajni zakon","čl. 80. Prekršajni zakon","čl. 87. Prekršajni zakon","čl. 6. Prekršajni zakon","čl. 13. Prekršajni zakon","čl. 206. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Tomislava Tomašića, predsjednika vijeća te Gordane Korotaj i Renate Popović, članica vi",
+    outcome: "remanded",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=288296a4-604a-42cf-9f7a-d00ffa90f134",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-eu-2/2026-2",
+    decision_date: "2026-01-20",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi o nekom od kažnjivih djela iz članka 10. i članka 77. stavka 1. ZPSKS-EU?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Tomislava Tomašića predsjednika vijeća te Renate Popović i Gordane Korotaj članica vijeća, uz sudjelovanje više sudske savjetnice Emine Bašić kao zapisničarke, u predmetu protiv osuđenog BĐ, u postupku priznanja i izvršenja odluke o novčanoj kazni, odlučujući o žalbi osuđenog BĐ, podnesenoj protiv presude Općinskog suda u Karlovcu od 20. studenoga 2025., broj: Pp Ikp-eu-18/2025-4, u sjednici vijeća održanoj 20. siječnja 2026. p r e s u d i o j e Odbija se žalba osuđenog BĐ kao neosnovana i prvostupanjska presuda se potvrđuje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-eu-2/2026-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-eu-2"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Tomislava Tomašića predsjednika vijeća te Renate Popović i Gordane Korotaj članica vije",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=c327d63b-e42b-41ad-a750-5cf2fdb65e5a",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-eu-21/2026-2",
+    decision_date: "2026-06-09",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi o djelu iz čl. 10. st. 2. odnosno čl. 77. st. 1. ZPSKS-EU?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Tomislava Tomašića, predsjednika vijeća, te Gordane Korotaj i Renate Popović, članica vijeća, uz sudjelovanje više sudske savjetnice Emine Bašić, zapisničarke, u postupku priznanja i izvršenja odluke o novčanoj kazni, odlučujući o žalbi osuđenog SF, podnesenoj protiv presude Općinskog suda u Crikvenici od 17. ožujka 2026., broj: Pp Ikp-eu-3/2026, u sjednici vijeća održanoj 9. lipnja 2026., r i j e š i o j e Prihvaća se žalba osuđenog SF, ukida se pobijana prvostupanjska presuda te se predmet dostavlja prvostupanjskom sudu na ponovno odlučivanje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-eu-21/2026-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-eu-21"],
+    related_articles: ["čl. 77. Prekršajni zakon","čl. 10. Prekršajni zakon","čl. 4. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Tomislava Tomašića, predsjednika vijeća, te Gordane Korotaj i Renate Popović, članica v",
+    outcome: "remanded",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=6fe7081a-4a4f-4970-80b9-1b2732602271",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-eu-3/2026-2",
+    decision_date: "2026-01-20",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je nižestupanjska odluka nezakonita?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Tomislava Tomašića, predsjednika vijeća te Gordane Korotaj i Renate Popović, članica vijeća, uz sudjelovanje više sudske savjetnice Emine Bašić, zapisničarke, u prekršajnom postupku protiv osuđenog MA, u postupku priznanja i izvršenja odluke o novčanoj kazni, odlučujući o žalbi osuđenika, podnesenoj protiv presude Općinskog suda u Vinkovcima od 8. prosinca 2025., broj: Pp Ikp-eu-21/2025-4, u sjednici vijeća održanoj 20. siječnja 2026., r i j e š i o j e Prihvaća se žalba osuđenog MA, ukida se pobijana prvostupanjska presuda te se predmet dostavlja prvostupanjskom sudu na ponovno odlučivanje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-eu-3/2026-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-eu-3"],
+    related_articles: ["čl. 77. Prekršajni zakon","čl. 54. Prekršajni zakon","čl. 80. Prekršajni zakon","čl. 87. Prekršajni zakon","čl. 6. Prekršajni zakon","čl. 13. Prekršajni zakon","čl. 206. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Tomislava Tomašića, predsjednika vijeća te Gordane Korotaj i Renate Popović, članica vi",
+    outcome: "remanded",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=da0f75ce-8b03-4235-a9fb-595a51458235",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-eu-4/2026-2",
+    decision_date: "2026-01-20",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi o djelima za koja se dvostruka kažnjivost ne provjerava) te provjeriti postoje li razlozi za odbijanje izvršenja iz član?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Tomislava Tomašića, predsjednika vijeća te Gordane Korotaj i Renate Popović, članica vijeća, uz sudjelovanje više sudske savjetnice Emine Bašić, zapisničarke, u prekršajnom postupku protiv osuđenika BČ, u postupku priznanja i izvršenja odluke o novčanoj kazni, odluke Republike Austrije, Bezirkshauptmannschaft Leibnitz broj: BHVB/610230032606/23 od 12. siječnja 2024., odlučujući o žalbi osuđenika MČ, podnesenoj protiv presude Općinskog suda u Gospiću od 7. listopada 2025., broj: Pp Ikp-eu-8/2025-2, u sjednici vijeća održanoj 20. siječnja 2026., p r e s u d i o j e Odbija se kao neosnovana žalba osuđenog MČ i potvrđuje se pobijana presuda.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-eu-4/2026-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-eu-4"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Tomislava Tomašića, predsjednika vijeća te Gordane Korotaj i Renate Popović, članica vi",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=b1297a32-e3f1-4467-9a63-08f94fa63e7f",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-eu-51/2025-2",
+    decision_date: "2026-01-20",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi saslušanja ali nije imao pravično suđenje jer nije imao prevoditelja na kraju je presuđen za prekršaj koji nije počinio?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Gordane Korotaj kao predsjednice vijeća te Tomislava Tomašića i Renate Popović kao članova vijeća, uz sudjelovanje više sudske savjetnice Emine Bašić kao zapisničarke, u predmetu protiv osuđenog UŽ u postupku priznanja i izvršenja odluke o novčanoj kazni, odlučujući o žalbi osuđenog UŽ protiv presude Općinskog prekršajnog suda u Zagrebu od 23. listopada 2025., broj:. Pp Ikp-eu-111/2025 na sjednici vijeća održanoj 2o. siječnja 2026., p r e s u d i o j e Odbija se žalba osuđenog UŽ, kao neosnovana i potvrđuje se prvostupanjska presuda.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-eu-51/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-eu-51"],
+    related_articles: ["čl. 80. Prekršajni zakon","čl. 6. Prekršajni zakon","čl. 13. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Gordane Korotaj kao predsjednice vijeća te Tomislava Tomašića i Renate Popović kao član",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=abe96316-fcad-426b-8b0d-04f4023c44dd",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-eu-52/2025-2",
+    decision_date: "2026-01-20",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi o nekom od kažnjivih djela iz članka 10. i članka 77. stavka 1. ZPSKS-EU?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Tomislava Tomašića predsjednika vijeća te Renate Popović i Gordane Korotaj članica vijeća, uz sudjelovanje više sudske savjetnice Emine Bašić kao zapisničarke, u predmetu protiv osuđene ĆĆK, u postupku priznanja i izvršenja odluke o novčanoj kazni, odlučujući o žalbi osuđene ĆĆK, podnesenoj protiv presude Općinskog suda u Zlataru, Stalna služba u Zaboku od 29. listopada 2025., broj: Pp Ikp-eu-36/2025-4, u sjednici vijeća održanoj 20. siječnja 2026. p r e s u d i o j e Odbija se žalba osuđene ĆĆK kao neosnovana i prvostupanjska presuda se potvrđuje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-eu-52/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-eu-52"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Tomislava Tomašića predsjednika vijeća te Renate Popović i Gordane Korotaj članica vije",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=6f0ac374-330b-4edb-a617-fe1d42904981",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-eu-53/2025-2",
+    decision_date: "2026-01-20",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi plaćanja izrečene novčane kazne od 1.200?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Tomislava Tomašića, predsjednika vijeća te Gordane Korotaj i Renate Popović, članica vijeća, uz sudjelovanje više sudske savjetnice Emine Bašić, zapisničarke, u prekršajnom postupku protiv osuđenika MK, u postupku priznanja i izvršenja odluke o novčanoj kazni, odluke Savezne Republike Njemačke, Zentrale Buβgeldstelle Speyer broj: 15.7523764.5 od 28. kolovoza 2024., odlučujući o žalbi osuđenika MK, podnesenoj protiv presude Općinskog prekršajnog suda u Splitu od 24. rujna 2025., broj: Pp Ikp-eu-21/2025-3, u sjednici vijeća održanoj 20. siječnja 2026., r i j e š i o j e Prihvaća se žalba osuđenog MK, ukida se prvostupanjska presuda te se predmet dostavlja prvostupanjskom sudu na ponovno odlučivanje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-eu-53/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-eu-53"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Tomislava Tomašića, predsjednika vijeća te Gordane Korotaj i Renate Popović, članica vi",
+    outcome: "remanded",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=334efa1b-c34c-440a-ace0-f1e0aa729fc1",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-eu-54/2025-2",
+    decision_date: "2026-01-20",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi u Republici Hrvatskoj nije do sada obaviješten o predmetnom prekršaju kontaktirao je kolegu koji mu je rekao da se njemu?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Gordane Korotaj, kao predsjednice vijeća te Tomislava Tomašića i Renate Popović, članova vijeća, uz sudjelovanje više sudske savjetnice Emine Bašić, zapisničarke, u prekršajnom postupku protiv osuđenog NG, u postupku priznanja i izvršenja odluke o novčanoj kazni, odlučujući o žalbi osuđenika, podnesenoj protiv presude Općinskog suda u Bjelovaru od 12. studenoga 2025., broj: Pp Ikp-eu-26/2025-3, u sjednici vijeća održanoj 20. siječnja 2026., r i j e š i o j e Prihvaća se žalba osuđenog NG ukida se pobijana prvostupanjska presuda te se predmet dostavlja prvostupanjskom sudu na ponovno odlučivanje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-eu-54/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-eu-54"],
+    related_articles: ["čl. 78. Prekršajni zakon","čl. 4. Prekršajni zakon","čl. 5. Prekršajni zakon","čl. 206. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Gordane Korotaj, kao predsjednice vijeća te Tomislava Tomašića i Renate Popović, članov",
+    outcome: "remanded",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=f4053f33-e691-4309-b704-38d9195e792b",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-eu-55/2025-2",
+    decision_date: "2026-01-20",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je nižestupanjska odluka nezakonita?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Tomislava Tomašića, predsjednika vijeća te Gordane Korotaj i Renate Popović, članica vijeća, uz sudjelovanje više sudske savjetnice Emine Bašić, zapisničarke, u prekršajnom postupku protiv osuđenog ĐL, u postupku priznanja i izvršenja odluke o novčanoj kazni, odlučujući o žalbi osuđenika, podnesenoj protiv presude Općinskog suda u Đakovu, Stalne službe u Našicama od 16. listopada 2025., broj: Pp Ikp-eu-4/2024-16, u sjednici vijeća održanoj 20. siječnja 2026., r i j e š i o j e Prihvaća se žalba osuđenog ĐL, ukida se pobijana prvostupanjska presuda te se predmet dostavlja prvostupanjskom sudu na ponovno odlučivanje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-eu-55/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-eu-55"],
+    related_articles: ["čl. 77. Prekršajni zakon","čl. 80. Prekršajni zakon","čl. 87. Prekršajni zakon","čl. 9. Prekršajni zakon","čl. 6. Prekršajni zakon","čl. 13. Prekršajni zakon","čl. 206. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Tomislava Tomašića, predsjednika vijeća te Gordane Korotaj i Renate Popović, članica vi",
+    outcome: "remanded",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=41801de7-9163-4a28-a605-8978cd6a3cb6",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-eu-56/2025-2",
+    decision_date: "2026-01-20",
+    legal_area: "procedural",
+    legal_question:
+      "Prihvaća se osnovanom žalba osuđenog JS i prvostupanjska presuda se ukida te se predmet dostavlja prvostupanjskom sudu na ponovno odlučivanje?",
+    court_position:
+      "Prihvaća se osnovanom žalba osuđenog JS i prvostupanjska presuda se ukida te se predmet dostavlja prvostupanjskom sudu na ponovno odlučivanje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-eu-56/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-eu-56"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Prihvaća se osnovanom žalba osuđenog JS i prvostupanjska presuda se ukida te se predmet dostavlja prvostupanjskom sudu na ponovno odlučivanje.",
+    outcome: "remanded",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=18a6d94c-7192-4f69-ae03-c6a10a5c8ee3",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-eu-57/2025-2",
+    decision_date: "2026-01-20",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi plaćanja izrečene novčane kazne od 355?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Tomislava Tomašića, predsjednika vijeća te Gordane Korotaj i Renate Popović, članica vijeća, uz sudjelovanje više sudske savjetnice Emine Bašić, zapisničarke, u prekršajnom postupku protiv osuđenika RT, u postupku priznanja i izvršenja odluke o novčanoj kazni, odluke Republike Austrije, Bezirkshauptmannschaft Vocklabruck broj: BHVB/923170093742/23 od 18. siječnja 2024., odlučujući o žalbi osuđenika RT, podnesenoj protiv presude Općinskog suda u Đakovu, Stalna služba u Našicama od 16. listopada 2025., broj: Pp Ikp-eu-6/2024-15, u sjednici vijeća održanoj 20. siječnja 2026., r i j e š i o j e Prihvaća se žalba osuđenog RT, ukida se prvostupanjska presuda te se predmet dostavlja prvostupanjskom sudu na ponovno odlučivanje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-eu-57/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-eu-57"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Tomislava Tomašića, predsjednika vijeća te Gordane Korotaj i Renate Popović, članica vi",
+    outcome: "remanded",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=b3dbfc26-4328-466a-a3ea-5ffc25ab6e41",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-eu-58/2025-2",
+    decision_date: "2026-01-20",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je nižestupanjska odluka nezakonita?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Gordane Korotaj kao predsjednice vijeća te Tomislava Tomašića i Renate Popović kao članova vijeća, uz sudjelovanje sudske savjetnice Emine Bašić kao zapisničarke, u predmetu protiv osuđenika GĆ u postupku priznanja i izvršenja odluke o novčanoj kazni, odlučujući o žalbi osuđenika GĆ podnesenoj putem branitelja Vedrana Pajića odvjetnika iz Osijeka protiv presude Općinskog suda u Đakovu od 16. listopada 2025., broj: Pp Ikp-eu-7/2024-15, na sjednici vijeća održanoj 20. siječnja 2026., r i j e š i o j e Prihvaća se žalba osuđenika GĆ ukida se pobijana prvostupanjska presuda te se predmet dostavlja prvostupanjskom sudu na ponovno odlučivanje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-eu-58/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-eu-58"],
+    related_articles: ["čl. 80. Prekršajni zakon","čl. 87. Prekršajni zakon","čl. 6. Prekršajni zakon","čl. 13. Prekršajni zakon","čl. 206. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Gordane Korotaj kao predsjednice vijeća te Tomislava Tomašića i Renate Popović kao član",
+    outcome: "remanded",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=9c74cb8a-4b4f-4398-91ed-7e0555de0f82",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-eu-59/2025-2",
+    decision_date: "2026-01-20",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je nižestupanjska odluka nezakonita?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Tomislava Tomašića, predsjednika vijeća te Gordane Korotaj i Renate Popović, članica vijeća, uz sudjelovanje više sudske savjetnice Emine Bašić, zapisničarke, u prekršajnom postupku protiv osuđenog ĆT, u postupku priznanja i izvršenja odluke o novčanoj kazni, odlučujući o žalbi osuđenika, podnesenoj protiv presude Općinskog suda u Đakovu, Stalne službe u Našicama od 16. listopada 2025., broj: Pp Ikp-eu-8/2024-15, u sjednici vijeća održanoj 20. siječnja 2026., r i j e š i o j e Prihvaća se žalba osuđenog ĆT, ukida se pobijana prvostupanjska presuda te se predmet dostavlja prvostupanjskom sudu na ponovno odlučivanje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-eu-59/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-eu-59"],
+    related_articles: ["čl. 77. Prekršajni zakon","čl. 80. Prekršajni zakon","čl. 87. Prekršajni zakon","čl. 9. Prekršajni zakon","čl. 6. Prekršajni zakon","čl. 13. Prekršajni zakon","čl. 206. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Tomislava Tomašića, predsjednika vijeća te Gordane Korotaj i Renate Popović, članica vi",
+    outcome: "remanded",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=70f37e45-45a1-46db-b84b-4576fbf5e471",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-eu-6/2026-2",
+    decision_date: "2026-05-05",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je nižestupanjska odluka pravilna?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Tomislava Tomašića, predsjednika vijeća, te Gordane Korotaj i Renate Popović, članica vijeća, uz sudjelovanje više sudske savjetnice Emine Bašić, zapisničarke, u postupku priznanja i izvršenja odluke o novčanoj kazni, odlučujući o žalbi osuđene pravne osobe ČAČINCI TRANS d.o.o., podnesenoj protiv presude Općinskog suda u Virovitici od 9. siječnja 2026., broj: Pp Ikp-eu-18/2025-2, u sjednici vijeća održanoj 5. svibnja 2026., p r e s u d i o j e Odbija se kao neosnovana žalba osuđene pravne osobe ČAČINCI TRANS d.o.o. i potvrđuje se pobijana prvostupanjska presuda.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-eu-6/2026-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-eu-6"],
+    related_articles: ["čl. 77. Prekršajni zakon","čl. 78. Prekršajni zakon","čl. 46. Prekršajni zakon","čl. 205. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Tomislava Tomašića, predsjednika vijeća, te Gordane Korotaj i Renate Popović, članica v",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=192387e4-ee45-49e3-bc95-b6ca7ec64837",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-eu-60/2025-2",
+    decision_date: "2026-01-20",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi plaćanja izrečene novčane kazne od 355?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Tomislava Tomašića, predsjednika vijeća te Gordane Korotaj i Renate Popović, članica vijeća, uz sudjelovanje više sudske savjetnice Emine Bašić, zapisničarke, u prekršajnom postupku protiv osuđenika OŠ, u postupku priznanja i izvršenja odluke o novčanoj kazni, odluke Republike Austrije, Bezirkshauptmannschaft Vocklabruck broj: BHVB/923170095493/23 od 18. siječnja 2024., odlučujući o žalbi osuđenika OŠ, podnesenoj protiv presude Općinskog suda u Đakovu, Stalna služba u Našicama od 16. listopada 2025., broj: Pp Ikp-eu-9/2024-15, u sjednici vijeća održanoj 20. siječnja 2026., r i j e š i o j e Prihvaća se žalba osuđenog OŠ, ukida se prvostupanjska presuda te se predmet dostavlja prvostupanjskom sudu na ponovno odlučivanje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-eu-60/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-eu-60"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Tomislava Tomašića, predsjednika vijeća te Gordane Korotaj i Renate Popović, članica vi",
+    outcome: "remanded",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=e8e8e4fc-4b9b-4991-9b71-7b00007b115a",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-eu-61/2025-2",
+    decision_date: "2026-01-20",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je nižestupanjska odluka nezakonita?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Gordane Korotaj kao predsjednice vijeća te Tomislava Tomašića i Renate Popović kao članova vijeća, uz sudjelovanje sudske savjetnice Emine Bašić kao zapisničarke, u predmetu protiv osuđenika EU u postupku priznanja i izvršenja odluke o novčanoj kazni, odlučujući o žalbi osuđenika EU podnesenoj putem branitelja Vedrana Pajića odvjetnika iz Osijeka protiv presude Općinskog suda u Đakovu od 16. listopada 2025., broj: Pp Ikp-eu-12/2024-12, na sjednici vijeća održanoj 20. siječnja 2026., r i j e š i o j e Prihvaća se žalba osuđenika EU ukida se pobijana prvostupanjska presuda te se predmet dostavlja prvostupanjskom sudu na ponovno odlučivanje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-eu-61/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-eu-61"],
+    related_articles: ["čl. 80. Prekršajni zakon","čl. 87. Prekršajni zakon","čl. 6. Prekršajni zakon","čl. 13. Prekršajni zakon","čl. 206. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Gordane Korotaj kao predsjednice vijeća te Tomislava Tomašića i Renate Popović kao član",
+    outcome: "remanded",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=f0f61875-cb8f-4f1f-912a-6921d6273b12",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-eu-62/2025-2",
+    decision_date: "2026-01-20",
+    legal_area: "procedural",
+    legal_question:
+      "Prihvaća se osnovanom žalba osuđenog ŠU i prvostupanjska presuda se ukida te se predmet dostavlja prvostupanjskom sudu na ponovno odlučivanje?",
+    court_position:
+      "Prihvaća se osnovanom žalba osuđenog ŠU i prvostupanjska presuda se ukida te se predmet dostavlja prvostupanjskom sudu na ponovno odlučivanje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-eu-62/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-eu-62"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Prihvaća se osnovanom žalba osuđenog ŠU i prvostupanjska presuda se ukida te se predmet dostavlja prvostupanjskom sudu na ponovno odlučivanje.",
+    outcome: "remanded",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=7552e04c-c751-4707-b67d-1b2cb892ba7f",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-eu-63/2025-2",
+    decision_date: "2026-01-20",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi o nekom od kažnjivih djela iz čl. 10. i čl. 77. st. 1. ZPSKS-EU?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Tomislava Tomašića, predsjednika vijeća, te Gordane Korotaj i Renate Popović, članica vijeća, uz sudjelovanje više sudske savjetnice Emine Bašić, zapisničarke, u postupku priznanja i izvršenja odluke o novčanoj kazni, odlučujući o žalbi osuđenog AI, podnesenoj protiv presude Općinskog suda u Novom Zagrebu od 27. listopada 2025., broj: Pp Ikp-eu-107/2025-2, u sjednici vijeća održanoj 20. siječnja 2026., p r e s u d i o j e Odbija se kao neosnovana žalba osuđenog AI i potvrđuje se pobijana prvostupanjska presuda.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-eu-63/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-eu-63"],
+    related_articles: ["čl. 77. Prekršajni zakon","čl. 10. Prekršajni zakon","čl. 80. Prekršajni zakon","čl. 4. Prekršajni zakon","čl. 205. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Tomislava Tomašića, predsjednika vijeća, te Gordane Korotaj i Renate Popović, članica v",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=bc0e1308-8e83-4029-9997-4c44e3b32417",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-eu-64/2025-2",
+    decision_date: "2026-01-20",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je žalba osnovana?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Tomislava Tomašića, predsjednika vijeća te Gordane Korotaj i Renate Popović, članica vijeća, uz sudjelovanje više sudske savjetnice Emine Bašić, zapisničarke, u prekršajnom postupku protiv osuđenice PR, u postupku priznanja i izvršenja pravomoćne odluke o novčanoj kazni Republike Austrije, Das Land Steiermark Bezirkshauptmannschaft Graz-Umgebung broj: BHG-606190143933/2019 od 24. siječnja 2020., zbog prekršaja prekoračenja brzine, odlučujući o žalbi osuđene PR, podnesenoj protiv presude Općinskog suda u Zadru od 9. rujna 2024., broj: 137 Pp Ikp-eu-18/2021, u sjednici vijeća održanoj 20. siječnja 2026., r i j e š i o j e Odbija se žalba osuđene PR kao neosnovana te se potvrđuje pobijano prvostupanjsko rješenje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-eu-64/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-eu-64"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Tomislava Tomašića, predsjednika vijeća te Gordane Korotaj i Renate Popović, članica vi",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=3267a489-5945-4540-94ad-7c77875f5e93",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-eu-7/2026-2",
+    decision_date: "2026-05-06",
+    legal_area: "procedural",
+    legal_question:
+      "Odbija se kao neosnovana žalba osuđenika FB i potvrđuje pobijano rješenje o odbačaju žalbe kao nepravodobne?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Gordane Korotaj kao predsjednice vijeća te Tomislava Tomašića i Renate Popović kao članova vijeća, uz sudjelovanje sudske savjetnice Emine Bašić kao zapisničarke, u prekršajnom postupku protiv osuđenog FB u postupku priznanja i izvršenja odluke o novčanoj kazni, odlučujući o žalbi osuđenog FB, protiv rješenja Općinskog prekršajnog suda u Splitu od 11. prosinca 2025. godine , broj: Pp Ikp-eu-38/2025-4, u sjednici vijeća održanoj dana 5. svibnja 2026., r i j e š i o j e - - Odbija se kao neosnovana žalba osuđenika FB i potvrđuje pobijano rješenje o odbačaju žalbe kao nepravodobne. -",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-eu-7/2026-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-eu-7"],
+    related_articles: ["čl. 199. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Gordane Korotaj kao predsjednice vijeća te Tomislava Tomašića i Renate Popović kao član",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=69f39181-b2c5-4735-8680-7d254bdcb6c4",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IR-eu-9/2026-2",
+    decision_date: "2026-05-05",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi o djelima za koja se dvostruka kažnjivost ne provjerava) te provjeriti postoje li razlozi za odbijanje izvršenja iz član?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Tomislava Tomašića, predsjednika vijeća te Gordane Korotaj i Renate Popović, članica vijeća, uz sudjelovanje više sudske savjetnice Emine Bašić, zapisničarke, u prekršajnom postupku protiv osuđene PG, u postupku priznanja i izvršenja odluke Republike Austrije, Kotarskog poglavarstva Bludenz, broj: BHBL/X/012022036363 od 7. veljače 2023., podnesenoj protiv presude Općinskog suda u Karlovcu od 2. siječnja 2026., broj: Pp Ikp-eu-11/2023-3, u sjednici vijeća održanoj 5. svibnja 2026., p r e s u d i o j e Odbija se kao neosnovana žalba osuđene PG i potvrđuje se pobijana prvostupanjska presuda",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IR-eu-9/2026-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IR-eu-9"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Tomislava Tomašića, predsjednika vijeća te Gordane Korotaj i Renate Popović, članica vi",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=57d7d1dc-6a70-4311-9b45-c5687e38abe4",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
     case_number: "IU-1/2026-2",
     decision_date: "2026-01-28",
     legal_area: "procedural",
@@ -673,6 +2136,44 @@ export const CASE_LAW_PROCEDURAL_CROATIA_1: CaseLawInput[] = [
     jurisdiction: "croatia",
     court: "Visoki prekršajni sud Republike Hrvatske",
     court_level: "high",
+    case_number: "IU-101/2025-2",
+    decision_date: "2026-02-05",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je žalba osnovana?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Davorka Kučana predsjednika vijeća, te Renate Popović i Drage Klasnića članica vijeća, uz sudjelovanje više sudske savjetnice specijalistice Nade Horvatović kao zapisničarke u prekršajnom predmetu protiv osuđenog ĆF zbog prekršaja iz članka 282. stavka 4. i 9. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj: 67/08., 48/10., 74/11., 80/13., 92/14., 64/15., 108/17., 70/19., 42/20.,85/22., 114/22., 133/23., 145/24.) odlučujući povodom žalbe osuđenog ĆF zastupanog po branitelju DF odvjetniku iz [adresa], podnijete protiv rješenja Općinskog suda u Novom Zagrebu od 31. srpnja 2025., broj: Pp Prz-36/2025, u sjednici vijeća održanoj dana 5. veljače 2026. r i j e š i o j e: Odbija se žalba osuđenog ĆF kao neosnovana.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IU-101/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IU-101"],
+    related_articles: ["čl. 215. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Davorka Kučana predsjednika vijeća, te Renate Popović i Drage Klasnića članica vijeća,",
+    outcome: "partially",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=823f4567-9bf6-4a30-b953-8fdef67eb9a5",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IU-103/2024-5",
+    decision_date: "2026-01-08",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je žalba osnovana?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Davorka Kučana kao predsjednika vijeća, te Renate Popović i Drage Klasnića kao članova vijeća, uz sudjelovanje višeg sudskog savjetnika specijalista Zlatka Hasića kao zapisničara u prekršajnom predmetu protiv osuđenog MĐ zbog prekršaja iz članka 53. stavka 1. i 4. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj: 67/08., 48/10., 74/11., 80/13., 92/14., 64/15., 108/17., 70/19, 42/20.) odlučujući povodom žalbe osuđenog MĐ zastupanog po branitelju TĐ odvjetniku iz [adresa], podnijetoj protiv rješenja Općinskog prekršajnog suda u Splitu od 20. rujna 2024. broj Pp Prz-274/2024, u sjednici vijeća održanoj dana 8. siječnja 2026. r i j e š i o j e: Odbija se žalba osuđenog MĐ kao neosnovana.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IU-103/2024-5 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IU-103"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Davorka Kučana kao predsjednika vijeća, te Renate Popović i Drage Klasnića kao članova",
+    outcome: "partially",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=32254265-381b-493b-942e-52369c130c3b",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
     case_number: "IU-107/2025-3",
     decision_date: "2026-03-25",
     legal_area: "procedural",
@@ -687,6 +2188,25 @@ export const CASE_LAW_PROCEDURAL_CROATIA_1: CaseLawInput[] = [
     headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Nediljka Bobana kao predsjednika vijeća, te Karmen Novak Hrgović i Davorka Kučana, kao",
     outcome: "procedural",
     source_url: "https://odluke.sudovi.hr/Document/View?id=cb6bca45-27c9-4ee6-953e-36741b8f99f9",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IU-108/2025-2",
+    decision_date: "2026-04-30",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi se kazni već o mjeri upozorenja u odnosu na koju nije moguće podnositi izvanredni pravni lij?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca: predsjednice vijeća Kristine Gašparac Orlić, te članova vijeća Roberta Završkog i Eufemije Nanković, uz sudjelovanje više sudske savjetnice Emine Bašić kao zapisničarke, u prekršajnom predmetu protiv okrivljenog OR, zbog prekršaja iz članka 17. Zakona o prekršajima protiv javnog reda i mira („Narodne novine“, broj 41/77, 55/89, 5/90, 30/90, 47/90 i 29/94), odlučujući o zahtjevu okrivljenika za izvanredno ublažavanje izrečene kazne podnesenom po branitelju Jošku Sprčiću, odvjetniku iz Zagreba, a koja je izrečena presudom Općinskog suda u Sesvetama od 23. prosinca 2024. broj: Pp-2472/2024, na sjednici vijeća 30. travnja 2026., r i j e š i o j e Zahtjev okrivljenog OR za izvanredno ublažavanje kazne odbacuje se kao nedopušten.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IU-108/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IU-108"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca: predsjednice vijeća Kristine Gašparac Orlić, te članova vijeća Roberta Završkog i Euf",
+    outcome: "procedural",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=56f917ec-110e-43e1-b874-362df9b1be08",
   },
   {
     jurisdiction: "croatia",
@@ -787,6 +2307,25 @@ export const CASE_LAW_PROCEDURAL_CROATIA_1: CaseLawInput[] = [
     jurisdiction: "croatia",
     court: "Visoki prekršajni sud Republike Hrvatske",
     court_level: "high",
+    case_number: "IU-116/2025-2",
+    decision_date: "2026-05-07",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je žalba osnovana?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Davorko Kučan predsjednik vijeća, te Renate Popović i Drage Klasnića članova vijeća, uz sudjelovanje višeg sudskog savjetnika specijalista Zlatka Hasića kao zapisničara u prekršajnom predmetu protiv osuđenog GR zbog prekršaja iz članka 199. stavka 2. i 8. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj: 67/08., 48/10., 74/11., 80/13., 92/14., 64/15., 108/17., 70/19., 42/20.) odlučujući povodom žalbe osuđenog GR zastupanog po branitelju NR odvjetniku iz [adresa], podnijete protiv rješenja Općinskog prekršajnog suda u Splitu od 18. srpnja 2025., broj: Pp Prz-262/2025, u sjednici vijeća održanoj dana 7.svibnja 2026. r i j e š i o j e Odbija se žalba osuđenog GR kao neosnovana.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IU-116/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IU-116"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Davorko Kučan predsjednik vijeća, te Renate Popović i Drage Klasnića članova vijeća, u",
+    outcome: "partially",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=3dd6ac6d-fcd2-43f9-9852-a726c440f1e2",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
     case_number: "IU-12/2026-2",
     decision_date: "2026-02-12",
     legal_area: "procedural",
@@ -825,6 +2364,82 @@ export const CASE_LAW_PROCEDURAL_CROATIA_1: CaseLawInput[] = [
     jurisdiction: "croatia",
     court: "Visoki prekršajni sud Republike Hrvatske",
     court_level: "high",
+    case_number: "IU-124/2025-2",
+    decision_date: "2025-12-03",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je nižestupanjska odluka pravilna?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Karmen Novak Hrgović, kao predsjednice vijeća, te Nediljka Bobana i Davorka Kučana, kao članova vijeća, uz sudjelovanje više sudske savjetnice Sofije Kovačević, kao zapisničarke, u prekršajnom postupku protiv osuđenika BI, zbog prekršaja iz članka 282. stavak 9., članka 289. stavak 4. te članka 196. stavak 5. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj: 67/08, 74/11, 80/13, 158/13, 92/14, 64/15, 108/17, 70/19, 42/20, 85/22, 114/22, 133/23, 145/24), rješavajući o žalbi osuđenika BI, podnijetoj protiv rješenja Općinskog suda u Sisku od 26. rujna 2025. godine, broj: Pp Prz - 38/2025-4, kojim se odbacuje zahtjev osuđenika za obnovu prekršajnog postupka, na sjednici vijeća održanoj dana 3. prosinca 2025. godine r i j e š i o j e - Žalba osuđenika BI, odbija se kao neosnovana i potvrđuje se pobijano rješenje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IU-124/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IU-124"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Karmen Novak Hrgović, kao predsjednice vijeća, te Nediljka Bobana i Davorka Kučana, ka",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=388d4948-7037-46d8-a014-20caac2ea998",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IU-127/2025-2",
+    decision_date: "2025-12-04",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev za poništaj upravnog rješenja?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Renate Popović kao predsjednice vijeća, te Davorka Kučana i Karmen Novak Hrgović kao članova vijeća, uz sudjelovanje više sudske savjetnice Nade Horvatović kao zapisničarke, u prekršajnom predmetu protiv osuđenog UČ povodom odlučivanja o zahtjevu za obnovu prekršajnog postupka, odlučujući o žalbi osuđenog UČ kojeg brani Hrvoje Pažin odvjetnik iz Zlatara podnesenoj protiv rješenja Općinskog suda u Zlataru, Stalna služba u Zaboku od 6. studenog 2025. godine broj: Pp Prz-26/2025-2, u sjednici vijeća održanoj dana 4. prosinca 2025. godine, r i j e š i o j e Odbija se kao neosnovana žalba osuđenog UČ i potvrđuje pobijano rješenje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IU-127/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IU-127"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Renate Popović kao predsjednice vijeća, te Davorka Kučana i Karmen Novak Hrgović kao č",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=e3053ada-cd24-486c-90e2-ed027db91233",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IU-129/2025-2",
+    decision_date: "2025-12-10",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi čega je podvrgnuta operativnom zahvatu dana 5. studenog 2025. godine. Smatra da bi izvršenje kazne zatvora u trajanju od?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Karmen Novak Hrgović, kao predsjednice vijeća, te Nediljka Bobana i Davorka Kučana, kao članova vijeća, uz sudjelovanje više sudske savjetnice Sofije Kovačević, kao zapisničarke, u prekršajnom postupku protiv okrivljenika ČO, kojeg brani Denis Meczner, odvjetnik iz Samobora, zbog prekršaja iz članka 216. stavak 3. te članka 196. stavak 7. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj: 67/08, 48/10, 74/11, 80/13, 158/13, 92/14, 64/15, 108/17, 42/20, 85/22, 114/22, 133/23, 145/24),odlučujući o zahtjevu okrivljenika ČO za izvanredno ublažavanje pravomoćno izrečene kazne presudom Visokog prekršajnog suda Republike Hrvatske, od 3. srpnja 2025., broj: Ppž- 8377/2024, na sjednici vijeća održanoj dana 10. prosinca 2025. godine, r i j e š i o j e: Odbija se kao neosnovan zahtjev okrivljenika ČO za izvanredno ublažavanje kazne.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IU-129/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IU-129"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Karmen Novak Hrgović, kao predsjednice vijeća, te Nediljka Bobana i Davorka Kučana, ka",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=842ac3af-1fcd-4542-a034-ac1f32720010",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IU-132/2025-2",
+    decision_date: "2026-01-22",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi o novim činjenicama i dokazima već prethodno izvedenim dokazima koji su trebali biti predmet ocjene i analize u proveden?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Renate Popović kao predsjednice vijeća, te Davorka Kučana i Ivanke Mašić, kao članova vijeća, uz sudjelovanje više sudske savjetnice Sanje Klaude kao zapisničarke, u prekršajnom predmetu protiv osuđene AČ povodom odlučivanja o zahtjevu za obnovu prekršajnog postupka, odlučujući o žalbi osuđene NČ podnesenoj protiv rješenja Općinskog prekršajnog suda u Splitu od 15. listopada 2025. broj: Pp Prz-347/2023-6, u sjednici vijeća održanoj 22. siječnja 2026., r i j e š i o j e Odbija se kao neosnovana žalba osuđene AČ i potvrđuje pobijano rješenje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IU-132/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IU-132"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Renate Popović kao predsjednice vijeća, te Davorka Kučana i Ivanke Mašić, kao članova ",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=0a4b3974-1582-45ec-8bf8-ccf87a646ba4",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
     case_number: "IU-133/2025-2",
     decision_date: "2026-04-01",
     legal_area: "procedural",
@@ -844,6 +2459,44 @@ export const CASE_LAW_PROCEDURAL_CROATIA_1: CaseLawInput[] = [
     jurisdiction: "croatia",
     court: "Visoki prekršajni sud Republike Hrvatske",
     court_level: "high",
+    case_number: "IU-136/2025-2",
+    decision_date: "2026-01-14",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi se o pristranom svjedoku koji je lažno svjedočio jer je zaposlen kod izdavatelja obveznog prekršajnog naloga slijedom če?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Marija Soljačića kao predsjednika vijeća, te Tomislava Tomašića i Marjane Rajić kao članova vijeća uz sudjelovanje višeg sudskog savjetnika- specijalista Željka Kudrića kao zapisničara, rješavajući o žalbi prvookrivljene pravne osobe Auro Domus d.o.o. i drugookrivljene odgovorne osobe FI, koje brani branitelj Darijan Hört, odvjetnik iz Opatije, zbog prekršaja iz članka 88. stavka 1. Odluke o komunalnom redu na području Grada Zadra („Glasnik Grada Zadra“ broj: 8/2019., 2/2020., 9/2020., dalje: Odluka o komunalnom redu na području Grada Zadra) podnesenoj protiv rješenja Općinskog suda u Zadru od 3. studenoga 2025., poslovni broj: PpPrz-78/2025 na sjednici vijeća održanoj dana 14. siječnja 2026. godine, r i j e š i o j e: Odbija se kao neosnovana žalba prvookrivljene pravne osobe Auro Domus d.o.o. i drugookrivljene odgovorne osobe FI i potvrđuje pobijano rješenje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IU-136/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IU-136"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Marija Soljačića kao predsjednika vijeća, te Tomislava Tomašića i Marjane Rajić kao čl",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=b76f9788-b0f0-4d03-97bd-5f5f50e60c48",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IU-137/2025-2",
+    decision_date: "2026-01-21",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi kojih bi u skladu s člankom 214. stavkom 1. Prekršajnog zakona trebalo dopustiti obnovu?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca: predsjednice vijeća Gordane Korotaj te članova vijeća Roberta Završkog i Kristine Gašparac Orlić, uz sudjelovanje više sudske savjetnice Emine Bašić kao zapisničarke, u prekršajnom predmetu protiv ŠĆ, zbog prekršaja iz članka 39.a stavka 1. točke 2. Zakona o sprječavanju nereda na športskim natjecanjima („Narodne novine“, broj 117/03, 71/06, 43/09 i 34/11 i 114/2022), odlučujući o žalbi osuđenika ŠĆ podnesenoj po braniteljici Morisi Mikić, odvjetnici iz Donjeg Miholjca, protiv rješenja Općinskog suda u Osijeku od 16. listopada 2025. broj: Pp Prz-116/2025-2, na sjednici vijeća održanoj 21. siječnja 2026., r i j e š i o j e Odbija se kao neosnovana žalba osuđenika ŠĆ i potvrđuje se rješenje o odbačaju zahtjeva za obnovu prekršajnog postupka.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IU-137/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IU-137"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca: predsjednice vijeća Gordane Korotaj te članova vijeća Roberta Završkog i Kristine Gaš",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=df6d373a-6e78-40e5-bd44-94ecc380e76f",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
     case_number: "IU-138/2025-3",
     decision_date: "2026-02-03",
     legal_area: "procedural",
@@ -858,6 +2511,120 @@ export const CASE_LAW_PROCEDURAL_CROATIA_1: CaseLawInput[] = [
     headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sutkinja Mirjane Medić kao predsjednice vijeća te Anđe Ćorluka i Ivanke Mašić kao članica vij",
     outcome: "defendant_won",
     source_url: "https://odluke.sudovi.hr/Document/View?id=2ea39b14-db27-436a-b2da-6789f5fbb930",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IU-14/2024-3",
+    decision_date: "2026-01-27",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi utvrđivanja protupravno stečene imovinske koristi (točka b) izreke)?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca: Ivane Bosnić-Kovačić kao predsjednice vijeća, te Katice Lučić i Mladena Genca kao članova vijeća, uz sudjelovanje sudske savjetnice Hane Bogović, kao zapisničarke, rješavajući o žalbi osuđenika VENERATIO GRUPA d.o.o. i GD, podnijetoj putem branitelja Ivane Knezović, odvjetnice u Makarskoj, protiv rješenja Općinskog suda u Makarskoj, broj: 15 PP Prz-3/2020, od 16. siječnja 2024., u sjednici vijeća održanoj 27. siječnja 2026., r i j e š i o j e Odbija se kao neosnovana žalba osuđenika VENERATIO GRUPA d.o.o. i GD i potvrđuje pobijano rješenje o odbačaju zahtjeva za obnovu prekršajnog postupka.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IU-14/2024-3 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IU-14"],
+    related_articles: ["čl. 211. Prekršajni zakon","čl. 202. Prekršajni zakon","čl. 214. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca: Ivane Bosnić-Kovačić kao predsjednice vijeća, te Katice Lučić i Mladena Genca kao čla",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=c9d88cc2-b0cf-48c4-a894-9a824b5b43f9",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IU-141/2025-2",
+    decision_date: "2026-01-07",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi o naseljenom mjestu te da je trebalo izvršiti uvid u foto dokumentaciju 3. Žalitelj predlaže da se iz razloga navedenih?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Karmen Novak Hrgović, kao predsjednice vijeća, te Nediljka Bobana i Davorka Kučana, kao članova vijeća, uz sudjelovanje više sudske savjetnice Sofije Kovačević, kao zapisničarke, u prekršajnom postupku protiv osuđenika KG, kojeg brani Franjo Ribić, odvjetnik iz Zagreba, zbog prekršaja iz članka 53. stavak 4. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj: 67/08, 74/11, 80/13, 158/13, 92/14, 64/15, 108/17, 70/19, 42/20, 85/22, 114/22, 133/23, 145/24), rješavajući o žalbi osuđenika KG, podnijetoj protiv rješenja Općinskog suda u Puli-Pola od 16. listopada 2025., broj: Pp Prz-15/2025, kojim se odbacuje zahtjev osuđenika za obnovu prekršajnog postupka, na sjednici vijeća održanoj dana 7. siječnja 2026. r i j e š i o j e - Žalba osuđenika KG, odbija se kao neosnovana i potvrđuje se pobijano rješenje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IU-141/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IU-141"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Karmen Novak Hrgović, kao predsjednice vijeća, te Nediljka Bobana i Davorka Kučana, ka",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=3250d4f2-50e0-457e-9d67-a7e0bfd73b27",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IU-142/2025-2",
+    decision_date: "2026-01-15",
+    legal_area: "procedural",
+    legal_question:
+      "Odbija se kao neosnovana žalba osuđenog MV i potvrđuje pobijano rješenje?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Renate Popović kao predsjednice vijeća, te Davorka Kučana i Drage Klasnića, kao članova vijeća, uz sudjelovanje više sudske savjetnice Sanje Klaude kao zapisničarke, u prekršajnom predmetu protiv osuđenog MV, povodom odlučivanja o zahtjevu za obnovu prekršajnog postupka, odlučujući o žalbi osuđenog MV, kojeg brane odvjetnici Odvjetničkog društva iz Splita Ljubičić, Vrdoljak & Partneri podnesenoj protiv rješenja Općinskog prekršajnog suda u Splitu od 6. studenog 2025. godine broj: PpPrz-325/2023-5, u sjednici vijeća održanoj 15. siječnja 2026., r i j e š i o j e Odbija se kao neosnovana žalba osuđenog MV i potvrđuje pobijano rješenje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IU-142/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IU-142"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Renate Popović kao predsjednice vijeća, te Davorka Kučana i Drage Klasnića, kao članov",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=6a79c554-1337-45cc-881c-d3e5ac13d79e",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IU-143/2025-2",
+    decision_date: "2026-01-07",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je nižestupanjska odluka pravilna?",
+    court_position:
+      ": Odbija se kao neosnovana žalba osuđenika ŠH izjavljena protiv rješenja o odbačaju zahtjeva za obnovu postupka i potvrđuje se pobijano rješenje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IU-143/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IU-143"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: ": Odbija se kao neosnovana žalba osuđenika ŠH izjavljena protiv rješenja o odbačaju zahtjeva za obnovu postupka i potvrđuje se pobijano rješenje.",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=9a88ead5-b957-40c4-a274-9d489f3339bd",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IU-144/2025-2",
+    decision_date: "2026-01-07",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi navedenih razloga žalba prihvati i da se u ovoj pravnoj stvari dozvoli obnova postupka. 5. Žalba nije osnovana. 6. Razma?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sutkinja: Anđe Ćorluka predsjednice vijeća, te Ivanke Mašić i Mirjane Medić članica vijeća, uz sudjelovanje sudskog savjetnika Ivice Ožbolta kao zapisničara, povodom zahtjeva osuđenika KV za obnovom prekršajnog postupka, odlučujući o žalbi osuđenika KV, protiv rješenja Općinskog suda u Novom Zagrebu broj: Pp Prz-58/2025-2 od 31. listopada 2025., na sjednici vijeća održanoj dana 7. siječnja 2026. r i j e š i o j e : Odbija se kao neosnovana žalba osuđenika KV kojim je odbačen zahtjev osuđenika za obnovu postupka, i pobijano rješenje se potvrđuje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IU-144/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IU-144"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sutkinja: Anđe Ćorluka predsjednice vijeća, te Ivanke Mašić i Mirjane Medić članica vijeća, u",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=1a958d6a-3bde-4f6f-a345-f475c24a2ac7",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IU-146/2025-2",
+    decision_date: "2026-01-07",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je tužba dopuštena?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Nediljka Bobana kao predsjednika vijeća, te Karmen Novak Hrgović i Davorka Kučana, kao članova vijeća uz sudjelovanje više sudske savjetnice Marcele Soljačić Prester kao zapisničara, u prekršajnom predmetu protiv kažnjenika ŽA, zbog prekršaja iz članka 289. stavak 4. Zakona o sigurnosti prometa na cestama (Narodne novine broj: 67/2008, 48/2010, 74/2011, 80/2013, 158/2013, 92/2014, 64/2015, 108/2017, 70/2019, 42/2020), rješavajući o zahtjevu kažnjenika ŽA za izvanredno ublažavanje kazne, izrečene presudom Općinskog suda u Zlataru broj: 30. Pp-1806/2021 od 19. svibnja 2022. i presudom Visokog prekršajnog suda Republike Hrvatske broj: Ppž-6283/2022, od 3. srpnja 2025. na sjednici vijeća održanoj dana 7. siječnja 2026. godine, r i j e š i o j e : Zahtjev kažnjenika ŽA za izvanredno ublažavanje pravomoćno izrečene kazne odbacuje se kao nedopušten. - -",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IU-146/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IU-146"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Nediljka Bobana kao predsjednika vijeća, te Karmen Novak Hrgović i Davorka Kučana, kao",
+    outcome: "procedural",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=5fffd9e3-1460-4a7c-96a8-a502355f1a2d",
   },
   {
     jurisdiction: "croatia",
@@ -896,6 +2663,25 @@ export const CASE_LAW_PROCEDURAL_CROATIA_1: CaseLawInput[] = [
     headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Karmen Novak Hrgović, kao predsjednice vijeća, te Nediljka Bobana i Davorka Kučana, ka",
     outcome: "defendant_won",
     source_url: "https://odluke.sudovi.hr/Document/View?id=2c8dfa9b-7f2b-4d7e-9ccd-bd386ddd546a",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IU-18/2026-11",
+    decision_date: "2026-05-21",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je nižestupanjska odluka nezakonita?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Davorka Kučana kao predsjednika vijeća, te Renate Popović i Drage Klasnića kao članova vijeća, uz sudjelovanje višeg sudskog savjetnika specijalista Zlatka Hasića kao zapisničara u prekršajnom predmetu protiv osuđenog ČE zbog prekršaja iz članka 199. stavka 2. i 8. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj: 67/08., 48/10., 74/11., 80/13., 92/14., 64/15., 108/17., 70/19., 42/20,85/22., 114/22.) odlučujući povodom žalbe osuđenog ČE, podnijete protiv rješenja Općinskog suda u Makarskoj od 9. veljače 2026., broj: Pp Prz-98/2025, u sjednici vijeća održanoj dana 21. svibnja 2026. r i j e š i o j e I Prihvaća se žalba osuđenog ČE i ukida se prvostupanjsko rješenje. II Predmet se dostavlja prvostupanjskom sudu da o prijedlogu osuđenog ČE odluči kao o zahtjevu za ukidanje klauzule pravomoćnosti.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IU-18/2026-11 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IU-18"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Davorka Kučana kao predsjednika vijeća, te Renate Popović i Drage Klasnića kao članova",
+    outcome: "remanded",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=b9b9ed96-d7b2-4b3d-917e-c5479ed1789f",
   },
   {
     jurisdiction: "croatia",
@@ -1034,6 +2820,44 @@ export const CASE_LAW_PROCEDURAL_CROATIA_1: CaseLawInput[] = [
     jurisdiction: "croatia",
     court: "Visoki prekršajni sud Republike Hrvatske",
     court_level: "high",
+    case_number: "IU-31/2025-2",
+    decision_date: "2026-02-25",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi razloga navedenih u žalbama?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sutkinja: Anđe Ćorluka, kao predsjednice vijeća te Mirjane Medić i Ivanke Mašić, kao članica vijeća, uz sudjelovanje sudskog savjetnika Ivice Ožbolta, kao zapisničara, u prekršajnom predmetu protiv osuđenog EU zbog prekršaja iz članka 22. stavka 3. Zakona o zaštiti od nasilja u obitelji (NN 70/17., 126/19., 84/21., 114/22. i 36/24.), odlučujući o žalbama osuđenog EU kojeg brani Petar Ćubela, odvjetnik iz Zagreba, podnesenoj protiv rješenja Općinskog prekršajnog suda u Zagrebu od 21. veljače 2025., broj: PpPrz-117/2024, na sjednici vijeća održanoj 25. veljače 2026., r i j e š i o j e Odbijaju se kao neosnovane žalbe EU i potvrđuje se pobijano rješenje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IU-31/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IU-31"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sutkinja: Anđe Ćorluka, kao predsjednice vijeća te Mirjane Medić i Ivanke Mašić, kao članica v",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=5d2067a8-7df0-4832-9143-21cef23396d8",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IU-32/2024-3",
+    decision_date: "2026-01-07",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi navedenog okrivljenik ne može raspolagati etažnim jedinicama u VTC-u u čiji dovršetak je uložio materijalna sredstva od?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Maria Soljačića kao predsjednika vijeća, te Marjane Rajić i Tomislava Tomašića kao članova vijeća, uz sudjelovanje višeg sudskog savjetnika - specijalista Željka Kudrića, kao zapisničara, u prekršajnom postupku protiv osuđene pravne osobe MARLEX INVEST d.o.o., zastupane po braniteljici Andrijani Gotal Rendić, odvjetnici iz Varaždina, zbog prekršaja iz članka 167. stavka 1. točke 4. i članka 164. stavka 1. točke 5. Zakona o gospodarenju otpadom („Narodne novine“ broj: 84/21.), odlučujući o zahtjevu za izvanredno ublažavanje kazne osuđene pravne osobe MARLEX INVEST d.o.o., podnesenom protiv prekršajnog naloga Državnog inspektorata Republike Hrvatske, Područnog ureda Varaždin, Službe za nadzor zaštite okoliša i vodopravne inspekcije, Klasa: 351-01/23-10/1193, Urbroj: 443-02-04-13-RR-23-3 od 1. prosinca 2023., na sjednici vijeća održanoj 7. siječnja 2026., r i j e š i o j e Zahtjev za izvanredno ublažavanje kazne osuđene pravne osobe MARLEX INVEST d.o.o., odbija se kao neosnovan.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IU-32/2024-3 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IU-32"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Maria Soljačića kao predsjednika vijeća, te Marjane Rajić i Tomislava Tomašića kao čla",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=e38ed127-3b47-4109-adc3-ab76e6494e0c",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
     case_number: "IU-32/2026-2",
     decision_date: "2026-04-09",
     legal_area: "procedural",
@@ -1091,6 +2915,63 @@ export const CASE_LAW_PROCEDURAL_CROATIA_1: CaseLawInput[] = [
     jurisdiction: "croatia",
     court: "Visoki prekršajni sud Republike Hrvatske",
     court_level: "high",
+    case_number: "IU-43/2026-2",
+    decision_date: "2026-05-13",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je nižestupanjska odluka nezakonita?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca: Renate Popović kao predsjednice vijeća, te Nediljka Bobana i Davorka Kučana kao članova vijeća, uz sudjelovanje više sudske savjetnice Sofije Kovačević, kao zapisničarke, u prekršajnom predmetu protiv osuđenika PF, kojeg brani Marijo Vuković, odvjetnik iz Splita, zbog prekršaja iz članka 216. stavak 3. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj: 67/08, 48/10, 74/11, 80/13, 158/13, 92/14, 64/15, 108/17, 70/19, 42/20, 85/22, 114/22, 133/23, 145/24) rješavajući o žalbi osuđenika PF, podnijetoj protiv rješenja Policijske uprave splitsko-dalmatinske, I. Policijske postaje Split, broj, klasa: 211-07/25-1/11243, urbroj: 511-12-23-25-2 od 25. studenog 2025. godine, na sjednici vijeća održanoj dana 13. svibnja 2026. godine, r i j e š i o j e U povodu žalbe osuđenika RF a po službenoj dužnosti, ukida se pobijano rješenje i predmet dostavlja prvostupanjskom sudu na nadležno odlučivanje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IU-43/2026-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IU-43"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca: Renate Popović kao predsjednice vijeća, te Nediljka Bobana i Davorka Kučana kao člano",
+    outcome: "remanded",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=2e0998c1-ebf1-45b9-a417-5c3c9904cb8f",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IU-44/2026-2",
+    decision_date: "2026-05-07",
+    legal_area: "procedural",
+    legal_question:
+      "Odbija se kao neosnovana žalba osuđenog GB i potvrđuje pobijano rješenje?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Renate Popović kao predsjednice vijeća, te Davorka Kučana i Drage Klasnića kao članova vijeća, uz sudjelovanje više sudske savjetnice Sanje Klaude kao zapisničarke, u prekršajnom predmetu protiv osuđenog ŽB, povodom odlučivanja o zahtjevu za obnovu prekršajnog postupka, odlučujući o žalbi osuđenog ŽB kojeg brani Krunoslav Aljinović, odvjetnik iz Splita podnesenoj protiv rješenja Općinskog prekršajnog suda u Splitu od 16. prosinca 2025., broj: PpPrz-575/2025-2, u sjednici vijeća održanoj 7. svibnja 2026. r i j e š i o j e: Odbija se kao neosnovana žalba osuđenog GB i potvrđuje pobijano rješenje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IU-44/2026-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IU-44"],
+    related_articles: ["čl. 215. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Renate Popović kao predsjednice vijeća, te Davorka Kučana i Drage Klasnića kao članova",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=8d83d37f-bba2-48ca-b76d-cfd6aecb20d0",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IU-48/2025-3",
+    decision_date: "2026-01-15",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi o novoj činjenici ili novom dokazu. 4. Razlozi na koje se u žalbi poziva osuđena da je sud prvog stupnja u provedenom po?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Renate Popović kao predsjednice vijeća, te Davorka Kučana i Drage Klasnića, kao članova vijeća, uz sudjelovanje više sudske savjetnice Sanje Klaude kao zapisničarke, u prekršajnom predmetu protiv osuđene ČŽ, povodom odlučivanja o zahtjevu za obnovu prekršajnog postupka, odlučujući o žalbi osuđene ČŽ, podnesenoj protiv rješenja Općinskog suda u Rijeci od 14. veljače 2024. godine broj: Ppz-1-2025-4, u sjednici vijeća održanoj 15. siječnja 2026., r i j e š i o j e Odbija se kao neosnovana žalba osuđene ČŽ i potvrđuje pobijano rješenje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IU-48/2025-3 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IU-48"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Renate Popović kao predsjednice vijeća, te Davorka Kučana i Drage Klasnića, kao članov",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=aafbd5a2-2696-4807-b8d4-2827e1710908",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
     case_number: "IU-5/2026-3",
     decision_date: "2026-02-25",
     legal_area: "procedural",
@@ -1129,6 +3010,25 @@ export const CASE_LAW_PROCEDURAL_CROATIA_1: CaseLawInput[] = [
     jurisdiction: "croatia",
     court: "Visoki prekršajni sud Republike Hrvatske",
     court_level: "high",
+    case_number: "IU-65/2025-2",
+    decision_date: "2026-01-19",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je nižestupanjska odluka nezakonita?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sutkinja Gordane Korotaj predsjednice vijeća, te Renate Popović i Sanje Gospočić članica vijeća, uz sudjelovanje više sudske savjetnice specijalistice Nade Horvatović kao zapisničarke u prekršajnom predmetu protiv osuđenog VH zbog prekršaja iz članka 43. stavka 3. primjenom članka 293. stavka 1. i dr. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj: 67/08., 48/10., 74/11., 80/13., 92/14., 64/15., 108/17.) odlučujući povodom žalbe osuđenog VH zastupanog po braniteljici GH odvjetnici iz [adresa], podnijete protiv rješenja Općinskog prekršajnog suda u Zagrebu od 22. travnja 2025., broj: Pp Prz-4/2025, u sjednici vijeća održanoj dana 21. studenoga 2025. r i j e š i o j e: Prihvaća se žalba osuđenog VH, ukida se prvostupanjsko rješenje i predmet dostavlja prvostupanjskom sudu na ponovno odlučivanje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IU-65/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IU-65"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sutkinja Gordane Korotaj predsjednice vijeća, te Renate Popović i Sanje Gospočić članica vije",
+    outcome: "remanded",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=956656b2-7ab0-4167-a0b7-91a4dff215a8",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
     case_number: "IU-7/2026-2",
     decision_date: "2026-02-03",
     legal_area: "procedural",
@@ -1143,6 +3043,25 @@ export const CASE_LAW_PROCEDURAL_CROATIA_1: CaseLawInput[] = [
     headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sutkinja Mirjane Medić, kao predsjednice vijeća te Anđe Ćorluka i Ivanke Mašić, kao članica v",
     outcome: "defendant_won",
     source_url: "https://odluke.sudovi.hr/Document/View?id=b8e06135-c2ca-4e0c-8e85-28e8447a9fc9",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IU-75/2025-2",
+    decision_date: "2025-12-03",
+    legal_area: "procedural",
+    legal_question:
+      "Odbija se kao neosnovana žalba osuđenika ĐŽ izjavljena protiv rješenja o odbačaju zahtjeva za obnovu postupka i potvrđuje pobijano rješenje?",
+    court_position:
+      ": I Odbija se kao neosnovana žalba osuđenika ĐŽ izjavljena protiv rješenja o odbačaju zahtjeva za obnovu postupka i potvrđuje pobijano rješenje. II Predmet se vraća prvostupanjskom sudu na odlučivanje o zahtjevu za ukidanje klauzule pravomoćnosti.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IU-75/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IU-75"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: ": I Odbija se kao neosnovana žalba osuđenika ĐŽ izjavljena protiv rješenja o odbačaju zahtjeva za obnovu postupka i potvrđuje pobijano rješenje. II Predmet se v",
+    outcome: "remanded",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=1bd1d951-93d3-4c22-812c-ad615c7183dd",
   },
   {
     jurisdiction: "croatia",
@@ -1186,6 +3105,25 @@ export const CASE_LAW_PROCEDURAL_CROATIA_1: CaseLawInput[] = [
     jurisdiction: "croatia",
     court: "Visoki prekršajni sud Republike Hrvatske",
     court_level: "high",
+    case_number: "IU-85/2025-6",
+    decision_date: "2026-01-12",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi prekršaja iz čl. 60. st. 1. i 2. t. 10. Odluke o reklamiranju na području Grada Dubrovnika?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Ivane Bosnić-Kovačić, kao predsjednice vijeća, te Katice Lučić i Mladena Genca, kao članova vijeća, uz sudjelovanje sudske savjetnice Hane Bogović, kao zapisničarke, rješavajući o žalbi okrivljenika ADVENTURE DUBROVNIK TOURS j.d.o.o. i MAF, podnijetoj putem branitelja Bojana Vidaka, odvjetnika iz Dubrovnika, protiv rješenja Općinskog suda u Dubrovniku, broj: Pp Prz-27/2025, od 9. srpnja 2025., u sjednici vijeća održanoj 12. siječnja 2026., r i j e š i o j e: I U povodu žalbe okrivljenika ADVENTURE DUBROVNIK TOURS j.d.o.o. i MAF, a po službenoj dužnosti, ukida se pobijano prvostupanjsko rješenje. II Uslijed odluke pod točkom I žalba okrivljenika je bespredmetna.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IU-85/2025-6 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IU-85"],
+    related_articles: ["čl. 60. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Ivane Bosnić-Kovačić, kao predsjednice vijeća, te Katice Lučić i Mladena Genca, kao čl",
+    outcome: "remanded",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=ea8a96db-d820-4e6b-8953-d5a8261ed22b",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
     case_number: "IU-87/2025-2",
     decision_date: "2026-03-18",
     legal_area: "procedural",
@@ -1200,6 +3138,25 @@ export const CASE_LAW_PROCEDURAL_CROATIA_1: CaseLawInput[] = [
     headnote: ": Odbija se kao neosnovana žalba osuđenog AF izjavljena protiv rješenja o odbačaju zahtjeva za obnovu postupka i potvrđuje pobijano rješenje.",
     outcome: "defendant_won",
     source_url: "https://odluke.sudovi.hr/Document/View?id=c22db011-35a9-4881-874b-729c4c1a4475",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "IU-9/2026-2",
+    decision_date: "2026-04-22",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi se o novim relevantnim činjenicama i dokazima koji su sami za sebe ili u vezi s ostalim prikladni da prouzroče oslobođen?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca ovog Suda: Renate Popović, predsjednice vijeća, te Karmen Novak Hrgović i Davorka Kučana, članova vijeća, uz sudjelovanje više sudske savjetnice Marcele Soljačić Prester, zapisničara, rješavajući o žalbi, osuđenog GI, zbog prekršaja iz članka 78. stavak 3. Zakona o sigurnosti prometa na cestama (Narodne novine broj: 67/2008, 48/2010, 74/2011, 80/2013, 158/2013, 92/2014, 64/2015, 89/2015, 108/2017, 70/2019, 42/2020, 85/2022, 114/2022), podnijetoj protiv rješenja Općinskog suda u Osijeku, broj: Pp Prz-157/2025-2, od 23. prosinca 2025. na sjednici vijeća održanoj 22. travnja 2026. godine, r i j e š i o j e Odbija se kao neosnovana žalba osuđenog GI izjavljena protiv rješenja o odbačaju zahtjeva za obnovu postupka i potvrđuje pobijano rješenje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu IU-9/2026-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","IU-9"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca ovog Suda: Renate Popović, predsjednice vijeća, te Karmen Novak Hrgović i Davorka Kučan",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=35d6e021-447e-46b2-a78c-de0d9ea2bc00",
   },
   {
     jurisdiction: "croatia",
@@ -1338,6 +3295,44 @@ export const CASE_LAW_PROCEDURAL_CROATIA_1: CaseLawInput[] = [
     jurisdiction: "croatia",
     court: "Visoki prekršajni sud Republike Hrvatske",
     court_level: "high",
+    case_number: "Ppž-10009/2025-2",
+    decision_date: "2026-01-14",
+    legal_area: "procedural",
+    legal_question:
+      "Odbija se prigovor okrivljenog VFZ kao neosnovan te se prekršajni nalog potvrđuje?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Karmen Novak Hrgović kao predsjednice vijeća te Nediljka Bobana i Davorka Kučana kao članova vijeća, uz sudjelovanje sudske savjetnice Valentine Kučić kao zapisničarke, u prekršajnom postupku protiv okrivljenika VFZ, zbog prekršaja iz članka 54. stavka 1. i 2. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj: 67/2008., 48/2010., 74/2011., 80/2013., 158/2013., 92/2014., 64/2015., 89/2015., 108/2017., 70/2019., 42/2020., 85/2022., 114/2022., 133/23 i 145/24), odlučujući o prigovoru okrivljenika podnesenom protiv prekršajnog naloga Ministarstva unutarnjih poslova Republike Hrvatske, Policijske uprave primorsko-goranske, Postaje prometne policije Rijeka, od 14. listopada 2025., Klasa: 211-07/25-1/19389, Urbroj: 511-09-34-25-1, na sjednici vijeća održanoj 14. siječnja 2026., p r e s u d i o j e I. Odbija se prigovor okrivljenog VFZ kao neosnovan te se prekršajni nalog potvrđuje. II. Na temelju članka 138. stavka 2. točke 3. c) Prekršajnog zakona („Narodne novine“ broj: 107/07., 39/13., 157/13., 110/15., 70/17., 118/18. i 114/22.) okrivljenik VFZ obvezan je naknaditi paušalni iznos troškova žalbenog postupka u iznosu 30,00 (trideset) eura, u roku 15 (petnaest) dana od dana primitka ove presude.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10009/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10009"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Karmen Novak Hrgović kao predsjednice vijeća te Nediljka Bobana i Davorka Kučana kao čl",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=e73d36c5-20c9-4284-bb89-1d9eda896db8",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "Ppž-10013/2024-2",
+    decision_date: "2025-12-16",
+    legal_area: "procedural",
+    legal_question:
+      "Odbija se prigovor okrivljenog KO kao neosnovan te se prekršajni nalog potvrđuje?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca: Katice Lučić kao predsjednice vijeća te Ivane Bosnić-Kovačić i Mladena Genca kao članova vijeća, uz sudjelovanje sudske savjetnice Hane Bogović kao zapisničarke, u prekršajnom postupku protiv okrivljenog KO, zbog prekršaja iz članka 282. stavka 9. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj: 67/2008., 48/2010., 74/2011., 80/2013., 158/2013., 92/2014., 64/2015., 89/2015., 108/2017., 70/2019., 42/2020., 85/2022., 114/2022. i 133/2023.), odlučujući o prigovoru okrivljenika podnesenom protiv prekršajnog naloga Ministarstva unutarnjih poslova Republike Hrvatske, Policijske uprave dubrovačko-neretvanske, Policijske postaje Metković od 28. listopada 2024., broj: 211-07/24-1/16592, u sjednici vijeća održanoj dana 16. prosinca 2025., p r e s u d i o j e I. Odbija se prigovor okrivljenog KO kao neosnovan te se prekršajni nalog potvrđuje. II. Na temelju članka 138. stavka 2. točke 3.c) Prekršajnog zakona („Narodne novine“ broj: 107/07., 39/13., 157/13., 110/15., 70/17., 118/18. i 114/22.) okrivljeni KO obvezan je naknaditi paušalni iznos troškova žalbenog postupka u iznosu od 30,00 eura (trideset eura) u roku od 30 (trideset) dana od dana primitka ove presude.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10013/2024-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10013"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca: Katice Lučić kao predsjednice vijeća te Ivane Bosnić-Kovačić i Mladena Genca kao član",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=315e0a35-4aea-468d-b26f-af98d51dcdbf",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
     case_number: "Ppž-10013/2025-2",
     decision_date: "2026-04-15",
     legal_area: "procedural",
@@ -1352,6 +3347,63 @@ export const CASE_LAW_PROCEDURAL_CROATIA_1: CaseLawInput[] = [
     headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sutkinja Ivanke Mašić kao predsjednice vijeća, te Anđe Ćorluka i Mirjane Medić kao članica vi",
     outcome: "defendant_won",
     source_url: "https://odluke.sudovi.hr/Document/View?id=7f899bd5-af5a-47b5-91f3-7253211f5c95",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "Ppž-10014/2025-2",
+    decision_date: "2025-12-23",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi dostave spisa stvarno i mjesno nadležnom sudu radi provođenja prekršajnog postupka. Obrazloženje 1. Kod ovog suda zaprim?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Karmen Novak Hrgović kao predsjednice vijeća te Nediljka Bobana i Davorka Kučana kao članova vijeća, uz sudjelovanje sudske savjetnice Valentine Kučić kao zapisničarke, u prekršajnom postupku protiv okrivljenice VJ, zastupane po odvjetnicima iz odvjetničkog društva Ostović Rakušić iz Osijeka, zbog prekršaja iz članka 54. st. 2. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj 67/08, 48/10, 74/11, 80/13, 158/13, 92/14, 64/15, 108/17, 70/19, 42/20, 85/22, 114/22, 133/23 i 145/24), odlučujući o prigovoru okrivljenika, podnesenim protiv prekršajnog naloga Ministarstva unutarnjih poslova Republike Hrvatske, Policijske uprave primorsko-goranske, Policijske postaje Vrbovsko, od 25. rujna 2025., Klasa: 211-07/25-3/15591, Urbroj: 511-09-33-25-2, na sjednici vijeća održanoj 23. prosinca 2025. r i j e š i o j e I. Na temelju članka 102. stavka 1. Prekršajnog zakona („Narodne novine“ broj: 107/07., 39/13., 157/13., 110/15., 70/17., 118/18. i 114/22.), Visoki prekršajni sud Republike Hrvatske proglašava se stvarno nenadležnim za odlučivanje o prigovoru okrivljenika VJ, podnesenom protiv prekršajnog naloga Ministarstva unutarnjih poslova Republike Hrvatske, Policijske uprave primorsko-goranske, Policijske postaje Vrbovsko, od 25. rujna 2025., Klasa: 211-07/25-3/15591, Urbroj: 511-09-33-25-2. II. Spis predmeta dostavit će se izdavatelju prekršajnog naloga radi dostave spisa stvarno i mjesno nadležnom sudu radi provođenja prekršajnog postupka.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10014/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10014"],
+    related_articles: ["čl. 282. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Karmen Novak Hrgović kao predsjednice vijeća te Nediljka Bobana i Davorka Kučana kao čl",
+    outcome: "partially",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=7e474e2b-3ec1-4ba0-80a6-4912a5e59dd8",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "Ppž-10015/2025-2",
+    decision_date: "2026-04-22",
+    legal_area: "procedural",
+    legal_question:
+      "TŠ, zbog prekršaja iz članka 54. Zakona o sigurnosti prometa na cestama („Narodne novine“, broj 67/08., 48/10., 74/11., 80/13., 92/14., 64/15., 108/17., 70/19?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Tomislava Tomašića kao predsjednika vijeća te Maria Soljačića i Marjane Rajić kao članova vijeća, uz sudjelovanje višeg sudskog savjetnika-specijalista Željka Kudrića kao zapisničara, u prekršajnom postupku protiv okr. TŠ, zbog prekršaja iz članka 54. stavka 1. i 2. Zakona o sigurnosti prometa na cestama („Narodne novine“, broj 67/08., 48/10., 74/11., 80/13., 92/14., 64/15., 108/17., 70/19. i 42/20. , 85/22., 114/22. i 145/24.), odlučujući o prigovoru okrivljenika, podnesenom protiv prekršajnog naloga Policijske uprave primorsko-goranske, Policijske postaje Vrbovsko od 28. srpnja 2025., klasa: 211-07/25-3/12297, urbroj: 511-09-33-25-2, u sjednici vijeća održanoj 22. travnja 2026., r i j e š i o j e I. Na temelju članka 102. stavka 1. Prekršajnog zakona („Narodne novine“, broj: 107/07., 39/13., 158/13., 110/15., 70/17., 118/18. i 114/22.) Visoki prekršajni sud Republike Hrvatske se proglašava stvarno nenadležnim za odlučivanje o prigovoru okr. TŠ podnesenom protiv prekršajnog naloga Policijske uprave primorsko-goranske, Policijske postaje Vrbovsko od 28. srpnja 2025., klasa: 211- 07/25-3/12297, urbroj: 511-09-33-25-2. II. Spis predmeta vraća se izdavatelju prekršajnog naloga da isti dostavi stvarno i mjesno nadležnom općinskom sudu.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10015/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10015"],
+    related_articles: ["čl. 237. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Tomislava Tomašića kao predsjednika vijeća te Maria Soljačića i Marjane Rajić kao člano",
+    outcome: "partially",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=97600bb8-c7ad-47a6-98b3-dcaaa0af671c",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "Ppž-10016/2025-2",
+    decision_date: "2026-05-05",
+    legal_area: "procedural",
+    legal_question:
+      "Odbija se prigovor okrivljenog ĐŠ kao neosnovan te se prekršajni nalog potvrđuje?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sutkinje Gordane Korotaj, predsjednice vijeća, te sutkinje Nade Horvatović i suca Roberta Završkog, članova vijeća, uz sudjelovanje sudske savjetnice Nine Lukić, zapisničarke, u prekršajnom postupku protiv okrivljenog ĐŠ, zbog prekršaja iz članka 54. stavka 2. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj: 67/08., 48/10., 74/11., 80/13., 158/13., 92/14., 64/15., 108/17., 70/19., 42/20., 85/22., 114/22., 133/23., 145/24.), odlučujući o prigovoru okrivljenog podnesenom protiv prekršajnog naloga Ministarstva unutarnjih poslova Republike Hrvatske, Policijske uprave primorsko-goranske, Policijske postaje Vrbovsko od 2. rujna 2025., klasa: 211-07/25- 3/17212, urbroj: 511-09-33-25-2, u sjednici vijeća održanoj 5. svibnja 2026., p r e s u d i o j e I. Odbija se prigovor okrivljenog ĐŠ kao neosnovan te se prekršajni nalog potvrđuje. II. Na temelju članka 138. stavka 2. točke 3.c) Prekršajnog zakona („Narodne novine“ broj: 107/07., 39/13., 157/13., 110/15., 70/17., 118/18. i 114/22.) okrivljeni ĐŠ obvezan je naknaditi paušalni iznos troškova žalbenog postupka 30,00 eura (trideset eura) u roku 15 dana od dana primitka ove presude.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10016/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10016"],
+    related_articles: ["čl. 43. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sutkinje Gordane Korotaj, predsjednice vijeća, te sutkinje Nade Horvatović i suca Roberta Zavr",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=8944dac2-4690-45ec-8487-81a04aba6b4c",
   },
   {
     jurisdiction: "croatia",
@@ -1376,6 +3428,63 @@ export const CASE_LAW_PROCEDURAL_CROATIA_1: CaseLawInput[] = [
     jurisdiction: "croatia",
     court: "Visoki prekršajni sud Republike Hrvatske",
     court_level: "high",
+    case_number: "Ppž-10018/2023-2",
+    decision_date: "2026-01-22",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je žalba osnovana?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Renate Popović, predsjednice, te Davorka Kučana i Ivanke Mašić članova vijeća, uz sudjelovanje Nade Horvatović u svojstvu više sudske savjetnice specijalistice, kao zapisničarke, u prekršajnom postupku protiv okrivljenog JU, zbog prekršaja iz članka 199. stavka 6. i dr. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj: 67/08., 48/10., 74/11., 80/13., 158/13., 92/14., 64/15., 108/17., 70/19., 42/20., 85/22. i 114/22.), rješavajući o žalbi okrivljenika, protiv presude Općinskog suda u Metkoviću od 2. studenoga 2023., poslovni broj: Pp-1714/2023, u sjednici vijeća održanoj 22. siječnja 2026. p r e s u d i o j e I U povodu žalbe okr. JU, a po službenoj dužnosti, preinačuje se prvostupanjska presuda u točki II., te se izriče: Na temelju članka 182. točke 1. Prekršajnog zakona („Narodne novine“ broj 107/07.,39/13., 157/13., 110/15., 70/17., 118/18. i 114/22.) okr. EU (osobni podaci kao u prvostupanjskoj presudi) OSLOBAĐA SE OPTUŽBE da bi 12. listopada 2023. u 22:26 sati cestom D – 62, u mjestu Kula Norinska, upravljao osobnim vozilom marke Mazda [registarska oznaka] na kojem je napuklo prednje vjetrobransko staklo ispred sjedišta suvozača, oštećeno prednje desno putno svjetlo te oštećen prednji i stražnji branik, što je sve utvrđeno izravnim nadzorom službenika policije - pa da bi time počinio prekršaj iz članka 236. stavka 1. i 8. Zakona o sigurnosti prometa na cestama. II Uslijed odluke u točki I izreke ove drugostupanjske presude, preinačuje se prvostupanjska presuda u odluci o ukupnoj novčanoj kazni, tako da se za prekršaje u točkama III., IV. i V. prihvaćaju po prvostupanjskom sudu utvrđene kazne u iznosima 390,00 EUR (tristodevedeset eura), 132,72 EUR (stotridesetdva eura i sedamdesetdva centa) i 1.320,00 EUR (tisućutristodvadese eura), pa se okr. JU na temelju članka 39. stavka 1. točke 2. Prekršajnog zakona izriče ukupna novčana kazna u iznosu 1.842,72 EUR (tisućuosamstočetrdesetdva eura i sedamdesetdva centa), u koju kaznu se uračunava vrijeme oduzimanja slobode u vezi s prekršajima od 12. listopada 2023. u 23:30 sati do 13. listopada 2023. do 13:30 sati, kao dva zatvora, odnosno 79,64 EUR (sedamdesetdevet eura i devedesetdva centa), pa je okrivljeniku na ime izrečene kazne preostalo za platiti 1.763,08 EUR (tisućusedamstošezdesetri eura i osam centi), koji iznos kazne je dužan platiti u roku od devedeset dana od dana primitka ove presude, pa ako u tom roku plati dvije trećine preostalog dijela kazne za uplatu, smatrat će se da je kazna u cjelini plaćena. III U ostalom dijelu, odbija se žalba okr. JU kao neosnovana te se, u pobijanom a nepreinačenom dijelu, prvostupanjska presuda potvrđuje. IV Na temelju članka 139. stavka 6. u vezi članka 138. stavka 2. točke 3.c. Prekršajnog zakona okr. EU oslobađa se plaćanja troškova žalbenog postupka.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10018/2023-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10018"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Renate Popović, predsjednice, te Davorka Kučana i Ivanke Mašić članova vijeća, uz sudje",
+    outcome: "remanded",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=e2473c1d-9ff1-41c1-babc-1ae9aa5255e7",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "Ppž-10018/2025-2",
+    decision_date: "2026-04-22",
+    legal_area: "procedural",
+    legal_question:
+      "JF, zbog prekršaja iz članka 54. Zakona o sigurnosti prometa na cestama („Narodne novine“, broj 67/08., 48/10., 74/11., 80/13., 92 /14., 64/15., 108/17., 70/19., 42/20?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Tomislava Tomašića kao predsjednika vijeća te Maria Soljačića i Marjane Rajić kao članova vijeća, uz sudjelovanje višeg sudskog savjetnika-specijalista Željka Kudrića kao zapisničara, u prekršajnom postupku protiv okr. JF, zbog prekršaja iz članka 54. stavka 1. i 2. Zakona o sigurnosti prometa na cestama („Narodne novine“, broj 67/08., 48/10., 74/11., 80/13., 92 /14., 64/15., 108/17., 70/19., 42/20. i 85/22., 114/22. i 145/24.), odlučujući o prigovoru okrivljenika, podnesenom protiv prekršajnog naloga Policijske uprave primorsko-goranske, Policijske postaje Vrbovsko od 30. rujna 2025., klasa: 211-07/25-3/15877, urbroj: 511-09-33-25-2, u sjednici vijeća održanoj 22. travnja 2026., r i j e š i o j e I. Na temelju članka 102. stavka 1. Prekršajnog zakona („Narodne novine“, broj: 107/07., 39/13., 158/13., 110/15., 70/17., 118/18. i 114/22.) Visoki prekršajni sud Republike Hrvatske se proglašava stvarno nenadležnim za odlučivanje o prigovoru okr. JF podnesenom protiv prekršajnog naloga Policijske uprave primorsko-goranske, Policijske postaje Vrbovsko od 30. rujna 2025., klasa: 211-07/25-3/15877, urbroj: 511-09-33-25-2. II. Spis predmeta vraća se izdavatelju prekršajnog naloga da isti dostavi stvarno i mjesno nadležnom općinskom sudu.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10018/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10018"],
+    related_articles: ["čl. 237. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Tomislava Tomašića kao predsjednika vijeća te Maria Soljačića i Marjane Rajić kao člano",
+    outcome: "partially",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=2e731f88-7719-437e-a544-34241eacb103",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "Ppž-10019/2025-2",
+    decision_date: "2026-04-28",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi njegova počinjenja. Ističe kako okrivljenik nikada nije bio kažnjavan te da mu je vozačka dozvola potrebna za posao koji?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sutkinje Gordane Korotaj, predsjednice vijeća, te sutkinje Nade Horvatović i suca Roberta Završkog, članova vijeća, uz sudjelovanje sudske savjetnice Nine Lukić, zapisničarke, u prekršajnom postupku protiv okrivljenog OD, zbog prekršaja iz članka 54. stavka 2. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj: 67/08., 48/10., 74/11., 80/13., 158/13., 92/14., 64/15., 108/17., 70/19., 42/20., 85/22., 114/22., 133/23., 145/24.), odlučujući o prigovoru okrivljenog podnesenom protiv prekršajnog naloga Ministarstva unutarnjih poslova Republike Hrvatske, Policijske uprave primorsko-goranske, Policijske postaje Vrbovsko od 25. rujna 2025., klasa: 211-07/25- 3/15588, urbroj: 511-09-33-25-2, u sjednici vijeća održanoj 28. travnja 2026., p r e s u d i o j e I. Odbija se prigovor okrivljenog OD kao neosnovan te se prekršajni nalog potvrđuje. II. Na temelju članka 138. stavka 2. točke 3.c) Prekršajnog zakona („Narodne novine“ broj: 107/07., 39/13., 157/13., 110/15., 70/17., 118/18. i 114/22.) okrivljeni OD obvezan je naknaditi paušalni iznos troškova žalbenog postupka 30,00 eura (trideset eura) u roku 15 dana od dana primitka ove presude.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10019/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10019"],
+    related_articles: ["čl. 5. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sutkinje Gordane Korotaj, predsjednice vijeća, te sutkinje Nade Horvatović i suca Roberta Zavr",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=cfa4929c-5761-40c4-a554-d847db3c410e",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
     case_number: "Ppž-10020/2025-2",
     decision_date: "2026-03-10",
     legal_area: "procedural",
@@ -1390,6 +3499,101 @@ export const CASE_LAW_PROCEDURAL_CROATIA_1: CaseLawInput[] = [
     headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sutkinja Ivanke Mašić kao predsjednice vijeća, te Anđe Ćorluka i Mirjane Medić kao članica vi",
     outcome: "partially",
     source_url: "https://odluke.sudovi.hr/Document/View?id=605432e1-e490-4042-8a97-a43ec1b2ae9d",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "Ppž-10021/2023-2",
+    decision_date: "2026-04-15",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je žalba osnovana?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca ovog Suda: Renate Popović predsjednice vijeća, te Karmen Novak Hrgović i Davorka Kučana, članova vijeća, uz sudjelovanje više sudske savjetnice Marcele Soljačić Prester kao zapisničara, u prekršajnom postupku protiv okrivljenika TE, zbog prekršaja iz članka 199. stavka 7. Zakona o sigurnosti prometa na cestama (Narodne novine broj: 67/2008, 48/2010, 74/2011, 80/2013, 158/2013, 92/2014, 64/2015, 108/2017, 70/2019, 42/2020, 85/2022, 114/2022), odlučujući o žalbi okrivljenika TE, podnesenoj protiv presude Općinskog suda u Novom Zagrebu, od 30. listopada 2023. godine, broj: 71 Pp-3639/2023, na sjednici vijeća održanoj dana 15. travnja 2026. godine, p r e s u d i o j e : I) Odbija se žalba okrivljenika TE kao neosnovana, te se prvostupanjska presuda potvrđuje. II) Temeljem članka 138. stavka 2. točke 3 c. Prekršajnog zakona (Narodne novine, broj: 107/2007, 39/2013, 157/2013, 110/15, 114/2022) okrivljenik SE je obvezan naknaditi trošak žalbenog postupka u paušalnom iznosu od 50,00 (pedeset) EUR-a, u roku od 90 (devedeset) dana od primitka ove presude.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10021/2023-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10021"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca ovog Suda: Renate Popović predsjednice vijeća, te Karmen Novak Hrgović i Davorka Kučana",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=e431c228-1b19-4b61-9fdd-9d85be006374",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "Ppž-10028/2024-2",
+    decision_date: "2025-12-17",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi o djetetu koje još nema 14 godina života?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sutkinja Mirjane Medić, kao predsjednice vijeća te Anđe Ćorluka i Ivanke Mašić, kao članica vijeća, uz sudjelovanje više sudske savjetnice Koraljke Polak Medaković, kao zapisničarke, u prekršajnom predmetu protiv okrivljenog SU, zbog prekršaja iz članka 22. stavka 5. Zakona o zaštiti od nasilja u obitelji („Narodne Novine“ broj: 70/17, 126/19, 84/21, 114/22) odlučujući o žalbi tužitelja Ministarstva unutarnjih poslova, Policijske uprave dubrovačko-neretvanske, Policijske postaje Ston podnesenoj protiv presude Općinskog suda u Dubrovniku, Stalne službe u Korčuli, broj: Pp-1367/2024 od 8. listopada 2024., na sjednici vijeća održanoj 17. prosinca 2025. r i j e š i o j e Prihvaća se žalba tužitelja Ministarstva unutarnjih poslova, Policijske uprave dubrovačko-neretvanske, Policijske postaje Ston pobijana presuda se ukida i predmet dostavlja prvostupanjskom sudu na ponovno suđenje.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10028/2024-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10028"],
+    related_articles: ["čl. 173. Prekršajni zakon","čl. 292. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sutkinja Mirjane Medić, kao predsjednice vijeća te Anđe Ćorluka i Ivanke Mašić, kao članica v",
+    outcome: "remanded",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=4642394a-3259-49e9-b8f3-23df323a9538",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "Ppž-10028/2025-2",
+    decision_date: "2026-01-21",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi o javnom mjestu?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Kristine Gašparac Orlić, predsjednice vijeća te Gordane Korotaj i Roberta Završkog, članova vijeća, uz sudjelovanje više sudske savjetnice Emine Bašić, zapisničarke, u prekršajnom postupku protiv okr. HS i dr., zbog prekršaja iz članka 13. Zakona o prekršajima protiv javnog reda i mira („Narodne novine“ broj 5/1990., 30/1990., 47/1990., 29/1994., 114/2022. i 47/2023.), odlučujući o žalbi tužitelja Ministarstva unutarnjih poslova Republike Hrvatske, Policijske uprave dubrovačko-neretvanske, Postaje granične policije Metković, podnesenoj protiv oslobađajućeg dijela presude Općinskog suda u Metkoviću od 10. listopada 2025., broj: Pp – 1536/2025, u sjednici vijeća održanoj 21. siječnja 2026., r i j e š i o j e Prihvaća se žalba tužitelja Ministarstva unutarnjih poslova Republike Hrvatske, Policijske uprave dubrovačko-neretvanske, Postaje granične policije Metković, ukida se prvostupanjska presuda u oslobađajućem dijelu te se predmet u tom dijelu dostavlja prvostupanjskom sudu na ponovno suđenje i odluku.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10028/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10028"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Kristine Gašparac Orlić, predsjednice vijeća te Gordane Korotaj i Roberta Završkog, čl",
+    outcome: "remanded",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=d1c7855c-e389-457d-9b12-979aa9cf2fcd",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "Ppž-10029/2025-2",
+    decision_date: "2025-12-10",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je nižestupanjska odluka pogrešna?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca, Maria Soljačića, predsjednika vijeća, te Tomislava Tomašića i Marjane Rajić, članova vijeća, uz sudjelovanje Željka Kudrića u svojstvu višeg sudskog savjetnika - specijaliste kao zapisničara, u prekršajnom postupku protiv okrivljenika pravne osobe LUKA RIJEKA d.d. i odgovorne osobe KB koje brane odvjetnici iz Zajedničkog odvjetničkog ureda Mrakovčić-Milić iz Rijeke, zbog prekršaja iz članka 97. stavka 1. točke 1. i stavka 2. Zakona o zaštiti zraka (\"Narodne novine\" broj: 127/19), rješavajući o žalbi tužitelja Državnog inspektorata Republike Hrvatske, Područnog ureda Rijeka, Službe inspekcije zaštite okoliša, zaštite prirode i vodopravni nadzor, podnesenoj protiv presude Općinskog suda u Rijeci od 3. srpnja 2025., broj: Pp-2082/2022-42, u sjednici vijeća održanoj 10. prosinca 2025., p r e s u d i o j e I U povodu žalbe tužitelja Državnog inspektorata Republike Hrvatske, Područnog ureda Rijeka, Službe inspekcije zaštite okoliša, zaštite prirode i vodopravni nadzor, a po službenoj dužnosti preinačuje se prvostupanjska presuda na način da se na temelju članka 182. točke 1. Prekršajnog zakona („Narodne novine“ broj 107/07., 39/13., 157/13., 110/15., 70/17., 118/18., 114/22.) okrivljenici pravna osoba LUKA RIJEKA d.d. i odgovorna osoba KB oslobađaju optužbe da bi: 11. ožujka 2022. vršeći prekrcaj željezne rude (granule veličine 0,1 do oko osam centimetara) iz broda lučkom grabilicom u nasipni koš, na koji se nadovezuje pokretna iskrcajna traka, izazvali prekomjerna prašenja koja je registrirala mjerna postaja Bakar – Luka Nastavnog zavoda za javno zdravstvo Primorsko-goranske županije, mjerenja polutanata lebdećih čestica PM10 su pokazala da je 11. ožujka 2022. satna vrijednost pokazivala prekoračenje u 11,00 sati od 64,2 mikrograma po kubičnom metru i u 13,00 sati od 132,8 mikrograma po kubičnom metru iznad satne granične vrijednosti od 50 - mikrograma po kubičnom metru koja prekoračenja lebdećih čestica su posljedica tehničkih nedostataka na sustavu za iskrcaj robe kao što su neizgrađenost sustava za polijevanje vodom skladišta robe i na nasipnom košu kao i potrganosti sustava za raspršivanje vodenog spreja s četiri neovisna sustava za raspršivanje čestica vode na transportnim površinama koji su bili izgrađeni na osnovu Sanacijskog programa poboljšanja kakvoće zraka uslijed onečišćenja lebdećim česticama što je u suprotnosti s člankom 10 stavkom 4. ZZZ, dakle da su pravna osoba – onečišćivač i odgovorna osoba u pravnoj osobi koristili izvore onečišćenja zraka iz članka 10. stavka 1. ZZN koji nisu izgrađeni ili proizvedeni, opremljeni, rabljeni i održavani tako da ne ispuštaju u zrak onečišćujuće tvari iznad graničnih vrijednosti emisije odnosno da ne ispuštaju/unose u zrak onečišćujuće tvari u količinama koje mogu narušiti kvalitetu zraka, čime da bi postupili protivno odredbi članka 10. stavka 4. Zakona o zaštiti zraka, pa da bi time počinili prekršaj iz članka 97. stavka 1. točke 1. i stavka 2. Zakona o zaštiti zraka. II Uslijed odluke iz točke I., žalba tužitelja Državnog inspektorata Republike Hrvatske, Područnog ureda Rijeka, Službe inspekcije zaštite okoliša, zaštite prirode i vodopravni nadzor postala je bespredmetna. III Na temelju članka 140. stavka 2. Prekršajnog zakona troškovi prekršajnog postupka iz članka 138. stavka 2. točaka 2. do 5. i točke 7. Prekršajnog zakona, padaju na teret proračunskih sredstava.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10029/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10029"],
+    related_articles: ["čl. 10. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca, Maria Soljačića, predsjednika vijeća, te Tomislava Tomašića i Marjane Rajić, članova ",
+    outcome: "remanded",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=48c5296b-50dc-4636-8129-f556ccec7dcc",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "Ppž-1003/2026-2",
+    decision_date: "2026-05-13",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi razloga navedenih u žalbi?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sutkinja: Anđe Ćorluka, kao predsjednice vijeća te Mirjane Medić i Ivanke Mašić, kao članica vijeća, uz sudjelovanje sudskog savjetnika Ivice Ožbolta, kao zapisničara, u prekršajnom predmetu protiv okrivljenog OV zbog prekršaja iz članka 13. Zakona o prekršajima protiv javnog reda i mira (NN 41/17., 55/196., 84/89., 5/90., 30/90., 47/90., 29/94., 114/22 i 47/23), odlučujući o žalbi okrivljenog OV podnesenoj protiv presude Općinskog suda u Crikvenici od 2. prosinca 2025., broj: Pp-933/2022, na sjednici vijeća održanoj 13. svibnja 2026. p r e s u d i o j e I. U povodu žalbe okrivljenog OV, a po službenoj dužnosti preinačuje se prvostupanjska presuda tako da se na temelju članka 182. stavka 1. točke 1. Prekršajnog zakona (NN 107/07., 39/13., 157/13., 110/15., 70/17., 118/18. i 114/22. okrivljeni Mijo Bojanović (osobni podaci kao u prvostupanjskoj presudi) oslobađa optužbe da je dana 12. srpnja 2022. oko 14,50 sati IV izašao ispred svoje garaže s namjerom da pokrije auto od sunca, a OV kada ga je uočio vikao je s balkona zgrade \"jebem ti mater, meni si zvao policiju, šupak jedan\" i druge riječi kojih se IV nije mogao sjetiti, nakon navedenog IV se vratio u svoju garažu, dakle, na javnom mjestu remetio javni red i mir, čime bi počinio prekršaj iz članka 13. Zakona o prekršajima protiv javnog reda i mira. II. Na temelju članka 140. stavka 2. Prekršajnog zakona troškovi prekršajnog postupka iz članka 138. stavak 2. točke 2. do 5. i točke 7. Prekršajnog zakona padaju na teret proračunskih sredstava.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-1003/2026-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-1003"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sutkinja: Anđe Ćorluka, kao predsjednice vijeća te Mirjane Medić i Ivanke Mašić, kao članica v",
+    outcome: "remanded",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=64b9ab9a-1536-4973-9305-99d4ab36f569",
   },
   {
     jurisdiction: "croatia",
@@ -1433,6 +3637,44 @@ export const CASE_LAW_PROCEDURAL_CROATIA_1: CaseLawInput[] = [
     jurisdiction: "croatia",
     court: "Visoki prekršajni sud Republike Hrvatske",
     court_level: "high",
+    case_number: "Ppž-10040/2024-2",
+    decision_date: "2026-05-08",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi o povredi materijalnog prava na štetu okrivljenice?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sutkinje Katice Lučić kao predsjednice vijeća te Ivane Bosnić-Kovačić i Mladena Genca kao članica vijeća, uz sudjelovanje sudske savjetnice Hane Bogović kao zapisničarke, u prekršajnom postupku protiv okrivljene PD, zbog prekršaja iz članka 282. stavka 9. i dr. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj: 67/2008., 48/2010., 74/2011., 80/2013., 158/2013., 92/2014., 64/2015., 89/2015., 108/2017., 70/2019., 42/2020., 85/22., 114/22. i 133/2023.), odlučujući o prigovoru okrivljenice podnesenom protiv prekršajnog naloga Ministarstva unutarnjih poslova Republike Hrvatske, Policijske uprave istarske, Postaje prometne policije Pula od 11. studenoga 2024., broj: 211-07/24-1/17347, u sjednici vijeća održanoj dana 8. svibnja 2026., p r e s u d i o j e I. Odbija se prigovor okrivljene PD kao neosnovan te se prekršajni nalog potvrđuje. II. Na temelju članka 138. stavka 2. točke 3.c) Prekršajnog zakona („Narodne novine“ broj: 107/07., 39/13., 157/13., 110/15., 70/17., 118/18. i 114/22.) okrivljena PD obvezna je naknaditi paušalni iznos troškova žalbenog postupka u iznosu od 30,00 eura (trideset eura) u roku od 30 (trideset) dana od dana primitka ove presude.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10040/2024-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10040"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sutkinje Katice Lučić kao predsjednice vijeća te Ivane Bosnić-Kovačić i Mladena Genca kao član",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=054c8ff8-40e5-4b38-9c0a-1be4999e99fc",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "Ppž-10050/2023-2",
+    decision_date: "2026-05-14",
+    legal_area: "procedural",
+    legal_question:
+      "Odbija se kao neosnovana žalba okrivljenog LI i prvostupanjska presuda se potvrđuje?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Davorka Kučana predsjednika vijeća, te Renate Popović i Drage Klasnića članova vijeća, uz sudjelovanje sudske savjetnice Matee Sačević kao zapisničarke u prekršajnom predmetu protiv okrivljenog LI zbog prekršaja iz članka 199. stavka 2. i 8. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj: 67/08., 48/10.,74/11., 80/13., 92/14., 64/15., 108/17., 70/19., 42/20.) odlučujući povodom žalbe okrivljenog LI podnijete protiv presude Općinskog prekršajnog suda u Splitu od 4. rujna 2023., broj: Pp-18329/2022 sjednici vijeća održanoj dana 14. svibnja 2026. p r e s u d i o j e I Odbija se kao neosnovana žalba okrivljenog LI i prvostupanjska presuda se potvrđuje. II Na temelju članka 139. stavka 3. i članka 138. stavka 2. točke 3.c Prekršajnog zakona, okrivljeni OI je dužan naknaditi troškove žalbenog postupka u paušalnom iznosu od 50,00 EUR (pedeset eura) u roku 90 dana od primitka ove presude.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10050/2023-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10050"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Davorka Kučana predsjednika vijeća, te Renate Popović i Drage Klasnića članova vijeća,",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=6208bb07-b3ff-4fa8-946e-e1a77faa6347",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
     case_number: "Ppž-10052/2025-2",
     decision_date: "2026-04-14",
     legal_area: "procedural",
@@ -1447,6 +3689,25 @@ export const CASE_LAW_PROCEDURAL_CROATIA_1: CaseLawInput[] = [
     headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sutkinje Gordane Korotaj, predsjednice vijeća, suca Roberta Završkog i sutkinje Anđe Ćorluka, ",
     outcome: "defendant_won",
     source_url: "https://odluke.sudovi.hr/Document/View?id=60d9a5b4-96f1-491f-93fa-f68975a9318c",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
+    case_number: "Ppž-10056/2024-2",
+    decision_date: "2025-12-16",
+    legal_area: "procedural",
+    legal_question:
+      "Odbija se prigovor okrivljenog TZ kao neosnovan te se prekršajni nalog potvrđuje?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca ovog suda: Katice Lučić kao predsjednice vijeća te Ivane Bosnić-Kovačić i Mladena Genca kao članova vijeća, uz sudjelovanje sudske savjetnice Hane Bogović kao zapisničarke, u prekršajnom postupku protiv okrivljenog TZ, zbog prekršaja iz članka 282. stavka 9. i dr. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj: 67/2008., 48/2010., 74/2011., 80/2013., 158/2013., 92/2014., 64/2015., 89/2015., 108/2017., 70/2019., 42/2020., 85/22., 114/22. i 133/2023.), odlučujući o prigovoru okrivljenika podnesenom protiv prekršajnog naloga Općinskog prekršajnog naloga u Splitu, poslovni broj: Pp-10971/2024-2 od 2. listopada 2024., u sjednici vijeća održanoj dana 16. prosinca 2025., p r e s u d i o j e I. Odbija se prigovor okrivljenog TZ kao neosnovan te se prekršajni nalog potvrđuje. II. Na temelju članka 138. stavka 2. točke 3.c) Prekršajnog zakona („Narodne novine“ broj: 107/07., 39/13., 157/13., 110/15., 70/17., 118/18. i 114/22.) okrivljeni TZ obvezan je naknaditi paušalni iznos troškova žalbenog postupka u iznosu od 30,00 eura (trideset eura) u roku od 30 dana od dana primitka ove presude.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10056/2024-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10056"],
+    related_articles: ["čl. 202. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca ovog suda: Katice Lučić kao predsjednice vijeća te Ivane Bosnić-Kovačić i Mladena Genca",
+    outcome: "defendant_won",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=f0d88a37-fca8-4d73-92fa-9e87959d780f",
   },
   {
     jurisdiction: "croatia",
@@ -1509,6 +3770,25 @@ export const CASE_LAW_PROCEDURAL_CROATIA_1: CaseLawInput[] = [
     jurisdiction: "croatia",
     court: "Visoki prekršajni sud Republike Hrvatske",
     court_level: "high",
+    case_number: "Ppž-10073/2023-2",
+    decision_date: "2026-05-08",
+    legal_area: "procedural",
+    legal_question:
+      "Da li je osnovan zahtjev radi o prekršaju za koji je zakonom propisana visoka novčana kazna za svakog prevezenog državljanina treće zemlje (najmanje 5?",
+    court_position:
+      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca ovog suda Roberta Završkog, predsjednika vijeća te Kristine Gašparac Orlić i Eufemije Nanković, članica vijeća, uz sudjelovanje više sudske savjetnice, Emine Bašić, zapisničarke, u prekršajnom predmetu protiv okr. pravne osobe TURKISH AIRLINES INC. CO. Predstavništvo u Republici Hrvatskoj, zbog prekršaja iz čl. 249. st. 1. Zakona o strancima („Narodne novine“ broj: 133/20), odlučujući o žalbi tužitelja Ministarstva unutarnjih poslova Republike Hrvatske, Policijske uprave zagrebačke, Postaje aerodromske policije Pleso, protiv presude Općinskog suda u Velikoj Gorici, broj: Pp-865/2022-6 od 18. listopada 2023., na sjednici vijeća održanoj 8. svibnja 2026., p r e s u d i o j e I. Prihvaćanjem žalbe tužitelja Ministarstva unutarnjih poslova Republike Hrvatske, Policijske uprave zagrebačke, Postaje aerodromske policije Pleso te u povodu te žalbe, a po službenoj dužnosti preinačuje se prvostupanjska presuda i to u pravnoj oznaci na način da se prekršaj za koji je okr. pravna osoba TURKISH AIRLINES INC. CO. Predstavništvo u Republici Hrvatskoj proglašena krivom, pravno označava kao prekršaj iz čl. 249. st. 1. Zakona o strancima („Narodne novine“ broj: 133/20, 114/22, 151/22 i 40/25) te u pobijanom dijelu odluke o kazni na način da se okr. pravnoj osobi TURKISH AIRLINES INC. CO. Predstavništvo u Republici Hrvatskoj na temelju tog zakonskog propisa izriče novčana kazna 5.100,00 EUR (pet tisuća sto eura). II. Izrečenu novčanu kaznu je okr. pravna osoba TURKISH AIRLINES INC. CO. Predstavništvo u Republici Hrvatskoj dužna platiti u roku 30 (trideset) dana računajući od dana primitka pravomoćne presude, s time da će se ista smatrati u cijelosti plaćenom ako okr. pravna osoba TURKISH AIRLINES INC. CO. Predstavništvo u Republici Hrvatskoj u tom roku plati dvije trećine izrečene novčane kazne.",
+    reasoning:
+      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10073/2023-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
+    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10073"],
+    related_articles: ["čl. 249. Prekršajni zakon","čl. 202. Prekršajni zakon","čl. 32. Prekršajni zakon","čl. 3. Prekršajni zakon","čl. 152. Prekršajni zakon","čl. 207. Prekršajni zakon"],
+    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca ovog suda Roberta Završkog, predsjednika vijeća te Kristine Gašparac Orlić i Eufemije ",
+    outcome: "remanded",
+    source_url: "https://odluke.sudovi.hr/Document/View?id=861ee8d8-6a84-4ee7-b19e-7f072a143289",
+  },
+  {
+    jurisdiction: "croatia",
+    court: "Visoki prekršajni sud Republike Hrvatske",
+    court_level: "high",
     case_number: "Ppž-1008/2026-2",
     decision_date: "2026-02-03",
     legal_area: "procedural",
@@ -1523,2285 +3803,5 @@ export const CASE_LAW_PROCEDURAL_CROATIA_1: CaseLawInput[] = [
     headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sutkinja Anđe Ćorluke, kao predsjednice vijeća te Ivanke Mašić i Mirjane Medić, kao članica v",
     outcome: "remanded",
     source_url: "https://odluke.sudovi.hr/Document/View?id=38c32215-d445-46ff-997f-e5fcad8b12e9",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-1009/2026-2",
-    decision_date: "2026-02-03",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je nižestupanjska odluka nezakonita?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sutkinja Anđe Ćorluka kao predsjednice vijeća te Ivanke Mašić i Mirjane Medić kao članica vijeća, uz sudjelovanje sudskog savjetnika Ivice Ožbolta , kao zapisničara, u prekršajnom postupku protiv okrivljenog CM, zbog prekršaja iz članka 22. st. 1. Zakona o zaštiti od nasilja u obitelji („Narodne novine“, broj: 70/17, 126/19, 84/21, 114/22 ), odlučujući o žalbi okr. CM , podnijete po braniteljici Ivani Buić, odvjetnici iz Rijeke, protiv presude Općinskog suda u Rijeci, poslovni broj: Pp-3655/2025-7 od dana 27. studenog 2025. , na sjednici vijeća održanoj dana 3. veljače 2026. , r i j e š i o j e I U povodu žalbe okr. CM , a po službenoj dužnosti, ukida se pobijana presuda te se predmet vraća sudu prvog stupnja na ponovni postupak i odlučivanje. II Uslijed odluke iz točke I. ove presude, žalba okr. CM je bespredmetna.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-1009/2026-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-1009"],
-    related_articles: ["čl. 171. Prekršajni zakon","čl. 172. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sutkinja Anđe Ćorluka kao predsjednice vijeća te Ivanke Mašić i Mirjane Medić kao članica vije",
-    outcome: "remanded",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=8691af53-7dfc-4a4f-b918-5ec8224cbb14",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10102/2025-2",
-    decision_date: "2026-03-19",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je osnovan zahtjev radi otklanjanja opasnosti da okrivljeni?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Renate Popović kao predsjednice vijeća te Davorka Kučana i Drage Klasnića kao članova vijeća uz sudjelovanje više sudske savjetnice Sanje Klaude kao zapisničarke, u prekršajnom predmetu protiv okrivljenika ČČ zbog prekršaja iz članka 199. stavak 2. kažnjivog po članku 199. stavak 7. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj: 67/08., 48/10., 74/11., 80/13., 158/13., 92/14., 64/15., 108/17., 70/19., 42/20., 85/22., 114/22., 133/23. i 145/24.), odlučujući o žalbi okrivljenika ČČ podnesenoj protiv presude Općinskog prekršajnog suda u Splitu od 12. lipnja 2025. broj: Pp-4206/2025-5, u sjednici vijeća održanoj dana 19. ožujka 2026. p r e s u d i o j e I Odbija se kao neosnovana žalba okrivljenika ČČ i potvrđuje pobijana presuda. II Temeljem članka 138. stavak 3c. Prekršajnog zakona okrivljenik ČČ je dužan naknaditi paušal troška žalbenog postupka u iznosu od 30,00 (trideset) eura koji trošak je okrivljenik dužan platiti u roku od 30 dana od dostave ove presude. - - -",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10102/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10102"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Renate Popović kao predsjednice vijeća te Davorka Kučana i Drage Klasnića kao članova ",
-    outcome: "defendant_won",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=133ec48f-20ce-4728-8c24-76064bdbf263",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10119/2023-2",
-    decision_date: "2026-04-02",
-    legal_area: "procedural",
-    legal_question:
-      "Odbija se kao neosnovana žalba okrivljenika UH i potvrđuje pobijana presuda?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Davorka Kučana, kao predsjednika vijeća, te Renate Popović i Drage Klasnića, kao članova vijeća, uz sudjelovanje više sudske savjetnice Sanje Klauda, kao zapisničara, u prekršajnom postupku protiv okrivljenika UH, kojeg brani Krešimir Biočić, odvjetnik u Imotskom, zbog prekršaja iz članka 199. stavak 2. i 7. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj 67/08, 48/10, 74/11, 80/13, 92/14, 64/15, 108/17, 70/19 i 42/20), rješavajući o žalbi okrivljenika UH podnesenoj protiv presude Općinskog prekršajnog suda u Splitu broj: Pp-13559/2022-11 od 10. studenog 2023., na sjednici vijeća održanoj dana 2. travnja 2026., p r e s u d i o j e: I Odbija se kao neosnovana žalba okrivljenika UH i potvrđuje pobijana presuda. II Na temelju odredbe članka 139. stavak 3. Prekršajnog zakona („Narodne novine“ broj 107/07, 39/13, 157/13, 110/15, 70/17, 118/18 i 114/22), okrivljenik UH je obvezan naknaditi trošak žalbenog postupka u paušalnom iznosu od 50,00 (pedeset) eura u roku od 30 (trideset) dana od dana primitka ove presude, pod prijetnjom ovrhe.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10119/2023-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10119"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Davorka Kučana, kao predsjednika vijeća, te Renate Popović i Drage Klasnića, kao članov",
-    outcome: "defendant_won",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=9dda7246-9687-47d1-9a9b-6faa15b9b0fb",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10133/2025-2",
-    decision_date: "2026-03-10",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je osnovan zahtjev radi o takvim olakotnim okolnostima koje u konkretnom slučaju imaju značaj naročito olakotnih te iste opravdavaju primjenu in?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Sanje Gospočić kao predsjednice vijeća, te Mladena Genca i Tomislava Tomašića, kao članova vijeća, uz sudjelovanje više sudske savjetnice - specijalistice Dubravke Besednik Horak, kao zapisničarke, u prekršajnom postupku protiv okrivljenika ROYAL PALMA d.o.o., kao pravne osobe i RS, kao odgovorne osobe, zbog prekršaja iz članka 192. stavka 1. točke 1. i stavka 4. Općeg poreznog zakona („Narodne novine“ broj: 115/16., 106/18., 121/19., 32/20., 42/20., 114/22. i 152/24.), odlučujući o prigovoru okrivljenika ROYAL PALMA d.o.o., kao pravne osobe i RS, kao odgovorne osobe podnesenom protiv prekršajnog naloga Ministarstva financija Republike Hrvatske, Porezne uprave, Područnog ureda Zagreb od 29. rujna 2025., Klasa: 471-02/25-01/509, Ur.broj: 513-07-01-25-03 na sjednici vijeća održanoj 10. ožujka 2026., p r e s u d i o j e I Prihvaća se prigovor okrivljenika ROYAL PALMA d.o.o., kao pravne osobe i RS, kao odgovorne osobe te se preinačuje pobijani prekršajni nalog u odluci o kazni na način da se za prekršaj iz članka 192. stavka 1. točke 1. i stavka 4. Općeg poreznog zakona, činjenično i pravno opisanog izrekom tog prekršajnog naloga, temeljem citiranog zakonskog propisa uz primjenu odredbe članka 37. stavka 3. točke 2. Prekršajnog zakona („Narodne novine“ broj: 107/07., 39/13., 157/13., 110/15., 70/17., 118/18. i 114/22.), okrivljenoj pravnoj osobi izriče novčana kazna u iznosu od 1.040,00 (tisućučetrdeset) eura, dok se uz primjenu odredbe članka 37. stavka 3. točke 1. Prekršajnog zakona, okrivljenoj odgovornoj osobi izriče novčana kazna u iznosu od 300,00 (tristo) eura, koje kazne su okrivljenici dužni platiti u roku od 90 dana od dana primitka ove presude. Sukladno odredbi članka 152. stavka 3. Prekršajnog zakona, ako svaki okrivljenik plati dvije trećine izrečene novčane kazne u navedenom roku, novčana kazna smatrat će se plaćenom u cijelosti. II Na temelju odredbe članka 138. stavka 2. točke 3.c u svezi odredbe članka 139. stavka 5. Prekršajnog zakona, okrivljenici ROYAL PALMA d.o.o., kao pravna osoba i RS, kao odgovorna osoba dužni su platiti paušalni iznos troškova prekršajnog postupka Visokog prekršajnog suda Republike Hrvatske u iznosu od 50,00 (pedeset) eura, svaki, u roku od 90 dana od dana primitka ove presude.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10133/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10133"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Sanje Gospočić kao predsjednice vijeća, te Mladena Genca i Tomislava Tomašića, kao čla",
-    outcome: "remanded",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=294ef27a-3f31-4057-afaf-75101ded28a5",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-1014/2026-2",
-    decision_date: "2026-03-10",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je osnovan zahtjev radi provođenja prekršajnog postupka. Obrazloženje 1. Kod ovog suda zaprimljen je na odlučivanje prigovor okrivljene KO podne?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sutkinja Ivanke Mašić kao predsjednice vijeća, te Anđe Ćorluka i Mirjane Medić kao članica vijeća, uz sudjelovanje sudskog savjetnika Ivice Ožbolta kao zapisničara, u prekršajnom predmetu protiv okrivljene KO, zbog prekršaja iz članka 54. stavka 2. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj: 67/08., 48/10., 74/11., 80/13., 158/13., 92/14., 64/15., 89/15., 108/17., 70/19., 42/20., 85/22., 114/22., 133/23. i 145/24.), odlučujući o prigovoru okrivljene KO podnesenom protiv prekršajnog naloga Ministarstva unutarnjih poslova Republike Hrvatske, Policijske uprave karlovačke, Postaje prometne policije Karlovac od 9. prosinca 2025., broj: 211-07/25-1/22555, u sjednici vijeća održanoj 10. ožujka 2026., r i j e š i o j e: I Na temelju članka 102. stavka 1. Prekršajnog zakona („Narodne novine“ broj: 107/07., 39/13., 157/13., 110/15., 70/17., 118/18. i 114/22.), Visoki prekršajni sud Republike Hrvatske proglašava se stvarno nenadležnim za odlučivanje o prigovoru okrivljene KO podnesenom protiv prekršajnog naloga Ministarstva unutarnjih poslova Republike Hrvatske, Policijske uprave karlovačke, Postaje prometne policije Karlovac od 9. prosinca 2025., broj: 211-07/25-1/22555. II Spis predmeta vraća se izdavatelju prekršajnog naloga kako bi ga dostavio stvarno i mjesno nadležnom Općinskom sudu u Karlovcu radi provođenja prekršajnog postupka.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-1014/2026-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-1014"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sutkinja Ivanke Mašić kao predsjednice vijeća, te Anđe Ćorluka i Mirjane Medić kao članica vi",
-    outcome: "partially",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=047fc8f7-5f65-4b26-aac3-e63f857d3b00",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10156/2022-2",
-    decision_date: "2026-04-15",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je osnovan zahtjev radi u Šibeniku i da je zanemario činjenicu da se uopće odigravala utakmica između NK Mladost iz Cerića i NK Croatia iz Bogda?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sutkinja Ivanke Mašić kao predsjednice vijeća te Anđe Ćorluka i Roberta Završkog kao članova vijeća, uz sudjelovanje više sudske savjetnice Koraljke Polak Medaković kao zapisničarke, u prekršajnom predmetu protiv okrivljenog ĐM zbog prekršaja iz članka 39.a stavak 2. Zakona o sprječavanju nereda na športskim natjecanjima („Narodne novine“ broj: 117/03., 71/06., 43/09., 34/11., 114/22.) odlučujući o žalbi okrivljenog ĐM podnesenoj po branitelju Slavenu Karabanu odvjetniku iz Vinkovaca protiv presude Općinskog suda u Vinkovcima broj: Pp-1532/2022-6 od 5. rujna 2022., na sjednici vijeća održanoj 15. travnja 2026., p r e s u d i o j e I. Odbija se žalba kao neosnovana žalba okrivljenog ĐM i pobijana presuda potvrđuje. II. Na temelju odredbe članka 138. stavka 2. točke 3.c Prekršajnog zakona („Narodne novine“ broj: 107/07., 39/13., 157/13., 110/15., 70/17., 118/18. i 114/22.) okrivljeni SM je obvezan naknaditi troškove žalbenog postupka u paušalnom iznosu od 40,00 (četrdeset) eur u roku 30 dana od dana dostave ove presude.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10156/2022-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10156"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sutkinja Ivanke Mašić kao predsjednice vijeća te Anđe Ćorluka i Roberta Završkog kao članova ",
-    outcome: "defendant_won",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=855d59f1-fcfb-450a-a83b-b8be99c5c70a",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10160/2025-2",
-    decision_date: "2026-04-15",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je nižestupanjska odluka pogrešna?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca: Karmen Novak Hrgović kao predsjednice vijeća, te Nediljka Bobana i Davorka Kučana kao članova vijeća, uz sudjelovanje sudske savjetnice Mirne Prišlin kao zapisničarke, u prekršajnom postupku protiv okrivljenika Manšped d.o.o. zbog prekršaja iz članka 257. stavka 4. Zakona o sigurnosti prometa na cestama, rješavajući povodom žalbe ovlaštenog tužitelja Policijske uprave primorsko-goranske, Policijske postaje Vrbovsko podnesenoj protiv presude Općinskog suda u Rijeci, Stalne službe u Delnicama od 17. rujna 2025., broj: Pp-2756/2022-2, na sjednici vijeća održanoj dana 15. travnja 2026. p r e s u d i o j e: I Povodom žalbe ovlaštenog tužitelja, a po službenoj dužnosti preinačuje se prvostupanjska presuda tako da se temeljem odredbe članka 181. točke 5. Prekršajnog zakona (Narodne novine, broj: 107/2007, 39/2013, 157/2013, 110/2015, 70/2017, 118/2018, 114/2022) odbija optužba podnesena protiv okrivljenika, zbog prekršaja iz članka 257. stavka 4. Zakona o sigurnosti prometa na cestama, činjenično opisanog u izreci pobijane presude. II Uslijed odluke iz točke I. ove presude žalba ovlaštenog tužitelja je bespredmetna.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10160/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10160"],
-    related_articles: ["čl. 257. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca: Karmen Novak Hrgović kao predsjednice vijeća, te Nediljka Bobana i Davorka Kučana kao",
-    outcome: "remanded",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=a2c66100-c907-41a4-bc07-10eb41c86921",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10162/2025-2",
-    decision_date: "2026-04-23",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je osnovan zahtjev radi otklanjanja opasnosti da upravljajući motornim vozilom ne ugrozi promet primjeni mu se zaštitna mjera zabrane upravljanj?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Renate Popović kao predsjednice vijeća, te Davorka Kučana i Drage Klasnića kao članova vijeća, uz sudjelovanje više sudske savjetnice Sanje Klaude kao zapisničarke, u prekršajnom predmetu protiv okrivljenika NZ zbog prekršaja iz članka 199. stavak 2. kažnjivog po članku 199. stavak 9. Zakona o sigurnosti prometa na cestama („Narodne novine\" broj: 67/08., 48/10., 74/11., 80/13., 158/13., 92/14., 64/15., 108/17., 70/19., 42/20., 85/22., 114/22., 133/23. i 145/24.), odlučujući o žalbi okrivljenika NZ podnesenoj protiv presude Općinskog prekršajnog suda u Splitu, Stalna služba u Omišu od 9. lipnja 2025. godine broj: Pp-13522/2024-5, u sjednici vijeća održanoj dana 23. travnja 2026., p r e s u d i o j e I. Odbija se kao neosnovana žalba okrivljenika NZ i potvrđuje pobijana presuda. II. Temeljem članka 138. stavak 3.c Prekršajnog zakona okrivljenik NZ dužan je naknaditi i troškove paušala žalbenog postupka u iznosu od 30,00 eura (trideset eura) u roku od 40 dana od dostave ove presude.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10162/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10162"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Renate Popović kao predsjednice vijeća, te Davorka Kučana i Drage Klasnića kao članova",
-    outcome: "defendant_won",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=24b3161e-5ff8-46fe-9dc9-9f57d2d51280",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10170/2024-2",
-    decision_date: "2026-04-01",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je žalba osnovana?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca: Karmen Novak Hrgović predsjednice vijeća, te Nediljka Bobana i Davorka Kučana kao članova vijeća, uz sudjelovanje sudske savjetnice Sofije Kovačević kao zapisničarke, u prekršajnom predmetu protiv okrivljenika GG, zbog prekršaja iz članka 199. stavak 8., članka 216. stavak 3., članka 59. stavak 5., članka 196. stavak 7. Zakona o sigurnosti prometa na cestama (NN br.67/2008, 48/10, 74/11, 80/13, 158/13, 92/14, 64/15, 89/15, 108/17, 70/19, 42/20, 85/22, 114/22, 133/23, 145/24) i članka 10., članka 11. te članka 17. Zakona o prekršajima protiv javnog reda i mira (NN br. 41/77, 47/89, 55/89, 47/90, 55/91, 29/94, 114/22, 47/23), rješavajući o žalbi tužitelja Policijske uprave zagrebačke, II Policijske postaje Zagreb, podnesenoj protiv presude Općinskog prekršajnog suda u Zagrebu od 12. studenog 2024. godine, broj: Pp-14058/2024, u sjednici vijeća održanoj dana 1. travnja 2026. godine, p r e s u d i o j e Odbija se žalba tužitelja Policijske uprave zagrebačke, II Policijske postaje Zagreb kao neosnovana i potvrđuje se pobijana presuda.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10170/2024-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10170"],
-    related_articles: ["čl. 202. Prekršajni zakon","čl. 195. Prekršajni zakon","čl. 10. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca: Karmen Novak Hrgović predsjednice vijeća, te Nediljka Bobana i Davorka Kučana kao čla",
-    outcome: "defendant_won",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=96d6a110-3fed-46c4-8594-b5e302e5f3fd",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10176/2025-2",
-    decision_date: "2026-03-11",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je osnovan zahtjev radi o znatnom proteku vremena da dobro zna o kojem danu je bila riječ?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca ovog suda: Nediljka Bobana kao predsjednika vijeća, te Karmen Novak Hrgović i Davorka Kučana, kao članova vijeća, uz sudjelovanje Marcele Soljačić-Prester u svojstvu više sudske savjetnice, kao zapisničarke, u prekršajnom postupku protiv okrivljenika GL, zbog prekršaja iz članka 53. stavka 3. u vezi članka 53. stavka 1. Zakona o sigurnosti prometa na cestama („Narodne novine“, broj: 67/08, 48/10 , 74/11, 80/13, 158/13, 92/14, 64/15, 89/15, 108/17, 70/19, 42/20, 85/22 i 114/22), rješavajući o prigovoru koji se prihvaća žalbom okrivljenika GL, podnesenom protiv prekršajnog naloga Policijske uprave zadarske, Postaje prometne policije Zadar od 14. veljače 2023., klasa: 211-07/23-3/1873, ur.broj: 511-18-15-23-1, na sjednici vijeća održanoj 11. ožujka 2026., p r e s u d i o j e I. Odbija se prigovor okrivljenika GL, koji se prihvaća žalbom kao neosnovan i potvrđuje se pobijani prekršajni nalog. II. Temeljem članka 139. stavka 3. Prekršajnog zakona („Narodne novine“, broj: 107/07, 39/13, 157/13, 110/15, 70/17, 118/18 i 114/22) okrivljenik GL je obvezan naknaditi trošak žalbenog postupka u paušalnom iznosu od 30,00 (trideset eura) u roku od 30 (trideset) dana od primitka ove presude.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10176/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10176"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca ovog suda: Nediljka Bobana kao predsjednika vijeća, te Karmen Novak Hrgović i Davorka K",
-    outcome: "defendant_won",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=28855c03-a23d-4010-ae58-297d038b7483",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10177/2025-2",
-    decision_date: "2026-03-11",
-    legal_area: "procedural",
-    legal_question:
-      "te se prekršajni nalog potvrđuje?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Karmen Novak Hrgović kao predsjednice vijeća te Nediljka Bobana i Davorka Kučana kao članova vijeća, uz sudjelovanje sudske savjetnice Mirne Prišlin kao zapisničarke, u prekršajnom postupku protiv okrivljenika MČ, zbog prekršaja iz čl. 53. st. 3. Zakona o sigurnosti prometa na cestama (Narodne novine broj 67/2008, 48/2010, 74/2011, 80/2013, 158/2013, 92/2014, 64/2015, 108/2017, 70/2019, 42/2020, 85/2022,114/2022), odlučujući o prigovoru okrivljenika MČ, podnesenim protiv prekršajnog naloga Ministarstva unutarnjih poslova Republike Hrvatske, Policijske uprave zadarske, Postaje prometne policije Zadar od 22. kolovoza 2025., Klasa:211-07/25-3/13812, Urbroj:511-18-15-25-2, na sjednici vijeća održanoj 11. ožujka 2026. p r e s u d i o j e I Odbija se prigovor okrivljenika MČ kao neosnovan, te se prekršajni nalog potvrđuje. II Temeljem članka 139. stavka 3. Prekršajnog zakona (Narodne novine broj: 107/2007, 39/2013, 157/2013, 110/2015, 70/2017, 118/2018, 114/2022), okrivljeni MČ je obvezan naknaditi trošak žalbenog postupka u paušalnom iznosu 30,00 (trideset) eura u roku od 30 (trideset) dana od primitka ove presude.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10177/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10177"],
-    related_articles: ["čl. 53. Prekršajni zakon","čl. 237. Prekršajni zakon","čl. 32. Prekršajni zakon","čl. 51. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Karmen Novak Hrgović kao predsjednice vijeća te Nediljka Bobana i Davorka Kučana kao č",
-    outcome: "defendant_won",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=6d03c9ef-e29c-4267-ba76-de674e6f8776",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10178/2025-2",
-    decision_date: "2026-03-30",
-    legal_area: "procedural",
-    legal_question:
-      "Odbija se kao neosnovan prigovor okrivljenika VR i pobijani prekršajni nalog se potvrđuje?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca: Nediljka Bobana kao predsjednika vijeća, te Karmen Novak Hrgović i Davorka Kučana kao članova vijeća, uz sudjelovanje više sudske savjetnice Sofije Kovačević kao zapisničarke, u prekršajnom predmetu protiv okrivljenika VR, zbog prekršaja iz članka 53. stavka 3. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj: 67/08., 48/10., 74/11., 80/13., 158/13., 92/14., 64/15., 108/17, 70/19, 42/20, 85/22, 114/22), rješavajući o prigovoru okrivljenika VR, podnesenom protiv prekršajnog naloga Policijske uprave osječko-baranjske, Policijske postaje Belišće, klasa: 211-07/25-3/16793, broj: 511-07-28-25-2 od 14. listopada 2025., na sjednici vijeća održanoj dana 30. ožujka 2026., p r e s u d i o j e: I. Odbija se kao neosnovan prigovor okrivljenika VR i pobijani prekršajni nalog se potvrđuje. II. Temeljem članka 139. stavka 6. Prekršajnog zakona okrivljenik MR se oslobađa plaćanja troškova žalbenog postupka.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10178/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10178"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca: Nediljka Bobana kao predsjednika vijeća, te Karmen Novak Hrgović i Davorka Kučana kao",
-    outcome: "defendant_won",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=00a69310-370f-42d3-888f-16c5edaa09ae",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10187/2025-2",
-    decision_date: "2026-01-28",
-    legal_area: "procedural",
-    legal_question:
-      "Odbija se prigovor okrivljenog HD kao neosnovan te se prekršajni nalog potvrđuje?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Karmen Novak Hrgović kao predsjednice vijeća te Nediljka Bobana i Davorka Kučana kao članova vijeća, uz sudjelovanje sudske savjetnice Valentine Kučić kao zapisničarke, u prekršajnom postupku protiv okrivljenika HD, zbog prekršaja iz članka 54. stavka 1. i 2. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj: 67/2008., 48/2010., 74/2011., 80/2013., 158/2013., 92/2014., 64/2015., 89/2015., 108/2017., 70/2019., 42/2020., 85/2022., 114/2022., 133/23 i 145/24), odlučujući o prigovoru okrivljenika podnesenom protiv prekršajnog naloga Ministarstva unutarnjih poslova Republike Hrvatske, Policijske uprave karlovačke, Postaje prometne policije Karlovac, od 27. listopada 2025., Broj: 211-07/25-1/19152, na sjednici vijeća održanoj 28. siječnja 2026., p r e s u d i o j e I. Odbija se prigovor okrivljenog HD kao neosnovan te se prekršajni nalog potvrđuje. II. Na temelju članka 138. stavka 2. točke 3. c) Prekršajnog zakona („Narodne novine“ broj: 107/07., 39/13., 157/13., 110/15., 70/17., 118/18. i 114/22.) okrivljenik SD obvezan je naknaditi paušalni iznos troškova žalbenog postupka u iznosu 30,00 (trideset) eura, u roku 15 (petnaest) dana od dana primitka ove presude.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10187/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10187"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Karmen Novak Hrgović kao predsjednice vijeća te Nediljka Bobana i Davorka Kučana kao čl",
-    outcome: "defendant_won",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=44ff3c88-d565-493f-ba2d-2ce7fdfcf107",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10189/2023-2",
-    decision_date: "2026-04-15",
-    legal_area: "procedural",
-    legal_question:
-      "Pp-1600/2023-2 na sjednici vijeća održanoj 15. travnja 2026., Prekršajni postupak protiv okrivljenog JC se obustavlja?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sutkinja ovog suda Anđe Ćorluka kao predsjednice vijeća, te Ivanke Mašić i Mirjane Medić kao članica vijeća, uz sudjelovanje sudskog savjetnika Ivice Ožbolta kao zapisničara, rješavajući o žalbi tužitelja Ministarstva unutarnjih poslova, Pu splitsko-dalmatinske, Postaje granične policije Imotski, podnesenog protiv presude Općinskog suda u Makarskoj, od 9. listopada 2023., br. Pp-1600/2023-2 na sjednici vijeća održanoj 15. travnja 2026., r i j e š i o j e Prekršajni postupak protiv okrivljenog JC se obustavlja.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10189/2023-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10189"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sutkinja ovog suda Anđe Ćorluka kao predsjednice vijeća, te Ivanke Mašić i Mirjane Medić kao č",
-    outcome: "partially",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=ff436b15-c696-4e72-ad71-cf45f71aa200",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10200/2024-2",
-    decision_date: "2026-01-28",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je žalba osnovana?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Nediljka Bobana kao predsjednika vijeća, te Karmen Novak-Hrgović i Davorka Kučana, kao članova vijeća, uz sudjelovanje više sudske savjetnice Marcele Soljačić-Prester, kao zapisničarke, u prekršajnom predmetu protiv okrivljenika HO, zbog prekršaja iz članka 53. stavka 4. Zakona o sigurnosti prometa na cestama („Narodne novine“, broj: 67/08, 48/10, 74/11, 80/13, 158/13, 92/14, 64/15, 89/15, 108/17, 70/19 i 42/20), odlučujući o žalbi okrivljenika HO, podnijetoj po branitelju Miji Maćašu, odvjetniku iz Vinkovaca, protiv presude Općinskog suda u Osijeku od 15. listopada 2024., poslovni broj: Pp-3470/2023-10, na sjednici vijeća održanoj 28. siječnja 2026., p r e s u d i o j e: I. Djelomično se prihvaća žalba okrivljenika HO, kao osnovana, te se preinačuje pobijana presuda u odluci o zaštitnoj mjeri na način da se okrivljeniku HO, temeljem članka 58. Prekršajnog zakona („Narodne novine“, broj 107/07, 39/13, 157/13, 110/15, 70/17, 118/18 i 114/22) izriče zaštitna mjera zabrane upravljanja motornim vozilima B kategorije u trajanju od 1 (jedan) mjesec. II. U ostalom pobijanom, a nepreinačenom dijelu odbija se žalba okrivljenika HO i potvrđuje prvostupanjska presuda. III. Temeljem članka 139. stavka 3. Prekršajnog zakona („Narodne novine“, broj 107/07, 39/13, 157/13, 110/15, 70/17, 118/18 i 114/22) okrivljenik HO je obvezan naknaditi trošak žalbenog postupka u paušalnom iznosu od 50,00 (pedeset) eura u roku od 3 (tri) mjeseca od primitka ove presude.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10200/2024-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10200"],
-    related_articles: ["čl. 88. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Nediljka Bobana kao predsjednika vijeća, te Karmen Novak-Hrgović i Davorka Kučana, kao",
-    outcome: "remanded",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=875b89cb-ed86-4ed7-b980-bbbe9252af17",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10200/2025-2",
-    decision_date: "2026-03-31",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je osnovan zahtjev radi istovrsnog prekršaja nasilja u obitelji i to presudama Općinskog suda u Osijeku?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Kristine Gašparac Orlić, predsjednice vijeća te Gordane Korotaj i Roberta Završkog, članova vijeća, uz sudjelovanje više sudske savjetnice Emine Bašić, zapisničarke, u prekršajnom postupku protiv okr. EP, zbog prekršaja iz članka 24. Zakona o zaštiti od nasilja u obitelji („Narodne novine“, broj 70/2017., 126/2019., 84/2021. i 36/2024.), odlučujući o žalbi okrivljenika podnesenoj protiv presude Općinskog suda u Osijeku od 14. listopada 2025., broj: Pp – 3655/2025-5, u sjednici vijeća 31. ožujka 2026., p r e s u d i o j e I. Odbija se kao neosnovana žalba okr. EP i potvrđuje se prvostupanjska presuda. II. Na temelju članka 138. stavak 2. točke 3.c Prekršajnog zakona („Narodne novine“ broj 107/2007., 39/2013., 157/2013., 110/2015., 70/2017., 118/2018. i 114/2022.), okr. EP je dužan naknaditi paušalni iznos troškova žalbenog postupka 30,00 (trideset) eura, u roku 15 dana od primitka ove presude.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10200/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10200"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Kristine Gašparac Orlić, predsjednice vijeća te Gordane Korotaj i Roberta Završkog, čl",
-    outcome: "defendant_won",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=a355e126-0ec7-47d2-8e9b-d3f47f5d0c42",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10206/2024-2",
-    decision_date: "2026-02-04",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je žalba osnovana?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca: Karmen Novak Hrgović kao predsjednice vijeća, te Nediljka Bobana i Davorka Kučana kao članova vijeća, uz sudjelovanje više sudske savjetnice Sofije Kovačević kao zapisničarke, u prekršajnom predmetu protiv okrivljenika ET, kojeg brani Odvjetničko društvo iz Vukovara Cvrković & Partneri d.o.o., zbog prekršaja iz članka 289. stavak 4. Zakona o sigurnosti prometa na cestama (NN br. 67/2008, 48/10,74/11, 80/13, 158/13, 92/14, 64/15, 89/15, 108/17, 70/19, 42/20, 85/22, 114/22, 133/23, 145/24), rješavajući o žalbi okrivljenika ET, podnesenoj protiv presude Općinskog suda u Dubrovniku od 4. listopada 2024., broj: Pp- 344/2024, u sjednici vijeća održanoj dana 4. veljače 2026., p r e s u d i o j e I. Odbija se žalba okrivljenika ET kao neosnovana i potvrđuje se pobijana presuda. II. Temeljem članka 138. stavka 2. točke 3.c) Prekršajnog zakona („Narodne novine“, broj: 107/07., 39/13, 157/13 - nastavno PZ) okrivljenik ET je obvezan naknaditi trošak žalbenog postupka u paušalnom iznosu od 150,00 (stopedeset) eura, u roku od 15 (petnaest) dana od primitka ove presude.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10206/2024-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10206"],
-    related_articles: ["čl. 202. Prekršajni zakon","čl. 195. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca: Karmen Novak Hrgović kao predsjednice vijeća, te Nediljka Bobana i Davorka Kučana kao",
-    outcome: "defendant_won",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=adca7275-47e5-4ed8-9df0-b02c6859a073",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-1021/2026-2",
-    decision_date: "2026-04-09",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je osnovan zahtjev radi otklanjanja opasnosti da okrivljenik upravljajući motornim vozilom ne ugrozi promet primjeni mu se zaštitna mjera zabran?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Renate Popović kao predsjednice vijeća, te Davorka Kučana i Drage Klasnića, kao članova vijeća, uz sudjelovanje više sudske savjetnice Sanje Klaude kao zapisničarke, u prekršajnom predmetu protiv okrivljenika BŠ zbog prekršaja iz članka 282. stavak 4. kažnjivog po članku 282. stavak 9., članka 199. stavak 2. kažnjivog po članku 199. stavak 8. i članka 12. stavka 4. kažnjivog po članku 12. stavak 8. Zakona o sigurnosti prometa na cestama (\"Narodne Novine\" broj: 67/08, 74/11, 80/13, 92/14, 64/15, 108/17, 70/19 i 42/20), odlučujući o žalbi okrivljenika BŠ kojeg brane Žarko Čogelja i Dragica Čogelja, odvjetnici iz Šibenika podnesenoj protiv presude Općinskog suda u Šibeniku od 7. siječnja 2025., broj: Pp-24/2026-7, u sjednici vijeća održanoj 9. travnja 2026., p r e s u d i o j e I Odbija se kao neosnovana žalba okrivljenika BŠ i potvrđuje pobijana presuda. II Temeljem članka 138. stavak 3.c Prekršajnog zakona okrivljenik BŠ dužan je naknaditi troškove žalbenog postupka u paušalnom iznosu od 30,00 EUR (trideset eura) u roku od 60 dana od dostave ove presude.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-1021/2026-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-1021"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Renate Popović kao predsjednice vijeća, te Davorka Kučana i Drage Klasnića, kao članov",
-    outcome: "defendant_won",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=1c00b4c3-b9be-4d22-82e0-3b868d78beb1",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10210/2025-2",
-    decision_date: "2026-03-11",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je nižestupanjska odluka pravilna?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca ovog suda: Nediljka Bobana kao predsjednika vijeća, te Karmen Novak Hrgović i Davorka Kučana, kao članova vijeća, uz sudjelovanje Marcele Soljačić-Prester u svojstvu više sudske savjetnice, kao zapisničarke, u prekršajnom postupku protiv okrivljenice VR, zbog prekršaja iz članka 53. stavka 3. u vezi članka 53. stavka 1. Zakona o sigurnosti prometa na cestama („Narodne novine“, broj: 67/08, 48/10, 74/11, 80/13, 158/13, 92/14, 64/15, 89/15, 108/17, 70/19, 42/20, 85/22 i 114/22), rješavajući o prigovoru koji se prihvaća žalbom okrivljenice VR, podnesenom protiv prekršajnog naloga Policijske uprave splitsko-dalmatinske, Policijske postaje Trogir od 1. listopada 2025., klasa: 211-07/25-1/18651, ur.broj: 511-12-33-25-1, na sjednici vijeća održanoj 11. ožujka 2026. p r e s u d i o j e I. Odbija se prigovor okrivljenice VR, koji se prihvaća žalbom kao neosnovan i potvrđuje se pobijani prekršajni nalog. II. Temeljem članka 139. stavka 3. Prekršajnog zakona („Narodne novine“, broj: 107/07, 39/13, 157/13, 110/15, 70/17, 118/18 i 114/22) okrivljenica VR je obvezana naknaditi trošak žalbenog postupka u paušalnom iznosu od 30,00 (trideset eura) u roku od 30 (trideset) dana od primitka ove presude.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10210/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10210"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca ovog suda: Nediljka Bobana kao predsjednika vijeća, te Karmen Novak Hrgović i Davorka K",
-    outcome: "defendant_won",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=61c3a4cd-7e01-431f-a624-0cfe870ba1d6",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10211/2024-2",
-    decision_date: "2026-03-13",
-    legal_area: "procedural",
-    legal_question:
-      "odbija se kao neosnovana i pobijano rješenje se potvrđuje?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Nediljka Bobana kao predsjednika vijeća, te Karmen Novak Hrgović i Davorka Kučana kao članova vijeća, uz sudjelovanje više sudske savjetnice Sofije Kovačević kao zapisničarke, rješavajući o žalbi okrivljenika GŽ podnesenoj protiv rješenja Policijske uprave bjelovarsko-bilogorske, Policijske postaje Daruvar, od 23. rujna 2024., klasa: 211-07/24-3/416, urbroj: 511-02-07-24-3, na sjednici vijeća održanoj dana 13. ožujka 2026., r i j e š i o j e: Žalba okrivljenika GŽ podnesena protiv rješenja o odbačaju prigovora kao nepravodobnog odbija se kao neosnovana i pobijano rješenje se potvrđuje.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10211/2024-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10211"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Nediljka Bobana kao predsjednika vijeća, te Karmen Novak Hrgović i Davorka Kučana kao ",
-    outcome: "defendant_won",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=871b8e11-e302-4423-a219-ad0e8e8d4900",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10211/2025-2",
-    decision_date: "2026-01-30",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je nižestupanjska odluka pogrešna?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Karmen Novak Hrgović kao predsjednice vijeća te Nediljka Bobana i Davorka Kučana kao članova vijeća, uz sudjelovanje sudske savjetnice Valentine Kučić kao zapisničarke, u prekršajnom postupku protiv okrivljenika TĐ, zbog prekršaja iz članka 199. stavka 2. i 7. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj 67/08, 48/10, 74/11, 80/13, 158/13, 92/14, 64/15, 108/17, 70/19, 42/20, 85/22, 114/22, 133/2023 i 145/2024), odlučujući o prigovoru okrivljenika, podnesenim protiv prekršajnog naloga Ministarstva unutarnjih poslova Republike Hrvatske, Policijske uprave splitsko-dalmatinske, Postaje prometne policije Split, od 08. srpnja 2025., Klasa: 211-07/25-3/10628, Urbroj: 511-12-36-25-1, na sjednici vijeća održanoj 30. prosinca 2025. p r e s u d i o j e I. Djelomičnim prihvaćanjem prigovora okrivljenika TĐ, preinačuje se pobijani prekršajni nalog u odluci o zaštitnoj mjeri tako da se okrivljeniku na temelju članka 58. stavka 1. Prekršajnog zakona („Narodne novine“ broj: 107/07., 39/13., 157/13., 110/15., 70/17., 118/18. i 114/22.) izriče zaštitna mjera zabrane upravljanja motornim vozilom B kategorije u trajanju od 2 (dva) mjeseca u koju se, na temelju članka 130. stavka 9. Prekršajnog zakona, uračunava vrijeme privremenog oduzimanja vozačke dozvole određenog mjerom opreza. II. U preostalom, nepreinačenom dijelu, prekršajni nalog se potvrđuje. III. Na temelju članka 138. stavka 2. točke 3. c) Prekršajnog zakona, okrivljenik TĐ je obvezan naknaditi paušalni iznos troškova žalbenog postupka u iznosu 30,00 (trideset) eura, u roku 15 dana od dana primitka ove presude.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10211/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10211"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Karmen Novak Hrgović kao predsjednice vijeća te Nediljka Bobana i Davorka Kučana kao čl",
-    outcome: "remanded",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=009e83cd-4671-473d-9f1a-dd1e6eb81e37",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10212/2025-2",
-    decision_date: "2026-03-11",
-    legal_area: "procedural",
-    legal_question:
-      "te se prekršajni nalog potvrđuje?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Karmen Novak Hrgović kao predsjednice vijeća te Nediljka Bobana i Davorka Kučana kao članova vijeća, uz sudjelovanje sudske savjetnice Mirne Prišlin kao zapisničarke, u prekršajnom postupku protiv okrivljene AF, zbog prekršaja iz čl. 53. st. 3. Zakona o sigurnosti prometa na cestama (Narodne novine broj 67/2008, 48/2010, 74/2011, 80/2013, 158/2013, 92/2014, 64/2015, 108/2017, 70/2019, 42/2020, 85/2022,114/2022, 133/2023, 145/2024), odlučujući o prigovoru okrivljene AF, podnesenim protiv prekršajnog naloga Ministarstva unutarnjih poslova Republike Hrvatske, Policijske uprave splitsko-dalmatinske, Policijske postaje Trogir od 12. kolovoza 2025., Klasa:211-07/25-3/13019, Urbroj:511-12-33-25-1, na sjednici vijeća održanoj 11. ožujka 2026. p r e s u d i o j e I Odbija se prigovor okrivljene AF kao neosnovan, te se prekršajni nalog potvrđuje. II Temeljem članka 139. stavka 3. Prekršajnog zakona (Narodne novine broj: 107/2007, 39/2013, 157/2013, 110/2015, 70/2017, 118/2018, 114/2022), okrivljena AF je obvezana naknaditi trošak žalbenog postupka u paušalnom iznosu 30,00 (trideset) eura u roku od 30 (trideset) dana od primitka ove presude.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10212/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10212"],
-    related_articles: ["čl. 53. Prekršajni zakon","čl. 237. Prekršajni zakon","čl. 32. Prekršajni zakon","čl. 51. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Karmen Novak Hrgović kao predsjednice vijeća te Nediljka Bobana i Davorka Kučana kao č",
-    outcome: "defendant_won",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=8113cdc9-4312-45f2-8082-a848b520bdaa",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-1022/2024-3",
-    decision_date: "2026-04-01",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je osnovan zahtjev radi pogrešno i nepotpuno utvrđenog činjeničnog stanja. 3. Žalba nije dopuštena. 4. U postupku odlučivanja po prigovoru proti?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od od sudaca Ivanke Mašić kao predsjednice vijeća, te Anđe Ćorluka i Mirjane Medić kao članova vijeća uz sudjelovanje sudskog savjetnika Ivice Ožbolta kao zapisničara, u prekršajnom postupku protiv okrivljenog LŠ, zbog prekršaja iz članka 30. Zakona o prekršajima protiv javnog reda i mira („Narodne novine“, broj: 5/90., 30/90., 47/90., 29/94., 114/22. i 47/23.), odlučujući o žalbi okrivljenog LŠ, podnesenoj protiv presude Općinskog prekršajnog suda u Zagrebu, broj Pp-10675/2023 od 3. siječnja 2024, u sjednici vijeća održanoj 1. travnja 2026., r i j e š i o j e : Odbacuje se kao nedopuštena žalba okrivljenog LŠ.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-1022/2024-3 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-1022"],
-    related_articles: ["čl. 221. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od od sudaca Ivanke Mašić kao predsjednice vijeća, te Anđe Ćorluka i Mirjane Medić kao članova v",
-    outcome: "procedural",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=cdc6a980-c05f-4936-a680-fa30d5344c1f",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-1022/2026-2",
-    decision_date: "2026-02-04",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je žalba osnovana?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca: Karmen Novak Hrgović kao predsjednice vijeća, te Nediljka Bobana i Davorka Kučana kao članova vijeća, uz sudjelovanje više sudske savjetnice Sofije Kovačević kao zapisničarke, u prekršajnom predmetu protiv osuđenika RĐ, zbog prekršaja iz članka 163. stavak 8., članka 163. stavak 9. te članka 286. stavak 13. Zakona o sigurnosti prometa na cestama (NN br.; 67/08 , 48/10, 74/11, 80/13, 158/13, 92/14, 64/15, 89/15, 108/17, 70/19, 42/20, 85/22,114/22,133/23, 245/24), odlučujući o žalbi BĐ, podnesenoj protiv Rješenja o odbijanju zahtjeva za ukidanje klauzule pravomoćnosti presude (s prijedlogom za povrat oduzetog vozila) Općinskog suda u Koprivnici, Stalna služba u Đurđevcu od 14. siječnja 2026. godine, broj: Pp - 2502/2025-8, u sjednici vijeća održanoj dana 4. veljače 2026. godine, r i j e š i o j e Odbija se žalba BĐ kao neosnovana i potvrđuje se pobijano rješenje.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-1022/2026-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-1022"],
-    related_articles: ["čl. 202. Prekršajni zakon","čl. 195. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca: Karmen Novak Hrgović kao predsjednice vijeća, te Nediljka Bobana i Davorka Kučana kao",
-    outcome: "remanded",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=05b7a9eb-5871-4be4-b5c5-db543f6e7b5c",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10224/2025-2",
-    decision_date: "2026-04-09",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je nižestupanjska odluka pogrešna?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sutkinja Ivanke Mašić kao predsjednice vijeća, te Anđe Ćorluka i Mirjane Medić kao članica vijeća uz sudjelovanje sudskog savjetnika Ivice Ožbolta kao zapisničara, u prekršajnom postupku protiv okrivljene PN, zbog prekršaja iz članka 229. stavka 7. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj: 67/08., 48/10., 74/11., 80/13., 158/13., 92/14., 64/15., 89/15., 108/17., 70/19., 42/20., 85/22., 114/22., 133/23. i 145/24.), odlučujući o prigovoru okrivljene PN, podnesenom protiv prekršajnog naloga Ministarstva unutarnjih poslova Republike Hrvatske, Policijske uprave primorsko-goranske, Policijske postaje Opatija od 3. rujna 2025., KLASA: 211-07/25-3/14524, URBROJ: 511-09-31-25-2, u sjednici vijeća održanoj 9. travnja 2026., p r e s u d i o j e I Djelomičnim prihvaćanjem prigovora okrivljene PN, preinačuje se pobijani prekršajni nalog u odluci o novčanoj kazni, tako da je okrivljena PN, za prekršaj činjenično opisan u izreci prekršajnog naloga, pravno označen kao prekršaj iz članka 229. stavka 7. Zakona o sigurnosti prometa na cestama, novčanu kaznu u iznosu od 660,00 eura (šesto šezdeset eura) dužna platiti u 4 (četiri) jednaka mjesečna obroka, s time da prvi obrok dospijeva u roku od 15 dana od primitka ove presude, a svaki daljnji obrok 15. dana u svakom narednom mjesecu, a ako okrivljenica u navedenom roku plati dvije trećine novčane kazne, smatrat će se da je novčana kazna plaćena u cijelosti. II U ostalom se dijelu prigovor okrivljene PN odbija kao neosnovan te se u pobijanom, a nepreinačenom dijelu prekršajni nalog potvrđuje. III Na temelju članka 138. stavka 2. točke 3.c Prekršajnog zakona („Narodne novine“ broj: 107/07., 39/13., 157/13., 110/15., 70/17., 118/18. i 114/22.), okrivljena PN, obvezna je naknaditi paušalni iznos troškova žalbenog postupka u iznosu od 30,00 eura (trideset eura) u roku od 15 dana od dana primitka ove presude.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10224/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10224"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sutkinja Ivanke Mašić kao predsjednice vijeća, te Anđe Ćorluka i Mirjane Medić kao članica vij",
-    outcome: "remanded",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=9bb25185-0a16-4277-ae58-8cc29b741cda",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-1023/2023-2",
-    decision_date: "2026-03-18",
-    legal_area: "procedural",
-    legal_question:
-      "VE, zbog djela prekršaja iz članka 13. Zakona o prekršajima protiv javnog reda i mira („Narodne novine“ broj: 5/90, 30/90, 47/90, 29/94 ), odlučujući o žalbi okr?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Anđe Ćorluka, kao predsjednice vijeća, te Ivanke Mašić i Roberta Završkog kao članova vijeća, uz sudjelovanje sudskog savjetnika Ivice Ožbolta kao zapisničara, u prekršajnom predmetu protiv okr. VE, zbog djela prekršaja iz članka 13. Zakona o prekršajima protiv javnog reda i mira („Narodne novine“ broj: 5/90, 30/90, 47/90, 29/94 ), odlučujući o žalbi okr. VE, podnijetoj po branitelju Ivanu Bišćanu, odvjetniku iz Samobora, protiv presude Općinskog suda u Novom Zagrebu broj: 64. Pp -3769/2022 od 14. prosinca 2022., na sjednici vijeća održanoj dana 18. ožujka 2026. r i j e š i o j e : Prihvaća se žalba okr. VE, prvostupanjska presuda se ukida i predmet vraća prvostupanjskom sudu na ponovno suđenje i odluku.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-1023/2023-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-1023"],
-    related_articles: ["čl. 13. Prekršajni zakon","čl. 26. Prekršajni zakon","čl. 206. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Anđe Ćorluka, kao predsjednice vijeća, te Ivanke Mašić i Roberta Završkog kao članova ",
-    outcome: "remanded",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=839467c5-5541-4df8-9966-aca89ab27987",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10231/2024-2",
-    decision_date: "2026-04-23",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je tužba dopuštena?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sutkinje Renate Popović kao predsjednice vijeća te sudaca Davorka Kučana i Drage Klasnića kao članova vijeća, uz sudjelovanje sudske savjetnice Matee Sačević kao zapisničarke, u prekršajnom postupku protiv okrivljenog KI, zbog prekršaja iz članka 238. stavka 7. i dr. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj 67/08., 48/10., 74/11., 80/13., 92/14., 64/15., 108/17., 70/19., 42/20., 85/22., 114/22.; dalje: ZSPC), odlučujući o žalbi okrivljenika podnesenoj protiv presude Općinskog suda u Novom Zagrebu, poslovni broj: Pp-3354/2023-8 od 24. svibnja 2024., u sjednici vijeća održanoj 23. travnja 2026. r i j e š i o j e Odbacuje se žalba okrivljenog KI kao nedopuštena.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10231/2024-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10231"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sutkinje Renate Popović kao predsjednice vijeća te sudaca Davorka Kučana i Drage Klasnića kao ",
-    outcome: "procedural",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=4d461296-765d-4a1d-8bb8-500ef36f9f8a",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10239/2024-2",
-    decision_date: "2026-04-08",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je nižestupanjska odluka nezakonita?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Tomislava Tomašića kao predsjednika vijeća, te Maria Soljačića i Marjane Rajić, kao članova vijeća, uz sudjelovanje Diane Pavlečić, u svojstvu više sudske savjetnice kao zapisničarke, u prekršajnom postupku protiv okrivljenika FA, zastupanog po branitelju Hrvoju Miličeviću, odvjetniku iz [adresa], zbog prekršaja iz članka 70. stavka 1. podstavka 1. Zakona o trgovini („Narodne novine“ broj: 87/08, 96/08, 116/08, 76/09, 114/11, 68/13, 30/14, 32/19, 98/19, 32/20, 33/23), odlučujući o žalbi okrivljenika, podnijetoj protiv presude Općinskog suda u Vinkovcima od 27. rujna 2024., broj: Pp-685/2023-9, na sjednici vijeća održanoj 30. listopada 2025. i 8. travnja 2026., r i j e š i o j e Prihvaćanjem žalbe okrivljenika FA osnovanom, ukida se pobijana presuda i predmet vraća prvostupanjskom sudu na ponovno suđenje.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10239/2024-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10239"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Tomislava Tomašića kao predsjednika vijeća, te Maria Soljačića i Marjane Rajić, kao čl",
-    outcome: "remanded",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=7000d283-0f5d-4563-bd90-d11e1f0135e4",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-1024/2026-2",
-    decision_date: "2026-04-14",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je osnovan zahtjev radi se o ostvarenju prekršaja iz članka 199. stavka 6. Zakona o sigurnosti prometa na cestama?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sutkinje Gordane Korotaj, predsjednice vijeća, suca Roberta Završkog i sutkinje Anđe Ćorluka, članova vijeća, članova vijeća, uz sudjelovanje sudske savjetnice Nine Lukić, zapisničarke, u prekršajnom postupku protiv okrivljenog DH, zbog prekršaja iz članka 199. stavka 6. Zakona o sigurnosti prometa na cestama („Narodne novine“, broj 67/08., 48/10., 74/11., 80/13., 92/14., 64/15., 108/17., 70/19., 42/20. 5/22., 114/22., 133/23., 145/24.), odlučujući o prigovoru okrivljenika, podnesenom protiv prekršajnog naloga Ministarstva unutarnjih poslova Republike Hrvatske, Policijske uprave zagrebačke, Policijske postaje Zaprešić od 26. siječnja 2026., klasa: 211-07/26-1/1413, urbroj: 511-19-37-26-1, u sjednici vijeća održanoj 14. travnja 2026., r i j e š i o j e I. Na temelju čl. 102. st. 1. Prekršajnog zakona („Narodne novine“, broj 107/07., 39/13., 157/13., 110/15., 70/17., 118/18., 114/22.), Visoki prekršajni sud Republike Hrvatske se proglašava stvarno nenadležnim za odlučivanje o prigovoru okrivljenog DH podnesenim protiv prekršajnog naloga Ministarstva unutarnjih poslova Republike Hrvatske, Policijske uprave zagrebačke, Policijske postaje Zaprešić od 26. siječnja 2026., klasa: 211-07/26-1/1413, urbroj: 511-19-37-26-1. II. Izdavatelj prekršajnog naloga će spis predmeta dostaviti stvarno i mjesno nadležnom općinskom sudu.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-1024/2026-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-1024"],
-    related_articles: ["čl. 102. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sutkinje Gordane Korotaj, predsjednice vijeća, suca Roberta Završkog i sutkinje Anđe Ćorluka, ",
-    outcome: "partially",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=c8e11897-d5f6-4b6f-a8ec-ff4ddc8cd45c",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10243/2024-2",
-    decision_date: "2026-02-19",
-    legal_area: "procedural",
-    legal_question:
-      "Odbija se kao neosnovana žalba okrivljenog ZF i prvostupanjska presuda potvrđuje?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Davorka Kučana predsjednika vijeća, te Renate Popović i Drage Klasnića članova vijeća, uz sudjelovanje više sudske savjetnice specijalistice Nade Horvatović kao zapisničarake u prekršajnom predmetu protiv okrivljenog ZF zbog prekršaja iz članka 199. stavka 2. i 8. i dr. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj: 67/08., 48/10., 74/11., 80/13., 92/14., 64/15., 108/17., 70/19., 42/20., 85/22., 114/22.) odlučujući o žalbi okrivljenog ZF podnijete protiv presude Općinskog prekršajnog suda u Zagrebu, broj Pp-9629/2024 od 23. listopada 2024., u sjednici vijeća održanoj dana 19. veljače 2026. p r e s u d i o j e I. Odbija se kao neosnovana žalba okrivljenog ZF i prvostupanjska presuda potvrđuje. II. Na temelju članka 139. stavka 3. i članka 138. stavka 2. točke 3.c Prekršajnog zakona („Narodne novine“ broj: 107/07., 39/13., 157/13., 110/15., 70/17., 118/18., 114/22.) okrivljeni ZF je obvezan naknaditi troškove žalbenog postupka u paušalnom iznosu od 50,00 EUR (pedeset eura) u roku 30 dana od primitka ove presude.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10243/2024-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10243"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Davorka Kučana predsjednika vijeća, te Renate Popović i Drage Klasnića članova vijeća,",
-    outcome: "defendant_won",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=be2acace-40a9-4c11-8462-451a376de1b1",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10244/2022-2",
-    decision_date: "2026-03-31",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je nižestupanjska odluka pravilna?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sutkinje Kristine Gašparac Orlić, predsjednice vijeća, te sudaca Gordane Korotaj i Roberta Završkog, članova vijeća, uz sudjelovanje sudske savjetnice Nine Lukić, zapisničarke, u prekršajnom postupku protiv okr. ČL, zbog prekršaja iz čl. 54. st. 3. u vezi st. 1. t. 1. Zakona o suzbijanju zlouporabe droga („Narodne novine“, broj 107/01., 87/02., 163/03., 141/04., 40/07., 149/09., 84/11., 80/13. i 39/19.), odlučujući o prigovoru okrivljenika, podnesenom protiv prekršajnog naloga Ministarstva unutarnjih poslova Republike Hrvatske, Policijske uprave zagrebačke, VII. PP Zagreb od 20. rujna 2022., klasa: 211-07/22-1/14386, u sjednici vijeća održanoj 31. ožujka 2026., p r e s u d i o j e I. Odbija se prigovor okr. ČL kao neosnovan i potvrđuje se pobijani prekršajni nalog. II. Na temelju čl. 138. st. 2. t. 3.c) Prekršajnog zakona („Narodne novine“, broj 107/07., 39/13., 157/13., 110/15., 70/17., 118/18. i 114/22.), okr. ČL je obvezan naknaditi paušalni iznos troškova žalbenog postupka 30,00 EUR (trideset eura), u roku osam dana od primitka ove presude.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10244/2022-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10244"],
-    related_articles: ["čl. 54. Prekršajni zakon","čl. 138. Prekršajni zakon","čl. 237. Prekršajni zakon","čl. 238. Prekršajni zakon","čl. 202. Prekršajni zakon","čl. 6. Prekršajni zakon","čl. 32. Prekršajni zakon","čl. 205. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sutkinje Kristine Gašparac Orlić, predsjednice vijeća, te sudaca Gordane Korotaj i Roberta Zav",
-    outcome: "defendant_won",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=d88eb691-ffb9-466a-afab-664fdec1fac8",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10246/2025-2",
-    decision_date: "2026-04-23",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je nižestupanjska odluka pogrešna?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Renate Popović kao predsjednice vijeća, te Davorka Kučana i Drage Klasnića kao članova vijeća, uz sudjelovanje više sudske savjetnice Sanje Klaude kao zapisničarke, u prekršajnom predmetu protiv okrivljenika TI zbog prekršaja iz članka 229. stavak 3. kažnjivog po članku 229. stavak 7. Zakona o sigurnosti prometa na cestama („Narodne novine\" broj: 67/08., 48/10., 74/11., 80/13., 158/13., 92/14., 64/15., 108/17., 70/19., 42/20., 85/22. i 114/22.), odlučujući o žalbi tužitelja Policijske uprave zagrebačke, I Postaje prometne policije Zagreb podnesenoj protiv presude Općinskog prekršajnog suda u Zagrebu od 8. rujna 2025. godine broj: Pp-8806/2025-5, u sjednici vijeća održanoj dana 23. travnja 2026., p r e s u d i o j e I Djelomično se prihvaća kao osnovana žalba tužitelja Policijske uprave zagrebačke, I Postaje prometne policije Zagreb preinačuje se pobijana presuda u odnosu na odluku o kazni tako da se okrivljeniku izrečena novčana kazna povisuje na iznos novčane kazne od 400,00 eura (četiristo eura) koju je okrivljenik dužan platiti u roku od 30 dana od dostave ove presude. II Ukoliko okrivljenik TI u roku od 30 dana od dostave ove presude plati 2/3 izrečene novčane kazne temeljem članka 152. stavak 3. Prekršajnog zakona novčana kazna smatrat će se u cijelosti plaćenom. III U ostalom dijelu žalba tužitelja Policijske uprave zagrebačke, I Postaje prometne policije Zagreb odbija se kao neosnovana te se u pobijanom a nepreinačenom dijelu pobijana presuda potvrđuje.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10246/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10246"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Renate Popović kao predsjednice vijeća, te Davorka Kučana i Drage Klasnića kao članova",
-    outcome: "remanded",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=5e477ded-34f3-44dd-b486-ba2bfaba31a4",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10258/2025-2",
-    decision_date: "2026-02-03",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je osnovan zahtjev radi procjene rizika (NN 112/14 i 129/19) i koja nije bila dostupna radnicima okrivljenih na mjestima rada radnika pa da bi o?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Katice Lučić kao predsjednice vijeća te Ivane Bosnić-Kovačić i Mladena Genca kao članova vijeća, uz sudjelovanje više sudske savjetnice Ivane Vorel Mikša kao zapisničarke, u prekršajnom postupku protiv okrivljene pravne osobe Lollipop d.o.o. i okrivljene odgovorne osobe IM, zbog prekršaja iz članka 98. stavka 1. točke 1. i stavka 2. Zakona o zaštiti na radu („Narodne novine“ broj: 71/14., 118/14., 154/14., 94/18. i 96/18.), rješavajući o žalbi okrivljene pravne osobe Lollipop d.o.o. i okrivljene odgovorne osobe IM, podnesenoj protiv presude Općinskog suda u Koprivnici, broj: Pp-1148/2025-7 od 21. listopada 2025., na sjednici vijeća održanoj 3. veljače 2026., p r e s u d i o j e: I. U povodu žalbe okrivljene pravne osobe Lollipop d.o.o. i okrivljene odgovorne osobe IM, a po službenoj dužnosti, preinačuje se pobijana prvostupanjska presuda te se izriče: Na temelju članka 182. točke 1. Prekršajnog zakona („Narodne novine“ broj: 107/07., 39/13., 157/13., 110/15., 70/17., 118/18. i 114/22.), okrivljena pravna osoba Lollipop d.o.o. i okrivljena odgovorna osoba IM OSLOBAĐAJU SE OD OPTUŽBE da bi: 27. ožujka 2025. u 8,15 sati u Goli, Augusta Šenoe 6/a, bilo utvrđeno da okrivljene u poslovnim prostorijama TD ''Lollipop d.o.o. za proizvodnju, trgovinu i usluge'' ne bi imale izrađenu procjenu rizika u pisanom ili električnom obliku za poslove šivanja i peglanja odjevnih predmeta, sukladno Pravilniku o izradi procjene rizika (NN 112/14 i 129/19) i koja nije bila dostupna radnicima okrivljenih na mjestima rada radnika pa da bi okrivljene počinile prekršaj iz članka 18. stavka 2. Zakona o zaštiti na radu, kažnjivo za prvookrivljenu po članku 98. stavku 1. točki 1., a za drugookrivljenu po članku 98. stavku 2. u svezi stavka 1. točke 1. istog Zakona. II. Uslijed odluke pod točkom I., žalba okrivljenika je bespredmetna. III. Na temelju odredbe članka 140. stavka 2. Prekršajnog zakona, u svezi s člankom 138. stavkom 2. točkom 2. do 5. i točkom 7. citiranog Zakona, troškovi prekršajnog postupka padaju na teret proračunskih sredstava suda.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10258/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10258"],
-    related_articles: ["čl. 18. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Katice Lučić kao predsjednice vijeća te Ivane Bosnić-Kovačić i Mladena Genca kao člano",
-    outcome: "remanded",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=317c52bd-5938-49b1-997e-0d2c208189de",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10261/2023-2",
-    decision_date: "2026-04-07",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je osnovan zahtjev radi li se uopće o javnom mjestu dostupnom većem broju građana odnosno da li se radi o neograničeno otvorenom javnom mjestu i?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sutkinje Gordane Korotaj, predsjednice vijeća, sutkinje Nade Horvatović i suca Roberta Završkog, članova vijeća, uz sudjelovanje sudske savjetnice Nine Lukić, zapisničarke, u prekršajnom postupku protiv okrivljenog NO, zbog prekršaja iz čl. 13. Zakona o prekršajima protiv javnog reda i mira („Narodne novine“, broj 5/90., 30/90., 47/90., 29/94., 114/22., 47/23.), odlučujući o žalbi i nadopuni žalbe tužitelja Ministarstva unutarnjih poslova Republike Hrvatske, Policijske uprave splitsko-dalmatinske, Policijske postaje Sinj, podnesenoj protiv presude Općinskog prekršajnog suda u Splitu, Stalne službe u Sinju od 6. studenog 2023., poslovni broj: 3. Pp 13599/2023-2, u sjednici vijeća održanoj 7. travnja 2026., r i j e š i o j e Prihvaća se žalba tužitelja Ministarstva unutarnjih poslova Republike Hrvatske, Policijske uprave splitsko-dalmatinske, Policijske postaje Sinj, ukida se pobijana prvostupanjska presuda te se predmet dostavlja prvostupanjskom sudu na ponovno suđenje.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10261/2023-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10261"],
-    related_articles: ["čl. 13. Prekršajni zakon","čl. 139. Prekršajni zakon","čl. 206. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sutkinje Gordane Korotaj, predsjednice vijeća, sutkinje Nade Horvatović i suca Roberta Završko",
-    outcome: "remanded",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=3378ccd3-3242-4b09-b42e-53728e5babf8",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10263/2025-2",
-    decision_date: "2026-02-11",
-    legal_area: "procedural",
-    legal_question:
-      "Područni ured Varaždin, Ispostava u Koprivnici i potvrđuje pobijana presuda?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca ovog suda: Tomislava Tomašića kao predsjednika vijeća, te Marija Soljačića i Marijana Rajić kao članova vijeća, uz sudjelovanje Diane Pavlečić u svojstvu više sudske savjetnice specijalistice, kao zapisničara, u prekršajnom postupku protiv I-okr. pravne osobe DHM d.o.o. i II-okr. odgovorne osobe RA, zbog prekršaja iz članka 172. stavka 2. točke 5. i stavka 3. Zakona o mirovinskom osiguranju ( Narodne novine br.: 157/2013, 151/2014, 33/2015, 93/2015, 120/2016, 18/2018, 62/2018, 115/2018, 102/2019, 84/2021, 119/22), odlučujući o žalbi tužitelja Državnog inspektorata, Područni ured Varaždin, Ispostava u Koprivnici, protiv presude Općinskog suda u Varaždinu, od dana 30. rujna 2025., poslovni broj: Pp-1632/2025-7, u sjednici vijeća održanoj dana 11. veljače 2026., p r e s u d i o j e Odbija se kao neosnovana žalba tužitelja Državnog inspektorata, Područni ured Varaždin, Ispostava u Koprivnici i potvrđuje pobijana presuda.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10263/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10263"],
-    related_articles: ["čl. 38. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca ovog suda: Tomislava Tomašića kao predsjednika vijeća, te Marija Soljačića i Marijana R",
-    outcome: "defendant_won",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=4b01c64b-eb92-42cd-a01e-50e3e375ddc5",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-1027/2024-2",
-    decision_date: "2026-02-05",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je osnovan zahtjev radi o beznačajnom djelu?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Maria Soljačića kao predsjednika vijeća, te Tomislava Tomašića i Marjane Rajić kao članova vijeća, uz sudjelovanje Diane Pavlečić, u svojstvu više sudske savjetnice – specijalistice kao zapisničarke, u prekršajnom postupku protiv I-okr. pravne osobe RENTIFY FLEET MANAGEMENT d.o.o. te II-okr. odgovorne osobe HS, zastupane po branitelju Ivanu Račkom, odvjetniku iz odvjetničkog društva Rački i kolege iz Zagreba, zbog prekršaja iz članka 296. stavka 1. točke 16. i stavka 2. Zakona o autorskom pravu i srodnim pravima (NN 111/21), odlučujući o žalbi II-okrivljenika, podnijetoj protiv presude Općinskog prekršajnog suda u Zagrebu od 21. prosinca 2023., broj: 7. Pp-15134/2022, na sjednici vijeća održanoj 5. veljače 2026., p r e s u d i o j e : I Odbija se kao neosnovana žalba II-okr. odgovorne osobe HS, te se potvrđuje prvostupanjska presuda. II Na temelju odredbe članka 138. stavka 2. točke 3. podtočke c) Prekršajnog zakona (NN 107/07,39/13,157/13,110/15,70/17,118/18,114/22), II-okr. je obvezan naknaditi paušalni iznos troškova ovog drugostupanjskog prekršajnog postupka u iznosu od 50,00 eura (pedeset eura), u roku od 1 (jednog) mjeseca od dana primitka ove presude.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-1027/2024-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-1027"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Maria Soljačića kao predsjednika vijeća, te Tomislava Tomašića i Marjane Rajić kao čla",
-    outcome: "defendant_won",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=24bf2be6-a37e-437d-82b4-1e453db2a01f",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-1028/2024-2",
-    decision_date: "2026-04-08",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je osnovan zahtjev radi razloga navedenih u žalbi?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Marija Soljačića, kao predsjednika vijeća, te Tomislava Tomašića i Marjane Rajić, kao članova vijeća, uz sudjelovanje višeg sudskog savjetnika-specijalista Željka Kudrića, kao zapisničara, u prekršajnom postupku protiv I okrivljene pravne osobe Kanela j.d.o.o. i II. okrivljene odgovorne osobe ĐČ, zbog prekršaja iz odredbe čl. 296. st. 1. toč. 16. i st. 3. Zakona o autorskom pravu i srodnim pravima (NN 111/21) povodom žalbe okrivljene pravne osobe Kanela j.d.o.o. i II. okrivljene odgovorne osobe ĐČ protiv presude Općinskog prekršajnog suda u Zagrebu od 13. prosinca 2023., broj: 36. Pp-16968/2023 na sjednici vijeća održanoj dana 8. travnja 2026. godine, r i j e š i o j e: Prihvaća se kao osnovana žalba I okrivljene pravne osobe Kanela j.d.o.o. i II. okrivljene odgovorne osobe ĐČ ukida se prvostupanjska presuda i predmet vraća prvostupanjskom sudu na ponovno suđenje",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-1028/2024-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-1028"],
-    related_articles: ["čl. 296. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Marija Soljačića, kao predsjednika vijeća, te Tomislava Tomašića i Marjane Rajić, kao ",
-    outcome: "remanded",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=a717ddd1-2671-4b92-bd50-959dc00ff85d",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10298/2025-2",
-    decision_date: "2026-04-16",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je osnovan zahtjev radi otklanjanja opasnosti da upravljajući motornim vozilom ne ugrozi promet primjeni mu se zaštitna mjera zabrane upravljanj?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Renate Popović kao predsjednice vijeća te Davorka Kučana i Drage Klasnića kao članova vijeća uz sudjelovanje više sudske savjetnice Sanje Klaude kao zapisničarke, u prekršajnom predmetu protiv okrivljenika SC zbog prekršaja iz članka 199. stavak 2. kažnjivog po članku 199. stavak 8. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj: 67/08., 48/10., 74/11., 80/13., 158/13., 92/14., 64/15., 108/17., 70/19., 42/20., 85/22., 114/22. i 133/23.), odlučujući o žalbi okrivljenika SC kojeg brani Bruno Čer, odvjetnik iz Koprivnice podnesenoj protiv presude Općinskog suda u Osijeku od 25. rujna 2025. broj: Pp-70/2025-8, u sjednici vijeća održanoj 16. travnja 2026. p r e s u d i o j e I. Odbija se kao neosnovana žalba okrivljenika SC i potvrđuje pobijana presuda. II. Temeljem članka 138. stavak 3c. Prekršajnog zakona okrivljenik UC dužan je naknaditi trošak žalbenog postupka u paupalnom iznosu od 30,00 (trideset) eura u roku od 30 dana od dostave ove presude. - -",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10298/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10298"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Renate Popović kao predsjednice vijeća te Davorka Kučana i Drage Klasnića kao članova ",
-    outcome: "defendant_won",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=e8be7659-ab3a-4b61-9ad9-57459089c2e3",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10317/2025-2",
-    decision_date: "2026-04-17",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je osnovan zahtjev radi se o personalnom dokazu čije je izvođenje strogo formalno regulirano zakonskim odredbama i čija je povreda propisana kao?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Sanje Gospočić kao predsjednice vijeća, te Mladena Genca i Tomislava Tomašića, kao članova vijeća, uz sudjelovanje više sudske savjetnice - specijalistice Dubravke Besednik Horak, kao zapisničarke, u prekršajnom postupku protiv okrivljenika GEGOLAJ j.d.o.o., kao pravne osobe i PD, kao odgovorne osobe, zbog prekršaja iz članka 192. stavka 5. u svezi stavka 1. točke 1. Općeg poreznog zakona (Narodne novine broj: 115/16., 106/18., 121/19., 32/20., 42/20., 114/22. i 152/24.), odlučujući o prigovoru okrivljenika GEGOLAJ j.d.o.o., kao pravne osobe i PD, kao odgovorne osobe, podnesenom protiv prekršajnog naloga Ministarstva financija Republike Hrvatske, Porezne uprave, Područnog ureda Zadar od 29. rujna 2025., Klasa: UP/I-471-02/25-01/274, Ur. broj: 513-07-13-25-01 na sjednici vijeća održanoj 17. travnja 2026., r i j e š i o j e I. U povodu prigovora okrivljenika GEGOLAJ j.d.o.o., kao pravne osobe i PD, kao odgovorne osobe a po službenoj dužnosti, pobijani prekršajni nalog se ukida. II. Uslijed odluke pod točkom I izreke ovog rješenja, prigovor okrivljenika GEGOLAJ j.d.o.o., kao pravne osobe i PD, kao odgovorne osobe je bespredmetan.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10317/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10317"],
-    related_articles: ["čl. 166. Prekršajni zakon","čl. 167. Prekršajni zakon","čl. 168. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Sanje Gospočić kao predsjednice vijeća, te Mladena Genca i Tomislava Tomašića, kao čla",
-    outcome: "remanded",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=fc92b6c8-48ef-4db4-bde4-5707807c193b",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10318/2024-2",
-    decision_date: "2026-04-15",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je osnovan zahtjev radi se o događaju na Ultra festivalu 2022?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Tomislava Tomašića, predsjednika vijeća te Maria Soljačića i Marjane Rajić, članova vijeća, uz sudjelovanje više sudske savjetnice - specijalistice Mirjane Laljek, kao zapisničarke, u prekršajnom postupku protiv okrivljene pravne osobe MRAV GASTRO d.o.o. i okrivljene odgovorne osobe ŠJ, zbog prekršaja iz članka 229. stavka 1. točke 3. i stavka 2. Zakona o radu (»Narodne novine« broj 93/14., 127/17., 98/19., 151/22. i 64/23.), članka 172. stavka 2. točke 5. i stavka 3. Zakona o mirovinskom osiguranju (\"Narodne novine\" broj: 157/13., 151/14., 33/15., 93/15., 120/16., 18/18., 62/18., 115/18., 102/19., 84/21. i 119/22.) i članka 150. stavka 1. podstavka 2. i stavka 2. Zakonu o obveznom zdravstvenom osiguranju (»Narodne novine«, br. 80/13., 137/13., 98/19. i 33/23.), odlučujući o žalbama okrivljene pravne osobe MRAV GASTRO d.o.o. i okrivljene odgovorne osobe ŠJ i tužitelja Državnog inspektorata, Područnog ureda Split, Službe za nadzor zapošljavanja i upućivanja, podnijetim protiv presude Općinskog prekršajnog suda u Splitu, Stalne službe u Omišu, poslovni broj: Pp-10411/2022 od 10. rujna 2024., u sjednici vijeća održanoj 15. travnja 2026. r i j e š i o j e I Prihvaća se žalba okrivljene pravne osobe MRAV GASTRO d.o.o. i okrivljene odgovorne osobe ŠJ, kao osnovana, ukida se pobijana presuda i predmet vraća prvostupanjskom sudu na ponovno suđenje. II Žalba tužitelja je za sada bespredmetna.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10318/2024-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10318"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Tomislava Tomašića, predsjednika vijeća te Maria Soljačića i Marjane Rajić, članova vi",
-    outcome: "remanded",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=878eb7ff-36df-4260-9055-86e3983ba87a",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-1032/2023-2",
-    decision_date: "2026-03-12",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je nižestupanjska odluka pogrešna?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca: Nediljka Bobana kao predsjednika vijeća, te Karmen Novak Hrgović i Davorka Kučana kao članova vijeća, uz sudjelovanje više sudske savjetnice Sofije Kovačević kao zapisničarke, u prekršajnom predmetu protiv okrivljenika ŠĐ, kojeg brani Krešimir Loboja, odvjetnik iz Zagreba, zbog prekršaja iz članka 289. stavka 4. Zakona o sigurnosti prometa na cestama (N.N. broj 67/08, 48/10, 74/11, 80/13, 158/13, 92/14, 64/15, 108/17, 70/19, 42/20), rješavajući o žalbi okrivljenika ŠĐ, podnesenoj protiv presude Općinskog suda u Sesvetama od 19. prosinca 2022., broj: 22.Pp-1130/2022, na sjednici vijeća održanoj dana 12. ožujka 2026., p r e s u d i o j e: I. Povodom žalbe okrivljenika ŠĐ, a po službenoj dužnosti preinačuje se pobijana presuda u pravnoj oznaci i odluci o novčanoj kazni, te se okrivljeniku za prekršaj činjenično opisan u izreci presude iz članka 289. stavka 4. Zakona o sigurnosti prometa na cestama (Narodne novine broj: 67/2008, 48/2010, 74/2011, 80/2013, 158/2013, 92/2014, 64/2015, 89/2015, 108/2017, 70/2019, 42/2020 i 114/2022), izriče novčana kazna u iznosu od 1.320,00 (tisućutristodvadeset) eura, koju je okrivljenik dužan platiti u roku od 90 dana od primitka ove pravomoćne presude i ako u navedenom roku plati dvije trećine izrečene novčane kazne, ona će se smatrati plaćenom u cijelosti. II. Odbija se kao neosnovana žalba okrivljenika ŠĐ i pobijana presuda se u preostalom dijelu potvrđuje. III. Temeljem članka 139. stavka 3. Prekršajnog zakona (Narodne novine broj: 107/2007, 39/2013, 157/2013, 110/2015, 70/2017, 118/2018, 114/2022), okrivljenik ŠĐ je obvezan naknaditi trošak žalbenog postupka u paušalnom iznosu od 30 (trideset) eura u roku od 30 (trideset) dana od primitka ove presude.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-1032/2023-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-1032"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca: Nediljka Bobana kao predsjednika vijeća, te Karmen Novak Hrgović i Davorka Kučana kao",
-    outcome: "remanded",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=6d68fb94-485f-435a-a129-51faf097961e",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10329/2023-2",
-    decision_date: "2026-03-19",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je osnovan zahtjev radi analize. Ovakvu njegovu obranu sud nije prihvatio jer je iz provedenog dokaznog postupka?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Davorka Kučana, kao predsjednika vijeća, te Renate Popović i Drage Klasnića, kao članova vijeća, uz sudjelovanje više sudske savjetnice Sanje Klauda, kao zapisničara, u prekršajnom postupku protiv okrivljenika UĐ, kojeg brani Nada Magdić, odvjetnica u Ogulinu, zbog prekršaja iz članka 199. stavak 2. i 8. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj 67/08, 48/10, 74/11, 80/13, 92/14, 64/15, 108/17, 70/19, 42/20), rješavajući o žalbi okrivljenika UĐ podnesenoj protiv presude Općinskog suda u Karlovcu, broj: Pp-1995/2022-6 od 20. rujna 2023., na sjednici vijeća održanoj dana 19. ožujka 2026., p r e s u d i o j e I Odbija se kao neosnovana žalba okrivljenika UĐ i potvrđuje pobijana presuda. II. Temeljem članka 139. stavka 6. Prekršajnog zakona („Narodne novine“ broj 107/07, 39/13, 157/13, 110/15, 70/17, 118/18 i 114/22) okrivljenik UĐ se oslobađa plaćanja troškova žalbenog postupka.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10329/2023-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10329"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Davorka Kučana, kao predsjednika vijeća, te Renate Popović i Drage Klasnića, kao članov",
-    outcome: "defendant_won",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=5d5b4709-5703-429a-95fe-7e558c2a8235",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10334/2023-2",
-    decision_date: "2026-02-05",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je žalba osnovana?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Renate Popović, predsjednice, te Davorka Kučana i Drage Klasnića, članova vijeća, uz sudjelovanje Nade Horvatović u svojstvu više sudske savjetnice specijalistice, kao zapisničarke, u prekršajnom postupku protiv okrivljenog ŠE, zbog prekršaja iz članka 199. stavka 2. i 8. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj: 67/08., 48/10., 74/11., 80/13., 158/13., 92/14., 64/15., 108/17., 70/19., 42/20., 85/22. i 114/22.), rješavajući o žalbi okrivljenika, protiv presude Općinskog suda u Čakovcu od 27. listopada 2023., poslovni broj: 34. Pp-1479/2023, u sjednici vijeća održanoj 5. veljače 2026. p r e s u d i o j e I Odbija se žalba okr. ŠE kao neosnovana i potvrđuje pobijana prvostupanjska presuda. II Na temelju članka 139. stavka 3. u vezi članka 138. stavka 2. točke 3.c. Prekršajnog zakona okr. ŠE dužan je platiti troškove žalbenog postupka u paušalnom iznosu 50,00 EUR (pedeset eura) u roku trideset dana od primitka ove presude.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10334/2023-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10334"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Renate Popović, predsjednice, te Davorka Kučana i Drage Klasnića, članova vijeća, uz su",
-    outcome: "defendant_won",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=80d1ebab-df64-4c81-8b47-3252deb50b36",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10344/2022-2",
-    decision_date: "2026-02-04",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je osnovan zahtjev radi o žalbi) iz čijeg sadržaja proizlazi da se žali zbog odluke o prekršajnopravnoj sankciji?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sutkinja Kristine Gašparac Orlić, predsjednice vijeća te Gordane Korotaj i Roberta Završkog, članova vijeća, uz sudjelovanje više sudske savjetnice Emine Bašić, zapisničarke, u prekršajnom postupku protiv okrivljene pravne osobe Transavia France, zbog prekršaja iz članka 249. stavka 1. Zakona o strancima („Narodne novine“, broj 130/2011., 74/2013., 69/2017. i 46/2018.), odlučujući o prigovoru tužitelja (pogrešno se navodi – žalba) Ministarstva unutarnjih poslova Republike Hrvatske, Policijske uprave splitsko-dalmatinske, Postaje aerodromske policije Resnik, podnesenim protiv prekršajnog naloga Općinskog prekršajnog suda u Splitu, Stalne službe u Kaštel Sućurcu od 26. kolovoza 2022., broj: 28. Pp - 6818/2022, u sjednici vijeća održanoj 4. veljače 2026., r i j e š i o j e: Odbacuje se prigovor tužitelja Ministarstva unutarnjih poslova Republike Hrvatske, Policijske uprave splitsko-dalmatinske, Postaje aerodromske policije Resnik, kao nedopušten.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10344/2022-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10344"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sutkinja Kristine Gašparac Orlić, predsjednice vijeća te Gordane Korotaj i Roberta Završkog, ",
-    outcome: "procedural",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=559e2df9-4555-494e-a658-4e484774dcf7",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10349/2024-2",
-    decision_date: "2026-04-02",
-    legal_area: "procedural",
-    legal_question:
-      "Odbija se kao neosnovana žalba okrivljenika MA i pobijana presuda se potvrđuje?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca: Nediljka Bobana kao predsjednika vijeća, te Karmen Novak Hrgović i Davorka Kučana kao članova vijeća, uz sudjelovanje više sudske savjetnice Sofije Kovačević kao zapisničarke, u prekršajnom predmetu protiv okrivljenika MA, kojeg brani Dorotea Mirt, odvjetnica iz Zagreba, zbog prekršaja iz članka 53. stavka 3. Zakona o sigurnosti prometa na cestama (N.N. broj 67/08, 48/10, 74/11, 80/13, 158/13, 92/14, 64/15, 89/15, 108/17, 70/19, 114/22), rješavajući o žalbi okrivljenika MA podnesenoj protiv presude Općinskog suda u Bjelovaru, Stalna služba u Daruvaru, od 7. studenog 2024., broj: Pp-711/2024-5, na sjednici vijeća održanoj dana 2. travnja 2026., p r e s u d i o j e: I. Odbija se kao neosnovana žalba okrivljenika MA i pobijana presuda se potvrđuje. II. Temeljem odredbe članka 138. stavka 2. točke 3. c) Prekršajnog zakona („Narodne novine“ broj: 107/07, 39/13 i 157/13), okrivljenik MA obvezan je naknaditi paušalni iznos troška drugostupanjskog prekršajnog postupka, u iznosu od 30 (trideset) eura u roku od 30 (trideset) dana od dana primitka ove presude.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10349/2024-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10349"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca: Nediljka Bobana kao predsjednika vijeća, te Karmen Novak Hrgović i Davorka Kučana kao",
-    outcome: "defendant_won",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=21e1cbc4-54b6-4a26-b700-9be5256d0fcc",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10358/2022-2",
-    decision_date: "2026-02-19",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je nižestupanjska odluka nezakonita?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Davorka Kučana predsjednika vijeća, te Renate Popović i Drage Klasnića članova vijeća, uz sudjelovanje više sudske savjetnice specijalistice Nade Horvatović kao zapisničarke u prekršajnom predmetu protiv okrivljenog TĐ zbog prekršaja iz članka 53. stavka 1. i 4. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj: 67/08., 48/10., 74/11., 80/13., 92/14., 64/15., 108/17., 70/19., 42/20.) rješavajući o žalbi tužitelja Ministarstva unutarnjih poslova, Policijske uprave osječko-baranjske, Policijske postaje Našice podnijete protiv presude Općinskog suda u Đakovu, Stalna služba u Našicama od 14. rujna 2022., broj: Pp-515/2022, u sjednici vijeća održanoj dana 19. veljače 2026. r i j e š i o j e Prihvaća se žalba tužitelja Ministarstva unutarnjih poslova, Policijske uprave osječko-baranjske, Policijske postaje Našice, ukida se prvostupanjska presuda i predmet vraća prvostupanjskom sudu na ponovno suđenje.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10358/2022-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10358"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Davorka Kučana predsjednika vijeća, te Renate Popović i Drage Klasnića članova vijeća,",
-    outcome: "remanded",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=a7b798a3-8a19-4a55-8249-fb6a46a20088",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-1036/2024-2",
-    decision_date: "2026-03-18",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je žalba osnovana?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca: Karmen Novak Hrgović kao predsjednice vijeća, te Nediljka Bobana i Davorka Kučana članova vijeća, uz sudjelovanje više sudske savjetnice Sofije Kovačević kao zapisničarke, u prekršajnom predmetu protiv okrivljenika MU, zbog prekršaja iz članka 238. stavak 7., članka 12. stavak 8. Zakona o sigurnosti prometa na cestama (NN br. 67/2008, , 48/10 , 74/11, 80/13, 158/13, 92/14, 64/15, 89/15, 108/17, 70/19, 42/20, 85/22, 114/22, 133/23, 145/24) te članka 65. stavak 1. Zakona o obveznim osiguranjima u prometu (NN br. 151/05, 36/09, 75/09, 76/13, 152/14, 155/23), rješavajući o žalbi tužitelja Policijske uprave zagrebačke, I Policijske postaje Zagreb, podnesenoj protiv presude Općinskog prekršajnog suda u Zagrebu od 10. siječnja 2024. godine, broj: 81. Pp - 1781/23, u sjednici vijeća održanoj dana 18. ožujka 2026. godine, p r e s u d i o j e Odbija se žalba tužitelja Policijske uprave zagrebačke, I Policijske postaje Zagreb kao neosnovana i potvrđuje se pobijana presuda.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-1036/2024-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-1036"],
-    related_articles: ["čl. 202. Prekršajni zakon","čl. 195. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca: Karmen Novak Hrgović kao predsjednice vijeća, te Nediljka Bobana i Davorka Kučana čla",
-    outcome: "defendant_won",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=f69ea358-aba3-45b1-b815-318771346813",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10361/2025-2",
-    decision_date: "2026-02-19",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je žalba osnovana?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Renate Popović, predsjednice, te Davorka Kučana i Drage Klasnića, članova vijeća, uz sudjelovanje Nade Horvatović u svojstvu više sudske savjetnice specijalistice kao zapisničarke, u prekršajnom postupku protiv okrivljenog PS zbog prekršaja iz članka 289. stavka 4. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj: 67/08., 48/10., 74/11., 80/13., 158/13., 92/14., 64/15., 108/17., 70/19., 42/20., 85/22., 114/22., 133/23.) rješavajući o žalbi tužitelja Ministarstva unutarnjih poslova Republike Hrvatske, Policijske uprave dubrovačko-neretvanske, Postaje granične policije Metković, protiv presude Općinskog suda u Metkoviću poslovni broj: Pp-460/2024 od 9. rujna 2025., u sjednici vijeća održanoj 19. veljače 2026. p r e s u d i o j e Odbija se žalba tužitelja Ministarstva unutarnjih poslova Republike Hrvatske, Policijske uprave dubrovačko-neretvanske, Postaje granične policije Metković kao neosnovana i prvostupanjska presuda potvrđuje.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10361/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10361"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Renate Popović, predsjednice, te Davorka Kučana i Drage Klasnića, članova vijeća, uz su",
-    outcome: "defendant_won",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=9e99aff7-d0bd-4a80-a242-33f1f0941d0a",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10362/2025-2",
-    decision_date: "2026-04-09",
-    legal_area: "procedural",
-    legal_question:
-      "Odbija se kao neosnovana žalba okrivljenika PC i potvrđuje pobijana presuda?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Renate Popović kao predsjednika vijeća, te Davorka Kučana i Drage Klasnića kao članova vijeća, uz sudjelovanje više sudske savjetnice Sanje Klauda kao zapisničarke, u prekršajnom predmetu protiv okrivljenika PC, zbog prekršaja iz čl. 229. st. 5. i čl. 282. st. 9. Zakona o sigurnosti prometa na cestama (NN 67/08, 48/10, 74/11, 80/13, 158/13, 92/14, 64/15, 108/17, 70/19, 42/20, 85/22,i 114/22, 133/23 i 145/24), odlučujući o žalbi okrivljenika ĆC podnesenoj protiv presude Općinskog suda u Metkoviću od 16. listopada 2025., broj: Pp-466/2024, u sjednici vijeća održanoj 9. travnja 2026. p r e s u d i o j e: I. Odbija se kao neosnovana žalba okrivljenika PC i potvrđuje pobijana presuda. II. Temeljem čl. 138. st. 3.c Prekršajnog zakona okrivljenik ĆC je dužan naknaditi troškove paušala žalbenog postupka u iznosu od 30,00 (trideset) eura u roku od 40 dana od dostave ove presude.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10362/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10362"],
-    related_articles: ["čl. 229. Prekršajni zakon","čl. 282. Prekršajni zakon","čl. 138. Prekršajni zakon","čl. 29. Prekršajni zakon","čl. 202. Prekršajni zakon","čl. 195. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Renate Popović kao predsjednika vijeća, te Davorka Kučana i Drage Klasnića kao članova",
-    outcome: "defendant_won",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=bf350259-adf0-401a-a243-fd75bf1ff0b9",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10376/2022-2",
-    decision_date: "2026-01-28",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je nižestupanjska odluka pogrešna?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Nediljka Bobana kao predsjednika vijeća, te Karmen Novak Hrgović i Davorka Kučana kao članova vijeća, uz sudjelovanje više sudske savjetnice Sofije Kovačević kao zapisničarke, u prekršajnom postupku protiv okrivljenika PH, kojeg brani Predrag Laban, odvjetnik iz Bjelovara, zbog prekršaja iz članka 199. stavka 7. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj: 67/08, 74/11, 80/13, 158/13, 92/14, 64/15, 108/18, 70/19, 42/20, 85/22), odlučujući o žalbama tužitelja, MUP-a, Policijske uprave bjelovarsko-bilogorske, Policijske postaje Bjelovar, i okrivljenika PH podnesenim protiv presude Općinskog prekršajnog suda u Zagrebu, broj: 48.Pp-9821/2022 od 13. rujna 2022., na sjednici vijeća održanoj dana 28. siječnja 2026., p r e s u d i o j e: I. Povodom žalbi Policijske uprave bjelovarsko-bilogorske, Policijske postaje Bjelovar i okrivljenika PH, a po službenoj dužnosti preinačuje se pobijana presuda u pravnoj oznaci i odluci o novčanoj kazni, te se okrivljeniku za prekršaj činjenično opisan u izreci presude iz članka 199. stavka 7. Zakona o sigurnosti prometa na cestama (Narodne novine broj: 67/2008, 48/2010, 74/2011, 80/2013, 158/2013, 92/2014, 64/2015, 89/2015, 108/2017, 70/2019, 42/2020 i 114/2022), izriče novčana kazna u iznosu od 660,00 (šestošezdeset) eura / 4.972,44 kuna (četiritisućedevetstosedamdesetdvije kune i četrdesetčetiri lipe), koju je dužan platiti u roku od 90 dana od primitka ove pravomoćne presude i ako u navedenom roku plati dvije trećine izrečene novčane kazne, ona će se smatrati plaćenom u cijelosti. II. Prihvaća se žalba podnositelja optužnog prijedloga Policijske uprave bjelovarsko-bilogorske, Policijske postaje Bjelovar, kao osnovana, te se preinačuje pobijana presuda u odluci o prekršajnopravnoj sankciji na način da se okrivljeniku PH, zbog prekršaja iz članka 199. stavka 7. Zakona o sigurnosti prometa na cestama, temeljem članka 58. Prekršajnog zakona, izriče zaštitna mjera zabrane upravljanja motornim vozilima „B“ kategorije u trajanju od 1 (jednog) mjeseca. III. Odbija se kao neosnovana žalba okrivljenika PH i pobijana presuda se u preostalom pobijanom dijelu potvrđuje. IV. Temeljem odredbe članka 139. članka 6. u vezi s člankom 138. stavkom 2. točkom 3. c) Prekršajnog zakona („Narodne novine“ broj: 107/07, 39/13 i 157/13), okrivljenik PH oslobađa se obveze naknade paušalnog iznosa troška ovog drugostupanjskog prekršajnog postupka.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10376/2022-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10376"],
-    related_articles: ["čl. 36. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Nediljka Bobana kao predsjednika vijeća, te Karmen Novak Hrgović i Davorka Kučana kao ",
-    outcome: "remanded",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=690e7a3f-7cac-4ccf-8009-4518ef2f7d01",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10384/2025-2",
-    decision_date: "2026-04-09",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je osnovan zahtjev radi otklanjanja opasnosti da upravljajući motornim vozilom ne ugrozi promet primijeni mu se zaštitna mjera zabrane upravljan?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Renate Popović kao predsjednika vijeća, te Davorka Kučana i Drage Klasnića kao članova vijeća, uz sudjelovanje više sudske savjetnice Sanje Klauda kao zapisničarke, u prekršajnom predmetu protiv okrivljenika ŠF, zbog prekršaja iz čl. 282. st. 1., kažnjivog po čl. 282. st. 9. i čl. 238. st. 1., kažnjivog po čl. 238. st. 8. Zakona o sigurnosti prometa na cestama (NN 67/08, 48/10, 74/11, 80/13, 158/13, 92/14, 64/15, 108/17, 70/19, 42/20, 85/22 i 114/22), odlučujući o žalbi okrivljenika ŠF podnesenoj protiv presude Općinskog suda u Dubrovniku, Stalna služba u Korčuli od 26. rujna 2025., broj: Pp-2725/2024, u sjednici vijeća održanoj 9. travnja 2026. p r e s u d i o j e: I. Odbija se kao neosnovana žalba okrivljenika ŠF i potvrđuje pobijana presuda. II. Temeljem čl. 138. st. 3.c Prekršajnog zakona okrivljenik ŠF je dužan naknaditi troškove paušala žalbenog postupka u iznosu od 30,00 (trideset) eura u roku od 60 dana od dostave ove presude.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10384/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10384"],
-    related_articles: ["čl. 282. Prekršajni zakon","čl. 238. Prekršajni zakon","čl. 138. Prekršajni zakon","čl. 202. Prekršajni zakon","čl. 195. Prekršajni zakon","čl. 58. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Renate Popović kao predsjednika vijeća, te Davorka Kučana i Drage Klasnića kao članova",
-    outcome: "defendant_won",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=96751cac-1164-41e6-9403-b207dfee7b42",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-1039/2023-2",
-    decision_date: "2026-04-09",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je žalba osnovana?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Davorka Kučana, kao predsjednika vijeća, te Renate Popović i Drage Klasnića, kao članova vijeća, uz sudjelovanje više sudske savjetnice Sanje Klauda, kao zapisničara, u prekršajnom postupku protiv okrivljenika MF, kojeg brani Davorin Tamaš, odvjetnik u Slatini, zbog prekršaja iz članka 289. stavak 1. i 4. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj 67/08, 48/10, 74/11, 80/13, 92/14, 64/15, 108/17, 70/19 i 42/20), rješavajući o žalbi okrivljenika MF podnesenoj protiv presude Općinskog suda u Novom Zagrebu, broj: Pp-4134/2022 od 12. prosinca 2022., na sjednici vijeća održanoj dana 9. travnja 2026., p r e s u d i o j e: I. Povodom žalbe okrivljenika MF, a po službenoj dužnosti, preinačava se pobijana presuda u pravnoj oznaci i novčanoj kazni, na način na način da se počinjeno djela prekršaja, činjenično opisano u izreci, pravno označava kao prekršaj iz članka 289. stavak 1. i 4. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj 67/08, 48/10, 74/11, 80/13, 92/14, 64/15, 108/17, 70/19, 42/20, 85/22 i 114/22), za koje prekršaje se okrivljeniku temeljem istog pravnog propisa, izriče novčana kazna u iznosu od 1.320,00 (tisućutristodvadeset) eura, koju je dužan platiti u roku od 60 šezdeset) dana od dana primitka presude, a ukoliko u tom roku plati dvije trećine izrečene novčane kazne u smislu članka 152.stavak 3. Prekršajnog zakona, smatrat će se da je kaznu u cijelosti platio. II. Odbija se žalba okrivljenika MF kao neosnovana i pobijana presuda se u pobijanom, a nepreinačenom dijelu potvrđuje. III. Temeljem članka 139. stavka 3. Prekršajnog zakona („Narodne novine“ broj 107/07, 39/13, 157/13, 110/15, 70/17, 118/18 i 114/22) okrivljenik MF obvezan naknaditi trošak žalbenog postupka u paušalnom iznosu od 50,00 (pedeset) eura, u roku od 30 dana od dana primitka presude, pod prijetnjom ovrhe.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-1039/2023-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-1039"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Davorka Kučana, kao predsjednika vijeća, te Renate Popović i Drage Klasnića, kao članov",
-    outcome: "partially",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=fe144666-c808-4961-bb5f-19fabe2ccfae",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10395/2025-2",
-    decision_date: "2026-01-29",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je osnovan zahtjev radi o psihičkom nasilju. Odredbom članka 10. Zakona o zaštiti od nasilja u obitelji propisan je i određen pojam nasilja u ob?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca: predsjednice vijeća Gordane Korotaj te članova vijeća Roberta Završkog i Kristine Gašparac Orlić, uz sudjelovanje više sudske savjetnice Emine Bašić kao zapisničarke, u prekršajnom predmetu protiv okrivljene ČŠ, zbog prekršaja iz članka 22. stavka 1. Zakona o zaštiti od nasilja u obitelji („Narodne novine“ broj: 70/17, 126/19, 84/21 i 114/22), odlučujući o žalbi okrivljenice podnesenoj po branitelju Andreju Bašoviću, odvjetniku iz Rijeke, protiv presude Općinskog suda u Rijeci od 11. rujna 2025., broj: Pp-2935/2023, na sjednici vijeća 29. siječnja 2026., p r e s u d i o j e: I. Žalba okrivljene ČŠ se prihvaća, te se preinačuje pobijana presuda na način da se izriče: Na temelju članka 182. točke 1. Prekršajnog zakona ( „Narodne novine“ broj 107/07, 39/13, 157/13, 110/15, 70/17, 118/18 i 114/22), okrivljena ČŠ (osobni podaci kao u prvostupanjskoj presudi) OSLOBAĐA SE OD OPTUŽBE da bi: dana 13. srpnja 2023. u Rijeci na adresi [adresa], počinila psihičko nasilje u obitelji prema suprugu ŽŠ na način da je nakon što se ŽŠ ustao oko 07,30 sati započela svađu u svezi njihovih narušenih bračnih i poslovnih odnosa govoreći mu da neka otiđe s adrese stanovanja jer joj je odvratan te da ostankom na adresi u bračnoj vezi na taj način ništa neće postići i riješiti, na što joj je ŽŠ rekao da ne može odseliti dok ne dobije svoj dio novca koji je uložio u obiteljski posao – trgovinu, pa nakon što raspravom nisu ništa riješili, ČŠ uzima šalicu i baca sadržaj u ŽŠ i počinje ga vrijeđati vičući: „Govno… ako probudiš Č ja ću te raskasapiti…“, nakon čega je ŽŠ rekao da to više nema smisla i izašao iz stana, a ona uzela njegove košulje iz ormara i bacila ih kroz vrata stana te mu rekla da neka se više nikada ne vrati, nakon čega je ŽŠ išao prijaviti policiji događaj, dakle, da bi prema suprugu počinila psihičko nasilje koje je kod njega prouzročilo povredu dostojanstva i uznemirenost, pa da bi time počinila prekršaj iz članka u 22. stavka 1. Zakona o zaštiti od nasilja u obitelji. II. Na temelju članka 140. stavka 2. Prekršajnog zakona troškovi prekršajnog postupka u paušalnom iznosu padaju na teret proračunskih sredstava prvostupanjskog suda.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10395/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10395"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca: predsjednice vijeća Gordane Korotaj te članova vijeća Roberta Završkog i Kristine Gaš",
-    outcome: "remanded",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=b1862fa4-caf9-4dda-b3db-75b5f11f9267",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-104/2023-2",
-    decision_date: "2026-02-25",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je osnovan zahtjev radi čega je i zatražio liječničku pomoć. 5.4. Stoga?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Kristine Gašparac Orlić, predsjednice vijeća te Gordane Korotaj i Roberta Završkog, članova vijeća, uz sudjelovanje više sudske savjetnice Emine Bašić, zapisničarke, u prekršajnom postupku protiv okr. ČM, zbog prekršaja iz članka 13. Zakona o prekršajima protiv javnog reda i mira („Narodne novine“ broj: 5/1990., 30/1990., 47/1990. i 29/1994), odlučujući o žalbi okr. ČM, podnesenoj protiv presude Općinskog suda u Zlataru, Stalne službe u Krapini od 3. studenog 2022., broj: 30. Pp - 830/2022-9, u sjednici vijeća održanoj 25. veljače 2026., p r e s u d i o j e I. Odbija se žalba okr. ČM kao neosnovana i potvrđuje se pobijana prvostupanjska presuda u odnosu na tog okrivljenika. II. Na temelju članka 138. stavak 2. točke 3.c Prekršajnog zakona („Narodne novine“ broj 107/2007., 39/2013., 157/2013., 110/2015., 70/2017., 118/2018. i 114/2022.), okr. ČM je obvezan naknaditi paušalni iznos troškova žalbenog postupka u iznosu 40,00 (četrdeset) eura u roku 15 dana od primitka ove presude.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-104/2023-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-104"],
-    related_articles: ["čl. 88. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Kristine Gašparac Orlić, predsjednice vijeća te Gordane Korotaj i Roberta Završkog, čla",
-    outcome: "defendant_won",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=06a7a9a0-010c-49cb-ab76-1da22749039c",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-1040/2026-2",
-    decision_date: "2026-02-03",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je osnovan zahtjev radi o arhipelaškoj državi?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca: Katice Lučić, kao predsjednice vijeća te Ivane Bosnić-Kovačić i Mladena Genca, kao članova vijeća, uz sudjelovanje više sudske savjetnice Ivane Vorel Mikša, kao zapisničarke, u prekršajnom postupku protiv okrivljene pravne osobe ZANESTRA, TRGOVINA IN RIBIŠTVO d.o.o. i okrivljene odgovorne osobe UZ, koje brani Tomislav Pedišić, odvjetnik u U i suradnici, Odvjetničko društvo d.o.o., u Zagrebu, zbog prekršaja iz članka 77. stavka 1. točke 5. i stavka 2. i članka 78. stavka 1. točke 3. i stavka 2. Zakona o morskom ribarstvu („Narodne novine“ broj: 62/17., 14/19., 30/23. i 14/24.), odlučujući o žalbi okrivljene pravne osobe ZANESTRA, TRGOVINA IN RIBIŠTVO d.o.o. i okrivljene odgovorne osobe UZ, podnesenoj protiv presude Općinskog suda u Pazinu, Stalne službe u Bujama-Buie, broj: Pp-482/2025-8 od 26. studenog 2025., na sjednici vijeća održanoj 3. veljače 2026. p r e s u d i o j e I. Odbija se kao neosnovana žalba okrivljene pravne osobe ZANESTRA, TRGOVINA IN RIBIŠTVO d.o.o. i okrivljene odgovorne osobe UZ i potvrđuje se prvostupanjska presuda. II. Na temelju članka 138. stavak 2. točka 3c. Prekršajnog zakona („Narodne novine“ broj: 107/07., 39/13., 157/13., 110/15., 70/17., 118/18. i 114/22.), okrivljenici su dužni naknaditi paušalni iznos troškova žalbenog postupka u iznosu od 70 (sedamdeset) eura, svaki, u roku od 30 (trideset) dana od dana primitka ove presude.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-1040/2026-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-1040"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca: Katice Lučić, kao predsjednice vijeća te Ivane Bosnić-Kovačić i Mladena Genca, kao čl",
-    outcome: "defendant_won",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=738752ae-0cce-4919-b9ae-bebb5b672217",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10403/2024-3",
-    decision_date: "2026-04-22",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je nižestupanjska odluka pravilna?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sutkinja Ivanke Mašić kao predsjednice vijeća te Anđe Ćorluka i Mirjane Medić kao članica vijeća, uz sudjelovanje više sudske savjetnice Koraljke Polak-Medaković kao zapisničarke, u prekršajnom predmetu protiv okrivljenog RP zbog prekršaja iz članka 22. stavka 1. Zakona o zaštiti od nasilja u obitelji (\"NN\" broj: 70/17, 126/19, 84/21, 114/22 i 36/24) odlučujući o žalbi okrivljenog RP podnesenoj protiv presude Općinskog prekršajnog suda u Splitu broj: Pp-3058/2024-7 od 31. listopada 2024., na sjednici vijeća održanoj 22. travnja 2026. p r e s u d i o j e I. Djelomično se prihvaća žalba okrivljenog RP, preinačuje se pobijana presuda u odluci o kazni, na način da se okrivljeniku RP za počinjeno djelo prekršaja iz izreke pobijane presude na temelju istog propisa izriče novčana kazna u iznosu od 300,00 eura (tristoeura) u koju kaznu se na temelju odredbe članka 40. Prekršajnog zakona uračunava vrijeme uhićenja od 27. lipnja 2024. u 06,35 sati do 27. lipnja 2024. u 14,40 sati kao 39,82 eura (tridesetdeveteuraiosamdesetidvacenta), pa okrivljeniku preostaje platiti na ime novčane kazne 260,18 eura (dvjestošezdeseteuraiosamnaestcenti), koju kaznu je obvezan platiti u roku 30 dana od primitka ove presude, a ako u tom roku plati dvije trećine izrečene novčane kazne smatrat će se da je novčana kazna plaćena u cjelini sukladno odredbi članka 152. stavka 3. Prekršajnog zakona. II. U ostalom dijelu odbija se kao neosnovana žalba okrivljenog RP i u pobijanom, a nepreinačenom djelu potvrđuje se prvostupanjska presuda. III. Na temelju odredbe članka 138. stavka 2. točke 3.c Prekršajnog zakona (\"Narodne novine\" broj: 107/07, 39/13, 157/13, 70/17, 118/18, 114/22) okrivljeni RP je obvezan naknaditi paušalne troškove žalbenog postupka u iznosu 40,00 eur (četrdeseteura) u roku 30 dana od primitka ove presude. -",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10403/2024-3 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10403"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sutkinja Ivanke Mašić kao predsjednice vijeća te Anđe Ćorluka i Mirjane Medić kao članica vij",
-    outcome: "remanded",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=768c8481-248e-40fb-90a5-267c1c10379a",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10407/2023-2",
-    decision_date: "2026-01-28",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je žalba osnovana?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca ovog suda Nediljka Bobana predsjednika vijeća, te Karmen Novak Hrgović i Davorka Kučana, članova vijeća, uz sudjelovanje više sudske savjetnice Marcele Soljačić Prester, kao zapisničara, u prekršajnom postupku protiv okrivljenika EG, zbog prekršaja iz članka 199. stavka 6. i dr. Zakona o sigurnosti prometa na cestama (Narodne novine broj: 67/2008, 48/2010, 74/2011, 80/2013, 158/2013, 92/2014, 64/2015, 108/2017, 70/2019, 42/2020, 85/2022) i dr., kojeg brani Branimir Zmijanović, odvjetnik u Šibeniku, odlučujući o žalbi okrivljenika EG, podnesenoj protiv presude Općinskog suda u Šibeniku od 13. studenoga 2023. godine, broj: 58 Pp-538/2023-25, na sjednici vijeća održanoj dana 28. siječnja 2026. godine, p r e s u d i o j e : I Odbija se žalba okrivljenika EG kao neosnovana, te se prvostupanjska presuda potvrđuje. II Temeljem članka 138. stavka 2. točke 3 c. Prekršajnog zakona (Narodne novine, broj: 107/2007, 39/2013, 157/2013, 110/15, 114/2022) okrivljenik EG je obvezan naknaditi trošak žalbenog postupka u paušalnom iznosu od 80,00 (osamdeset) EUR-a, u roku od 90 (devedeset) dana od primitka ove presude.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10407/2023-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10407"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca ovog suda Nediljka Bobana predsjednika vijeća, te Karmen Novak Hrgović i Davorka Kučana",
-    outcome: "defendant_won",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=0916d40a-3cff-4e10-a3b5-d805ade0a51a",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10413/2025-2",
-    decision_date: "2026-03-11",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je osnovan zahtjev radi dostave spisa nadležnom Općinskom sudu u Novom Zagrebu. Obrazloženje 1. Kod ovog suda zaprimljen je na odlučivanje prigo?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca ovog suda: Nediljka Bobana kao predsjednika vijeća, te Karmen Novak-Hrgović i Davorka Kučana, kao članova vijeća, uz sudjelovanje Marcele Soljačić-Prester u svojstvu više sudske savjetnice, kao zapisničarke, u prekršajnom postupku protiv okrivljenika AS, zbog prekršaja iz članka 199. stavka 7. Zakona o sigurnosti prometa na cestama („Narodne novine“, broj: 67/08, 48/10, 74/11, 80/13, 158/13, 92/14, 64/15, 89/15, 108/17, 70/19, 42/20, 85/22 i 114/22), rješavajući o prigovoru koji se prihvaća žalbom okrivljenika AS, podnesenom protiv prekršajnog naloga Policijske uprave zagrebačke, Policijske postaje Samobor od 8. studenog 2025. klasa: 211-07/25-1/20846, ur. broj: 511-19-40-25-1, na sjednici vijeća održanoj 11. ožujka 2026. r i j e š i o j e I. Na temelju članka 102. stavka 1. i članka 95. stavka 1. točke 2. Prekršajnog zakona („Narodne novine“, broj: 107/07, 39/13, 158/13, 110/15, 70/17, 118/18. i 114/22) Visoki prekršajni sud Republike Hrvatske se proglašava stvarno nenadležnim za odlučivanje o prigovoru okrivljenika AS, protiv prekršajnog naloga Policijske uprave zagrebačke, Policijske postaje Samobor od 8. studenog 2025., klasa: 211-07/25-1/20846, ur. broj: 511-19-40-25-1. II. Spis predmeta će se dostaviti izdavatelju Prekršajnog naloga radi dostave spisa nadležnom Općinskom sudu u Novom Zagrebu.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10413/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10413"],
-    related_articles: ["čl. 237. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca ovog suda: Nediljka Bobana kao predsjednika vijeća, te Karmen Novak-Hrgović i Davorka K",
-    outcome: "partially",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=4b07f446-0990-4d5c-a294-763dbbf50766",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10415/2025-2",
-    decision_date: "2026-03-10",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je osnovan zahtjev radi provođenja prekršajnog postupka. Obrazloženje 1. Ovom sudu dostavljen je na odlučivanje prigovor okrivljenog RO podnesen?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sutkinja Ivanke Mašić kao predsjednice vijeća, te Anđe Ćorluka i Mirjane Medić kao članica vijeća uz sudjelovanje sudskog savjetnika Ivice Ožbolta kao zapisničara, u prekršajnom predmetu protiv okrivljenog RO, zbog prekršaja iz članka 133. stavka 3. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj: 67/08., 48/10., 74/11., 80/13., 158/13., 92/14., 64/15., 89/15., 108/17., 70/19., 42/20., 85/22., 114/22., 133/23. i 145/24.), odlučujući o prigovoru okrivljenog RO podnesenom protiv obaveznog prekršajnog naloga Ministarstva unutarnjih poslova Republike Hrvatske, Policijske uprave zagrebačke, VI. policijske postaje Zagreb od 20. listopada 2025., KLASA: 211-07/25-2/54642, URBROJ: 511-19-32-25-1, u sjednici vijeća održanoj 10. ožujka 2026., r i j e š i o j e: I. Na temelju članka 102. stavka 1. i članka 95. točke 2. Prekršajnog zakona („Narodne novine“ broj: 107/07., 39/13., 157/13., 110/15., 70/17., 118/18. i 114/22.), Visoki prekršajni sud Republike Hrvatske proglašava se stvarno nenadležnim za odlučivanje o prigovoru okrivljenog RO podnesenom protiv obaveznog prekršajnog naloga Ministarstva unutarnjih poslova Republike Hrvatske, Policijske uprave zagrebačke, VI. policijske postaje Zagreb od 20. listopada 2025., KLASA: 211-07/25-2/54642, URBROJ: 511-19-32-25-1. II. Spis predmeta vraća se izdavatelju obaveznog prekršajnog naloga kako bi ga dostavio stvarno i mjesno nadležnom Općinskom sudu u Novom Zagrebu radi provođenja prekršajnog postupka.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10415/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10415"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sutkinja Ivanke Mašić kao predsjednice vijeća, te Anđe Ćorluka i Mirjane Medić kao članica vi",
-    outcome: "partially",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=839b0935-76ec-408e-af8d-21bf7d340861",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10417/2025-2",
-    decision_date: "2026-03-18",
-    legal_area: "procedural",
-    legal_question:
-      "te se prekršajni nalog potvrđuje?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Karmen Novak Hrgović kao predsjednice vijeća te Nediljka Bobana i Davorka Kučana kao članova vijeća, uz sudjelovanje sudske savjetnice Mirne Prišlin kao zapisničarke, u prekršajnom postupku protiv okrivljene ĐV, zbog prekršaja iz čl. 53. st. 3. Zakona o sigurnosti prometa na cestama (Narodne novine broj 67/2008, 48/2010, 74/2011, 80/2013, 158/2013, 92/2014, 64/2015, 108/2017, 70/2019, 42/2020, 85/2022,114/2022, 133/2023, 145/2024), odlučujući o prigovoru okrivljene ĐV, podnesenim protiv prekršajnog naloga Ministarstva unutarnjih poslova Republike Hrvatske, Policijske uprave zadarske, Postaje prometne policije Zadar od 4. listopada 2025., Urbroj:211-07/25-1/18822, na sjednici vijeća održanoj 18. ožujka 2026. p r e s u d i o j e I Odbija se prigovor okrivljene ĐV kao neosnovan, te se prekršajni nalog potvrđuje. II Temeljem članka 139. stavka 3. Prekršajnog zakona (Narodne novine broj: 107/2007, 39/2013, 157/2013, 110/2015, 70/2017, 118/2018, 114/2022), okrivljena ĐV je obvezna naknaditi trošak žalbenog postupka u paušalnom iznosu 30,00 (trideset) eura u roku od 30 (trideset) dana od primitka ove presude.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10417/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10417"],
-    related_articles: ["čl. 53. Prekršajni zakon","čl. 237. Prekršajni zakon","čl. 32. Prekršajni zakon","čl. 51. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Karmen Novak Hrgović kao predsjednice vijeća te Nediljka Bobana i Davorka Kučana kao č",
-    outcome: "defendant_won",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=2bca1db2-8eb4-490c-b8fe-92d44c43ccc0",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10418/2024-2",
-    decision_date: "2026-04-22",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je nižestupanjska odluka pravilna?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sutkinja Ivanke Mašić Mirjane Medić kao predsjednice vijeća te Anđe Ćorluka i Mirjane Medić kao članica vijeća, uz sudjelovanje više sudske savjetnice Koraljke Polak Medaković, kao zapisničarke, u prekršajnom predmetu protiv okrivljene PT, zbog prekršaja iz članka 54. stavka 3. Zakona o suzbijanju zlouporabe droga („Narodne novine“ broj: 107/01, 87/02, 163/03, 141/04, 40/07, 149/09, 84/11, 80/13 i 39/19), odlučujući o prigovoru okrivljene PT, podnijetoj po branitelju Leu Peruški odvjetniku iz Pule protiv prekršajnog naloga Ministarstva unutarnjih poslova Republike Hrvatske, Policijske uprave istarske, Policijske postaje Pula, broj: 511-08-21-23-1, 211-07/23-1/7346 od 5. srpnja 2023., na sjednici vijeća održanoj 22. travnja 2026., p r e s u d i o j e I. Odbija se prigovor okrivljene PT kao neosnovan i potvrđuje se pobijani prekršajni nalog. II. Na temelju odredbe članka 138. stavka 2. točke 3.c Prekršajnog zakona („Narodne novine“ broj: 107/07, 39/13, 157/13, 110/15, 70/17, 118/18 i 114/22) okrivljena PT je obvezna naknaditi troškove drugostupanjskog postupka u paušalnom iznosu od 40,00 (četrdeset) eura u roku 8 dana od primitka ove presude.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10418/2024-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10418"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sutkinja Ivanke Mašić Mirjane Medić kao predsjednice vijeća te Anđe Ćorluka i Mirjane Medić k",
-    outcome: "defendant_won",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=e44cb75c-b850-4638-843b-975222fd5f04",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10420/2025-2",
-    decision_date: "2026-01-28",
-    legal_area: "procedural",
-    legal_question:
-      "Odbija se prigovor okrivljenog EO kao neosnovan te se prekršajni nalog potvrđuje?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Karmen Novak Hrgović kao predsjednice vijeća te Nediljka Bobana i Davorka Kučana kao članova vijeća, uz sudjelovanje sudske savjetnice Valentine Kučić kao zapisničarke, u prekršajnom postupku protiv okrivljenika EO, zbog prekršaja iz članka 53. stavka 1. i 3. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj: 67/2008., 48/2010., 74/2011., 80/2013., 158/2013., 92/2014., 64/2015., 89/2015., 108/2017., 70/2019., 42/2020., 85/2022., 114/2022., 133/23 i 145/24), odlučujući o prigovoru okrivljenika podnesenom protiv prekršajnog naloga Ministarstva unutarnjih poslova Republike Hrvatske, Policijske uprave Zadarske, Postaje prometne policije Zadar, od 26. rujna 2025., Broj: 211-07/25-1/18317, na sjednici vijeća održanoj 28. siječnja 2026., p r e s u d i o j e I. Odbija se prigovor okrivljenog EO kao neosnovan te se prekršajni nalog potvrđuje. II. Na temelju članka 138. stavka 2. točke 3. c) Prekršajnog zakona („Narodne novine“ broj: 107/07., 39/13., 157/13., 110/15., 70/17., 118/18. i 114/22.) okrivljenik OO obvezan je naknaditi paušalni iznos troškova žalbenog postupka u iznosu 30,00 (trideset) eura, u roku 15 (petnaest) dana od dana primitka ove presude.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10420/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10420"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Karmen Novak Hrgović kao predsjednice vijeća te Nediljka Bobana i Davorka Kučana kao čl",
-    outcome: "defendant_won",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=6d60587c-773a-4166-89b6-a536fc183404",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10425/2025-2",
-    decision_date: "2026-04-09",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je nižestupanjska odluka pogrešna?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sutkinja Ivanke Mašić kao predsjednice vijeća, te Anđe Ćorluka i Mirjane Medić kao članica vijeća uz sudjelovanje sudskog savjetnika Ivice Ožbolta kao zapisničara, u prekršajnom postupku protiv okrivljenog NO, zbog prekršaja iz članka 282. stavka 9. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj: 67/08., 48/10., 74/11., 80/13., 158/13., 92/14., 64/15., 89/15., 108/17., 70/19., 42/20., 85/22., 114/22., 133/23. i 145/24.), odlučujući o prigovoru okrivljenog NO, podnesenom protiv prekršajnog naloga Ministarstva unutarnjih poslova Republike Hrvatske, Policijske uprave istarske, Postaje prometne policije Pula od 29. listopada 2025., KLASA: 211-07/25-1/20256, URBROJ: 511-08-29-25-1, u sjednici vijeća održanoj 9. travnja 2026., p r e s u d i o j e I. Djelomičnim prihvaćanjem prigovora okrivljenog NO, preinačuje se pobijani prekršajni nalog u odluci o novčanoj kazni, tako da je okrivljeni NO za prekršaj činjenično opisan u izreci prekršajnog naloga, pravno označen kao prekršaj iz članka 282. stavka 9. Zakona o sigurnosti prometa na cestama, novčanu kaznu u iznosu od 1.320,00 eura (tisućutristodvadeset eura) dužan platiti u 5 (pet) jednakih mjesečnih obroka, s time da prvi obrok dospijeva u roku od 15 dana od primitka ove presude, a svaki daljnji obrok 15. dana u svakom narednom mjesecu, a ako okrivljenik u navedenom roku plati dvije trećine novčane kazne, smatrat će se da je novčana kazna plaćena u cijelosti. II. U ostalom se dijelu prigovor okrivljenog NO odbija kao neosnovan te se u pobijanom, a nepreinačenom dijelu prekršajni nalog potvrđuje. III. Na temelju članka 138. stavka 2. točke 3.c Prekršajnog zakona („Narodne novine“ broj: 107/07., 39/13., 157/13., 110/15., 70/17., 118/18. i 114/22.), okrivljeni NO obvezan je naknaditi paušalni iznos troškova žalbenog postupka u iznosu od 30,00 eura (trideset eura) u roku od 15 dana od dana primitka ove presude.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10425/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10425"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sutkinja Ivanke Mašić kao predsjednice vijeća, te Anđe Ćorluka i Mirjane Medić kao članica vij",
-    outcome: "remanded",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=bc4ff518-7196-4a31-a3f2-75f402333beb",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10428/2025-2",
-    decision_date: "2026-03-11",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je sud pravilno primijenio mjerodavno pravo?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca ovog suda: Nediljka Bobana kao predsjednika vijeća, te Karmen Novak-Hrgović i Davorka Kučana, kao članova vijeća, uz sudjelovanje Marcele Soljačić-Prester u svojstvu više sudske savjetnice, kao zapisničarke, u prekršajnom postupku protiv okrivljenika ĐP, zbog prekršaja iz članka 53. stavka 4. Zakona o sigurnosti prometa na cestama („Narodne novine“, broj: 67/08, 48/10, 74/11, 80/13, 158/13, 92/14, 64/15, 89/15, 108/17, 70/19, 42/20, 85/22 i 114/22), rješavajući o prigovoru koji se prihvaća žalbom okrivljenika ĐP, podnesenom protiv prekršajnog naloga Policijske uprave vukovarsko-srijemske, Postaje prometne policije Vinkovci od 16. listopada 2025., klasa: 211-07/25-3/14991, urbroj: 511-15-14-25-2, na sjednici vijeća održanoj 11. ožujka 2026. p r e s u d i o j e I. Prihvaća se kao osnovan prigovor okrivljenika ĐP, te se preinačuje pobijani prekršajni nalog u odluci o prekršajno pravnim sankcijama na način da se okrivljeniku ĐP, umjesto dosadašnje novčane kazne, za prekršaj iz članka 53. stavka 4. u vezi s člankom 53. stavak 1. Zakona o sigurnosti prometa na cestama opisanog u izreci pobijanog prekršajnog naloga, primjenom članka 37. Prekršajnog zakona izriče novčana kazna u iznosu od 200,00 (dvjesto eura), te ukida odluka o izrečenoj zaštitnoj mjeri zabrane upravljanja motornim vozilima B kategorije u trajanju od 1 (jedan) mjesec. II. Novčanu kaznu okrivljenik ĐP je obavezan platiti u roku od 60 (šezdeset) dana od dana primitka ove presude, a ako se novčana kazna ne plati u tom roku primijenit će se odredbe članka 34. Prekršajnog zakona. Ukoliko okrivljenik u danom roku plati 2/3 izrečene novčane kazne, smatrat će se da je kazna u cijelosti plaćena. III. Temeljem članka 139. stavka 3. Prekršajnog zakona („Narodne novine“, broj 107/07, 39/13, 157/13, 110/15, 70/17, 118/18 i 114/22) okrivljenik ĐP je obavezan naknaditi trošak žalbenog postupka u paušalnom iznosu od 30,00 (trideset eura) u roku od 30 (trideset) dana od primitka ove presude.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10428/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10428"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca ovog suda: Nediljka Bobana kao predsjednika vijeća, te Karmen Novak-Hrgović i Davorka K",
-    outcome: "remanded",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=81495bc8-b946-4be9-b700-fc3e3a0de862",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10429/2025-2",
-    decision_date: "2026-03-11",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je osnovan zahtjev radi u školi te joj je iz tog razloga potrebna vozačka dozvola. 3. Prigovor nije osnovan. 4. Ispitujući pobijani prekršajni n?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sutkinje Karmen Novak Hrgović, predsjednice vijeća, te sudaca Nediljka Bobana i Davorka Kučana, članova vijeća, uz sudjelovanje sudske savjetnice Mirne Prišlin, zapisničarke, u prekršajnom postupku protiv okrivljene EVN, zbog prekršaja iz članka 53. stavak 4. Zakona o sigurnosti prometa na cestama (Narodne novine, broj: 67/2008, 48/2010, 74/2011, 80/2013, 158/2013, 92/2014, 64/2015, 89/2015, 108/2017, 70/2019, 42/2020, 42/2020), odlučujući o prigovoru okrivljene, protiv prekršajnog naloga Ministarstva unutarnjih poslova Republike Hrvatske, Policijske uprave vukovarsko-srijemske, Postaje prometne policije Vinkovci od 13. listopada 2025., Klasa:211-07/25-3/15993, Urbroj:511-15-14-25-2, na sjednici vijeća održanoj 11. ožujka 2026. p r e s u d i o j e I. Odbija se prigovor okrivljene EVN kao neosnovan te se pobijani prekršajni nalog potvrđuje. II. Na temelju članka 138. stavka 2. točke 3.c Prekršajnog zakona (Narodne novine broj 107/07., 39/13., 157/13., 110/15., 70/17., 118/18. i 114/22.), okrivljena EVN obvezuje se naknaditi troškove žalbenog postupka u paušalnom iznosu od 30,00 eura (trideset eura) u roku 15 dana od dana primitka ove presude.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10429/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10429"],
-    related_articles: ["čl. 51. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sutkinje Karmen Novak Hrgović, predsjednice vijeća, te sudaca Nediljka Bobana i Davorka Kučana",
-    outcome: "defendant_won",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=5daa23aa-e1df-405a-b63f-329faeab1cb3",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-1043/2026-2",
-    decision_date: "2026-02-03",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je osnovan zahtjev radi o okolnostima zbog kojih se novčana kazna može ublažiti?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Katice Lučić kao predsjednice vijeća te Ivane Bosnić-Kovačić i Mladena Genca kao članova vijeća, uz sudjelovanje više sudske savjetnice Ivane Vorel Mikša kao zapisničarke, u prekršajnom predmetu protiv I. okrivljenika VICTUS ATTINIANUM d.o.o., sa sjedištem u [adresa], kao pravne osobe i II. okrivljenice IB, kao odgovorne osobe, oboje zastupani po braniteljici Dijani Ažić, odvjetnici iz Pule, zbog prekršaja iz čl. 306. st. 1. toč. 1. i st. 2. Zakona o socijalnoj skrbi (Narodne novine broj: 18/22., 46/22., 119/22., 71/23., 156/23., 61/25.), rješavajući o žalbi I. okrivljenika i II. okrivljenice, podnesenoj po braniteljici, protiv presude Općinskog suda u Puli-Pola, broj: Pp-1139/2022 od 10. prosinca 2025., na sjednici vijeća održanoj 3. veljače 2026., p r e s u d i o j e: I Odbija se kao neosnovana žalba I. okrivljenika VICTUS ATTINIANUM d.o.o., Premantura i II. okrivljenice IB, te se potvrđuje prvostupanjska presuda. II Na temelju čl. 138. st. 2. toč. 3c. Prekršajnog zakona (Narodne novine broj: 107/07., 39/13., 157/13., 110/15., 70/17., 118/18. i 114/22.) I. okrivljenik VICTUS ATTINIANUM d.o.o., Premantura i II. okrivljenica IB, dužni su naknaditi trošak žalbenog postupka u iznosu od po 50,00 (pedeset) eura- svaki, u roku od 40 (četrdeset) dana od primitka ove presude.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-1043/2026-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-1043"],
-    related_articles: ["čl. 306. Prekršajni zakon","čl. 138. Prekršajni zakon","čl. 37. Prekršajni zakon","čl. 202. Prekršajni zakon","čl. 195. Prekršajni zakon","čl. 139. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Katice Lučić kao predsjednice vijeća te Ivane Bosnić-Kovačić i Mladena Genca kao člano",
-    outcome: "defendant_won",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=df6edd01-9dca-4106-9942-ed8b477c7486",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10434/2025-2",
-    decision_date: "2026-03-11",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je nižestupanjska odluka pogrešna?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca ovog suda: Nediljka Bobana kao predsjednika vijeća, te Karmen Novak Hrgović i Davorka Kučana, kao članova vijeća, uz sudjelovanje Marcele Soljačić-Prester u svojstvu više sudske savjetnice, kao zapisničarke, u prekršajnom postupku protiv okrivljenika PČ, zbog prekršaja iz članka 199. stavka 7. Zakona o sigurnosti prometa na cestama („Narodne novine“, broj: 67/08, 48/10 , 74/11, 80/13, 158/13, 92/14, 64/15, 89/15, 108/17, 70/19, 42/20, 85/22 i 114/22), rješavajući o prigovoru koji se prihvaća žalbom okrivljenika PČ, podnesenom protiv prekršajnog naloga Policijske uprave zadarske, Postaje prometne policije Biograd od 16. ožujka 2025., klasa: 211-07/25-1/17594, na sjednici vijeća održanoj 11. ožujka 2026. p r e s u d i o j e I. Djelomičnim prihvaćanjem prigovora okrivljenika PČ, a i po službenoj dužnosti pobijani prekršajni nalog preinačuje se u odluci o prekršajnopravnoj sankciji na način da se okrivljeniku PČ ukida zaštitna mjera zabrane upravljanja motornim vozilom u trajanju od 3 (tri) mjeseca. II. U ostalom dijelu odbija se kao neosnovan prigovor okrivljenika PČ, te se u pobijanom, a nepreinačenom dijelu potvrđuje prekršajni nalog. III. Temeljem članka 139. stavka 3. Prekršajnog zakona („Narodne novine“, broj 107/07, 39/13, 157/13, 110/15, 70/17, 118/18 i 114/22) okrivljenik PČ je obvezan naknaditi trošak žalbenog postupka u paušalnom iznosu od 30,00 (trideset eura) u roku od 30 (trideset) dana od primitka ove presude.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10434/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10434"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca ovog suda: Nediljka Bobana kao predsjednika vijeća, te Karmen Novak Hrgović i Davorka K",
-    outcome: "remanded",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=b4bd4209-6af1-4b07-957c-2480d654847f",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10435/2025-2",
-    decision_date: "2026-04-01",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je nižestupanjska odluka pogrešna?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sutkinja Ivanke Mašić kao predsjednice vijeća, te Anđe Ćorluka i Mirjane Medić kao članica vijeća uz sudjelovanje sudskog savjetnika Ivice Ožbolta kao zapisničara, u prekršajnom postupku protiv okrivljene VF, zbog prekršaja iz članka 289. stavka 4. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj: 67/08., 48/10., 74/11., 80/13., 158/13., 92/14., 64/15., 89/15., 108/17., 70/19., 42/20., 85/22., 114/22., 133/23. i 145/24.), odlučujući o prigovoru okrivljene VF, podnesenom protiv prekršajnog naloga Ministarstva unutarnjih poslova Republike Hrvatske, Policijske uprave zadarske, Policijske postaje Biograd od 9. listopada 2025., broj: 211-07/25-1/19120, u sjednici vijeća održanoj 1. travnja 2026., p r e s u d i o j e I. Djelomičnim prihvaćanjem prigovora okrivljene VF, preinačuje se pobijani prekršajni nalog u odluci o novčanoj kazni, tako da je okrivljena VF za prekršaj činjenično opisan u izreci prekršajnog naloga, pravno označen kao prekršaj iz članka 289. stavka 4. Zakona o sigurnosti prometa na cestama, novčanu kaznu u iznosu od 1.320,00 eura (tisućutristodvadeset eura) dužna platiti u 6 (šest) jednakih mjesečnih obroka, s time da prvi obrok dospijeva u roku od 15 dana od primitka ove presude, a svaki daljnji obrok 15. dana u svakom narednom mjesecu, a ako okrivljenica u navedenom roku plati dvije trećine novčane kazne, smatrat će se da je novčana kazna plaćena u cijelosti. II. U ostalom se dijelu prigovor okrivljene VF odbija kao neosnovan te se u pobijanom, a nepreinačenom dijelu prekršajni nalog potvrđuje. III. Na temelju članka 138. stavka 2. točke 3.c Prekršajnog zakona („Narodne novine“ broj: 107/07., 39/13., 157/13., 110/15., 70/17., 118/18. i 114/22.), okrivljena VF obvezna je naknaditi paušalni iznos troškova žalbenog postupka u iznosu od 30,00 eura (trideset eura) u roku od 15 dana od dana primitka ove presude.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10435/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10435"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sutkinja Ivanke Mašić kao predsjednice vijeća, te Anđe Ćorluka i Mirjane Medić kao članica vij",
-    outcome: "remanded",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=f1aaae05-161f-4aa6-a0c9-04bdcb98c8ad",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10436/2023-2",
-    decision_date: "2026-03-12",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je nižestupanjska odluka nezakonita?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Jasne Momirović kao predsjednice vijeća, te Katice Lučić i Ivane Bosnić-Kovačić kao članica vijeća, uz sudjelovanje više sudske savjetnice Ivane Vorel Mikša kao zapisničarke, u prekršajnom postupku protiv okrivljenika ZF, zbog prekršaja iz čl. 87. st. 3. u svezi sa st. 1. t. 8. Zakona o financiranju političkih aktivnosti, izborne promidžbe i referenduma („Narodne novine“, broj 29/19, 98/19), odlučujući o žalbi tužitelja Općinskog državnog odvjetništva u Puli-Pola, podnijetoj protiv presude Općinskog suda u Puli-Pola, broj: 3. Pp-770/2023, od 3. listopada 2023., u sjednici vijeća održanoj 12. ožujka 2026., r i j e š i o j e : Prihvaćanjem žalbe tužitelja Općinskog državnog odvjetništva u Puli-Pola ukida se pobijana presuda i predmet dostavlja prvostupanjskom sudu na ponovno suđenje.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10436/2023-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10436"],
-    related_articles: ["čl. 87. Prekršajni zakon","čl. 182. Prekršajni zakon","čl. 202. Prekršajni zakon","čl. 28. Prekršajni zakon","čl. 84. Prekršajni zakon","čl. 206. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Jasne Momirović kao predsjednice vijeća, te Katice Lučić i Ivane Bosnić-Kovačić kao čl",
-    outcome: "remanded",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=558db6ec-d355-4710-9315-351407cceeb8",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10437/2023-2",
-    decision_date: "2026-01-29",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je žalba osnovana?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Renate Popović, predsjednice, te Davorka Kučana i Drage Klasnića, članova vijeća, uz sudjelovanje Nade Horvatović u svojstvu više sudske savjetnice specijalistice, kao zapisničarke, u prekršajnom postupku protiv okrivljene JL, zbog prekršaja iz članka 199. stavka 2. i 8. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj: 67/08., 48/10., 74/11., 80/13., 158/13., 92/14., 64/15., 108/17., 70/19., 42/20., 85/22. i 114/22.), rješavajući o žalbi okrivljenice, protiv presude Općinskog suda u Đakovu od 21. studenoga 2023., broj: 9. Pp-1330/2023-3, u sjednici vijeća održanoj 29. siječnja 2026. p r e s u d i o j e I Odbija se žalba okr. JL kao neosnovana i potvrđuje pobijana prvostupanjska presuda. II Na temelju članka 139. stavka 3. u vezi članka 138. stavka 2. točke 3.c. Prekršajnog zakona okr. JL dužna je naknaditi troškove žalbenog postupka u paušalnom iznosu 50,00 EUR (pedeset eura), u roku trideset dana od dana primitka ove presude.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10437/2023-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10437"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Renate Popović, predsjednice, te Davorka Kučana i Drage Klasnića, članova vijeća, uz su",
-    outcome: "defendant_won",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=24a32ff1-d638-4aad-a524-ad3f529fee28",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10461/2024-2",
-    decision_date: "2026-02-19",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je osnovan zahtjev radi o prekršaju za koji je ovlašteni tužitelj?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Renate Popović, predsjednice, te Davorka Kučana i Drage Klasnića, članova vijeća, uz sudjelovanje Nade Horvatović u svojstvu više sudske savjetnice specijalistice, kao zapisničarke, u prekršajnom postupku protiv okrivljenog ČJ, zbog prekršaja iz članka 47. stavka 2. i 3. u svezi članka 293. stavka 1. i dr. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj: 67/08., 48/10., 74/11., 80/13., 158/13., 92/14., 64/15., 108/17., 70/19., 42/20., 85/22. i 114/22.) rješavajući o žalbi okrivljenika, protiv presude Općinskog suda u Požegi od 30. listopada 2024., poslovni broj: Pp-168/2023, u sjednici vijeća održanoj 19. veljače 2026. p r e s u d i o j e I U povodu žalbe okr. ČJ, a po službenoj dužnosti, preinačuje se pobijana prvostupanjska presuda u točki 1. te se izriče: Na temelju članka 181. točke 5. Prekršajnog zakona (NN br. 107/07., 39/13, 157/13., 110/15., 70/17., 118/18. i 114/22.) protiv okr. ČJ (osobni podaci kao u prvostupanjskoj presudi) ODBIJA SE OPTUŽBA da bi 2. rujna 2022. u 20:55 sati u mjestu Požega, ulica Svetog Josipa 11, kao vozač vozila marke Seat, registarske oznake PŽ819AU izazvao prometnu nesreću s materijalnom štetom na način da je upravljao navedenim osobnim automobilom krećući se kolnikom ulice Svetog Josipa, smjerom sjever-jug, te dolaskom do kbr. 11 nije se kretao obilježenom prometnom trakom uz desni rub kolnika, već je vozilom prešao na suprotnu stranu kolnika i nastavio vožnju van kolnika, gdje je potom prednjim lijevim bočnim dijelom vozila udario u zapadnu stranu obiteljske kuće kbr. 11, vlasništvo AJ, - pa da bi time počinila prekršaj iz članka 47. stavka 2. i 3. u svezi članka 293. stavka 1. Zakona o sigurnosti prometa na cestama, II Žalba okr. ČJ zbog djela prekršaja u toč. 1. izreke pobijane presude, postala je bespredmetna. III Uslijed odluke u točki I ove drugostupanjske presude preinačuje se pobijana prvostupanjska presuda u ukupnoj novčanoj kazni, tako da se okr. ČJ za prekršaje u toč. 2. i 3. prihvaćaju po prvostupanjskom sudu odmjerene kazne u iznosima 270,00 EUR (dvjestosedamdeset eura) i 900,00 EUR (devetsto eura), pa se okr. ČJ na temelju članka 39. stavka 1. točke 2. Prekršajnog zakona izriče ukupna novčana kazna u iznosu 1.170,00 EUR (tisućustosedamdeset eura), koju kaznu je na temelju članka 33. stavka 11. Prekršajnog zakona dužan platiti u četiri mjesečna obroka, tako da prvi obrok dospijeva u roku od petnaest dana oda dana primitka ove presude, a svaki slijedeći u razmaku od trideset dana od prethodnog obroka, pa ako u tom roku plati dvije trećine izrečene novčane kazne, smatrat će se da je kazna u cjelini plaćena. IV Odbija se žalba okr. ČJ kao neosnovana te se, u pobijanom a nepreinačenom dijelu, potvrđuje prvostupanjska presuda. V Na temelju članka 139. stavka 3. u vezi članka 138. stavka 2. točke 3.c. Prekršajnog zakona okr. ČJ dužan je naknaditi troškove žalbenog postupka u paušalnom iznosu 50,00 EUR (pedeset eura), u roku trideset dana od primitka ove presude.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10461/2024-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10461"],
-    related_articles: ["čl. 47. Prekršajni zakon","čl. 293. Prekršajni zakon","čl. 176. Prekršajni zakon","čl. 199. Prekršajni zakon","čl. 39. Prekršajni zakon","čl. 139. Prekršajni zakon","čl. 202. Prekršajni zakon","čl. 195. Prekršajni zakon","čl. 13. Prekršajni zakon","čl. 239. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Renate Popović, predsjednice, te Davorka Kučana i Drage Klasnića, članova vijeća, uz su",
-    outcome: "remanded",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=ce73cca8-8786-4f56-a20d-023438c2d6e1",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10462/2022-2",
-    decision_date: "2026-02-18",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je žalba osnovana?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca ovog suda: Nediljka Bobana kao predsjednika vijeća, te Karmen Novak-Hrgović i Davorka Kučana, kao članova vijeća, uz sudjelovanje više sudske savjetnice Marcele Soljačić-Prester, kao zapisničarke, u prekršajnom predmetu protiv okrivljenika RD, zbog prekršaja iz članka 216. stavka 3. Zakona o sigurnosti prometa na cestama („Narodne novine“, broj: 67/08, 48/10, 74/11, 80/13, 158/13, 92/14, 64/15, 89/15, 108/17, 70/19, 42/20, 85/22), odlučujući o žalbi okrivljenika RD podnesenoj po braniteljici Mersihi Mulalić, odvjetnici iz Siska, protiv presude Općinskog suda u Rijeci, Stalne službe u Malom Lošinju, Prekršajni odjel od 9. rujna 2022., poslovni broj: 72. Pp-3330/2022-6, na sjednici vijeća održanoj 18. veljače 2026., p r e s u d i o j e: I. Djelomično se prihvaća žalba okrivljenika RD, kao osnovana, te se preinačuje pobijana presuda u odluci o novčanoj kazni na način da se okrivljeniku RD, primjenom članka 37. Prekršajnog zakona („Narodne novine“, broj, 107/07, 39/13,157/13, 110/15, 70/17, 118/18 i 114/22), za prekršaj iz članka 216. stavka 3. Zakona o sigurnosti prometa na cestama („Narodne novine“, broj 107/07, 39/13, 157/13, 110/15, 70/17, 118/18 i 114/22), činjenično opisanog u izreci izriče novčana kazna u iznosu od 800,00 (osamsto) eura. II. Temeljem članka 33. stavka 11. Prekršajnog zakona („Narodne novine“, broj: 107/07, 39/13, 157/13 i 110/15, 70/17, 118/18 i 114/22), određuje se da okrivljenik BD izrečenu novčanu kaznu, plati u roku od 3 (tri) mjeseca po primitku ove presude, a ukoliko okrivljenik u navedenom roku plati dvije trećine te novčane kazne, smatrat će se da je novčana kazna u cijelosti plaćena. III. U ostalom pobijanom, a nepreinačenom dijelu odbija se žalba okrivljenika RD i potvrđuje prvostupanjska presuda. IV. Temeljem članka 139. stavka 3. Prekršajnog zakona („Narodne novine“, broj 107/07, 39/13, 157/13, 110/15, 70/17, 118/18 i 114/22) okrivljenik BD je obvezan naknaditi trošak žalbenog postupka u paušalnom iznosu od 15,00 (petnaest) eura u roku od 30 (trideset) dana od primitka ove presude.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10462/2022-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10462"],
-    related_articles: ["čl. 88. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca ovog suda: Nediljka Bobana kao predsjednika vijeća, te Karmen Novak-Hrgović i Davorka K",
-    outcome: "remanded",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=d7af7cc3-da2c-4596-86ba-0d6bd8a71639",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10464/2023-2",
-    decision_date: "2026-02-05",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je sud pravilno primijenio mjerodavno pravo?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Maria Soljačića kao predsjednika vijeća, te Tomislava Tomašića i Marjane Rajić, kao članova vijeća, uz sudjelovanje Diane Pavlečić, u svojstvu više sudske savjetnice – specijalistice kao zapisničarke, u prekršajnom postupku protiv okrivljenice ŽG, zbog prekršaja iz članka 10. stavka 1. podstavka 2. i stavka 3. Zakona o informiranju potrošača o hrani (NN 56/13,14/14,56/16,32/19), odlučujući o žalbi tužitelja Državnog inspektorata Republike Hrvatske, Područnog ureda Split, Službe poljoprivredne inspekcije, podnijetoj protiv presude Općinskog suda u Metkoviću od 29. rujna 2023., broj: Pp-1065/2023, na sjednici vijeća održanoj 5. veljače 2026., r i j e š i o j e : Prihvaća se žalba tužitelja Državnog inspektorata Republike Hrvatske, Područnog ureda Split, Službe poljoprivredne inspekcije, te se ukida pobijana presuda i predmet se dostavlja prvostupanjskom sudu na ponovno suđenje i odluku.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10464/2023-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10464"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Maria Soljačića kao predsjednika vijeća, te Tomislava Tomašića i Marjane Rajić, kao čl",
-    outcome: "remanded",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=8971eecc-5763-4e32-a996-794d1c1326c5",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10465/2023-2",
-    decision_date: "2026-02-12",
-    legal_area: "procedural",
-    legal_question:
-      "žalba tužitelja Državnog inspektorata Republike Hrvatske, Područnog ureda Split, Ispostave u Metkoviću i potvrđuje pobijana presuda?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Katice Lučić, kao predsjednice vijeća te Ivane Bosnić-Kovačić i Jasne Momirović, kao članica vijeća, uz sudjelovanje sudske savjetnice Hane Bogović, kao zapisničarke, u prekršajnom predmetu protiv okrivljenika SĆ, zbog prekršaja iz čl. 176. toč. 6. Zakona o veterinarstvu (Narodne novine broj: 82/13., 148/13., 52/21.), odlučujući o žalbi tužitelja Državnog inspektorata Republike Hrvatske, Područnog ureda Split, Ispostave u Metkoviću, protiv presude Općinskog suda u Metkoviću, broj Pp-1084/2023 od 8. studenoga 2023. godine, na sjednici vijeća održanoj 12. veljače 2026., p r e s u d i o j e Odbija se kao neosnovana, žalba tužitelja Državnog inspektorata Republike Hrvatske, Područnog ureda Split, Ispostave u Metkoviću i potvrđuje pobijana presuda.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10465/2023-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10465"],
-    related_articles: ["čl. 176. Prekršajni zakon","čl. 182. Prekršajni zakon","čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Katice Lučić, kao predsjednice vijeća te Ivane Bosnić-Kovačić i Jasne Momirović, kao č",
-    outcome: "defendant_won",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=35e9fe6d-c39c-4cf5-be7e-d7e85ef41287",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-1047/2026-2",
-    decision_date: "2026-02-04",
-    legal_area: "procedural",
-    legal_question:
-      "Odbija se kao neosnovana žalba okrivljenika ŠĆ i pobijana presuda se u pobijanom dijelu potvrđuje?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca: Nediljka Bobana kao predsjednika vijeća, te Karmen Novak Hrgović i Davorka Kučana kao članova vijeća, uz sudjelovanje više sudske savjetnice Sofije Kovačević kao zapisničarke, u prekršajnom predmetu protiv okrivljenika ŠĆ, kojeg brani Ivan Milanović, odvjetnik iz Pule, zbog prekršaja iz članka 282. stavka 9. Zakona o sigurnosti prometa na cestama (N.N. broj 67/08, 48/10, 74/11, 80/13, 158/13, 92/14, 64/15, 108/17, 70/19, 42/20, 85/22, 114/22, 145/24), rješavajući o žalbi okrivljenika ŠĆ, podnesenoj protiv presude Općinskog suda u Puli od 2. prosinca 2025., broj: Pp-406/2022, na sjednici vijeća održanoj dana 4. veljače 2026., p r e s u d i o j e: I. Odbija se kao neosnovana žalba okrivljenika ŠĆ i pobijana presuda se u pobijanom dijelu potvrđuje. II. Temeljem članka 139. stavka 3. Prekršajnog zakona (Narodne novine broj: 107/2007, 39/2013, 157/2013, 110/2015, 70/2017, 118/2018, 114/2022), okrivljenik ŠĆ je obvezan naknaditi trošak žalbenog postupka u paušalnom iznosu od 30 (trideset) eura u roku od 30 (trideset) dana od primitka ove presude.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-1047/2026-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-1047"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca: Nediljka Bobana kao predsjednika vijeća, te Karmen Novak Hrgović i Davorka Kučana kao",
-    outcome: "defendant_won",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=e84149a6-c363-4596-b939-9e6d7eb57402",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10470/2024-2",
-    decision_date: "2026-02-25",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je osnovan zahtjev radi pravilnog utvrđivanja činjeničnog stanja saslušati predstavnika ovlaštenog tužitelja?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca ovog suda Nediljka Bobana predsjednika vijeća, te Karmen Novak Hrgović i Davorka Kučana članova vijeća, uz sudjelovanje više sudske savjetnice Marcele Soljačić Prester kao zapisničara, u prekršajnom postupku protiv okrivljenika ŽŽC, zbog prekršaja iz članka 53. stavak 4. Zakona o sigurnosti prometa na cestama (Narodne novine broj: 67/2008, 48/2010, 74/2011, 80/2013, 158/2013, 92/2014, 64/2015, 108/2017, 70/2019, 42/2020, 85/2022, 114/2022), odlučujući o žalbi ovlaštenog tužitelja Policijske uprave splitsko dalmatinske, Postaje granične policije Imotski, podnesenoj protiv presude Općinskog suda u Makarskoj, od 15. listopada 2024. godine, broj: Pp-609/2024-4, na sjednici vijeća održanoj dana 25. veljače 2026., r i j e š i o j e: Prihvaćanjem žalbe ovlaštenog tužitelja Policijske uprave splitsko dalmatinske, Postaje granične policije Imotski, ukida se pobijana presuda i predmet vraća prvostupanjskom sudu na ponovno suđenje.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10470/2024-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10470"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca ovog suda Nediljka Bobana predsjednika vijeća, te Karmen Novak Hrgović i Davorka Kučana",
-    outcome: "remanded",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=b6d94a28-a591-458a-8138-d4c3fcedd681",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10478/2025-2",
-    decision_date: "2026-04-09",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je osnovan zahtjev radi potrebe zdravstvene skrbi o djetetu i vlastitog zdravstvenog stanja?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sutkinja Ivanke Mašić kao predsjednice vijeća, te Anđe Ćorluka i Mirjane Medić kao članica vijeća uz sudjelovanje sudskog savjetnika Ivice Ožbolta kao zapisničara, u prekršajnom postupku protiv okrivljene JĆ, zbog prekršaja iz članka 57. stavka 7. u vezi članka 293. stavka 1. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj: 67/08., 48/10., 74/11., 80/13., 158/13., 92/14., 64/15., 89/15., 108/17., 70/19., 42/20., 85/22., 114/22., 133/23. i 145/24.), odlučujući o prigovoru okrivljene JĆ, podnesenom protiv prekršajnog naloga Ministarstva unutarnjih poslova Republike Hrvatske, Policijske uprave vukovarsko-srijemske, Postaje granične policije Vrbanja od 24. listopada 2025., KLASA: 211-07/25-1/19962, URBROJ: 511-15-13-25-1, u sjednici vijeća održanoj 9. travnja 2026., p r e s u d i o j e I. Djelomičnim prihvaćanjem prigovora okrivljene JĆ, preinačuje se pobijani prekršajni nalog u odluci o novčanoj kazni, tako da se okrivljenoj JĆ za prekršaj činjenično opisan u izreci prekršajnog naloga, pravno označen kao prekršaj iz članka 57. stavka 7. Zakona o sigurnosti prometa na cestama u vezi članka 293. stavka 1. istog Zakona, temeljem tog propisa, uz primjenu članka 37. stavka 3. točke 1. Prekršajnog zakona („Narodne novine“ broj: 107/07., 39/13., 157/13., 110/15., 70/17., 118/18. i 114/22.), izriče novčana kazna u iznosu od 360,00 eura (tristošezdeset eura) koju je dužna platiti u 6 (šest) jednakih mjesečnih obroka, s time da prvi obrok dospijeva u roku od 15 dana od primitka ove presude, a svaki daljnji obrok 15. dana u svakom narednom mjesecu, a ako okrivljenica u navedenom roku plati dvije trećine novčane kazne, smatrat će se da je novčana kazna plaćena u cijelosti. II. Djelomičnim prihvaćanjem prigovora okrivljene JĆ, preinačuje se pobijani prekršajni nalog u odluci o zaštitnoj mjeri, tako da se okrivljenoj JĆ zaštitna mjera zabrane upravljanja motornim vozilom „B“ kategorije ukida. III. Na temelju članka 138. stavak 2. točka 3.c u svezi s člankom 139. stavak 6. Prekršajnog zakona, okrivljena JĆ oslobađa se dužnosti naknade paušalnog iznosa troškova žalbenog postupka.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10478/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10478"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sutkinja Ivanke Mašić kao predsjednice vijeća, te Anđe Ćorluka i Mirjane Medić kao članica vij",
-    outcome: "remanded",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=2f209f5e-3429-4ea4-bd8a-595e3553ea7a",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10483/2025-2",
-    decision_date: "2026-04-01",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je osnovan zahtjev radi o takvim olakotnim okolnostima koje u konkretnom slučaju imaju značaj naročito olakotnih te iste opravdavaju primjenu in?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Sanje Gospočić kao predsjednice vijeća, te Mladena Genca i Tomislava Tomašića, kao članova vijeća, uz sudjelovanje više sudske savjetnice - specijalistice Dubravke Besednik Horak, kao zapisničarke, u prekršajnom postupku protiv okrivljenika KOD GI 2022 j.d.o.o., kao pravne osobe i GI, kao odgovorne osobe, zbog prekršaja iz članka 192. stavka 1. točke 1. i stavka 4. Općeg poreznog zakona („Narodne novine“ broj: 115/16., 106/18., 121/19., 32/20., 42/20., 114/22. i 152/24.), odlučujući o prigovorima okrivljenika KOD ŽELJKE 2022 j.d.o.o., kao pravne osobe i GI, kao odgovorne osobe podnesenim protiv prekršajnog naloga Ministarstva financija Republike Hrvatske, Porezne uprave, Područnog ureda Split od 7. listopada 2025., Klasa: UP/I-471-02/25-01/389, Ur.broj: 513-07-17-25-1 na sjednici vijeća održanoj 1. travnja 2026., p r e s u d i o j e I Prihvaćaju se prigovori okrivljenika KOD ŽELJKE 2022 j.d.o.o., kao pravne osobe i GI, kao odgovorne osobe te se preinačuje pobijani prekršajni nalog u odluci o kazni na način da se za prekršaj iz članka 192. stavka 1. točke 1. i stavka 4. Općeg poreznog zakona, činjenično i pravno opisanog izrekom tog prekršajnog naloga, temeljem citiranog zakonskog propisa uz primjenu odredbe članka 37. stavka 3. točke 2. Prekršajnog zakona („Narodne novine“ broj: 107/07., 39/13., 157/13., 110/15., 70/17., 118/18. i 114/22.), okrivljenoj pravnoj osobi izriče novčana kazna u iznosu od 1.040,00 (tisućučetrdeset) eura, dok se uz primjenu odredbe članka 37. stavka 3. točke 1. Prekršajnog zakona, okrivljenoj odgovornoj osobi izriče novčana kazna u iznosu od 400,00 (četiristo) eura, koje kazne su okrivljenici dužni platiti u roku od 90 dana od dana primitka ove presude. Sukladno odredbi članka 152. stavka 3. Prekršajnog zakona, ako svaki okrivljenik plati dvije trećine izrečene novčane kazne u navedenom roku, novčana kazna smatrat će se plaćenom u cijelosti. II Na temelju odredbe članka 138. stavka 2. točke 3.c u svezi odredbe članka 139. stavka 5. Prekršajnog zakona, okrivljenici KOD ŽELJKE 2022 j.d.o.o., kao pravna osoba i GI, kao odgovorna osoba dužni su platiti paušalni iznos troškova prekršajnog postupka Visokog prekršajnog suda Republike Hrvatske u iznosu od 35,00 (tridesetpet) eura, svaki, u roku od 90 dana od dana primitka ove presude.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10483/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10483"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Sanje Gospočić kao predsjednice vijeća, te Mladena Genca i Tomislava Tomašića, kao čla",
-    outcome: "remanded",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=63538f32-b007-417a-9728-ba7f13b1155c",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-1050/2026-2",
-    decision_date: "2026-04-15",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je osnovan zahtjev radi o povredi materijalnog prava na štetu okrivljenika?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sutkinja Ivanke Mašić kao predsjednice vijeća, te Anđe Ćorluka i Mirjane Medić kao članica vijeća uz sudjelovanje sudskog savjetnika Ivice Ožbolta kao zapisničara, u prekršajnom postupku protiv okrivljenog VU, zbog prekršaja iz članka 51. stavka 5. u vezi članka 293. stavka 1. i dr. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj: 67/08., 48/10., 74/11., 80/13., 158/13., 92/14., 64/15., 89/15., 108/17., 70/19., 42/20., 85/22., 114/22., 133/23. i 145/24.), odlučujući o prigovoru okrivljenog VU, podnesenom protiv prekršajnog naloga Ministarstva unutarnjih poslova Republike Hrvatske, Policijske uprave zadarske, Policijske postaje Benkovac-Obrovac od 25. lipnja 2025., KLASA: 211-07/25-3/9782, URBROJ: 511-18-10-25-1, u sjednici vijeća održanoj 15. travnja 2026., p r e s u d i o j e I. Djelomičnim prihvaćanjem prigovora okrivljenog VU, preinačuje se pobijani prekršajni nalog u odluci o novčanoj kazni, tako da je okrivljeni VU za prekršaje iz članka 51. stavka 5. u vezi članka 293. stavka 1. i članka 199. stavka 7. Zakona o sigurnosti prometa na cestama, činjenično opisane u točki 1. i 2. izreke prekršajnog naloga, ukupnu novčanu kaznu u iznosu od 920,00 eura (devetstodvadeset eura) dužan platiti u 5 (pet) jednakih mjesečnih obroka, s time da prvi obrok dospijeva u roku od 15 dana od primitka ove presude, a svaki daljnji obrok 15. dana u svakom narednom mjesecu, a ako okrivljenik u navedenom roku plati dvije trećine te novčane kazne, smatrat će se da je novčana kazna plaćena u cijelosti. II. U ostalom se dijelu prigovor okrivljenog VU odbija kao neosnovan te se u pobijanom, a nepreinačenom dijelu prekršajni nalog potvrđuje. III. Na temelju članka 138. stavka 2. točke 3.c) Prekršajnog zakona („Narodne novine“ broj: 107/07., 39/13., 157/13., 110/15., 70/17., 118/18. i 114/22.), okrivljeni VU obvezan je naknaditi paušalni iznos troškova žalbenog postupka u iznosu od 30,00 eura (trideset eura) u roku od 15 dana od dana primitka ove presude.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-1050/2026-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-1050"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sutkinja Ivanke Mašić kao predsjednice vijeća, te Anđe Ćorluka i Mirjane Medić kao članica vi",
-    outcome: "remanded",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=1e2c13cf-8e5d-4826-a6bd-e8d2981a31e9",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10512/2025-3",
-    decision_date: "2026-03-18",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je osnovan zahtjev radi posla te brige o majci i bakama te predlaže ukidanje iste. U odnosu na izrečenu novčanu kaznu predlaže smanjenje iste je?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sutkinje Karmen Novak Hrgović, predsjednice vijeća, te sudaca Nediljka Bobana i Davorka Kučana, članova vijeća, uz sudjelovanje sudske savjetnice Mirne Prišlin, zapisničarke, u prekršajnom postupku protiv okrivljenika ŠT, zbog prekršaja iz članka 176. stavak 5. i dr. Zakona o sigurnosti prometa na cestama (Narodne novine, broj: 67/2008, 48/2010, 74/2011, 80/2013, 158/2013, 92/2014, 64/2015, 89/2015, 108/2017, 70/2019, 42/2020, 85/2022, 114/2022, 133/2023, 145/2024), odlučujući o prigovoru okrivljenika, podnesenom po braniteljici Andrei Cvitanović Vrzić, odvjetnici u Splitu, protiv prekršajnog naloga Ministarstva unutarnjih poslova Republike Hrvatske, Policijske uprave splitsko-dalmatinske, Postaje prometne policije Split od 4. siječnja 2025., Klasa:211-07/25-3/132, Broj:511-12-36-25-1, na sjednici vijeća održanoj 18. ožujka 2026. p r e s u d i o j e: II) Djelomičnim prihvaćanjem prigovora preinačuje se pobijani prekršajni nalog u odluci o zaštitnoj mjeri, na način da se za počinjeni prekršaj izriče, temeljem članka 58. Prekršajnog zakona, zaštitna mjera zabrane upravljanja motornim vozilom B kategorije u trajanju od 2 (dva) mjeseca. III) U ostalom dijelu prigovor okrivljenika ŠT odbija se kao neosnovan, te se prekršajni nalog u pobijanom, a ne preinačenom dijelu potvrđuje. IV) Temeljem članka 139. stavka 3. Prekršajnog zakona okrivljenik ŠT je obvezan naknaditi trošak žalbenog postupka u paušalnom iznosu 30,00 (trideset) eura, u roku od 30 (trideset) dana od primitka ove presude.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10512/2025-3 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10512"],
-    related_articles: ["čl. 32. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sutkinje Karmen Novak Hrgović, predsjednice vijeća, te sudaca Nediljka Bobana i Davorka Kučana",
-    outcome: "remanded",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=2864bd8f-6917-4d38-977d-e8711eafff88",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10518/2025-4",
-    decision_date: "2026-02-11",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je sud pravilno primijenio mjerodavno pravo?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca : Maria Soljačića kao predsjednika vijeća te Tomislava Tomašića i Marjane Rajić kao članova vijeća, uz sudjelovanje Željka Kudrića u svojstvu višeg sudskog savjetnika-specijaliste kao zapisničara, u prekršajnom postupku protiv u prekršajnom postupku protiv I okrivljenika Vrana TAXI j.d.o.o. kao pravne osobe i II okrivljenika PČ odgovorne osobe u pravnoj osobi, zbog prekršaja iz članka 113. stavak 2. i 4. u vezi čl.113. st.1 al 2. Zakona o prijevozu u cestovnom prometu (NN 41/18.,98/19,30/21.,136/24), odlučujući o prigovoru I okrivljenika Vrana TAXI j.d.o.o. kao pravne osobe i II okrivljenika PČ odgovorne osobe u pravnoj osobi protiv prekršajnog naloga, Ministarstva mora, prometa i infrastrukture, Uprave za cestovni promet cestovnu infrastrukturu i inspekciju, Sektora inspekcije sigurnosti cestovnog prometa i cesta, Služba inspekcije cestovnog prometa Klasa: 340-06/25-02/2060, URBROJ: 530-8-3-1-5-25-2 ., dana 11. veljače 2026. r i j e š i o j e: Na temelju članka 186. stavka 1. Prekršajnog zakona („Narodne novine“, br. 107/07., 39/13., 157/13. 110/15. 70/17, 118/18, 114/22), ispravlja se presuda Visokog prekršajnog suda Republike Hrvatske od 14. siječnja 2026., Broj: Ppž-10518/2025 na način da u obrazloženju pod toč. 9. umjesto '' u roku od 1530 dana'', pravilno treba glasiti '' u roku od 15 dana''",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10518/2025-4 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10518"],
-    related_articles: ["čl. 113. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca : Maria Soljačića kao predsjednika vijeća te Tomislava Tomašića i Marjane Rajić kao čla",
-    outcome: "partially",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=95933257-d848-48f3-b5d3-2134a1733667",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10523/2025-2",
-    decision_date: "2026-03-11",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je sud pravilno primijenio mjerodavno pravo?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca ovog suda: Nediljka Bobana kao predsjednika vijeća, te Karmen Novak-Hrgović i Davorka Kučana, kao članova vijeća, uz sudjelovanje Marcele Soljačić-Prester u svojstvu više sudske savjetnice, kao zapisničarke, u prekršajnom postupku protiv okrivljenika IR, zbog prekršaja iz članka 53. stavka 4. Zakona o sigurnosti prometa na cestama („Narodne novine“, broj: 67/08, 48/10, 74/11, 80/13, 158/13, 92/14, 64/15, 89/15, 108/17, 70/19, 42/20, 85/22 i 114/22), rješavajući o prigovoru koji se prihvaća žalbom okrivljenika IR, podnesenom protiv prekršajnog naloga Policijske uprave vukovarsko-srijemske, Postaje prometne policije Vinkovci, od 16. listopada 2025., klasa: 211-07/25-3/16592, urbroj: 511-15-14-25-2., na sjednici vijeća održanoj 11. ožujka 2026. p r e s u d i o j e I. Prihvaća se kao osnovan prigovor okrivljenika IR, te se preinačuje pobijani prekršajni nalog u odluci o prekršajno pravnim sankcijama na način da se okrivljeniku IR, umjesto dosadašnje novčane kazne, za prekršaj iz članka 53. stavka 4. u vezi s člankom 53. stavak 1. Zakona o sigurnosti prometa na cestama opisanog u izreci pobijanog prekršajnog naloga, primjenom članka 37. Prekršajnog zakona izriče novčana kazna u iznosu od 100,00 (sto eura), te ukida odluka o izrečenoj zaštitnoj mjeri zabrane upravljanja motornim vozilima B kategorije u trajanju od 1 (jedan) mjesec. II. Novčanu kaznu okrivljenik IR je obavezan platiti u roku od 60 (šezdeset) dana od dana primitka ove presude, a ako se novčana kazna ne plati u tom roku primijenit će se odredbe članka 34. Prekršajnog zakona. Ukoliko okrivljenik u danom roku plati 2/3 izrečene novčane kazne, smatrat će se da je kazna u cijelosti plaćena. III. Na temelju članka 139. stavka 6. Prekršajnog zakona („Narodne novine“, broj: 107/07, 39/13, 157/13, 110/15, 70/17, 118/18 i 114/22) okrivljenik IR se oslobađa obveze naknade troškova žalbenog postupka iz članka 138. stavka 2. točke 3.c Prekršajnog zakona.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10523/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10523"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca ovog suda: Nediljka Bobana kao predsjednika vijeća, te Karmen Novak-Hrgović i Davorka K",
-    outcome: "remanded",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=4bfdc8ff-0d1c-45a2-a782-57c4423af1a9",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10524/2023-2",
-    decision_date: "2026-03-16",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je osnovan zahtjev radi analize. Navođenje uređaja kojim je trebao biti podvrgnut ispitivanju ne predstavlja nepravilnost zapisnika i postupanja?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Renate Popović, predsjednice, te Davorka Kučana i Drage Klasnića, članova vijeća, uz sudjelovanje Nade Horvatović u svojstvu više sudske savjetnice specijalistice, kao zapisničarke, u prekršajnom postupku protiv okrivljenog SA, zbog prekršaja iz članka 282. stavka 1. i 9. i dr. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj: 67/08., 48/10., 74/11., 80/13., 158/13., 92/14., 64/15., 108/17., 70/19., 42/20., 85/22. i 114/22.) rješavajući o žalbi okrivljenika, protiv presude Općinskog suda u Bjelovaru od 22. studenoga 2023. poslovni broj: 52.Pp-3415/2023, u sjednici vijeća održanoj 19. veljače 2026. p r e s u d i o j e I Odbija se žalba okr. SA kao neosnovana i pobijana prvostupanjska presuda potvrđuje. II Na temelju članka 139. stavka 3. u vezi članka 138. stavka 2. točke 3.c. Prekršajnog zakona okr. SA je obvezan naknaditi troškove žalbenog postupka u paušalnom iznosu 60,00 EUR (šezdeset eura) u roku trideset dana od primitka ove presude.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10524/2023-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10524"],
-    related_articles: ["čl. 152. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Renate Popović, predsjednice, te Davorka Kučana i Drage Klasnića, članova vijeća, uz su",
-    outcome: "defendant_won",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=f2e6e675-6360-498f-b532-bf50596611c1",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10528/2023-2",
-    decision_date: "2026-04-01",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je osnovan zahtjev radi o okrivljenici koja je poslovno sposobna osoba (odnosno čija poslovna sposobnost nije dovedena u pitanje)?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca ovog Suda: Nediljka Bobana predsjednika vijeća, te Karmen Novak Hrgović i Davorka Kučana, članova vijeća, uz sudjelovanje više sudske savjetnice Marcele Soljačić Prester kao zapisničara, u prekršajnom postupku protiv okrivljenice TEĐ, zbog prekršaja iz članka 229. stavka 7. Zakona o sigurnosti prometa na cestama (Narodne novine broj: 67/2008, 48/2010, 74/2011, 80/2013, 158/2013, 92/2014, 64/2015, 108/2017, 70/2019, 42/2020, 85/2022), odlučujući o žalbi okrivljenice TEĐ, podnesenoj protiv presude Općinskog suda u Novom Zagrebu, od 5. listopada 2023., broj: 65 Pp-3133/2023, na sjednici vijeća održanoj dana 1. travanj 2026., p r e s u d i o j e : I) Odbija se žalba okrivljenice TEĐ kao neosnovana, te se prvostupanjska presuda potvrđuje. II) Temeljem članka 139. stavka 3. i članka 138. stavka 2. točka 3.c Prekršajnog zakona (Narodne novine broj: 107/2007, 39/2013, 157/2013, 110/2015, 70/2017, 118/2018, 114/2022), okrivljenica TEĐ je obvezna naknaditi trošak žalbenog postupka u paušalnom iznosu 50,00 (pedeset) EUR-a u roku od 30 (trideset) dana od primitka ove presude.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10528/2023-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10528"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca ovog Suda: Nediljka Bobana predsjednika vijeća, te Karmen Novak Hrgović i Davorka Kučan",
-    outcome: "defendant_won",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=aae90891-c0c0-4b51-93e6-fec09af44d90",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-1053/2026-2",
-    decision_date: "2026-02-24",
-    legal_area: "procedural",
-    legal_question:
-      "Žalba okrivljenika pravne osobe FlixBus CEE South d.o.o. i odgovorne osobe EV, te žalba okrivljene odgovorne osobe EV, odbacuju se nedopuštenima?",
-    court_position:
-      "Žalba okrivljenika pravne osobe FlixBus CEE South d.o.o. i odgovorne osobe EV, te žalba okrivljene odgovorne osobe EV, odbacuju se nedopuštenima.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-1053/2026-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-1053"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Žalba okrivljenika pravne osobe FlixBus CEE South d.o.o. i odgovorne osobe EV, te žalba okrivljene odgovorne osobe EV, odbacuju se nedopuštenima.",
-    outcome: "partially",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=b95065bc-6f73-474a-ba80-fbfcbbcdbb84",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10536/2025-2",
-    decision_date: "2026-02-12",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je nižestupanjska odluka pravilna?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sutkinja Katice Lučić, kao predsjednice vijeća, te Jasne Momirović i Ivane Bosnić-Kovačić, kao članica vijeća, uz sudjelovanje više sudske savjetnice Ivane Vorel Mikša, kao zapisničarke, u prekršajnom postupku protiv okrivljenika EXPERT PRODUCT d. o. o. Glina, kao pravne osobe i BJE, kao odgovorne osobe u pravnoj osobi, zbog prekršaja iz članka 27. stavka 1. točke 4. i stavka 3. Zakona o turističkoj pristojbi („Narodne novine“, broj: 52/19, 32/20, 42/20), odlučujući o žalbi tužitelja Državnog inspektorata Republike Hrvatske, Područnog ureda Zagreb, Ispostave u Bjelovaru, podnijetoj protiv presude Općinskog prekršajnog suda u Zagrebu od 5. svibnja 2025., poslovni broj: Pp-5662/2025, na sjednici vijeća održanoj 12. veljače 2026. p r e s u d i o j e Žalba tužitelja Državnog inspektorata Republike Hrvatske, Područnog ureda Zagreb, Ispostave u Bjelovaru, odbija se kao neosnovana i potvrđuje se pobijana presuda.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10536/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10536"],
-    related_articles: ["čl. 22. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sutkinja Katice Lučić, kao predsjednice vijeća, te Jasne Momirović i Ivane Bosnić-Kovačić, ka",
-    outcome: "defendant_won",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=f3d1aa97-93b4-4b6c-a580-50f259064d96",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10553/2025-2",
-    decision_date: "2026-03-11",
-    legal_area: "procedural",
-    legal_question:
-      "Odbija se kao neosnovana žalba okrivljenika DĐ i pobijana presuda se u pobijanom dijelu potvrđuje?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca: Nediljka Bobana kao predsjednika vijeća, te Karmen Novak Hrgović i Davorka Kučana kao članova vijeća, uz sudjelovanje više sudske savjetnice Sofije Kovačević kao zapisničarke, u prekršajnom predmetu protiv okrivljenika DĐ, zbog prekršaja iz članka 282. stavka 9. Zakona o sigurnosti prometa na cestama (N.N. broj 67/08, 74/11, 80/13, 158/13, 92/14, 64/15, 108/17, 70/19, 42/20, 85/22, 114/22, 133/23, 145/24), rješavajući o žalbi okrivljenika DĐ, podnesenoj protiv presude Općinskog prekršajnog suda u Splitu, Stalna služba u Omišu, od 29. kolovoza 2025., broj: Pp-7208/2022-12, na sjednici vijeća održanoj dana 11. ožujka 2026., p r e s u d i o j e: I. Odbija se kao neosnovana žalba okrivljenika DĐ i pobijana presuda se u pobijanom dijelu potvrđuje. II. Temeljem odredbe članka 138. stavka 2. točke 3. c) Prekršajnog zakona („Narodne novine“ broj: 107/07, 39/13 i 157/13), okrivljenik DĐ obvezan je naknaditi paušalni iznos troška drugostupanjskog prekršajnog postupka, u iznosu od 50,00 (pedeset) eura u roku od 30 (trideset) dana od dana primitka ove presude.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10553/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10553"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca: Nediljka Bobana kao predsjednika vijeća, te Karmen Novak Hrgović i Davorka Kučana kao",
-    outcome: "defendant_won",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=90997085-12c1-48d6-b1f1-d86196c05756",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10564/2023-2",
-    decision_date: "2026-02-18",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je nižestupanjska odluka pogrešna?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca ovog suda: Nediljka Bobana kao predsjednika vijeća, te Karmen Novak-Hrgović i Davorka Kučana, kao članova vijeća, uz sudjelovanje Marcele Soljačić-Prester u svojstvu više sudske savjetnice, kao zapisničarke, u prekršajnom postupku protiv okrivljenika JD, zbog prekršaja iz članka 163. stavka 8. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj: 67/08, 48/10, 74/11, 80/13, 158/13, 92/14, 64/15, 108/17, 70/19, 42/20), zbog prekršaja iz članka 229. stavka 5. cit. Zakona, zbog prekršaja iz članka 242. stavka 5. cit. Zakona, zbog prekršaja iz članka 29. stavka 1. točke 1. Zakona o osobnoj iskaznici („Narodne novine“, broj: 62/15 i 42/20), zbog prekršaja iz članka 65. stavka 1. Zakona o obveznim osiguranjima u prometu (Narodne novine, broj: 151/05, 36/09, 75/09, 76/13, 152/14), zbog prekršaja iz članka 238. stavka 7. Zakona o sigurnosti prometa na cestama, zbog prekršaja iz članka 289. stavka 4. cit. Zakona i zbog prekršaja iz članka 199. stavka 8. cit. Zakona, odlučujući o žalbi okrivljenika JD, protiv presude Općinskog prekršajnog suda u Splitu, Stalne službe u Solinu, od 27. listopada 2023., poslovni broj: Pp-8206/2023-6, na sjednici vijeća održanoj 18. veljače 2026., p r e s u d i o j e: I. U povodu žalbe okrivljenika JD, a po službenoj dužnosti, preinačuje se pobijana presuda, te se izriče: Na temelju članka 181. točke 5. Prekršajnog zakona („Narodne novine“ broj 107/07, 39/13, 157/13, 110/15, 70/17, 118/18 i 114/22) protiv okrivljenika JD (osobni podaci kao u prvostupanjskoj presudi) ODBIJA SE OPTUŽBA a) da bi dana 26. srpnja 2022. u 17,20 sati u mjestu Pribude u ulici Mornari-Šerići upravljao osobnim automobilom marke \"Opel\" reg. oznake [registarska oznaka] i da tijekom vožnje nije koristio sigurnosni pojas na način koji je odredio proizvođač sigurnosnog pojasa, - pa da bi time počinio prekršaj iz članka 163. stavka 8. Zakona o sigurnosti prometa na cestama b) da bi istog dana na istom mjestu kao pod točkom a) upravljao navedenim vozilom, a da kod sebe nije imao vozačku dozvolu, odnosno da istu nije pokazao policijskom službeniku na uvid, - pa da bi time počinio prekršaj iz članka 229. stavka 5. Zakona o sigurnosti prometa na cestama, c) da bi istog dana i na istom mjestu kao pod točkom a) upravljao navedenim vozilom, a da kod sebe nije imao prometnu dozvolu, odnosno da istu nije pokazao policijskom službeniku na uvid, - pa da bi time počinio prekršaj iz članka 242. stavka 3. Zakona o sigurnosti prometa na cestama, d) da bi istog dana i na istom mjestu kao pod točkom a) upravljao navedenim vozilom a da kod sebe nije imao osobnu iskaznicu, odnosno da istu nije pokazao policijskom službeniku na uvid, - pa da bi time počinio prekršaj iz članka 29. stavka 1. točke 1. Zakona o osobnoj iskaznici, f) da bi istog dana i na istom mjestu kao pod točkom a) upravljao navedenim vozilom a kojemu da je isteklo važenje prometne dozvole za više od 15 dana (isteklo 28. studenog 2011.), - pa da bi time počinio prekršaj iz članka 238. stavka 7. Zakona o sigurnosti prometa na cestama, II. Uslijed odluke iz točke I., žalba okrivljenika JD postala je bespredmetna glede djela činjenično opisanih pod točkama a), b), c), d) i f) izreke pobijane presude. III. Odbija se kao neosnovana žalba okrivljenika JD, te se u pobijanom, a nepreinačenom dijelu prvostupanjska presuda potvrđuje. IV. U povodu žalbe okrivljenika JD, preinačava se prvostupanjska presuda u odluci o ukupnoj novčanoj kazni, tako da se okrivljeniku JD primjenom članka 37. Prekršajnog zakona, za prekršaj iz članka 65. stavka 1. Zakona o obveznim osiguranjima u prometu, činjenično opisanog pod točkom e) izreke pobijane presude, novčana kazna u iznosu od 300,00 (tristo) eura, smatra utvrđenom, kao i kazna u iznosu od 700,00 (sedamsto) eura za prekršaj iz članka 289. stavka 4. Zakona o sigurnosti prometa na cestama, činjenično opisanog pod točkom g) izreke pobijane presude i kazna u iznosu od 1.000,00 (tisuću) eura za prekršaj iz članka 199. stavka 8. Zakona o sigurnosti prometa na cestama, činjenično opisanog pod točkom h) izreke pobijane presude, te se okrivljeniku primjenom članka 39. Prekršajnog zakona izriče novčana kazna u ukupnom iznosu od 2.000,00 (dvijetisuće eura), a koju je okrivljenik JD dužan platiti u roku od 3 (tri) mjeseca, od dana primitka pisanog otpravka ove presude, s time da će se, ako okrivljenik plati dvije trećine izrečene novčane kazne u navedenom roku, novčana kazna smatrati plaćenom u cjelini. V. Temeljem članka 139. stavka 3. Prekršajnog zakona („Narodne novine“, broj 107/07, 39/13, 157/13, 110/15, 70/17, 118/18 i 114/22) okrivljenik JD obvezan je naknaditi trošak žalbenog postupka u iznosu od 30,00 (trideset eura) u roku od 3 (tri) mjeseca od primitka ove presude.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10564/2023-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10564"],
-    related_articles: ["čl. 239. Prekršajni zakon","čl. 88. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca ovog suda: Nediljka Bobana kao predsjednika vijeća, te Karmen Novak-Hrgović i Davorka K",
-    outcome: "remanded",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=801210d9-11bc-4673-b087-f71ee43c14b9",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10564/2025-2",
-    decision_date: "2026-04-09",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je nižestupanjska odluka pogrešna?",
-    court_position:
-      "I P R E S U D A Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Renate Popović, predsjednice, te Nade Horvatović i Drage Klasnića, članova vijeća, uz sudjelovanje Sanje Klauda u svojstvu više sudske savjetnice specijalistice, kao zapisničarke, u prekršajnom postupku protiv okrivljenog ŽN, kojeg brani Feliks Dukan, odvjetnik u Solinu, zbog prekršaja iz članka 289. stavka 1. i 4. i dr. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj: 67/08., 48/10., 74/11., 80/13., 158/13., 92/14., 64/15., 108/17., 70/19., 42/20., 85/22., 114/22.) rješavajući o žalbi okrivljenika, protiv presude Općinskog prekršajnog suda u Splitu, Stalne službe u Solinu broj: Pp-5546/2025 od 3. srpnja 2025., u sjednici vijeća održanoj 9. travnja 2026. r i j e š i o j e Prihvaća se žalba okr. ŽN kao osnovana i ukida prvostupanjska presuda u pobijanom dijelu, zbog prekršaja u točki a/ izreke iz članka 289. stavka 1. i 4. Zakona o sigurnosti prometa na cestama te se predmet u tom dijelu dostavlja prvostupanjskom sudu na ponovni postupak i odluku. p r e s u d i o j e Uslijed gornjeg rješenja, preinačuje se prvostupanjska presuda u odluci o ukupno izrečenoj kazni, tako da se okr. ŽN za djelo u točki b/ iz članka 282. stavka 1. i 9. Zakona o sigurnosti prometa na cestama izriče novčana kazna, prihvaćanjem po prvostupanjskom sudu odmjerene kazne za to djelo, u iznosu 1.320,00 EUR (tisućutristodvadeset eura), u koju se na temelju članka 40. stavka 1. i 2. Prekršajnog zakona uračunava vrijeme oduzimanja slobode 25. travnja 2020. u 20:55 sati do 26. travnja 2020. u 8:45 sati, kao dva dana zatvora, odnosno kao 79,64 EUR (sedamdesetdevet eura i šezdesetčetiri centa), pa je okrivljeniku na ime izrečene kazne preostalo za platiti 1.240,36 EUR (tisućudvjestočetrdeset eura i tridesetšest centi), koja kazna je već izvršena.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10564/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10564"],
-    related_articles: ["čl. 216. Prekršajni zakon","čl. 289. Prekršajni zakon","čl. 282. Prekršajni zakon","čl. 39. Prekršajni zakon","čl. 40. Prekršajni zakon","čl. 58. Prekršajni zakon","čl. 202. Prekršajni zakon","čl. 215. Prekršajni zakon","čl. 199. Prekršajni zakon","čl. 206. Prekršajni zakon"],
-    headnote: "I P R E S U D A Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Renate Popović, predsjednice, te Nade Horvatović i Drage Klasnića, član",
-    outcome: "remanded",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=b31dc749-bd72-4a88-8677-f9a20031f5de",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10565/2025-2",
-    decision_date: "2026-04-09",
-    legal_area: "procedural",
-    legal_question:
-      "Policijske postaje Sinj i potvrđuje pobijana presuda?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Renate Popović kao predsjednice vijeća, te Davorka Kučana i Drage Klasnića kao članova vijeća, uz sudjelovanje više sudske savjetnice Sanje Klaude kao zapisničarke, u prekršajnom predmetu protiv okrivljenika EK zbog prekršaja iz članka 229. stavak 3. kažnjivog po članku 229. stavak 7. Zakona o sigurnosti prometa na cestama, odlučujući o žalbi tužitelja Policijske uprave splitsko-dalmatinske, Policijske postaje Sinj podnesenoj protiv presude Općinskog prekršajnog suda u Splitu, Stalna služba u Sinju od 24. listopada 2025. godine broj: Pp-11630/2025-4, u sjednici vijeća održanoj dana 9. travnja 2026. godine, p r e s u d i o j e Odbija se kao neosnovana žalba tužitelja Policijske uprave splitsko-dalmatinske, Policijske postaje Sinj i potvrđuje pobijana presuda.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10565/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10565"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Renate Popović kao predsjednice vijeća, te Davorka Kučana i Drage Klasnića kao članova",
-    outcome: "defendant_won",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=7ff1c4a9-a965-46cd-877b-266b6c3650fd",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10570/2025-2",
-    decision_date: "2026-04-01",
-    legal_area: "procedural",
-    legal_question:
-      "odbija se kao neosnovana i pobijano rješenje o odbačaju prigovora se potvrđuje?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca ovog Suda: Nediljka Bobana, predsjednika vijeća, te Karmen Novak Hrgović i Davorka Kučana, članova vijeća, uz sudjelovanje sudske savjetnice Marcele Soljačić Prester kao zapisničara, u prekršajnom postupku protiv okrivljenika UF, zbog prekršaja iz članka 238. stavka stavka 7. i dr. Zakona o sigurnosti prometa na cestama (Narodne novine broj: 67/2008, 48/2010, 74/2011, 80/2013, 158/2013, 92/2014, 64/2015, 89/2015, 108/2017, 70/2019, 42/2020, 85/2022, 114/2022, 133/2023, 145/2024), rješavajući o žalbi okrivljenika UF, podnesenoj protiv rješenja Policijske uprave varaždinske, Postaje prometne policije Varaždin, broj: Klasa: 211-07/25-3/15562, Urbroj: 511-14-09-25-3, od 17. listopada 2025., na sjednici vijeća održanoj 1. travnja 2026. godine, r i j e š i o j e: Žalba okrivljenika UF odbija se kao neosnovana i pobijano rješenje o odbačaju prigovora se potvrđuje.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10570/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10570"],
-    related_articles: ["čl. 123. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca ovog Suda: Nediljka Bobana, predsjednika vijeća, te Karmen Novak Hrgović i Davorka Kuča",
-    outcome: "defendant_won",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=7de99048-9ebc-4320-ba08-e44fa7022173",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-1058/2026-2",
-    decision_date: "2026-02-05",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je žalba osnovana?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Renate Popović, predsjednice, te Davorka Kučana i Drage Klasnića, članova vijeća, uz sudjelovanje Nade Horvatović u svojstvu više sudske savjetnice, specijalistice, zapisničarke, u prekršajnom postupku protiv okrivljenog DA, zbog prekršaja iz članka 282. stavka 9. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj: 67/08., 48/10., 74/11., 80/13., 158/13., 92/14., 64/15., 108/17.) rješavajući o žalbi tužitelja Ministarstva unutarnjih poslova Republike Hrvatske, Policijske uprave dubrovačko-neretvanske, Policijske postaje Korčula, protiv rješenja Općinskog suda u Dubrovniku, Stalne službe u Korčuli broj: Pp-4182/2025 od 21. siječnja 2026., u sjednici vijeća održanoj 5. veljače 2026. r i j e š i o j e Odbija se žalba tužitelja Ministarstva unutarnjih poslova Republike Hrvatske, Policijske uprave dubrovačko-neretvanske, Policijske postaje Korčula kao neosnovana.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-1058/2026-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-1058"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Renate Popović, predsjednice, te Davorka Kučana i Drage Klasnića, članova vijeća, uz su",
-    outcome: "partially",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=86f1e0ef-645e-4f32-a7fb-3db1ce1a6f51",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10582/2022-2",
-    decision_date: "2026-03-05",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je osnovan zahtjev radi o već pravomoćno presuđenoj stvari?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca: Nediljka Bobana kao predsjednika vijeća, te Karmen Novak Hrgović i Davorka Kučana kao članova vijeća, uz sudjelovanje više sudske savjetnice Sofije Kovačević kao zapisničarke, u prekršajnom predmetu protiv okrivljenika VF, kojeg brani Josip Čiček, odvjetnik iz Zagreba, zbog prekršaja iz članka 216. stavka 3. i dr. Zakona o sigurnosti prometa na cestama (N.N. broj 67/08, 48/10, 74/11, 80/13, 158/13, 92/14, 64/15, 108/17, 70/19, 42/20), rješavajući o žalbi okrivljenika VF, podnesenoj protiv presude Općinskog suda u Novom Zagrebu od 5. rujna 2022., broj: 68.Pp-1884/2022-8, na sjednici vijeća održanoj dana 5. ožujka 2026., p r e s u d i o j e: I. Povodom žalbe okrivljenika VF, a po službenoj dužnosti preinačuje se prvostupanjska presuda tako da se temeljem odredbe članka 181. točke 5. Prekršajnog zakona (Narodne novine, broj: 107/07.), odbija optužba podnesena protiv okrivljenika zbog prekršaja iz članka 52. stavka 4., prekršaja iz članka 163. stavka 8., prekršaja iz članka 242. stavka 5. Zakona o sigurnosti prometa na cestama, te prekršaja iz članka 29. stavka 1. Zakona o osobnoj iskaznici, činjenično opisanih pod točkom 2., 4., 5. i 6. izreke pobijane presude. II. Uslijed odluke iz točke I. ove presude žalba okrivljenika je u tom dijelu postala bespredmetna. III. Odbija se kao neosnovana žalba okrivljenika VF i pobijana presuda se u preostalom dijelu potvrđuje. IV. Uslijed odluke iz točke I. ove presude, pobijana presuda se preinačuje u odluci o novčanoj kazni na način da se prihvaća utvrđena novčana kazna u iznosu od 663,61 (šesto šezdeset tri eura šezdeset jednog centa) eura, za prekršaj iz članka 32. stavka 4. Zakona o sigurnosti prometa na cestama, činjenično opisan pod točkom 1. izreke pobijane presude, temeljem istog pravnog propisa, koju je dužan platiti u roku od 30 (trideset) dana od dana primitka ove presude. Ukoliko okrivljenik u navedenom roku plati dvije trećine izrečene novčane kazne, novčana kazna smatrat će se u cijelosti plaćenom (članak 152. stavak 3. Prekršajnog zakona, N.N. 107/07 i 39/13). V. Odbija se kao neosnovana žalba okrivljenika VF i pobijana presuda se u preostalom dijelu potvrđuje. VI. Temeljem članka 139. stavka 3. Prekršajnog zakona (Narodne novine broj: 107/2007, 39/2013, 157/2013, 110/2015, 70/2017, 118/2018, 114/2022), okrivljenik VF je obvezan naknaditi trošak žalbenog postupka u paušalnom iznosu od 50 (pedeset) eura u roku od 30 (trideset) dana od primitka ove presude.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10582/2022-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10582"],
-    related_articles: ["čl. 152. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca: Nediljka Bobana kao predsjednika vijeća, te Karmen Novak Hrgović i Davorka Kučana kao",
-    outcome: "remanded",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=924b5b7f-1576-41e2-9072-fcb2b089f309",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10598/2025-2",
-    decision_date: "2026-03-19",
-    legal_area: "procedural",
-    legal_question:
-      "Odbija se kao neosnovana žalba okrivljenika JD i potvrđuje pobijana presuda?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Davorka Kučana, kao predsjednika vijeća, te Renate Popović i Drage Klasnića, kao članova vijeća, uz sudjelovanje više sudske savjetnice Sanje Klauda, kao zapisničara, u prekršajnom postupku protiv okrivljenika JD, zbog prekršaja iz članka 32. stavak 1. i 4. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj 67/08, 48/10, 74/11, 80/13, 92/14, 64/15, 108/17, 70/19 i 42/20), rješavajući o žalbi okrivljenika JD podnesenoj protiv presude Općinskog suda u Zadru, broj: Pp-4917/2022 od 29. srpnja 2025., na sjednici vijeća održanoj dana 19. ožujka 2026., p r e s u d i o j e: I Odbija se kao neosnovana žalba okrivljenika JD i potvrđuje pobijana presuda. II. Temeljem članka 139. stavka 6. Prekršajnog zakona („Narodne novine“ broj 107/07, 39/13, 157/13, 110/15, 70/17, 118/18 i 114/22) okrivljenik JD Prenka se oslobađa plaćanja troškova žalbenog postupka.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10598/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10598"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Davorka Kučana, kao predsjednika vijeća, te Renate Popović i Drage Klasnića, kao članov",
-    outcome: "defendant_won",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=fe62dd70-132e-4fbc-b708-6c967da462f5",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10599/2024-2",
-    decision_date: "2026-02-05",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je nižestupanjska odluka nezakonita?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Davorka Kučana, kao predsjednika vijeća, te Renate Popović i Drage Klasnića, kao članova vijeća, uz sudjelovanje više sudske savjetnice Sanje Klauda, kao zapisničara, u prekršajnom postupku protiv okrivljenika HB, kojeg brani Krešimir Biočić, odvjetnik u Imotskom, zbog prekršaja iz članka 53. stavka 1. i 3. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj 67/08, 48/10, 74/11, 80/13, 92/14, 64/15, 70/19, 42/20 i 114/22), rješavajući o žalbi okrivljenika HB podnesenoj protiv presude Općinskog prekršajnog suda u Splitu, broj: Pp-10043/2024-4 od 17. listopada 2024., na sjednici vijeća održanoj dana 5. veljače 2026., r i j e š i o j e: Prihvaća se žalba okrivljenika HB, ukida se pobijana presuda i predmet dostavlja prvostupanjskom sudu na ponovno suđenje.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10599/2024-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10599"],
-    related_articles: ["čl. 206. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Davorka Kučana, kao predsjednika vijeća, te Renate Popović i Drage Klasnića, kao članov",
-    outcome: "remanded",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=fa888061-6e4e-4627-adee-ae0889ea5382",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10608/2025-2",
-    decision_date: "2026-02-25",
-    legal_area: "procedural",
-    legal_question:
-      "Odbija se kao neosnovana žalba okr?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca ovog suda Gordane Korotaj, predsjednika vijeća te Kristine Gašparac Orlić i Roberta Završkog, članova vijeća, uz sudjelovanje više sudske savjetnice Emine Bašić, zapisničarke, u prekršajnom predmetu protiv okr. ĐV, zbog prekršaja iz čl. 22. st. 5. Zakona o zaštiti od nasilja u obitelji („Narodne novine“, broj: 70/17., 126/19., 84/21., 114/22. i 36/24.), odlučujući o žalbi okrivljenika podnesenoj protiv presude Općinskog suda u Šibeniku, poslovni broj: Pp-2641/2024 od 9. rujna 2025., na sjednici vijeća održanoj 25. veljače 2026., p r e s u d i o j e : I Odbija se kao neosnovana žalba okr. ĐV i potvrđuje prvostupanjska presuda. II Na temelju čl. 138. st. 2. t. 3. c) Prekršajnog zakona („Narodne novine“ broj: 107/07., 39/13., 157/13., 110/15., 70/17., 118/18. i 114/22., dalje: PZ), okr. ĐV je dužan naknaditi paušalni trošak žalbenog prekršajnog postupka 30,00 EUR (trideset) eura u roku 15 (petnaest) dana računajući od dana primitka ove presude.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10608/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10608"],
-    related_articles: ["čl. 22. Prekršajni zakon","čl. 138. Prekršajni zakon","čl. 16. Prekršajni zakon","čl. 202. Prekršajni zakon","čl. 25. Prekršajni zakon","čl. 88. Prekršajni zakon","čl. 195. Prekršajni zakon","čl. 36. Prekršajni zakon","čl. 6. Prekršajni zakon","čl. 32. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca ovog suda Gordane Korotaj, predsjednika vijeća te Kristine Gašparac Orlić i Roberta Za",
-    outcome: "defendant_won",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=ec238e53-ca51-4d7a-9815-bda28e439821",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10609/2024-2",
-    decision_date: "2026-03-23",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je sud pravilno primijenio mjerodavno pravo?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Nediljka Bobana kao predsjednika vijeća, te Karmen Novak Hrgović i Davorka Kučana kao članova vijeća, uz sudjelovanje više sudske savjetnice Sofije Kovačević kao zapisničarke, u prekršajnom postupku protiv okrivljenika ĐM zbog prekršaja iz članka 282. stavka 9. i dr. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj: 67/08., 48/10., 74/11., 80/13., 158/13., 92/14., 64/15., 108/17, 70/19, 42/20, 85/22, 114/22, 133/23), odlučujući o žalbi tužitelja, MUP-a, Policijske uprave splitsko-dalmatinske, I. postaje prometne policije Split, podnesenoj protiv presude Općinskog prekršajnog suda u Splitu broj: 31Pp-12309/2024-9 od 4. studenog 2024., na sjednici vijeća održanoj dana 23. ožujka 2026., p r e s u d i o j e: Odbija se kao neosnovana žalba tužitelja Policijske uprave splitsko-dalmatinske, I. postaje prometne policije Split, i pobijana presuda se u pobijanom dijelu potvrđuje.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10609/2024-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10609"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Nediljka Bobana kao predsjednika vijeća, te Karmen Novak Hrgović i Davorka Kučana kao ",
-    outcome: "defendant_won",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=967f58ff-37bd-436e-9d98-f1ed16246df5",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10610/2024-2",
-    decision_date: "2026-04-01",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je nižestupanjska odluka pogrešna?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca ovog suda: Nediljka Bobana kao predsjednika vijeća, te Karmen Novak-Hrgović i Davorka Kučana, kao članova vijeća, uz sudjelovanje Marcele Soljačić-Prester u svojstvu više sudske savjetnice, kao zapisničarke, u prekršajnom postupku protiv okrivljenice FB, zbog prekršaja iz članka 49. stavka 4. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj: 67/08, 48/10, 74/11, 80/13, 158/13, 92/14, 64/15, 108/17, 70/19, 42/20 i 85/22), zbog prekršaja iz članka 163. stavka 8. cit. Zakona, zbog prekršaja iz članka 229. stavka 5. cit. Zakona i zbog prekršaja iz članka 289. stavka 4. cit. Zakona, odlučujući o žalbi okrivljenice FB, protiv presude Općinskog prekršajnog suda u Splitu od 9. listopada 2024., poslovni broj: Pp-9717/2023-4, na sjednici vijeća održanoj 1. travnja 2026., p r e s u d i o j e: I. U povodu žalbe okrivljenice FB, a po službenoj dužnosti, preinačuje se pobijana presuda, te se izriče: Na temelju članka 181. točke 5. Prekršajnog zakona („Narodne novine“ broj 107/07, 39/13, 157/13, 110/15, 70/17, 118/18 i 114/22) protiv okrivljenice FB (osobni podaci kao u prvostupanjskoj presudi) ODBIJA SE OPTUŽBA 1. da bi 12. listopada 2022. u 14,48 sati, u Splitu, u ulici Magistrala Solin kućni broj 28, kao vozač vozila M1 marke BMW registarske oznake [registarska oznaka] upravljala navedenim vozilom kolnikom Magistrale Solin od smjera juga u smjeru sjevera iako je navedena ulica kao jednosmjerna ulica namijenjena kretanju vozila iz suprotnog smjera, - pa da bi time počinila prekršaj iz članka 49. stavka 4. Zakona o sigurnosti prometa na cestama, 2. da bi istom prilikom upravljala navedenim vozilom, a da nije koristila sigurnosni pojas na način koji je odredio proizvođač sigurnosnog pojasa, - pa da bi time počinila prekršaj iz članka 163. stavka 8. Zakona o sigurnosti prometa na cestama, 3. da bi istom prilikom upravljala navedenim vozilom, a da kod sebe nije imala vozačku dozvolu, odnosno istu nije pokazala policijskom službeniku na uvid, - pa da bi time počinila prekršaj iz članka 229. stavka 5. Zakona o sigurnosti prometa na cestama, II. Uslijed odluke iz točke I., žalba okrivljenice FB postala je bespredmetna glede djela činjenično opisanih pod točkama 1., 2. i 3. izreke pobijane presude. III. Odbija se kao neosnovana žalba okrivljenice FB, te se u pobijanom, a nepreinačenom dijelu prvostupanjska presuda potvrđuje. IV. U povodu žalbe okrivljenice FB, preinačava se prvostupanjska presuda u odluci o ukupnoj novčanoj kazni, tako da se novčana kazna u iznosu od 1.320,00 (tisućutristodvadeset) eura, smatra utvrđenom, za prekršaj iz članka 289. stavka 4. Zakona o sigurnosti prometa na cestama, činjenično opisanog pod točkom 4. izreke pobijane presude, a koju je okrivljenica HB dužna platiti u roku od 6 (šest) mjeseci, od dana primitka pisanog otpravka ove presude, s time da će se, ako okrivljenica plati dvije trećine izrečene novčane kazne u navedenom roku, novčana kazna smatrati plaćenom u cjelini. V. Temeljem članka 139. stavka 3. Prekršajnog zakona („Narodne novine“, broj 107/07, 39/13, 157/13, 110/15, 70/17, 118/18 i 114/22) okrivljenica HB obvezana je naknaditi trošak žalbenog postupka u iznosu od 60,00 (šezdeset eura) u roku od 30 (trideset) dana od primitka ove presude.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10610/2024-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10610"],
-    related_articles: ["čl. 239. Prekršajni zakon","čl. 88. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca ovog suda: Nediljka Bobana kao predsjednika vijeća, te Karmen Novak-Hrgović i Davorka K",
-    outcome: "remanded",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=8093c5b3-fad4-4f91-8411-26540e78ce95",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10635/2025-2",
-    decision_date: "2026-02-19",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je nižestupanjska odluka pogrešna?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sutkinje Renate Popović, predsjednice vijeća, te sudaca Davorka Kučana i Drage Klasnića, članova vijeća, uz sudjelovanje sudske savjetnice Matee Sačević, zapisničarke, u prekršajnom postupku protiv okrivljenog GL, zbog prekršaja iz članka 229. stavka 7. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj 67/08, 48/10, 74/11, 80/13, 158/13, 92/14, 64/15, 108/17, 70/19, 42/20, 85/22, 114/22, 133/23; dalje: ZSPC), odlučujući o žalbi okrivljenika podnesenoj protiv rješenja Ministarstva unutarnjih poslova RH, Policijske uprave splitsko-dalmatinske, Postaje prometne policije Split, broj: 211-07/25-3/6867 od 24. srpnja 2025., u sjednici vijeća održanoj 19. veljače 2026. r i j e š i o j e I. Prihvaća se žalba okrivljenog GL, preinačuje se pobijano rješenje o odbačaju prigovora kao nepravodobnog, na način da se prigovor okrivljenika smatra pravodobno podnijetim pravnim lijekom protiv prekršajnog naloga Ministarstva unutarnjih poslova Republike Hrvatske, Policijske uprave splitsko-dalmatinske, Postaje prometne policije Split, broj: 211-07/25-3/6867 od 22. travnja 2025. II. Na temelju članka 102. stavka 1. Prekršajnog zakona („Narodne novine“, broj 107/07., 39/13., 157/13., 110/15., 70/17., 118/18. i 114/22.; dalje: PZ) Visoki prekršajni sud Republike Hrvatske se proglašava stvarno nenadležnim za odlučivanje o prigovoru okrivljenog GL podnesenim protiv prekršajnog naloga Ministarstva unutarnjih poslova Republike Hrvatske, Policijske uprave splitsko-dalmatinske, Postaje prometne policije Split, broj: 211-07/25-3/6867 od 22. travnja 2025. III. Predmetni spis vraća se izdavatelju prekršajnog naloga da ga dostavi stvarno i mjesno nadležnom općinskom sudu da provede prekršajni postupak.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10635/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10635"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sutkinje Renate Popović, predsjednice vijeća, te sudaca Davorka Kučana i Drage Klasnića, člano",
-    outcome: "remanded",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=447bab5c-dc77-416f-bd4d-6359e9a9f96c",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10638/2025-2",
-    decision_date: "2026-03-18",
-    legal_area: "procedural",
-    legal_question:
-      "odbija se kao neosnovana i pobijano rješenje o odbačaju prigovora se potvrđuje?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca ovog Suda: Nediljka Bobana, predsjednika vijeća, te Karmen Novak Hrgović i Davorka Kučana, članova vijeća, uz sudjelovanje sudske savjetnice Marcele Soljačić Prester kao zapisničara, u prekršajnom postupku protiv okrivljenika ĐZ, zbog prekršaja iz članka 57. stavka 1. i stavka 7. Zakona o sigurnosti prometa na cestama (Narodne novine broj: 67/2008, 48/2010, 74/2011, 80/2013, 158/2013, 92/2014, 64/2015, 89/2015, 108/2017, 70/2019, 42/2020, 85/2022, 114/2022, 133/2023), rješavajući o žalbi okrivljenika ĐZ, podnesenoj protiv rješenja Policijske uprave splitsko dalmatinske, Postaje prometne policije Split, broj: Klasa: 211-07/24-3/9553, Urbroj: 511-12-36-24-3, od 26. rujna 2025., na sjednici vijeća održanoj 18. ožujka 2026., r i j e š i o j e: Žalba okrivljenika ĐZ odbija se kao neosnovana i pobijano rješenje o odbačaju prigovora se potvrđuje.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10638/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10638"],
-    related_articles: ["čl. 123. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca ovog Suda: Nediljka Bobana, predsjednika vijeća, te Karmen Novak Hrgović i Davorka Kuča",
-    outcome: "defendant_won",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=991a574c-bec5-433c-b2ae-4177eaa694ed",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10640/2025-2",
-    decision_date: "2026-04-16",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je osnovan zahtjev radi i kojim iznosima prihoda je okrivljenik raspolagao ne opravdavaju primjenu instituta ublažavanja novčane kazne okrivljen?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Renate Popović kao predsjednice vijeća te Davorka Kučana i Drage Klasnića kao članova vijeća, uz sudjelovanje više sudske savjetnice Sanje Klaude kao zapisničarke, u prekršajnom predmetu protiv okrivljenika JT zbog prekršaja iz članka 199. stavak 2. kažnjivog po članku 199. stavak 7. Zakona o sigurnosti prometa na cestama (\"Narodne novine\" broj: 67/08, 48/10, 74/11, 80/13, 158/13, 92/14, 64/15, 108/17, 70/19, 42/20, 85/22, 114/22, 133/23 i 145/24) odlučujući o žalbi tužitelja Policijske uprave osječko-baranjske, Policijske postaje Đakovo podnesenoj protiv presude Općinskog suda u Đakovu od 9. listopada 2025. godine, broj: Pp-971/2025-4, u sjednici vijeća održanoj dana 16. travnja 2026. p r e s u d i o j e I. Prihvaća se kao osnovana žalba tužitelja Policijske uprave osječko-baranjske, Policijske postaje Đakovo preinačuje se pobijana presuda u odnosu na odluku o kazni i zaštitnoj mjeri tako da se okrivljeniku JT izriče novčana kazna u iznosu od 660,00 eura (šestošezdeseteura) koju je okrivljenik dužan platiti u roku od 3 mjeseca od dostave ove presude, te se okrivljeniku izriče i zaštitna mjera zabrane upravljanja motornim vozilom \"B\" kategorije u trajanju od 3 (tri) mjeseca. II. Ukoliko okrivljenik JT u roku od 2 mjeseca od dostave ove presude plati dvije trećine izrečene novčane kazne temeljem članka 152. stavak 3. Prekršajnog zakona novčana kazna smatrat će se u cijelosti plaćenom. - - -",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10640/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10640"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Renate Popović kao predsjednice vijeća te Davorka Kučana i Drage Klasnića kao članova ",
-    outcome: "remanded",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=16007cbb-4f07-488f-94dd-093bbb923dd7",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10641/2025-2",
-    decision_date: "2026-01-28",
-    legal_area: "procedural",
-    legal_question:
-      "Odbija se prigovor okrivljenika HUH kao neosnovan te se prekršajni nalog potvrđuje?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Karmen Novak Hrgović kao predsjednice vijeća te Nediljka Bobana i Davorka Kučana kao članova vijeća, uz sudjelovanje sudske savjetnice Valentine Kučić kao zapisničarke, u prekršajnom postupku protiv okrivljenika HUH, zbog prekršaja iz članka 282. st. 2. i 9. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj 67/08, 48/10, 74/11, 80/13, 158/13, 92/14, 64/15, 108/17, 70/19, 42/20, 85/22, 114/22, 133/23 i 145/24), odlučujući o prigovoru okrivljenika, podnesenim protiv prekršajnog naloga Ministarstva unutarnjih poslova Republike Hrvatske, Policijske uprave Splitsko-dalmatinske, Policijske postaje Omiš, od 06. travnja 2025., Klasa: 211-07/25-1/5140, Urbroj: 511-12-30-25-1, na sjednici vijeća održanoj 28. siječnja 2026. p r e s u d i o j e I. Odbija se prigovor okrivljenika HUH kao neosnovan te se prekršajni nalog potvrđuje. II. Na temelju članka 138. stavka 2. točke 3. c) Prekršajnog zakona („Narodne novine“ broj: 107/07., 39/13., 157/13., 110/15., 70/17., 118/18. i 114/22.) okrivljenik FUH je obvezan naknaditi paušalni iznos troškova žalbenog postupka u iznosu 30,00 (trideset) eura, u roku 15 dana od dana primitka ove presude.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10641/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10641"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Karmen Novak Hrgović kao predsjednice vijeća te Nediljka Bobana i Davorka Kučana kao čl",
-    outcome: "defendant_won",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=d39ae873-254b-4188-9d6b-d864dd220b3d",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10648/2022-2",
-    decision_date: "2026-03-27",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je osnovan zahtjev radi o manjkavom činjeničnom opisu djela?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Jasne Momirović kao predsjednice vijeća te Katice Lučić i Ivane Bosnić-Kovačić kao članica vijeća, uz sudjelovanje više sudske savjetnice Ivane Vorel Mikša kao zapisničarke, u prekršajnom postupku protiv okrivljene pravne osobe STANIĆ d.o.o. i okrivljene odgovorne osobe MD, zbog prekršaja iz članka 127. stavka 1. i 2. podstavka 4. (ispravno stavka 1. podstavka 4. i stavka 2.) Zakona o Državnom inspektoratu („Narodne novine“ broj: 115/18. i 117/21.), odlučujući o žalbi tužitelja, Državnog inspektorata Republike Hrvatske, Područnog ureda Zagreb, Službe za nadzor trgovine, usluga i zaštite potrošača, podnesenoj protiv presude Općinskog prekršajnog suda u Zagrebu, broj: 54. Pp-13133/2022 od 14. rujna 2022., na sjednici vijeća održanoj 27. ožujka 2026. r i j e š i o j e : Prihvaća se kao osnovana žalba tužitelja, Državnog inspektorata Republike Hrvatske, Područnog ureda Zagreb, Službe za nadzor trgovine, usluga i zaštite potrošača, te se ukida pobijana presuda i predmet vraća prvostupanjskom sudu na ponovno suđenje.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10648/2022-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10648"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Jasne Momirović kao predsjednice vijeća te Katice Lučić i Ivane Bosnić-Kovačić kao član",
-    outcome: "remanded",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=9e52b107-919f-43d5-95d0-d8f0131c69ae",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10649/2023-2",
-    decision_date: "2026-01-29",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je osnovan zahtjev radi o prekršajima za koji je ovlašteni tužitelj?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Renate Popović, predsjednice, te Drage Klasnića i Drage Klasnića, članova vijeća, uz sudjelovanje Nade Horvatović u svojstvu više sudske savjetnice specijalistice, kao zapisničarke, u prekršajnom postupku protiv okrivljenog HĆ, zbog prekršaja iz članka 12. stavka 4. i 8. i dr. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj: 67/08., 48/10., 74/11., 80/13., 158/13., 92/14., 64/15., 108/17., 70/19., 42/20., 85/22. i 114/22.), rješavajući o žalbi okrivljenika, protiv presude Općinskog prekršajnog suda u Splitu od 10. studenoga 2023., poslovni broj:8. Pp-8090/2023, u sjednici vijeća održanoj 29. siječnja 2026. p r e s u d i o j e I U povodu žalbe okr. HĆ, a po službenoj dužnosti, preinačuje se pobijana prvostupanjska presuda u točkama a) i b), te se izriče: Na temelju članka 181. točke 5. Prekršajnog zakona (NN br. 107/07., 39/13, 157/13., 110/15., 70/17., 118/18. i 114/22.) protiv okr. HĆ (osobni podaci kao u prvostupanjskoj presudi) ODBIJA SE OPTUŽBA da bi a) 7. kolovoza 2022. u 06:32 sati u Splitu, na Putu Plokita bb upravljao osobnim vozilom marke Peugeot reg. oznake [registarska oznaka] i izvršio radnju skretanja u lijevo, preko pune uzdužne kolničke crte, odnosno suprotno zabrani izraženoj pomoću prometnog znaka, - pa da bi time počinio prekršaj iz članka 12.stavka 4. i 8. Zakona o sigurnosti prometa na cestama, b) iste prigode kao pod a) kod sebe nije imao vozačku dozvolu i nije ju pokazao na zahtjev policijskog službenika, - pa da bi time počinio prekršaj iz članka 229. stavka 1. i 5. Zakona o sigurnosti prometa na cestama. II Žalba okr. HĆ je bespredmetna u odnosu na djela u točkama a) i b) izreke pobijane presude. III U povodu žalbe okr. HĆ, a uslijed odluke u točki I izreke ove presude, preinačuje se pobijana presuda u odluci o kazni, tako da se za činjenično opisano postupanje u točki c) pravno označenim djelom prekršaja iz članka 199. stavka 2. i 8. Zakona o sigurnosti prometa na cestama, na temelju citiranog propisa okr. HĆ izriče novčana kazna, prihvaćanjem po prvostupanjskom sudu odmjerene kazne za to djelo, u iznosu 1.320,00 EUR (tisućutristodvadeset eura), koju kaznu je okrivljenik dužan platiti u roku od devedeset dana od dana primitka ove presude, pa ako u tom roku plati dvije trećine izrečene kazne, smatrat će se da je kazna u cjelini plaćena. IV U ostalom dijelu, odbija se žalba okr. HĆ kao neosnovana te se, u pobijanom a nepreinačenom dijelu, prvostupanjska presuda potvrđuje. V Na temelju članka 139. stavka 3. u vezi članka 138. stavka 2. točke 3.c. Prekršajnog zakona okr. HĆ je obvezan naknaditi troškove žalbenog postupka u paušalnom iznosu 60,00 EUR (šezdeset eura) u roku trideset dana od primitka ove presude.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10649/2023-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10649"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Renate Popović, predsjednice, te Drage Klasnića i Drage Klasnića, članova vijeća, uz su",
-    outcome: "remanded",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=2c11e59b-0fa2-4c43-a190-75861a41baf6",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-1066/2025-2",
-    decision_date: "2026-04-02",
-    legal_area: "procedural",
-    legal_question:
-      "Odbija se kao neosnovana žalba okrivljenika VF i potvrđuje pobijana presuda?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Davorka Kučana, kao predsjednika vijeća, te Renate Popović i Drage Klasnića, kao članova vijeća, uz sudjelovanje više sudske savjetnice Sanje Klauda, kao zapisničara, u prekršajnom postupku protiv okrivljenika VF, zbog prekršaja iz članka 53. stavak 1. i 4. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj 67/08, 48/10, 74/11, 80/13, 92/14, 64/15, 108/17, 70/19 i 42/20 ), rješavajući o žalbi okrivljenika VF podnesenoj protiv presude Općinskog suda u Šibeniku broj Pp -13/2023 od 12. prosinca 2024., na sjednici vijeća održanoj dana 2. travnja 2026., p r e s u d i o j e: I. Odbija se kao neosnovana žalba okrivljenika VF i potvrđuje pobijana presuda. II. Na temelju članka 139. stavka 3. Prekršajnog zakona („Narodne novine“ broj 107/07, 39/13, 157/13, 110/15, 70/17, 118/18 i 114/22) okrivljenik VF okrivljenik je obvezan naknaditi trošak žalbenog postupka u paušalnom iznosu od 50,00 (pedeset) eura, u roku od 30 dana od dana primitka presude, pod prijetnjom ovrhe..",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-1066/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-1066"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Davorka Kučana, kao predsjednika vijeća, te Renate Popović i Drage Klasnića, kao članov",
-    outcome: "defendant_won",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=6f16e53c-0579-4ad3-9c2d-691882dcd63e",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10673/2025-2",
-    decision_date: "2026-03-10",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je osnovan zahtjev radi provođenja prekršajnog postupka. Obrazloženje 1. Kod ovog suda zaprimljen je na odlučivanje prigovor okrivljenog ŠI podn?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sutkinja Ivanke Mašić kao predsjednice vijeća, te Anđe Ćorluka i Mirjane Medić kao članica vijeća, uz sudjelovanje sudskog savjetnika Ivice Ožbolta kao zapisničara, u prekršajnom predmetu protiv okrivljenog ŠI, zbog prekršaja iz članka 54. stavka 2. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj: 67/08., 48/10., 74/11., 80/13., 158/13., 92/14., 64/15., 89/15., 108/17., 70/19., 42/20., 85/22., 114/22., 133/23. i 145/24.), odlučujući o prigovoru okrivljenog ŠI podnesenom protiv prekršajnog naloga Ministarstva unutarnjih poslova Republike Hrvatske, Policijske uprave primorsko-goranske, Policijske postaje Vrbovsko od 2. srpnja 2025., KLASA: 211-07/25-3/10181, URBROJ: 511-09-33-25-2, u sjednici vijeća održanoj 10. ožujka 2026., r i j e š i o j e: I. Na temelju članka 102. stavka 1. Prekršajnog zakona („Narodne novine“ broj: 107/07., 39/13., 157/13., 110/15., 70/17., 118/18. i 114/22.), Visoki prekršajni sud Republike Hrvatske proglašava se stvarno nenadležnim za odlučivanje o prigovoru okrivljenog ŠI podnesenom protiv prekršajnog naloga Ministarstva unutarnjih poslova Republike Hrvatske, Policijske uprave primorsko-goranske, Policijske postaje Vrbovsko od 2. srpnja 2025., KLASA: 211-07/25-3/10181, URBROJ: 511-09-33-25-2. II. Spis predmeta vraća se izdavatelju prekršajnog naloga kako bi ga dostavio stvarno i mjesno nadležnom Općinskom sudu u Rijeci radi provođenja prekršajnog postupka.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10673/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10673"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sutkinja Ivanke Mašić kao predsjednice vijeća, te Anđe Ćorluka i Mirjane Medić kao članica vi",
-    outcome: "partially",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=f486d302-cbb2-40cb-b61c-4d8fb3fa0c91",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10681/2023-5",
-    decision_date: "2026-03-24",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je osnovan zahtjev radi razloga navedenih u žalbi?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca ovog suda: Mladena Genca kao predsjednika vijeća, te Sanje Gospočić i Tomislava Tomašića, kao članova vijeća, uz sudjelovanje više sudske savjetnice – specijalistice Sanje Radeljak, kao zapisničarke, u prekršajnom postupku protiv okrivljenika TENA d.o.o., Slavonski Brod, kao pravne osobe, i MP, kao odgovorne osobe, zbog prekršaja iz članka 193. stavka 1. točke 8. i stavka 4. Općeg poreznog zakona („Narodne novine“, broj: 115/16., 106/18., 121/19., 32/20., 42/20., 114/22.), odlučujući o žalbi okrivljenika TENA d.o.o., Slavonski Brod, kao pravne osobe, i MP, kao odgovorne osobe, podnesene protiv rješenja o prekršaju Ministarstva financija Republike Hrvatske, Porezne uprave, Područnog ureda Osijek, Klasa: UP/I-740-04/23-02/68, Ur.broj: 513-07-14-23-16 od 9. studenog 2023., na sjednici vijeća održanoj 24. ožujka 2026., p r e s u d i o j e I Odbija se kao neosnovana žalba okrivljenika TENA d.o.o., Slavonski Brod, kao pravne osobe, i MP, kao odgovorne osobe, i potvrđuje se pobijano rješenje o prekršaju. II Na temelju odredbe članka 138. stavka 2. točke 3.c) Prekršajnog zakona („Narodne novine“, broj: 107/07., 39/13., 157/13., 110/15., 70/17., 118/18. i 114/22.), okrivljenici TENA d.o.o., Slavonski Brod, kao pravna osoba, i MP, kao odgovorna osoba, dužni su naknaditi trošak Visokog prekršajnog suda Republike Hrvatske u iznosu od po 20,00 (dvadeset) eura, svaki, u roku od 15 (petnaest) dana, računajući od dana primitka ove presude.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10681/2023-5 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10681"],
-    related_articles: ["čl. 36. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca ovog suda: Mladena Genca kao predsjednika vijeća, te Sanje Gospočić i Tomislava Tomašić",
-    outcome: "defendant_won",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=26d4c4d4-d2ea-4580-ac96-342ebab62c26",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10686/2025-2",
-    decision_date: "2026-04-15",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je nižestupanjska odluka pogrešna?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sutkinja Ivanke Mašić kao predsjednice vijeća, te Anđe Ćorluka i Mirjane Medić kao članica vijeća uz sudjelovanje sudskog savjetnika Ivice Ožbolta kao zapisničara, u prekršajnom postupku protiv okrivljenog LL, zbog prekršaja iz članka 289. stavka 4. i dr. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj: 67/08., 48/10., 74/11., 80/13., 158/13., 92/14., 64/15., 89/15., 108/17., 70/19., 42/20., 85/22., 114/22., 133/23. i 145/24.), odlučujući o prigovoru okrivljenog LL, podnesenom protiv prekršajnog naloga Ministarstva unutarnjih poslova Republike Hrvatske, Policijske uprave virovitičko-podravske, Policijske postaje Orahovica od 7. studenoga 2025., KLASA: 211-07/25-1/20744, URBROJ: 511-16-06-25-1, u sjednici vijeća održanoj 15. travnja 2026., p r e s u d i o j e I. U povodu prigovora okrivljenog LL, a po službenoj dužnosti, preinačuje se pobijani prekršajni nalog na način: Na temelju članka 182. točke 1. Prekršajnog zakona („Narodne novine“, broj: 107/07., 39/13., 157/13., 110/15., 70/17., 118/18. i 114/22.), okrivljeni LL (osobni podaci kao u prekršajnom nalogu) OSLOBAĐA SE OD OPTUŽBE što je dana 07.11.2025. godine u 12:05 sati u mjestu ČAČINCI, ulica BRAĆE RADIĆA kućni broj 6 vozila M1 marke MERCEDES-BENZ registarske oznake [registarska oznaka], upravljao o.a. reg. [registarska oznaka], za vrijeme dok mu je izrečena mjera zabrane upravljanja motornim vozilom \"B\"kategorije, ………… - pa da bi time počinio prekršaj iz članka 289. stavka 1. Zakona o sigurnosti prometa na cestama, kažnjiv po članku 289. stavku 4. istog Zakona. II. Uslijed odluke u točki I. izreke ove presude, a po službenoj dužnosti, preinačuje se pobijani prekršajni nalog u odluci o novčanoj kazni, tako da se okrivljenom LL za prekršaj iz članka 163. stavka 9. Zakona o sigurnosti prometa na cestama izriče novčana kazna u iznosu od 130,00 eura (sto trideset eura), koju kaznu je dužan platiti u roku od 15 dana od dana primitka ove presude, a ako u tom roku plati dvije trećine izrečene kazne, ista će se smatrati plaćenom u cijelosti. III. Uslijed odluke u točki I. izreke ove presude, a po službenoj dužnosti, preinačuje se pobijani prekršajni nalog u odluci o zaštitnoj mjeri, tako da se okrivljenom LL zaštitna mjera zabrane upravljanja motornim vozilom „B“ kategorije ukida. IV. U ostalom se dijelu prigovor okrivljenog LL odbija kao neosnovan te se u pobijanom, a nepreinačenom dijelu prekršajni nalog potvrđuje. V. Na temelju članka 138. stavka 2. točke 3.c) Prekršajnog zakona okrivljeni LL obvezan je naknaditi paušalni iznos troškova žalbenog postupka u iznosu od 30,00 eura (trideset eura) u roku od 15 dana od dana primitka ove presude.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10686/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10686"],
-    related_articles: ["čl. 284. Prekršajni zakon","čl. 285. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sutkinja Ivanke Mašić kao predsjednice vijeća, te Anđe Ćorluka i Mirjane Medić kao članica vij",
-    outcome: "remanded",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=fdcd44b6-d2cc-4d69-acfb-4cf47edab6a1",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10698/2023-2",
-    decision_date: "2026-03-19",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je osnovan zahtjev radi zaposlenja. 7.1. Trajanje zaštitne mjere za navedeni prekršaj je kratko i predstavlja blagu prekršajnu sankciju?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Davorka Kučana predsjednika vijeća, te Renate Popović i Drage Klasnića članova vijeća, uz sudjelovanje više sudske savjetnice specijalistice Nade Horvatović kao zapisničarke u prekršajnom predmetu protiv okrivljenog RS zbog prekršaja iz članka 199. stavka 2. i 7. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj: 67/08., 48/10.,74/11., 80/13., 92/14., 64/15., 108/17., 70/19., 42/20.) odlučujući povodom žalbe okrivljenog RS zastupanog po branitelju Damiru Tomiću odvjetniku iz OD BUDIMIR&PARTNERI iz Splita, podnijete protiv presude Općinskog prekršajnog suda u Splitu od 24. listopada 2023., broj: Pp-12089/2023, u sjednici vijeća održanoj dana 19. ožujka 2026. p r e s u d i o j e I. Odbija se kao neosnovana žalba okrivljenog RS i prvostupanjska presuda se potvrđuje. II. Na temelju članka 139. stavka 3. i članka 138. stavka 2. točke 3.c Prekršajnog zakona, okrivljeni RS je dužan naknaditi troškove žalbenog postupka u paušalnom iznosu od 50,00 EUR (pedeset eura) u roku 90 dana od primitka ove presude.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10698/2023-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10698"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Davorka Kučana predsjednika vijeća, te Renate Popović i Drage Klasnića članova vijeća,",
-    outcome: "defendant_won",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=595a435a-4cba-46dd-b5c7-c2de74faa411",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10702/2025-2",
-    decision_date: "2026-02-19",
-    legal_area: "procedural",
-    legal_question:
-      "Odbija se kao neosnovana žalba okrivljenice ŽC i potvrđuje pobijana presuda?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Renate Popović kao predsjednice vijeća, te Davorka Kučana i Drage Klasnića kao članova vijeća, uz sudjelovanje više sudske savjetnice Sanje Klauda kao zapisničarke, u prekršajnom predmetu protiv okrivljenice ŽC, zbog prekršaja iz čl. 229. st. 3., kažnjivog po čl. 229. st. 7. Zakona o sigurnosti prometa na cestama (NN 67/08, 74/11, 80/13, 158/13, 92/14, 64/15, 108/17, 70/19, 42/20, 85/22 i 114/22), odlučujući o žalbi okrivljenice ŽC podnesenoj protiv presude Općinskog prekršajnog suda u Splitu od 4. rujna 2025., broj: Pp-17274/2024-9, u sjednici vijeća održanoj 19. veljače 2026. p r e s u d i o j e: I Odbija se kao neosnovana žalba okrivljenice ŽC i potvrđuje pobijana presuda. II Temeljem čl. 139. st. 6. Prekršajnog zakona okrivljenica NC se oslobađa plaćanja paušala troška žalbenog postupka.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10702/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10702"],
-    related_articles: ["čl. 229. Prekršajni zakon","čl. 139. Prekršajni zakon","čl. 37. Prekršajni zakon","čl. 202. Prekršajni zakon","čl. 195. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Renate Popović kao predsjednice vijeća, te Davorka Kučana i Drage Klasnića kao članova",
-    outcome: "defendant_won",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=dd077e34-aac9-4810-9526-7ec3ae09393c",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-1071/2026-2",
-    decision_date: "2026-02-10",
-    legal_area: "procedural",
-    legal_question:
-      "Državnog inspektorata Republike Hrvatske, Područnog ureda Split, Službe turističke inspekcije, te se prvostupanjska presuda potvrđuje?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Jasne Momirović kao predsjednice vijeća te Katice Lučić i Ivane Bosnić-Kovačić kao članica vijeća, uz sudjelovanje više sudske savjetnice Ivane Vorel Mikša kao zapisničarke, u prekršajnom postupku protiv okrivljene pravne osobe EKLATA za obrazovanje, turizam, usluge i putnička agencija d.o.o. i okrivljene odgovorne osobe VG, zbog prekršaja iz članka 10. stavka 4. i 5. Zakona o zabrani i sprječavanju obavljanja neregistrirane djelatnosti („Narodne novine“ broj: 61/11. i 66/19.), odlučujući o žalbi tužitelja, Državnog inspektorata Republike Hrvatske, Područnog ureda Split, Službe turističke inspekcije, podnesenoj protiv presude Općinskog prekršajnog suda u Splitu, broj: Pp-12669/2022.-11. od 25. srpnja 2025., na sjednici vijeća održanoj 10. veljače 2026., p r e s u d i o j e: Odbija se kao neosnovana žalba tužitelja, Državnog inspektorata Republike Hrvatske, Područnog ureda Split, Službe turističke inspekcije, te se prvostupanjska presuda potvrđuje.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-1071/2026-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-1071"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sudaca Jasne Momirović kao predsjednice vijeća te Katice Lučić i Ivane Bosnić-Kovačić kao čla",
-    outcome: "defendant_won",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=3787e0a9-01b1-452d-915f-51efbf094ef7",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10711/2023-2",
-    decision_date: "2026-02-19",
-    legal_area: "procedural",
-    legal_question:
-      "Odbija se kao neosnovana žalba okrivljenice ŽU i potvrđuje pobijana presuda?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Davorka Kučana, kao predsjednika vijeća, te Renate Popović i Drage Klasnića, kao članova vijeća, uz sudjelovanje više sudske savjetnice Sanje Klauda, kao zapisničara, u prekršajnom postupku protiv okrivljenice ŽU, zbog prekršaja iz članka 229. stavak 3. i 7. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj 67/08, 48/10, 74/11, 80/13, 92/14, 64/15, 108/17, 70/19 i 42/20), rješavajući o žalbi okrivljenice ŽU podnesenoj protiv presude Općinskog suda u Karlovcu, broj: Pp-2872/2022-6 od 30. studenog 2023., na sjednici vijeća održanoj dana 19. veljače 2026., p r e s u d i o j e: I Odbija se kao neosnovana žalba okrivljenice ŽU i potvrđuje pobijana presuda. II Na temelju odredbe članka 139. stavak 3. Prekršajnog zakona („Narodne novine“ broj 107/07, 39/13, 157/13, 110/15, 70/17, 118/18 i 114/22) okrivljenica ŽU obvezna je naknaditi trošak žalbenog postupka u paušalnom iznosu od 50,00 (pedeset) eura u roku od 30 (trideset) dana od dana primitka ove presude, pod prijetnjom ovrhe.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10711/2023-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10711"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Davorka Kučana, kao predsjednika vijeća, te Renate Popović i Drage Klasnića, kao članov",
-    outcome: "defendant_won",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=13351d06-1bd0-407c-ba1a-147099f9816d",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10711/2024-2",
-    decision_date: "2026-03-25",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je nižestupanjska odluka pogrešna?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca ovog suda: Nediljka Bobana kao predsjednika vijeća, te Karmen Novak Hrgović i Davorka Kučana, kao članova vijeća, uz sudjelovanje Marcele Soljačić-Prester u svojstvu više sudske savjetnice, kao zapisničarke, u prekršajnom postupku protiv okrivljenika TI, zbog prekršaja iz članka 47. stavka 3. Zakona o sigurnosti prometa na cestama („Narodne novine“, broj: 67/08, 48/10, 74/11, 80/13, 158/13, 92/14, 64/15, 89/15, 108/17, 70/19, 42/20 i 85/22), uz primjenu članka 293. stavka 2. cit. Zakona, zbog prekršaja iz članka 199. stavka 8. istog Zakona i zbog prekršaja iz članka 163. stavka 8. cit. Zakona, odlučujući o žalbi okrivljenika TI, podnesenoj samostalno i po branitelju Bruni Milinkoviću, odvjetniku iz Zagreba, protiv presude Općinskog suda u Koprivnici, Stalne službe u Đurđevcu od 13. studenog 2024., poslovni broj: Pp-53/2024-9, na sjednici vijeća održanoj 25. ožujka 2026., p r e s u d i o j e: I U povodu žalbe okrivljenika TI, a po službenoj dužnosti, preinačuje se pobijana presuda, te se izriče: Na temelju članka 181. točke 5. Prekršajnog zakona („Narodne novine“ broj 107/07, 39/13, 157/13, 110/15, 70/17, 118/18 i 114/22) protiv okrivljenika TI (osobni podaci kao u prvostupanjskoj presudi) ODBIJA SE OPTUŽBA a) da bi 27. kolovoza 2022. u 19,40 sati, u prometu na cesti, upravljao svojim osobnim automobilom marke „Volvo“, reg. ozn. [registarska oznaka], krećući se otvorenim dijelom kolnika državne ceste D210, iz pravca mjesta Virje u pravcu mjesta Molve (smjerom kretanja jug-sjever), te da dolaskom do 1. dionice, 20. kilometar + 60 metara kolnika državne ceste D210, ne bi svoje vozilo u kretanju držao što bliže desnom rubu kolnika i na tolikoj udaljenosti od njega da, s obzirom na brzinu kretanja vozila, uvjete prometa te na stanje i osobine ceste, ne ugrožava druge sudionike u prometu i ne izlaže sebe opasnosti, a opisano da je imalo za posljedicu da je u jednom trenutku cijelim vozilom prešao na zapadnu prometnu traku predviđenu za kretanje vozila iz suprotnog smjera, dok je u istom trenutku vozač RI, rođen 1969., iz Koprivnice, upravljao svojim osobnim automobilom marke \"Škoda\" reg. ozn. [registarska oznaka], za kojeg je bila priključena laka prikolica marke \"Humbaur\" reg. ozn. [registarska oznaka], iz pravca mjesta Molve u pravcu mjesta Virje (smjerom kretanja sjever-jug), te također prešao sa vozilom u istočnu prometnu traku namijenjenu za kretanje vozila iz suprotnog smjera da izbjegne direktan sudar sa vozilom reg. ozn [registarska oznaka], te da je istom prilikom došlo do udara prednjih desnih bočnih dijelova (kotača) vozila reg. ozn. [registarska oznaka] i reg. ozn. [registarska oznaka], a nakon čega da je došlo do nekontroliranog kretanja oba vozila po kolniku, te se osobni automobil marke \"Volvo\" reg. ozn. [registarska oznaka] zaustavio sa zapadne strane uz kolnik, dok je osobni automobil marke \"Škoda\" reg. ozn. [registarska oznaka] sletio istočno van kolnika na livadu zajedno sa lakom prikolicom marke \"Humbaur\" reg. ozn. [registarska oznaka], gdje da se je i zaustavio, a u kojoj prometnoj nesreći da je na vozilima reg. ozn. [registarska oznaka], reg. ozn. [registarska oznaka] i reg. ozn,. [registarska oznaka] nastupila materijalna šteta, dok je vozač RI zadobio lake tjelesne ozljede, a vozač TI je zadobio teške tjelesne ozljede, - pa da bi time počinio prekršaj iz članka 47. stavka 3. Zakona o sigurnosti prometa, u svezi članka 293. stavka 2. cit. Zakona, c) da istom prilikom za vrijeme vožnje ne bi koristio sigurnosni pojas ugrađen u vozilu, - pa da bi time počinio prekršaj iz članka 163. stavka 8. Zakona o sigurnosti prometa na cestama, II Uslijed odluke iz točke I. ove presude, žalba okrivljenika TI postala je bespredmetna glede djela činjenično opisanih pod točkama a) i c) izreke pobijane presude. III Odbija se kao neosnovana žalba okrivljenika TI, te se u pobijanom, a nepreinačenom dijelu prvostupanjska presuda potvrđuje. IV Uslijed odluka iz točke I. i III. ove presude, preinačava se prvostupanjska presuda u odluci o ukupnoj novčanoj kazni, tako da se okrivljeniku TI za prekršaj iz članka 199. stavka 8. Zakona o sigurnosti prometa na cestama uz primjenu članka 37. Prekršajnog zakona, novčana kazna u iznosu od 700,00 (sedamsto eura) činjenično opisanog pod točkom b) izreke pobijane presude smatra utvrđenom, a koju je okrivljenik TI dužan platiti u roku od 60 (šezdeset) dana od dana primitka pisanog otpravka ove presude, s time da će se, ako okrivljenik plati dvije trećine izrečene novčane kazne u navedenom roku, novčana kazna smatrati plaćenom u cjelini. V Temeljem članka 139. stavka 3. Prekršajnog zakona („Narodne novine“, broj 107/07, 39/13, 157/13, 110/15, 70/17, 118/18 i 114/22) okrivljenik TI obvezan je naknaditi trošak žalbenog postupka u iznosu od 30,00 (trideset eura) u roku od 60 (šezdeset) dana od primitka ove presude.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10711/2024-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10711"],
-    related_articles: ["čl. 239. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca ovog suda: Nediljka Bobana kao predsjednika vijeća, te Karmen Novak Hrgović i Davorka K",
-    outcome: "remanded",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=f20f91f2-8581-48b8-a00f-07ffec8d0a21",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10711/2025-2",
-    decision_date: "2026-02-26",
-    legal_area: "procedural",
-    legal_question:
-      "Odbija se kao neosnovana žalba okrivljenika DO i potvrđuje pobijana presuda?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Renate Popović kao predsjednice vijeća te Davorka Kučana i Drage Klasnića kao članova vijeća, uz sudjelovanje više sudske savjetnice Sanje Klaude kao zapisničarke, u prekršajnom predmetu protiv okrivljenika DO zbog prekršaja iz članka 289. stavak 1. kažnjivog po članku 289. stavak 4., članka 199. stavak 2. kažnjivog po članku 199. stavak 6. i članka 229. stavak 1. kažnjivog po članku 229. stavak 5. Zakona o sigurnosti prometa na cestama \"Narodne novine\" broj: 67/08, 48/10, 74/11, 80/13, 158/13, 92/14, 64/15, 108/17, 70/19, 42/20, 85/22 i 114/22, odlučujući o žalbi okrivljenika DO kojeg brani Petar Bulić odvjetnik iz Omiša podnesenoj protiv presude Općinskog prekršajnog suda u Splitu, od 13. listopada 2025. broj: Pp-15060/2025-5, u sjednici vijeća održanoj dana 26. veljače 2026. p r e s u d i o j e I Odbija se kao neosnovana žalba okrivljenika DO i potvrđuje pobijana presuda. II Temeljem članka 138. stavak 3.c Prekršajnog zakona okrivljenik DO dužan je platiti paušal troška žalbenog postupka u iznosu od 30,00 eura (trideseteura) u roku od 60 dana od dostave ove presude. -",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10711/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10711"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca: Renate Popović kao predsjednice vijeća te Davorka Kučana i Drage Klasnića kao članova ",
-    outcome: "defendant_won",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=0c6b7a7b-7723-499c-8429-9767a8b122b8",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10727/2023-2",
-    decision_date: "2026-04-08",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je osnovan zahtjev radi u konkretnom slučaju o težem prometnom prekršaju i svrha kažnjavanja neće se postići izricanjem samo novčane kazne i to?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca ovog Suda: Nediljka Bobana predsjednika vijeća, te Karme Novak Hrgović i Davorka Kučana članova vijeća, uz sudjelovanje više sudske savjetnice Marcele Soljačić Prester kao zapisničarke, u prekršajnom postupku protiv okrivljenika PN, zbog prekršaja iz članka 199. stavka 7. Zakona o sigurnosti prometa na cestama (Narodne novine broj: 67/2008, 48/2010, 74/2011, 80/2013, 158/2013, 92/2014, 64/2015, 108/2017, 70/2019, 42/2020, 85/2022, 114/2022), odlučujući o žalbi ovlaštenog tužitelja Policijske uprave osječko baranjske, Policijske postaje Đakovo, podnesenoj protiv presude Općinskog suda u Đakovu, od dana 21. studenoga 2023. godine broj: 11 Pp-91303/2023-4, na sjednici vijeća održanoj dana 8. travnja 2026. godine, p r e s u d i o j e : I) Djelomično se prihvaća žalba ovlaštenog tužitelja Policijske uprave osječko baranjske, Policijske postaje Đakovo, kao osnovana, te se prvostupanjska presuda preinačuje u odluci o prekršajno pravnim sankcijama i okrivljeniku PN izriče se temeljem članka 58. Prekršajnog zakona (Narodne novine broj: 107/2007, 39/2013, 157/2013, 110/2015, 70/2017, 118/2018, 114/2022) zaštitna mjera zabrane upravljanja motornim vozilom B kategorije u trajanju od 1 (jednog) mjeseca. II) U ostalom pobijanom, a nepreinačenom dijelu, odbija se žalba ovlaštenog tužitelja kao neosnovana i prvostupanjska presuda se potvrđuje.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10727/2023-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10727"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca ovog Suda: Nediljka Bobana predsjednika vijeća, te Karme Novak Hrgović i Davorka Kučana",
-    outcome: "remanded",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=5cce96e0-12da-4677-a97a-876a958bb792",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-1074/2025-2",
-    decision_date: "2026-03-24",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je osnovan zahtjev radi preinačenja odluke o zaštitnoj mjeri. Naime?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Tomislava Tomašića kao predsjednika vijeća te Maria Soljačića i Marjane Rajić kao članova vijeća, uz sudjelovanje višeg sudskog savjetnika - specijalista Željka Kudrića kao zapisničara, u prekršajnom postupku protiv okr. ČĆ, zbog prekršaja iz članka 282. stavka 4. i 9. Zakona o sigurnosti prometa na cestama („Narodne novine“, broj: 67/08., 48/10., 74/11., 80/13., 92/14., 64/15., 108/17., 70/19., 42/20., 85/22., 114/22. i 145/24.) i iz članka 54. stavka 3. u vezi stavka 1. točke 1. Zakona o suzbijanju zlouporabe droga („Narodne novine“, broj: 107/01., 87/02., 163/03., 141/04., 40/07., 149/09., 84/11., 80/13. i 39/19.), odlučujući o prigovoru okr. ČĆ, podnesenom po branitelju Nikoli Deliću, odvjetniku iz Pule, protiv prekršajnog naloga Policijske uprave istarske, Postaje prometne policije Pula od 26. siječnja 2025., klasa:211-07/25-1/1233, urbroj:511-08-29-25-1, u sjednici vijeća održanoj 24. ožujka 2026., p r e s u d i o j e I. Prigovor okrivljenika ČĆ odbija se kao neosnovan i potvrđuje pobijani prekršajni nalog. II. Na temelju odredbe članka 138. stavka 2. točke 3. podtočke c) Prekršajnog zakona, okrivljenik ČĆ obvezan je naknaditi trošak žalbenog postupka u paušalnom iznosu od 25,00 eura (dvadesetpeteura) u roku od 15 (petnaest) dana od primitka ove presude.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-1074/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-1074"],
-    related_articles: ["čl. 58. Prekršajni zakon","čl. 237. Prekršajni zakon","čl. 238. Prekršajni zakon","čl. 39. Prekršajni zakon","čl. 32. Prekršajni zakon","čl. 51. Prekršajni zakon","čl. 205. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Tomislava Tomašića kao predsjednika vijeća te Maria Soljačića i Marjane Rajić kao člano",
-    outcome: "defendant_won",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=a4d4b6de-d33d-47f0-bb3a-7a0e5b78e69a",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10741/2023-2",
-    decision_date: "2026-03-12",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je sud pravilno primijenio mjerodavno pravo?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Renate Popović, predsjednice, te Davorka Kučana i Drage Klasnića, članova vijeća, uz sudjelovanje Nade Horvatović u svojstvu više sudske savjetnice specijalistice kao zapisničarke, u prekršajnom postupku protiv okrivljenog SH, zbog prekršaja iz članka 229. stavka 3. i 7. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj: 67/08., 48/10., 74/11., 80/13., 158/13., 92/14., 64/15., 108/17., 70/19., 42/20., 85/22 i 114/22.) rješavajući o žalbi tužitelja Ministarstva unutarnjih poslova Republike Hrvatske, Policijske uprave zagrebačke, I Postaje prometne policije Zagreb protiv presude Općinskog prekršajnog suda u Zagrebu poslovni broj:74. Pp-10962/2023 od 5. rujna 2023., u sjednici vijeća održanoj 12. ožujka 2026. p r e s u d i o j e Prihvaća se žalba tužitelja Ministarstva unutarnjih poslova Republike Hrvatske, Policijske uprave zagrebačke, I Postaje prometne policije Zagreb i preinačuje prvostupanjska presuda u odluci o prekršajnopravnoj sankciji, tako da se okr. SH za činjenično opisano postupanje u izreci pobijane presude i pravno označeno djelom iz članka 229. stavka 3. i 7. Zakona o sigurnosti prometa na cestama, na temelju tog propisa i uz primjenu članka 37. stavka 2. i 3. točke 1. Prekršajnog zakona izriče novčana kazna u iznosu 150,00 EUR (stopedeset eura), koju kaznu je dužan platiti u roku devedeset dana od dana primitka ove presude, pa ako okrivljenik u tom roku plati dvije trećine izrečene kazne, novčana kazna smatrat će se plaćenom u cjelini.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10741/2023-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10741"],
-    related_articles: ["čl. 43. Prekršajni zakon","čl. 77. Prekršajni zakon","čl. 152. Prekršajni zakon","čl. 207. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca Renate Popović, predsjednice, te Davorka Kučana i Drage Klasnića, članova vijeća, uz su",
-    outcome: "remanded",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=44ef0ab1-7a74-4021-97fa-a68084bad2df",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10744/2023-2",
-    decision_date: "2026-02-04",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je osnovan zahtjev radi o prekoračenju od 1 km/h je potpuno pogrešno?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca ovog suda: Nediljka Bobana kao predsjednika vijeća, te Karmen Novak Hrgović i Davorka Kučana, kao članova vijeća, uz sudjelovanje više sudske savjetnice Marcele Soljačić-Prester, kao zapisničarke, u prekršajnom predmetu protiv okrivljenice OŠ, zbog prekršaja iz članka 53. stavka 3. Zakona o sigurnosti prometa na cestama („Narodne novine“, broj: 67/08, 48/10, 74/11, 80/13, 158/13, 92/14, 64/15, 89/15, 108/17, 70/19 i 42/20), odlučujući o žalbi okrivljenice OŠ, podnesenoj po braniteljici Leani Houf, odvjetnici iz Bjelovara, protiv presude Općinskog prekršajnog suda u Zagrebu, od 12. listopada 2023., poslovni broj: 6. Pp-4045/2023, na sjednici vijeća održanoj 4. veljače 2026., p r e s u d i o j e I. Djelomično se prihvaća žalba okrivljenice OŠ, kao osnovana, te se preinačuje pobijana presuda u odluci o novčanoj kazni na način da se okrivljenici OŠ primjenom članka 37. Prekršajnog zakona („Narodne novine“, broj, 107/07, 39/13,157/13, 110/15, 70/17, 118/18 i 114/22), za prekršaj iz članka 53. stavka 3. Zakona o sigurnosti prometa na cestama („Narodne novine“, broj: 67/08, 48/10, 74/11, 80/13, 158/13, 92/14, 64/15, 89/15, 108/17, 70/19, 42/20, 85/22 i 114/22), činjenično opisanog u izreci izriče novčana kazna u iznosu od 800,00 (osamsto eura), te se ukida odluka o izrečenoj zaštitnoj mjeri zabrane upravljanja motornim vozilima B kategorije u trajanju od 1 (jedan) mjesec. II. Temeljem članka 33. stavka 11. Prekršajnog zakona („Narodne novine“, broj: 107/07, 39/13, 157/13 i 110/15, 70/17, 118/18 i 114/22), određuje se okrivljenici OŠ, da izrečenu novčanu kaznu, plati u roku od 3 (tri) mjeseca po primitku ove presude, a ukoliko okrivljenica u navedenom roku plati dvije trećine te novčane kazne, smatrat će se da je novčana kazna u cijelosti plaćena. III. U ostalom pobijanom, a nepreinačenom dijelu odbija se žalba okrivljenice OŠ i potvrđuje prvostupanjska presuda. IV. Temeljem članka 139. stavka 3. Prekršajnog zakona („Narodne novine“, broj 107/07, 39/13, 157/13, 110/15, 70/17, 118/18 i 114/22) okrivljenica OŠ je obvezana naknaditi trošak žalbenog postupka u paušalnom iznosu od 20,00 (dvadeset eura) u roku od 3 (tri) mjeseca od primitka ove presude.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10744/2023-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10744"],
-    related_articles: ["čl. 88. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske u vijeću sastavljenom od sudaca ovog suda: Nediljka Bobana kao predsjednika vijeća, te Karmen Novak Hrgović i Davorka K",
-    outcome: "remanded",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=12f57e19-e92c-465c-90dd-efe17f7c76c5",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10744/2025-2",
-    decision_date: "2026-03-10",
-    legal_area: "procedural",
-    legal_question:
-      "Odbija se prigovor okrivljenog MH kao neosnovan te se prekršajni nalog potvrđuje?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sutkinja Ivanke Mašić kao predsjednice vijeća, te Anđe Ćorluka i Mirjane Medić kao članica vijeća uz sudjelovanje sudskog savjetnika Ivice Ožbolta kao zapisničara, u prekršajnom postupku protiv okrivljenog MH, zbog prekršaja iz članka 54. stavka 2. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj: 67/08., 48/10., 74/11., 80/13., 158/13., 92/14., 64/15., 89/15., 108/17., 70/19., 42/20., 85/22., 114/22., 133/23. i 145/24.), odlučujući o prigovoru okrivljenog MH, podnesenom protiv prekršajnog naloga Ministarstva unutarnjih poslova Republike Hrvatske, Policijske uprave primorsko-goranske, Policijske postaje Vrbovsko od 14. listopada 2025., KLASA: 211-07/25-3/16841, URBROJ: 511-09-33-25-2, u sjednici vijeća održanoj 10. ožujka 2026., p r e s u d i o j e I. Odbija se prigovor okrivljenog MH kao neosnovan te se prekršajni nalog potvrđuje. II. Na temelju članka 138. stavka 2. točke 3.c) Prekršajnog zakona („Narodne novine“ broj: 107/07., 39/13., 157/13., 110/15., 70/17., 118/18. i 114/22.), okrivljeni MH obvezan je naknaditi paušalni iznos troškova žalbenog postupka u iznosu od 30,00 eura (trideset eura) u roku od 15 dana od dana primitka ove presude.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10744/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10744"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sutkinja Ivanke Mašić kao predsjednice vijeća, te Anđe Ćorluka i Mirjane Medić kao članica vi",
-    outcome: "defendant_won",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=606302de-fce3-43d2-ad02-06fe69d09e41",
-  },
-  {
-    jurisdiction: "croatia",
-    court: "Visoki prekršajni sud Republike Hrvatske",
-    court_level: "high",
-    case_number: "Ppž-10750/2025-2",
-    decision_date: "2026-03-10",
-    legal_area: "procedural",
-    legal_question:
-      "Da li je osnovan zahtjev radi provođenja prekršajnog postupka. Obrazloženje 1. Kod ovog suda zaprimljen je na odlučivanje prigovor okrivljenog VĐ podn?",
-    court_position:
-      "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sutkinja Ivanke Mašić kao predsjednice vijeća, te Anđe Ćorluka i Mirjane Medić kao članica vijeća, uz sudjelovanje sudskog savjetnika Ivice Ožbolta kao zapisničara, u prekršajnom predmetu protiv okrivljenog VĐ, zbog prekršaja iz članka 54. stavka 2. Zakona o sigurnosti prometa na cestama („Narodne novine“ broj: 67/08., 48/10., 74/11., 80/13., 158/13., 92/14., 64/15., 89/15., 108/17., 70/19., 42/20., 85/22., 114/22., 133/23. i 145/24.), odlučujući o prigovoru okrivljenog VĐ podnesenom protiv prekršajnog naloga Ministarstva unutarnjih poslova Republike Hrvatske, Policijske uprave primorsko-goranske, Policijske postaje Vrbovsko od 17. listopada 2025., KLASA: 211-07/25-3/17088, URBROJ: 511-09-33-25-2, u sjednici vijeća održanoj 10. ožujka 2026., r i j e š i o j e: I. Na temelju članka 102. stavka 1. Prekršajnog zakona („Narodne novine“ broj: 107/07., 39/13., 157/13., 110/15., 70/17., 118/18. i 114/22.), Visoki prekršajni sud Republike Hrvatske proglašava se stvarno nenadležnim za odlučivanje o prigovoru okrivljenog VĐ podnesenom protiv prekršajnog naloga Ministarstva unutarnjih poslova Republike Hrvatske, Policijske uprave primorsko-goranske, Policijske postaje Vrbovsko od 17. listopada 2025., KLASA: 211-07/25-3/17088, URBROJ: 511-09-33-25-2. II. Spis predmeta vraća se izdavatelju prekršajnog naloga kako bi ga dostavio stvarno i mjesno nadležnom Općinskom sudu u Rijeci radi provođenja prekršajnog postupka.",
-    reasoning:
-      "Visoki prekršajni sud Republike Hrvatske odlučuje u predmetu Ppž-10750/2025-2 o žalbi u prekršajnom postupku, primjenjujući Prekršajni zakon i povezane procesne propise.",
-    keywords: ["procedural","prekršajni postupak","Visoki prekršajni sud Republike Hrvatske","Ppž-10750"],
-    related_articles: ["čl. 202. Prekršajni zakon"],
-    headnote: "Visoki prekršajni sud Republike Hrvatske, u vijeću sastavljenom od sutkinja Ivanke Mašić kao predsjednice vijeća, te Anđe Ćorluka i Mirjane Medić kao članica vi",
-    outcome: "partially",
-    source_url: "https://odluke.sudovi.hr/Document/View?id=1fb14479-f12a-484f-9bfa-2a6febcd8150",
   }
 ]
