@@ -199,7 +199,13 @@ function scoreKeywordTextMatch(
   haystack: string,
   patterns: ReturnType<typeof buildKeywordIlikePatterns>,
 ): { score: number; matchChannel: "keyword_exact" | "keyword_stem" } | null {
-  return scoreKeywordPatternMatch(haystack, patterns)
+  const match = scoreKeywordPatternMatch(haystack, patterns)
+  if (!match) return null
+  // scoreKeywordPatternMatch returns `channel`; callers (and the area-aware
+  // reranker) read `matchChannel`. Without this mapping every keyword hit
+  // reaches reranking with matchChannel=undefined, so the mismatch penalty
+  // never fires (only the boost does).
+  return { score: match.score, matchChannel: match.channel }
 }
 
 function buildKeywordOrFilter(

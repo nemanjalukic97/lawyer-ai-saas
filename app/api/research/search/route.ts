@@ -510,7 +510,9 @@ export async function POST(req: NextRequest) {
           entity_type: null,
           entity_id: null,
           model_used: "text-embedding-3-small",
-          usage_date: today,
+          // usage_date is a GENERATED ALWAYS column ((created_at)::date).
+          // Passing it explicitly raises 428C9 and silently killed all
+          // usage_stats logging; let Postgres derive it.
           metadata: {
             jurisdiction: jurisdiction ?? "all",
             category: category ?? "all",
@@ -528,9 +530,24 @@ export async function POST(req: NextRequest) {
             has_highly_relevant_case_law: hasHighlyRelevantCaseLaw,
           } as any,
         }
-        await supabase.from("usage_stats").insert(usageRow as never)
-      } catch {
-        // never block response on logging
+        const { error: usageError } = await supabase
+          .from("usage_stats")
+          .insert(usageRow as never)
+        if (usageError) {
+          // eslint-disable-next-line no-console
+          console.error("[research/search] usage_stats insert failed", {
+            code: (usageError as { code?: string }).code,
+            message: usageError.message,
+            details: (usageError as { details?: string }).details,
+          })
+        }
+      } catch (err) {
+        // never block response on logging, but surface it loudly
+        // eslint-disable-next-line no-console
+        console.error(
+          "[research/search] usage_stats logging threw",
+          err instanceof Error ? err.message : String(err),
+        )
       }
     }
 

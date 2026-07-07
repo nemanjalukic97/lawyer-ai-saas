@@ -390,12 +390,29 @@ export async function POST(req: NextRequest) {
         entity_type: entityType ?? null,
         entity_id: entityId ?? null,
         model_used: "gpt-4o",
-        usage_date: today,
+        // usage_date is GENERATED ALWAYS ((created_at)::date); passing it
+        // explicitly raises 428C9 and silently broke all usage tracking
+        // (including daily-limit enforcement). Let Postgres derive it.
       }
       // Insert is allowed at runtime; generated Insert typing can resolve to `never` for this table.
-      await supabase.from("usage_stats").insert(usageRow as never)
-    } catch {
-      // Ignore logging errors so they never block the response
+      const { error: usageError } = await supabase
+        .from("usage_stats")
+        .insert(usageRow as never)
+      if (usageError) {
+        // eslint-disable-next-line no-console
+        console.error("[ai] usage_stats insert failed", {
+          code: (usageError as { code?: string }).code,
+          message: usageError.message,
+          details: (usageError as { details?: string }).details,
+        })
+      }
+    } catch (err) {
+      // Never block the response on logging, but surface it loudly.
+      // eslint-disable-next-line no-console
+      console.error(
+        "[ai] usage_stats logging threw",
+        err instanceof Error ? err.message : String(err),
+      )
     }
 
     return Response.json(
