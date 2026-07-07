@@ -83,6 +83,14 @@ const GLUE_PAIRS: Array<[from: string, to: string]> = [
   ["činjenicadaje", "činjenica da je"],
   ["suda Srbijene predstavlja", "suda Srbije ne predstavlja"],
   ["suda Srbijene može", "suda Srbije ne može"],
+  ["kadaje", "kada je"],
+  ["usvojenna", "usvojen na"],
+  ["TROŠKOVAKOD", "TROŠKOVA KOD"],
+  ["ZASTUPANjAVIŠE", "ZASTUPANJA VIŠE"],
+  ["okončanuodnosuna", "okončan u odnosu na"],
+  ["odnosuna", "odnosu na"],
+  ["postupakokončan", "postupak okončan"],
+  ["OKRIVLjENIHOD", "OKRIVLjENIH OD"],
 ]
 
 const LOWER_LAT = "a-zčćžšđ"

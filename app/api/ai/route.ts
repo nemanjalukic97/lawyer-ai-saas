@@ -5,6 +5,7 @@ import {
   buildCombinedRagPrompt,
   validateCitations,
   getAnswerMode,
+  summarizeAreaInferenceForLog,
   summarizeMatchChannelsForLog,
   type LegalChunk,
   type CaseLawContextResult,
@@ -272,6 +273,12 @@ export async function POST(req: NextRequest) {
             law_match_channels: summarizeMatchChannelsForLog(ragResult.chunks),
             case_law_match_channels: summarizeMatchChannelsForLog(
               caseLawResult.cases,
+            ),
+            law_area_inference: summarizeAreaInferenceForLog(
+              ragResult.areaInference,
+            ),
+            case_law_area_inference: summarizeAreaInferenceForLog(
+              caseLawResult.areaInference,
             ),
           }
 

@@ -6,7 +6,9 @@ import { PLAN_ENTITLEMENTS } from "@/app/dashboard/lib/entitlements"
 import {
   matchLegalArticles,
   retrieveCaseLawContext,
+  summarizeAreaInferenceForLog,
   summarizeMatchChannelsForLog,
+  type AreaInferenceLog,
   type CaseLawChunk,
   type CaseLawContextResult,
   type LegalChunk,
@@ -366,6 +368,11 @@ export async function POST(req: NextRequest) {
                     chunks: [] as LegalChunk[],
                     usedThreshold: 0.25,
                     retried: false,
+                    areaInference: {
+                      inferredArea: null,
+                      applied: false,
+                      results: [],
+                    } satisfies AreaInferenceLog,
                   }
                 }),
             ),
@@ -380,6 +387,10 @@ export async function POST(req: NextRequest) {
           )
         : Promise.resolve([] as CaseLawContextResult[]),
     ])
+
+    const lawAreaInference =
+      searches.find((s) => s.areaInference?.applied)?.areaInference ??
+      searches[0]?.areaInference
 
     const sorted = fetchLaws ? mergeLegalChunks(searches) : []
     const { primary: primaryLaws, lowConfidence: lowConfidenceLaws } =
@@ -447,6 +458,10 @@ export async function POST(req: NextRequest) {
       ? summarizeMatchChannelsForLog(sortedCases.slice(0, 20))
       : null
 
+    const caseLawAreaInference =
+      caseLawSearchRuns.find((r) => r.areaInference?.applied)?.areaInference ??
+      caseLawSearchRuns[0]?.areaInference
+
     if (fetchCaseLaw) {
       // eslint-disable-next-line no-console
       console.error("[research/search] case law fetch done", {
@@ -505,6 +520,10 @@ export async function POST(req: NextRequest) {
             limit,
             law_match_channels: lawMatchLog,
             case_law_match_channels: caseLawMatchLog,
+            law_area_inference: summarizeAreaInferenceForLog(lawAreaInference),
+            case_law_area_inference: summarizeAreaInferenceForLog(
+              caseLawAreaInference,
+            ),
             has_highly_relevant_laws: hasHighlyRelevantLaws,
             has_highly_relevant_case_law: hasHighlyRelevantCaseLaw,
           } as any,

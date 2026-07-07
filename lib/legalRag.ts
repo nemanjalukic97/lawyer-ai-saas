@@ -13,6 +13,10 @@ import {
   buildKeywordIlikePatterns,
   scoreKeywordPatternMatch,
 } from "./keywordVariants"
+import {
+  areasCompatibleWithInference,
+  inferLegalAreaFromQuery,
+} from "./queryAreaInference"
 import { supabaseAdmin } from "./supabase/admin"
 
 export {
@@ -58,6 +62,7 @@ export type RagResult = {
   hasStrongMatch: boolean
   topSimilarity: number
   confidence: "high" | "medium" | "low"
+  areaInference?: AreaInferenceLog
 }
 
 export type CaseLawChunk = {
@@ -84,6 +89,7 @@ export type CaseLawContextResult = {
   cases: CaseLawChunk[]
   confidence: "high" | "medium" | "low" | "none"
   topSimilarity: number
+  areaInference?: AreaInferenceLog
 }
 
 export type AnswerMode = "extracted" | "analytical" | "auto" | "drafting"
@@ -380,6 +386,125 @@ export function summarizeMatchChannelsForLog(
   }
 }
 
+const AREA_MATCH_BOOST = 0.05
+const MAX_RERANK_SCORE = 0.99
+const KEYWORD_MISMATCH_MULTIPLIER = 0.75
+const KEYWORD_BOOST_SCORES = new Set([0.9, 0.95])
+
+export type AreaInferenceLog = {
+  inferredArea: string | null
+  applied: boolean
+  skippedReason?: "explicit_filter" | "no_signal"
+  results: Array<{
+    id: string
+    area: string
+    areaMatch: boolean
+    scoreBefore: number
+    scoreAfter: number
+    matchChannel?: MatchChannel
+  }>
+}
+
+function isKeywordBoostedResult(
+  score: number,
+  channel?: MatchChannel,
+): boolean {
+  if (channel === "keyword_exact" || channel === "keyword_stem") return true
+  if (channel === "both") return KEYWORD_BOOST_SCORES.has(score)
+  return false
+}
+
+function applyAreaAwareReranking<T extends {
+  id: string
+  similarity: number
+  matchChannel?: MatchChannel
+}>(
+  items: T[],
+  getArea: (item: T) => string,
+  query: string,
+  userFilterActive: boolean,
+): { items: T[]; log: AreaInferenceLog } {
+  if (userFilterActive) {
+    return {
+      items,
+      log: {
+        inferredArea: null,
+        applied: false,
+        skippedReason: "explicit_filter",
+        results: [],
+      },
+    }
+  }
+
+  const inferredArea = inferLegalAreaFromQuery(query)
+  if (!inferredArea) {
+    return {
+      items,
+      log: {
+        inferredArea: null,
+        applied: false,
+        skippedReason: "no_signal",
+        results: [],
+      },
+    }
+  }
+
+  const results: AreaInferenceLog["results"] = []
+  const reranked = items.map((item) => {
+    const area = getArea(item).trim().toLowerCase()
+    const areaMatch = areasCompatibleWithInference(inferredArea, area)
+    const scoreBefore = item.similarity
+    let scoreAfter = scoreBefore
+
+    if (areaMatch) {
+      scoreAfter = Math.min(MAX_RERANK_SCORE, scoreBefore + AREA_MATCH_BOOST)
+    } else if (isKeywordBoostedResult(scoreBefore, item.matchChannel)) {
+      scoreAfter = scoreBefore * KEYWORD_MISMATCH_MULTIPLIER
+    }
+
+    results.push({
+      id: item.id,
+      area,
+      areaMatch,
+      scoreBefore,
+      scoreAfter,
+      matchChannel: item.matchChannel,
+    })
+
+    return { ...item, similarity: scoreAfter }
+  })
+
+  reranked.sort((a, b) => b.similarity - a.similarity)
+
+  return {
+    items: reranked,
+    log: {
+      inferredArea,
+      applied: true,
+      results,
+    },
+  }
+}
+
+export function summarizeAreaInferenceForLog(
+  log: AreaInferenceLog | undefined | null,
+) {
+  if (!log) return undefined
+  return {
+    inferredArea: log.inferredArea,
+    applied: log.applied,
+    skippedReason: log.skippedReason,
+    top: log.results.slice(0, 8).map((r) => ({
+      id: r.id,
+      area: r.area,
+      areaMatch: r.areaMatch,
+      scoreBefore: Math.round(r.scoreBefore * 1000) / 1000,
+      scoreAfter: Math.round(r.scoreAfter * 1000) / 1000,
+      matchChannel: r.matchChannel ?? "vector",
+    })),
+  }
+}
+
 async function searchCaseLawByKeyword(args: {
   query: string
   jurisdiction: string
@@ -618,6 +743,7 @@ async function matchCaseLawWithEmbedding(args: {
   cases: CaseLawChunk[]
   usedThreshold: number
   retried: boolean
+  areaInference: AreaInferenceLog
 }> {
   const thresholds = getJurisdictionRpcThresholds(args.jurisdiction)
 
@@ -675,8 +801,14 @@ async function matchCaseLawWithEmbedding(args: {
 
   const keywordCases = await keywordPromise
   const merged = mergeHybridCaseChunks(data, keywordCases)
+  const { items: reranked, log: areaInference } = applyAreaAwareReranking(
+    merged,
+    (c) => c.legal_area,
+    args.query?.trim() ?? "",
+    normalizedLegalArea != null,
+  )
 
-  return { cases: merged, usedThreshold, retried }
+  return { cases: reranked, usedThreshold, retried, areaInference }
 }
 
 async function matchCaseLaw(args: {
@@ -692,6 +824,7 @@ async function matchCaseLaw(args: {
   cases: CaseLawChunk[]
   usedThreshold: number
   retried: boolean
+  areaInference: AreaInferenceLog
 }> {
   const embedding = await embedQueryText(args.query)
   return matchCaseLawWithEmbedding({
@@ -803,6 +936,7 @@ export async function matchLegalArticles(args: {
   chunks: LegalChunk[]
   usedThreshold: number
   retried: boolean
+  areaInference: AreaInferenceLog
 }> {
   const normalizedCategory = normalizeResearchCategory(args.category ?? null)
   const matchCount = args.matchCount ?? 6
@@ -857,8 +991,14 @@ export async function matchLegalArticles(args: {
 
   const keywordChunks = await keywordPromise
   const merged = mergeHybridLegalChunks(data, keywordChunks)
+  const { items: reranked, log: areaInference } = applyAreaAwareReranking(
+    merged,
+    (c) => c.law_category,
+    args.query,
+    normalizedCategory != null,
+  )
 
-  return { chunks: merged, usedThreshold, retried }
+  return { chunks: reranked, usedThreshold, retried, areaInference }
 }
 
 function deduplicateChunks(chunks: LegalChunk[]): LegalChunk[] {
@@ -998,7 +1138,7 @@ export async function retrieveLegalContext(
       ? thresholds.defaultThreshold
       : undefined)
 
-  const { chunks: rawChunks } = await matchLegalArticles({
+  const { chunks: rawChunks, areaInference } = await matchLegalArticles({
     query,
     jurisdiction,
     category: normalizeResearchCategory(options?.category ?? null),
@@ -1027,6 +1167,7 @@ export async function retrieveLegalContext(
     hasStrongMatch,
     topSimilarity,
     confidence,
+    areaInference,
   }
 }
 
@@ -1050,7 +1191,7 @@ export async function retrieveCaseLawContext(
 
   const normalizedLegalArea = normalizeLegalAreaFilter(options?.legalArea ?? null)
 
-  const { cases: rawCases } = await matchCaseLaw({
+  const { cases: rawCases, areaInference } = await matchCaseLaw({
     query,
     jurisdiction,
     legalArea: normalizedLegalArea,
@@ -1063,7 +1204,8 @@ export async function retrieveCaseLawContext(
       getCaseLawRpcTimeoutMs(normalizedLegalArea, jurisdiction),
   })
 
-  return buildCaseLawContextResult(rawCases, jurisdiction)
+  const result = buildCaseLawContextResult(rawCases, jurisdiction)
+  return { ...result, areaInference }
 }
 
 function formatCaseLawSummaryLines(cases: CaseLawChunk[]): string {
