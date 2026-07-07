@@ -33,73 +33,127 @@ REQUEST_TIMEOUT = (15, 90)
 SLEEP_SEC = 1.0
 FETCH_RETRIES = 3
 
+PROBE_SLEEP_SEC = 0.35
+
 _WIN_INVALID = '<>:"/\\|?*'
 
+# Slugs use site diacritics (građanska, krivična, zaštita, izvršni, …).
 GRADANSKA_SENTENCE_CHILDREN = (
     "stvarno-pravo",
     "obligaciono-pravo",
     "nasledno-pravo",
-    "porodicno-pravo",
+    "porodično-pravo",
     "privredno-pravo",
     "radno-pravo",
     "zabrana-diskriminacije",
     "medijsko-pravo",
-    "gradjansko-procesno-pravo-parnicni-postupak",
-    "gradjansko-procesno-pravo-vanparnicni-postupak",
-    "izvrsni-postupak",
+    "građansko-procesno-pravo-–-parnični-postupak",
+    "građansko-procesno-pravo-–-vanparnični-postupak",
+    "izvršni-postupak",
     "intelektualna-svojina",
-    "stecajno-pravo",
+    "stečajno-pravo",
     "stambeno-pravo",
 )
 
+KRIVICNA_SENTENCE_PATHS = tuple(f"krivična-materija-{i}" for i in range(6))
+UPRAVNA_SENTENCE_PATHS = tuple(f"upravna-materija-{i}" for i in range(4))
+RAZUMNI_ROK_PATHS = (
+    "zaštita-prava-na-suđenje-u-razumnom-roku",
+    "zaštita-prava-na-suđenje-u-razumnom-roku-0",
+)
+
 LISTINGS: list[dict] = [
-    {"category": "ustavni", "folder": "praksa-ustavnog-suda", "path": "praksa-ustavnog-suda"},
-    {"category": "ustavni", "folder": "presude-protiv-srbije", "path": "presude-protiv-srbije"},
-    {"category": "bilteni", "folder": "bilten-vrhovnog-suda", "path": "bilten-vrhovnog-suda"},
+    {
+        "category": "ustavni",
+        "folder": "praksa-ustavnog-suda",
+        "paths": ["praksa-ustavnog-suda"],
+    },
+    {
+        "category": "ustavni",
+        "folder": "presude-protiv-srbije",
+        "paths": ["presude-protiv-srbije"],
+    },
+    {
+        "category": "bilteni",
+        "folder": "bilten-vrhovnog-suda",
+        "paths": ["bilten-vrhovnog-suda"],
+    },
     {
         "category": "bilteni",
         "folder": "bilten-vrhovnog-kasacionog-suda",
-        "path": "bilten-vrhovnog-kasacionog-suda",
+        "paths": ["bilten-vrhovnog-kasacionog-suda"],
     },
     {
         "category": "bilteni",
         "folder": "bilten-vrhovnog-suda-srbije",
-        "path": "bilten-vrhovnog-suda-srbije",
+        "paths": ["bilten-vrhovnog-suda-srbije"],
     },
-    {"category": "pravna-shvatanja", "folder": "krivicna-materija", "path": "krivicna-materija"},
-    {"category": "pravna-shvatanja", "folder": "gradanska-materija", "path": "gradanska-materija"},
-    {"category": "pravna-shvatanja", "folder": "upravna-materija", "path": "upravna-materija"},
+    {
+        "category": "pravna-shvatanja",
+        "folder": "krivicna-materija",
+        "paths": ["krivična-materija"],
+    },
+    {
+        "category": "pravna-shvatanja",
+        "folder": "gradanska-materija",
+        "paths": ["građanska-materija"],
+    },
+    {
+        "category": "pravna-shvatanja",
+        "folder": "upravna-materija",
+        "paths": ["upravna-materija"],
+    },
     {
         "category": "pravna-shvatanja",
         "folder": "razumni-rok",
-        "path": "zastita-prava-na-sudjenje-u-razumnom-roku",
+        "paths": list(RAZUMNI_ROK_PATHS),
     },
-    {"category": "pravna-shvatanja", "folder": "referati", "path": "referati"},
-    {"category": "sentence", "folder": "krivicna-materija", "path": "krivicna-materija-0"},
+    {
+        "category": "pravna-shvatanja",
+        "folder": "referati",
+        "paths": ["referati"],
+    },
+    {
+        "category": "sentence",
+        "folder": "krivicna-materija",
+        "paths": list(KRIVICNA_SENTENCE_PATHS),
+    },
     {
         "category": "sentence",
         "folder": "gradanska-materija",
-        "path": "gradanska-materija-2",
+        "paths": [],
         "child_slugs": GRADANSKA_SENTENCE_CHILDREN,
     },
-    {"category": "sentence", "folder": "upravna-materija", "path": "upravna-materija-0"},
+    {
+        "category": "sentence",
+        "folder": "upravna-materija",
+        "paths": list(UPRAVNA_SENTENCE_PATHS),
+    },
     {
         "category": "sentence",
         "folder": "razumni-rok",
-        "path": "zastita-prava-na-sudjenje-u-razumnom-roku-0",
+        "paths": list(RAZUMNI_ROK_PATHS),
     },
     {
         "category": "ujednacavanje",
         "folder": "horizontalno-vertikalno",
-        "path": "horizontalno-i-vertikalno-ujednacavanje",
+        "paths": ["horizontalno-i-vertikalno-ujednacavanje"],
     },
-    {"category": "ujednacavanje", "folder": "sporna-pitanja", "path": "sporna-pravna-pitanja-0"},
+    {
+        "category": "ujednacavanje",
+        "folder": "sporna-pitanja",
+        "paths": ["sporna-pravna-pitanja-0"],
+    },
     {
         "category": "ujednacavanje",
         "folder": "apelacioni",
-        "path": "ujednacavanje-sudske-prakse-apelacionih-sudova",
+        "paths": ["ujednacavanje-sudske-prakse-apelacionih-sudova"],
     },
-    {"category": "uporedna", "folder": "valutna-klauzula", "path": "valutna-klauzula"},
+    {
+        "category": "uporedna",
+        "folder": "valutna-klauzula",
+        "paths": ["valutna-klauzula"],
+    },
 ]
 
 
@@ -129,9 +183,10 @@ def sanitize_filename(raw: str) -> str:
 
 
 class PoliteSession(requests.Session):
-    def __init__(self) -> None:
+    def __init__(self, sleep_sec: float = SLEEP_SEC) -> None:
         super().__init__()
         self.verify = _ssl_verify()
+        self._sleep_sec = sleep_sec
 
     def request(self, method, url, **kwargs):  # type: ignore[override]
         kwargs.setdefault("timeout", REQUEST_TIMEOUT)
@@ -139,7 +194,7 @@ class PoliteSession(requests.Session):
         kwargs["headers"].setdefault("User-Agent", USER_AGENT)
         kwargs.setdefault("verify", self.verify)
         r = super().request(method, url, **kwargs)
-        time.sleep(SLEEP_SEC)
+        time.sleep(self._sleep_sec)
         return r
 
 
@@ -171,7 +226,14 @@ def filename_from_url(url: str) -> str:
     return sanitize_filename(name)
 
 
-def extract_pdf_links(html: str, page_url: str) -> list[tuple[str, str]]:
+def is_vrh_pdf_url(url: str) -> bool:
+    host = urlparse(url).netloc.lower()
+    return host in ("vrh.sud.rs", "www.vrh.sud.rs")
+
+
+def extract_pdf_links(
+    html: str, page_url: str, *, vrh_only: bool = True
+) -> list[tuple[str, str]]:
     soup = BeautifulSoup(html, "html.parser")
     found: dict[str, str] = {}
     for a in soup.find_all("a", href=True):
@@ -179,6 +241,8 @@ def extract_pdf_links(html: str, page_url: str) -> list[tuple[str, str]]:
         if not href or not is_pdf_href(href):
             continue
         abs_url = urljoin(page_url, href)
+        if vrh_only and not is_vrh_pdf_url(abs_url):
+            continue
         if abs_url not in found:
             label = " ".join(a.get_text().split()).strip()
             found[abs_url] = label or filename_from_url(abs_url)
@@ -354,6 +418,152 @@ def process_pdfs(
     return pdf_budget
 
 
+def listing_paths_for_entry(listing: dict) -> list[str]:
+    paths = listing.get("paths")
+    if isinstance(paths, list) and paths:
+        return [str(p) for p in paths]
+    legacy = listing.get("path")
+    if legacy:
+        return [str(legacy)]
+    return []
+
+
+def probe_listings(session: PoliteSession) -> list[dict[str, object]]:
+    """Count vrh.sud.rs PDF links per listing path without downloading."""
+    rows: list[dict[str, object]] = []
+    grand_total = 0
+
+    for listing in LISTINGS:
+        category = str(listing["category"])
+        folder = str(listing["folder"])
+        paths = listing_paths_for_entry(listing)
+        child_slugs = listing.get("child_slugs") or ()
+
+        listing_total = 0
+        path_rows: list[dict[str, object]] = []
+
+        for slug in paths:
+            page_url = listing_url(slug)
+            try:
+                html = fetch_html(session, page_url)
+                pairs = extract_pdf_links(html, page_url, vrh_only=True)
+                n = len(pairs)
+                listing_total += n
+                path_rows.append(
+                    {
+                        "slug": slug,
+                        "http_status": 200,
+                        "vrh_pdf_count": n,
+                        "sample_pdf": pairs[0][0] if pairs else "",
+                    }
+                )
+            except requests.RequestException as e:
+                path_rows.append(
+                    {
+                        "slug": slug,
+                        "http_status": "error",
+                        "vrh_pdf_count": 0,
+                        "error": str(e),
+                    }
+                )
+
+        child_rows: list[dict[str, object]] = []
+        for slug in child_slugs:
+            page_url = listing_url(str(slug))
+            try:
+                html = fetch_html(session, page_url)
+                pairs = extract_pdf_links(html, page_url, vrh_only=True)
+                n = len(pairs)
+                listing_total += n
+                child_rows.append(
+                    {
+                        "slug": slug,
+                        "http_status": 200,
+                        "vrh_pdf_count": n,
+                    }
+                )
+            except requests.RequestException as e:
+                child_rows.append(
+                    {
+                        "slug": slug,
+                        "http_status": "error",
+                        "vrh_pdf_count": 0,
+                        "error": str(e),
+                    }
+                )
+
+        grand_total += listing_total
+        rows.append(
+            {
+                "category": category,
+                "folder": folder,
+                "vrh_pdf_count": listing_total,
+                "paths": path_rows,
+                "children": child_rows,
+            }
+        )
+
+    print("\n=== vrh.sud.rs probe summary ===")
+    print(f"{'category':<18} {'folder':<32} {'vrh_pdfs':>8}")
+    for row in rows:
+        print(
+            f"{row['category']:<18} {row['folder']:<32} {row['vrh_pdf_count']:>8}"
+        )
+    print(f"\nGrand total (dedup not applied across pages): {grand_total}")
+    return rows
+
+
+def scrape_listing_entry(
+    session: PoliteSession,
+    listing: dict,
+    out_root: Path,
+    log_entries: list[dict],
+    iso_now,
+    pdf_budget: int | None,
+    counters: dict[str, int],
+) -> int | None:
+    category = str(listing["category"])
+    folder = str(listing["folder"])
+    pdf_dir = out_root / category / folder
+
+    for slug in listing_paths_for_entry(listing):
+        if pdf_budget is not None and pdf_budget <= 0:
+            return pdf_budget
+        page_url = listing_url(slug)
+        pdf_budget, _ = scrape_page(
+            session,
+            page_url,
+            pdf_dir,
+            category,
+            folder,
+            log_entries,
+            iso_now,
+            pdf_budget,
+            counters,
+        )
+
+    child_slugs = listing.get("child_slugs") or ()
+    for slug in child_slugs:
+        if pdf_budget is not None and pdf_budget <= 0:
+            break
+        child_url = listing_url(str(slug))
+        child_dir = pdf_dir / str(slug)
+        child_sub = f"{folder}/{slug}"
+        pdf_budget, _ = scrape_page(
+            session,
+            child_url,
+            child_dir,
+            category,
+            child_sub,
+            log_entries,
+            iso_now,
+            pdf_budget,
+            counters,
+        )
+
+    return pdf_budget
+
+
 def scrape_page(
     session: PoliteSession,
     page_url: str,
@@ -383,9 +593,9 @@ def scrape_page(
         print(f"[list failed] {category}/{subcategory}: {e}", file=sys.stderr)
         return pdf_budget, None
 
-    pairs = extract_pdf_links(html, page_url)
+    pairs = extract_pdf_links(html, page_url, vrh_only=True)
     if not pairs:
-        print(f"[no pdf links] {category}/{subcategory}", file=sys.stderr)
+        print(f"[no vrh pdf links] {category}/{subcategory}", file=sys.stderr)
 
     pdf_budget = process_pdfs(
         session,
@@ -411,7 +621,16 @@ def main() -> int:
         default=0,
         help="If >0, stop after processing this many PDF links (download/skip/fail; for testing).",
     )
+    parser.add_argument(
+        "--probe-listings",
+        action="store_true",
+        help="Listing-only mode: count vrh.sud.rs PDF links per category (no downloads).",
+    )
     args = parser.parse_args()
+
+    if args.probe_listings:
+        probe_listings(PoliteSession(sleep_sec=PROBE_SLEEP_SEC))
+        return 0
 
     out_root = repo_root() / "downloads" / "serbia"
     log_path = out_root / "download-log.json"
@@ -427,53 +646,15 @@ def main() -> int:
         for listing in LISTINGS:
             if pdf_budget is not None and pdf_budget <= 0:
                 break
-
-            category = listing["category"]
-            folder = listing["folder"]
-            path = listing["path"]
-            url = listing_url(path)
-            pdf_dir = out_root / category / folder
-            subcategory = folder
-
-            pdf_budget, html = scrape_page(
+            pdf_budget = scrape_listing_entry(
                 session,
-                url,
-                pdf_dir,
-                category,
-                subcategory,
+                listing,
+                out_root,
                 log_entries,
                 iso_now,
                 pdf_budget,
                 counters,
             )
-
-            child_slugs = listing.get("child_slugs")
-            if child_slugs and html is not None:
-                present = extract_child_slugs_on_page(html, child_slugs)
-                for slug in child_slugs:
-                    if slug not in present:
-                        print(
-                            f"[warn] {slug} not linked on {path}; fetching anyway",
-                            file=sys.stderr,
-                        )
-
-                for slug in child_slugs:
-                    if pdf_budget is not None and pdf_budget <= 0:
-                        break
-                    child_url = listing_url(slug)
-                    child_dir = pdf_dir / slug
-                    child_sub = f"{folder}/{slug}"
-                    pdf_budget, _ = scrape_page(
-                        session,
-                        child_url,
-                        child_dir,
-                        category,
-                        child_sub,
-                        log_entries,
-                        iso_now,
-                        pdf_budget,
-                        counters,
-                    )
 
     finally:
         save_log(log_path, log_entries)

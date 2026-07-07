@@ -89,6 +89,15 @@ const GLUE_PAIRS = [
   ["jerje", "jer je"],
   ["odbioje", "odbio je"],
   ["odbiojekao", "odbio je kao"],
+  // Serbia vrh.sud.rs sentence PDFs (fused OCR tokens)
+  ["kadaje", "kada je"],
+  ["usvojenna", "usvojen na"],
+  ["TROŠKOVAKOD", "TROŠKOVA KOD"],
+  ["ZASTUPANjAVIŠE", "ZASTUPANJA VIŠE"],
+  ["okončanuodnosuna", "okončan u odnosu na"],
+  ["odnosuna", "odnosu na"],
+  ["postupakokončan", "postupak okončan"],
+  ["OKRIVLjENIHOD", "OKRIVLjENIH OD"],
 ]
 
 const LOWER_LAT = "a-zčćžšđ"

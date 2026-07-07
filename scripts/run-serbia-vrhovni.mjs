@@ -12,7 +12,34 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const ROOT = path.join(__dirname, "..")
 const SERBIA = path.join(ROOT, "downloads", "serbia")
 
-const CATEGORIES = [
+/**
+ * Site-utility PDFs the scraper deposited into every category folder.
+ * These are NOT court decisions and must be skipped before generation.
+ *
+ * Matched by EXACT filename (utility docs) or an anchored prefix for the
+ * pseudonymization "Pravilnik". The prefix is deliberately narrow so genuine
+ * decisions whose title merely contains "pravilnik" (e.g.
+ * "Pravno_dejstvo_pravilnika_kojim_je_ukinuto_radno_mesto...") are preserved.
+ */
+const BOILERPLATE_EXACT = new Set([
+  "otvorena-lista-deskriptora.pdf",
+  "uputstvozapretragu.pdf",
+])
+const BOILERPLATE_PREFIXES = [
+  "prečišćen_tekst",
+  "preciscen_tekst",
+  "prečišćen tekst",
+]
+
+const excludedBoilerplate = []
+
+function isBoilerplate(name) {
+  const lower = name.toLowerCase()
+  if (BOILERPLATE_EXACT.has(lower)) return true
+  return BOILERPLATE_PREFIXES.some((p) => lower.startsWith(p))
+}
+
+const STATIC_CATEGORIES = [
   {
     n: 1,
     folder: "ustavni/praksa-ustavnog-suda",
@@ -243,17 +270,190 @@ const CATEGORIES = [
   },
 ]
 
+/**
+ * sentence/gradanska-materija was a single folder in the first harvest; the full
+ * harvest split it into 14 subject subfolders. Each subfolder gets its own
+ * category + legal_area so nothing is lumped as "civil" by default. Keys are
+ * diacritic-folded slugs (see foldSlug) to be robust to đ/č/š/ž and dashes.
+ * A folder missing from this table aborts the run — nothing falls through.
+ */
+function foldSlug(s) {
+  return s
+    .toLowerCase()
+    .replace(/đ/g, "d")
+    .replace(/č/g, "c")
+    .replace(/ć/g, "c")
+    .replace(/š/g, "s")
+    .replace(/ž/g, "z")
+    .replace(/[–—]/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "")
+}
+
+const GRADANSKA_CHILD_AREA = {
+  "radno-pravo": {
+    legal_area: "labor",
+    tsFile: "case-law-labor-serbia-9.ts",
+    exportName: "CASE_LAW_LABOR_SERBIA_9",
+    label: "radno pravo",
+    statuteLabel: "Zakon o radu",
+    statuteTag: "ZOR",
+  },
+  "obligaciono-pravo": {
+    legal_area: "civil",
+    tsFile: "case-law-civil-serbia-16.ts",
+    exportName: "CASE_LAW_CIVIL_SERBIA_16",
+    label: "obligaciono pravo",
+    statuteLabel: "Zakon o obligacionim odnosima",
+    statuteTag: "ZOO",
+  },
+  "stvarno-pravo": {
+    legal_area: "civil",
+    tsFile: "case-law-civil-serbia-17.ts",
+    exportName: "CASE_LAW_CIVIL_SERBIA_17",
+    label: "stvarno pravo",
+    statuteLabel: "Zakon o osnovama svojinskopravnih odnosa",
+    statuteTag: "ZOSPO",
+  },
+  "nasledno-pravo": {
+    legal_area: "inheritance",
+    tsFile: "case-law-inheritance-serbia-3.ts",
+    exportName: "CASE_LAW_INHERITANCE_SERBIA_3",
+    label: "nasledno pravo",
+    statuteLabel: "Zakon o nasleđivanju",
+    statuteTag: "ZON",
+  },
+  "stambeno-pravo": {
+    legal_area: "civil",
+    tsFile: "case-law-civil-serbia-19.ts",
+    exportName: "CASE_LAW_CIVIL_SERBIA_19",
+    label: "stambeno pravo",
+    statuteLabel: "Zakon o stanovanju i održavanju zgrada",
+    statuteTag: "ZOSt",
+  },
+  "zabrana-diskriminacije": {
+    legal_area: "civil",
+    tsFile: "case-law-civil-serbia-20.ts",
+    exportName: "CASE_LAW_CIVIL_SERBIA_20",
+    label: "zabrana diskriminacije",
+    statuteLabel: "Zakon o zabrani diskriminacije",
+    statuteTag: "ZZD",
+  },
+  "intelektualna-svojina": {
+    legal_area: "civil",
+    tsFile: "case-law-civil-serbia-21.ts",
+    exportName: "CASE_LAW_CIVIL_SERBIA_21",
+    label: "intelektualna svojina",
+    statuteLabel: "Zakon o autorskom i srodnim pravima",
+    statuteTag: "ZASP",
+  },
+  "medijsko-pravo": {
+    legal_area: "civil",
+    tsFile: "case-law-civil-serbia-22.ts",
+    exportName: "CASE_LAW_CIVIL_SERBIA_22",
+    label: "medijsko pravo",
+    statuteLabel: "Zakon o javnom informisanju i medijima",
+    statuteTag: "ZJIM",
+  },
+  "gradansko-procesno-pravo-parnicni-postupak": {
+    legal_area: "procedural",
+    tsFile: "case-law-procedural-serbia-3.ts",
+    exportName: "CASE_LAW_PROCEDURAL_SERBIA_3",
+    label: "parnični postupak",
+    statuteLabel: "Zakon o parničnom postupku",
+    statuteTag: "ZPP",
+  },
+  "gradansko-procesno-pravo-vanparnicni-postupak": {
+    legal_area: "procedural",
+    tsFile: "case-law-procedural-serbia-4.ts",
+    exportName: "CASE_LAW_PROCEDURAL_SERBIA_4",
+    label: "vanparnični postupak",
+    statuteLabel: "Zakon o vanparničnom postupku",
+    statuteTag: "ZVP",
+  },
+  "izvrsni-postupak": {
+    legal_area: "enforcement",
+    tsFile: "case-law-enforcement-serbia-1.ts",
+    exportName: "CASE_LAW_ENFORCEMENT_SERBIA_1",
+    label: "izvršni postupak",
+    statuteLabel: "Zakon o izvršenju i obezbeđenju",
+    statuteTag: "ZIO",
+  },
+  "privredno-pravo": {
+    legal_area: "commercial",
+    tsFile: "case-law-commercial-serbia-4.ts",
+    exportName: "CASE_LAW_COMMERCIAL_SERBIA_4",
+    label: "privredno pravo",
+    statuteLabel: "Zakon o privrednim društvima",
+    statuteTag: "ZPD",
+  },
+  "stecajno-pravo": {
+    legal_area: "commercial",
+    tsFile: "case-law-commercial-serbia-5.ts",
+    exportName: "CASE_LAW_COMMERCIAL_SERBIA_5",
+    label: "stečajno pravo",
+    statuteLabel: "Zakon o stečaju",
+    statuteTag: "ZOStec",
+  },
+  "porodicno-pravo": {
+    legal_area: "family",
+    tsFile: "case-law-family-serbia-4.ts",
+    exportName: "CASE_LAW_FAMILY_SERBIA_4",
+    label: "porodično pravo",
+    statuteLabel: "Porodični zakon",
+    statuteTag: "PZ",
+  },
+}
+
+const GRADANSKA_PARENT = "sentence/gradanska-materija"
+
+function buildGradanskaChildren() {
+  const parentPath = path.join(SERBIA, GRADANSKA_PARENT)
+  if (!fs.existsSync(parentPath)) return []
+  const cats = []
+  let n = 100
+  for (const e of fs.readdirSync(parentPath, { withFileTypes: true })) {
+    if (!e.isDirectory()) continue
+    const key = foldSlug(e.name)
+    const map = GRADANSKA_CHILD_AREA[key]
+    if (!map) {
+      console.error(
+        `✗ UNMAPPED gradanska child folder: "${e.name}" (folded="${key}") — add it to GRADANSKA_CHILD_AREA. Aborting so nothing silently defaults to civil.`,
+      )
+      process.exit(1)
+    }
+    cats.push({
+      n: n++,
+      folder: `${GRADANSKA_PARENT}/${e.name}`,
+      tsFile: map.tsFile,
+      exportName: map.exportName,
+      legal_area: map.legal_area,
+      title: `sentence — ${map.label}`,
+      label: map.label,
+      statuteLabel: map.statuteLabel,
+      statuteTag: map.statuteTag,
+      defaultQ: `Koje pravno shvatanje iz oblasti „${map.label}" sadrži odluka Vrhovnog suda u predmetu {case}?`,
+    })
+  }
+  return cats
+}
+
+const CATEGORIES = [...STATIC_CATEGORIES, ...buildGradanskaChildren()]
+
 function listPdfs(dir) {
   const out = []
-  function walk(d) {
-    if (!fs.existsSync(d)) return
-    for (const e of fs.readdirSync(d, { withFileTypes: true })) {
-      const p = path.join(d, e.name)
-      if (e.isDirectory()) walk(p)
-      else if (e.name.toLowerCase().endsWith(".pdf")) out.push(p)
+  if (!fs.existsSync(dir)) return out
+  // Non-recursive: subject subfolders (e.g. sentence/gradanska-materija/*) are
+  // their own categories, so a parent folder must not swallow its children.
+  for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+    if (e.isDirectory()) continue
+    if (!e.name.toLowerCase().endsWith(".pdf")) continue
+    if (isBoilerplate(e.name)) {
+      excludedBoilerplate.push(path.join(dir, e.name))
+      continue
     }
+    out.push(path.join(dir, e.name))
   }
-  walk(dir)
   return out.sort((a, b) => path.basename(a).localeCompare(path.basename(b), "sr"))
 }
 
@@ -356,9 +556,18 @@ function updateIndex(results) {
   )
   const spreads = results.map((r) => `  ...${r.exportName},`)
 
+  // Line-anchored removal (multiline). A greedy `\s+` prefix would swallow the
+  // newline of the PRECEDING line, collapsing the anchor spread onto its
+  // neighbour and breaking the insertion regexes below — so match whole lines.
   for (const r of results) {
-    s = s.replace(new RegExp(`import \\{ ${r.exportName} \\}[^\\n]+\\n`, "g"), "")
-    s = s.replace(new RegExp(`\\s+\\.\\.\\.${r.exportName},\\n`, "g"), "")
+    s = s.replace(
+      new RegExp(`^import \\{ ${r.exportName} \\} from[^\\n]*\\r?\\n`, "gm"),
+      "",
+    )
+    s = s.replace(
+      new RegExp(`^[ \\t]*\\.\\.\\.${r.exportName},[ \\t]*\\r?\\n`, "gm"),
+      "",
+    )
   }
 
   const block = imports.join("\n") + "\n"
@@ -366,13 +575,27 @@ function updateIndex(results) {
 
   if (s.includes("import { CASE_LAW_CRIMINAL_SERBIA_2 }")) {
     s = s.replace(
-      /(import \{ CASE_LAW_CRIMINAL_SERBIA_2 \}[^\n]+\n)/,
+      /(^import \{ CASE_LAW_CRIMINAL_SERBIA_2 \} from[^\n]*\r?\n)/m,
       `$1${block}`,
     )
-    s = s.replace(/(\s+\.\.\.CASE_LAW_CRIMINAL_SERBIA_2,\n)/, `$1${spreadBlock}`)
+    s = s.replace(
+      /(^[ \t]*\.\.\.CASE_LAW_CRIMINAL_SERBIA_2,[ \t]*\r?\n)/m,
+      `$1${spreadBlock}`,
+    )
   } else {
     s = s.replace(/(import type \{ CaseLawInput \}[^\n]+\n)/, `$1${block}`)
     s = s.replace(/(export const ALL_CASE_LAW[^=]+= \[\n)/, `$1${spreadBlock}`)
+  }
+
+  // Guard: every generated export must end up spread into ALL_CASE_LAW.
+  const missing = results.filter(
+    (r) => !new RegExp(`^[ \\t]*\\.\\.\\.${r.exportName},`, "m").test(s),
+  )
+  if (missing.length > 0) {
+    console.error(
+      `✗ updateIndex: ${missing.length} export(s) imported but not spread into ALL_CASE_LAW: ${missing.map((r) => r.exportName).join(", ")}`,
+    )
+    process.exit(1)
   }
 
   fs.writeFileSync(indexPath, s, "utf8")
@@ -389,11 +612,28 @@ console.log("\n| Category | Folder | legal_area | Cases | PDFs |")
 console.log("|---|---|---|---:|---:|")
 let tC = 0
 let tP = 0
+const byArea = {}
 for (const r of results) {
   console.log(
     `| ${r.n} | downloads/serbia/${r.folder} | ${r.legal_area} | ${r.cases} | ${r.pdfs} |`,
   )
   tC += r.cases
   tP += r.pdfs
+  byArea[r.legal_area] = (byArea[r.legal_area] || 0) + r.cases
 }
 console.log(`| TOTAL | | | ${tC} | ${tP} |`)
+
+console.log("\nCases per legal_area:")
+for (const area of Object.keys(byArea).sort()) {
+  console.log(`  ${area}: ${byArea[area]}`)
+}
+
+console.log(`\nBoilerplate PDFs excluded before generation: ${excludedBoilerplate.length}`)
+const byName = {}
+for (const p of excludedBoilerplate) {
+  const b = path.basename(p)
+  byName[b] = (byName[b] || 0) + 1
+}
+for (const name of Object.keys(byName).sort()) {
+  console.log(`  ${name}: ${byName[name]}`)
+}
