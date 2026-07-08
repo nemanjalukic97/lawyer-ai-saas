@@ -1,3 +1,6 @@
+import fs from "fs"
+import path from "path"
+import { fileURLToPath } from "url"
 import { createHash } from "crypto"
 import dotenv from "dotenv"
 import OpenAI from "openai"
@@ -5,6 +8,100 @@ import OpenAI from "openai"
 import { ALL_CASE_LAW } from "./case-law-index"
 
 dotenv.config({ path: ".env.local" })
+
+type LegalArea = CaseLawInput["legal_area"]
+
+type CaseLawAreaOverrides = {
+  byId: Partial<Record<string, LegalArea>>
+  byKey: Partial<Record<string, LegalArea>>
+}
+
+const LEGAL_AREA_VALUES = new Set<LegalArea>([
+  "labor",
+  "civil",
+  "commercial",
+  "family",
+  "criminal",
+  "administrative",
+  "constitutional",
+  "procedural",
+  "enforcement",
+  "inheritance",
+])
+
+const UUID_RE =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+
+function parseOverrideEntries(
+  obj: Record<string, unknown>,
+): Partial<Record<string, LegalArea>> {
+  const out: Partial<Record<string, LegalArea>> = {}
+  for (const [k, v] of Object.entries(obj)) {
+    if (k.startsWith("_")) continue
+    if (typeof v === "string" && LEGAL_AREA_VALUES.has(v as LegalArea)) {
+      out[k] = v as LegalArea
+    }
+  }
+  return out
+}
+
+function loadCaseLawAreaOverrides(): CaseLawAreaOverrides {
+  const __dirname = path.dirname(fileURLToPath(import.meta.url))
+  const overridePath = path.join(__dirname, "case-law-area-overrides.json")
+  if (!fs.existsSync(overridePath)) {
+    return { byId: {}, byKey: {} }
+  }
+  try {
+    const raw = fs.readFileSync(overridePath, "utf8")
+    const parsed = JSON.parse(raw) as unknown
+    if (!parsed || typeof parsed !== "object") {
+      return { byId: {}, byKey: {} }
+    }
+
+    const obj = parsed as Record<string, unknown>
+    if (obj.byId && typeof obj.byId === "object") {
+      return {
+        byId: parseOverrideEntries(obj.byId as Record<string, unknown>),
+        byKey:
+          obj.byKey && typeof obj.byKey === "object"
+            ? parseOverrideEntries(obj.byKey as Record<string, unknown>)
+            : {},
+      }
+    }
+
+    // Legacy flat map: keys are stable case ids (UUID).
+    const flat = parseOverrideEntries(obj)
+    const byId: Partial<Record<string, LegalArea>> = {}
+    const byKey: Partial<Record<string, LegalArea>> = {}
+    for (const [k, v] of Object.entries(flat)) {
+      if (UUID_RE.test(k)) byId[k] = v
+      else byKey[k] = v
+    }
+    return { byId, byKey }
+  } catch {
+    // Malformed overrides JSON should fail open (no overrides).
+    return { byId: {}, byKey: {} }
+  }
+}
+
+const CASE_LAW_AREA_OVERRIDES = loadCaseLawAreaOverrides()
+
+function resolveOverriddenLegalArea(
+  id: string,
+  row: CaseLawInput,
+): LegalArea {
+  const fromId = CASE_LAW_AREA_OVERRIDES.byId[id]
+  if (fromId) return fromId
+
+  const caseNumber = row.case_number.trim()
+  const keyWithCourt = `${row.jurisdiction}|${caseNumber}|${row.court}`
+  const keyCaseOnly = `${row.jurisdiction}|${caseNumber}`
+  return (
+    CASE_LAW_AREA_OVERRIDES.byKey[keyWithCourt] ??
+    CASE_LAW_AREA_OVERRIDES.byKey[keyCaseOnly] ??
+    row.legal_area
+  )
+}
 
 export type CaseLawInput = {
   jurisdiction: string
@@ -394,6 +491,18 @@ export async function ingest(options?: {
     try {
       const embedding = await embedCaseLaw(row)
 
+      // Persisted reclassification override:
+      // - `fingerprintCaseLaw` deliberately excludes `legal_area`, so a
+      //   future sync that changes only text will still treat content as
+      //   updated and would otherwise overwrite `legal_area` back to the
+      //   generator's value.
+      // - Applying an override here ensures the upsert payload always
+      //   uses the reclassified area for known case ids.
+      const overriddenLegalArea: LegalArea = resolveOverriddenLegalArea(
+        id,
+        row,
+      )
+
       const payload = {
         id,
         jurisdiction: row.jurisdiction,
@@ -401,7 +510,7 @@ export async function ingest(options?: {
         court_level: row.court_level,
         case_number: row.case_number,
         decision_date: normalizeDecisionDate(row.decision_date) ?? null,
-        legal_area: row.legal_area,
+        legal_area: overriddenLegalArea,
         legal_question: row.legal_question,
         court_position: row.court_position,
         reasoning: row.reasoning,
