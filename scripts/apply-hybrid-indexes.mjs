@@ -14,18 +14,26 @@
  *   2. SET maintenance_work_mem = '128MB'
  *   3. Drop invalid public.*_ccnew* indexes on legal_articles / case_law
  *   4. legal_articles_text_local_trgm_idx (if missing)
- *   5. Seven per-jurisdiction case_law keyword partial GINs (no reasoning)
- *   6. DROP old global case_law_keyword_trgm_idx (superseded)
+ *   5. DROP then CREATE seven per-jurisdiction case_law keyword partial GINs
+ *      (expression = question + position + headnote + left(reasoning, 8000))
+ *   6. DROP old global case_law_keyword_trgm_idx if still present
  *   7. Validity check (all indisvalid = true)
  *
- * Apply the RPC first (migration 20260710160000) via MCP/CLI if not already:
+ * Apply the RPC first (migration 20260710170000) via MCP/CLI if not already:
  *   search_case_law_keyword — required by lib/legalRag.ts keyword path.
+ *
+ * Prefix length 8000: croatia labor Revr with '%otkazni rok%' in reasoning —
+ *   2000→4%, 6000→50%, 8000→74%, 10000→89%. See migration header.
  */
 import { Client } from "pg"
 
+/** Must match search_case_law_keyword WHERE expression and migration DDL. */
+const REASONING_PREFIX_CHARS = 8000
+
 const KEYWORD_EXPR = `(coalesce(legal_question, '') || ' ' ||
           coalesce(court_position, '') || ' ' ||
-          coalesce(headnote, ''))`
+          coalesce(headnote, '') || ' ' ||
+          left(coalesce(reasoning, ''), ${REASONING_PREFIX_CHARS}))`
 
 const CASE_LAW_JURISDICTIONS = [
   "serbia",
@@ -49,10 +57,15 @@ const statements = [
   ],
 ]
 
+// Expression changed: must DROP then CREATE (IF NOT EXISTS will not rebuild).
 for (const j of CASE_LAW_JURISDICTIONS) {
   const name = `case_law_keyword_trgm_${j}_idx`
   statements.push([
-    `case_law keyword partial GIN (${j})`,
+    `drop case_law keyword partial GIN (${j}) for rebuild`,
+    `DROP INDEX CONCURRENTLY IF EXISTS public.${name}`,
+  ])
+  statements.push([
+    `case_law keyword partial GIN (${j}, reasoning left ${REASONING_PREFIX_CHARS})`,
     `CREATE INDEX CONCURRENTLY IF NOT EXISTS ${name}
        ON public.case_law USING gin (
          ${KEYWORD_EXPR} gin_trgm_ops
@@ -78,6 +91,7 @@ if (!process.env.DATABASE_URL) {
 
 await client.connect()
 console.log("Connected.")
+console.log(`Keyword expression uses left(reasoning, ${REASONING_PREFIX_CHARS}).`)
 
 // Drop invalid transient indexes left by interrupted CREATE/REINDEX CONCURRENTLY.
 const { rows: staleCcnew } = await client.query(
@@ -114,7 +128,7 @@ for (const [label, sql] of statements) {
 }
 
 const { rows } = await client.query(
-  `SELECT c.relname AS index_name, i.indisvalid
+  `SELECT c.relname AS index_name, i.indisvalid, pg_get_indexdef(c.oid) AS indexdef
      FROM pg_index i
      JOIN pg_class c ON c.oid = i.indexrelid
      JOIN pg_namespace n ON n.oid = c.relnamespace
@@ -126,7 +140,13 @@ const { rows } = await client.query(
     ORDER BY c.relname`,
 )
 console.log("\nIndex validity check (all must be indisvalid = true):")
-console.table(rows)
+console.table(
+  rows.map((r) => ({
+    index_name: r.index_name,
+    indisvalid: r.indisvalid,
+    has_reasoning_prefix: String(r.indexdef).includes("left("),
+  })),
+)
 
 const invalid = rows.filter((r) => !r.indisvalid)
 const expectedPartials = CASE_LAW_JURISDICTIONS.map(
@@ -134,11 +154,24 @@ const expectedPartials = CASE_LAW_JURISDICTIONS.map(
 )
 const present = new Set(rows.map((r) => r.index_name))
 const missing = expectedPartials.filter((n) => !present.has(n))
+const wrongExpr = expectedPartials.filter((n) => {
+  const row = rows.find((r) => r.index_name === n)
+  if (!row) return false
+  const def = String(row.indexdef).toLowerCase()
+  // pg_get_indexdef quotes the function as "left"(...)
+  return !(def.includes("reasoning") && def.includes("8000"))
+})
 
 await client.end()
 
 if (missing.length > 0) {
   console.error(`\nMissing expected indexes: ${missing.join(", ")}`)
+  process.exit(1)
+}
+if (wrongExpr.length > 0) {
+  console.error(
+    `\nIndexes missing left(reasoning, …) expression: ${wrongExpr.join(", ")}`,
+  )
   process.exit(1)
 }
 if (invalid.length > 0) {

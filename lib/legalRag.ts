@@ -581,8 +581,8 @@ async function searchCaseLawByKeywordInner(args: {
   }
 
   const legalArea = normalizeLegalAreaFilter(args.legalArea)
-  // RPC targets the indexed expression (legal_question + court_position +
-  // headnote; reasoning excluded — see migration 20260710160000). PostgREST
+  // RPC targets the indexed expression (question + position + headnote +
+  // left(reasoning, 8000) — see migration 20260710170000). PostgREST
   // .or(ilike) across columns cannot use that expression GIN.
   // No labor-area heuristic here: case_law never had one (unlike statutes'
   // law_category pre-filter); partial indexes make an extra filter unnecessary
@@ -600,8 +600,15 @@ async function searchCaseLawByKeywordInner(args: {
   const scored = (data ?? [])
     .map((raw) => {
       const r = raw as Record<string, unknown>
-      // Score against the same fields the SQL expression searched (no reasoning).
-      const combined = [r.legal_question, r.court_position, r.headnote]
+      // Score against the same fields the SQL expression searched
+      // (bounded reasoning prefix — keep in sync with RPC/index).
+      const reasoningPrefix = String(r.reasoning ?? "").slice(0, 8000)
+      const combined = [
+        r.legal_question,
+        r.court_position,
+        r.headnote,
+        reasoningPrefix,
+      ]
         .map((v) => String(v ?? ""))
         .join("\n")
       const match = scoreKeywordTextMatch(combined, patterns)

@@ -6,6 +6,7 @@
  */
 import { createClient } from "@supabase/supabase-js"
 import OpenAI from "openai"
+import { buildKeywordIlikePatterns } from "../lib/keywordVariants.ts"
 
 const QUERIES = [
   "otkaz ugovora o radu",
@@ -25,13 +26,9 @@ const supabase = createClient(
 )
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
 
-function escapeIlike(s) {
-  return s.replace(/\\/g, "\\\\").replace(/%/g, "\\%").replace(/_/g, "\\_")
-}
-
-function buildPatterns(query) {
-  const trimmed = query.trim().replace(/\s+/g, " ")
-  return [`%${escapeIlike(trimmed)}%`]
+function allIlikePatterns(query) {
+  const p = buildKeywordIlikePatterns(query)
+  return [...p.exactPatterns, ...p.stemPatterns]
 }
 
 async function embed(text) {
@@ -61,7 +58,8 @@ async function withTimeout(promise, ms, label) {
 }
 
 async function keywordStatutes(query, jurisdiction) {
-  const patterns = buildPatterns(query)
+  const patterns = allIlikePatterns(query)
+  if (patterns.length === 0) return { ms: 0, timedOut: false, rows: 0 }
   const orFilter = patterns.map((p) => `text_local.ilike.${p}`).join(",")
   const t0 = Date.now()
   try {
@@ -94,9 +92,9 @@ async function keywordStatutes(query, jurisdiction) {
 }
 
 async function keywordCaseLaw(query, jurisdiction) {
-  // Mirror lib/keywordVariants exact pattern only for bench simplicity;
-  // production uses exact+stem via search_case_law_keyword RPC.
-  const patterns = buildPatterns(query)
+  // Same pattern set as lib/legalRag searchCaseLawByKeywordInner (exact + stem).
+  const patterns = allIlikePatterns(query)
+  if (patterns.length === 0) return { ms: 0, timedOut: false, rows: 0 }
   const t0 = Date.now()
   try {
     const { data, error } = await withTimeout(
