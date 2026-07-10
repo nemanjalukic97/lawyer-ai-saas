@@ -4,6 +4,7 @@
 import fs from "fs"
 import path from "path"
 import { fileURLToPath } from "url"
+import { assertCaseLawIndexSpreads } from "./_case-law-index-guard.mjs"
 import * as pdfjs from "pdfjs-dist/legacy/build/pdf.mjs"
 import {
   createFbihGradjanskoGenerator,

@@ -51,12 +51,12 @@ export const CASE_LAW_CRIMINAL_BIH_RS_21: CaseLawInput[] = [
     legal_question:
       "Da li je osnovana žalba ili odluka po pitanju delegacije mjesne nadležnosti u krivičnom postupku pred Vrhovnim sudom RS?",
     court_position:
-      "RJEŠE NjEUkrivičnom predmetu protiv protiv optuženih R . D ., D . B . iŽ . K ., zbog krivičnog djela teški slučajevi razbojničke krađeirazbojništvaiz člana 151. stav 1. Krivičnog zakona Republike Srpskeposebni dio , po optužnici Okružnog vojnog tužilaštva Banja Luka brojIVTK : 5338/95 od 28.02.1996. godine , stvarnoje nadležan Osnovni suduMrkonjić Gradu .",
+      "RJEŠE Nj EU krivičnom predmetu protiv protiv optuženih R . D ., D . B . i Ž . K ., zbog krivičnog djela teški slučajevi razbojničke krađeirazbojništvaiz člana 151. stav 1. Krivičnog zakona Republike Srpskeposebni dio , po optužnici Okružnog vojnog tužilaštva Banja Luka broj IVTK : 5338/95 od 28.02.1996. godine , stvarnoje nadležan Osnovni sud u Mrkonjić Gradu .",
     reasoning:
       "Sud ocjenjuje žalbene ili ZZL prigovore u predmetima delegacija mjesne nadležnosti (čl. 300–360. KZ RS i srodni članovi), uključujući kvalifikaciju, namjeru i postupovne povrede iz čl. 350–356. ZKOP RS.",
     keywords: ["žalba","mjesna nadležnost","KZ RS","ZKOP RS"],
     related_articles: ["čl. 151. st. 1. KZ RS","čl. 27. st. 1. KZ RS","čl. 28. st. 1. KZ RS","čl. 36. st. 1. ZKOP RS"],
-    headnote: "RJEŠE NjEUkrivičnom predmetu protiv protiv optuženih R . D ., D . B . iŽ . K ., zbog krivičnog djela teški slučajevi razbojničke krađeirazbojništvaiz člana 151. stav 1. Krivičnog z",
+    headnote: "RJEŠE Nj EU krivičnom predmetu protiv protiv optuženih R . D ., D . B . i Ž . K ., zbog krivičnog djela teški slučajevi razbojničke krađeirazbojništvaiz člana 151. stav 1. Krivično",
     outcome: "partially",
   },
   {
@@ -69,12 +69,12 @@ export const CASE_LAW_CRIMINAL_BIH_RS_21: CaseLawInput[] = [
     legal_question:
       "Da li je osnovana žalba ili odluka po pitanju delegacije mjesne nadležnosti u krivičnom postupku pred Vrhovnim sudom RS?",
     court_position:
-      "RJEŠE NjEOdbijasekao neosnovana žalba okružnog javnog tužiocauBanjoj Luci, izjavljena protiv rješenja Okružnog sudauBanjoj Luci broj 11 0 K 003 481 10 K od 02.11.2017. godine .",
+      "RJEŠE Nj EO dbija sekao neosnovana žalba okružnog javnog tužioca u Banjoj Luci, izjavljena protiv rješenja Okružnog suda u Banjoj Luci broj 11 0 K 003 481 10 K od 02.11.2017. godine .",
     reasoning:
       "Sud ocjenjuje žalbene ili ZZL prigovore u predmetima delegacija mjesne nadležnosti (čl. 300–360. KZ RS i srodni članovi), uključujući kvalifikaciju, namjeru i postupovne povrede iz čl. 350–356. ZKOP RS.",
     keywords: ["žalba","mjesna nadležnost","KZ RS","ZKOP RS"],
     related_articles: ["čl. 36. st. 2. KZ RS","čl. 364. st. 2. ZKOP RS","čl. 364. st. 2. KZ RS","čl. 36. st. 3. KZ RS","čl. 2. st. 2. KZ RS","čl. 397. st. 3. KZ RS"],
-    headnote: "RJEŠE NjEOdbijasekao neosnovana žalba okružnog javnog tužiocauBanjoj Luci, izjavljena protiv rješenja Okružnog sudauBanjoj Luci broj 11 0 K 003 481 10 K od 02.11.2017. godine .",
+    headnote: "RJEŠE Nj EO dbija sekao neosnovana žalba okružnog javnog tužioca u Banjoj Luci, izjavljena protiv rješenja Okružnog suda u Banjoj Luci broj 11 0 K 003 481 10 K od 02.11.2017. godin",
     outcome: "partially",
   },
   {
@@ -87,12 +87,12 @@ export const CASE_LAW_CRIMINAL_BIH_RS_21: CaseLawInput[] = [
     legal_question:
       "Da li je osnovana žalba ili odluka po pitanju delegacije mjesne nadležnosti u krivičnom postupku pred Vrhovnim sudom RS?",
     court_position:
-      "RJEŠE NjEUvažavase žalba okružnog tužioca , preinačava rješenje Okružnog sudauBanjoj Luci broj 11 0 K 011812 13 K od 13.08.2013. godine , takošto jeza suđenje optuženima S . A . i F . H ., zbog krivičnog djela ratnog zločina protiv civilnog stanovništvaiz člana 142. stav 1. u vezisa članom 22. Krivičnog zakona Socijalističke Federativne Republike Jugoslavije , u predmetu broj 11 0 K 011812 13 K , po optužnici okružnog tužiocauBanjoj Luci broj T 13 0 KTRZ 0006414 05 od 23.05.2013. godine stvarno nadležan Okružni suduBanjoj Luci .",
+      "RJEŠE Nj EU važavase žalba okružnog tužioca , preinačava rješenje Okružnog suda u Banjoj Luci broj 11 0 K 011812 13 K od 13.08.2013. godine , takošto jeza suđenje optuženima S . A . i F . H ., zbog krivičnog djela ratnog zločina protiv civilnog stanovništvaiz člana 142. stav 1. u vezisa članom 22. Krivičnog zakona Socijalističke Federativne Republike Jugoslavije , u predmetu broj 11 0 K 011812 13 K , po optužnici okružnog tužioca u Banjoj Luci broj T 13 0 KTRZ 0006414 05 od 23.05.2013. godine stvarno nadležan Okružni sud u Banjoj Luci .",
     reasoning:
       "Sud ocjenjuje žalbene ili ZZL prigovore u predmetima delegacija mjesne nadležnosti (čl. 300–360. KZ RS i srodni članovi), uključujući kvalifikaciju, namjeru i postupovne povrede iz čl. 350–356. ZKOP RS.",
     keywords: ["žalba","mjesna nadležnost","KZ RS","ZKOP RS"],
     related_articles: ["čl. 142. st. 1. KZ RS","čl. 423. st. 3. ZKOP RS","čl. 337. st. 3. ZKOP RS","čl. 312. KZ RS","čl. 312. ZKOP RS","čl. 337. KZ RS","čl. 337. ZKOP RS"],
-    headnote: "RJEŠE NjEUvažavase žalba okružnog tužioca , preinačava rješenje Okružnog sudauBanjoj Luci broj 11 0 K 011812 13 K od 13.08.2013. godine , takošto jeza suđenje optuženima S . A . i ",
+    headnote: "RJEŠE Nj EU važavase žalba okružnog tužioca , preinačava rješenje Okružnog suda u Banjoj Luci broj 11 0 K 011812 13 K od 13.08.2013. godine , takošto jeza suđenje optuženima S . A ",
     outcome: "partially",
   },
   {
@@ -105,12 +105,12 @@ export const CASE_LAW_CRIMINAL_BIH_RS_21: CaseLawInput[] = [
     legal_question:
       "Da li je osnovana žalba ili odluka po pitanju delegacije mjesne nadležnosti u krivičnom postupku pred Vrhovnim sudom RS?",
     court_position:
-      "RJEŠE NjEOdbijase prijedlog branioca optuženog G . V. za prenošenje vođenja postupkasa Okružnog sudauBanjojLucina drugi stvarno nadležan sud .",
+      "RJEŠE Nj EO dbija se prijedlog branioca optuženog G . V. za prenošenje vođenja postupkasa Okružnog suda u Banjoj Lucina drugi stvarno nadležan sud .",
     reasoning:
       "Sud ocjenjuje žalbene ili ZZL prigovore u predmetima delegacija mjesne nadležnosti (čl. 300–360. KZ RS i srodni članovi), uključujući kvalifikaciju, namjeru i postupovne povrede iz čl. 350–356. ZKOP RS.",
     keywords: ["žalba","mjesna nadležnost","KZ RS","ZKOP RS"],
     related_articles: ["čl. 149. st. 1. KZ RS","čl. 399. st. 1. KZ RS","čl. 33. st. 1. ZKOP RS"],
-    headnote: "RJEŠE NjEOdbijase prijedlog branioca optuženog G . V. za prenošenje vođenja postupkasa Okružnog sudauBanjojLucina drugi stvarno nadležan sud .",
+    headnote: "RJEŠE Nj EO dbija se prijedlog branioca optuženog G . V. za prenošenje vođenja postupkasa Okružnog suda u Banjoj Lucina drugi stvarno nadležan sud .",
     outcome: "partially",
   },
   {
@@ -123,12 +123,12 @@ export const CASE_LAW_CRIMINAL_BIH_RS_21: CaseLawInput[] = [
     legal_question:
       "Da li je osnovana žalba ili odluka po pitanju delegacije mjesne nadležnosti u krivičnom postupku pred Vrhovnim sudom RS?",
     court_position:
-      "RJEŠE NjEZa vođenje postupkaukrivičnom predmetu protiv osumnjičenog M . M . , po optužniciOkružnog javnogtužilaštvauBanjoj Luci , broj T1 3 0 KT 0 0 33790 1 6 od 01 . 8 . 201 7 . godine , stvarnoimjesno nadležan jeOsnovni suduBanjoj Luci .",
+      "RJEŠE Nj EZa vođenje postupkaukrivičnom predmetu protiv osumnjičenog M . M . , po optužnic i Okružnog javnogtužilaštva u Banjoj Luci , broj T1 3 0 KT 0 0 33790 1 6 od 01 . 8 . 201 7 . godine , stvarnoimjesno nadležan je Osnovni sud u Banjoj Luci .",
     reasoning:
       "Sud ocjenjuje žalbene ili ZZL prigovore u predmetima delegacija mjesne nadležnosti (čl. 300–360. KZ RS i srodni članovi), uključujući kvalifikaciju, namjeru i postupovne povrede iz čl. 350–356. ZKOP RS.",
     keywords: ["žalba","mjesna nadležnost","KZ RS","ZKOP RS"],
     related_articles: ["čl. 207. st. 1. KZ RS","čl. 207. st. 2. KZ RS","čl. 31. st. 1. KZ RS","čl. 224. st. 1. KZ RS","čl. 9. st. 2. KZ RS","čl. 224. st. 2. KZ RS","čl. 36. st. 2. ZKOP RS","čl. 30. st. 1. KZ RS","čl. 36. st. 1. ZKOP RS","čl. 30. st. 1. ZKOP RS"],
-    headnote: "RJEŠE NjEZa vođenje postupkaukrivičnom predmetu protiv osumnjičenog M . M . , po optužniciOkružnog javnogtužilaštvauBanjoj Luci , broj T1 3 0 KT 0 0 33790 1 6 od 01 . 8 . 201 7 . g",
+    headnote: "RJEŠE Nj EZa vođenje postupkaukrivičnom predmetu protiv osumnjičenog M . M . , po optužnic i Okružnog javnogtužilaštva u Banjoj Luci , broj T1 3 0 KT 0 0 33790 1 6 od 01 . 8 . 201 ",
     outcome: "partially",
   },
   {
@@ -141,12 +141,12 @@ export const CASE_LAW_CRIMINAL_BIH_RS_21: CaseLawInput[] = [
     legal_question:
       "Da li je osnovana žalba ili odluka po pitanju delegacije mjesne nadležnosti u krivičnom postupku pred Vrhovnim sudom RS?",
     court_position:
-      "RJEŠE NjEZa vođenje postupkaukrivičnom predmetu protiv optuženog A . G . , po optužnici Okružnog javnog tužilaštva Banja Luka, Podružna kancelarija Mrkonjić Grad broj T13 2 KT 0003106 19 od 07.10.2019. godine, stvarnoimjesno nadležanje Okružni suduBanjoj Luci.",
+      "RJEŠE Nj EZa vođenje postupkaukrivičnom predmetu protiv optuženog A . G . , po optužnici Okružnog javnog tužilaštva Banja Luka, Podružna kancelarija Mrkonjić Grad broj T13 2 KT 0003106 19 od 07.10.2019. godine, stvarnoimjesno nadležanje Okružni sud u Banjoj Luci.",
     reasoning:
       "Sud ocjenjuje žalbene ili ZZL prigovore u predmetima delegacija mjesne nadležnosti (čl. 300–360. KZ RS i srodni članovi), uključujući kvalifikaciju, namjeru i postupovne povrede iz čl. 350–356. ZKOP RS.",
     keywords: ["žalba","mjesna nadležnost","KZ RS","ZKOP RS"],
     related_articles: ["čl. 208. st. 1. KZ RS","čl. 208. st. 2. KZ RS","čl. 123. st. 1. KZ RS","čl. 35. st. 1. ZKOP RS","čl. 36. st. 2. KZ RS","čl. 34. st. 1. ZKOP RS","čl. 53. st. 3. ZKOP RS","čl. 36. st. 1. ZKOP RS","čl. 27. st. 1. ZKOP RS"],
-    headnote: "RJEŠE NjEZa vođenje postupkaukrivičnom predmetu protiv optuženog A . G . , po optužnici Okružnog javnog tužilaštva Banja Luka, Podružna kancelarija Mrkonjić Grad broj T13 2 KT 0003",
+    headnote: "RJEŠE Nj EZa vođenje postupkaukrivičnom predmetu protiv optuženog A . G . , po optužnici Okružnog javnog tužilaštva Banja Luka, Podružna kancelarija Mrkonjić Grad broj T13 2 KT 000",
     outcome: "partially",
   },
   {
@@ -159,12 +159,12 @@ export const CASE_LAW_CRIMINAL_BIH_RS_21: CaseLawInput[] = [
     legal_question:
       "Da li je osnovana žalba ili odluka po pitanju delegacije mjesne nadležnosti u krivičnom postupku pred Vrhovnim sudom RS?",
     court_position:
-      "RJEŠE NjEOdbija se, kao neosnovan, prijedlog Okružnog sudauBijeljiniza prenošenje vođenja postupkana drugi stvarno nadležni sudupredmetu broj 1 2 0 K 00 5785 1 8 K 2 protiv optuženog M . R . , zbog sticaja krivičnih djela ubistvaiz člana 148. stav 1. i nedozvoljene proizvodnjeiprometaoružjaili eksplozivnih materijaiz člana 399. stav 6. Krivičnog zakona Republike Srpske .",
+      "RJEŠE Nj EO dbija se, kao neosnovan, prijedlog Okružnog suda u Bijeljiniza prenošenje vođenja postupkana drugi stvarno nadležni sudupredmetu broj 1 2 0 K 00 5785 1 8 K 2 protiv optuženog M . R . , zbog sticaja krivičnih djela ubistvaiz člana 148. stav 1. i nedozvoljene proizvodnjeiprometaoružjaili eksplozivnih materijaiz člana 399. stav 6. Krivičnog zakona Republike Srpske .",
     reasoning:
       "Sud ocjenjuje žalbene ili ZZL prigovore u predmetima delegacija mjesne nadležnosti (čl. 300–360. KZ RS i srodni članovi), uključujući kvalifikaciju, namjeru i postupovne povrede iz čl. 350–356. ZKOP RS.",
     keywords: ["žalba","mjesna nadležnost","KZ RS","ZKOP RS"],
     related_articles: ["čl. 148. st. 1. KZ RS","čl. 399. st. 6. KZ RS","čl. 33. st. 2. ZKOP RS","čl. 254. st. 2. ZKOP RS"],
-    headnote: "RJEŠE NjEOdbija se, kao neosnovan, prijedlog Okružnog sudauBijeljiniza prenošenje vođenja postupkana drugi stvarno nadležni sudupredmetu broj 1 2 0 K 00 5785 1 8 K 2 protiv optužen",
+    headnote: "RJEŠE Nj EO dbija se, kao neosnovan, prijedlog Okružnog suda u Bijeljiniza prenošenje vođenja postupkana drugi stvarno nadležni sudupredmetu broj 1 2 0 K 00 5785 1 8 K 2 protiv opt",
     outcome: "plaintiff_won",
   },
   {
@@ -177,12 +177,12 @@ export const CASE_LAW_CRIMINAL_BIH_RS_21: CaseLawInput[] = [
     legal_question:
       "Da li je osnovana žalba ili odluka po pitanju delegacije mjesne nadležnosti u krivičnom postupku pred Vrhovnim sudom RS?",
     court_position:
-      "RJEŠE NjEUvažavase žalba branioca optužene S . P . i preinačava rješenje Okružnog sudauDoboju broj 1 3 0 K 0 03961 1 6 Kvod 25.11.2016. godine, takoda je, za postupanjepo optužnici okružnog tužilaštvauDoboju broj T15 0 KTPO 0004689 08 od 24.12.2015. godine, protiv optužene S . P . , zbog krivičnog djela utaje porezaidoprinosaiz člana 287. stav 3. u vezisa stavom 1. Krivičnog zakona Republike Srpske, stvarno nadležan Okružni suduDoboju, dok seodbija, kao neosnovan a , žalbaoptuženeS . P . , izjavljenaprotiv rješenjaOk ružnog suda Doboju broj 1 3 0 K 0 03 961 1 6 Kvod 19 .1 2 .201 6 . godine .",
+      "RJEŠE Nj EU važavase žalba branioca optužene S . P . i preinačava rješenje Okružnog suda u Doboju broj 1 3 0 K 0 03961 1 6 Kvod 25.11.2016. godine, takoda je, za postupanjepo optužnici okružnog tužilaštva u Doboju broj T15 0 KTPO 0004689 08 od 24.12.2015. godine, protiv optužene S . P . , zbog krivičnog djela utaje porezaidoprinosaiz člana 287. stav 3. u vezisa stavom 1. Krivičnog zakona Republike Srpske, stvarno nadležan Okružni sud u Doboju, dok seodbija, kao neosnovan a , žalbaoptužene S . P . , izjavljenaprotiv rješenja Ok ružnog suda Doboju broj 1 3 0 K 0 03 961 1 6 Kvod 19 .1 2 .201 6 . godine .",
     reasoning:
       "Sud ocjenjuje žalbene ili ZZL prigovore u predmetima delegacija mjesne nadležnosti (čl. 300–360. KZ RS i srodni članovi), uključujući kvalifikaciju, namjeru i postupovne povrede iz čl. 350–356. ZKOP RS.",
     keywords: ["žalba","mjesna nadležnost","KZ RS","ZKOP RS"],
     related_articles: ["čl. 287. st. 3. KZ RS","čl. 305. st. 1. ZKOP RS","čl. 7. st. 1. ZKOP RS","čl. 5. st. 6. KZ RS","čl. 31. st. 1. KZ RS","čl. 305. KZ RS","čl. 305. ZKOP RS","čl. 320. KZ RS","čl. 320. ZKOP RS"],
-    headnote: "RJEŠE NjEUvažavase žalba branioca optužene S . P . i preinačava rješenje Okružnog sudauDoboju broj 1 3 0 K 0 03961 1 6 Kvod 25.11.2016. godine, takoda je, za postupanjepo optužnici",
+    headnote: "RJEŠE Nj EU važavase žalba branioca optužene S . P . i preinačava rješenje Okružnog suda u Doboju broj 1 3 0 K 0 03961 1 6 Kvod 25.11.2016. godine, takoda je, za postupanjepo optuž",
     outcome: "partially",
   },
   {
@@ -195,12 +195,12 @@ export const CASE_LAW_CRIMINAL_BIH_RS_21: CaseLawInput[] = [
     legal_question:
       "Da li je osnovana žalba ili odluka po pitanju delegacije mjesne nadležnosti u krivičnom postupku pred Vrhovnim sudom RS?",
     court_position:
-      "RJEŠE NjEUvažavase žalba osuđenog H . K ., ukida presuda Okružnog sudauTrebinju br . 15 0 K 000977 11 Kv od 28.9.2011. godineipredmet ustupa Kantonalnom suduuSarajevu , kao stvarnoimjesno nadležnom sudu .",
+      "RJEŠE Nj EU važavase žalba osuđenog H . K ., ukida presuda Okružnog suda u Trebinju br . 15 0 K 000977 11 Kv od 28.9.2011. godineipredmet ustupa Kantonalnom sudu u Sarajevu , kao stvarnoimjesno nadležnom sudu .",
     reasoning:
       "Sud ocjenjuje žalbene ili ZZL prigovore u predmetima delegacija mjesne nadležnosti (čl. 300–360. KZ RS i srodni članovi), uključujući kvalifikaciju, namjeru i postupovne povrede iz čl. 350–356. ZKOP RS.",
     keywords: ["žalba","mjesna nadležnost","KZ RS","ZKOP RS"],
     related_articles: ["čl. 232. st. 3. KZ RS","čl. 311. st. 1. ZKOP RS","čl. 28. st. 3. KZ RS","čl. 329. st. 1. ZKOP RS","čl. 320. KZ RS","čl. 320. ZKOP RS","čl. 311. KZ RS","čl. 311. ZKOP RS","čl. 329. KZ RS","čl. 329. ZKOP RS"],
-    headnote: "RJEŠE NjEUvažavase žalba osuđenog H . K ., ukida presuda Okružnog sudauTrebinju br . 15 0 K 000977 11 Kv od 28.9.2011. godineipredmet ustupa Kantonalnom suduuSarajevu , kao stvarno",
+    headnote: "RJEŠE Nj EU važavase žalba osuđenog H . K ., ukida presuda Okružnog suda u Trebinju br . 15 0 K 000977 11 Kv od 28.9.2011. godineipredmet ustupa Kantonalnom sudu u Sarajevu , kao s",
     outcome: "remanded",
   },
   {
@@ -213,12 +213,12 @@ export const CASE_LAW_CRIMINAL_BIH_RS_21: CaseLawInput[] = [
     legal_question:
       "Da li je osnovana žalba ili odluka po pitanju delegacije mjesne nadležnosti u krivičnom postupku pred Vrhovnim sudom RS?",
     court_position:
-      "RJEŠE NjEOdbija se, kao neosnovan, prijedlog Okružnog sudauPrijedoruza prenošenje vođenja postupkana drugi stvarno nadležni sud, u predmetu broj 16 0 K 000043 17 Kps protiv optuženog A.H. , zbog krivičnog djela teškog ubistvaiz člana 1 49 . stav 1. tačka 5. Krivičnog zakona Republike Srpske .",
+      "RJEŠE Nj EO dbija se, kao neosnovan, prijedlog Okružnog suda u Prijedoruza prenošenje vođenja postupkana drugi stvarno nadležni sud, u predmetu broj 16 0 K 000043 17 Kps protiv optuženog A.H. , zbog krivičnog djela teškog ubistvaiz člana 1 49 . stav 1. tačka 5. Krivičnog zakona Republike Srpske .",
     reasoning:
       "Sud ocjenjuje žalbene ili ZZL prigovore u predmetima delegacija mjesne nadležnosti (čl. 300–360. KZ RS i srodni članovi), uključujući kvalifikaciju, namjeru i postupovne povrede iz čl. 350–356. ZKOP RS.",
     keywords: ["žalba","mjesna nadležnost","KZ RS","ZKOP RS"],
     related_articles: [],
-    headnote: "RJEŠE NjEOdbija se, kao neosnovan, prijedlog Okružnog sudauPrijedoruza prenošenje vođenja postupkana drugi stvarno nadležni sud, u predmetu broj 16 0 K 000043 17 Kps protiv optužen",
+    headnote: "RJEŠE Nj EO dbija se, kao neosnovan, prijedlog Okružnog suda u Prijedoruza prenošenje vođenja postupkana drugi stvarno nadležni sud, u predmetu broj 16 0 K 000043 17 Kps protiv opt",
     outcome: "plaintiff_won",
   },
   {
@@ -231,12 +231,12 @@ export const CASE_LAW_CRIMINAL_BIH_RS_21: CaseLawInput[] = [
     legal_question:
       "Da li je osnovana žalba ili odluka po pitanju delegacije mjesne nadležnosti u krivičnom postupku pred Vrhovnim sudom RS?",
     court_position:
-      "RJEŠE NjEZa suđenjeukrivičnom predmetu Osnovnog sudauBanjoj Luci broj 71 0 K 011800 05 K, protiv optuženih G. G. i D. G., zbog krivičnog djela teške krađeiz člana 222 . stav 2. Krivičnog zakonika Republike Srpske, stvarnoje nadležan Osnovni suduBanjoj Luci .",
+      "RJEŠE Nj EZa suđenjeukrivičnom predmetu Osnovnog suda u Banjoj Luci broj 71 0 K 011800 05 K, protiv optuženih G. G. i D. G., zbog krivičnog djela teške krađeiz člana 222 . stav 2. Krivičnog zakonika Republike Srpske, stvarnoje nadležan Osnovni sud u Banjoj Luci .",
     reasoning:
       "Sud ocjenjuje žalbene ili ZZL prigovore u predmetima delegacija mjesne nadležnosti (čl. 300–360. KZ RS i srodni članovi), uključujući kvalifikaciju, namjeru i postupovne povrede iz čl. 350–356. ZKOP RS.",
     keywords: ["žalba","mjesna nadležnost","KZ RS","ZKOP RS"],
     related_articles: ["čl. 222. st. 2. KZ RS","čl. 321. st. 1. KZ RS","čl. 53. st. 3. KZ RS","čl. 26. st. 1. KZ RS","čl. 321. KZ RS","čl. 321. ZKOP RS"],
-    headnote: "RJEŠE NjEZa suđenjeukrivičnom predmetu Osnovnog sudauBanjoj Luci broj 71 0 K 011800 05 K, protiv optuženih G. G. i D. G., zbog krivičnog djela teške krađeiz člana 222 . stav 2. Kri",
+    headnote: "RJEŠE Nj EZa suđenjeukrivičnom predmetu Osnovnog suda u Banjoj Luci broj 71 0 K 011800 05 K, protiv optuženih G. G. i D. G., zbog krivičnog djela teške krađeiz člana 222 . stav 2. ",
     outcome: "partially",
   },
   {
@@ -249,12 +249,12 @@ export const CASE_LAW_CRIMINAL_BIH_RS_21: CaseLawInput[] = [
     legal_question:
       "Da li je osnovana žalba ili odluka po pitanju delegacije mjesne nadležnosti u krivičnom postupku pred Vrhovnim sudom RS?",
     court_position:
-      "RJEŠE NjEOdbija se , kao neosnovan , prijedlog Osnovnog sudauBanjoj Luci , daseza vođenje krivičnog postupka protiv optuženog S . V . zbog krivičnog djela ugrožavanja javnog saobraćajaiz člana 400. stav 3. u vezisa stavom 2. Krivičnog Zakonika Republike Srpske , u predmetu broj 71 0 K 128210 11 K , odredi drugi stvarno nadležan sud .",
+      "RJEŠE Nj EO dbija se , kao neosnovan , prijedlog Osnovnog suda u Banjoj Luci , da seza vođenje krivičnog postupka protiv optuženog S . V . zbog krivičnog djela ugrožavanja javnog saobraćajaiz člana 400. stav 3. u vezisa stavom 2. Krivičnog Zakonika Republike Srpske , u predmetu broj 71 0 K 128210 11 K , odredi drugi stvarno nadležan sud .",
     reasoning:
       "Sud ocjenjuje žalbene ili ZZL prigovore u predmetima delegacija mjesne nadležnosti (čl. 300–360. KZ RS i srodni članovi), uključujući kvalifikaciju, namjeru i postupovne povrede iz čl. 350–356. ZKOP RS.",
     keywords: ["žalba","mjesna nadležnost","KZ RS","ZKOP RS"],
     related_articles: ["čl. 400. st. 3. KZ RS","čl. 33. st. 1. ZKOP RS","čl. 33. st. 2. ZKOP RS"],
-    headnote: "RJEŠE NjEOdbija se , kao neosnovan , prijedlog Osnovnog sudauBanjoj Luci , daseza vođenje krivičnog postupka protiv optuženog S . V . zbog krivičnog djela ugrožavanja javnog saobra",
+    headnote: "RJEŠE Nj EO dbija se , kao neosnovan , prijedlog Osnovnog suda u Banjoj Luci , da seza vođenje krivičnog postupka protiv optuženog S . V . zbog krivičnog djela ugrožavanja javnog s",
     outcome: "plaintiff_won",
   },
   {
@@ -267,12 +267,12 @@ export const CASE_LAW_CRIMINAL_BIH_RS_21: CaseLawInput[] = [
     legal_question:
       "Da li je osnovana žalba ili odluka po pitanju delegacije mjesne nadležnosti u krivičnom postupku pred Vrhovnim sudom RS?",
     court_position:
-      "RJEŠE NjEZa postupak upućivanja osuđenog D . P . na izdržavanje jedinstvene kazne zatvora izrečene pravosnažnom presudom Okružnog sudauBanjoj Luci broj 11 0 K 002487 13 Kvl 2 od 08.7.2013. godine , nadležanje Osnovni suduFoči .",
+      "RJEŠE Nj EZa postupak upućivanja osuđenog D . P . na izdržavanje jedinstvene kazne zatvora izrečene pravosnažnom presudom Okružnog suda u Banjoj Luci broj 11 0 K 002487 13 Kvl 2 od 08.7.2013. godine , nadležanje Osnovni sud u Foči .",
     reasoning:
       "Sud ocjenjuje žalbene ili ZZL prigovore u predmetima delegacija mjesne nadležnosti (čl. 300–360. KZ RS i srodni članovi), uključujući kvalifikaciju, namjeru i postupovne povrede iz čl. 350–356. ZKOP RS.",
     keywords: ["žalba","mjesna nadležnost","KZ RS","ZKOP RS"],
     related_articles: ["čl. 142. st. 1. KZ RS","čl. 35. st. 1. ZKOP RS","čl. 64. st. 3. ZKOP RS","čl. 36. st. 2. ZKOP RS","čl. 64. st. 3. KZ RS","čl. 36. st. 1. ZKOP RS","čl. 341. KZ RS","čl. 341. ZKOP RS"],
-    headnote: "RJEŠE NjEZa postupak upućivanja osuđenog D . P . na izdržavanje jedinstvene kazne zatvora izrečene pravosnažnom presudom Okružnog sudauBanjoj Luci broj 11 0 K 002487 13 Kvl 2 od 08",
+    headnote: "RJEŠE Nj EZa postupak upućivanja osuđenog D . P . na izdržavanje jedinstvene kazne zatvora izrečene pravosnažnom presudom Okružnog suda u Banjoj Luci broj 11 0 K 002487 13 Kvl 2 od",
     outcome: "partially",
   },
   {
@@ -285,12 +285,12 @@ export const CASE_LAW_CRIMINAL_BIH_RS_21: CaseLawInput[] = [
     legal_question:
       "Da li je osnovana žalba ili odluka po pitanju delegacije mjesne nadležnosti u krivičnom postupku pred Vrhovnim sudom RS?",
     court_position:
-      "RJEŠE NjEOdbija se, kao neosnovan, prijedlog sudijeza prethodno saslušanje Osnovnog sudauBanjoj Luci broj 71 0 K 283837 18 Kps od 30.8.2018. godine, daseza vođenje postupkaukrivičnom predmetu protiv osumnjičenog J . J . , po optužniciOkružnog javnog tužilaštva Banja Luka broj T13 0 KTK 0036760 17 od 23.4.2018. godine, zbog krivičnog djela zloupotreba povjerenjaiz člana 234. stav 3. u vezisa stavom 1. i 2. Krivičnog zakonika Republike Srpske, odredi drugi stvarnoimjesno nadležan sud .",
+      "RJEŠE Nj EO dbija se, kao neosnovan, prijedlog sudijeza prethodno saslušanje Osnovnog suda u Banjoj Luci broj 71 0 K 283837 18 Kps od 30.8.2018. godine, da seza vođenje postupkaukrivičnom predmetu protiv osumnjičenog J . J . , po optužnic i Okružnog javnog tužilaštva Banja Luka broj T13 0 KTK 0036760 17 od 23.4.2018. godine, zbog krivičnog djela zloupotreba povjerenjaiz člana 234. stav 3. u vezisa stavom 1. i 2. Krivičnog zakonika Republike Srpske, odredi drugi stvarnoimjesno nadležan sud .",
     reasoning:
       "Sud ocjenjuje žalbene ili ZZL prigovore u predmetima delegacija mjesne nadležnosti (čl. 300–360. KZ RS i srodni članovi), uključujući kvalifikaciju, namjeru i postupovne povrede iz čl. 350–356. ZKOP RS.",
     keywords: ["žalba","mjesna nadležnost","KZ RS","ZKOP RS"],
     related_articles: ["čl. 234. st. 3. KZ RS","čl. 33. st. 2. ZKOP RS","čl. 33. st. 1. ZKOP RS"],
-    headnote: "RJEŠE NjEOdbija se, kao neosnovan, prijedlog sudijeza prethodno saslušanje Osnovnog sudauBanjoj Luci broj 71 0 K 283837 18 Kps od 30.8.2018. godine, daseza vođenje postupkaukrivičn",
+    headnote: "RJEŠE Nj EO dbija se, kao neosnovan, prijedlog sudijeza prethodno saslušanje Osnovnog suda u Banjoj Luci broj 71 0 K 283837 18 Kps od 30.8.2018. godine, da seza vođenje postupkaukr",
     outcome: "plaintiff_won",
   },
   {
@@ -303,12 +303,12 @@ export const CASE_LAW_CRIMINAL_BIH_RS_21: CaseLawInput[] = [
     legal_question:
       "Da li je osnovana žalba ili odluka po pitanju delegacije mjesne nadležnosti u krivičnom postupku pred Vrhovnim sudom RS?",
     court_position:
-      "RJEŠE NjEZa vođenje postupkaukrivičnom predmetu protiv optuženog S . G . , zbogkr ivičnog djela šumska krađaiz člana 430. stav 2. Krivičnog zakona Republike Srpske , po optužnici Okružnog javnog tužilaštvauPrijedoru broj T 22 0 KT 00 03980 17 2 od 30 . 8 .20 18 . godine, kao stvarnoimjesno nadležan sud, određuje seOsnovni suduPrijedoru .",
+      "RJEŠE Nj EZa vođenje postupkaukrivičnom predmetu protiv optuženog S . G . , zbogkr ivičnog djela šumska krađaiz člana 430. stav 2. Krivičnog zakona Republike Srpske , po optužnici Okružnog javnog tužilaštva u Prijedoru broj T 22 0 KT 00 03980 17 2 od 30 . 8 .20 18 . godine, kao stvarnoimjesno nadležan sud, određuje se Osnovni sud u Prijedoru .",
     reasoning:
       "Sud ocjenjuje žalbene ili ZZL prigovore u predmetima delegacija mjesne nadležnosti (čl. 300–360. KZ RS i srodni članovi), uključujući kvalifikaciju, namjeru i postupovne povrede iz čl. 350–356. ZKOP RS.",
     keywords: ["žalba","mjesna nadležnost","KZ RS","ZKOP RS"],
     related_articles: ["čl. 430. st. 2. KZ RS","čl. 430. st. 2. ZKOP RS","čl. 33. st. 2. ZKOP RS","čl. 33. st. 1. ZKOP RS"],
-    headnote: "RJEŠE NjEZa vođenje postupkaukrivičnom predmetu protiv optuženog S . G . , zbogkr ivičnog djela šumska krađaiz člana 430. stav 2. Krivičnog zakona Republike Srpske , po optužnici O",
+    headnote: "RJEŠE Nj EZa vođenje postupkaukrivičnom predmetu protiv optuženog S . G . , zbogkr ivičnog djela šumska krađaiz člana 430. stav 2. Krivičnog zakona Republike Srpske , po optužnici ",
     outcome: "partially",
   },
   {
@@ -321,12 +321,12 @@ export const CASE_LAW_CRIMINAL_BIH_RS_21: CaseLawInput[] = [
     legal_question:
       "Da li je osnovana žalba ili odluka po pitanju delegacije mjesne nadležnosti u krivičnom postupku pred Vrhovnim sudom RS?",
     court_position:
-      "RJEŠE NjEOdbija se, kao neosnovan, prijedlog branioca optuženog M . B . za prenošenje vođenja postupkana drugi stvarno nadležni sud, u predmetu broj 77 0 K 064172 1 7 K 2 , zbog krivičnog djela teške tjelesne povredeiz člana 156. stav 2. Krivičnog zakona Republike Srpske .",
+      "RJEŠE Nj EO dbija se, kao neosnovan, prijedlog branioca optuženog M . B . za prenošenje vođenja postupkana drugi stvarno nadležni sud, u predmetu broj 77 0 K 064172 1 7 K 2 , zbog krivičnog djela teške tjelesne povredeiz člana 156. stav 2. Krivičnog zakona Republike Srpske .",
     reasoning:
       "Sud ocjenjuje žalbene ili ZZL prigovore u predmetima delegacija mjesne nadležnosti (čl. 300–360. KZ RS i srodni članovi), uključujući kvalifikaciju, namjeru i postupovne povrede iz čl. 350–356. ZKOP RS.",
     keywords: ["žalba","mjesna nadležnost","KZ RS","ZKOP RS"],
     related_articles: ["čl. 156. st. 2. KZ RS"],
-    headnote: "RJEŠE NjEOdbija se, kao neosnovan, prijedlog branioca optuženog M . B . za prenošenje vođenja postupkana drugi stvarno nadležni sud, u predmetu broj 77 0 K 064172 1 7 K 2 , zbog kr",
+    headnote: "RJEŠE Nj EO dbija se, kao neosnovan, prijedlog branioca optuženog M . B . za prenošenje vođenja postupkana drugi stvarno nadležni sud, u predmetu broj 77 0 K 064172 1 7 K 2 , zbog ",
     outcome: "partially",
   },
   {
@@ -339,12 +339,12 @@ export const CASE_LAW_CRIMINAL_BIH_RS_21: CaseLawInput[] = [
     legal_question:
       "Da li je osnovana žalba ili odluka po pitanju delegacije mjesne nadležnosti u krivičnom postupku pred Vrhovnim sudom RS?",
     court_position:
-      "RJEŠE NjEZa vođenje drugostepenog krivičnog postupkapo žalbi okružnog javnog tužiocauBanjoj Luci, izjavljenoj protiv presude Osnovnog sudauPrijedoru broj 77 0 K 067222 16 K 2 od 30. 12 .2016. godine, protiv optuženog Predraga Kosa , zbog krivičnog djela protivzakonito useljenjeiz člana 247 . sta v 1. Krivičnog zakona Republike Srpske , određujese Okružni suduDoboju.",
+      "RJEŠE Nj EZa vođenje drugostepenog krivičnog postupkapo žalbi okružnog javnog tužioca u Banjoj Luci, izjavljenoj protiv presude Osnovnog suda u Prijedoru broj 77 0 K 067222 16 K 2 od 30. 12 .2016. godine, protiv optuženog Predraga Kosa , zbog krivičnog djela protivzakonito useljenjeiz člana 247 . sta v 1. Krivičnog zakona Republike Srpske , određujese Okružni sud u Doboju.",
     reasoning:
       "Sud ocjenjuje žalbene ili ZZL prigovore u predmetima delegacija mjesne nadležnosti (čl. 300–360. KZ RS i srodni članovi), uključujući kvalifikaciju, namjeru i postupovne povrede iz čl. 350–356. ZKOP RS.",
     keywords: ["žalba","mjesna nadležnost","KZ RS","ZKOP RS"],
     related_articles: [],
-    headnote: "RJEŠE NjEZa vođenje drugostepenog krivičnog postupkapo žalbi okružnog javnog tužiocauBanjoj Luci, izjavljenoj protiv presude Osnovnog sudauPrijedoru broj 77 0 K 067222 16 K 2 od 30",
+    headnote: "RJEŠE Nj EZa vođenje drugostepenog krivičnog postupkapo žalbi okružnog javnog tužioca u Banjoj Luci, izjavljenoj protiv presude Osnovnog suda u Prijedoru broj 77 0 K 067222 16 K 2 ",
     outcome: "partially",
   },
   {
@@ -357,12 +357,12 @@ export const CASE_LAW_CRIMINAL_BIH_RS_21: CaseLawInput[] = [
     legal_question:
       "Da li je osnovana žalba ili odluka po pitanju delegacije mjesne nadležnosti u krivičnom postupku pred Vrhovnim sudom RS?",
     court_position:
-      "RJEŠE NjEOdbija se, kao neosnovan, prijedlog Osnovnog sudauPrijedoruza prenošenje vođenja postupkana drugi stvarno nadležni sud, u predmetu broj 77 0 K 079519 17 K protiv optuženog B . R . , zbog produženog krivičnog djela ugrožavanje sigurnostiiz člana 16 9 . stav 2. u vezisa stavom 1. Krivičnog zakona Republike .",
+      "RJEŠE Nj EO dbija se, kao neosnovan, prijedlog Osnovnog suda u Prijedoruza prenošenje vođenja postupkana drugi stvarno nadležni sud, u predmetu broj 77 0 K 079519 17 K protiv optuženog B . R . , zbog produženog krivičnog djela ugrožavanje sigurnostiiz člana 16 9 . stav 2. u vezisa stavom 1. Krivičnog zakona Republike .",
     reasoning:
       "Sud ocjenjuje žalbene ili ZZL prigovore u predmetima delegacija mjesne nadležnosti (čl. 300–360. KZ RS i srodni članovi), uključujući kvalifikaciju, namjeru i postupovne povrede iz čl. 350–356. ZKOP RS.",
     keywords: ["žalba","mjesna nadležnost","KZ RS","ZKOP RS"],
     related_articles: ["čl. 39. st. 2. ZKOP RS","čl. 340. KZ RS","čl. 340. ZKOP RS"],
-    headnote: "RJEŠE NjEOdbija se, kao neosnovan, prijedlog Osnovnog sudauPrijedoruza prenošenje vođenja postupkana drugi stvarno nadležni sud, u predmetu broj 77 0 K 079519 17 K protiv optuženog",
+    headnote: "RJEŠE Nj EO dbija se, kao neosnovan, prijedlog Osnovnog suda u Prijedoruza prenošenje vođenja postupkana drugi stvarno nadležni sud, u predmetu broj 77 0 K 079519 17 K protiv optuž",
     outcome: "plaintiff_won",
   },
   {
@@ -375,12 +375,12 @@ export const CASE_LAW_CRIMINAL_BIH_RS_21: CaseLawInput[] = [
     legal_question:
       "Da li je osnovana žalba ili odluka po pitanju delegacije mjesne nadležnosti u krivičnom postupku pred Vrhovnim sudom RS?",
     court_position:
-      "RJEŠE NjEOdbacuje se, kao nedozvoljen , prijedlog punomoćnika oštećene O . V . , D . J . Š . advokataiz B . L . , za prenošenje vođenja postupkana drugi stvarno nadležni sud, u predmetu Osnovnog sudauPrnjavoru broj 78 0 K 028361 18 K protiv optuženog M . B . , zbog krivičnog djela tjelesne povredeiz člana 131. stav 1. Krivičnog zakonika Republike Srpske .",
+      "RJEŠE Nj EO dbacuje se, kao nedozvoljen , prijedlog punomoćnika oštećene O . V . , D . J . Š . advokataiz B . L . , za prenošenje vođenja postupkana drugi stvarno nadležni sud, u predmetu Osnovnog suda u Prnjavoru broj 78 0 K 028361 18 K protiv optuženog M . B . , zbog krivičnog djela tjelesne povredeiz člana 131. stav 1. Krivičnog zakonika Republike Srpske .",
     reasoning:
       "Sud ocjenjuje žalbene ili ZZL prigovore u predmetima delegacija mjesne nadležnosti (čl. 300–360. KZ RS i srodni članovi), uključujući kvalifikaciju, namjeru i postupovne povrede iz čl. 350–356. ZKOP RS.",
     keywords: ["žalba","mjesna nadležnost","KZ RS","ZKOP RS"],
     related_articles: ["čl. 131. st. 1. KZ RS","čl. 33. st. 1. ZKOP RS","čl. 33. st. 2. ZKOP RS"],
-    headnote: "RJEŠE NjEOdbacuje se, kao nedozvoljen , prijedlog punomoćnika oštećene O . V . , D . J . Š . advokataiz B . L . , za prenošenje vođenja postupkana drugi stvarno nadležni sud, u pre",
+    headnote: "RJEŠE Nj EO dbacuje se, kao nedozvoljen , prijedlog punomoćnika oštećene O . V . , D . J . Š . advokataiz B . L . , za prenošenje vođenja postupkana drugi stvarno nadležni sud, u p",
     outcome: "partially",
   },
   {
@@ -393,12 +393,12 @@ export const CASE_LAW_CRIMINAL_BIH_RS_21: CaseLawInput[] = [
     legal_question:
       "Da li je osnovana žalba ili odluka po pitanju delegacije mjesne nadležnosti u krivičnom postupku pred Vrhovnim sudom RS?",
     court_position:
-      "RJEŠE NjEZa vođenje postupkaukrivičnom predmetu protiv optuženeA . N . M . , zbog produženog krivičnog djela povrede zakonaod strane sudijeiz člana 376 . Krivičnog zakona Republike Srpske , po optužnici Okružnog javnog tužilaštvauBijeljini , broj T1 4 0 KT PO 001 8392 17 od 1 0 . 4 .20 1 7 . godine, kao stvarnoimjesno nadležan sud, određuje seOsnovni suduZvorniku .",
+      "RJEŠE Nj EZa vođenje postupkaukrivičnom predmetu protiv optužene A . N . M . , zbog produženog krivičnog djela povrede zakonaod strane sudijeiz člana 376 . Krivičnog zakona Republike Srpske , po optužnici Okružnog javnog tužilaštva u Bijeljini , broj T1 4 0 KT PO 001 8392 17 od 1 0 . 4 .20 1 7 . godine, kao stvarnoimjesno nadležan sud, određuje se Osnovni sud u Zvorniku .",
     reasoning:
       "Sud ocjenjuje žalbene ili ZZL prigovore u predmetima delegacija mjesne nadležnosti (čl. 300–360. KZ RS i srodni članovi), uključujući kvalifikaciju, namjeru i postupovne povrede iz čl. 350–356. ZKOP RS.",
     keywords: ["žalba","mjesna nadležnost","KZ RS","ZKOP RS"],
     related_articles: ["čl. 33. st. 2. ZKOP RS","čl. 33. st. 1. ZKOP RS"],
-    headnote: "RJEŠE NjEZa vođenje postupkaukrivičnom predmetu protiv optuženeA . N . M . , zbog produženog krivičnog djela povrede zakonaod strane sudijeiz člana 376 . Krivičnog zakona Republike",
+    headnote: "RJEŠE Nj EZa vođenje postupkaukrivičnom predmetu protiv optužene A . N . M . , zbog produženog krivičnog djela povrede zakonaod strane sudijeiz člana 376 . Krivičnog zakona Republi",
     outcome: "partially",
   },
   {
@@ -411,12 +411,12 @@ export const CASE_LAW_CRIMINAL_BIH_RS_21: CaseLawInput[] = [
     legal_question:
       "Da li je osnovana žalba ili odluka po pitanju delegacije mjesne nadležnosti u krivičnom postupku pred Vrhovnim sudom RS?",
     court_position:
-      "RJEŠE NjEZa vođenje krivičnog postupkaupredmetu Osnovnog sudauZvorniku broj 83 0 K 0 37070 1 8 K protiv optuženog M . G . određujese Osnovni suduSrebrenici, kao stvarno nadležan sud .",
+      "RJEŠE Nj EZa vođenje krivičnog postupkaupredmetu Osnovnog suda u Zvorniku broj 83 0 K 0 37070 1 8 K protiv optuženog M . G . određujese Osnovni sud u Srebrenici, kao stvarno nadležan sud .",
     reasoning:
       "Sud ocjenjuje žalbene ili ZZL prigovore u predmetima delegacija mjesne nadležnosti (čl. 300–360. KZ RS i srodni članovi), uključujući kvalifikaciju, namjeru i postupovne povrede iz čl. 350–356. ZKOP RS.",
     keywords: ["žalba","mjesna nadležnost","KZ RS","ZKOP RS"],
     related_articles: ["čl. 150. st. 2. KZ RS"],
-    headnote: "RJEŠE NjEZa vođenje krivičnog postupkaupredmetu Osnovnog sudauZvorniku broj 83 0 K 0 37070 1 8 K protiv optuženog M . G . određujese Osnovni suduSrebrenici, kao stvarno nadležan su",
+    headnote: "RJEŠE Nj EZa vođenje krivičnog postupkaupredmetu Osnovnog suda u Zvorniku broj 83 0 K 0 37070 1 8 K protiv optuženog M . G . određujese Osnovni sud u Srebrenici, kao stvarno nadlež",
     outcome: "partially",
   },
   {
@@ -429,12 +429,12 @@ export const CASE_LAW_CRIMINAL_BIH_RS_21: CaseLawInput[] = [
     legal_question:
       "Da li je osnovana žalba ili odluka po pitanju delegacije mjesne nadležnosti u krivičnom postupku pred Vrhovnim sudom RS?",
     court_position:
-      "RJEŠE NjEOdbija se, kao neosnovan, prijedlog branioca optuženog I . V ., daseza vođenje postupkaupredmetu Osnovnog sudauDerventi broj 84 0 K 0 63072 20 K , zbog krivičnog djela polno uznemiravanjeiz člana 170. stav 1. Krivičnog zakonika Republike Srpske , odredi drugi stvarnoimjesno nadležan sud.",
+      "RJEŠE Nj EO dbija se, kao neosnovan, prijedlog branioca optuženog I . V ., da seza vođenje postupkaupredmetu Osnovnog suda u Derventi broj 84 0 K 0 63072 20 K , zbog krivičnog djela polno uznemiravanjeiz člana 170. stav 1. Krivičnog zakonika Republike Srpske , odredi drugi stvarnoimjesno nadležan sud.",
     reasoning:
       "Sud ocjenjuje žalbene ili ZZL prigovore u predmetima delegacija mjesne nadležnosti (čl. 300–360. KZ RS i srodni članovi), uključujući kvalifikaciju, namjeru i postupovne povrede iz čl. 350–356. ZKOP RS.",
     keywords: ["žalba","mjesna nadležnost","KZ RS","ZKOP RS"],
     related_articles: ["čl. 170. st. 1. KZ RS","čl. 33. st. 2. ZKOP RS","čl. 33. st. 1. ZKOP RS","čl. 48. st. 2. ZKOP RS"],
-    headnote: "RJEŠE NjEOdbija se, kao neosnovan, prijedlog branioca optuženog I . V ., daseza vođenje postupkaupredmetu Osnovnog sudauDerventi broj 84 0 K 0 63072 20 K , zbog krivičnog djela pol",
+    headnote: "RJEŠE Nj EO dbija se, kao neosnovan, prijedlog branioca optuženog I . V ., da seza vođenje postupkaupredmetu Osnovnog suda u Derventi broj 84 0 K 0 63072 20 K , zbog krivičnog djel",
     outcome: "partially",
   },
   {
@@ -447,12 +447,12 @@ export const CASE_LAW_CRIMINAL_BIH_RS_21: CaseLawInput[] = [
     legal_question:
       "Da li je osnovana žalba ili odluka po pitanju delegacije mjesne nadležnosti u krivičnom postupku pred Vrhovnim sudom RS?",
     court_position:
-      "RJEŠE NjEOdbijase prijedlog predsjednika Osnovnog sudauDoboju broj 85 0 K 052573 1 5 Iks od 06.11.2018. godineza rješavanje sukoba nadležnosti , kao neosnovan.",
+      "RJEŠE Nj EO dbija se prijedlog predsjednika Osnovnog suda u Doboju broj 85 0 K 052573 1 5 Iks od 06.11.2018. godine za rješavanje sukoba nadležnosti , kao neosnovan.",
     reasoning:
       "Sud ocjenjuje žalbene ili ZZL prigovore u predmetima delegacija mjesne nadležnosti (čl. 300–360. KZ RS i srodni članovi), uključujući kvalifikaciju, namjeru i postupovne povrede iz čl. 350–356. ZKOP RS.",
     keywords: ["žalba","mjesna nadležnost","KZ RS","ZKOP RS"],
     related_articles: ["čl. 239. st. 3. KZ RS","čl. 36. st. 1. ZKOP RS","čl. 35. st. 1. ZKOP RS","čl. 34. st. 1. ZKOP RS"],
-    headnote: "RJEŠE NjEOdbijase prijedlog predsjednika Osnovnog sudauDoboju broj 85 0 K 052573 1 5 Iks od 06.11.2018. godineza rješavanje sukoba nadležnosti , kao neosnovan.",
+    headnote: "RJEŠE Nj EO dbija se prijedlog predsjednika Osnovnog suda u Doboju broj 85 0 K 052573 1 5 Iks od 06.11.2018. godine za rješavanje sukoba nadležnosti , kao neosnovan.",
     outcome: "partially",
   },
   {
@@ -465,12 +465,12 @@ export const CASE_LAW_CRIMINAL_BIH_RS_21: CaseLawInput[] = [
     legal_question:
       "Da li je osnovana žalba ili odluka po pitanju delegacije mjesne nadležnosti u krivičnom postupku pred Vrhovnim sudom RS?",
     court_position:
-      "RJEŠE NjEOdbija se, kao neosnovan, prijedlog optuženog R. P. , daseza vođenje postupkaupredmetu Osnovnog sudauDoboju broj 85 0 K 05 3679 15 K , zbog produženog krivičnog djela teške krađeiz člana 232. stav 1. tačka 1. u vezisa članom 42. Krivičnogzakona Republike Srpskeikrivičnog djelasilovanjaiz člana 193. stav 1. istog zakona , odredi drugi stvarnoimjesnonadležan sud.",
+      "RJEŠE Nj EO dbija se, kao neosnovan, prijedlog optuženog R. P. , da seza vođenje postupkaupredmetu Osnovnog suda u Doboju broj 85 0 K 05 3679 15 K , zbog produženog krivičnog djela teške krađeiz člana 232. stav 1. tačka 1. u vezisa članom 42. Krivičnogzakona Republike Srpskeikrivičnog djelasilovanjaiz člana 193. stav 1. istog zakona , odredi drugi stvarnoimjesnonadležan sud.",
     reasoning:
       "Sud ocjenjuje žalbene ili ZZL prigovore u predmetima delegacija mjesne nadležnosti (čl. 300–360. KZ RS i srodni članovi), uključujući kvalifikaciju, namjeru i postupovne povrede iz čl. 350–356. ZKOP RS.",
     keywords: ["žalba","mjesna nadležnost","KZ RS","ZKOP RS"],
     related_articles: ["čl. 232. st. 1. KZ RS","čl. 193. st. 1. KZ RS","čl. 193. st. 1. ZKOP RS","čl. 33. st. 2. ZKOP RS","čl. 33. st. 1. ZKOP RS","čl. 278. st. 2. ZKOP RS","čl. 33. st. 1. KZ RS"],
-    headnote: "RJEŠE NjEOdbija se, kao neosnovan, prijedlog optuženog R. P. , daseza vođenje postupkaupredmetu Osnovnog sudauDoboju broj 85 0 K 05 3679 15 K , zbog produženog krivičnog djela tešk",
+    headnote: "RJEŠE Nj EO dbija se, kao neosnovan, prijedlog optuženog R. P. , da seza vođenje postupkaupredmetu Osnovnog suda u Doboju broj 85 0 K 05 3679 15 K , zbog produženog krivičnog djela",
     outcome: "plaintiff_won",
   },
   {
@@ -483,12 +483,12 @@ export const CASE_LAW_CRIMINAL_BIH_RS_21: CaseLawInput[] = [
     legal_question:
       "Da li je osnovana žalba ili odluka po pitanju delegacije mjesne nadležnosti u krivičnom postupku pred Vrhovnim sudom RS?",
     court_position:
-      "RJEŠE NjEOdbija se, kao neosnovan, prijedlog sudijeza prethodni postupak Osnovnog sudauDoboju, daseza vođenje postupkaukrivičnom predmetu Osnovnog sudauDoboju broj 85 0 K 056999 16 Kpp 16, protivosumnjičenih P . B . , J . K . , B . Đ . , R . S . i D . R . , zbog krivičnih djela davanje lažnog iskazaiz člana 365. stav 3. u vezisa članom 24. stav 2. i ometanje pravdeiz člana 369. stav 1. Krivičnog zakona Republike Srpske , odredidrugi stvarnoimjesnonadležan sud.",
+      "RJEŠE Nj EO dbija se, kao neosnovan, prijedlog sudijeza prethodni postupak Osnovnog suda u Doboju, da seza vođenje postupkaukrivičnom predmetu Osnovnog suda u Doboju broj 85 0 K 056999 16 Kpp 16, protivosumnjičenih P . B . , J . K . , B . Đ . , R . S . i D . R . , zbog krivičnih djela davanje lažnog iskazaiz člana 365. stav 3. u vezisa članom 24. stav 2. i ometanje pravdeiz člana 369. stav 1. Krivičnog zakona Republike Srpske , odredidrugi stvarnoimjesnonadležan sud.",
     reasoning:
       "Sud ocjenjuje žalbene ili ZZL prigovore u predmetima delegacija mjesne nadležnosti (čl. 300–360. KZ RS i srodni članovi), uključujući kvalifikaciju, namjeru i postupovne povrede iz čl. 350–356. ZKOP RS.",
     keywords: ["žalba","mjesna nadležnost","KZ RS","ZKOP RS"],
     related_articles: ["čl. 365. st. 3. KZ RS","čl. 369. st. 1. KZ RS","čl. 369. st. 1. ZKOP RS","čl. 33. st. 2. ZKOP RS","čl. 33. st. 1. ZKOP RS"],
-    headnote: "RJEŠE NjEOdbija se, kao neosnovan, prijedlog sudijeza prethodni postupak Osnovnog sudauDoboju, daseza vođenje postupkaukrivičnom predmetu Osnovnog sudauDoboju broj 85 0 K 056999 16",
+    headnote: "RJEŠE Nj EO dbija se, kao neosnovan, prijedlog sudijeza prethodni postupak Osnovnog suda u Doboju, da seza vođenje postupkaukrivičnom predmetu Osnovnog suda u Doboju broj 85 0 K 05",
     outcome: "plaintiff_won",
   },
   {
@@ -501,12 +501,12 @@ export const CASE_LAW_CRIMINAL_BIH_RS_21: CaseLawInput[] = [
     legal_question:
       "Da li je osnovana žalba ili odluka po pitanju delegacije mjesne nadležnosti u krivičnom postupku pred Vrhovnim sudom RS?",
     court_position:
-      "RJEŠE NjEOdbija se, kao neosnovan, prijedlog optuženog K . S . za prenošenje vođenja postupkana drugi stvarno nadležni sudupredmetu Osnovnog sudauTesliću broj 87 0 K 026093 18 Kps , zbog krivičnog djela posebni slučajevi falsifikovanja ispraveiz člana 348. stav 5. u vezisa članom 347. stav 1. Krivičnog zakonika Republike Srpske .",
+      "RJEŠE Nj EO dbija se, kao neosnovan, prijedlog optuženog K . S . za prenošenje vođenja postupkana drugi stvarno nadležni sudupredmetu Osnovnog suda u Tesliću broj 87 0 K 026093 18 Kps , zbog krivičnog djela posebni slučajevi falsifikovanja ispraveiz člana 348. stav 5. u vezisa članom 347. stav 1. Krivičnog zakonika Republike Srpske .",
     reasoning:
       "Sud ocjenjuje žalbene ili ZZL prigovore u predmetima delegacija mjesne nadležnosti (čl. 300–360. KZ RS i srodni članovi), uključujući kvalifikaciju, namjeru i postupovne povrede iz čl. 350–356. ZKOP RS.",
     keywords: ["žalba","mjesna nadležnost","KZ RS","ZKOP RS"],
     related_articles: ["čl. 348. st. 5. KZ RS","čl. 348. KZ RS","čl. 348. ZKOP RS"],
-    headnote: "RJEŠE NjEOdbija se, kao neosnovan, prijedlog optuženog K . S . za prenošenje vođenja postupkana drugi stvarno nadležni sudupredmetu Osnovnog sudauTesliću broj 87 0 K 026093 18 Kps ",
+    headnote: "RJEŠE Nj EO dbija se, kao neosnovan, prijedlog optuženog K . S . za prenošenje vođenja postupkana drugi stvarno nadležni sudupredmetu Osnovnog suda u Tesliću broj 87 0 K 026093 18 ",
     outcome: "plaintiff_won",
   },
   {
@@ -519,12 +519,12 @@ export const CASE_LAW_CRIMINAL_BIH_RS_21: CaseLawInput[] = [
     legal_question:
       "Da li je osnovana žalba ili odluka po pitanju delegacije mjesne nadležnosti u krivičnom postupku pred Vrhovnim sudom RS?",
     court_position:
-      "RJEŠE NjEZa vođenje krivičnog postupka protiv osumnjičenih S. R. i K. B. , zbog produženog krivičnog djela falsifikovanja ispraveiz člana 377. stav 2. auvezisa članom 42.a) Krivičnog zakona Republike Srpskeupredmetu Osnovnog sudauTrebinju broj 95 0 K 047975 17 Kpspo optužnici Okružnog javnog tužilaštvauTrebinju broj T16 0 KT 00005968 16 od 29.03.2017. godine, određujese Osnovni suduFoči.",
+      "RJEŠE Nj EZa vođenje krivičnog postupka protiv osumnjičenih S. R. i K. B. , zbog produženog krivičnog djela falsifikovanja ispraveiz člana 377. stav 2. a u vezi sa članom 42.a) Krivičnog zakona Republike Srpskeupredmetu Osnovnog suda u Trebinju broj 95 0 K 047975 17 Kpspo optužnici Okružnog javnog tužilaštva u Trebinju broj T16 0 KT 00005968 16 od 29.03.2017. godine, određujese Osnovni sud u Foči.",
     reasoning:
       "Sud ocjenjuje žalbene ili ZZL prigovore u predmetima delegacija mjesne nadležnosti (čl. 300–360. KZ RS i srodni članovi), uključujući kvalifikaciju, namjeru i postupovne povrede iz čl. 350–356. ZKOP RS.",
     keywords: ["žalba","mjesna nadležnost","KZ RS","ZKOP RS"],
     related_articles: ["čl. 377. st. 2. KZ RS","čl. 33. st. 1. ZKOP RS"],
-    headnote: "RJEŠE NjEZa vođenje krivičnog postupka protiv osumnjičenih S. R. i K. B. , zbog produženog krivičnog djela falsifikovanja ispraveiz člana 377. stav 2. auvezisa članom 42.a) Krivičn",
+    headnote: "RJEŠE Nj EZa vođenje krivičnog postupka protiv osumnjičenih S. R. i K. B. , zbog produženog krivičnog djela falsifikovanja ispraveiz člana 377. stav 2. a u vezi sa članom 42.a) Kri",
     outcome: "partially",
   },
   {
@@ -555,12 +555,12 @@ export const CASE_LAW_CRIMINAL_BIH_RS_21: CaseLawInput[] = [
     legal_question:
       "Da li je osnovana žalba ili odluka po pitanju delegacije mjesne nadležnosti u krivičnom postupku pred Vrhovnim sudom RS?",
     court_position:
-      "OBRAZACZA EVIDENCIJU SUDSKIH ODLUKA VRHOVNOG SUDARS Pripremio / la : Predsjednik vijećaDr Veljko Ikanović NAZIV SUDA VRHOVNISUD REPUBLIKE SRPSKE BROJ PREDMETA 77 0 K 064172 19 Kv SENTENCA Nije osnovan prijedlog branioca optuženogza prenošenje vođenja postupkana drugi stvarno nadležni sud, podnesen zbog činjenicedaje troje sudija drugostepenog suda učestvovaloukrivičnom postupku pred prvostepenim sudom, kada drugostepenisud osimtih sudija, ima dovoljan broj sudija koji nisu učestvovaliupostupku pred prvostepenim sudom. PRAVNA OBLAST KRIVIČNA PRAVNI INSTITUT Prenošenje vođenja postupka PRIMJENjENI PROPISnaziv propisa , broj članaibroj(evi) službenog glasilaukojemje propis objavljen - Član 33. Zakonaokrivičnom postupku Republike Srpske („Službeni glasnik Republike Srpske“ broj 53/12, 91/17 i 66/18 ) PRETHODNE ODLUKEbroj (evi) predmetainaziv suda kojije donio odluku - 77 0 K 064172 17 K 2 Osnovni suduPrijedoruDa lije zauzeti stavusaglasnostisa stavomiz odluka ovog suda - ODLUKA USTAVNOG SUDABiH",
+      "OBRAZACZA EVIDENCIJU SUDSKIH ODLUKA VRHOVNOG SUDARS Pripremio / la : Predsjednik vijeća Dr Veljko Ikanović NAZIV SUDA VRHOVNISUD REPUBLIKE SRPSKE BROJ PREDMETA 77 0 K 064172 19 Kv SENTENCA Nije osnovan prijedlog branioca optuženogza prenošenje vođenja postupkana drugi stvarno nadležni sud, podnesen zbog činjenicedaje troje sudija drugostepenog suda učestvovaloukrivičnom postupku pred prvostepenim sudom, kada drugostepenisud osimtih sudija, ima dovoljan broj sudija koji nisu učestvovaliupostupku pred prvostepenim sudom. PRAVNA OBLAST KRIVIČNA PRAVNI INSTITUT Prenošenje vođenja postupka PRIMJENj ENI PROPIS naziv propisa , broj članaibroj(evi) službenog glasilaukojemje propis objavljen - Član 33. Zakona okrivičnom postupku Republike Srpske („Službeni glasnik Republike Srpske“ broj 53/12, 91/17 i 66/18 ) PRETHODNE ODLUKE broj (evi) predmetainaziv suda koji je donio odluku - 77 0 K 064172 17 K 2 Osnovni sud u Prijedoru Da lije zauzeti stavusaglasnostisa stavomiz odluka ovog suda - ODLUKA USTAVNOG SUDABi H",
     reasoning:
       "Sud ocjenjuje žalbene ili ZZL prigovore u predmetima delegacija mjesne nadležnosti (čl. 300–360. KZ RS i srodni članovi), uključujući kvalifikaciju, namjeru i postupovne povrede iz čl. 350–356. ZKOP RS.",
     keywords: ["žalba","mjesna nadležnost","KZ RS","ZKOP RS"],
     related_articles: [],
-    headnote: "OBRAZACZA EVIDENCIJU SUDSKIH ODLUKA VRHOVNOG SUDARS Pripremio / la : Predsjednik vijećaDr Veljko Ikanović NAZIV SUDA VRHOVNISUD REPUBLIKE SRPSKE BROJ PREDMETA 77 0 K 064172 19 Kv S",
+    headnote: "OBRAZACZA EVIDENCIJU SUDSKIH ODLUKA VRHOVNOG SUDARS Pripremio / la : Predsjednik vijeća Dr Veljko Ikanović NAZIV SUDA VRHOVNISUD REPUBLIKE SRPSKE BROJ PREDMETA 77 0 K 064172 19 Kv ",
     outcome: "partially",
   },
   {
@@ -573,12 +573,12 @@ export const CASE_LAW_CRIMINAL_BIH_RS_21: CaseLawInput[] = [
     legal_question:
       "Da li je osnovana žalba ili odluka po pitanju delegacije mjesne nadležnosti u krivičnom postupku pred Vrhovnim sudom RS?",
     court_position:
-      "OBRAZACZA EVIDENCIJU SUDSKIH ODLUKA VRHOVNOG SUDARS Pripremio / la : Predsjednik vijećaDr Veljko Ikanović NAZIV SUDA VRHOVNISUD REPUBLIKE SRPSKE BROJ PREDMETA 11 0 K 025882 20 Kv SENTENCA Kadase radiopostupkuza rješavanje sukoba nadležnosti, pitanjedali činjenični supstratiz optužnice odražava osnovniili kvalifikovani oblik krivičnog djela, teuvezisa timiuslovaza obaveznu odbranusa aspekta propisane kazne zatvora, možese cijeniti nakon donošenja odluke kojomje riješentaj sukob nadležnosti. PRAVNA OBLAST KRIVIČNA PRAVNI INSTITUT Sukob nadležnosti PRIMJENjENI PROPISnaziv propisa , broj članaibroj(evi) službenog glasilaukojemje propis objavljen - Član 34. stav 1. Zakonaokrivičnom postupku Republike Srpske („Službeni glasnik Republike Srpske“ broj 53/12, 91/17 i 66/18 ) PRETHODNE ODLUKEbroj (evi) predmetainaziv suda kojije donio odluku - 11 0 K 025882 19 K Okružni suduBanjoj Luci 75 0 K 049132 19 K Osnovni suduMrkonjić GraduDa lije zauzeti stavusaglasnostisa stavomiz odluka ovog suda - ODLUKA USTAVNOG SUDABiH",
+      "OBRAZACZA EVIDENCIJU SUDSKIH ODLUKA VRHOVNOG SUDARS Pripremio / la : Predsjednik vijeća Dr Veljko Ikanović NAZIV SUDA VRHOVNISUD REPUBLIKE SRPSKE BROJ PREDMETA 11 0 K 025882 20 Kv SENTENCA Kada se radiopostupkuza rješavanje sukoba nadležnosti, pitanjedali činjenični supstratiz optužnice odražava osnovniili kvalifikovani oblik krivičnog djela, teu vezi sa timiuslovaza obaveznu odbranusa aspekta propisane kazne zatvora, možese cijeniti nakon donošenja odluke kojomje riješentaj sukob nadležnosti. PRAVNA OBLAST KRIVIČNA PRAVNI INSTITUT Sukob nadležnosti PRIMJENj ENI PROPIS naziv propisa , broj članaibroj(evi) službenog glasilaukojemje propis objavljen - Član 34. stav 1. Zakona okrivičnom postupku Republike Srpske („Službeni glasnik Republike Srpske“ broj 53/12, 91/17 i 66/18 ) PRETHODNE ODLUKE broj (evi) predmetainaziv suda koji je donio odluku - 11 0 K 025882 19 K Okružni sud u Banjoj Luci 75 0 K 049132 19 K Osnovni sud u Mrkonjić Grad u Da lije zauzeti stavusaglasnostisa stavomiz odluka ovog suda - ODLUKA USTAVNOG SUDABi H",
     reasoning:
       "Sud ocjenjuje žalbene ili ZZL prigovore u predmetima delegacija mjesne nadležnosti (čl. 300–360. KZ RS i srodni članovi), uključujući kvalifikaciju, namjeru i postupovne povrede iz čl. 350–356. ZKOP RS.",
     keywords: ["žalba","mjesna nadležnost","KZ RS","ZKOP RS"],
     related_articles: [],
-    headnote: "OBRAZACZA EVIDENCIJU SUDSKIH ODLUKA VRHOVNOG SUDARS Pripremio / la : Predsjednik vijećaDr Veljko Ikanović NAZIV SUDA VRHOVNISUD REPUBLIKE SRPSKE BROJ PREDMETA 11 0 K 025882 20 Kv S",
+    headnote: "OBRAZACZA EVIDENCIJU SUDSKIH ODLUKA VRHOVNOG SUDARS Pripremio / la : Predsjednik vijeća Dr Veljko Ikanović NAZIV SUDA VRHOVNISUD REPUBLIKE SRPSKE BROJ PREDMETA 11 0 K 025882 20 Kv ",
     outcome: "partially",
   },
   {
@@ -591,7 +591,7 @@ export const CASE_LAW_CRIMINAL_BIH_RS_21: CaseLawInput[] = [
     legal_question:
       "Da li je osnovana žalba ili odluka po pitanju delegacije mjesne nadležnosti u krivičnom postupku pred Vrhovnim sudom RS?",
     court_position:
-      "OBRAZACZA EVIDENCIJU SUDSKIH ODLUKA VRHOVNOG SUDARS Pripremio / la : Predsjednik vijeća Veljko Ikanović NAZIV SUDA VRHOVNISUD REPUBLIKE SRPSKE BROJ PREDMETA 77 0 K 079519 19 Kv 2 SENTENCA Činjenicada jena prijedlog postupajućeg sudije, predsjednik suda dostavila podnesak optuženog nadležnom tužilaštvu, u ciljudase tužilaštvo izjasnidali postoje osnovi sumnjedaje optuženitim podneskom počinio krivično djelo povreda ugleda sudaiz člana 340. KZ RS, ne predstavlja važan razlogda seza vođenje krivičnog postupka odredi drugi stvarno nadležan sud, posebno imajućiuvidudaje optuženitaj podnesak nasloviokao zahtjevza izuzeće postupajućeg sudije, o čemu, shodno odredbi člana 39. stav 2. ZKP RS, odlučuje opšta sjednica suda. PRAVNA OBLAST KRIVIČNA PRAVNI INSTITUT Prenošenje vođenja postupka PRIMJENjENI PROPISnaziv propisa , broj članaibroj(evi) službenog glasilaukojemje propis objavljen - Član 33. i 39. stav 2. Zakonaokrivičnom postupku Republike Srpske („Službeni glasnik Republike Srpske“ broj 53/12, 91/17 i 66/18 ) PRETHODNE ODLUKEbroj (evi) predmetainaziv suda kojije donio odluku - 77 0 K 079519 17 K Osnovni suduPrijedoruDa lije zauzeti stavusaglasnostisa stavomiz odluka ovog suda - ODLUKA USTAVNOG SUDABiH",
+      "OBRAZACZA EVIDENCIJU SUDSKIH ODLUKA VRHOVNOG SUDARS Pripremio / la : Predsjednik vijeća Veljko Ikanović NAZIV SUDA VRHOVNISUD REPUBLIKE SRPSKE BROJ PREDMETA 77 0 K 079519 19 Kv 2 SENTENCA Činjenicada jena prijedlog postupajućeg sudije, predsjednik suda dostavila podnesak optuženog nadležnom tužilaštvu, u ciljuda se tužilaštvo izjasnidali posto je osnovi sumnjedaje optuženitim podneskom počinio krivično djelo povreda ugleda sudaiz člana 340. KZ RS, ne predstavlja važan razlogda seza vođenje krivičnog postupka odredi drugi stvarno nadležan sud, posebno imajućiuvidudaje optuženitaj podnesak nasloviokao zahtjevza izuzeće postupajućeg sudije, o čemu, shodno odredbi člana 39. stav 2. ZKP RS, odlučuje opšta sjednica suda. PRAVNA OBLAST KRIVIČNA PRAVNI INSTITUT Prenošenje vođenja postupka PRIMJENj ENI PROPIS naziv propisa , broj članaibroj(evi) službenog glasilaukojemje propis objavljen - Član 33. i 39. stav 2. Zakona okrivičnom postupku Republike Srpske („Službeni glasnik Republike Srpske“ broj 53/12, 91/17 i 66/18 ) PRETHODNE ODLUKE broj (evi) predmetainaziv suda koji je donio odluku - 77 0 K 079519 17 K Osnovni sud u Prijedoru Da lije zauzeti stavusaglasnostisa stavomiz odluka ovog suda - ODLUKA USTAVNOG SUDABi H",
     reasoning:
       "Sud ocjenjuje žalbene ili ZZL prigovore u predmetima delegacija mjesne nadležnosti (čl. 300–360. KZ RS i srodni članovi), uključujući kvalifikaciju, namjeru i postupovne povrede iz čl. 350–356. ZKOP RS.",
     keywords: ["žalba","mjesna nadležnost","KZ RS","ZKOP RS"],
@@ -609,7 +609,7 @@ export const CASE_LAW_CRIMINAL_BIH_RS_21: CaseLawInput[] = [
     legal_question:
       "Da li je osnovana žalba ili odluka po pitanju delegacije mjesne nadležnosti u krivičnom postupku pred Vrhovnim sudom RS?",
     court_position:
-      "OBRAZACZA EVIDENCIJU SUDSKIH ODLUKA VRHOVNOG SUDARS Pripremio / la : Predsjednik vijeća Vesna Antonić NAZIV SUDA VRHOVNISUD REPUBLIKE SRPSKE BROJ PREDMETA 84 0 K 063072 20 Kv 2 SENTENCA Prijedlogza prenošenjeivođenje postupkasubez osnovaiz razlogaštose prijedlog zasnivana prigovorima kojise odnosenatok vođenja krivičnog postupkaiprigovorima rukovođenja glavnim pretresom, kojine predstavljaju važne razlogeza prenošenje vođenja postupka. PRAVNA OBLAST Krivično procesno pravo PRAVNI INSTITUTI Prenošenje vođenja postupka PRIMJENjENI PROPISnaziv propisa , broj članaibroj ( evi ) službenog glasilaukojemje propis objavljen - Član 33. stav 2. ZKP RS („Službeni glasnik RS“ broj 53/12, 91/17, 66/18) PRETHODNE ODLUKEbroj ( evi ) predmetainaziv suda kojije donio odluku - Osnovnisud Derventa broj 84 0 K 063072 20 K Dalije zauzeti stavusaglasnostisa stavomiz odluka ovog suda - Da ODLUKA USTAVNOG SUDA BiH",
+      "OBRAZACZA EVIDENCIJU SUDSKIH ODLUKA VRHOVNOG SUDARS Pripremio / la : Predsjednik vijeća Vesna Antonić NAZIV SUDA VRHOVNISUD REPUBLIKE SRPSKE BROJ PREDMETA 84 0 K 063072 20 Kv 2 SENTENCA Prijedlogza prenošenjeivođenje postupkasubez osnovaiz razlogaštose prijedlog zasnivana prigovorima koji se odnosenatok vođenja krivičnog postupkaiprigovorima rukovođenja glavnim pretresom, kojine predstavljaju važne razlogeza prenošenje vođenja postupka. PRAVNA OBLAST Krivično procesno pravo PRAVNI INSTITUTI Prenošenje vođenja postupka PRIMJENj ENI PROPIS naziv propisa , broj članaibroj ( evi ) službenog glasilaukojemje propis objavljen - Član 33. stav 2. ZKP RS („Službeni glasnik RS“ broj 53/12, 91/17, 66/18) PRETHODNE ODLUKE broj ( evi ) predmetainaziv suda koji je donio odluku - Osnovnisud Derventa broj 84 0 K 063072 20 K Dalije zauzeti stavusaglasnostisa stavomiz odluka ovog suda - Da ODLUKA USTAVNOG SUDA Bi H",
     reasoning:
       "Sud ocjenjuje žalbene ili ZZL prigovore u predmetima delegacija mjesne nadležnosti (čl. 300–360. KZ RS i srodni članovi), uključujući kvalifikaciju, namjeru i postupovne povrede iz čl. 350–356. ZKOP RS.",
     keywords: ["žalba","mjesna nadležnost","KZ RS","ZKOP RS"],

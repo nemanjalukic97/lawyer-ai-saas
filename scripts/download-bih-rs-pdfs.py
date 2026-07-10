@@ -335,6 +335,14 @@ def download_pdf(session: PoliteSession, url: str, dest: Path) -> tuple[str, str
 def main() -> int:
     parser = argparse.ArgumentParser(description="Download VS RS Sudska praksa PDFs.")
     parser.add_argument(
+        "--probe-listings",
+        action="store_true",
+        help=(
+            "Probe mode (no downloads, no log writes): enumerate subcategories and "
+            "count unique PDF links currently exposed by the site."
+        ),
+    )
+    parser.add_argument(
         "--max-subcategories",
         type=int,
         default=0,
@@ -353,6 +361,62 @@ def main() -> int:
     log_path = out_root / "download-log.json"
 
     session = PoliteSession()
+
+    if args.probe_listings:
+        categories = load_navigation_tree(session)
+        subs = discover_subcategories(categories)
+        subs.sort(key=lambda x: (x[0], x[2], x[5]))  # dept, sub_name, sub_id
+        if args.max_subcategories and args.max_subcategories > 0:
+            subs = subs[: args.max_subcategories]
+
+        rows: list[dict[str, object]] = []
+        total_links = 0
+        failed = 0
+        by_dept: dict[str, int] = {}
+        for dept_slug, cat_label, sub_name, _mid, _cat_id, _sub_id, listing_url in subs:
+            try:
+                pairs = collect_pdfs_for_subcategory(session, listing_url)
+            except requests.RequestException as e:
+                failed += 1
+                rows.append(
+                    {
+                        "dept": dept_slug,
+                        "category": cat_label,
+                        "subcategory": sub_name,
+                        "pdf_links": 0,
+                        "status": f"failed: {e}",
+                    }
+                )
+                continue
+
+            n = len(pairs)
+            total_links += n
+            by_dept[dept_slug] = by_dept.get(dept_slug, 0) + n
+            rows.append(
+                {
+                    "dept": dept_slug,
+                    "category": cat_label,
+                    "subcategory": sub_name,
+                    "pdf_links": n,
+                    "status": "ok",
+                }
+            )
+
+        print("\n=== BiH RS listing probe (no downloads) ===")
+        print(f"Subcategories probed: {len(rows)}")
+        print(f"Total PDF links found: {total_links}")
+        if failed:
+            print(f"Listing fetch failures: {failed}")
+        print("\nBy department (dept_slug):")
+        for k in sorted(by_dept.keys()):
+            print(f"  {k}: {by_dept[k]}")
+        print("\nTop subcategories by PDF links:")
+        for r in sorted(rows, key=lambda x: int(x["pdf_links"]), reverse=True)[:12]:
+            print(
+                f"  {r['dept']} | {r['subcategory']} — {r['pdf_links']} ({r['status']})"
+            )
+        return 0
+
     log_entries = load_log(log_path)
     iso_now = lambda: dt.datetime.now(dt.UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
 

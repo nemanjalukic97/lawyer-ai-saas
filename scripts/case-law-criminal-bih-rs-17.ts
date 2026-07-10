@@ -15,12 +15,12 @@ export const CASE_LAW_CRIMINAL_BIH_RS_17: CaseLawInput[] = [
     legal_question:
       "Da li je osnovana žalba ili zahtjev za zaštitu zakonitosti u predmetu krivičnog djela protiv bezbjednosti računarskih podataka pred Vrhovnim sudom RS?",
     court_position:
-      "PRESUDUZahtjevza zaštitu zakonitostise odbijakao neosnovan .",
+      "PRESUDUZ ahtjevza zaštitu zakonitostise odbijakao neosnovan .",
     reasoning:
       "Sud ocjenjuje žalbene ili ZZL prigovore u predmetima krivična djela protiv bezbjednosti računarskih podataka (čl. 300–320. KZ RS i srodni članovi), uključujući kvalifikaciju, namjeru i postupovne povrede iz čl. 350–356. ZKOP RS.",
     keywords: ["zaštita zakonitosti","računarski podaci","ZKOP RS"],
     related_articles: ["čl. 99. st. 1. ZKOP RS","čl. 108. st. 3. ZKOP RS","čl. 311. st. 1. ZKOP RS","čl. 311. st. 1. KZ RS","čl. 231. st. 1. KZ RS","čl. 311. KZ RS","čl. 311. ZKOP RS","čl. 354. ZKOP RS","čl. 350. ZKOP RS","čl. 321. ZKOP RS"],
-    headnote: "PRESUDUZahtjevza zaštitu zakonitostise odbijakao neosnovan .",
+    headnote: "PRESUDUZ ahtjevza zaštitu zakonitostise odbijakao neosnovan .",
     outcome: "plaintiff_won",
   }
 ]

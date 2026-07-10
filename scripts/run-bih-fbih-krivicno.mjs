@@ -4,6 +4,7 @@
 import fs from "fs"
 import path from "path"
 import { fileURLToPath } from "url"
+import { assertCaseLawIndexSpreads } from "./_case-law-index-guard.mjs"
 import { openPdfFromFileBuffer } from "./_pdf-get-document.mjs"
 import { createFbihKrivicnoGenerator, safePdfStem } from "./_gen-bih-fbih-krivicno-lib.mjs"
 
@@ -240,6 +241,8 @@ function updateIndex(results) {
     s = s.replace(/(export const ALL_CASE_LAW[^=]+= \[\n)/, `$1${newSpreads}\n`)
   }
 
+  const _spreadNames = (typeof active !== "undefined" ? active : results.filter((r) => !r.skipped && r.cases > 0)).map((r) => r.exportName)
+  assertCaseLawIndexSpreads(s, _spreadNames, "run-bih-fbih-krivicno.mjs")
   fs.writeFileSync(indexPath, s, "utf8")
 }
 

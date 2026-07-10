@@ -91,6 +91,80 @@ const GLUE_PAIRS: Array<[from: string, to: string]> = [
   ["odnosuna", "odnosu na"],
   ["postupakokončan", "postupak okončan"],
   ["OKRIVLjENIHOD", "OKRIVLjENIH OD"],
+  // BiH / ijekavian PDF fusion (longest first)
+  ["BosneiHercegovine", "Bosne i Hercegovine"],
+  ["Bosnei Hercegovine", "Bosne i Hercegovine"],
+  ["BOSNEIHERCEGOVINE", "BOSNE I HERCEGOVINE"],
+  ["FEDERACIJE BOSNEIHERCEGOVINE", "FEDERACIJE BOSNE I HERCEGOVINE"],
+  ["Vrhovnisud", "Vrhovni sud"],
+  ["statutarnostiizakonitosti", "statutarnosti i zakonitosti"],
+  ["StatutaiZakona", "Statuta i Zakona"],
+  ["pojavljujuupostupcima", "pojavljuju u postupcima"],
+  ["s obziromdaje", "s obzirom da je"],
+  ["s obziromda", "s obzirom da"],
+  ["nijeuskladusačlanom", "nije usklađena sa članom"],
+  ["nijeuskladusa", "nije usklađena sa"],
+  ["uskladusačlanom", "usklađena sa članom"],
+  ["Zakonaopostupku", "Zakona o postupku"],
+  ["Zakonaoparničnom", "Zakona o parničnom"],
+  ["Zakonaodržavnoj", "Zakona o državnoj"],
+  ["Zakonaozdravstvenom", "Zakona o zdravstvenom"],
+  ["Zakonaojavnim", "Zakona o javnim"],
+  ["Zakonaoplatama", "Zakona o platama"],
+  ["Zakonaodopunskim", "Zakona o dopunskim"],
+  ["Zakonaosigurnosti", "Zakona o sigurnosti"],
+  ["Zakonaoprometu", "Zakona o prometu"],
+  ["Zakonaoradu", "Zakona o radu"],
+  ["Zakonaonasljed", "Zakona o nasljed"],
+  ["Zakonopostupku", "Zakon o postupku"],
+  ["Zakonojavnim", "Zakon o javnim"],
+  ["Zakonaopostupku", "Zakona o postupku"],
+  ["Zakonaoeksproprijaciji", "Zakona o eksproprijaciji"],
+  ["Odlukeoosnivanju", "Odluke o osnivanju"],
+  ["Odlukuoponištenju", "Odluku o poništenju"],
+  ["rješenjeoprestanku", "rješenje o prestatku"],
+  ["rješenjeo", "rješenje o"],
+  ["prijedlogza", "prijedlog za"],
+  ["inicijativuza", "inicijativu za"],
+  ["Direkcijeza", "Direkcije za"],
+  ["Pravilnikaonačinu", "Pravilnika o načinu"],
+  ["Pravilnikonačinu", "Pravilnik o načinu"],
+  ["podnioje", "podnio je"],
+  ["podnijeloje", "podnijelo je"],
+  ["podnijesu", "podnijeli su"],
+  ["usvojenoje", "usvojeno je"],
+  ["štopo", "što po"],
+  ["navodida", "navodi da"],
+  ["smatrajuda", "smatraju da"],
+  ["dase", "da se"],
+  ["kojimsu", "kojima su"],
+  ["kojise", "koji se"],
+  ["suduna", "suda na"],
+  ["suduje", "sud je"],
+  ["sjednicije", "sjednici je"],
+  ["godineje", "godine je"],
+  ["odnosina", "odnosi na"],
+  ["odlučenojena", "odlučeno je na"],
+  ["Obavezujuse", "Obavezuju se"],
+  ["PRESUDUODBIJASE", "PRESUDU ODBIJA SE"],
+  ["PRESUDUUTVRĐUJESE", "PRESUDU UTVRĐUJE SE"],
+  ["ODBIJASE", "ODBIJA SE"],
+  ["UTVRĐUJESE", "UTVRĐUJE SE"],
+  ["SEODBACUJE", "SE ODBACUJE"],
+  ["Ne prihvatase", "Ne prihvata se"],
+  ["advokatiz", "advokat iz"],
+  ["Advokatiz", "Advokat iz"],
+  ["distriktBiH", "distrikt BiH"],
+  ["mauBiH", "ma u BiH"],
+  ["mauBrčko", "ma u Brčko"],
+  ["uBiH", "u BiH"],
+  ["uBrčko", "u Brčko"],
+  ["postupkupo", "postupku po"],
+  ["kaoidaje", "kao i da je"],
+  ["zatimidase", "zatim i da se"],
+  ["godineu", "godine u"],
+  ["počevod", "počev od"],
+  ["odjednomna", "odjednom na"],
 ]
 
 const LOWER_LAT = "a-zčćžšđ"
@@ -110,6 +184,62 @@ function splitCroatianPrepositionU(s: string): string {
     new RegExp(`(${LOWER_CLASS}{2,}?)u(${UPPER_CLASS}${LOWER_CLASS}+)`, "g"),
     "$1 u $2",
   )
+}
+
+/** BiH: legal noun + preposition glued (Zakonaopostupku → Zakona o postupku). */
+function splitBiHLegalPrepositionO(s: string): string {
+  const stems =
+    "Zakona|Zakon|Odluke|Odluka|Uredbe|Uredba|Pravilnika|Pravilnik|rješenje|Rješenje|rešenje|prijedlog|Prijedlog|Poslovnika|Statuta|Direkcije|Direkcija"
+  return s.replace(
+    new RegExp(`(${stems})(o|za|na)(?=[a-zčćžšđA-ZČĆŽŠĐ])`, "g"),
+    "$1 $2 ",
+  )
+}
+
+function shouldSkipUpperLowerSplit(
+  upper: string,
+  lower: string,
+  after: string,
+): boolean {
+  if (upper === "BI" && lower.toLowerCase().startsWith("h")) return true
+  if (/^(?:I{1,3}|IV|VI{0,3}|IX|XI{0,3}|XIV|XV|XIX|XX)$/i.test(upper)) return true
+  if (upper === "KM" && /^\d/.test(after)) return true
+  return false
+}
+
+/** ALL-CAPS run glued to lowercase word: ODBIJAkao → ODBIJA kao */
+export function splitUpperLowerBoundary(s: string): string {
+  const re = new RegExp(`([${UPPER_LAT}]{2,})(${LOWER_CLASS}{2,})`, "g")
+  return s.replace(re, (match, upper: string, lower: string, offset: number, str: string) => {
+    const after = str.slice(offset + match.length)
+    if (shouldSkipUpperLowerSplit(upper, lower, after)) return match
+    return `${upper} ${lower}`
+  })
+}
+
+/** CAPS verb + SE: UTVRĐUJESE → UTVRĐUJE SE */
+function splitCapsPassiveSe(s: string): string {
+  return s.replace(
+    new RegExp(
+      `([${UPPER_LAT}]{3,}(?:UJE|IJE|AVA|OJI|ODBIJA|PRIHVAĆA))SE(?![a-zčćžšđ])`,
+      "g",
+    ),
+    "$1 SE",
+  )
+}
+
+const GLUED_CONNECTIVES = ["na", "za", "od", "do", "sa", "i", "u"]
+
+function splitGluedConnectives(s: string): string {
+  let out = s
+  for (const conn of GLUED_CONNECTIVES) {
+    const re = new RegExp(
+      `(?<=[a-zčćžšđ]{3,})${conn}(?=[A-ZČĆŽŠĐ][a-zčćžšđ]{2,})`,
+      "g",
+    )
+    out = out.replace(re, ` ${conn} `)
+  }
+  return out
 }
 
 function shouldSkipLowerUpperSplit(
@@ -181,13 +311,17 @@ export function repairLegalTextSpacing(text: string): string {
 
   s = s.replace(U_SINGLE_CAP, "u $1")
 
-  for (const [from, to] of GLUE_PAIRS) {
+  for (const [from, to] of [...GLUE_PAIRS].sort((a, b) => b[0].length - a[0].length)) {
     if (s.includes(from)) {
       s = s.split(from).join(to)
     }
   }
 
+  s = splitCapsPassiveSe(s)
+  s = splitBiHLegalPrepositionO(s)
   s = splitCroatianPrepositionU(s)
+  s = splitUpperLowerBoundary(s)
+  s = splitGluedConnectives(s)
   s = splitLowerUpperBoundary(s)
   s = s.replace(U_SINGLE_CAP, "u $1")
   return collapseWhitespace(s)

@@ -163,7 +163,172 @@ function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms))
 }
 
-function stableIdForCase(c: CaseLawInput): string {
+const INGEST_SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url))
+/** Rows that still fail after retries — for direct-pg recovery (see ingest-case-law-failed-pg.mjs). */
+export const CASE_LAW_INGEST_FAILED_PATH = path.join(
+  INGEST_SCRIPT_DIR,
+  "case-law-ingest-failed.json",
+)
+
+const UPSERT_TIMEOUT_BACKOFF_MS = [2_000, 5_000, 10_000] as const
+const UPSERT_MAX_ATTEMPTS = 3
+
+export type CaseLawIngestFailedRecord = {
+  id: string
+  jurisdiction: string
+  court: string
+  case_number: string
+  error_code: string | null
+  error_message: string
+  text_chars: number
+  attempts: number
+  last_attempt_at: string
+}
+
+function measureUpsertTextChars(payload: {
+  legal_question?: string
+  court_position?: string
+  reasoning?: string
+  headnote?: string | null
+}): number {
+  return (
+    (payload.legal_question?.length ?? 0) +
+    (payload.court_position?.length ?? 0) +
+    (payload.reasoning?.length ?? 0) +
+    (payload.headnote?.length ?? 0)
+  )
+}
+
+function formatIngestError(err: unknown): {
+  code: string | null
+  message: string
+} {
+  if (err && typeof err === "object") {
+    const e = err as { code?: string; message?: string }
+    return {
+      code: e.code ?? null,
+      message: e.message ?? String(err),
+    }
+  }
+  return { code: null, message: String(err) }
+}
+
+/** PostgREST / Supabase JS cannot set per-session statement_timeout — only direct pg can. */
+export function isStatementTimeoutError(err: unknown): boolean {
+  const { code, message } = formatIngestError(err)
+  if (code === "57014") return true
+  const lower = message.toLowerCase()
+  return (
+    lower.includes("statement timeout") ||
+    lower.includes("canceling statement due to statement timeout")
+  )
+}
+
+export function loadCaseLawIngestFailedRows(): Map<string, CaseLawIngestFailedRecord> {
+  if (!fs.existsSync(CASE_LAW_INGEST_FAILED_PATH)) {
+    return new Map()
+  }
+  try {
+    const parsed = JSON.parse(
+      fs.readFileSync(CASE_LAW_INGEST_FAILED_PATH, "utf8"),
+    ) as CaseLawIngestFailedRecord[]
+    return new Map(parsed.map((row) => [row.id, row]))
+  } catch {
+    return new Map()
+  }
+}
+
+export function saveCaseLawIngestFailedRows(
+  rows: Map<string, CaseLawIngestFailedRecord>,
+): void {
+  if (rows.size === 0) {
+    if (fs.existsSync(CASE_LAW_INGEST_FAILED_PATH)) {
+      fs.unlinkSync(CASE_LAW_INGEST_FAILED_PATH)
+    }
+    return
+  }
+  const sorted = [...rows.values()].sort((a, b) =>
+    a.jurisdiction.localeCompare(b.jurisdiction) ||
+    a.case_number.localeCompare(b.case_number),
+  )
+  fs.writeFileSync(
+    CASE_LAW_INGEST_FAILED_PATH,
+    `${JSON.stringify(sorted, null, 2)}\n`,
+    "utf8",
+  )
+}
+
+export function buildCaseLawUpsertPayload(
+  row: CaseLawInput,
+  embedding: number[],
+): Record<string, unknown> {
+  const id = stableIdForCase(row)
+  const overriddenLegalArea: LegalArea = resolveOverriddenLegalArea(id, row)
+  return {
+    id,
+    jurisdiction: row.jurisdiction,
+    court: row.court,
+    court_level: row.court_level,
+    case_number: row.case_number,
+    decision_date: normalizeDecisionDate(row.decision_date) ?? null,
+    legal_area: overriddenLegalArea,
+    legal_question: row.legal_question,
+    court_position: row.court_position,
+    reasoning: row.reasoning,
+    keywords: row.keywords ?? null,
+    related_articles: row.related_articles ?? null,
+    headnote: row.headnote ?? null,
+    outcome: row.outcome ?? null,
+    source_url: row.source_url ?? null,
+    embedding,
+  }
+}
+
+async function upsertCaseLawRowOnce(
+  payload: Record<string, unknown>,
+): Promise<void> {
+  const { supabaseAdmin } = await import("../lib/supabase/admin")
+  const { error } = await (supabaseAdmin as any)
+    .from("case_law")
+    .upsert(payload, { onConflict: "id" })
+  if (error) throw error
+}
+
+/** Single-row upsert with retry/backoff on Postgres statement timeout (57014). */
+export async function upsertCaseLawWithRetry(
+  payload: Record<string, unknown>,
+  opts?: { maxAttempts?: number },
+): Promise<number> {
+  const maxAttempts = opts?.maxAttempts ?? UPSERT_MAX_ATTEMPTS
+  let lastErr: unknown
+
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    try {
+      await upsertCaseLawRowOnce(payload)
+      return attempt
+    } catch (err) {
+      lastErr = err
+      if (!isStatementTimeoutError(err) || attempt >= maxAttempts) {
+        throw err
+      }
+      const waitMs =
+        UPSERT_TIMEOUT_BACKOFF_MS[attempt - 1] ??
+        UPSERT_TIMEOUT_BACKOFF_MS[UPSERT_TIMEOUT_BACKOFF_MS.length - 1]
+      const caseNumber = (payload.case_number as string | undefined) ?? "?"
+      // eslint-disable-next-line no-console
+      console.warn(
+        `  ⏳ statement timeout (57014) upserting ${caseNumber} — ` +
+          `retry ${attempt}/${maxAttempts} in ${waitMs}ms ` +
+          `(${measureUpsertTextChars(payload as never)} text chars)`,
+      )
+      await sleep(waitMs)
+    }
+  }
+
+  throw lastErr
+}
+
+export function stableIdForCase(c: CaseLawInput): string {
   const key = [c.jurisdiction, c.case_number.trim()].join("|")
 
   const bytes = createHash("sha256").update(key).digest()
@@ -244,105 +409,193 @@ function verifyCaseLawIngestEnv(): void {
   }
 }
 
+const CASE_LAW_ID_PAGE_SIZE = 1000
+/** Wide text columns can hit PostgREST payload limits before row-count limit. */
+const CASE_LAW_FINGERPRINT_PAGE_SIZE = 250
+
+type CaseLawDbRow = {
+  id?: string
+  jurisdiction?: string
+  legal_question?: string
+  court_position?: string
+  reasoning?: string
+}
+
+/**
+ * Keyset pagination on primary key — stable and safe when pages return fewer rows
+ * than requested (payload cap) unlike offset pagination which would skip data.
+ */
+async function paginateCaseLawRows(
+  columns: string,
+  opts?: { jurisdictions?: Set<string>; pageSize?: number },
+): Promise<CaseLawDbRow[]> {
+  const { supabaseAdmin } = await import("../lib/supabase/admin")
+  const pageSize = opts?.pageSize ?? CASE_LAW_ID_PAGE_SIZE
+  const jurisdictionList = opts?.jurisdictions ? [...opts.jurisdictions] : null
+  // `id` is required for keyset cursor even when callers only need other columns.
+  const selectCols = columns
+    .split(",")
+    .map((c) => c.trim())
+    .includes("id")
+    ? columns
+    : `id, ${columns}`
+  const all: CaseLawDbRow[] = []
+  let lastId: string | null = null
+
+  for (;;) {
+    let q = (supabaseAdmin as any)
+      .from("case_law")
+      .select(selectCols)
+      .order("id", { ascending: true })
+      .limit(pageSize)
+
+    if (jurisdictionList?.length) {
+      q = q.in("jurisdiction", jurisdictionList)
+    }
+    if (lastId) {
+      q = q.gt("id", lastId)
+    }
+
+    const { data, error } = await q
+    if (error) throw error
+
+    const rows = (data ?? []) as CaseLawDbRow[]
+    if (rows.length === 0) break
+
+    all.push(...rows)
+    const tailId = rows[rows.length - 1]?.id
+    if (!tailId || rows.length < pageSize) break
+    lastId = tailId
+  }
+
+  return all
+}
+
+function countRowsByJurisdiction(
+  rows: Array<{ jurisdiction?: string }>,
+): Map<string, number> {
+  const byJurisdiction = new Map<string, number>()
+  for (const row of rows) {
+    const j = row.jurisdiction ?? "unknown"
+    byJurisdiction.set(j, (byJurisdiction.get(j) ?? 0) + 1)
+  }
+  return byJurisdiction
+}
+
+function logFetchedVsDbCounts(args: {
+  label: string
+  dbByJurisdiction: Map<string, number>
+  fetchedByJurisdiction: Map<string, number>
+  dbTotal: number
+  fetchedTotal: number
+  scopeJurisdictions?: Set<string>
+}): boolean {
+  const {
+    label,
+    dbByJurisdiction,
+    fetchedByJurisdiction,
+    dbTotal,
+    fetchedTotal,
+    scopeJurisdictions,
+  } = args
+
+  // eslint-disable-next-line no-console
+  console.log(`\n🔎 Existing rows fetched (${label}):`)
+  // eslint-disable-next-line no-console
+  console.log(`  total: ${fetchedTotal} (DB has ${dbTotal})`)
+
+  const jurisdictions = [
+    ...new Set([
+      ...dbByJurisdiction.keys(),
+      ...fetchedByJurisdiction.keys(),
+    ]),
+  ]
+    .filter((j) => !scopeJurisdictions || scopeJurisdictions.has(j))
+    .sort((a, b) => a.localeCompare(b))
+
+  let complete = fetchedTotal === dbTotal
+
+  for (const j of jurisdictions) {
+    const db = dbByJurisdiction.get(j) ?? 0
+    const fetched = fetchedByJurisdiction.get(j) ?? 0
+    if (fetched !== db) {
+      complete = false
+      const tag =
+        fetched < db ? "INCOMPLETE — ingest may re-embed unnecessarily" : "COUNT MISMATCH"
+      // eslint-disable-next-line no-console
+      console.warn(`  ⚠️  ${j}: fetched ${fetched} (DB has ${db}) — ${tag}`)
+    } else {
+      // eslint-disable-next-line no-console
+      console.log(`  ${j}: fetched ${fetched} (DB has ${db})`)
+    }
+  }
+
+  if (!complete) {
+    // eslint-disable-next-line no-console
+    console.warn(
+      `⚠️  ${label} fetch does not match DB (${fetchedTotal} vs ${dbTotal}). ` +
+        `Fix pagination before running ingest.`,
+    )
+  }
+
+  return complete
+}
+
 async function getCaseLawRowCounts(): Promise<{
   total: number
   byJurisdiction: Map<string, number>
 }> {
-  const { supabaseAdmin } = await import("../lib/supabase/admin")
-  const byJurisdiction = new Map<string, number>()
-  let total = 0
-  const pageSize = 1000
-  let offset = 0
-
-  for (;;) {
-    const { data, error } = await (supabaseAdmin as any)
-      .from("case_law")
-      .select("jurisdiction")
-      .range(offset, offset + pageSize - 1)
-
-    if (error) throw error
-
-    const rows = data ?? []
-    total += rows.length
-    for (const row of rows) {
-      const j = (row as { jurisdiction?: string }).jurisdiction ?? "unknown"
-      byJurisdiction.set(j, (byJurisdiction.get(j) ?? 0) + 1)
-    }
-
-    if (rows.length < pageSize) break
-    offset += pageSize
+  const rows = await paginateCaseLawRows("jurisdiction")
+  return {
+    total: rows.length,
+    byJurisdiction: countRowsByJurisdiction(rows),
   }
-
-  return { total, byJurisdiction }
 }
 
-/** All stable ids currently in case_law (paginated). */
-async function loadExistingCaseLawIds(): Promise<Set<string>> {
-  const { supabaseAdmin } = await import("../lib/supabase/admin")
+/** All stable ids currently in case_law (keyset-paginated). */
+async function loadExistingCaseLawIds(): Promise<{
+  ids: Set<string>
+  byJurisdiction: Map<string, number>
+}> {
+  const rows = await paginateCaseLawRows("id, jurisdiction")
   const ids = new Set<string>()
-  const pageSize = 1000
-  let offset = 0
-
-  for (;;) {
-    const { data, error } = await (supabaseAdmin as any)
-      .from("case_law")
-      .select("id")
-      .range(offset, offset + pageSize - 1)
-
-    if (error) throw error
-
-    const rows = data ?? []
-    for (const row of rows) {
-      const id = (row as { id?: string }).id
-      if (id) ids.add(id)
-    }
-
-    if (rows.length < pageSize) break
-    offset += pageSize
+  for (const row of rows) {
+    if (row.id) ids.add(row.id)
   }
-
-  return ids
+  return { ids, byJurisdiction: countRowsByJurisdiction(rows) }
 }
 
 /** Content fingerprints for case_law rows in selected jurisdictions. */
 async function loadExistingCaseLawFingerprints(
   jurisdictions: Set<string>,
-): Promise<Map<string, string>> {
-  const { supabaseAdmin } = await import("../lib/supabase/admin")
+): Promise<{
+  fingerprints: Map<string, string>
+  byJurisdiction: Map<string, number>
+}> {
+  const rows = await paginateCaseLawRows(
+    "id, jurisdiction, legal_question, court_position, reasoning",
+    {
+      jurisdictions,
+      pageSize: CASE_LAW_FINGERPRINT_PAGE_SIZE,
+    },
+  )
   const fingerprints = new Map<string, string>()
-  const jurisdictionList = [...jurisdictions]
-  const pageSize = 1000
-  let offset = 0
-
-  for (;;) {
-    const { data, error } = await (supabaseAdmin as any)
-      .from("case_law")
-      .select("id, legal_question, court_position, reasoning")
-      .in("jurisdiction", jurisdictionList)
-      .range(offset, offset + pageSize - 1)
-
-    if (error) throw error
-
-    const rows = data ?? []
-    for (const row of rows) {
-      const id = (row as { id?: string }).id
-      if (!id) continue
-      const legalQuestion = (row as { legal_question?: string }).legal_question ?? ""
-      const courtPosition = (row as { court_position?: string }).court_position ?? ""
-      const reasoning = (row as { reasoning?: string }).reasoning ?? ""
-      fingerprints.set(
-        id,
-        createHash("sha256")
-          .update([legalQuestion, courtPosition, reasoning].join("\n\n"))
-          .digest("hex"),
-      )
-    }
-
-    if (rows.length < pageSize) break
-    offset += pageSize
+  for (const row of rows) {
+    if (!row.id) continue
+    const legalQuestion = row.legal_question ?? ""
+    const courtPosition = row.court_position ?? ""
+    const reasoning = row.reasoning ?? ""
+    fingerprints.set(
+      row.id,
+      createHash("sha256")
+        .update([legalQuestion, courtPosition, reasoning].join("\n\n"))
+        .digest("hex"),
+    )
   }
-
-  return fingerprints
+  return {
+    fingerprints,
+    byJurisdiction: countRowsByJurisdiction(rows),
+  }
 }
 
 export async function embedCaseLaw(c: CaseLawInput): Promise<number[]> {
@@ -365,7 +618,10 @@ export async function embedCaseLaw(c: CaseLawInput): Promise<number[]> {
   return embedding
 }
 
-export async function checkExistingCaseLaw(): Promise<number> {
+export async function checkExistingCaseLaw(): Promise<{
+  total: number
+  byJurisdiction: Map<string, number>
+}> {
   const { total, byJurisdiction } = await getCaseLawRowCounts()
 
   const entries = [...byJurisdiction.entries()].sort(([a], [b]) =>
@@ -376,7 +632,57 @@ export async function checkExistingCaseLaw(): Promise<number> {
     console.log(`${jurisdiction}: ${count}`)
   }
 
-  return total
+  return { total, byJurisdiction }
+}
+
+/** Read-only: verify id/fingerprint fetches match DB counts (no embeddings). */
+export async function verifyExistingCaseLawRows(options?: {
+  updateJurisdictions?: Set<string>
+}): Promise<boolean> {
+  verifyCaseLawIngestEnv()
+
+  const updateJurisdictions =
+    options?.updateJurisdictions ?? parseUpdateJurisdictions()
+
+  // eslint-disable-next-line no-console
+  console.log("📊 Case law counts in DB:\n")
+  const { total: dbTotal, byJurisdiction: dbByJurisdiction } =
+    await checkExistingCaseLaw()
+  // eslint-disable-next-line no-console
+  console.log(`Existing total: ${dbTotal}`)
+
+  const { ids: existingIds, byJurisdiction: idsByJurisdiction } =
+    await loadExistingCaseLawIds()
+  const idsOk = logFetchedVsDbCounts({
+    label: "stable ids",
+    dbByJurisdiction,
+    fetchedByJurisdiction: idsByJurisdiction,
+    dbTotal,
+    fetchedTotal: existingIds.size,
+  })
+
+  let fingerprintsOk = true
+  if (updateJurisdictions.size > 0) {
+    const { fingerprints, byJurisdiction: fpByJurisdiction } =
+      await loadExistingCaseLawFingerprints(updateJurisdictions)
+    const dbScopedTotal = [...updateJurisdictions].reduce(
+      (sum, j) => sum + (dbByJurisdiction.get(j) ?? 0),
+      0,
+    )
+    fingerprintsOk = logFetchedVsDbCounts({
+      label: "content fingerprints",
+      dbByJurisdiction,
+      fetchedByJurisdiction: fpByJurisdiction,
+      dbTotal: dbScopedTotal,
+      fetchedTotal: fingerprints.size,
+      scopeJurisdictions: updateJurisdictions,
+    })
+  }
+
+  const ok = idsOk && fingerprintsOk
+  // eslint-disable-next-line no-console
+  console.log(ok ? "\n✅ Existing-row fetch looks complete." : "\n❌ Existing-row fetch incomplete.")
+  return ok
 }
 
 function parseUpdateJurisdictions(): Set<string> {
@@ -409,15 +715,41 @@ export async function ingest(options?: {
 
   // eslint-disable-next-line no-console
   console.log("📊 Case law counts in DB (before ingest):\n")
-  const existingTotal = await checkExistingCaseLaw()
+  const { total: existingTotal, byJurisdiction: dbByJurisdiction } =
+    await checkExistingCaseLaw()
   // eslint-disable-next-line no-console
   console.log(`Existing total: ${existingTotal}`)
 
-  const existingIds = await loadExistingCaseLawIds()
+  const { ids: existingIds, byJurisdiction: idsByJurisdiction } =
+    await loadExistingCaseLawIds()
+  logFetchedVsDbCounts({
+    label: "stable ids",
+    dbByJurisdiction,
+    fetchedByJurisdiction: idsByJurisdiction,
+    dbTotal: existingTotal,
+    fetchedTotal: existingIds.size,
+  })
+
   const isUpdateMode = updateJurisdictions.size > 0
-  const existingFingerprints = isUpdateMode
+  const existingFingerprintBundle = isUpdateMode
     ? await loadExistingCaseLawFingerprints(updateJurisdictions)
     : null
+  const existingFingerprints = existingFingerprintBundle?.fingerprints ?? null
+
+  if (isUpdateMode && existingFingerprintBundle) {
+    const dbScopedTotal = [...updateJurisdictions].reduce(
+      (sum, j) => sum + (dbByJurisdiction.get(j) ?? 0),
+      0,
+    )
+    logFetchedVsDbCounts({
+      label: "content fingerprints",
+      dbByJurisdiction,
+      fetchedByJurisdiction: existingFingerprintBundle.byJurisdiction,
+      dbTotal: dbScopedTotal,
+      fetchedTotal: existingFingerprints!.size,
+      scopeJurisdictions: updateJurisdictions,
+    })
+  }
 
   const rowsToProcess =
     isUpdateMode
@@ -442,6 +774,25 @@ export async function ingest(options?: {
     failed: 0,
   }
 
+  const persistentFailures = loadCaseLawIngestFailedRows()
+  if (persistentFailures.size > 0) {
+    // eslint-disable-next-line no-console
+    console.warn(
+      `\n⚠️  ${persistentFailures.size} row(s) failed in prior run(s) — ` +
+        `${CASE_LAW_INGEST_FAILED_PATH}`,
+    )
+    for (const row of [...persistentFailures.values()].slice(0, 5)) {
+      // eslint-disable-next-line no-console
+      console.warn(
+        `  - ${row.jurisdiction} / ${row.case_number} (${row.text_chars} chars, ${row.attempts} attempts)`,
+      )
+    }
+    if (persistentFailures.size > 5) {
+      // eslint-disable-next-line no-console
+      console.warn(`  … and ${persistentFailures.size - 5} more`)
+    }
+  }
+
   for (const row of rowsToProcess) {
     if (!row?.jurisdiction || !row.case_number) {
       // eslint-disable-next-line no-console
@@ -454,7 +805,8 @@ export async function ingest(options?: {
     const id = stableIdForCase(row)
     const shouldUpdate = updateJurisdictions.has(row.jurisdiction)
     const contentHash = fingerprintCaseLaw(row)
-    const hadPrior = existingFingerprints?.has(id) ?? existingIds.has(id)
+    const hadPrior =
+      existingIds.has(id) || (existingFingerprints?.has(id) ?? false)
 
     if (existingIds.has(id) && !shouldUpdate) {
       skippedExisting += 1
@@ -490,46 +842,11 @@ export async function ingest(options?: {
 
     try {
       const embedding = await embedCaseLaw(row)
-
-      // Persisted reclassification override:
-      // - `fingerprintCaseLaw` deliberately excludes `legal_area`, so a
-      //   future sync that changes only text will still treat content as
-      //   updated and would otherwise overwrite `legal_area` back to the
-      //   generator's value.
-      // - Applying an override here ensures the upsert payload always
-      //   uses the reclassified area for known case ids.
-      const overriddenLegalArea: LegalArea = resolveOverriddenLegalArea(
-        id,
-        row,
-      )
-
-      const payload = {
-        id,
-        jurisdiction: row.jurisdiction,
-        court: row.court,
-        court_level: row.court_level,
-        case_number: row.case_number,
-        decision_date: normalizeDecisionDate(row.decision_date) ?? null,
-        legal_area: overriddenLegalArea,
-        legal_question: row.legal_question,
-        court_position: row.court_position,
-        reasoning: row.reasoning,
-        keywords: row.keywords ?? null,
-        related_articles: row.related_articles ?? null,
-        headnote: row.headnote ?? null,
-        outcome: row.outcome ?? null,
-        source_url: row.source_url ?? null,
-        embedding,
-      }
-
-      const { supabaseAdmin } = await import("../lib/supabase/admin")
-      const { error } = await (supabaseAdmin as any)
-        .from("case_law")
-        .upsert(payload, { onConflict: "id" })
-
-      if (error) throw error
+      const payload = buildCaseLawUpsertPayload(row, embedding)
+      const upsertAttempts = await upsertCaseLawWithRetry(payload)
 
       existingIds.add(id)
+      persistentFailures.delete(id)
       if (shouldUpdate) {
         if (hadPrior) {
           updated += 1
@@ -547,18 +864,41 @@ export async function ingest(options?: {
         (embeddedByJurisdiction.get(row.jurisdiction) ?? 0) + 1,
       )
       const marker = shouldUpdate && hadPrior ? "↻" : "✓"
+      const retryNote =
+        upsertAttempts > 1 ? ` (upsert retry ${upsertAttempts})` : ""
       // eslint-disable-next-line no-console
       console.log(
-        `${marker} ${row.jurisdiction} / ${row.court} / ${row.case_number}`,
+        `${marker} ${row.jurisdiction} / ${row.court} / ${row.case_number}${retryNote}`,
       )
     } catch (err) {
+      const { code, message } = formatIngestError(err)
+      const textChars = measureUpsertTextChars({
+        legal_question: row.legal_question,
+        court_position: row.court_position,
+        reasoning: row.reasoning,
+        headnote: row.headnote ?? null,
+      })
+
       if (isUpdateMode) {
         failed += 1
         ingestStats.failed += 1
+        persistentFailures.set(id, {
+          id,
+          jurisdiction: row.jurisdiction,
+          court: row.court,
+          case_number: row.case_number,
+          error_code: code,
+          error_message: message,
+          text_chars: textChars,
+          attempts: UPSERT_MAX_ATTEMPTS,
+          last_attempt_at: new Date().toISOString(),
+        })
       }
+
       // eslint-disable-next-line no-console
       console.error(
-        `Error: ${row.jurisdiction} / ${row.case_number}`,
+        `Error: ${row.jurisdiction} / ${row.case_number} ` +
+          `(${textChars} text chars, code=${code ?? "?"})`,
         err,
       )
     }
@@ -595,6 +935,30 @@ export async function ingest(options?: {
         `${ingestStats.unchanged} unchanged, ${ingestStats.failed} failed`,
     )
     emitIngestCaseStats(ingestStats)
+
+    saveCaseLawIngestFailedRows(persistentFailures)
+    if (persistentFailures.size > 0) {
+      // eslint-disable-next-line no-console
+      console.error(
+        `\n❌ ${persistentFailures.size} row(s) still failing after ${UPSERT_MAX_ATTEMPTS} upsert attempts — ` +
+          `written to ${CASE_LAW_INGEST_FAILED_PATH}`,
+      )
+      for (const row of [...persistentFailures.values()].slice(0, 15)) {
+        // eslint-disable-next-line no-console
+        console.error(
+          `  - ${row.jurisdiction} / ${row.case_number} ` +
+            `(${row.text_chars} chars, code=${row.error_code ?? "?"})`,
+        )
+      }
+      if (persistentFailures.size > 15) {
+        // eslint-disable-next-line no-console
+        console.error(`  … and ${persistentFailures.size - 15} more in JSON`)
+      }
+      // eslint-disable-next-line no-console
+      console.error(
+        `  Recover via: npx tsx scripts/ingest-case-law-failed-pg.mjs (needs DATABASE_URL, statement_timeout=0)`,
+      )
+    }
   }
 
   // eslint-disable-next-line no-console
@@ -700,6 +1064,13 @@ async function testRetrieval() {
 
 async function main() {
   const updateJurisdictions = parseUpdateJurisdictions()
+
+  if (process.argv.includes("--verify-existing")) {
+    const ok = await verifyExistingCaseLawRows({ updateJurisdictions })
+    if (!ok) process.exitCode = 1
+    return
+  }
+
   await ingest({ updateJurisdictions })
   if (updateJurisdictions.size === 0) {
     await testRetrieval()

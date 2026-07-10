@@ -108,6 +108,8 @@ import { CASE_LAW_ADMINISTRATIVE_MONTENEGRO_9 } from "./case-law-administrative-
 import { CASE_LAW_ADMINISTRATIVE_MONTENEGRO_APELACIONI_1 } from "./case-law-administrative-montenegro-apelacioni-1"
 import { CASE_LAW_ADMINISTRATIVE_SERBIA_1 } from "./case-law-administrative-serbia-1"
 import { CASE_LAW_ADMINISTRATIVE_SERBIA_2 } from "./case-law-administrative-serbia-2"
+import { CASE_LAW_ADMINISTRATIVE_SERBIA_3 } from "./case-law-administrative-serbia-3"
+import { CASE_LAW_ADMINISTRATIVE_SERBIA_4 } from "./case-law-administrative-serbia-4"
 import { CASE_LAW_ADMINISTRATIVE_SLOVENIA_1 } from "./case-law-administrative-slovenia-1"
 import { CASE_LAW_ADMINISTRATIVE_SLOVENIA_2 } from "./case-law-administrative-slovenia-2"
 import { CASE_LAW_ADMINISTRATIVE_SLOVENIA_3 } from "./case-law-administrative-slovenia-3"
@@ -231,10 +233,26 @@ import { CASE_LAW_CIVIL_MONTENEGRO_VISI_PODGORICA_4 } from "./case-law-civil-mon
 import { CASE_LAW_CIVIL_MONTENEGRO_VISI_PODGORICA_5 } from "./case-law-civil-montenegro-visi-podgorica-5"
 import { CASE_LAW_CIVIL_MONTENEGRO_VISI_PODGORICA_6 } from "./case-law-civil-montenegro-visi-podgorica-6"
 import { CASE_LAW_CIVIL_SERBIA_1 } from "./case-law-civil-serbia-1"
+import { CASE_LAW_CIVIL_SERBIA_10 } from "./case-law-civil-serbia-10"
+import { CASE_LAW_CIVIL_SERBIA_11 } from "./case-law-civil-serbia-11"
+import { CASE_LAW_CIVIL_SERBIA_12 } from "./case-law-civil-serbia-12"
+import { CASE_LAW_CIVIL_SERBIA_13 } from "./case-law-civil-serbia-13"
+import { CASE_LAW_CIVIL_SERBIA_14 } from "./case-law-civil-serbia-14"
+import { CASE_LAW_CIVIL_SERBIA_15 } from "./case-law-civil-serbia-15"
+import { CASE_LAW_CIVIL_SERBIA_16 } from "./case-law-civil-serbia-16"
+import { CASE_LAW_CIVIL_SERBIA_17 } from "./case-law-civil-serbia-17"
+import { CASE_LAW_CIVIL_SERBIA_19 } from "./case-law-civil-serbia-19"
 import { CASE_LAW_CIVIL_SERBIA_2 } from "./case-law-civil-serbia-2"
+import { CASE_LAW_CIVIL_SERBIA_20 } from "./case-law-civil-serbia-20"
+import { CASE_LAW_CIVIL_SERBIA_21 } from "./case-law-civil-serbia-21"
+import { CASE_LAW_CIVIL_SERBIA_22 } from "./case-law-civil-serbia-22"
 import { CASE_LAW_CIVIL_SERBIA_3 } from "./case-law-civil-serbia-3"
 import { CASE_LAW_CIVIL_SERBIA_4 } from "./case-law-civil-serbia-4"
 import { CASE_LAW_CIVIL_SERBIA_5 } from "./case-law-civil-serbia-5"
+import { CASE_LAW_CIVIL_SERBIA_6 } from "./case-law-civil-serbia-6"
+import { CASE_LAW_CIVIL_SERBIA_7 } from "./case-law-civil-serbia-7"
+import { CASE_LAW_CIVIL_SERBIA_8 } from "./case-law-civil-serbia-8"
+import { CASE_LAW_CIVIL_SERBIA_9 } from "./case-law-civil-serbia-9"
 import { CASE_LAW_CIVIL_SLOVENIA_1 } from "./case-law-civil-slovenia-1"
 import { CASE_LAW_CIVIL_SLOVENIA_10 } from "./case-law-civil-slovenia-10"
 import { CASE_LAW_CIVIL_SLOVENIA_11 } from "./case-law-civil-slovenia-11"
@@ -317,6 +335,8 @@ import { CASE_LAW_COMMERCIAL_MONTENEGRO_9 } from "./case-law-commercial-monteneg
 import { CASE_LAW_COMMERCIAL_SERBIA_1 } from "./case-law-commercial-serbia-1"
 import { CASE_LAW_COMMERCIAL_SERBIA_2 } from "./case-law-commercial-serbia-2"
 import { CASE_LAW_COMMERCIAL_SERBIA_3 } from "./case-law-commercial-serbia-3"
+import { CASE_LAW_COMMERCIAL_SERBIA_4 } from "./case-law-commercial-serbia-4"
+import { CASE_LAW_COMMERCIAL_SERBIA_5 } from "./case-law-commercial-serbia-5"
 import { CASE_LAW_COMMERCIAL_SLOVENIA_1 } from "./case-law-commercial-slovenia-1"
 import { CASE_LAW_COMMERCIAL_SLOVENIA_VISJA_1 } from "./case-law-commercial-slovenia-visja-1"
 import { CASE_LAW_COMMERCIAL_SLOVENIA_VISJA_2 } from "./case-law-commercial-slovenia-visja-2"
@@ -330,6 +350,8 @@ import { CASE_LAW_CONSTITUTIONAL_BIH_BRCKO_2 } from "./case-law-constitutional-b
 import { CASE_LAW_CONSTITUTIONAL_BIH_BRCKO_3 } from "./case-law-constitutional-bih-brcko-3"
 import { CASE_LAW_CONSTITUTIONAL_BIH_BRCKO_4 } from "./case-law-constitutional-bih-brcko-4"
 import { CASE_LAW_CONSTITUTIONAL_BIH_BRCKO_5 } from "./case-law-constitutional-bih-brcko-5"
+import { CASE_LAW_CONSTITUTIONAL_SERBIA_1 } from "./case-law-constitutional-serbia-1"
+import { CASE_LAW_CONSTITUTIONAL_SERBIA_2 } from "./case-law-constitutional-serbia-2"
 import { CASE_LAW_CRIMINAL_BIH_BRCKO_1 } from "./case-law-criminal-bih-brcko-1"
 import { CASE_LAW_CRIMINAL_BIH_BRCKO_10 } from "./case-law-criminal-bih-brcko-10"
 import { CASE_LAW_CRIMINAL_BIH_BRCKO_11 } from "./case-law-criminal-bih-brcko-11"
@@ -424,38 +446,8 @@ import { CASE_LAW_CRIMINAL_MONTENEGRO_VISI_PODGORICA_1 } from "./case-law-crimin
 import { CASE_LAW_CRIMINAL_MONTENEGRO_VISI_PODGORICA_2 } from "./case-law-criminal-montenegro-visi-podgorica-2"
 import { CASE_LAW_CRIMINAL_SERBIA_1 } from "./case-law-criminal-serbia-1"
 import { CASE_LAW_CRIMINAL_SERBIA_2 } from "./case-law-criminal-serbia-2"
-import { CASE_LAW_CONSTITUTIONAL_SERBIA_1 } from "./case-law-constitutional-serbia-1"
-import { CASE_LAW_CONSTITUTIONAL_SERBIA_2 } from "./case-law-constitutional-serbia-2"
-import { CASE_LAW_CIVIL_SERBIA_6 } from "./case-law-civil-serbia-6"
-import { CASE_LAW_CIVIL_SERBIA_7 } from "./case-law-civil-serbia-7"
-import { CASE_LAW_CIVIL_SERBIA_8 } from "./case-law-civil-serbia-8"
 import { CASE_LAW_CRIMINAL_SERBIA_3 } from "./case-law-criminal-serbia-3"
-import { CASE_LAW_CIVIL_SERBIA_9 } from "./case-law-civil-serbia-9"
-import { CASE_LAW_ADMINISTRATIVE_SERBIA_3 } from "./case-law-administrative-serbia-3"
-import { CASE_LAW_PROCEDURAL_SERBIA_1 } from "./case-law-procedural-serbia-1"
-import { CASE_LAW_CIVIL_SERBIA_10 } from "./case-law-civil-serbia-10"
 import { CASE_LAW_CRIMINAL_SERBIA_4 } from "./case-law-criminal-serbia-4"
-import { CASE_LAW_CIVIL_SERBIA_11 } from "./case-law-civil-serbia-11"
-import { CASE_LAW_ADMINISTRATIVE_SERBIA_4 } from "./case-law-administrative-serbia-4"
-import { CASE_LAW_PROCEDURAL_SERBIA_2 } from "./case-law-procedural-serbia-2"
-import { CASE_LAW_CIVIL_SERBIA_12 } from "./case-law-civil-serbia-12"
-import { CASE_LAW_CIVIL_SERBIA_13 } from "./case-law-civil-serbia-13"
-import { CASE_LAW_CIVIL_SERBIA_14 } from "./case-law-civil-serbia-14"
-import { CASE_LAW_CIVIL_SERBIA_15 } from "./case-law-civil-serbia-15"
-import { CASE_LAW_PROCEDURAL_SERBIA_3 } from "./case-law-procedural-serbia-3"
-import { CASE_LAW_PROCEDURAL_SERBIA_4 } from "./case-law-procedural-serbia-4"
-import { CASE_LAW_CIVIL_SERBIA_21 } from "./case-law-civil-serbia-21"
-import { CASE_LAW_ENFORCEMENT_SERBIA_1 } from "./case-law-enforcement-serbia-1"
-import { CASE_LAW_CIVIL_SERBIA_22 } from "./case-law-civil-serbia-22"
-import { CASE_LAW_INHERITANCE_SERBIA_3 } from "./case-law-inheritance-serbia-3"
-import { CASE_LAW_CIVIL_SERBIA_16 } from "./case-law-civil-serbia-16"
-import { CASE_LAW_FAMILY_SERBIA_4 } from "./case-law-family-serbia-4"
-import { CASE_LAW_COMMERCIAL_SERBIA_4 } from "./case-law-commercial-serbia-4"
-import { CASE_LAW_LABOR_SERBIA_9 } from "./case-law-labor-serbia-9"
-import { CASE_LAW_CIVIL_SERBIA_19 } from "./case-law-civil-serbia-19"
-import { CASE_LAW_COMMERCIAL_SERBIA_5 } from "./case-law-commercial-serbia-5"
-import { CASE_LAW_CIVIL_SERBIA_17 } from "./case-law-civil-serbia-17"
-import { CASE_LAW_CIVIL_SERBIA_20 } from "./case-law-civil-serbia-20"
 import { CASE_LAW_CRIMINAL_SLOVENIA_1 } from "./case-law-criminal-slovenia-1"
 import { CASE_LAW_CRIMINAL_SLOVENIA_VISJA_1 } from "./case-law-criminal-slovenia-visja-1"
 import { CASE_LAW_CRIMINAL_SLOVENIA_VISJA_2 } from "./case-law-criminal-slovenia-visja-2"
@@ -463,6 +455,7 @@ import { CASE_LAW_CRIMINAL_SLOVENIA_VISJA_3 } from "./case-law-criminal-slovenia
 import { CASE_LAW_CRIMINAL_SLOVENIA_VISJA_4 } from "./case-law-criminal-slovenia-visja-4"
 import { CASE_LAW_CRIMINAL_SLOVENIA_VISJA_5 } from "./case-law-criminal-slovenia-visja-5"
 import { CASE_LAW_ENFORCEMENT_MONTENEGRO_OSNOVNI_BAR_1 } from "./case-law-enforcement-montenegro-osnovni-bar-1"
+import { CASE_LAW_ENFORCEMENT_SERBIA_1 } from "./case-law-enforcement-serbia-1"
 import { CASE_LAW_ENFORCEMENT_SLOVENIA_VISJA_1 } from "./case-law-enforcement-slovenia-visja-1"
 import { CASE_LAW_ENFORCEMENT_SLOVENIA_VISJA_2 } from "./case-law-enforcement-slovenia-visja-2"
 import { CASE_LAW_ENFORCEMENT_SLOVENIA_VISJA_3 } from "./case-law-enforcement-slovenia-visja-3"
@@ -472,11 +465,13 @@ import { CASE_LAW_FAMILY_MONTENEGRO_OSNOVNI_BAR_1 } from "./case-law-family-mont
 import { CASE_LAW_FAMILY_SERBIA_1 } from "./case-law-family-serbia-1"
 import { CASE_LAW_FAMILY_SERBIA_2 } from "./case-law-family-serbia-2"
 import { CASE_LAW_FAMILY_SERBIA_3 } from "./case-law-family-serbia-3"
+import { CASE_LAW_FAMILY_SERBIA_4 } from "./case-law-family-serbia-4"
 import { CASE_LAW_INHERITANCE_BIH_FBIH_1 } from "./case-law-inheritance-bih-fbih-1"
 import { CASE_LAW_INHERITANCE_BIH_RS_1 } from "./case-law-inheritance-bih-rs-1"
 import { CASE_LAW_INHERITANCE_MONTENEGRO_OSNOVNI_BAR_1 } from "./case-law-inheritance-montenegro-osnovni-bar-1"
 import { CASE_LAW_INHERITANCE_SERBIA_1 } from "./case-law-inheritance-serbia-1"
 import { CASE_LAW_INHERITANCE_SERBIA_2 } from "./case-law-inheritance-serbia-2"
+import { CASE_LAW_INHERITANCE_SERBIA_3 } from "./case-law-inheritance-serbia-3"
 import { CASE_LAW_LABOR_BIH_FBIH_1 } from "./case-law-labor-bih-fbih-1"
 import { CASE_LAW_LABOR_BIH_RS_1 } from "./case-law-labor-bih-rs-1"
 import { CASE_LAW_LABOR_CROATIA_1 } from "./case-law-labor-croatia-1"
@@ -509,6 +504,7 @@ import { CASE_LAW_LABOR_SERBIA_4 } from "./case-law-labor-serbia-4"
 import { CASE_LAW_LABOR_SERBIA_5 } from "./case-law-labor-serbia-5"
 import { CASE_LAW_LABOR_SERBIA_7 } from "./case-law-labor-serbia-7"
 import { CASE_LAW_LABOR_SERBIA_8 } from "./case-law-labor-serbia-8"
+import { CASE_LAW_LABOR_SERBIA_9 } from "./case-law-labor-serbia-9"
 import { CASE_LAW_LABOR_SLOVENIA_VDSS_1 } from "./case-law-labor-slovenia-vdss-1"
 import { CASE_LAW_LABOR_SLOVENIA_VDSS_10 } from "./case-law-labor-slovenia-vdss-10"
 import { CASE_LAW_LABOR_SLOVENIA_VDSS_11 } from "./case-law-labor-slovenia-vdss-11"
@@ -555,6 +551,10 @@ import { CASE_LAW_PROCEDURAL_CROATIA_7 } from "./case-law-procedural-croatia-7"
 import { CASE_LAW_PROCEDURAL_CROATIA_8 } from "./case-law-procedural-croatia-8"
 import { CASE_LAW_PROCEDURAL_CROATIA_9 } from "./case-law-procedural-croatia-9"
 import { CASE_LAW_PROCEDURAL_MONTENEGRO_OSNOVNI_BAR_1 } from "./case-law-procedural-montenegro-osnovni-bar-1"
+import { CASE_LAW_PROCEDURAL_SERBIA_1 } from "./case-law-procedural-serbia-1"
+import { CASE_LAW_PROCEDURAL_SERBIA_2 } from "./case-law-procedural-serbia-2"
+import { CASE_LAW_PROCEDURAL_SERBIA_3 } from "./case-law-procedural-serbia-3"
+import { CASE_LAW_PROCEDURAL_SERBIA_4 } from "./case-law-procedural-serbia-4"
 import { CASE_LAW_PROCEDURAL_SLOVENIA_1 } from "./case-law-procedural-slovenia-1"
 import { CASE_LAW_PROCEDURAL_SLOVENIA_VISJA_1 } from "./case-law-procedural-slovenia-visja-1"
 import { CASE_LAW_PROCEDURAL_SLOVENIA_VISJA_2 } from "./case-law-procedural-slovenia-visja-2"
@@ -666,6 +666,8 @@ export const ALL_CASE_LAW: CaseLawInput[] = [
   ...CASE_LAW_ADMINISTRATIVE_MONTENEGRO_APELACIONI_1,
   ...CASE_LAW_ADMINISTRATIVE_SERBIA_1,
   ...CASE_LAW_ADMINISTRATIVE_SERBIA_2,
+  ...CASE_LAW_ADMINISTRATIVE_SERBIA_3,
+  ...CASE_LAW_ADMINISTRATIVE_SERBIA_4,
   ...CASE_LAW_ADMINISTRATIVE_SLOVENIA_1,
   ...CASE_LAW_ADMINISTRATIVE_SLOVENIA_2,
   ...CASE_LAW_ADMINISTRATIVE_SLOVENIA_3,
@@ -789,10 +791,26 @@ export const ALL_CASE_LAW: CaseLawInput[] = [
   ...CASE_LAW_CIVIL_MONTENEGRO_VISI_PODGORICA_5,
   ...CASE_LAW_CIVIL_MONTENEGRO_VISI_PODGORICA_6,
   ...CASE_LAW_CIVIL_SERBIA_1,
+  ...CASE_LAW_CIVIL_SERBIA_10,
+  ...CASE_LAW_CIVIL_SERBIA_11,
+  ...CASE_LAW_CIVIL_SERBIA_12,
+  ...CASE_LAW_CIVIL_SERBIA_13,
+  ...CASE_LAW_CIVIL_SERBIA_14,
+  ...CASE_LAW_CIVIL_SERBIA_15,
+  ...CASE_LAW_CIVIL_SERBIA_16,
+  ...CASE_LAW_CIVIL_SERBIA_17,
+  ...CASE_LAW_CIVIL_SERBIA_19,
   ...CASE_LAW_CIVIL_SERBIA_2,
+  ...CASE_LAW_CIVIL_SERBIA_20,
+  ...CASE_LAW_CIVIL_SERBIA_21,
+  ...CASE_LAW_CIVIL_SERBIA_22,
   ...CASE_LAW_CIVIL_SERBIA_3,
   ...CASE_LAW_CIVIL_SERBIA_4,
   ...CASE_LAW_CIVIL_SERBIA_5,
+  ...CASE_LAW_CIVIL_SERBIA_6,
+  ...CASE_LAW_CIVIL_SERBIA_7,
+  ...CASE_LAW_CIVIL_SERBIA_8,
+  ...CASE_LAW_CIVIL_SERBIA_9,
   ...CASE_LAW_CIVIL_SLOVENIA_1,
   ...CASE_LAW_CIVIL_SLOVENIA_10,
   ...CASE_LAW_CIVIL_SLOVENIA_11,
@@ -875,6 +893,8 @@ export const ALL_CASE_LAW: CaseLawInput[] = [
   ...CASE_LAW_COMMERCIAL_SERBIA_1,
   ...CASE_LAW_COMMERCIAL_SERBIA_2,
   ...CASE_LAW_COMMERCIAL_SERBIA_3,
+  ...CASE_LAW_COMMERCIAL_SERBIA_4,
+  ...CASE_LAW_COMMERCIAL_SERBIA_5,
   ...CASE_LAW_COMMERCIAL_SLOVENIA_1,
   ...CASE_LAW_COMMERCIAL_SLOVENIA_VISJA_1,
   ...CASE_LAW_COMMERCIAL_SLOVENIA_VISJA_2,
@@ -888,6 +908,8 @@ export const ALL_CASE_LAW: CaseLawInput[] = [
   ...CASE_LAW_CONSTITUTIONAL_BIH_BRCKO_3,
   ...CASE_LAW_CONSTITUTIONAL_BIH_BRCKO_4,
   ...CASE_LAW_CONSTITUTIONAL_BIH_BRCKO_5,
+  ...CASE_LAW_CONSTITUTIONAL_SERBIA_1,
+  ...CASE_LAW_CONSTITUTIONAL_SERBIA_2,
   ...CASE_LAW_CRIMINAL_BIH_BRCKO_1,
   ...CASE_LAW_CRIMINAL_BIH_BRCKO_10,
   ...CASE_LAW_CRIMINAL_BIH_BRCKO_11,
@@ -982,38 +1004,8 @@ export const ALL_CASE_LAW: CaseLawInput[] = [
   ...CASE_LAW_CRIMINAL_MONTENEGRO_VISI_PODGORICA_2,
   ...CASE_LAW_CRIMINAL_SERBIA_1,
   ...CASE_LAW_CRIMINAL_SERBIA_2,
-  ...CASE_LAW_CONSTITUTIONAL_SERBIA_1,
-  ...CASE_LAW_CONSTITUTIONAL_SERBIA_2,
-  ...CASE_LAW_CIVIL_SERBIA_6,
-  ...CASE_LAW_CIVIL_SERBIA_7,
-  ...CASE_LAW_CIVIL_SERBIA_8,
   ...CASE_LAW_CRIMINAL_SERBIA_3,
-  ...CASE_LAW_CIVIL_SERBIA_9,
-  ...CASE_LAW_ADMINISTRATIVE_SERBIA_3,
-  ...CASE_LAW_PROCEDURAL_SERBIA_1,
-  ...CASE_LAW_CIVIL_SERBIA_10,
   ...CASE_LAW_CRIMINAL_SERBIA_4,
-  ...CASE_LAW_CIVIL_SERBIA_11,
-  ...CASE_LAW_ADMINISTRATIVE_SERBIA_4,
-  ...CASE_LAW_PROCEDURAL_SERBIA_2,
-  ...CASE_LAW_CIVIL_SERBIA_12,
-  ...CASE_LAW_CIVIL_SERBIA_13,
-  ...CASE_LAW_CIVIL_SERBIA_14,
-  ...CASE_LAW_CIVIL_SERBIA_15,
-  ...CASE_LAW_PROCEDURAL_SERBIA_3,
-  ...CASE_LAW_PROCEDURAL_SERBIA_4,
-  ...CASE_LAW_CIVIL_SERBIA_21,
-  ...CASE_LAW_ENFORCEMENT_SERBIA_1,
-  ...CASE_LAW_CIVIL_SERBIA_22,
-  ...CASE_LAW_INHERITANCE_SERBIA_3,
-  ...CASE_LAW_CIVIL_SERBIA_16,
-  ...CASE_LAW_FAMILY_SERBIA_4,
-  ...CASE_LAW_COMMERCIAL_SERBIA_4,
-  ...CASE_LAW_LABOR_SERBIA_9,
-  ...CASE_LAW_CIVIL_SERBIA_19,
-  ...CASE_LAW_COMMERCIAL_SERBIA_5,
-  ...CASE_LAW_CIVIL_SERBIA_17,
-  ...CASE_LAW_CIVIL_SERBIA_20,
   ...CASE_LAW_CRIMINAL_SLOVENIA_1,
   ...CASE_LAW_CRIMINAL_SLOVENIA_VISJA_1,
   ...CASE_LAW_CRIMINAL_SLOVENIA_VISJA_2,
@@ -1021,6 +1013,7 @@ export const ALL_CASE_LAW: CaseLawInput[] = [
   ...CASE_LAW_CRIMINAL_SLOVENIA_VISJA_4,
   ...CASE_LAW_CRIMINAL_SLOVENIA_VISJA_5,
   ...CASE_LAW_ENFORCEMENT_MONTENEGRO_OSNOVNI_BAR_1,
+  ...CASE_LAW_ENFORCEMENT_SERBIA_1,
   ...CASE_LAW_ENFORCEMENT_SLOVENIA_VISJA_1,
   ...CASE_LAW_ENFORCEMENT_SLOVENIA_VISJA_2,
   ...CASE_LAW_ENFORCEMENT_SLOVENIA_VISJA_3,
@@ -1030,11 +1023,13 @@ export const ALL_CASE_LAW: CaseLawInput[] = [
   ...CASE_LAW_FAMILY_SERBIA_1,
   ...CASE_LAW_FAMILY_SERBIA_2,
   ...CASE_LAW_FAMILY_SERBIA_3,
+  ...CASE_LAW_FAMILY_SERBIA_4,
   ...CASE_LAW_INHERITANCE_BIH_FBIH_1,
   ...CASE_LAW_INHERITANCE_BIH_RS_1,
   ...CASE_LAW_INHERITANCE_MONTENEGRO_OSNOVNI_BAR_1,
   ...CASE_LAW_INHERITANCE_SERBIA_1,
   ...CASE_LAW_INHERITANCE_SERBIA_2,
+  ...CASE_LAW_INHERITANCE_SERBIA_3,
   ...CASE_LAW_LABOR_BIH_FBIH_1,
   ...CASE_LAW_LABOR_BIH_RS_1,
   ...CASE_LAW_LABOR_CROATIA_1,
@@ -1067,6 +1062,7 @@ export const ALL_CASE_LAW: CaseLawInput[] = [
   ...CASE_LAW_LABOR_SERBIA_5,
   ...CASE_LAW_LABOR_SERBIA_7,
   ...CASE_LAW_LABOR_SERBIA_8,
+  ...CASE_LAW_LABOR_SERBIA_9,
   ...CASE_LAW_LABOR_SLOVENIA_VDSS_1,
   ...CASE_LAW_LABOR_SLOVENIA_VDSS_10,
   ...CASE_LAW_LABOR_SLOVENIA_VDSS_11,
@@ -1113,6 +1109,10 @@ export const ALL_CASE_LAW: CaseLawInput[] = [
   ...CASE_LAW_PROCEDURAL_CROATIA_8,
   ...CASE_LAW_PROCEDURAL_CROATIA_9,
   ...CASE_LAW_PROCEDURAL_MONTENEGRO_OSNOVNI_BAR_1,
+  ...CASE_LAW_PROCEDURAL_SERBIA_1,
+  ...CASE_LAW_PROCEDURAL_SERBIA_2,
+  ...CASE_LAW_PROCEDURAL_SERBIA_3,
+  ...CASE_LAW_PROCEDURAL_SERBIA_4,
   ...CASE_LAW_PROCEDURAL_SLOVENIA_1,
   ...CASE_LAW_PROCEDURAL_SLOVENIA_VISJA_1,
   ...CASE_LAW_PROCEDURAL_SLOVENIA_VISJA_2,

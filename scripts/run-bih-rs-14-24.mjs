@@ -4,6 +4,7 @@
 import fs from "fs"
 import path from "path"
 import { fileURLToPath } from "url"
+import { assertCaseLawIndexSpreads } from "./_case-law-index-guard.mjs"
 import * as pdfjs from "pdfjs-dist/legacy/build/pdf.mjs"
 import { createCategoryGenerator } from "./_gen-bih-rs-category-lib.mjs"
 
@@ -224,6 +225,8 @@ function updateIndex(results) {
   const newSpreads = active.map((n) => `  ...CASE_LAW_CRIMINAL_BIH_RS_${n},`).join("\n") + "\n"
   s = s.replace(/(import \{ CASE_LAW_CRIMINAL_BIH_RS_13 \}[^\n]+\n)/, `$1${newImports}`)
   s = s.replace(/(\s+\.\.\.CASE_LAW_CRIMINAL_BIH_RS_13,\n)/, `$1${newSpreads}`)
+  const _spreadNames = (typeof active !== "undefined" ? active : results.filter((r) => !r.skipped && r.cases > 0)).map((r) => r.exportName)
+  assertCaseLawIndexSpreads(s, _spreadNames, "run-bih-rs-14-24.mjs")
   fs.writeFileSync(indexPath, s, "utf8")
 }
 
