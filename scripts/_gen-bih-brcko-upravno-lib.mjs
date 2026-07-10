@@ -1,6 +1,7 @@
 import fs from "fs"
 import { summarizeBihCase } from "./_gen-prepare-text.mjs"
 import path from "path"
+import { isBihUtilityStem, shouldSkipBihUtilityFile } from "./_bih-utility-skip.mjs"
 
 const DEFAULT_COURT = "Apelacioni sud Brčko Distrikta BiH"
 const JURISDICTION = "bih_brcko"
@@ -243,6 +244,7 @@ export function createBrckoUpravnoGenerator(cfg) {
       if (isIndexingForm(raw)) continue
       const stemFallback = normCase(f)
       const stem = caseNumberFromText(raw, stemFallback)
+      if (shouldSkipBihUtilityFile(f, stem)) continue
       if (seenStems.has(stem)) continue
       seenStems.add(stem)
 
@@ -294,6 +296,7 @@ export function createBrckoUpravnoGenerator(cfg) {
     }
 
     for (const stem of fallbackStems) {
+      if (isBihUtilityStem(stem)) continue
       if (!seenStems.has(stem)) {
         seenStems.add(stem)
         blocks.push(fallbackBlock(stem))

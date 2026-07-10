@@ -1,6 +1,7 @@
 import fs from "fs"
 import { summarizeBihCase } from "./_gen-prepare-text.mjs"
 import path from "path"
+import { isBihUtilityStem, shouldSkipBihUtilityFile } from "./_bih-utility-skip.mjs"
 
 const DEFAULT_COURT = "Vrhovni sud Federacije Bosne i Hercegovine"
 
@@ -198,6 +199,7 @@ export function createFbihKrivicnoGenerator(cfg) {
     for (const f of files) {
       const raw = fs.readFileSync(path.join(extractDir, f), "utf8")
       const stem = normCase(f)
+      if (shouldSkipBihUtilityFile(f, stem)) continue
       if (seenStems.has(stem)) continue
       seenStems.add(stem)
 
@@ -255,6 +257,7 @@ export function createFbihKrivicnoGenerator(cfg) {
     }
 
     for (const stem of fallbackStems) {
+      if (isBihUtilityStem(stem)) continue
       if (!seenStems.has(stem)) {
         seenStems.add(stem)
         blocks.push(fallbackBlock(stem))

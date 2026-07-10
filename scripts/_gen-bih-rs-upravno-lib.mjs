@@ -1,6 +1,7 @@
 import fs from "fs"
 import path from "path"
 import { prepareText, extractObrazlozenje } from "./_gen-prepare-text.mjs"
+import { shouldSkipBihUtilityFile } from "./_bih-utility-skip.mjs"
 
 export function createUpravnoGenerator(cfg) {
   const { title, label, legal_area, defaultQ, statuteTag } = cfg
@@ -218,6 +219,7 @@ export function createUpravnoGenerator(cfg) {
       const raw = fs.readFileSync(path.join(extractDir, f), "utf8")
       const stemFallback = normCase(f)
       const stem = caseNumberFromText(raw, stemFallback)
+      if (shouldSkipBihUtilityFile(f, stem)) continue
 
       const short = raw.trim().length < 200
       const { court, court_level } = detectCourt(raw)

@@ -11,6 +11,7 @@ import {
   createFbihUpravnoGenerator,
   safePdfStem,
 } from "./_gen-bih-fbih-upravno-lib.mjs"
+import { isBihUtilityStem } from "./_bih-utility-skip.mjs"
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const ROOT = path.join(__dirname, "..")
@@ -253,7 +254,7 @@ function listPdfs(dir) {
     for (const e of fs.readdirSync(d, { withFileTypes: true })) {
       const p = path.join(d, e.name)
       if (e.isDirectory()) walk(p)
-      else if (e.name.toLowerCase().endsWith(".pdf")) out.push(p)
+      else if (e.name.toLowerCase().endsWith(".pdf") && !isBihUtilityStem(e.name)) out.push(p)
     }
   }
   walk(dir)

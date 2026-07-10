@@ -1,6 +1,7 @@
 import fs from "fs"
 import path from "path"
 import { summarizeCyrillicCase } from "./_gen-prepare-text.mjs"
+import { shouldSkipBihUtilityFile } from "./_bih-utility-skip.mjs"
 
 export function createGradjanskoGenerator(cfg) {
   const { title, label, legal_area, defaultQ, statuteLabel, statuteTag } = cfg
@@ -197,6 +198,7 @@ export function createGradjanskoGenerator(cfg) {
       const raw = fs.readFileSync(path.join(extractDir, f), "utf8")
       const stemFallback = normCase(f)
       const stem = caseNumberFromText(raw, stemFallback)
+      if (shouldSkipBihUtilityFile(f, stem)) continue
       if (seenStems.has(stem)) continue
       seenStems.add(stem)
 

@@ -1,6 +1,7 @@
 import fs from "fs"
 import { prepareText, summarizeBihCase } from "./_gen-prepare-text.mjs"
 import path from "path"
+import { isBihUtilityStem, shouldSkipBihUtilityFile } from "./_bih-utility-skip.mjs"
 
 const DEFAULT_COURT = "Apelacioni sud Brčko Distrikta BiH"
 const DEFAULT_COURT_LEVEL = "appellate"
@@ -213,6 +214,7 @@ export function createBrckoOcjeneGenerator(cfg) {
       const raw = fs.readFileSync(path.join(extractDir, f), "utf8")
       const stem = normCase(f)
       const case_number = caseNumberFromText(raw, caseNumberFromStem(stem))
+      if (shouldSkipBihUtilityFile(f, case_number)) continue
       if (seenStems.has(case_number)) continue
       seenStems.add(case_number)
 
@@ -267,6 +269,7 @@ export function createBrckoOcjeneGenerator(cfg) {
     }
 
     for (const stem of fallbackStems) {
+      if (isBihUtilityStem(stem)) continue
       const cn = caseNumberFromStem(stem)
       if (!seenStems.has(cn)) {
         seenStems.add(cn)

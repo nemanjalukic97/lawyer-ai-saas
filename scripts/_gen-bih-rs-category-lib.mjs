@@ -1,6 +1,7 @@
 import fs from "fs"
 import path from "path"
 import { summarizeCyrillicCase } from "./_gen-prepare-text.mjs"
+import { shouldSkipBihUtilityFile } from "./_bih-utility-skip.mjs"
 
 export function createCategoryGenerator(cfg) {
   const { title, label, artMin, artMax, defaultQ } = cfg
@@ -228,6 +229,7 @@ export function createCategoryGenerator(cfg) {
     for (const f of files) {
       const raw = fs.readFileSync(path.join(extractDir, f), "utf8")
       const stem = normCase(f)
+      if (shouldSkipBihUtilityFile(f, stem)) continue
       if (seenStems.has(stem)) continue
       seenStems.add(stem)
 
