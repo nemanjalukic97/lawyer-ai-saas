@@ -38,7 +38,7 @@ import {
   type EntitlementPlanId,
 } from "./lib/entitlements"
 import { getEffectiveStatus } from "./deadlines/lib/effectiveStatus"
-import { calendarDaysUntil, formatCalendarMonth, formatDueHeading } from "./deadlines/lib/dates"
+import { calendarDaysUntil, formatDueHeading } from "./deadlines/lib/dates"
 import type { Tables } from "@/lib/supabase/types"
 
 type FeatureUsagePoint = {
@@ -68,15 +68,16 @@ type ActiveMatterPreview = {
   updated_at: string | null
 }
 
-type Props = {
+type HeaderProps = {
   displayName: string
   roleLabel: string
   jurisdictionLabel: string
   planId: EntitlementPlanId
   subscriptionStatus: string | null
-  firmName: string | null
-  firmTrialEndsAt: string | null
-  profileTrialEndsAt: string | null
+}
+
+type BodyProps = {
+  planId: EntitlementPlanId
   unbilledHours: number
   totals: {
     clients: number
@@ -110,87 +111,13 @@ type Props = {
   }
 }
 
-export function DashboardClient({
+export function DashboardHeader({
   displayName,
-  roleLabel,
   jurisdictionLabel,
   planId,
   subscriptionStatus,
-  firmName,
-  firmTrialEndsAt,
-  profileTrialEndsAt,
-  unbilledHours,
-  totals,
-  invoiceMetrics,
-  signatureMetrics,
-  usageSummary,
-  featureUsage,
-  recentActivity,
-  roiData,
-  upcomingDeadlines,
-  top3Deadlines,
-  activeMatters,
-}: Props) {
-  const { t, language } = useLanguage()
-  const dateLocale = localeForLanguage(language)
-
-  const trialEndsIso = firmTrialEndsAt ?? profileTrialEndsAt
-  const canPredict = hasFeature(planId, "case_prediction")
-  const canAnalyze = hasFeature(planId, "document_analysis")
-  const canUseClients = hasFeature(planId, "client_portal")
-  const canDraftContracts = hasFeature(planId, "contract_drafting")
-  const canUseTemplates = hasFeature(planId, "template_library")
-  const canViewActivityFeed = hasFeature(planId, "activity_feed")
-  const canViewDeadlines = hasFeature(planId, "deadline_tracking")
-  const canTrackTime = hasFeature(planId, "time_tracking")
-  const canRequestSignatures = getMaxActiveSignatureRequests(planId) !== 0
-  const canManageMatters = hasFeature(planId, "matter_management")
-
-  function urgencyDotClass(deadline: UpcomingDeadlinePreview): string {
-    const eff = getEffectiveStatus(deadline)
-    if (eff === "completed" || eff === "cancelled") return "bg-muted-foreground"
-    if (eff === "overdue") return "bg-destructive"
-    const diff = calendarDaysUntil(deadline.due_date)
-    if (diff <= 3) return "bg-amber-500"
-    return "bg-emerald-500"
-  }
-
-  const deadlinesPreview =
-    top3Deadlines.length > 0
-      ? top3Deadlines
-      : upcomingDeadlines.slice(0, 3)
-
-  const today = new Date()
-  const calendarMonthStart = new Date(today.getFullYear(), today.getMonth(), 1)
-  const calendarMonthLabel = formatCalendarMonth(calendarMonthStart, dateLocale)
-
-  function isoDayKey(date: Date): string {
-    const y = date.getFullYear()
-    const m = String(date.getMonth() + 1).padStart(2, "0")
-    const d = String(date.getDate()).padStart(2, "0")
-    return `${y}-${m}-${d}`
-  }
-
-  const deadlineDotClassByDay = (() => {
-    const byDay = new Map<string, { cls: string; prio: number }>()
-    const priorityFor = (d: UpcomingDeadlinePreview): number => {
-      const eff = getEffectiveStatus(d)
-      if (eff === "overdue") return 0
-      if (eff === "completed" || eff === "cancelled") return 3
-      const diff = calendarDaysUntil(d.due_date)
-      if (diff <= 3) return 1
-      return 2
-    }
-
-    for (const d of upcomingDeadlines) {
-      const dt = new Date(d.due_date)
-      const key = isoDayKey(dt)
-      const candidate = { cls: urgencyDotClass(d), prio: priorityFor(d) }
-      const existing = byDay.get(key)
-      if (!existing || candidate.prio < existing.prio) byDay.set(key, candidate)
-    }
-    return byDay
-  })()
+}: HeaderProps) {
+  const { t } = useLanguage()
 
   function planBadgeClass(id: EntitlementPlanId): string {
     switch (id) {
@@ -207,22 +134,7 @@ export function DashboardClient({
     }
   }
 
-  function activityDotClass(type: ActivityItem["type"]): string {
-    switch (type) {
-      case "contract":
-        return "bg-blue-500"
-      case "document":
-        return "bg-purple-500"
-      case "client":
-        return "bg-emerald-500"
-      default:
-        return "bg-muted-foreground/40"
-    }
-  }
-
   return (
-    <div className="min-h-screen overflow-x-hidden bg-background px-4 py-10">
-      <div className="mx-auto flex min-w-0 max-w-6xl flex-col gap-8 lg:gap-10">
         <header className="mb-8 flex flex-col gap-4 border-b border-border/40 pb-8 sm:flex-row sm:items-start sm:justify-between">
           <div>
             <p className="text-xs uppercase tracking-widest text-muted-foreground/50">
@@ -272,7 +184,88 @@ export function DashboardClient({
             </div>
           </div>
         </header>
+  )
+}
 
+export function DashboardBodySkeleton() {
+  return (
+    <div className="flex flex-col gap-8 lg:gap-10" aria-hidden>
+      <div className="grid w-full grid-cols-2 gap-3 md:grid-cols-4">
+        {Array.from({ length: 4 }).map((_, i) => (
+          <div
+            key={i}
+            className="h-28 animate-pulse rounded-xl border border-border/40 bg-muted/30"
+          />
+        ))}
+      </div>
+      <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+        {Array.from({ length: 3 }).map((_, i) => (
+          <div
+            key={i}
+            className="h-48 animate-pulse rounded-xl border border-border/40 bg-muted/30"
+          />
+        ))}
+      </div>
+      <div className="h-40 animate-pulse rounded-xl border border-border/40 bg-muted/30" />
+    </div>
+  )
+}
+
+export function DashboardBody({
+  planId,
+  unbilledHours,
+  totals,
+  invoiceMetrics,
+  signatureMetrics,
+  featureUsage,
+  recentActivity,
+  roiData,
+  upcomingDeadlines,
+  top3Deadlines,
+  activeMatters,
+}: BodyProps) {
+  const { t, language } = useLanguage()
+  const dateLocale = localeForLanguage(language)
+
+  const canPredict = hasFeature(planId, "case_prediction")
+  const canAnalyze = hasFeature(planId, "document_analysis")
+  const canUseClients = hasFeature(planId, "client_portal")
+  const canDraftContracts = hasFeature(planId, "contract_drafting")
+  const canViewActivityFeed = hasFeature(planId, "activity_feed")
+  const canViewDeadlines = hasFeature(planId, "deadline_tracking")
+  const canTrackTime = hasFeature(planId, "time_tracking")
+  const canRequestSignatures = getMaxActiveSignatureRequests(planId) !== 0
+  const canManageMatters = hasFeature(planId, "matter_management")
+
+  function urgencyDotClass(deadline: UpcomingDeadlinePreview): string {
+    const eff = getEffectiveStatus(deadline)
+    if (eff === "completed" || eff === "cancelled") return "bg-muted-foreground"
+    if (eff === "overdue") return "bg-destructive"
+    const diff = calendarDaysUntil(deadline.due_date)
+    if (diff <= 3) return "bg-amber-500"
+    return "bg-emerald-500"
+  }
+
+  const deadlinesPreview =
+    top3Deadlines.length > 0
+      ? top3Deadlines
+      : upcomingDeadlines.slice(0, 3)
+
+  function activityDotClass(type: ActivityItem["type"]): string {
+    switch (type) {
+      case "contract":
+        return "bg-blue-500"
+      case "document":
+        return "bg-purple-500"
+      case "client":
+        return "bg-emerald-500"
+      default:
+        return "bg-muted-foreground/40"
+    }
+  }
+
+  return (
+    <>
         {/* SECTION 2 — Stats bar (keep exactly as-is) */}
         <section className="space-y-4">
           <div className="grid w-full min-w-0 grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4 md:gap-3 [&>*]:min-h-0">
@@ -573,6 +566,19 @@ export function DashboardClient({
             )}
           </div>
         </section>
+    </>
+  )
+}
+
+/** @deprecated Prefer DashboardHeader + DashboardBody; kept for any residual imports. */
+export function DashboardClient(
+  props: HeaderProps & BodyProps & { firmName?: string | null; firmTrialEndsAt?: string | null; profileTrialEndsAt?: string | null },
+) {
+  return (
+    <div className="min-h-screen overflow-x-hidden bg-background px-4 py-10">
+      <div className="mx-auto flex min-w-0 max-w-6xl flex-col gap-8 lg:gap-10">
+        <DashboardHeader {...props} />
+        <DashboardBody {...props} />
       </div>
     </div>
   )
