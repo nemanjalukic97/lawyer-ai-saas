@@ -106,25 +106,50 @@ export function buildKeywordIlikePatterns(query: string): KeywordIlikePatternSet
   }
 }
 
-function ilikePatternToRegExp(pattern: string): RegExp {
-  let re = ""
-  for (const ch of pattern) {
-    if (ch === "%") {
-      re += ".*"
-    } else if (ch === "_") {
-      re += "."
-    } else if (/[.*+?^${}()|[\]\\]/.test(ch)) {
-      re += `\\${ch}`
-    } else {
-      re += ch
-    }
-  }
-  return new RegExp(re, "i")
-}
-
+/**
+ * ILIKE-style match without RegExp `.*` (which backtracks catastrophically on
+ * long legal text when stem patterns contain multiple `%` wildcards).
+ */
 export function matchesIlikePattern(haystack: string, pattern: string): boolean {
   if (!pattern) return false
-  return ilikePatternToRegExp(pattern).test(haystack)
+
+  const h = haystack.toLowerCase()
+  const p = pattern.toLowerCase()
+  const anchoredStart = !p.startsWith("%")
+  const anchoredEnd = !p.endsWith("%")
+  const segments = p.split("%")
+
+  let pos = 0
+  let seenLiteral = false
+
+  for (let i = 0; i < segments.length; i++) {
+    const seg = segments[i]
+    if (seg === "") continue
+
+    let matchIndex: number
+    let matchLen: number
+
+    if (seg.includes("_")) {
+      const reBody = seg
+        .replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
+        .replace(/_/g, ".")
+      const m = h.slice(pos).match(new RegExp(reBody, "i"))
+      if (!m || m.index == null) return false
+      matchIndex = pos + m.index
+      matchLen = m[0].length
+    } else {
+      matchIndex = h.indexOf(seg, pos)
+      if (matchIndex === -1) return false
+      matchLen = seg.length
+    }
+
+    if (!seenLiteral && anchoredStart && matchIndex !== 0) return false
+    seenLiteral = true
+    pos = matchIndex + matchLen
+  }
+
+  if (anchoredEnd && pos !== h.length) return false
+  return true
 }
 
 const KEYWORD_EXACT_PHRASE_SCORE = 0.95

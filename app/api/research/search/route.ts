@@ -357,6 +357,7 @@ export async function POST(req: NextRequest) {
                     chunks: result.chunks.length,
                     usedThreshold: result.usedThreshold,
                     retried: result.retried,
+                    timing: result.timing,
                   })
                   return result
                 })
@@ -373,6 +374,15 @@ export async function POST(req: NextRequest) {
                       applied: false,
                       results: [],
                     } satisfies AreaInferenceLog,
+                    timing: {
+                      embedMs: 0,
+                      vectorRpcMs: 0,
+                      keywordMs: 0,
+                      keywordTimedOut: false,
+                      mergeRerankMs: 0,
+                      totalMs: 0,
+                      vectorRetried: false,
+                    },
                   }
                 }),
             ),
@@ -387,6 +397,24 @@ export async function POST(req: NextRequest) {
           )
         : Promise.resolve([] as CaseLawContextResult[]),
     ])
+
+    const lawTimings = searches
+      .map((s, i) =>
+        s.timing
+          ? { jurisdiction: jurisdictions[i], ...s.timing }
+          : null,
+      )
+      .filter(Boolean)
+
+    const caseLawTimings = caseLawSearches
+      .map((s, i) => {
+        const timing = (s as CaseLawContextResult & { timing?: typeof searches[0]["timing"] })
+          .timing
+        return timing
+          ? { jurisdiction: jurisdictions[i], ...timing }
+          : null
+      })
+      .filter(Boolean)
 
     const lawAreaInference =
       searches.find((s) => s.areaInference?.applied)?.areaInference ??
@@ -528,6 +556,10 @@ export async function POST(req: NextRequest) {
             ),
             has_highly_relevant_laws: hasHighlyRelevantLaws,
             has_highly_relevant_case_law: hasHighlyRelevantCaseLaw,
+            timing: {
+              laws: lawTimings,
+              case_law: caseLawTimings,
+            },
           } as any,
         }
         const { error: usageError } = await supabase

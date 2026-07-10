@@ -262,25 +262,39 @@ async function withTimeout<T>(
   return Promise.race([promise, timeoutPromise])
 }
 
+type KeywordSearchResult<T> = {
+  rows: T[]
+  elapsedMs: number
+  timedOut: boolean
+}
+
 async function searchLegalArticlesByKeyword(args: {
   query: string
   jurisdiction: string
   category: string | null
   matchCount: number
-}): Promise<LegalChunk[]> {
-  return withTimeout(
-    searchLegalArticlesByKeywordInner(args),
-    KEYWORD_SEARCH_TIMEOUT_MS,
-    "keyword legal search",
-  ).catch((err) => {
+}): Promise<KeywordSearchResult<LegalChunk>> {
+  const started = Date.now()
+  try {
+    const rows = await withTimeout(
+      searchLegalArticlesByKeywordInner(args),
+      KEYWORD_SEARCH_TIMEOUT_MS,
+      "keyword legal search",
+    )
+    return { rows, elapsedMs: Date.now() - started, timedOut: false }
+  } catch (err) {
     const message = err instanceof Error ? err.message : String(err)
     // eslint-disable-next-line no-console
     console.error("[RAG] keyword legal search skipped", {
       jurisdiction: args.jurisdiction,
       message,
     })
-    return []
-  })
+    return {
+      rows: [],
+      elapsedMs: Date.now() - started,
+      timedOut: /timeout/i.test(message),
+    }
+  }
 }
 
 async function searchLegalArticlesByKeywordInner(args: {
@@ -411,6 +425,17 @@ export type AreaInferenceLog = {
   }>
 }
 
+/** Per-stage timings for research/RAG latency diagnosis (ms). */
+export type RagStageTiming = {
+  embedMs: number
+  vectorRpcMs: number
+  keywordMs: number
+  keywordTimedOut: boolean
+  mergeRerankMs: number
+  totalMs: number
+  vectorRetried: boolean
+}
+
 function isKeywordBoostedResult(
   score: number,
   channel?: MatchChannel,
@@ -516,20 +541,28 @@ async function searchCaseLawByKeyword(args: {
   jurisdiction: string
   legalArea: string | null
   matchCount: number
-}): Promise<CaseLawChunk[]> {
-  return withTimeout(
-    searchCaseLawByKeywordInner(args),
-    KEYWORD_SEARCH_TIMEOUT_MS,
-    "keyword case law search",
-  ).catch((err) => {
+}): Promise<KeywordSearchResult<CaseLawChunk>> {
+  const started = Date.now()
+  try {
+    const rows = await withTimeout(
+      searchCaseLawByKeywordInner(args),
+      KEYWORD_SEARCH_TIMEOUT_MS,
+      "keyword case law search",
+    )
+    return { rows, elapsedMs: Date.now() - started, timedOut: false }
+  } catch (err) {
     const message = err instanceof Error ? err.message : String(err)
     // eslint-disable-next-line no-console
     console.error("[RAG] keyword case law search skipped", {
       jurisdiction: args.jurisdiction,
       message,
     })
-    return []
-  })
+    return {
+      rows: [],
+      elapsedMs: Date.now() - started,
+      timedOut: /timeout/i.test(message),
+    }
+  }
 }
 
 async function searchCaseLawByKeywordInner(args: {
@@ -542,39 +575,24 @@ async function searchCaseLawByKeywordInner(args: {
   if (query.length < 2) return []
 
   const patterns = buildKeywordIlikePatterns(query)
-  if (
-    patterns.exactPatterns.length === 0 &&
-    patterns.stemPatterns.length === 0
-  ) {
+  const allPatterns = [...patterns.exactPatterns, ...patterns.stemPatterns]
+  if (allPatterns.length === 0) {
     return []
   }
 
   const legalArea = normalizeLegalAreaFilter(args.legalArea)
-  const fields = [
-    "legal_question",
-    "court_position",
-    "reasoning",
-    "headnote",
-  ] as const
-  const orParts: string[] = []
-  for (const field of fields) {
-    orParts.push(buildKeywordOrFilter(patterns, field))
-  }
-
-  let request = supabaseAdmin
-    .from("case_law")
-    .select(
-      "id, jurisdiction, court, court_level, case_number, decision_date, legal_area, legal_question, court_position, reasoning, headnote, outcome, keywords, related_articles, source_url",
-    )
-    .eq("jurisdiction", args.jurisdiction)
-    .or(orParts.join(","))
-    .limit(Math.max(args.matchCount * 3, 15))
-
-  if (legalArea) {
-    request = request.eq("legal_area", legalArea)
-  }
-
-  const { data, error } = await request
+  // RPC targets the indexed expression (legal_question + court_position +
+  // headnote; reasoning excluded — see migration 20260710160000). PostgREST
+  // .or(ilike) across columns cannot use that expression GIN.
+  // No labor-area heuristic here: case_law never had one (unlike statutes'
+  // law_category pre-filter); partial indexes make an extra filter unnecessary
+  // for latency, and legalArea is only applied when the caller passes it.
+  const { data, error } = await supabaseAdmin.rpc("search_case_law_keyword", {
+    p_jurisdiction: args.jurisdiction,
+    p_patterns: allPatterns,
+    p_limit: Math.max(args.matchCount * 3, 15),
+    p_legal_area: legalArea,
+  })
   if (error) {
     throw new Error(error.message)
   }
@@ -582,12 +600,8 @@ async function searchCaseLawByKeywordInner(args: {
   const scored = (data ?? [])
     .map((raw) => {
       const r = raw as Record<string, unknown>
-      const combined = [
-        r.legal_question,
-        r.court_position,
-        r.reasoning,
-        r.headnote,
-      ]
+      // Score against the same fields the SQL expression searched (no reasoning).
+      const combined = [r.legal_question, r.court_position, r.headnote]
         .map((v) => String(v ?? ""))
         .join("\n")
       const match = scoreKeywordTextMatch(combined, patterns)
@@ -745,12 +759,16 @@ async function matchCaseLawWithEmbedding(args: {
   similarityThreshold?: number
   retryIfEmpty?: boolean
   rpcTimeoutMs?: number
+  /** When set, embedMs is attributed to a shared upstream embedding call. */
+  embedMs?: number
 }): Promise<{
   cases: CaseLawChunk[]
   usedThreshold: number
   retried: boolean
   areaInference: AreaInferenceLog
+  timing: RagStageTiming
 }> {
+  const totalStarted = Date.now()
   const thresholds = getJurisdictionRpcThresholds(args.jurisdiction)
 
   const initialThreshold =
@@ -775,8 +793,13 @@ async function matchCaseLawWithEmbedding(args: {
           legalArea: normalizedLegalArea,
           matchCount,
         })
-      : Promise.resolve([] as CaseLawChunk[])
+      : Promise.resolve({
+          rows: [] as CaseLawChunk[],
+          elapsedMs: 0,
+          timedOut: false,
+        })
 
+  const vectorStarted = Date.now()
   let data = await runMatchCaseLawRpc({
     embedding: args.embedding,
     jurisdiction: args.jurisdiction,
@@ -804,17 +827,30 @@ async function matchCaseLawWithEmbedding(args: {
       timeoutMs: rpcTimeoutMs,
     })
   }
+  const vectorRpcMs = Date.now() - vectorStarted
 
-  const keywordCases = await keywordPromise
-  const merged = mergeHybridCaseChunks(data, keywordCases)
+  const keywordResult = await keywordPromise
+  const mergeStarted = Date.now()
+  const merged = mergeHybridCaseChunks(data, keywordResult.rows)
   const { items: reranked, log: areaInference } = applyAreaAwareReranking(
     merged,
     (c) => c.legal_area,
     args.query?.trim() ?? "",
     normalizedLegalArea != null,
   )
+  const mergeRerankMs = Date.now() - mergeStarted
 
-  return { cases: reranked, usedThreshold, retried, areaInference }
+  const timing: RagStageTiming = {
+    embedMs: args.embedMs ?? 0,
+    vectorRpcMs,
+    keywordMs: keywordResult.elapsedMs,
+    keywordTimedOut: keywordResult.timedOut,
+    mergeRerankMs,
+    totalMs: Date.now() - totalStarted + (args.embedMs ?? 0),
+    vectorRetried: retried,
+  }
+
+  return { cases: reranked, usedThreshold, retried, areaInference, timing }
 }
 
 async function matchCaseLaw(args: {
@@ -831,8 +867,11 @@ async function matchCaseLaw(args: {
   usedThreshold: number
   retried: boolean
   areaInference: AreaInferenceLog
+  timing: RagStageTiming
 }> {
+  const embedStarted = Date.now()
   const embedding = await embedQueryText(args.query)
+  const embedMs = Date.now() - embedStarted
   return matchCaseLawWithEmbedding({
     embedding,
     query: args.query,
@@ -843,6 +882,7 @@ async function matchCaseLaw(args: {
     similarityThreshold: args.similarityThreshold,
     retryIfEmpty: args.retryIfEmpty,
     rpcTimeoutMs: args.rpcTimeoutMs,
+    embedMs,
   })
 }
 
@@ -943,7 +983,9 @@ export async function matchLegalArticles(args: {
   usedThreshold: number
   retried: boolean
   areaInference: AreaInferenceLog
+  timing: RagStageTiming
 }> {
+  const totalStarted = Date.now()
   const normalizedCategory = normalizeResearchCategory(args.category ?? null)
   const matchCount = args.matchCount ?? 6
 
@@ -954,7 +996,9 @@ export async function matchLegalArticles(args: {
     matchCount,
   })
 
+  const embedStarted = Date.now()
   const embedding = await embedQueryText(args.query)
+  const embedMs = Date.now() - embedStarted
   const thresholds = getJurisdictionRpcThresholds(args.jurisdiction)
 
   const initialThreshold =
@@ -969,6 +1013,7 @@ export async function matchLegalArticles(args: {
     args.rpcTimeoutMs ??
     getLegalRpcTimeoutMs(normalizedCategory, args.jurisdiction)
 
+  const vectorStarted = Date.now()
   let data = await runMatchLegalArticlesRpc({
     embedding,
     jurisdiction: args.jurisdiction,
@@ -994,17 +1039,30 @@ export async function matchLegalArticles(args: {
       timeoutMs: rpcTimeoutMs,
     })
   }
+  const vectorRpcMs = Date.now() - vectorStarted
 
-  const keywordChunks = await keywordPromise
-  const merged = mergeHybridLegalChunks(data, keywordChunks)
+  const keywordResult = await keywordPromise
+  const mergeStarted = Date.now()
+  const merged = mergeHybridLegalChunks(data, keywordResult.rows)
   const { items: reranked, log: areaInference } = applyAreaAwareReranking(
     merged,
     (c) => c.law_category,
     args.query,
     normalizedCategory != null,
   )
+  const mergeRerankMs = Date.now() - mergeStarted
 
-  return { chunks: reranked, usedThreshold, retried, areaInference }
+  const timing: RagStageTiming = {
+    embedMs,
+    vectorRpcMs,
+    keywordMs: keywordResult.elapsedMs,
+    keywordTimedOut: keywordResult.timedOut,
+    mergeRerankMs,
+    totalMs: Date.now() - totalStarted,
+    vectorRetried: retried,
+  }
+
+  return { chunks: reranked, usedThreshold, retried, areaInference, timing }
 }
 
 function deduplicateChunks(chunks: LegalChunk[]): LegalChunk[] {
@@ -1136,7 +1194,7 @@ export async function retrieveLegalContext(
     k?: number
     similarityThreshold?: number
   },
-): Promise<RagResult> {
+): Promise<RagResult & { timing?: RagStageTiming }> {
   const thresholds = getJurisdictionRpcThresholds(jurisdiction)
   const similarityThreshold =
     options?.similarityThreshold ??
@@ -1144,7 +1202,7 @@ export async function retrieveLegalContext(
       ? thresholds.defaultThreshold
       : undefined)
 
-  const { chunks: rawChunks, areaInference } = await matchLegalArticles({
+  const { chunks: rawChunks, areaInference, timing } = await matchLegalArticles({
     query,
     jurisdiction,
     category: normalizeResearchCategory(options?.category ?? null),
@@ -1174,6 +1232,7 @@ export async function retrieveLegalContext(
     topSimilarity,
     confidence,
     areaInference,
+    timing,
   }
 }
 
@@ -1187,7 +1246,7 @@ export async function retrieveCaseLawContext(
     similarityThreshold?: number
     rpcTimeoutMs?: number
   },
-): Promise<CaseLawContextResult> {
+): Promise<CaseLawContextResult & { timing?: RagStageTiming }> {
   const thresholds = getJurisdictionRpcThresholds(jurisdiction)
   const similarityThreshold =
     options?.similarityThreshold ??
@@ -1197,7 +1256,7 @@ export async function retrieveCaseLawContext(
 
   const normalizedLegalArea = normalizeLegalAreaFilter(options?.legalArea ?? null)
 
-  const { cases: rawCases, areaInference } = await matchCaseLaw({
+  const { cases: rawCases, areaInference, timing } = await matchCaseLaw({
     query,
     jurisdiction,
     legalArea: normalizedLegalArea,
@@ -1211,7 +1270,7 @@ export async function retrieveCaseLawContext(
   })
 
   const result = buildCaseLawContextResult(rawCases, jurisdiction)
-  return { ...result, areaInference }
+  return { ...result, areaInference, timing }
 }
 
 function formatCaseLawSummaryLines(cases: CaseLawChunk[]): string {

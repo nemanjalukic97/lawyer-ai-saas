@@ -1490,6 +1490,31 @@ export type Database = {
         }
         Returns: Json
       }
+      search_case_law_keyword: {
+        Args: {
+          p_jurisdiction: string
+          p_patterns: string[]
+          p_limit?: number
+          p_legal_area?: string | null
+        }
+        Returns: {
+          id: string
+          jurisdiction: string
+          court: string
+          court_level: string
+          case_number: string
+          decision_date: string | null
+          legal_area: string
+          legal_question: string
+          court_position: string
+          reasoning: string
+          keywords: string[] | null
+          related_articles: string[] | null
+          headnote: string | null
+          outcome: string | null
+          source_url: string | null
+        }[]
+      }
       user_has_firm: { Args: never; Returns: boolean }
       user_law_firm_id: { Args: never; Returns: string }
     }
