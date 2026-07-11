@@ -26,6 +26,15 @@ const nextConfig: NextConfig = {
     }
     return config
   },
+  async redirects() {
+    return [
+      {
+        source: "/vodic",
+        destination: "/Legantis-Vodic-za-Korisnike-2026.pdf",
+        permanent: false,
+      },
+    ]
+  },
   async headers() {
     return [
       {
