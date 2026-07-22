@@ -16,6 +16,7 @@ export type DashboardProfile = Pick<
   | "subscription_tier"
   | "subscription_status"
   | "trial_ends_at"
+  | "welcome_modal_seen_at"
   | "law_firm_id"
 >
 
@@ -53,7 +54,7 @@ export const getDashboardIdentity = cache(
     const { data: profileRaw } = await supabase
       .from("user_profiles")
       .select(
-        "full_name, role, preferred_jurisdiction, subscription_tier, subscription_status, trial_ends_at, law_firm_id",
+        "full_name, role, preferred_jurisdiction, subscription_tier, subscription_status, trial_ends_at, welcome_modal_seen_at, law_firm_id",
       )
       .eq("id", userId)
       .is("deleted_at", null)

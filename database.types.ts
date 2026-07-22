@@ -881,6 +881,7 @@ export type Database = {
             | Database["public"]["Enums"]["subscription_tier"]
             | null
           trial_ends_at: string | null
+          trial_warning_sent_at: string | null
           updated_at: string | null
           vat_number: string | null
           website: string | null
@@ -906,6 +907,7 @@ export type Database = {
             | Database["public"]["Enums"]["subscription_tier"]
             | null
           trial_ends_at?: string | null
+          trial_warning_sent_at?: string | null
           updated_at?: string | null
           vat_number?: string | null
           website?: string | null
@@ -931,6 +933,7 @@ export type Database = {
             | Database["public"]["Enums"]["subscription_tier"]
             | null
           trial_ends_at?: string | null
+          trial_warning_sent_at?: string | null
           updated_at?: string | null
           vat_number?: string | null
           website?: string | null
@@ -1398,7 +1401,9 @@ export type Database = {
             | null
           theme_preference: string
           trial_ends_at: string | null
+          trial_warning_sent_at: string | null
           updated_at: string | null
+          welcome_modal_seen_at: string | null
         }
         Insert: {
           active?: boolean | null
@@ -1423,7 +1428,9 @@ export type Database = {
             | null
           theme_preference?: string
           trial_ends_at?: string | null
+          trial_warning_sent_at?: string | null
           updated_at?: string | null
+          welcome_modal_seen_at?: string | null
         }
         Update: {
           active?: boolean | null
@@ -1448,7 +1455,9 @@ export type Database = {
             | null
           theme_preference?: string
           trial_ends_at?: string | null
+          trial_warning_sent_at?: string | null
           updated_at?: string | null
+          welcome_modal_seen_at?: string | null
         }
         Relationships: [
           {

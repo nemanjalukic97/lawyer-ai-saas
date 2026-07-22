@@ -64,6 +64,8 @@ export const enMessages: Messages = {
         "Once confirmed, you can log in and start using Legantis.",
       signupSuccessSpam:
         "If you don't see the email in your inbox, please check your Junk or Spam folder.",
+      signupSuccessFirmTrial:
+        "Your free 30-day Firm trial is already active on your account — confirm your email to start exploring.",
       emailConfirmedTitle: "Your account is confirmed!",
       emailConfirmedBody:
         "You can now log in and start using Legantis.",
@@ -2313,5 +2315,15 @@ export const enMessages: Messages = {
           sat: "Sat",
         },
       },
+    },
+    welcomeModal: {
+      title: "Welcome to Legantis Firm!",
+      bodyWithDate:
+        "You have full Firm-plan access free until {date}.",
+      bullet1:
+        "Legal research — hybrid search across statutes and case law (try something like \"otkazni rok\").",
+      bullet2: "Contract drafting — create your first document with the Wizard.",
+      bullet3: "Document analysis — upload a contract and get clear insights.",
+      cta: "Let's go",
     },
 }

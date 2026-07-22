@@ -54,6 +54,10 @@ export function SignupSuccessToast() {
             Your account has been created. Please check your inbox and confirm your
             email to activate your account.
           </p>
+          <p className="text-sm text-muted-foreground">
+            Your free 30-day Firm trial is already active — confirm your email to
+            start exploring.
+          </p>
         </div>
       </div>
     </div>

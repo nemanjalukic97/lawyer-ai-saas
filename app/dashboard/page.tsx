@@ -10,6 +10,7 @@ import {
   DashboardHeader,
   DashboardBodySkeleton,
 } from "./DashboardClient"
+import { TrialWelcomeModal } from "./components/TrialWelcomeModal"
 
 const JURISDICTION_LABELS: Record<string, string> = {
   serbia: "Serbia",
@@ -95,6 +96,13 @@ export default async function DashboardPage() {
     ? (subscriptionStatusRaw ?? "trial")
     : null
 
+  const trialEndsAt =
+    firm?.trial_ends_at ?? profile.trial_ends_at ?? null
+  const showWelcomeModal =
+    subscriptionStatusRaw === "trial" &&
+    profile.welcome_modal_seen_at == null &&
+    !!trialEndsAt
+
   return (
     <div className="min-h-screen overflow-x-hidden bg-background px-4 py-10">
       <div className="mx-auto flex min-w-0 max-w-6xl flex-col gap-8 lg:gap-10">
@@ -106,6 +114,10 @@ export default async function DashboardPage() {
           planId={planId}
           subscriptionStatus={subscriptionStatusForClient}
         />
+
+        {showWelcomeModal ? (
+          <TrialWelcomeModal trialEndsAt={trialEndsAt} />
+        ) : null}
 
         {/* Below-the-fold: one parallel Supabase round, streamed after paint */}
         <Suspense fallback={<DashboardBodySkeleton />}>

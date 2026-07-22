@@ -52,9 +52,19 @@ export async function signup(formData: FormData) {
   if (!error) {
     try {
       if (data?.user?.id && lawFirmName.trim()) {
+        const trialEndsAt = new Date()
+        trialEndsAt.setUTCDate(trialEndsAt.getUTCDate() + 30)
+
         const { data: firm, error: firmError } = await supabase
           .from("law_firms")
-          .insert({ name: lawFirmName.trim(), owner_id: data.user.id })
+          .insert({
+            name: lawFirmName.trim(),
+            owner_id: data.user.id,
+            // Brand-new firm from solo signup: Firm trial (not invite-to-existing-firm).
+            subscription_tier: "firm",
+            subscription_status: "trial",
+            trial_ends_at: trialEndsAt.toISOString(),
+          })
           .select("id")
           .single()
 

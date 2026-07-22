@@ -64,6 +64,8 @@ export const srMessages: Messages = {
         "Kada potvrdite, možete se prijaviti i početi koristiti Legantis.",
       signupSuccessSpam:
         "Ako ne vidite email u Inboxu, provjerite Junk ili Spam folder.",
+      signupSuccessFirmTrial:
+        "Besplatni 30-dnevni Firm trial je već aktivan na vašem nalogu — potvrdite email da počnete sa istraživanjem.",
       emailConfirmedTitle: "Vaš nalog je potvrđen!",
       emailConfirmedBody:
         "Sada se možete prijaviti i početi koristiti Legantis.",
@@ -2315,5 +2317,15 @@ export const srMessages: Messages = {
         notSpecified: "Nije navedeno",
         translating: "Prevodim šablon…",
       },
+    },
+    welcomeModal: {
+      title: "Dobrodošli u Legantis Firm!",
+      bodyWithDate:
+        "Imate puni pristup Firm planu besplatno do {date}.",
+      bullet1:
+        "Pravno istraživanje — hibridna pretraga zakona i sudske prakse (probajte npr. „otkazni rok”).",
+      bullet2: "Izrada ugovora — napravite prvi dokument uz Wizard.",
+      bullet3: "Analiza dokumenata — otpremite ugovor i dobijte jasne uvide.",
+      cta: "Krenimo",
     },
 }

@@ -66,6 +66,9 @@ export function SignupPageClient({
                 <p className="text-sm text-muted-foreground">
                   {t("auth.signupSuccessSpam")}
                 </p>
+                <p className="text-sm text-muted-foreground">
+                  {t("auth.signupSuccessFirmTrial")}
+                </p>
               </div>
             </div>
           </Card>
