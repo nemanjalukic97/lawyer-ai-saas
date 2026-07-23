@@ -24,12 +24,14 @@ export function HomeHowItWorksSection() {
       aria-labelledby="how-it-works-heading"
     >
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <h2
-          id="how-it-works-heading"
-          className={cn(HOME_SECTION_H2_CLASS, "text-center text-foreground")}
-        >
-          {t("home.howItWorks.title")}
-        </h2>
+        <ScrollReveal>
+          <h2
+            id="how-it-works-heading"
+            className={cn(HOME_SECTION_H2_CLASS, "text-center text-foreground")}
+          >
+            {t("home.howItWorks.title")}
+          </h2>
+        </ScrollReveal>
         <div className="relative mt-12 grid gap-10 md:grid-cols-3 md:gap-6">
           <div
             aria-hidden

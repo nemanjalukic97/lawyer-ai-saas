@@ -1,5 +1,5 @@
 export const SCROLL_REVEAL_TRANSITION =
-  "motion-safe:transition-[opacity,transform] motion-safe:duration-700 motion-safe:ease-out"
+  "motion-safe:transition-[opacity,transform] motion-safe:duration-[550ms] motion-safe:ease-[cubic-bezier(0.16,1,0.3,1)]"
 
 export const HERO_REVEAL_TRANSITION =
   "motion-safe:transition-[opacity,transform] motion-safe:duration-[900ms] motion-safe:ease-out"
@@ -11,9 +11,9 @@ export const HOME_ENTRANCE_NAV_DELAY_MS = 100
 export const HOME_ENTRANCE_HERO_DELAY_MS = 150
 export const HOME_ENTRANCE_MOCKUP_DELAY_AFTER_HERO_MS = 400
 
-export const STAGGER_MS_10 = [0, 75, 150, 225, 300, 375, 450, 525, 600, 675] as const
+export const STAGGER_MS_10 = [0, 100, 200, 300, 400, 500, 600, 700, 800, 900] as const
 
-export const STAGGER_MS_3 = [0, 150, 300] as const
+export const STAGGER_MS_3 = [0, 100, 200] as const
 
 export const HOME_SECTION_H2_CLASS =
   "text-3xl font-bold tracking-tight sm:text-4xl"

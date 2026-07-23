@@ -48,7 +48,7 @@ export function ScrollReveal({
       className={cn(
         SCROLL_REVEAL_TRANSITION,
         className,
-        !visible && "motion-safe:translate-y-8 motion-safe:opacity-0",
+        !visible && "motion-safe:translate-y-4 motion-safe:opacity-0",
         visible && "motion-safe:translate-y-0 motion-safe:opacity-100",
         animating && "motion-safe:will-change-[opacity,transform]"
       )}

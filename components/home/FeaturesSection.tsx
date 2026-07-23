@@ -190,7 +190,7 @@ export function HomeFeaturesSection() {
       aria-labelledby="features-heading"
     >
       <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6">
-        <div className="flex flex-col items-center text-center">
+        <ScrollReveal className="flex flex-col items-center text-center">
           <Badge
             variant="secondary"
             className="mb-3 border border-border/80 bg-background/60 font-medium"
@@ -206,7 +206,7 @@ export function HomeFeaturesSection() {
           <p className="mx-auto mt-2 max-w-xl text-muted-foreground">
             {t("home.features.subtitle")}
           </p>
-        </div>
+        </ScrollReveal>
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:hidden">
           {FEATURES.map((f, i) => (
             <ScrollReveal

@@ -21,7 +21,7 @@ export function HomeFaqSection() {
       aria-labelledby="faq-heading"
     >
       <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6">
-        <div className="mx-auto mb-10 max-w-2xl text-center">
+        <ScrollReveal className="mx-auto mb-10 max-w-2xl text-center">
           <h2
             id="faq-heading"
             className={cn(HOME_SECTION_H2_CLASS, "text-foreground")}
@@ -29,7 +29,7 @@ export function HomeFaqSection() {
             {t("home.faq.title")}
           </h2>
           <p className="mt-3 text-muted-foreground">{t("home.faq.subtitle")}</p>
-        </div>
+        </ScrollReveal>
 
         <ScrollReveal
           className="rounded-2xl border border-border bg-card/70 p-6 shadow-sm md:p-8"

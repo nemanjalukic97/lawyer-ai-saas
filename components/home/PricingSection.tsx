@@ -33,7 +33,7 @@ export function HomePricingSection() {
         />
       </div>
       <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6">
-        <div className="flex flex-col items-center text-center">
+        <ScrollReveal className="flex flex-col items-center text-center">
           <Badge
             variant="secondary"
             className="mb-3 border border-border/80 bg-background/60 font-medium"
@@ -49,7 +49,7 @@ export function HomePricingSection() {
           <p className="mx-auto mt-2 max-w-xl text-muted-foreground">
             {t("home.pricing.subtitle")}
           </p>
-        </div>
+        </ScrollReveal>
         <div className="mt-12 grid gap-10 min-[767px]:gap-6 md:grid-cols-3">
           {PRICING_TIERS.map((tier, i) => (
             <ScrollReveal
@@ -72,7 +72,7 @@ export function HomePricingSection() {
             </ScrollReveal>
           ))}
         </div>
-        <div className="mt-20 overflow-x-auto rounded-xl border border-border bg-background">
+        <ScrollReveal className="mt-20 overflow-x-auto rounded-xl border border-border bg-background">
           <table className="w-full min-w-[480px] border-collapse bg-background text-sm">
             <thead>
               <tr className="border-b border-border bg-muted">
@@ -133,10 +133,12 @@ export function HomePricingSection() {
               </tr>
             </tbody>
           </table>
-        </div>
-        <p className="mt-8 text-center text-sm text-muted-foreground">
-          {t("home.pricing.trustLine")}
-        </p>
+        </ScrollReveal>
+        <ScrollReveal>
+          <p className="mt-8 text-center text-sm text-muted-foreground">
+            {t("home.pricing.trustLine")}
+          </p>
+        </ScrollReveal>
       </div>
     </section>
   )
