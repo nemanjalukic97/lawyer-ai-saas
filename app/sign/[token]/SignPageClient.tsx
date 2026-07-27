@@ -17,7 +17,8 @@ type Props = {
 type SigningBundle = {
   signature_request_id: string
   contract_id: string
-  contract_title: string
+  /** Present only while pending and not expired; redacted for spent links. */
+  contract_title: string | null
   contract_content: string | null
   sent_by_name: string | null
   signer_email: string | null
@@ -178,10 +179,25 @@ export default function SignPageClient({ token }: Props) {
     )
   }
 
+  // Pending + unexpired is the only path that should carry document fields.
+  // Spent links are handled above; if content is missing, treat as not signable.
+  if (!bundle.contract_content) {
+    return (
+      <div className="mx-auto max-w-3xl p-6">
+        <Card className="p-6">
+          <div className="text-lg font-semibold">{t("signature.public.notFoundTitle")}</div>
+          <div className="mt-2 text-sm text-muted-foreground">{t("signature.public.notFoundBody")}</div>
+        </Card>
+      </div>
+    )
+  }
+
   return (
     <div className="mx-auto max-w-3xl p-6">
       <Card className="p-6">
-        <div className="text-2xl font-semibold">{bundle.contract_title}</div>
+        <div className="text-2xl font-semibold">
+          {bundle.contract_title || t("signature.public.reviewTitle")}
+        </div>
         <div className="mt-2 text-sm text-muted-foreground">
           {t("signature.public.sentBy")}{" "}
           <span className="font-medium text-foreground">
@@ -201,7 +217,7 @@ export default function SignPageClient({ token }: Props) {
         <div className="mt-6">
           <div className="text-sm font-medium">{t("signature.public.reviewTitle")}</div>
           <pre className="mt-2 max-h-[50vh] overflow-auto whitespace-pre-wrap rounded-md border bg-muted/30 p-4 text-sm leading-6">
-            {bundle.contract_content || ""}
+            {bundle.contract_content}
           </pre>
         </div>
 

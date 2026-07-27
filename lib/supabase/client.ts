@@ -1,5 +1,6 @@
 import { createBrowserClient } from "@supabase/ssr"
 
+import { getAuthCookieOptions } from "./cookieOptions"
 import type { Database } from "./types"
 
 function getBrowserKey() {
@@ -13,7 +14,10 @@ function getBrowserKey() {
 export function createClient() {
   return createBrowserClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    getBrowserKey()
+    getBrowserKey(),
+    {
+      cookieOptions: getAuthCookieOptions(),
+    }
   )
 }
 

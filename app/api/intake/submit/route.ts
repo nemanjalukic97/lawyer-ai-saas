@@ -9,6 +9,15 @@ type SubmitBody = {
   data?: unknown
 }
 
+function getRequestIp(request: Request): string {
+  const xf = request.headers.get("x-forwarded-for")
+  if (xf) return xf.split(",")[0].trim()
+  return request.headers.get("x-real-ip") ?? "unknown"
+}
+
+/** Per form+IP rolling hour. High enough for retries/double-submit; low enough to stop floods. */
+const INTAKE_SUBMIT_LIMIT_PER_FORM_IP = 15
+
 export async function POST(request: Request) {
   if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
     return NextResponse.json(
@@ -42,6 +51,31 @@ export async function POST(request: Request) {
     Array.isArray(payload)
   ) {
     return NextResponse.json({ error: "data must be a JSON object." }, { status: 400 })
+  }
+
+  // Rate limit (mirrors signature_request_attempts): per form_id + IP, 15/hour
+  const ip = getRequestIp(request)
+  const ua = request.headers.get("user-agent") ?? ""
+  const since = new Date(Date.now() - 60 * 60 * 1000).toISOString()
+
+  await supabaseAdmin.from("intake_submit_attempts").insert({
+    form_id: formId,
+    ip,
+    user_agent: ua,
+  } as any)
+
+  const { count: attemptCount } = await supabaseAdmin
+    .from("intake_submit_attempts")
+    .select("id", { count: "exact", head: true })
+    .eq("form_id", formId)
+    .eq("ip", ip)
+    .gt("created_at", since)
+
+  if ((attemptCount ?? 0) > INTAKE_SUBMIT_LIMIT_PER_FORM_IP) {
+    return NextResponse.json(
+      { error: "Too many submissions. Please try again later." },
+      { status: 429 }
+    )
   }
 
   const { data: form, error: formError } = await supabaseAdmin

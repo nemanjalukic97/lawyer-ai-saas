@@ -16,8 +16,12 @@ export async function POST(req: NextRequest) {
 
   revalidatePath("/", "layout")
 
-  return NextResponse.redirect(new URL("/", req.url), {
+  const response = NextResponse.redirect(new URL("/", req.url), {
     status: 302,
   })
+  // Discourage caching of the post-logout transition on shared machines.
+  response.headers.set("Cache-Control", "no-store, no-cache, must-revalidate")
+  response.headers.set("Pragma", "no-cache")
+  return response
 }
 

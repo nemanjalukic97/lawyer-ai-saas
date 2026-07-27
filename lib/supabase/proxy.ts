@@ -1,6 +1,7 @@
 import { createServerClient } from "@supabase/ssr"
 import { NextResponse, type NextRequest } from "next/server"
 
+import { getAuthCookieOptions } from "./cookieOptions"
 import type { Database } from "./types"
 
 function getKey() {
@@ -9,6 +10,24 @@ function getKey() {
     process.env.SUPABASE_PUBLISHABLE_KEY ??
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   )
+}
+
+/** Private authenticated UI — never store in browser/shared-machine caches. */
+const DASHBOARD_CACHE_HEADERS: Record<string, string> = {
+  "Cache-Control": "no-store, no-cache, must-revalidate",
+  Pragma: "no-cache",
+}
+
+function applyDashboardCacheHeaders(
+  response: NextResponse,
+  pathname: string
+): NextResponse {
+  if (pathname === "/dashboard" || pathname.startsWith("/dashboard/")) {
+    for (const [key, value] of Object.entries(DASHBOARD_CACHE_HEADERS)) {
+      response.headers.set(key, value)
+    }
+  }
+  return response
 }
 
 export async function updateSession(request: NextRequest) {
@@ -20,6 +39,7 @@ export async function updateSession(request: NextRequest) {
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     getKey(),
     {
+      cookieOptions: getAuthCookieOptions(),
       cookies: {
         getAll() {
           return request.cookies.getAll()
@@ -52,9 +72,9 @@ export async function updateSession(request: NextRequest) {
     supabaseResponse.cookies.getAll().forEach(({ name, value }) => {
       redirectResponse.cookies.set(name, value)
     })
-    return redirectResponse
+    return applyDashboardCacheHeaders(redirectResponse, dashboardUrl.pathname)
   }
 
-  return supabaseResponse
+  return applyDashboardCacheHeaders(supabaseResponse, pathname)
 }
 

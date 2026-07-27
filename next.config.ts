@@ -36,10 +36,26 @@ const nextConfig: NextConfig = {
     ]
   },
   async headers() {
+    const dashboardNoStore = [
+      {
+        key: "Cache-Control",
+        value: "no-store, no-cache, must-revalidate",
+      },
+      { key: "Pragma", value: "no-cache" },
+    ]
     return [
       {
         source: "/(.*)",
         headers: securityHeaders,
+      },
+      // Authenticated app only — do not apply to marketing pages (LCP/cache).
+      {
+        source: "/dashboard",
+        headers: dashboardNoStore,
+      },
+      {
+        source: "/dashboard/:path*",
+        headers: dashboardNoStore,
       },
     ]
   },
