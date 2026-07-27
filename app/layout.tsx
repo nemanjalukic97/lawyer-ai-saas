@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { cookies, headers } from "next/headers";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist_Mono, PT_Sans } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "@/components/LanguageProvider";
 import { AppFooter } from "@/components/AppFooter";
@@ -9,9 +9,10 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { ThemeSync } from "@/components/theme-sync";
 import { Toaster } from "sonner";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+const ptSans = PT_Sans({
+  variable: "--font-pt-sans",
+  subsets: ["latin", "latin-ext", "cyrillic"],
+  weight: ["400", "700"],
   display: "swap",
 });
 
@@ -103,7 +104,7 @@ export default async function RootLayout({
   return (
     <html lang={htmlLang} className="dark" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} min-h-screen font-sans antialiased`}
+        className={`${ptSans.variable} ${geistMono.variable} min-h-screen font-sans antialiased`}
         suppressHydrationWarning
       >
         <ThemeProvider
