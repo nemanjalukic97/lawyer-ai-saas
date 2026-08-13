@@ -53,6 +53,7 @@ tmp-serbia-*/
 
 # outreach scripts - personal data / sending config (never commit)
 scripts/outreach/imenik_advokata_master.csv
+scripts/outreach/welcome_state.csv
 scripts/outreach/outreach_config.json
 scripts/outreach/.env
 scripts/outreach/*.docx
