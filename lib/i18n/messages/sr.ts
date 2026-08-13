@@ -358,6 +358,11 @@ export const srMessages: Messages = {
       title: "Pravno istraživanje",
       subtitle:
         "Pretražite bazu pravnih propisa i sačuvajte istraživanja za kasnije.",
+      emptyState: {
+        title: "Probajte primer pretrage",
+        hint: "Jedan klik pokreće pretragu za vašu jurisdikciju.",
+        tryLabel: "Probajte",
+      },
       search: {
         label: "Pitanje ili ključne reči",
         placeholder: "npr. rok zastare za naknadu štete",

@@ -128,11 +128,6 @@
   body {
     @apply bg-background text-foreground;
   }
-  h1,
-  h2,
-  h3 {
-    text-transform: capitalize;
-  }
 
   /* Scale all rem-based typography on large desktops (1800px+). */
   @media (min-width: 1800px) {

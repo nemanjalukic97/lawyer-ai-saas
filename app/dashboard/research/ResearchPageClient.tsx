@@ -30,6 +30,10 @@ import {
   highlightSubstring,
 } from "@/lib/highlightSearchTerms"
 import { CaseLawExpandableBody } from "@/components/CaseLawExpandableBody"
+import {
+  getStarterQueries,
+  toUiJurisdiction,
+} from "@/lib/researchStarterQueries"
 import type { EntitlementPlanId } from "../lib/entitlements"
 
 type ResearchResultItem = {
@@ -709,13 +713,20 @@ function jurisdictionBadgeClass(j: string): string {
   )
 }
 
-export function ResearchPageClient({ planId }: { planId: EntitlementPlanId }) {
+export function ResearchPageClient({
+  planId,
+  preferredJurisdiction,
+}: {
+  planId: EntitlementPlanId
+  preferredJurisdiction: string | null
+}) {
   const { t } = useLanguage()
   const canSave = planId === "professional" || planId === "firm"
 
   const [query, setQuery] = useState("")
   const [jurisdiction, setJurisdiction] = useState<string>("all")
   const [category, setCategory] = useState<string>("all")
+  const [hasSearched, setHasSearched] = useState(false)
 
   const [loading, setLoading] = useState(false)
   const [loadingMoreLaws, setLoadingMoreLaws] = useState(false)
@@ -749,14 +760,21 @@ export function ResearchPageClient({ planId }: { planId: EntitlementPlanId }) {
     return found ? t(found.labelKey) : category
   }, [category, t])
 
+  const starterQueries = useMemo(
+    () => getStarterQueries(preferredJurisdiction),
+    [preferredJurisdiction],
+  )
+
   function searchRequestBody(
     input: string,
     page: number,
     scope: "laws" | "caselaw" | "both",
+    jurisdictionForRequest: string = jurisdiction,
   ) {
     return {
       query: input,
-      jurisdiction: jurisdiction === "all" ? null : jurisdiction,
+      jurisdiction:
+        jurisdictionForRequest === "all" ? null : jurisdictionForRequest,
       // API expects null for "all categories", not the string "all"
       category: category === "all" ? null : category,
       page,
@@ -765,7 +783,11 @@ export function ResearchPageClient({ planId }: { planId: EntitlementPlanId }) {
     }
   }
 
-  async function runSearch(input: string) {
+  async function runSearch(
+    input: string,
+    jurisdictionForRequest: string = jurisdiction,
+  ) {
+    setHasSearched(true)
     setLoading(true)
     setError(null)
     setResults(null)
@@ -775,7 +797,9 @@ export function ResearchPageClient({ planId }: { planId: EntitlementPlanId }) {
       const resp = await fetch("/api/research/search", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(searchRequestBody(input, 1, "both")),
+        body: JSON.stringify(
+          searchRequestBody(input, 1, "both", jurisdictionForRequest),
+        ),
       })
       const json = await resp.json().catch(() => null)
       if (!resp.ok) {
@@ -973,6 +997,13 @@ export function ResearchPageClient({ planId }: { planId: EntitlementPlanId }) {
     void runSearch(trimmed)
   }
 
+  function onStarterQueryClick(chipQuery: string) {
+    const nextJurisdiction = toUiJurisdiction(preferredJurisdiction)
+    setJurisdiction(nextJurisdiction)
+    setQuery(chipQuery)
+    void runSearch(chipQuery, nextJurisdiction)
+  }
+
   function onOpenSession(s: SavedSession) {
     setQuery(s.query)
     setJurisdiction(s.jurisdiction_filter ?? "all")
@@ -1143,14 +1174,41 @@ export function ResearchPageClient({ planId }: { planId: EntitlementPlanId }) {
 
             <section className="space-y-3">
               {!results ? (
-                <div className="flex flex-col items-center justify-center py-12 text-center rounded-xl border border-border/40 bg-muted/10">
-                  <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-muted/60">
-                    <Search className="h-5 w-5 text-muted-foreground/40" />
+                !hasSearched && query.trim() === "" ? (
+                  <div className="flex flex-col items-center justify-center py-12 text-center rounded-xl border border-border/40 bg-muted/10 px-4">
+                    <h3 className="text-base font-semibold">
+                      {t("research.emptyState.title")}
+                    </h3>
+                    <p className="mt-1 text-sm text-muted-foreground">
+                      {t("research.emptyState.hint")}
+                    </p>
+                    <p className="mt-4 text-xs font-medium text-muted-foreground">
+                      {t("research.emptyState.tryLabel")}
+                    </p>
+                    <div className="mt-2 flex flex-wrap items-center justify-center gap-2">
+                      {starterQueries.map((chip) => (
+                        <Button
+                          key={chip.labelKey}
+                          type="button"
+                          variant="outline"
+                          disabled={loading}
+                          onClick={() => onStarterQueryClick(chip.query)}
+                        >
+                          {chip.query}
+                        </Button>
+                      ))}
+                    </div>
                   </div>
-                  <p className="text-sm text-muted-foreground/60">
-                    {t("research.results.hint")}
-                  </p>
-                </div>
+                ) : (
+                  <div className="flex flex-col items-center justify-center py-12 text-center rounded-xl border border-border/40 bg-muted/10">
+                    <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-muted/60">
+                      <Search className="h-5 w-5 text-muted-foreground/40" />
+                    </div>
+                    <p className="text-sm text-muted-foreground/60">
+                      {t("research.results.hint")}
+                    </p>
+                  </div>
+                )
               ) : (
                 <ResearchResultsTabs
                   results={results}

@@ -358,6 +358,11 @@ export const enMessages: Messages = {
       title: "Legal Research",
       subtitle:
         "Search the legal knowledge base directly and save research sessions for later.",
+      emptyState: {
+        title: "Try an example search",
+        hint: "One click to search your jurisdiction.",
+        tryLabel: "Try",
+      },
       search: {
         label: "Question or keywords",
         placeholder: "e.g. rok zastare za naknadu štete",

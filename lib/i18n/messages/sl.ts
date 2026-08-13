@@ -289,6 +289,11 @@ export const slMessages: Messages = {
       title: "Pravno raziskovanje",
       subtitle:
         "Neposredno preiščite pravno bazo in shranite raziskave za kasneje.",
+      emptyState: {
+        title: "Poskusite primer iskanja",
+        hint: "En klik zažene iskanje za vašo jurisdikcijo.",
+        tryLabel: "Poskusite",
+      },
       search: {
         label: "Vprašanje ali ključne besede",
         placeholder: "npr. rok zastare za naknadu štete",

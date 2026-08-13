@@ -289,6 +289,11 @@ export const meMessages: Messages = {
       title: "Pravno istraživanje",
       subtitle:
         "Pretražite pravnu bazu i sačuvajte istraživanja za kasnije.",
+      emptyState: {
+        title: "Probajte primjer pretrage",
+        hint: "Jedan klik pokreće pretragu za vašu jurisdikciju.",
+        tryLabel: "Probajte",
+      },
       search: {
         label: "Pitanje ili ključne riječi",
         placeholder: "npr. rok zastare za naknadu štete",

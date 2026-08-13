@@ -42,7 +42,7 @@ export function HomePricingSection() {
           </Badge>
           <h2
             id="pricing-heading"
-            className={cn(HOME_SECTION_H2_CLASS, "text-foreground normal-case")}
+            className={cn(HOME_SECTION_H2_CLASS, "text-foreground")}
           >
             {t("home.pricing.title")}
           </h2>

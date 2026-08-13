@@ -140,7 +140,7 @@ export function DashboardHeader({
             <p className="text-xs uppercase tracking-widest text-muted-foreground/50">
               {t("dashboard.header.kicker")}
             </p>
-            <h1 className="mt-1 text-3xl font-semibold tracking-tight text-foreground normal-case">
+            <h1 className="mt-1 text-3xl font-semibold tracking-tight text-foreground">
               {t("dashboard.header.welcome")}{" "}
               <span className="text-primary">{displayName}</span>
             </h1>
