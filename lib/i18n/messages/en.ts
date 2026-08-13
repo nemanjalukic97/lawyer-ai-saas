@@ -1908,6 +1908,7 @@ export const enMessages: Messages = {
     dashboard: {
       featureUsage: {
         title: "Feature usage (recent)",
+        usageCount: "Number of uses",
         labels: {
           case_prediction: "Case Prediction",
           contract_generation: "Contract Gen.",

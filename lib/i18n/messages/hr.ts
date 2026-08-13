@@ -1235,6 +1235,7 @@ export const hrMessages: Messages = {
     dashboard: {
       featureUsage: {
         title: "Korištenje funkcionalnosti (nedavno)",
+        usageCount: "Broj korištenja",
         labels: {
           case_prediction: "Predviđanje predmeta",
           contract_generation: "Gen. ugovora",

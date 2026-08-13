@@ -208,6 +208,10 @@ export function FeatureUsageChart({ data }: Props) {
                     ? formatFeatureTypeLabel(label, t)
                     : label
                 }
+                formatter={(value) => [
+                  value,
+                  t("dashboard.featureUsage.usageCount"),
+                ]}
               />
               <Area
                 type="monotone"

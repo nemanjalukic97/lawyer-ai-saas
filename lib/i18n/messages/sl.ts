@@ -636,6 +636,7 @@ export const slMessages: Messages = {
     dashboard: {
       featureUsage: {
         title: "Uporaba funkcij (nedavno)",
+        usageCount: "Število uporab",
         labels: {
           case_prediction: "Napoved primera",
           contract_generation: "Gen. pogodbe",

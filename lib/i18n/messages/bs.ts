@@ -705,6 +705,7 @@ export const bsMessages: Messages = {
     dashboard: {
       featureUsage: {
         title: "Korištenje funkcija (nedavno)",
+        usageCount: "Broj korištenja",
         labels: {
           case_prediction: "Predviđanje predmeta",
           contract_generation: "Gen. ugovora",
