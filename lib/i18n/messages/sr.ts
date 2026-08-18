@@ -76,7 +76,7 @@ export const srMessages: Messages = {
       emailConfirmedTitle: "Vaš nalog je potvrđen!",
       emailConfirmedBody:
         "Sada se možete prijaviti i početi koristiti Legantis.",
-      goToDashboard: "Idi na Kontrolnu tablu",
+      confirmSuccessLogin: "Prijavi se",
       emailConfirmError:
         "Link je istekao ili je nevažeći. Pokušajte ponovo.",
       planSelected:

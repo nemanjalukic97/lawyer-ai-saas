@@ -76,7 +76,7 @@ export const hrMessages: Messages = {
       emailConfirmedTitle: "Vaš račun je potvrđen!",
       emailConfirmedBody:
         "Sada se možete prijaviti i početi koristiti Legantis.",
-      goToDashboard: "Idi na Kontrolnu ploču",
+      confirmSuccessLogin: "Prijavi se",
       emailConfirmError:
         "Veza je istekla ili je nevažeća. Pokušajte ponovo.",
       planSelected:

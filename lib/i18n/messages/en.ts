@@ -76,7 +76,7 @@ export const enMessages: Messages = {
       emailConfirmedTitle: "Your account is confirmed!",
       emailConfirmedBody:
         "You can now log in and start using Legantis.",
-      goToDashboard: "Go to Dashboard",
+      confirmSuccessLogin: "Log in",
       emailConfirmError:
         "This link has expired or is invalid. Please try again.",
       planSelected:

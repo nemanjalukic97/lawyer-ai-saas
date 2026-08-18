@@ -76,7 +76,7 @@ export const slMessages: Messages = {
       emailConfirmedTitle: "Vaš račun je potrjen!",
       emailConfirmedBody:
         "Zdaj se lahko prijavite in začnete uporabljati Legantis.",
-      goToDashboard: "Pojdi na Nadzorno ploščo",
+      confirmSuccessLogin: "Prijava",
       emailConfirmError:
         "Povezava je potekla ali je neveljavna. Poskusite znova.",
       planSelected:

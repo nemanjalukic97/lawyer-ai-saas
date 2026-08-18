@@ -45,7 +45,7 @@ export function EmailConfirmPageClient({ verified }: Props) {
                 </p>
               </div>
               <Button asChild className="w-full">
-                <Link href="/dashboard">{t("auth.goToDashboard")}</Link>
+                <Link href="/login">{t("auth.confirmSuccessLogin")}</Link>
               </Button>
             </div>
           </Card>
