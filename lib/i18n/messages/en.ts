@@ -66,6 +66,13 @@ export const enMessages: Messages = {
         "If you don't see the email in your inbox, please check your Junk or Spam folder.",
       signupSuccessFirmTrial:
         "Your free 30-day Firm trial is already active on your account — confirm your email to start exploring.",
+      signupSuccessLogin: "Log in",
+      signupSuccessResend: "Resend confirmation email",
+      signupSuccessResending: "Sending...",
+      signupSuccessResent:
+        "Confirmation email sent. Check your inbox and spam folder.",
+      signupSuccessResendError:
+        "Could not send right now. Please try again in a minute.",
       emailConfirmedTitle: "Your account is confirmed!",
       emailConfirmedBody:
         "You can now log in and start using Legantis.",
@@ -1923,6 +1930,7 @@ export const enMessages: Messages = {
       header: {
         kicker: "Legantis dashboard",
         welcome: "Welcome back,",
+        welcomeFirstTime: "Welcome to Legantis, {name}",
         planSuffix: "plan",
         noPaidPlan: "No paid plan (documents only)",
         statusNotSubscribed: "not subscribed",
@@ -2067,6 +2075,10 @@ export const enMessages: Messages = {
         ratioSuffix: "your subscription.",
         freeTierHint:
           "Subscribe to a paid plan to compare savings with subscription cost.",
+        emptyState: {
+          body: "Start using Legantis AI tools to track time saved and value.",
+          cta: "Try it now →",
+        },
       },
       activity: {
         title: "Recent activity",
@@ -2331,5 +2343,6 @@ export const enMessages: Messages = {
       bullet2: "Contract drafting — create your first document with the Wizard.",
       bullet3: "Document analysis — upload a contract and get clear insights.",
       cta: "Let's go",
+      later: "Later",
     },
 }

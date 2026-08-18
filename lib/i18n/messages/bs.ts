@@ -66,6 +66,13 @@ export const bsMessages: Messages = {
         "Ako ne vidite email u Inboxu, provjerite Junk ili Spam folder.",
       signupSuccessFirmTrial:
         "Besplatni 30-dnevni Firm trial je već aktivan na vašem računu — potvrdite email da počnete s istraživanjem.",
+      signupSuccessLogin: "Prijavi se",
+      signupSuccessResend: "Pošalji potvrdu ponovo",
+      signupSuccessResending: "Šaljem...",
+      signupSuccessResent:
+        "Potvrda je poslana. Provjerite inboks i neželjenu poštu.",
+      signupSuccessResendError:
+        "Trenutno nije moguće poslati. Pokušajte ponovo za minut.",
       emailConfirmedTitle: "Vaš nalog je potvrđen!",
       emailConfirmedBody:
         "Sada se možete prijaviti i početi koristiti Legantis.",
@@ -720,6 +727,7 @@ export const bsMessages: Messages = {
       header: {
         kicker: "Legantis kontrolna ploča",
         welcome: "Dobro došli nazad,",
+        welcomeFirstTime: "Dobro došli u Legantis, {name}",
         planSuffix: "paket",
         noPaidPlan: "Bez plaćenog paketa (samo dokumenti)",
         statusNotSubscribed: "niste pretplaćeni",
@@ -864,6 +872,10 @@ export const bsMessages: Messages = {
         ratioSuffix: "vaše pretplate.",
         freeTierHint:
           "Pretplatite se na plaćeni plan da biste uporedili uštedu sa cijenom pretplate.",
+        emptyState: {
+          body: "Počnite koristiti Legantis AI alate da biste pratili uštedu vremena i vrijednost.",
+          cta: "Isprobajte odmah →",
+        },
       },
       activity: {
         title: "Skorašnja aktivnost",
@@ -2336,5 +2348,6 @@ export const bsMessages: Messages = {
       bullet2: "Izrada ugovora — napravite prvi dokument uz Wizard.",
       bullet3: "Analiza dokumenata — otpremite ugovor i dobijte jasne uvide.",
       cta: "Krenimo",
+      later: "Kasnije",
     },
 }

@@ -1,6 +1,7 @@
 "use client"
 
-import { useState } from "react"
+import { useRef, useState } from "react"
+import { useRouter } from "next/navigation"
 
 import { LegantisLogo } from "@/components/LegantisLogo"
 import { useLanguage } from "@/components/LanguageProvider"
@@ -17,6 +18,12 @@ import {
 type TrialWelcomeModalProps = {
   trialEndsAt: string
 }
+
+const FIRST_ACTIONS = [
+  { key: "welcomeModal.bullet1", href: "/dashboard/research" },
+  { key: "welcomeModal.bullet2", href: "/dashboard/contracts" },
+  { key: "welcomeModal.bullet3", href: "/dashboard/analyze" },
+] as const
 
 /** Numeric DD.MM.YYYY — avoids Intl nominative month names / trailing periods. */
 function formatTrialEndDate(iso: string): string {
@@ -36,13 +43,22 @@ function dismissWelcome() {
 
 export function TrialWelcomeModal({ trialEndsAt }: TrialWelcomeModalProps) {
   const { t } = useLanguage()
+  const router = useRouter()
   const [open, setOpen] = useState(true)
+  const finishingRef = useRef(false)
   const formattedDate = formatTrialEndDate(trialEndsAt)
+
+  function finish(href?: string) {
+    if (finishingRef.current) return
+    finishingRef.current = true
+    setOpen(false)
+    dismissWelcome()
+    if (href) router.push(href)
+  }
 
   function handleOpenChange(next: boolean) {
     if (!next) {
-      setOpen(false)
-      dismissWelcome()
+      finish()
       return
     }
     setOpen(next)
@@ -64,12 +80,30 @@ export function TrialWelcomeModal({ trialEndsAt }: TrialWelcomeModalProps) {
           </DialogDescription>
         </DialogHeader>
         <ul className="list-disc space-y-2 pl-5 text-sm text-muted-foreground">
-          <li>{t("welcomeModal.bullet1")}</li>
-          <li>{t("welcomeModal.bullet2")}</li>
-          <li>{t("welcomeModal.bullet3")}</li>
+          {FIRST_ACTIONS.map(({ key, href }) => (
+            <li key={key}>
+              <button
+                type="button"
+                onClick={() => finish(href)}
+                className="text-left text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+              >
+                {t(key)}
+              </button>
+            </li>
+          ))}
         </ul>
         <DialogFooter>
-          <Button type="button" onClick={() => handleOpenChange(false)}>
+          <Button
+            type="button"
+            variant="ghost"
+            onClick={() => finish()}
+          >
+            {t("welcomeModal.later")}
+          </Button>
+          <Button
+            type="button"
+            onClick={() => finish("/dashboard/research")}
+          >
             {t("welcomeModal.cta")}
           </Button>
         </DialogFooter>

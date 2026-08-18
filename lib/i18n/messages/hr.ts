@@ -66,6 +66,13 @@ export const hrMessages: Messages = {
         "Ako ne vidite e-mail u pristigloj pošti, provjerite mapu Junk ili Spam.",
       signupSuccessFirmTrial:
         "Besplatni 30-dnevni Firm trial već je aktivan na vašem računu — potvrdite e-poštu da počnete istraživati.",
+      signupSuccessLogin: "Prijavi se",
+      signupSuccessResend: "Pošalji potvrdu ponovo",
+      signupSuccessResending: "Šaljem...",
+      signupSuccessResent:
+        "Potvrda je poslana. Provjerite pristiglu poštu i mapu neželjene pošte.",
+      signupSuccessResendError:
+        "Trenutno nije moguće poslati. Pokušajte ponovo za minut.",
       emailConfirmedTitle: "Vaš račun je potvrđen!",
       emailConfirmedBody:
         "Sada se možete prijaviti i početi koristiti Legantis.",
@@ -1250,6 +1257,7 @@ export const hrMessages: Messages = {
       header: {
         kicker: "Legantis nadzorna ploča",
         welcome: "Dobrodošli natrag,",
+        welcomeFirstTime: "Dobro došli u Legantis, {name}",
         planSuffix: "paket",
         noPaidPlan: "Bez plaćenog paketa (samo dokumenti)",
         statusNotSubscribed: "niste pretplaćeni",
@@ -1394,6 +1402,10 @@ export const hrMessages: Messages = {
         ratioSuffix: "vaše pretplate.",
         freeTierHint:
           "Pretplatite se na plaćeni plan da usporedite uštedu s cijenom pretplate.",
+        emptyState: {
+          body: "Počnite koristiti Legantis AI alate da biste pratili uštedu vremena i vrijednost.",
+          cta: "Isprobajte odmah →",
+        },
       },
       activity: {
         title: "Nedavna aktivnost",
@@ -2323,5 +2335,6 @@ export const hrMessages: Messages = {
       bullet2: "Izrada ugovora — izradite prvi dokument uz Wizard.",
       bullet3: "Analiza dokumenata — učitajte ugovor i dobijte jasne uvide.",
       cta: "Krenimo",
+      later: "Kasnije",
     },
 }

@@ -1,9 +1,11 @@
 "use client"
 
+import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
 
 import { signup } from "@/app/signup/actions"
 import { Card } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import JurisdictionSelect from "@/components/JurisdictionSelect"
@@ -11,25 +13,60 @@ import AuthSubmitButton from "@/components/auth/AuthSubmitButton"
 import { renderAuthDescription } from "@/components/auth/renderAuthDescription"
 import { LanguageSwitcher } from "@/components/LanguageSwitcher"
 import { useLanguage } from "@/components/LanguageProvider"
+import { createClient } from "@/lib/supabase/client"
 
 const PLAN_KEYS = new Set(["solo", "professional", "firm"])
+const RESEND_COOLDOWN_MS = 60_000
+
+type ResendStatus = "idle" | "pending" | "success" | "error"
 
 type Props = {
   errorCode?: string
   hasSuccess: boolean
   selectedPlanKey?: string | null
+  email?: string | null
 }
 
 export function SignupPageClient({
   errorCode,
   hasSuccess,
   selectedPlanKey,
+  email = null,
 }: Props) {
   const { t, language } = useLanguage()
+  const [resendStatus, setResendStatus] = useState<ResendStatus>("idle")
+  const cooldownRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const planTierKey =
     selectedPlanKey && PLAN_KEYS.has(selectedPlanKey)
       ? (selectedPlanKey as "solo" | "professional" | "firm")
       : null
+
+  useEffect(() => {
+    return () => {
+      if (cooldownRef.current) clearTimeout(cooldownRef.current)
+    }
+  }, [])
+
+  function startCooldown() {
+    if (cooldownRef.current) clearTimeout(cooldownRef.current)
+    cooldownRef.current = setTimeout(() => {
+      setResendStatus("idle")
+    }, RESEND_COOLDOWN_MS)
+  }
+
+  async function handleResend() {
+    if (!email || resendStatus !== "idle") return
+    setResendStatus("pending")
+    const supabase = createClient()
+    const { error } = await supabase.auth.resend({ type: "signup", email })
+    if (error) {
+      setResendStatus("error")
+      startCooldown()
+      return
+    }
+    setResendStatus("success")
+    startCooldown()
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background px-4 py-12 sm:py-16">
@@ -53,22 +90,55 @@ export function SignupPageClient({
               <div className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-emerald-600/10 text-emerald-600 text-sm font-semibold">
                 ✔
               </div>
-              <div className="space-y-1">
-                <h1 className="text-xl font-semibold tracking-tight">
-                  {t("auth.signupSuccessTitle")}
-                </h1>
-                <p className="text-sm text-muted-foreground">
-                  {t("auth.signupSuccessBody1")}
-                </p>
+              <div className="w-full space-y-3">
+                <div className="space-y-1">
+                  <h1 className="text-xl font-semibold tracking-tight">
+                    {t("auth.signupSuccessTitle")}
+                  </h1>
+                  <p className="text-sm text-muted-foreground">
+                    {t("auth.signupSuccessBody1")}
+                  </p>
+                </div>
+                <div className="rounded-md border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-sm text-amber-950 dark:text-amber-100">
+                  {t("auth.signupSuccessSpam")}
+                </div>
                 <p className="text-sm text-muted-foreground">
                   {t("auth.signupSuccessBody2")}
                 </p>
                 <p className="text-sm text-muted-foreground">
-                  {t("auth.signupSuccessSpam")}
-                </p>
-                <p className="text-sm text-muted-foreground">
                   {t("auth.signupSuccessFirmTrial")}
                 </p>
+              </div>
+              <div className="w-full space-y-2 pt-1">
+                <Button asChild className="w-full">
+                  <Link href="/login">{t("auth.signupSuccessLogin")}</Link>
+                </Button>
+                {email ? (
+                  resendStatus === "success" ? (
+                    <p className="text-sm text-emerald-700 dark:text-emerald-400">
+                      {t("auth.signupSuccessResent")}
+                    </p>
+                  ) : (
+                    <>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        className="w-full"
+                        disabled={resendStatus !== "idle"}
+                        onClick={handleResend}
+                      >
+                        {resendStatus === "pending"
+                          ? t("auth.signupSuccessResending")
+                          : t("auth.signupSuccessResend")}
+                      </Button>
+                      {resendStatus === "error" ? (
+                        <p className="text-sm text-destructive">
+                          {t("auth.signupSuccessResendError")}
+                        </p>
+                      ) : null}
+                    </>
+                  )
+                ) : null}
               </div>
             </div>
           </Card>

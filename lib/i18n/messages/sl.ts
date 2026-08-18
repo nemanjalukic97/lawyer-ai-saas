@@ -66,6 +66,13 @@ export const slMessages: Messages = {
         "Če e-pošte ne vidite v mapi Prejeto, preverite mapo Neželena pošta (Junk/Spam).",
       signupSuccessFirmTrial:
         "Vaše brezplačno 30-dnevno preizkusno obdobje Firm je že aktivno — potrdite e-pošto in začnite raziskovati.",
+      signupSuccessLogin: "Prijava",
+      signupSuccessResend: "Ponovno pošlji potrditev",
+      signupSuccessResending: "Pošiljam...",
+      signupSuccessResent:
+        "Potrditveno sporočilo je poslano. Preverite nabiralnik in mapo neželene pošte.",
+      signupSuccessResendError:
+        "Trenutno ni mogoče poslati. Poskusite znova čez minuto.",
       emailConfirmedTitle: "Vaš račun je potrjen!",
       emailConfirmedBody:
         "Zdaj se lahko prijavite in začnete uporabljati Legantis.",
@@ -651,6 +658,7 @@ export const slMessages: Messages = {
       header: {
         kicker: "Nadzorna plošča Legantis",
         welcome: "Dobrodošli nazaj,",
+        welcomeFirstTime: "Dobrodošli v Legantis, {name}",
         planSuffix: "paket",
         noPaidPlan: "Brez plačljivega paketa (samo dokumenti)",
         statusNotSubscribed: "brez naročnine",
@@ -795,6 +803,10 @@ export const slMessages: Messages = {
         ratioSuffix: "vaše naročnine.",
         freeTierHint:
           "Naročite se na plačljiv paket, da primerjate prihranek s stroškom naročnine.",
+        emptyState: {
+          body: "Začnite uporabljati AI orodja Legantis, da spremljate prihranjen čas in vrednost.",
+          cta: "Preizkusite zdaj →",
+        },
       },
       activity: {
         title: "Nedavna aktivnost",
@@ -2262,5 +2274,6 @@ export const slMessages: Messages = {
       bullet2: "Priprava pogodb — ustvarite prvi dokument s čarovnikom (Wizard).",
       bullet3: "Analiza dokumentov — naložite pogodbo in pridobite jasne vpoglede.",
       cta: "Začnimo",
+      later: "Pozneje",
     },
 }

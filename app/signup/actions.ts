@@ -87,7 +87,7 @@ export async function signup(formData: FormData) {
     }
 
     revalidatePath("/", "layout")
-    redirect("/signup?success=true")
+    redirect(`/signup?success=true&email=${encodeURIComponent(email)}`)
   }
 }
 

@@ -113,6 +113,7 @@ export default async function DashboardPage() {
           jurisdictionLabel={jurisdictionLabel}
           planId={planId}
           subscriptionStatus={subscriptionStatusForClient}
+          isFirstVisit={showWelcomeModal}
         />
 
         {showWelcomeModal ? (

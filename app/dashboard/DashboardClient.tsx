@@ -74,6 +74,7 @@ type HeaderProps = {
   jurisdictionLabel: string
   planId: EntitlementPlanId
   subscriptionStatus: string | null
+  isFirstVisit?: boolean
 }
 
 type BodyProps = {
@@ -116,6 +117,7 @@ export function DashboardHeader({
   jurisdictionLabel,
   planId,
   subscriptionStatus,
+  isFirstVisit = false,
 }: HeaderProps) {
   const { t } = useLanguage()
 
@@ -141,8 +143,14 @@ export function DashboardHeader({
               {t("dashboard.header.kicker")}
             </p>
             <h1 className="mt-1 text-3xl font-semibold tracking-tight text-foreground">
-              {t("dashboard.header.welcome")}{" "}
-              <span className="text-primary">{displayName}</span>
+              {isFirstVisit ? (
+                <FirstVisitWelcome displayName={displayName} />
+              ) : (
+                <>
+                  {t("dashboard.header.welcome")}{" "}
+                  <span className="text-primary">{displayName}</span>
+                </>
+              )}
             </h1>
             <div className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-muted-foreground">
               <span className="text-muted-foreground">{jurisdictionLabel}</span>
@@ -184,6 +192,18 @@ export function DashboardHeader({
             </div>
           </div>
         </header>
+  )
+}
+
+function FirstVisitWelcome({ displayName }: { displayName: string }) {
+  const { t } = useLanguage()
+  const [before, after] = t("dashboard.header.welcomeFirstTime").split("{name}")
+  return (
+    <>
+      {before}
+      <span className="text-primary">{displayName}</span>
+      {after ?? ""}
+    </>
   )
 }
 
@@ -559,8 +579,15 @@ export function DashboardBody({
               <Card>
                 <CardHeader><CardTitle>{t("dashboard.roi.title")}</CardTitle></CardHeader>
                 <CardContent className="space-y-2 text-sm">
-                  <p className="text-muted-foreground">Počnite koristiti Legantis AI alate da biste pratili uštedu vremena i vrijednost.</p>
-                  <Link href="/dashboard/generate" className="text-xs text-primary hover:underline">Isprobajte odmah →</Link>
+                  <p className="text-muted-foreground">
+                    {t("dashboard.roi.emptyState.body")}
+                  </p>
+                  <Link
+                    href="/dashboard/research"
+                    className="text-xs text-primary hover:underline"
+                  >
+                    {t("dashboard.roi.emptyState.cta")}
+                  </Link>
                 </CardContent>
               </Card>
             )}
