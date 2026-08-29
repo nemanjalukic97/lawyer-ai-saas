@@ -918,6 +918,8 @@ export const srMessages: Messages = {
       list: {
         submissions: "Prijave: {n}",
         active: "Aktivan",
+        statusActive: "Aktivna",
+        statusPaused: "Pauzirana",
         copyLink: "Kopiraj link",
         copied: "Kopirano",
         viewSubmissions: "Prijave",
@@ -1070,6 +1072,9 @@ export const srMessages: Messages = {
         overdueDays: "Prekoračeno {n} dana",
         dueToday: "Rok danas",
         inDays: "za {n} dana",
+        today: "Danas",
+        tomorrow: "Sutra",
+        yesterday: "Juče",
       },
       types: {
         court_hearing: "Ročište",
@@ -1896,6 +1901,7 @@ export const srMessages: Messages = {
         emptyTitle: "Još nema klijenata.",
         emptySubtitle: "Dodajte prvog klijenta klikom na dugme „Dodaj klijenta” iznad.",
         added: "Dodato",
+        searchPlaceholder: "Pretražite klijente",
       },
       sidebar: {
         title: "Detalji klijenta",

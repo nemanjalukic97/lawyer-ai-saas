@@ -8,7 +8,7 @@ import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { ArrowDown, ArrowUp, Loader2, Trash2, Users } from "lucide-react"
+import { ArrowDown, ArrowUp, Loader2, Trash2 } from "lucide-react"
 import { createClient } from "@/lib/supabase/client"
 import { useLanguage } from "@/components/LanguageProvider"
 import { logActivity } from "@/lib/activity/logActivity"
@@ -70,6 +70,7 @@ export default function ClientsPageClient({ selectedId }: Props) {
     "created_at"
   )
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc")
+  const [search, setSearch] = useState("")
 
   const [selectedClient, setSelectedClient] = useState<ClientDetail | null>(
     null
@@ -344,7 +345,17 @@ export default function ClientsPageClient({ selectedId }: Props) {
     }
   }
 
-  const sortedClients = [...clients].sort((a, b) => {
+  const visibleClients = clients.filter((c) => {
+    if (!search.trim()) return true
+    const q = search.trim().toLocaleLowerCase()
+    return (
+      (c.name ?? "").toLocaleLowerCase().includes(q) ||
+      (c.email ?? "").toLocaleLowerCase().includes(q) ||
+      (c.company_name ?? "").toLocaleLowerCase().includes(q)
+    )
+  })
+
+  const sortedClients = [...visibleClients].sort((a, b) => {
     const direction = sortDirection === "asc" ? 1 : -1
 
     if (sortField === "name") {
@@ -364,9 +375,11 @@ export default function ClientsPageClient({ selectedId }: Props) {
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-background px-4 py-10">
-      <div className="mx-auto grid min-w-0 max-w-6xl gap-8 lg:grid-cols-[minmax(0,2fr),minmax(0,1.2fr)]">
+      <div className={`mx-auto grid min-w-0 max-w-6xl gap-8 ${
+        selectedId ? "lg:grid-cols-[minmax(0,2fr),minmax(0,1.2fr)]" : "lg:grid-cols-1"
+      }`}>
         <div className="flex min-w-0 flex-col gap-8">
-          <header className="mb-8 pb-6 border-b border-border/40 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+          <header className="pb-6 border-b border-border/40 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div className="space-y-1">
               <p className="text-xs font-medium tracking-widest text-muted-foreground/40 uppercase mb-2">
                 {t("clients.header.kicker")}
@@ -388,6 +401,9 @@ export default function ClientsPageClient({ selectedId }: Props) {
                 <Button asChild variant="outline" size="sm">
                   <Link href="/dashboard">{t("clients.header.back")}</Link>
                 </Button>
+                <Button asChild variant="outline" size="sm">
+                  <Link href="/dashboard/activity">{t("clients.sidebar.viewActivity")}</Link>
+                </Button>
                 <Button
                   type="button"
                   size="sm"
@@ -402,10 +418,6 @@ export default function ClientsPageClient({ selectedId }: Props) {
               </div>
             </div>
           </header>
-
-          <div className="mb-6 flex h-10 w-10 items-center justify-center rounded-lg bg-blue-500/15">
-            <Users className="h-5 w-5 text-blue-400" />
-          </div>
 
           {isAdding && (
             <Card className="p-6">
@@ -502,6 +514,13 @@ export default function ClientsPageClient({ selectedId }: Props) {
               </div>
 
               <div className="flex w-full min-w-0 shrink-0 flex-col gap-2 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center sm:justify-end">
+                <Input
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder={t("clients.list.searchPlaceholder")}
+                  className="h-8 w-full text-xs sm:w-56"
+                />
+
                 <label className="flex max-w-full min-w-0 flex-col gap-1 text-muted-foreground sm:flex-row sm:items-center sm:gap-2">
                   <span className="shrink-0 text-xs">{t("clients.list.sortBy")}</span>
                   <select
@@ -546,97 +565,86 @@ export default function ClientsPageClient({ selectedId }: Props) {
               </p>
             )}
 
-            <div className="rounded-md border">
-              {loadingClients ? (
-                <div className="flex items-center gap-2 p-4 text-sm text-muted-foreground">
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                  <span>{t("clients.list.loading")}</span>
-                </div>
-              ) : sortedClients.length === 0 ? (
-                <div className="space-y-2 p-4 text-sm text-muted-foreground">
-                  <p>{t("clients.list.emptyTitle")}</p>
-                  <p>
-                    {t("clients.list.emptySubtitle")}
-                  </p>
-                </div>
-              ) : (
-                <div className="mt-4 space-y-1">
-                  {sortedClients.map((client) => (
-                    <div
-                      key={client.id}
-                      className="flex min-w-0 items-center gap-3 px-2 py-3 rounded-lg hover:bg-muted/20 transition-colors sm:gap-4"
+            {loadingClients ? (
+              <div className="flex items-center gap-2 p-4 text-sm text-muted-foreground">
+                <Loader2 className="h-4 w-4 animate-spin" />
+                <span>{t("clients.list.loading")}</span>
+              </div>
+            ) : sortedClients.length === 0 ? (
+              <div className="space-y-2 p-4 text-sm text-muted-foreground">
+                <p>{t("clients.list.emptyTitle")}</p>
+                <p>
+                  {t("clients.list.emptySubtitle")}
+                </p>
+              </div>
+            ) : (
+              <div className="space-y-0.5">
+                {sortedClients.map((client) => (
+                  <div
+                    key={client.id}
+                    className={`group flex min-w-0 items-center gap-3 rounded-r-lg border-l-2 px-3 py-2.5 transition-colors hover:border-primary/50 hover:bg-muted/20 ${
+                      client.id === selectedId
+                        ? "border-primary bg-muted/20"
+                        : "border-border/40"
+                    }`}
+                  >
+                    <Link
+                      href={`/dashboard/clients?id=${client.id}`}
+                      className="flex min-w-0 flex-1 items-center gap-3"
+                      aria-current={client.id === selectedId ? "page" : undefined}
                     >
-                      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-blue-500/15 text-sm font-semibold text-blue-400">
+                      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-500/15 text-xs font-semibold text-blue-400">
                         {client.name.charAt(0).toUpperCase()}
                       </div>
 
-                      <div className="min-w-0 flex-1 space-y-1">
+                      <div className="min-w-0 flex-1">
                         <div className="flex flex-wrap items-center gap-2">
-                          <p className="text-sm font-semibold text-foreground">
-                            {client.name}
-                          </p>
+                          <p className="truncate text-sm font-semibold text-foreground">{client.name}</p>
                           {client.company_name && (
-                            <span className="text-xs text-muted-foreground/60">
+                            <span className="shrink-0 rounded-full border border-border/50 px-2 py-0.5 text-[11px] text-muted-foreground/70">
                               {client.company_name}
                             </span>
                           )}
                         </div>
-                        <div className="flex flex-col">
-                          <span className="text-xs text-muted-foreground/70">
-                            {client.email}
-                          </span>
+                        <div className="mt-0.5 flex min-w-0 flex-wrap items-center gap-x-3 gap-y-0.5">
+                          <span className="truncate text-xs text-muted-foreground/70">{client.email}</span>
                           {client.phone && (
-                            <span className="text-xs text-muted-foreground/70">
-                              {client.phone}
-                            </span>
+                            <span className="shrink-0 text-xs text-muted-foreground/70">{client.phone}</span>
                           )}
                         </div>
-                        <p className="text-xs text-muted-foreground/40">
-                          {t("clients.list.added")} {formatDisplayDate(client.created_at)}
-                        </p>
                       </div>
+                    </Link>
 
-                      <div className="flex items-center gap-3">
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => void handleDelete(client.id)}
-                          disabled={deletingId === client.id}
-                          aria-label={t("clients.actions.deleteAria")}
-                        >
-                          {deletingId === client.id ? (
-                            <Loader2 className="h-4 w-4 animate-spin" />
-                          ) : (
-                            <Trash2 className="h-4 w-4" />
-                          )}
-                        </Button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
+                    <span className="hidden shrink-0 text-xs text-muted-foreground/40 sm:inline">
+                      {formatDisplayDate(client.created_at)}
+                    </span>
+
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      className="h-8 w-8 shrink-0"
+                      onClick={() => void handleDelete(client.id)}
+                      disabled={deletingId === client.id}
+                      aria-label={t("clients.actions.deleteAria")}
+                    >
+                      {deletingId === client.id ? (
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                      ) : (
+                        <Trash2 className="h-4 w-4" />
+                      )}
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            )}
           </Card>
         </div>
 
+        {selectedId ? (
         <Card className="h-fit min-w-0 space-y-4 overflow-hidden p-6">
           <h2 className="text-lg font-semibold">{t("clients.sidebar.title")}</h2>
-          {!selectedId ? (
-            <div className="space-y-4">
-              <div className="flex flex-col items-center justify-center py-12 text-center">
-                <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-muted/60">
-                  <Users className="h-5 w-5 text-muted-foreground/40" />
-                </div>
-                <p className="text-sm font-medium text-muted-foreground/60">
-                  Select a client to view details
-                </p>
-              </div>
-              <Button asChild variant="outline" size="sm">
-                <Link href="/dashboard/activity">{t("clients.sidebar.viewActivity")}</Link>
-              </Button>
-            </div>
-          ) : selectedLoading ? (
+          {selectedLoading ? (
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <Loader2 className="h-4 w-4 animate-spin" />
               <span>{t("clients.sidebar.loading")}</span>
@@ -700,6 +708,7 @@ export default function ClientsPageClient({ selectedId }: Props) {
             </div>
           ) : null}
         </Card>
+        ) : null}
       </div>
     </div>
   )

@@ -14,7 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { FileText, Loader2, UploadCloud } from "lucide-react"
+import { Loader2, UploadCloud } from "lucide-react"
 import { createClient } from "@/lib/supabase/client"
 import { useLanguage } from "@/components/LanguageProvider"
 import { saveAs } from "file-saver"
@@ -1004,9 +1004,6 @@ export default function RedlinePageClient({ selectedId }: { selectedId: string |
           {currentStep === 1 && (
             <div className="grid gap-6 lg:grid-cols-[minmax(0,1.1fr),minmax(0,1.2fr)]">
               <Card className="rounded-xl border border-border/40 bg-muted/10 p-6">
-                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-orange-500/15">
-                  <FileText className="h-5 w-5 text-orange-400" />
-                </div>
                 <form onSubmit={handleAnalyze} className="space-y-6">
                   <div
                     className="flex cursor-pointer flex-col items-center justify-center rounded-md border border-dashed border-muted-foreground/40 bg-muted/40 px-4 py-8 text-center transition hover:border-primary/60 hover:bg-muted"

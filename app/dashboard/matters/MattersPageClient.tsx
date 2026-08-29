@@ -470,7 +470,7 @@ export function MattersPageClient() {
   return (
     <div className="min-h-screen overflow-x-hidden bg-background px-4 py-10">
       <div className="mx-auto flex min-w-0 max-w-6xl flex-col gap-6">
-        <header className="mb-8 pb-6 border-b border-border/40 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <header className="pb-6 border-b border-border/40 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div className="space-y-1">
             <p className="text-xs font-medium tracking-widest text-muted-foreground/40 uppercase mb-2">
               {t("matters.kicker")}
@@ -488,10 +488,6 @@ export function MattersPageClient() {
             </Button>
           </div>
         </header>
-
-        <div className="mb-6 flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-500/15">
-          <Briefcase className="h-5 w-5 text-indigo-400" />
-        </div>
 
         {error && (
           <p className="text-sm text-destructive" role="alert">

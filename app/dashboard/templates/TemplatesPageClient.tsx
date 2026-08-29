@@ -3,7 +3,6 @@
 import { useMemo, useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { FileText } from "lucide-react"
 
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -162,7 +161,7 @@ export function TemplatesPageClient({ templates }: Props) {
     <div className="min-h-screen bg-background px-4 py-10">
       <div className="mx-auto flex min-w-0 max-w-6xl flex-col gap-8 xl:flex-row">
         <div className="min-w-0 flex-1 space-y-6">
-          <header className="mb-8 pb-6 border-b border-border/40 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+          <header className="pb-6 border-b border-border/40 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div className="space-y-1">
               <p className="text-xs font-medium tracking-widest text-muted-foreground/40 uppercase mb-2">
                 {t("templates.header.kicker")}
@@ -180,10 +179,6 @@ export function TemplatesPageClient({ templates }: Props) {
               </Button>
             </div>
           </header>
-
-          <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-500/15">
-            <FileText className="h-5 w-5 text-indigo-400" />
-          </div>
 
           <section className="space-y-4">
             <div className="flex flex-wrap items-center gap-3 rounded-xl border border-border/40 bg-muted/10 p-4 mb-6">

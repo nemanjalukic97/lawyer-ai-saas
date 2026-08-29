@@ -3,7 +3,6 @@
 import { useState } from "react"
 import Link from "next/link"
 import { toast } from "sonner"
-import { Clock } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -24,7 +23,7 @@ export default function TimeTrackingPageClient({
   return (
     <div className="min-h-screen overflow-x-hidden bg-background px-4 py-10">
       <div className="mx-auto flex min-w-0 max-w-6xl flex-col gap-8">
-        <header className="mb-8 pb-6 border-b border-border/40 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <header className="pb-6 border-b border-border/40 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div className="space-y-1">
             <p className="text-xs font-medium tracking-widest text-muted-foreground/40 uppercase mb-2">
               {t("time.header.kicker")}
@@ -42,10 +41,6 @@ export default function TimeTrackingPageClient({
             </Button>
           </div>
         </header>
-
-        <div className="mb-6 flex h-10 w-10 items-center justify-center rounded-lg bg-green-500/15">
-          <Clock className="h-5 w-5 text-green-400" />
-        </div>
 
         <Tabs value={tab} onValueChange={(v) => setTab(v as "time" | "invoices")} className="space-y-6">
           <TabsList>

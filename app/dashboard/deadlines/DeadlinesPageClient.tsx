@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { useSearchParams } from "next/navigation"
-import { Calendar, ChevronLeft, ChevronRight, Loader2, Trash2 } from "lucide-react"
+import { Calendar, ChevronLeft, ChevronRight, Loader2, Pencil, Trash2 } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -73,6 +73,15 @@ function urgencyClass(
   const diff = calendarDaysUntil(d.due_date)
   if (diff <= 3) return "bg-amber-500"
   return "bg-emerald-500"
+}
+
+function urgencyBorderClass(d: DeadlineRow): string {
+  const eff = getEffectiveStatus(d)
+  if (eff === "completed" || eff === "cancelled") return "border-muted-foreground/40"
+  if (eff === "overdue") return "border-destructive/60"
+  const diff = calendarDaysUntil(d.due_date)
+  if (diff <= 3) return "border-amber-500/60"
+  return "border-emerald-500/50"
 }
 
 function matchesFilter(d: DeadlineRow, filter: FilterKey): boolean {
@@ -235,6 +244,12 @@ export default function DeadlinesPageClient({ planId, prefillMatterId }: Props) 
     for (const c of clients) m.set(c.id, c)
     return m
   }, [clients])
+
+  const matterMap = useMemo(() => {
+    const m = new Map<string, MatterMini>()
+    for (const item of matterOptions) m.set(item.id, item)
+    return m
+  }, [matterOptions])
 
   const clientsFiltered = useMemo(() => {
     const q = clientQuery.trim().toLowerCase()
@@ -505,6 +520,42 @@ export default function DeadlinesPageClient({ planId, prefillMatterId }: Props) 
     return t("deadlines.list.inDays").replace("{n}", String(diff))
   }
 
+  function formatDueLabel(iso: string): string {
+    const diff = calendarDaysUntil(iso)
+    if (diff === 0) return t("deadlines.list.today")
+    if (diff === 1) return t("deadlines.list.tomorrow")
+    if (diff === -1) return t("deadlines.list.yesterday")
+    return formatDueHeading(iso, dateLocale)
+  }
+
+  function displayDeadlineTitle(title: string): string {
+    const normalized = title.trim().toLocaleLowerCase()
+    if (
+      normalized === "today" ||
+      normalized === "danas" ||
+      normalized === "danes"
+    ) {
+      return t("deadlines.list.today")
+    }
+    if (
+      normalized === "tomorrow" ||
+      normalized === "sutra" ||
+      normalized === "jutri"
+    ) {
+      return t("deadlines.list.tomorrow")
+    }
+    if (
+      normalized === "yesterday" ||
+      normalized === "jučer" ||
+      normalized === "juce" ||
+      normalized === "juče" ||
+      normalized === "včeraj"
+    ) {
+      return t("deadlines.list.yesterday")
+    }
+    return title
+  }
+
   if (!canUse) {
     return (
       <div className="min-h-screen bg-background px-4 py-10">
@@ -528,7 +579,7 @@ export default function DeadlinesPageClient({ planId, prefillMatterId }: Props) 
   return (
     <div className="min-h-screen bg-background px-4 py-10">
       <div className="mx-auto flex max-w-5xl flex-col gap-6">
-        <header className="mb-8 pb-6 border-b border-border/40 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <header className="pb-6 border-b border-border/40 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div className="space-y-1">
             <p className="text-xs font-medium tracking-widest text-muted-foreground/40 uppercase mb-2">
               {t("deadlines.kicker")}
@@ -561,10 +612,6 @@ export default function DeadlinesPageClient({ planId, prefillMatterId }: Props) 
           </div>
         </header>
 
-        <div className="mb-6 flex h-10 w-10 items-center justify-center rounded-lg bg-yellow-500/15">
-          <Calendar className="h-5 w-5 text-yellow-400" />
-        </div>
-
         {testSummary && process.env.NODE_ENV !== "production" && (
           <p className="text-sm text-muted-foreground">{testSummary}</p>
         )}
@@ -592,24 +639,21 @@ export default function DeadlinesPageClient({ planId, prefillMatterId }: Props) 
             </TabsList>
 
             <TabsContent value="list" className="space-y-4">
-              <div className="flex flex-wrap gap-2">
-                {(
-                  [
-                    "all",
-                    "upcoming",
-                    "overdue",
-                    "completed",
-                  ] as FilterKey[]
-                ).map((k) => (
-                  <Button
+              <div className="flex flex-wrap items-center gap-1 rounded-full border border-border/50 p-0.5 w-fit">
+                {(["all", "upcoming", "overdue", "completed"] as FilterKey[]).map((k) => (
+                  <button
                     key={k}
                     type="button"
-                    size="sm"
-                    variant={filter === k ? "default" : "outline"}
                     onClick={() => setFilter(k)}
+                    aria-pressed={filter === k}
+                    className={`rounded-full px-3 py-1 text-xs transition-colors ${
+                      filter === k
+                        ? "bg-muted text-foreground"
+                        : "text-muted-foreground hover:text-foreground"
+                    }`}
                   >
                     {t(`deadlines.filters.${k}`)}
-                  </Button>
+                  </button>
                 ))}
               </div>
 
@@ -626,11 +670,12 @@ export default function DeadlinesPageClient({ planId, prefillMatterId }: Props) 
                   </p>
                 </div>
               ) : (
-                <ul className="flex flex-col gap-2">
+                <ul className="flex flex-col gap-0.5">
                   {paged.map((d) => {
                     const client = d.client_id
                       ? clientMap.get(d.client_id)
                       : undefined
+                    const matter = d.matter_id ? matterMap.get(d.matter_id) : undefined
                     const eff = getEffectiveStatus(d)
                     const diff = calendarDaysUntil(d.due_date)
                     const inXClass =
@@ -641,62 +686,68 @@ export default function DeadlinesPageClient({ planId, prefillMatterId }: Props) 
                           : "text-xs text-muted-foreground/50"
                     return (
                       <li key={d.id}>
-                        <div className="flex items-center gap-3 rounded-lg border border-border/40 bg-muted/10 px-4 py-3 hover:bg-muted/20 transition-colors">
-                          <div className="flex min-w-0 flex-1 items-start gap-3">
-                            <span
-                              className={`mt-1.5 size-2 shrink-0 rounded-full ${urgencyClass(d)}`}
-                              aria-hidden
-                            />
-                            <div className="min-w-0 space-y-1">
-                              <p className="text-sm font-semibold text-foreground leading-tight">
-                                {d.title}
-                              </p>
-                              <div className="flex flex-wrap items-center gap-2 mt-0.5">
-                                {client && (
-                                  <Link
-                                    href={`/dashboard/clients?id=${client.id}`}
-                                    className="text-xs text-muted-foreground/60 hover:text-foreground"
-                                  >
-                                    {client.name}
-                                  </Link>
-                                )}
-                                <span className="rounded-md bg-muted/60 px-2 py-0.5 text-xs text-muted-foreground/70">
-                                  {t(`deadlines.types.${d.deadline_type}`)}
-                                </span>
-                                <span className="text-xs text-muted-foreground/60">
-                                  {formatDueHeading(d.due_date, dateLocale)}
-                                </span>
-                                <span className={inXClass}>
-                                  {formatRelative(d)}
-                                </span>
-                              </div>
+                        <div
+                          className={`flex flex-wrap items-center gap-x-3 gap-y-2 rounded-r-lg border-l-2 px-3 py-2.5 transition-colors hover:bg-muted/20 ${urgencyBorderClass(d)}`}
+                        >
+                          <div className="min-w-0 flex-1">
+                            <p className="truncate text-sm font-semibold leading-tight text-foreground">
+                              {displayDeadlineTitle(d.title)}
+                            </p>
+                            <div className="mt-0.5 flex flex-wrap items-center gap-x-2.5 gap-y-1">
+                              {client && (
+                                <Link
+                                  href={`/dashboard/clients?id=${client.id}`}
+                                  className="text-xs text-muted-foreground/60 hover:text-foreground"
+                                >
+                                  {client.name}
+                                </Link>
+                              )}
+                              {matter && (
+                                <Link
+                                  href={`/dashboard/matters/${matter.id}`}
+                                  className="font-mono text-[11px] text-muted-foreground/50 hover:text-foreground"
+                                >
+                                  {matter.matter_number}
+                                </Link>
+                              )}
+                              <span className="rounded-md bg-muted/60 px-2 py-0.5 text-xs text-muted-foreground/70">
+                                {t(`deadlines.types.${d.deadline_type}`)}
+                              </span>
+                              <span className="text-xs text-muted-foreground/60">
+                                {formatDueLabel(d.due_date)}
+                              </span>
+                              <span className={inXClass}>{formatRelative(d)}</span>
                             </div>
                           </div>
-                          <div className="ml-auto shrink-0 flex gap-2">
-                            {d.status !== "completed" &&
-                              d.status !== "cancelled" && (
-                                <Button
-                                  type="button"
-                                  size="sm"
-                                  variant="secondary"
-                                  disabled={actionId === d.id}
-                                  onClick={() => void markComplete(d)}
-                                >
-                                  {t("deadlines.actions.complete")}
-                                </Button>
-                              )}
+
+                          <div className="ml-auto flex shrink-0 items-center gap-1.5">
+                            {d.status !== "completed" && d.status !== "cancelled" && (
+                              <Button
+                                type="button"
+                                size="sm"
+                                variant="secondary"
+                                className="h-8 text-xs"
+                                disabled={actionId === d.id}
+                                onClick={() => void markComplete(d)}
+                              >
+                                {t("deadlines.actions.complete")}
+                              </Button>
+                            )}
                             <Button
                               type="button"
-                              size="sm"
-                              variant="outline"
+                              size="icon"
+                              variant="ghost"
+                              className="h-8 w-8"
                               onClick={() => openEdit(d)}
+                              aria-label={t("deadlines.actions.edit")}
                             >
-                              {t("deadlines.actions.edit")}
+                              <Pencil className="h-4 w-4" />
                             </Button>
                             <Button
                               type="button"
-                              size="sm"
+                              size="icon"
                               variant="ghost"
+                              className="h-8 w-8 text-muted-foreground hover:text-destructive"
                               disabled={actionId === d.id}
                               onClick={() => void softDelete(d)}
                               aria-label={t("deadlines.actions.delete")}
@@ -861,14 +912,14 @@ export default function DeadlinesPageClient({ planId, prefillMatterId }: Props) 
           <DialogHeader>
             <DialogTitle>
               {dayDialog
-                ? formatDueHeading(dayDialog, dateLocale)
+                ? formatDueLabel(dayDialog)
                 : ""}
             </DialogTitle>
           </DialogHeader>
           <ul className="max-h-64 space-y-2 overflow-y-auto text-sm">
             {(dayDialog ? deadlinesByDay.get(dayDialog) ?? [] : []).map((d) => (
               <li key={d.id} className="rounded-md border border-border p-2">
-                <p className="font-medium">{d.title}</p>
+                <p className="font-medium">{displayDeadlineTitle(d.title)}</p>
                 <p className="text-xs text-muted-foreground">
                   {t(`deadlines.types.${d.deadline_type}`)}
                 </p>

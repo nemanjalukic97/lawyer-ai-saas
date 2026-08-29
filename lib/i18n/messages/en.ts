@@ -1469,6 +1469,7 @@ export const enMessages: Messages = {
         emptyTitle: "No clients yet.",
         emptySubtitle: "Add your first client using the “Add client” button above.",
         added: "Added",
+        searchPlaceholder: "Search clients",
       },
       sidebar: {
         title: "Client details",
@@ -2120,6 +2121,8 @@ export const enMessages: Messages = {
       list: {
         submissions: "Submissions: {n}",
         active: "Active",
+        statusActive: "Active",
+        statusPaused: "Paused",
         copyLink: "Copy link",
         copied: "Copied",
         viewSubmissions: "Submissions",
@@ -2272,6 +2275,9 @@ export const enMessages: Messages = {
         overdueDays: "{n} days overdue",
         dueToday: "Due today",
         inDays: "in {n} days",
+        today: "Today",
+        tomorrow: "Tomorrow",
+        yesterday: "Yesterday",
       },
       types: {
         court_hearing: "Court hearing",

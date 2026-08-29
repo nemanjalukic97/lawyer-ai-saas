@@ -849,6 +849,8 @@ export const slMessages: Messages = {
       list: {
         submissions: "Prijave: {n}",
         active: "Aktiven",
+        statusActive: "Aktivna",
+        statusPaused: "Zaustavljena",
         copyLink: "Kopiraj povezavo",
         copied: "Kopirano",
         viewSubmissions: "Prijave",
@@ -1000,6 +1002,9 @@ export const slMessages: Messages = {
         overdueDays: "{n} dni zapadlo",
         dueToday: "Rok danes",
         inDays: "čez {n} dni",
+        today: "Danes",
+        tomorrow: "Jutri",
+        yesterday: "Včeraj",
       },
       types: {
         court_hearing: "Narok",
@@ -1888,6 +1893,7 @@ export const slMessages: Messages = {
         emptySubtitle:
           "Dodajte prvo stranko z gumbom „Dodaj stranko” zgoraj.",
         added: "Dodano",
+        searchPlaceholder: "Iskanje strank",
       },
       sidebar: {
         title: "Podrobnosti stranke",

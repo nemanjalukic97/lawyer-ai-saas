@@ -2,11 +2,10 @@
 
 import Link from "next/link"
 import { useCallback, useEffect, useMemo, useState } from "react"
-import { ClipboardCopy, ClipboardList, Loader2, Pencil, Trash2 } from "lucide-react"
+import { ClipboardCopy, Loader2, Pencil, Trash2 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
-import { Switch } from "@/components/ui/switch"
 import { useLanguage } from "@/components/LanguageProvider"
 import { createClient } from "@/lib/supabase/client"
 import { hasFeature, type EntitlementPlanId } from "../lib/entitlements"
@@ -225,7 +224,7 @@ export default function IntakePageClient({ planId }: Props) {
   return (
     <div className="min-h-screen overflow-x-hidden bg-background px-4 py-10">
       <div className="mx-auto flex min-w-0 max-w-4xl flex-col gap-6">
-        <header className="mb-8 pb-6 border-b border-border/40 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <header className="pb-6 border-b border-border/40 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div className="space-y-1">
             <p className="text-xs font-medium tracking-widest text-muted-foreground/40 uppercase mb-2">
               {t("intake.kicker")}
@@ -244,10 +243,6 @@ export default function IntakePageClient({ planId }: Props) {
           </div>
         </header>
 
-        <div className="mb-6 flex h-10 w-10 items-center justify-center rounded-lg bg-purple-500/15">
-          <ClipboardList className="h-5 w-5 text-purple-400" />
-        </div>
-
         {error && (
           <p className="text-sm text-destructive" role="alert">
             {error}
@@ -264,76 +259,80 @@ export default function IntakePageClient({ planId }: Props) {
             {t("intake.empty")}
           </Card>
         ) : (
-          <div className="space-y-3">
+          <div className="space-y-0.5">
             {forms.map((form) => (
               <div
                 key={form.id}
-                className="flex min-w-0 flex-col gap-4 rounded-xl border border-border/40 bg-muted/10 px-4 py-4 transition-colors hover:bg-muted/20 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:px-5"
+                className="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-2 rounded-r-lg border-l-2 border-border/40 px-3 py-2.5 transition-colors hover:border-primary/50 hover:bg-muted/20"
               >
-                <div className="min-w-0 flex-1 text-left">
-                  <p className="text-sm font-semibold text-foreground break-words sm:line-clamp-2 sm:break-normal">
-                    {form.title}
-                  </p>
-                  <p className="mt-0.5 text-xs text-muted-foreground/60">
-                    {t("intake.list.submissions", { n: counts[form.id] ?? 0 })}
-                  </p>
-                </div>
-                <div className="flex min-w-0 w-full flex-col gap-3 sm:w-auto sm:shrink-0 sm:items-end">
-                  <div className="flex items-center justify-between gap-3 sm:justify-end">
-                    <span className="text-xs text-muted-foreground">
-                      {t("intake.list.active")}
-                    </span>
-                    <Switch
-                      checked={form.is_active ?? false}
-                      disabled={togglingId === form.id}
-                      onCheckedChange={(v) => void toggleActive(form, v)}
+                <div className="min-w-0 flex-1">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <p className="truncate text-sm font-semibold text-foreground">{form.title}</p>
+                    <button
+                      type="button"
+                      role="switch"
+                      aria-checked={form.is_active ?? false}
                       aria-label={t("intake.list.active")}
-                    />
-                  </div>
-                  <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:justify-end">
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="sm"
-                      className="min-w-0 text-xs sm:text-sm"
-                      onClick={() => copyLink(form.slug, form.id)}
-                    >
-                      <ClipboardCopy className="mr-1 h-4 w-4 shrink-0" />
-                      <span className="truncate">
-                        {copiedId === form.id
-                          ? t("intake.list.copied")
-                          : t("intake.list.copyLink")}
-                      </span>
-                    </Button>
-                    <Button variant="outline" size="sm" className="min-w-0 text-xs sm:text-sm" asChild>
-                      <Link href={`/dashboard/intake/${form.id}/submissions`}>
-                        <span className="truncate">
-                          {t("intake.list.viewSubmissions")}
-                        </span>
-                      </Link>
-                    </Button>
-                  </div>
-                  <div className="flex items-center justify-end gap-2">
-                    <Button variant="ghost" size="icon" asChild>
-                      <Link
-                        href={`/dashboard/intake/${form.id}/edit`}
-                        aria-label={t("intake.list.edit")}
-                      >
-                        <Pencil className="h-4 w-4" />
-                      </Link>
-                    </Button>
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="icon"
-                      className="text-muted-foreground hover:text-destructive"
                       disabled={togglingId === form.id}
-                      onClick={() => void deleteForm(form)}
-                      aria-label={t("intake.list.deleteAria")}
+                      onClick={() => void toggleActive(form, !(form.is_active ?? false))}
+                      className={`shrink-0 rounded-full border px-2.5 py-0.5 text-[11px] transition-colors disabled:opacity-50 ${
+                        form.is_active
+                          ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20"
+                          : "border-border/50 text-muted-foreground/70 hover:text-foreground"
+                      }`}
                     >
-                      <Trash2 className="h-4 w-4" aria-hidden />
-                    </Button>
+                      {togglingId === form.id ? (
+                        <Loader2 className="h-3 w-3 animate-spin" />
+                      ) : form.is_active ? (
+                        t("intake.list.statusActive")
+                      ) : (
+                        t("intake.list.statusPaused")
+                      )}
+                    </button>
                   </div>
+                </div>
+
+                <span className="shrink-0 text-xs text-muted-foreground/60">
+                  {t("intake.list.submissions", { n: counts[form.id] ?? 0 })}
+                </span>
+
+                <div className="flex shrink-0 items-center gap-1.5">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    className="h-8 text-xs"
+                    onClick={() => copyLink(form.slug, form.id)}
+                  >
+                    <ClipboardCopy className="mr-1 h-3.5 w-3.5 shrink-0" />
+                    <span className="truncate">
+                      {copiedId === form.id ? t("intake.list.copied") : t("intake.list.copyLink")}
+                    </span>
+                  </Button>
+
+                  <Button variant="ghost" size="sm" className="h-8 text-xs" asChild>
+                    <Link href={`/dashboard/intake/${form.id}/submissions`}>
+                      <span className="truncate">{t("intake.list.viewSubmissions")}</span>
+                    </Link>
+                  </Button>
+
+                  <Button variant="ghost" size="icon" className="h-8 w-8" asChild>
+                    <Link href={`/dashboard/intake/${form.id}/edit`} aria-label={t("intake.list.edit")}>
+                      <Pencil className="h-4 w-4" />
+                    </Link>
+                  </Button>
+
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    className="h-8 w-8 text-muted-foreground hover:text-destructive"
+                    disabled={togglingId === form.id}
+                    onClick={() => void deleteForm(form)}
+                    aria-label={t("intake.list.deleteAria")}
+                  >
+                    <Trash2 className="h-4 w-4" aria-hidden />
+                  </Button>
                 </div>
               </div>
             ))}

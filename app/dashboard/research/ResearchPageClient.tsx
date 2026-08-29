@@ -1050,10 +1050,6 @@ export function ResearchPageClient({
         <div className="grid gap-6 lg:grid-cols-[minmax(0,2fr),minmax(0,1fr)]">
           <div className="space-y-6">
             <div className="rounded-xl border border-border/40 bg-muted/10 p-6">
-              <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-teal-500/15">
-                <Search className="h-5 w-5 text-teal-400" />
-              </div>
-
               <form className="space-y-4" onSubmit={onSubmit}>
                 <div className="space-y-2">
                   <Label

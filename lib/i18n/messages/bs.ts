@@ -918,6 +918,8 @@ export const bsMessages: Messages = {
       list: {
         submissions: "Prijave: {n}",
         active: "Aktivan",
+        statusActive: "Aktivna",
+        statusPaused: "Pauzirana",
         copyLink: "Kopiraj link",
         copied: "Kopirano",
         viewSubmissions: "Prijave",
@@ -1070,6 +1072,9 @@ export const bsMessages: Messages = {
         overdueDays: "Prekoračeno {n} dana",
         dueToday: "Rok danas",
         inDays: "za {n} dana",
+        today: "Danas",
+        tomorrow: "Sutra",
+        yesterday: "Jučer",
       },
       types: {
         court_hearing: "Ročište",
@@ -1899,6 +1904,7 @@ export const bsMessages: Messages = {
         emptySubtitle:
           "Dodajte prvog klijenta koristeći dugme „Dodaj klijenta” iznad.",
         added: "Dodato",
+        searchPlaceholder: "Pretražite klijente",
       },
       sidebar: {
         title: "Detalji klijenta",

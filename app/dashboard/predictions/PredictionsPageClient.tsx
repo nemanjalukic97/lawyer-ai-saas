@@ -709,9 +709,6 @@ export default function PredictionsPageClient({ selectedId, prefillMatterId }: C
 
           <div className="grid gap-6 lg:grid-cols-[minmax(0,1.1fr),minmax(0,1.2fr)]">
             <Card className="rounded-xl border border-border/40 bg-muted/10 p-6">
-              <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-amber-500/15">
-                <Scale className="h-5 w-5 text-amber-400" />
-              </div>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid gap-4 md:grid-cols-2">
                   <div className="space-y-2">

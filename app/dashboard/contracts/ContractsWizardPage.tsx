@@ -1543,9 +1543,6 @@ export default function ContractsWizardPage({
         </header>
 
         <Card className="rounded-xl border border-border/40 bg-muted/10 p-6">
-          <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-purple-500/15">
-            <FilePen className="h-5 w-5 text-purple-400" />
-          </div>
           {showPrefillBanner && (
             <div className="mb-4 flex items-center justify-between rounded-md border bg-muted/40 px-4 py-2 text-sm text-muted-foreground">
               <span>

@@ -208,7 +208,7 @@ export function ConflictCheckPageClient({ planId }: { planId: EntitlementPlanId 
   return (
     <div className="min-h-screen bg-background px-4 py-10">
       <div className="mx-auto flex max-w-6xl flex-col gap-6">
-        <header className="mb-8 pb-6 border-b border-border/40 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <header className="pb-6 border-b border-border/40 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div className="space-y-1">
             <p className="text-xs font-medium tracking-widest text-muted-foreground/40 uppercase mb-2">
               {t("conflict.header.kicker")}
@@ -221,10 +221,6 @@ export function ConflictCheckPageClient({ planId }: { planId: EntitlementPlanId 
             </p>
           </div>
         </header>
-
-        <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-red-500/15">
-          <ShieldAlert className="h-5 w-5 text-red-400" />
-        </div>
 
         <Card className="rounded-xl border border-border/40 bg-muted/10 p-6">
           <form className="space-y-4" onSubmit={onSubmit}>

@@ -6,7 +6,6 @@ import { useLanguage } from "@/components/LanguageProvider"
 import type { ActivityItem, ActivityItemType } from "../lib/activity"
 import { ActivityListClient } from "./ActivityListClient"
 import { AuditLogListClient } from "./AuditLogListClient"
-import { Activity } from "lucide-react"
 
 export function ActivityPageClient({
   items,
@@ -45,9 +44,6 @@ export function ActivityPageClient({
             </div>
           </CardHeader>
           <CardContent>
-            <div className="mb-6 flex h-10 w-10 items-center justify-center rounded-lg bg-purple-500/15">
-              <Activity className="h-5 w-5 text-purple-400" />
-            </div>
             <Tabs defaultValue="feed" className="w-full">
               <TabsList className="inline-flex rounded-lg border border-border/40 bg-muted/20 p-1">
                 <TabsTrigger
