@@ -4,6 +4,7 @@ Download Croatian laws as .txt from narodne-novine.nn.hr (yearly index CSV + ELI
 
 Run from repo root: python scripts/download-croatia-laws.py
 Smoke test: python scripts/download-croatia-laws.py --year 2026 --max-laws 3
+Core six acts (no index filters): python scripts/download-croatia-laws.py --from-json scripts/croatia-core-statutes.json
 """
 
 from __future__ import annotations
@@ -75,6 +76,10 @@ VRSTA_ZAKON = "zakon"
 CJELOVITI_AKT = "cjeloviti akt"
 
 CLANAK_RE = re.compile(r"lanak\s+\d+", re.IGNORECASE)
+ELI_CORE_RE = re.compile(
+    r"/eli/sluzbeni/(\d{4})/(\d+)/(\d+)",
+    re.IGNORECASE,
+)
 FOOTER_MARKERS = (
     "opći uvjeti korištenja",
     "opci uvjeti koristenja",
@@ -500,14 +505,14 @@ def _body_ok(parsed: ParsedAct) -> bool:
     return len(body) >= 400
 
 
-def _safe_print(msg: str, *, file: Any = None) -> None:
+def _safe_print(msg: str, *, file: Any = None, **kwargs: Any) -> None:
     stream = file or sys.stdout
     try:
-        print(msg, file=stream)
+        print(msg, file=stream, **kwargs)
     except UnicodeEncodeError:
         enc = getattr(stream, "encoding", None) or "utf-8"
         text = msg.encode(enc, errors="replace").decode(enc, errors="replace")
-        print(text, file=stream)
+        print(text, file=stream, **kwargs)
 
 
 def parse_year_range(args: argparse.Namespace) -> list[int]:
@@ -626,6 +631,108 @@ def process_law(
     log_entries.append(entry)
 
 
+def stubs_from_json(path: Path) -> list[LawStub]:
+    """Build LawStubs from an explicit source list. No vrsta/cjeloviti filter."""
+    try:
+        raw = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as e:
+        raise SystemExit(f"Cannot read statute list {path}: {e}") from e
+    if not isinstance(raw, list) or not raw:
+        raise SystemExit(f"Expected a non-empty JSON array in {path}")
+
+    stubs: list[LawStub] = []
+    seen: set[str] = set()
+    for i, item in enumerate(raw):
+        if not isinstance(item, dict):
+            raise SystemExit(f"{path}: entry {i} is not an object")
+        title = str(item.get("law_name_local") or "").strip()
+        url = _canonical_eli_url(str(item.get("source_url") or ""))
+        if not title or not url:
+            raise SystemExit(f"{path}: entry {i} needs law_name_local and source_url")
+        if url in seen:
+            raise SystemExit(f"{path}: duplicate source_url {url}")
+        seen.add(url)
+        m = ELI_CORE_RE.search(url)
+        if not m:
+            raise SystemExit(f"{path}: cannot parse ELI URL {url}")
+        year, issue, doc = int(m.group(1)), m.group(2), m.group(3)
+        stubs.append(
+            LawStub(
+                year=year,
+                izdanje=f"NN {issue}/{year}",
+                doc_num=doc,
+                title=title,
+                donositelj="",
+                url=url,
+            )
+        )
+    return stubs
+
+
+def run_from_json(args: argparse.Namespace) -> int:
+    json_path = Path(args.from_json)
+    if not json_path.is_absolute():
+        json_path = repo_root() / json_path
+    if not json_path.is_file():
+        _safe_print(f"Statute list not found: {json_path}", file=sys.stderr)
+        return 1
+
+    try:
+        stubs = stubs_from_json(json_path)
+    except SystemExit as e:
+        _safe_print(str(e), file=sys.stderr)
+        return 1
+
+    out_root = repo_root() / "downloads" / "croatia-core-statutes"
+    log_path = out_root / "download-log.json"
+    session = PoliteSession()
+    log_entries = load_log(log_path)
+    iso_now = lambda: dt.datetime.now(dt.UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
+    counters = init_counters(force_refresh=args.force_refresh)
+
+    _safe_print(f"Fetching {len(stubs)} core statute(s) from {json_path.name}")
+    _safe_print(f"Output: {out_root}")
+
+    try:
+        for stub in stubs:
+            try:
+                process_law(
+                    session,
+                    stub,
+                    out_root,
+                    log_entries,
+                    iso_now,
+                    counters,
+                    force_refresh=args.force_refresh,
+                )
+            except Exception as e:
+                counters["failed"] += 1
+                log_entries.append(
+                    {
+                        "year": stub.year,
+                        "izdanje": stub.izdanje,
+                        "doc_num": stub.doc_num,
+                        "title": stub.title,
+                        "url": stub.url,
+                        "filename": "",
+                        "status": "failed",
+                        "downloaded_at": iso_now(),
+                        "error": str(e),
+                    }
+                )
+                _safe_print(f"  -> error: {e}", file=sys.stderr)
+    except Exception as e:
+        _safe_print(f"Fatal: {e}", file=sys.stderr)
+        return 1
+    finally:
+        save_log(log_path, log_entries)
+
+    _safe_print("\nSummary: ", end="")
+    print_sync_summary(counters)
+    emit_sync_stats(counters)
+    return 0 if counters.get("failed", 0) == 0 else 1
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(
         description="Download Croatian laws as .txt from narodne-novine.nn.hr."
@@ -648,7 +755,19 @@ def main() -> int:
         action="store_true",
         help="Re-fetch laws and overwrite only when file content changed (SHA-256).",
     )
+    parser.add_argument(
+        "--from-json",
+        metavar="PATH",
+        help=(
+            "Download only the statutes listed in a JSON array of "
+            "{law_name_local, source_url} objects. Bypasses vrsta/cjeloviti "
+            "index filters. Writes to downloads/croatia-core-statutes/."
+        ),
+    )
     args = parser.parse_args()
+
+    if args.from_json:
+        return run_from_json(args)
 
     try:
         years = parse_year_range(args)

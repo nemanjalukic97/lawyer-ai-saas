@@ -1,0 +1,38 @@
+[
+  {
+    "law_name_local": "Zakon o obveznim odnosima",
+    "law_name": "Law of Obligations",
+    "law_category": "civil",
+    "source_url": "https://narodne-novine.nn.hr/eli/sluzbeni/2005/35/707"
+  },
+  {
+    "law_name_local": "Zakon o vlasništvu i drugim stvarnim pravima",
+    "law_name": "Ownership and Property Rights Act",
+    "law_category": "property",
+    "source_url": "https://narodne-novine.nn.hr/eli/sluzbeni/2015/81/1548"
+  },
+  {
+    "law_name_local": "Zakon o radu",
+    "law_name": "Labor Law",
+    "law_category": "labor",
+    "source_url": "https://narodne-novine.nn.hr/eli/sluzbeni/2014/93/1872"
+  },
+  {
+    "law_name_local": "Kazneni zakon",
+    "law_name": "Criminal Code",
+    "law_category": "criminal",
+    "source_url": "https://narodne-novine.nn.hr/eli/sluzbeni/2011/125/2498"
+  },
+  {
+    "law_name_local": "Obiteljski zakon",
+    "law_name": "Family Act",
+    "law_category": "family",
+    "source_url": "https://narodne-novine.nn.hr/eli/sluzbeni/2015/103/1992"
+  },
+  {
+    "law_name_local": "Zakon o nasljeđivanju",
+    "law_name": "Inheritance Act",
+    "law_category": "inheritance",
+    "source_url": "https://narodne-novine.nn.hr/eli/sluzbeni/2003/48/604"
+  }
+]
