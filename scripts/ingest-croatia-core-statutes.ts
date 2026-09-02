@@ -31,7 +31,24 @@ const JURISDICTION = "croatia"
 /** Leave headroom for law_name_local + article_num + English stub in embed(). */
 const ARTICLE_BODY_MAX_CHARS = 22_000
 
-const CLANAK_HEADING_RE = /^Članak\s+(\d+[a-z]?)\./gim
+/**
+ * "Članak 358.", "Članak 358.a", "Članak 358a." → groups (358, a?) .
+ * Letter may sit before or after the period. `[a-z](?![a-z])` avoids eating
+ * the first letter of "stavak" / "stavka".
+ */
+const CLANAK_HEADING_RE = /^Članak\s+(\d+)\.?\s*([a-z](?![a-z]))?\.?/gim
+
+/**
+ * Pročišćeni tekst appends later amending acts after the main act. Their own
+ * "Članak 2./3./4." (mostly vacatio legis) must not overwrite the main act.
+ * Do not cut at the main act's "Glava … ZAVRŠNE ODREDBE" or "Dio … PRIJELAZNE
+ * I ZAVRŠNE ODREDBE" — those still belong to the original statute.
+ */
+const AMENDING_ACT_TAIL_RE =
+  /^(ZAVRŠNA ODREDBA|PRIJELAZNE I ZAVRŠNE ODREDBE)\s+Zakona\b/im
+
+const CROSS_REF_AFTER_HEADING_RE =
+  /^(stavak|stavka|st\.|ovoga Zakona)\b/i
 
 type CoreStatute = {
   law_name_local: string
@@ -87,14 +104,39 @@ function parseHeaderUrlAndBody(
   return { url: canonicalUrl(url), body }
 }
 
-function splitByClanak(body: string): ClanakPart[] {
+function mainActBody(body: string): string {
   const normalized = body.replace(/\r\n/g, "\n")
+  const cut = AMENDING_ACT_TAIL_RE.exec(normalized)
+  if (!cut || cut.index === undefined) return normalized
+  return normalized.slice(0, cut.index).trimEnd()
+}
+
+function articleNumFromMatch(match: RegExpMatchArray): string {
+  const num = match[1]
+  const letter = match[2]
+  return letter ? `${num}${letter.toLowerCase()}` : num
+}
+
+/** Line-start "Članak 1. stavak 1. ovoga Zakona…" is a cross-reference, not a heading. */
+function isCrossReferenceHeading(
+  text: string,
+  match: RegExpMatchArray,
+): boolean {
+  if (match.index === undefined) return true
+  const rest = text.slice(match.index + match[0].length).replace(/^\s+/, "")
+  return CROSS_REF_AFTER_HEADING_RE.test(rest)
+}
+
+function splitByClanak(body: string): ClanakPart[] {
+  const normalized = mainActBody(body)
   const re = new RegExp(CLANAK_HEADING_RE.source, CLANAK_HEADING_RE.flags)
-  const matches = [...normalized.matchAll(re)]
+  const matches = [...normalized.matchAll(re)].filter(
+    (match) => !isCrossReferenceHeading(normalized, match),
+  )
   const parts: ClanakPart[] = []
   for (let i = 0; i < matches.length; i++) {
     const match = matches[i]
-    const articleNum = match[1]
+    const articleNum = articleNumFromMatch(match)
     if (!articleNum || match.index === undefined) continue
     const start = match.index
     const end = i + 1 < matches.length ? matches[i + 1].index! : normalized.length
@@ -261,6 +303,57 @@ function printCounts(
   console.log(`  Total: ${totalClanak} članka, ${totalRows} rows`)
 }
 
+function duplicateClanaka(
+  parts: ClanakPart[],
+): { articleNum: string; bodies: string[] }[] {
+  const byNum = new Map<string, string[]>()
+  for (const part of parts) {
+    const list = byNum.get(part.articleNum) ?? []
+    list.push(part.body)
+    byNum.set(part.articleNum, list)
+  }
+  return [...byNum.entries()]
+    .filter(([, bodies]) => bodies.length > 1)
+    .map(([articleNum, bodies]) => ({ articleNum, bodies }))
+    .sort((a, b) => {
+      const na = parseInt(a.articleNum, 10)
+      const nb = parseInt(b.articleNum, 10)
+      if (na !== nb) return na - nb
+      return a.articleNum.localeCompare(b.articleNum)
+    })
+}
+
+function printDuplicateClanaka(
+  reports: { law_name_local: string; dups: { articleNum: string; bodies: string[] }[] }[],
+): void {
+  const withDups = reports.filter((r) => r.dups.length > 0)
+  if (withDups.length === 0) {
+    // eslint-disable-next-line no-console
+    console.log("\nNo duplicate article_num values.")
+    return
+  }
+  // eslint-disable-next-line no-console
+  console.log(
+    "\nDuplicate article_num (same stableId; later row overwrites earlier):",
+  )
+  for (const report of withDups) {
+    const extra = report.dups.reduce((n, d) => n + d.bodies.length - 1, 0)
+    // eslint-disable-next-line no-console
+    console.log(
+      `\n  ${report.law_name_local}: ${report.dups.length} duplicated number(s), ${extra} extra heading(s)`,
+    )
+    for (const dup of report.dups) {
+      // eslint-disable-next-line no-console
+      console.log(`    Članak ${dup.articleNum} × ${dup.bodies.length}`)
+      for (const body of dup.bodies) {
+        const preview = body.replace(/\s+/g, " ").trim().slice(0, 80)
+        // eslint-disable-next-line no-console
+        console.log(`      - ${preview}`)
+      }
+    }
+  }
+}
+
 async function upsertArticles(articles: LegalArticleInput[]): Promise<void> {
   if (!process.env.OPENAI_API_KEY) {
     throw new Error("Missing OPENAI_API_KEY env var.")
@@ -336,6 +429,10 @@ async function main() {
   }
 
   const counts: { law_name_local: string; clanak: number; rows: number }[] = []
+  const dupReports: {
+    law_name_local: string
+    dups: { articleNum: string; bodies: string[] }[]
+  }[] = []
   const articles: LegalArticleInput[] = []
 
   for (const statute of statutes) {
@@ -352,10 +449,15 @@ async function main() {
       clanak: clanakParts.length,
       rows: fileArticles.length,
     })
+    dupReports.push({
+      law_name_local: statute.law_name_local,
+      dups: duplicateClanaka(clanakParts),
+    })
     articles.push(...fileArticles)
   }
 
   printCounts(counts)
+  printDuplicateClanaka(dupReports)
 
   if (!confirm) {
     // eslint-disable-next-line no-console

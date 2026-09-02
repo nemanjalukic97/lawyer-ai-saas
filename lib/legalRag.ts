@@ -5,6 +5,7 @@ import {
 } from "./normalizeResearchCategory"
 import {
   getJurisdictionRpcThresholds,
+  isScrapedExcerpt,
   LOWER_THRESHOLD_JURISDICTIONS,
   LOWER_SIMILARITY_THRESHOLDS,
   SIMILARITY_THRESHOLDS,
@@ -410,6 +411,44 @@ const AREA_MATCH_BOOST = 0.05
 const MAX_RERANK_SCORE = 0.99
 const KEYWORD_MISMATCH_MULTIPLIER = 0.75
 const KEYWORD_BOOST_SCORES = new Set([0.9, 0.95])
+const CURATED_ARTICLE_BOOST = 0.12
+const VECTOR_OVERFETCH_FACTOR = 4
+const VECTOR_OVERFETCH_MAX = 60
+/** Today's merge ceiling: unique(vector[:k] ∪ keyword[:k]). Preserves ~20 Zakoni / ~12 chat rows. */
+const FINAL_YIELD_FACTOR = 2
+
+function vectorOverfetchCount(matchCount: number): number {
+  return Math.min(VECTOR_OVERFETCH_MAX, matchCount * VECTOR_OVERFETCH_FACTOR)
+}
+
+function finalYieldLimit(matchCount: number): number {
+  return matchCount * FINAL_YIELD_FACTOR
+}
+
+function isCuratedLegalChunk(chunk: LegalChunk): boolean {
+  return !isScrapedExcerpt(chunk.text, chunk.text_local)
+}
+
+function applyCuratedArticleBoost(chunks: LegalChunk[]): LegalChunk[] {
+  const scored = chunks.map((chunk) => {
+    if (!isCuratedLegalChunk(chunk)) return chunk
+    return {
+      ...chunk,
+      similarity: Math.min(
+        MAX_RERANK_SCORE,
+        chunk.similarity + CURATED_ARTICLE_BOOST,
+      ),
+    }
+  })
+  scored.sort((a, b) => {
+    if (b.similarity !== a.similarity) return b.similarity - a.similarity
+    const aCurated = isCuratedLegalChunk(a)
+    const bCurated = isCuratedLegalChunk(b)
+    if (aCurated !== bCurated) return aCurated ? -1 : 1
+    return 0
+  })
+  return scored
+}
 
 export type AreaInferenceLog = {
   inferredArea: string | null
@@ -1020,12 +1059,14 @@ export async function matchLegalArticles(args: {
     args.rpcTimeoutMs ??
     getLegalRpcTimeoutMs(normalizedCategory, args.jurisdiction)
 
+  const rpcMatchCount = vectorOverfetchCount(matchCount)
+
   const vectorStarted = Date.now()
   let data = await runMatchLegalArticlesRpc({
     embedding,
     jurisdiction: args.jurisdiction,
     category: args.category ?? null,
-    matchCount,
+    matchCount: rpcMatchCount,
     similarityThreshold: initialThreshold,
     timeoutMs: rpcTimeoutMs,
   })
@@ -1041,7 +1082,7 @@ export async function matchLegalArticles(args: {
       embedding,
       jurisdiction: args.jurisdiction,
       category: args.category ?? null,
-      matchCount,
+      matchCount: rpcMatchCount,
       similarityThreshold: thresholds.lowRetry,
       timeoutMs: rpcTimeoutMs,
     })
@@ -1057,6 +1098,8 @@ export async function matchLegalArticles(args: {
     args.query,
     normalizedCategory != null,
   )
+  const boosted = applyCuratedArticleBoost(reranked)
+  const chunks = boosted.slice(0, finalYieldLimit(matchCount))
   const mergeRerankMs = Date.now() - mergeStarted
 
   const timing: RagStageTiming = {
@@ -1069,7 +1112,7 @@ export async function matchLegalArticles(args: {
     vectorRetried: retried,
   }
 
-  return { chunks: reranked, usedThreshold, retried, areaInference, timing }
+  return { chunks, usedThreshold, retried, areaInference, timing }
 }
 
 function deduplicateChunks(chunks: LegalChunk[]): LegalChunk[] {
