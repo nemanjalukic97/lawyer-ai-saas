@@ -1,7 +1,14 @@
 import {
+  expandQueryWithLegalSynonyms,
+  MAX_SYNONYM_PHRASE_EXPANSIONS,
+} from "./legalSynonyms"
+import {
   escapeIlikePattern,
   getScriptVariants,
 } from "./serbianTransliteration"
+
+/** Hard cap after original + synonym × script × exact/stem. */
+const MAX_TOTAL_ILIKE_PATTERNS = 16
 
 /** Longest first — only one suffix stripped per word. Latin + Cyrillic. */
 const INFLECTION_SUFFIXES = [
@@ -83,7 +90,30 @@ function buildStemIlikePattern(phrase: string): string | null {
   return parts.join(" ")
 }
 
-export function buildKeywordIlikePatterns(query: string): KeywordIlikePatternSet {
+function addPatternsForPhrase(
+  phrase: string,
+  exactPatterns: Set<string>,
+  stemPatterns: Set<string>,
+  maxTotal: number,
+  /** Synonym expansions are exact-only — stemming them is too broad. */
+  includeStem: boolean,
+): void {
+  for (const variant of getScriptVariants(phrase)) {
+    if (exactPatterns.size + stemPatterns.size >= maxTotal) return
+    exactPatterns.add(`%${escapeIlikePattern(variant)}%`)
+    if (!includeStem) continue
+    if (exactPatterns.size + stemPatterns.size >= maxTotal) return
+    const stemPattern = buildStemIlikePattern(variant)
+    if (stemPattern) {
+      stemPatterns.add(stemPattern)
+    }
+  }
+}
+
+export function buildKeywordIlikePatterns(
+  query: string,
+  options?: { maxSynonymExpansions?: number },
+): KeywordIlikePatternSet {
   const trimmed = query.trim().replace(/\s+/g, " ")
   if (!trimmed) {
     return { exactPatterns: [], stemPatterns: [] }
@@ -91,12 +121,39 @@ export function buildKeywordIlikePatterns(query: string): KeywordIlikePatternSet
 
   const exactPatterns = new Set<string>()
   const stemPatterns = new Set<string>()
+  const maxSynonymExpansions =
+    options?.maxSynonymExpansions ??
+    (process.env.LEGAL_SYNONYMS_DISABLED === "1"
+      ? 0
+      : MAX_SYNONYM_PHRASE_EXPANSIONS)
 
-  for (const variant of getScriptVariants(trimmed)) {
-    exactPatterns.add(`%${escapeIlikePattern(variant)}%`)
-    const stemPattern = buildStemIlikePattern(variant)
-    if (stemPattern) {
-      stemPatterns.add(stemPattern)
+  // Original query first (priority under the total-pattern cap).
+  addPatternsForPhrase(
+    trimmed,
+    exactPatterns,
+    stemPatterns,
+    MAX_TOTAL_ILIKE_PATTERNS,
+    true,
+  )
+
+  // Synonym phrases: keyword channel only; exact patterns only (no stem).
+  if (maxSynonymExpansions > 0) {
+    const synonymPhrases = expandQueryWithLegalSynonyms(
+      trimmed,
+      maxSynonymExpansions,
+      stemWord,
+    )
+    for (const phrase of synonymPhrases) {
+      if (exactPatterns.size + stemPatterns.size >= MAX_TOTAL_ILIKE_PATTERNS) {
+        break
+      }
+      addPatternsForPhrase(
+        phrase,
+        exactPatterns,
+        stemPatterns,
+        MAX_TOTAL_ILIKE_PATTERNS,
+        false,
+      )
     }
   }
 
