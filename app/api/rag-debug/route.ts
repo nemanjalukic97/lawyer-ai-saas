@@ -34,6 +34,14 @@ export async function POST(req: NextRequest) {
     confidence: result.confidence,
     topSimilarity: result.topSimilarity,
     hasStrongMatch: result.hasStrongMatch,
+    areaInference: result.areaInference
+      ? {
+          inferredArea: result.areaInference.inferredArea,
+          applied: result.areaInference.applied,
+          skippedReason: result.areaInference.skippedReason,
+          source: result.areaInference.source ?? null,
+        }
+      : null,
     chunks: result.chunks.map((c) => ({
       law_name_local: c.law_name_local,
       article_num: c.article_num,

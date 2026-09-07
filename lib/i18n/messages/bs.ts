@@ -1498,11 +1498,14 @@ export const bsMessages: Messages = {
       },
       caseTypes: {
         civil: "Građansko pravo",
+        property: "Stvarno pravo",
+        inheritance: "Nasljedno pravo",
         commercial: "Privredno pravo",
         labor: "Radno pravo",
         family: "Porodično pravo",
         criminal: "Krivično pravo",
         administrative: "Upravno pravo",
+        procedural: "Procesno pravo",
         misdemeanor: "Prekršajno pravo",
       },
       jurisdictions: {

@@ -48,6 +48,8 @@ export type LegalChunk = {
   source_url: string | null
   similarity: number
   matchChannel?: MatchChannel
+  /** Which prediction retrieval list this chunk was taken from. */
+  retrievalChannel?: "narrative" | "distilled" | "both"
 }
 
 export type CitationValidation = {
@@ -57,6 +59,21 @@ export type CitationValidation = {
   missingCitations: string[]
 }
 
+export type DistillSkipReason =
+  | "timeout"
+  | "parse"
+  | "empty"
+  | "error"
+  | "forced_fail"
+  | "no_area"
+
+export type DistillLog = {
+  queries: string[]
+  inferredArea: string | null
+  latencyMs: number
+  skippedReason?: DistillSkipReason
+}
+
 export type RagResult = {
   chunks: LegalChunk[]
   contextBlock: string
@@ -64,6 +81,7 @@ export type RagResult = {
   topSimilarity: number
   confidence: "high" | "medium" | "low"
   areaInference?: AreaInferenceLog
+  distill?: DistillLog
 }
 
 export type CaseLawChunk = {
@@ -95,6 +113,9 @@ export type CaseLawContextResult = {
 
 export type AnswerMode = "extracted" | "analytical" | "auto" | "drafting"
 
+/** "filter" = hard SQL equality (research). "hint" = ranking only (/api/ai). */
+export type RagFilterMode = "filter" | "hint"
+
 
 const RPC_TIMEOUT_MS = 30000
 /** Match Postgres statement_timeout in match_legal_articles (120s) on large corpora. */
@@ -114,10 +135,10 @@ const LARGE_CORPUS_JURISDICTIONS = new Set([
 ])
 
 function getLegalRpcTimeoutMs(
-  category: string | null,
+  rpcFilterCategory: string | null,
   jurisdiction: string,
 ): number {
-  if (category) return RPC_TIMEOUT_MS
+  if (rpcFilterCategory) return RPC_TIMEOUT_MS
   if (LARGE_CORPUS_JURISDICTIONS.has(jurisdiction)) {
     return LEGAL_RPC_TIMEOUT_UNFILTERED_MS
   }
@@ -125,14 +146,37 @@ function getLegalRpcTimeoutMs(
 }
 
 function getCaseLawRpcTimeoutMs(
-  legalArea: string | null,
+  rpcFilterLegalArea: string | null,
   jurisdiction: string,
 ): number {
-  if (legalArea) return CASE_LAW_RPC_TIMEOUT_MS
+  if (rpcFilterLegalArea) return CASE_LAW_RPC_TIMEOUT_MS
   if (LARGE_CORPUS_JURISDICTIONS.has(jurisdiction)) {
     return CASE_LAW_RPC_TIMEOUT_UNFILTERED_MS
   }
   return CASE_LAW_RPC_TIMEOUT_MS
+}
+
+function resolveRagFilterMode(
+  mode: RagFilterMode | undefined,
+  value: string | null,
+): {
+  rpcFilter: string | null
+  areaHint: string | null
+  userFilterActive: boolean
+} {
+  const resolved: RagFilterMode = mode ?? "filter"
+  if (resolved === "hint") {
+    return {
+      rpcFilter: null,
+      areaHint: value,
+      userFilterActive: false,
+    }
+  }
+  return {
+    rpcFilter: value,
+    areaHint: null,
+    userFilterActive: value != null,
+  }
 }
 
 const MAX_CONTEXT_CHARS = 12000
@@ -274,6 +318,7 @@ async function searchLegalArticlesByKeyword(args: {
   jurisdiction: string
   category: string | null
   matchCount: number
+  skipLaborHeuristic?: boolean
 }): Promise<KeywordSearchResult<LegalChunk>> {
   const started = Date.now()
   try {
@@ -303,6 +348,7 @@ async function searchLegalArticlesByKeywordInner(args: {
   jurisdiction: string
   category: string | null
   matchCount: number
+  skipLaborHeuristic?: boolean
 }): Promise<LegalChunk[]> {
   const query = args.query.trim()
   if (query.length < 2) return []
@@ -329,7 +375,10 @@ async function searchLegalArticlesByKeywordInner(args: {
 
   if (category) {
     request = request.eq("law_category", category)
-  } else if (/otkaz|radu|zaposlen|radni|otpremn|ugovor o radu/i.test(query)) {
+  } else if (
+    !args.skipLaborHeuristic &&
+    /otkaz|radu|zaposlen|radni|otpremn|ugovor o radu/i.test(query)
+  ) {
     request = request.eq("law_category", "labor")
   }
 
@@ -454,6 +503,8 @@ export type AreaInferenceLog = {
   inferredArea: string | null
   applied: boolean
   skippedReason?: "explicit_filter" | "no_signal"
+  /** "hint" = caller category; "query" = inferLegalAreaFromQuery. */
+  source?: "hint" | "query"
   results: Array<{
     id: string
     area: string
@@ -473,6 +524,8 @@ export type RagStageTiming = {
   mergeRerankMs: number
   totalMs: number
   vectorRetried: boolean
+  distillMs?: number
+  distilledRetrieveMs?: number
 }
 
 function isKeywordBoostedResult(
@@ -493,6 +546,7 @@ function applyAreaAwareReranking<T extends {
   getArea: (item: T) => string,
   query: string,
   userFilterActive: boolean,
+  areaHint?: string | null,
 ): { items: T[]; log: AreaInferenceLog } {
   if (userFilterActive) {
     return {
@@ -506,7 +560,8 @@ function applyAreaAwareReranking<T extends {
     }
   }
 
-  const inferredArea = inferLegalAreaFromQuery(query)
+  const hint = areaHint?.trim() ? areaHint.trim() : null
+  const inferredArea = hint ?? inferLegalAreaFromQuery(query)
   if (!inferredArea) {
     return {
       items,
@@ -551,6 +606,7 @@ function applyAreaAwareReranking<T extends {
     log: {
       inferredArea,
       applied: true,
+      source: hint ? "hint" : "query",
       results,
     },
   }
@@ -564,6 +620,7 @@ export function summarizeAreaInferenceForLog(
     inferredArea: log.inferredArea,
     applied: log.applied,
     skippedReason: log.skippedReason,
+    source: log.source,
     top: log.results.slice(0, 8).map((r) => ({
       id: r.id,
       area: r.area,
@@ -800,6 +857,7 @@ async function matchCaseLawWithEmbedding(args: {
   query?: string
   jurisdiction: string
   legalArea?: string | null
+  legalAreaMode?: RagFilterMode
   courtLevel?: string | null
   matchCount?: number
   similarityThreshold?: number
@@ -826,9 +884,13 @@ async function matchCaseLawWithEmbedding(args: {
   let retried = false
 
   const normalizedLegalArea = normalizeLegalAreaFilter(args.legalArea ?? null)
+  const { rpcFilter, areaHint, userFilterActive } = resolveRagFilterMode(
+    args.legalAreaMode,
+    normalizedLegalArea,
+  )
   const rpcTimeoutMs =
     args.rpcTimeoutMs ??
-    getCaseLawRpcTimeoutMs(normalizedLegalArea, args.jurisdiction)
+    getCaseLawRpcTimeoutMs(rpcFilter, args.jurisdiction)
   const matchCount = args.matchCount ?? 6
 
   const keywordPromise =
@@ -836,7 +898,7 @@ async function matchCaseLawWithEmbedding(args: {
       ? searchCaseLawByKeyword({
           query: args.query,
           jurisdiction: args.jurisdiction,
-          legalArea: normalizedLegalArea,
+          legalArea: rpcFilter,
           matchCount,
         })
       : Promise.resolve({
@@ -849,7 +911,7 @@ async function matchCaseLawWithEmbedding(args: {
   let data = await runMatchCaseLawRpc({
     embedding: args.embedding,
     jurisdiction: args.jurisdiction,
-    legalArea: normalizedLegalArea,
+    legalArea: rpcFilter,
     courtLevel: args.courtLevel ?? null,
     matchCount: args.matchCount ?? 6,
     similarityThreshold: initialThreshold,
@@ -866,7 +928,7 @@ async function matchCaseLawWithEmbedding(args: {
     data = await runMatchCaseLawRpc({
       embedding: args.embedding,
       jurisdiction: args.jurisdiction,
-      legalArea: normalizedLegalArea,
+      legalArea: rpcFilter,
       courtLevel: args.courtLevel ?? null,
       matchCount: args.matchCount ?? 6,
       similarityThreshold: thresholds.lowRetry,
@@ -882,7 +944,8 @@ async function matchCaseLawWithEmbedding(args: {
     merged,
     (c) => c.legal_area,
     args.query?.trim() ?? "",
-    normalizedLegalArea != null,
+    userFilterActive,
+    areaHint,
   )
   const mergeRerankMs = Date.now() - mergeStarted
 
@@ -903,6 +966,7 @@ async function matchCaseLaw(args: {
   query: string
   jurisdiction: string
   legalArea?: string | null
+  legalAreaMode?: RagFilterMode
   courtLevel?: string | null
   matchCount?: number
   similarityThreshold?: number
@@ -923,6 +987,7 @@ async function matchCaseLaw(args: {
     query: args.query,
     jurisdiction: args.jurisdiction,
     legalArea: args.legalArea,
+    legalAreaMode: args.legalAreaMode,
     courtLevel: args.courtLevel,
     matchCount: args.matchCount,
     similarityThreshold: args.similarityThreshold,
@@ -1020,6 +1085,7 @@ export async function matchLegalArticles(args: {
   query: string
   jurisdiction: string
   category?: string | null
+  categoryMode?: RagFilterMode
   matchCount?: number
   similarityThreshold?: number
   retryIfEmpty?: boolean
@@ -1033,13 +1099,18 @@ export async function matchLegalArticles(args: {
 }> {
   const totalStarted = Date.now()
   const normalizedCategory = normalizeResearchCategory(args.category ?? null)
+  const { rpcFilter, areaHint, userFilterActive } = resolveRagFilterMode(
+    args.categoryMode,
+    normalizedCategory,
+  )
   const matchCount = args.matchCount ?? 6
 
   const keywordPromise = searchLegalArticlesByKeyword({
     query: args.query,
     jurisdiction: args.jurisdiction,
-    category: normalizedCategory,
+    category: rpcFilter,
     matchCount,
+    skipLaborHeuristic: args.categoryMode === "hint" && normalizedCategory != null,
   })
 
   const embedStarted = Date.now()
@@ -1057,7 +1128,7 @@ export async function matchLegalArticles(args: {
 
   const rpcTimeoutMs =
     args.rpcTimeoutMs ??
-    getLegalRpcTimeoutMs(normalizedCategory, args.jurisdiction)
+    getLegalRpcTimeoutMs(rpcFilter, args.jurisdiction)
 
   const rpcMatchCount = vectorOverfetchCount(matchCount)
 
@@ -1065,7 +1136,7 @@ export async function matchLegalArticles(args: {
   let data = await runMatchLegalArticlesRpc({
     embedding,
     jurisdiction: args.jurisdiction,
-    category: args.category ?? null,
+    category: rpcFilter,
     matchCount: rpcMatchCount,
     similarityThreshold: initialThreshold,
     timeoutMs: rpcTimeoutMs,
@@ -1081,7 +1152,7 @@ export async function matchLegalArticles(args: {
     data = await runMatchLegalArticlesRpc({
       embedding,
       jurisdiction: args.jurisdiction,
-      category: args.category ?? null,
+      category: rpcFilter,
       matchCount: rpcMatchCount,
       similarityThreshold: thresholds.lowRetry,
       timeoutMs: rpcTimeoutMs,
@@ -1096,7 +1167,8 @@ export async function matchLegalArticles(args: {
     merged,
     (c) => c.law_category,
     args.query,
-    normalizedCategory != null,
+    userFilterActive,
+    areaHint,
   )
   const boosted = applyCuratedArticleBoost(reranked)
   const chunks = boosted.slice(0, finalYieldLimit(matchCount))
@@ -1241,6 +1313,7 @@ export async function retrieveLegalContext(
   jurisdiction: string,
   options?: {
     category?: string
+    categoryMode?: RagFilterMode
     k?: number
     similarityThreshold?: number
   },
@@ -1256,6 +1329,7 @@ export async function retrieveLegalContext(
     query,
     jurisdiction,
     category: normalizeResearchCategory(options?.category ?? null),
+    categoryMode: options?.categoryMode,
     matchCount: options?.k ?? 6,
     similarityThreshold,
     retryIfEmpty: true,
@@ -1291,6 +1365,7 @@ export async function retrieveCaseLawContext(
   jurisdiction: string,
   options?: {
     legalArea?: string
+    legalAreaMode?: RagFilterMode
     courtLevel?: string
     k?: number
     similarityThreshold?: number
@@ -1305,18 +1380,23 @@ export async function retrieveCaseLawContext(
       : undefined)
 
   const normalizedLegalArea = normalizeLegalAreaFilter(options?.legalArea ?? null)
+  const { rpcFilter } = resolveRagFilterMode(
+    options?.legalAreaMode,
+    normalizedLegalArea,
+  )
 
   const { cases: rawCases, areaInference, timing } = await matchCaseLaw({
     query,
     jurisdiction,
     legalArea: normalizedLegalArea,
+    legalAreaMode: options?.legalAreaMode,
     courtLevel: options?.courtLevel ?? null,
     matchCount: options?.k ?? 6,
     similarityThreshold,
     retryIfEmpty: true,
     rpcTimeoutMs:
       options?.rpcTimeoutMs ??
-      getCaseLawRpcTimeoutMs(normalizedLegalArea, jurisdiction),
+      getCaseLawRpcTimeoutMs(rpcFilter, jurisdiction),
   })
 
   const result = buildCaseLawContextResult(rawCases, jurisdiction)

@@ -26,11 +26,14 @@ import type { RagMetadata } from "@/types/rag"
 
 type CaseType =
   | "civil"
+  | "property"
+  | "inheritance"
   | "commercial"
   | "labor"
   | "family"
   | "criminal"
   | "administrative"
+  | "procedural"
   | "misdemeanor"
 
 type Jurisdiction =
@@ -66,11 +69,14 @@ type PredictionDetail = {
 
 const CASE_TYPE_OPTIONS: LocalizedOption<CaseType>[] = [
   { value: "civil", label: "Civil Law", translationKey: "predictions.caseTypes.civil" },
+  { value: "property", label: "Property Law", translationKey: "predictions.caseTypes.property" },
+  { value: "inheritance", label: "Inheritance Law", translationKey: "predictions.caseTypes.inheritance" },
   { value: "commercial", label: "Commercial Law", translationKey: "predictions.caseTypes.commercial" },
   { value: "labor", label: "Labor Law", translationKey: "predictions.caseTypes.labor" },
   { value: "family", label: "Family Law", translationKey: "predictions.caseTypes.family" },
   { value: "criminal", label: "Criminal Law", translationKey: "predictions.caseTypes.criminal" },
   { value: "administrative", label: "Administrative Law", translationKey: "predictions.caseTypes.administrative" },
+  { value: "procedural", label: "Procedural Law", translationKey: "predictions.caseTypes.procedural" },
   { value: "misdemeanor", label: "Misdemeanor Law", translationKey: "predictions.caseTypes.misdemeanor" },
 ]
 

@@ -10,6 +10,7 @@ import {
   type LegalChunk,
   type CaseLawContextResult,
 } from "@/lib/legalRag"
+import { retrievePredictionLegalContext } from "@/lib/predictionRag"
 import { NextRequest } from "next/server"
 
 import { callAI, OpenAIConfigError, OpenAICallError } from "@/lib/openai"
@@ -187,14 +188,18 @@ export async function POST(req: NextRequest) {
     if (JURISDICTION_FEATURES.has(featureType) && ragJurisdiction) {
       try {
         const k = FEATURE_K[featureType] ?? 6
-        const ragResult = await retrieveLegalContext(
-          userPrompt,
-          ragJurisdiction,
-          {
-            category: categoryFilter ?? undefined,
-            k,
-          }
-        )
+        const ragResult =
+          featureType === "case_prediction"
+            ? await retrievePredictionLegalContext(userPrompt, ragJurisdiction, {
+                category: categoryFilter ?? undefined,
+                categoryMode: "hint",
+                k,
+              })
+            : await retrieveLegalContext(userPrompt, ragJurisdiction, {
+                category: categoryFilter ?? undefined,
+                categoryMode: "hint",
+                k,
+              })
 
         let caseLawResult: CaseLawContextResult = {
           cases: [],
@@ -203,7 +208,11 @@ export async function POST(req: NextRequest) {
         }
 
         if (CASE_LAW_FEATURES.has(featureType)) {
-          const caseLawOpts: { k: number; legalArea?: string } = { k }
+          const caseLawOpts: {
+            k: number
+            legalArea?: string
+            legalAreaMode: "hint"
+          } = { k, legalAreaMode: "hint" }
           if (categoryFilter) caseLawOpts.legalArea = categoryFilter
           caseLawResult = await retrieveCaseLawContext(
             userPrompt,
@@ -251,6 +260,7 @@ export async function POST(req: NextRequest) {
                     c.text.slice(0, 200) +
                     (c.text.length > 200 ? "..." : ""),
                   similarity: Math.round(c.similarity * 1000) / 1000,
+                  retrievalChannel: c.retrievalChannel ?? null,
                 }))
               : [],
             caseLawSources: caseLawResult.cases.map((c) => ({
@@ -280,6 +290,7 @@ export async function POST(req: NextRequest) {
             case_law_area_inference: summarizeAreaInferenceForLog(
               caseLawResult.areaInference,
             ),
+            distill: ragResult.distill ?? null,
           }
 
           if (process.env.NODE_ENV !== "production") {

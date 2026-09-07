@@ -2017,11 +2017,14 @@ export const hrMessages: Messages = {
       },
       caseTypes: {
         civil: "Građansko pravo",
+        property: "Stvarno pravo",
+        inheritance: "Nasljedno pravo",
         commercial: "Trgovačko pravo",
         labor: "Radno pravo",
         family: "Obiteljsko pravo",
         criminal: "Kazneno pravo",
         administrative: "Upravno pravo",
+        procedural: "Procesno pravo",
         misdemeanor: "Prekršajno pravo",
       },
       jurisdictions: {

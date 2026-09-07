@@ -1069,11 +1069,14 @@ export const enMessages: Messages = {
       },
       caseTypes: {
         civil: "Civil Law",
+        property: "Property Law",
+        inheritance: "Inheritance Law",
         commercial: "Commercial Law",
         labor: "Labor Law",
         family: "Family Law",
         criminal: "Criminal Law",
         administrative: "Administrative Law",
+        procedural: "Procedural Law",
         misdemeanor: "Misdemeanor Law",
       },
       jurisdictions: {

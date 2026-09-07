@@ -1546,11 +1546,14 @@ export type Database = {
       analysis_status: "processing" | "completed" | "failed"
       case_type:
         | "civil"
+        | "property"
+        | "inheritance"
         | "commercial"
         | "labor"
         | "family"
         | "criminal"
         | "administrative"
+        | "procedural"
         | "misdemeanor"
       client_status: "active" | "inactive" | "archived"
       confidence_level: "high" | "medium" | "low"
@@ -1758,11 +1761,14 @@ export const Constants = {
       analysis_status: ["processing", "completed", "failed"],
       case_type: [
         "civil",
+        "property",
+        "inheritance",
         "commercial",
         "labor",
         "family",
         "criminal",
         "administrative",
+        "procedural",
         "misdemeanor",
       ],
       client_status: ["active", "inactive", "archived"],

@@ -18,6 +18,7 @@ export type RagSource = {
   paragraph_num: string | null
   text_preview: string
   similarity: number
+  retrievalChannel?: "narrative" | "distilled" | "both" | null
 }
 
 export type RagValidation = {

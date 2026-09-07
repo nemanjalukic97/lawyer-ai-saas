@@ -1428,11 +1428,14 @@ export const slMessages: Messages = {
       },
       caseTypes: {
         civil: "Civilno pravo",
+        property: "Stvarno pravo",
+        inheritance: "Dedno pravo",
         commercial: "Gospodarsko pravo",
         labor: "Delovno pravo",
         family: "Družinsko pravo",
         criminal: "Kazensko pravo",
         administrative: "Upravno pravo",
+        procedural: "Procesno pravo",
         misdemeanor: "Prekršajno pravo",
       },
       jurisdictions: {

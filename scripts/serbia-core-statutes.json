@@ -1,0 +1,62 @@
+[
+  {
+    "law_name_local": "ЗАКОН о парничном поступку",
+    "law_name": "Civil Procedure Act",
+    "law_category": "procedural",
+    "source_url": "https://reg.pravno-informacioni-sistem.rs/api/viewdoc?uuid=a3557b76-72f0-418b-b1ed-f4bd29c4ff8a&regactid=435085&doctype=reg"
+  },
+  {
+    "law_name_local": "ЗАКОН о облигационим односима",
+    "law_name": "Law of Obligations",
+    "law_category": "civil",
+    "source_url": "https://reg.pravno-informacioni-sistem.rs/api/viewdoc?uuid=87567a31-6250-4123-b7f8-562a808ae98c&regactid=429975&doctype=reg"
+  },
+  {
+    "law_name_local": "ЗАКОН о основама својинскоправних односа",
+    "law_name": "Foundations of Property Relations Act",
+    "law_category": "property",
+    "source_url": "https://reg.pravno-informacioni-sistem.rs/api/viewdoc?uuid=4e78b2a2-9668-407c-9916-5cbcbf999eb5&regactid=421888&doctype=reg"
+  },
+  {
+    "law_name_local": "КРИВИЧНИ ЗАКОНИК",
+    "law_name": "Criminal Code",
+    "law_category": "criminal",
+    "source_url": "https://reg.pravno-informacioni-sistem.rs/api/viewdoc?uuid=8f5b9919-c1bc-414e-a60f-8d8a5ea7941d&regactid=440332&doctype=reg"
+  },
+  {
+    "law_name_local": "ЗАКОНИК о кривичном поступку",
+    "law_name": "Criminal Procedure Code",
+    "law_category": "criminal",
+    "source_url": "https://reg.pravno-informacioni-sistem.rs/api/viewdoc?uuid=8cffd776-731d-4b13-b9a1-2bb3208da77f&regactid=432390&doctype=reg"
+  },
+  {
+    "law_name_local": "ЗАКОН о извршењу и обезбеђењу",
+    "law_name": "Enforcement and Security Act",
+    "law_category": "procedural",
+    "source_url": "https://reg.pravno-informacioni-sistem.rs/api/viewdoc?uuid=0e19554c-ed20-4158-aad3-5e675cb633a4&regactid=439115&doctype=reg"
+  },
+  {
+    "law_name_local": "ПОРОДИЧНИ ЗАКОН",
+    "law_name": "Family Act",
+    "law_category": "family",
+    "source_url": "https://reg.pravno-informacioni-sistem.rs/api/viewdoc?uuid=8e39cb79-43b7-4e63-94e2-f9e20bdb00ea&regactid=439358&doctype=reg"
+  },
+  {
+    "law_name_local": "ЗАКОН о наслеђивању",
+    "law_name": "Inheritance Act",
+    "law_category": "inheritance",
+    "source_url": "https://reg.pravno-informacioni-sistem.rs/api/viewdoc?uuid=6fe8f432-04ec-4d8a-9566-a9f65c1d8c2c&regactid=401956&doctype=reg"
+  },
+  {
+    "law_name_local": "ЗАКОН о раду",
+    "law_name": "Labor Act",
+    "law_category": "labor",
+    "source_url": "https://reg.pravno-informacioni-sistem.rs/api/viewdoc?uuid=4f1089c4-85c7-4c41-989b-eeee07799fb5&regactid=439321&doctype=reg"
+  },
+  {
+    "law_name_local": "ЗАКОН о привредним друштвима",
+    "law_name": "Companies Act",
+    "law_category": "commercial",
+    "source_url": "https://reg.pravno-informacioni-sistem.rs/api/viewdoc?uuid=f2267a4c-0ae5-40ac-aebe-3e986e4b3753&regactid=438316&doctype=reg"
+  }
+]

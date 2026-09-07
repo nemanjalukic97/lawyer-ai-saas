@@ -83,6 +83,19 @@ export const QUERY_AREA_TERM_ENTRIES: readonly {
   // Property
   { phrase: "pravo vlasništva", area: "property" },
   { phrase: "pravo vlasnistva", area: "property" },
+  { phrase: "razvrgnuće suvlasništva", area: "property" },
+  { phrase: "razvrgnuće suvlasničke", area: "property" },
+  { phrase: "dioba suvlasništva", area: "property" },
+  { phrase: "suvlasnička zajednica", area: "property" },
+  { phrase: "suvlasnički dio", area: "property" },
+  { phrase: "suvlasnički deo", area: "property" },
+  { phrase: "suvlasništvo", area: "property" },
+  { phrase: "suvlasničk", area: "property" },
+  { phrase: "suvlasnik", area: "property" },
+  { phrase: "etažno vlasništvo", area: "property" },
+  { phrase: "solastništvo", area: "property" },
+  { phrase: "solastnik", area: "property" },
+  { phrase: "etažna lastnina", area: "property" },
   { phrase: "hipotek", area: "property" },
   { phrase: "zemljišn", area: "property" },
   { phrase: "zemljisn", area: "property" },
@@ -105,11 +118,13 @@ export const QUERY_AREA_TERMS = [...QUERY_AREA_TERM_ENTRIES].sort(
   (a, b) => b.phrase.length - a.phrase.length,
 )
 
-/** Soft compatibility: civil contract queries also accept commercial hits. */
+/** Soft compatibility across umbrella / sibling areas. */
 export const INFERRED_AREA_ALIASES: Readonly<Record<string, readonly string[]>> =
   {
-    civil: ["commercial"],
+    civil: ["commercial", "property"],
     commercial: ["civil"],
+    property: ["civil"],
+    inheritance: ["civil"],
   }
 
 function normalizeForMatch(text: string): string {

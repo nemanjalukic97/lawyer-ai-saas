@@ -4,6 +4,7 @@ Download Serbian laws as .txt from pravno-informacioni-sistem.rs (register APIs)
 
 Run from repo root: python scripts/download-serbia-laws.py
 Smoke test: python scripts/download-serbia-laws.py --category "VII" --max-laws 3
+Core statutes (no catalog crawl): python scripts/download-serbia-laws.py --from-json scripts/serbia-core-statutes.json
 """
 
 from __future__ import annotations
@@ -650,6 +651,222 @@ def process_act(
     log_entries.append(entry)
 
 
+def canonical_url(url: str) -> str:
+    return url.strip().rstrip("/")
+
+
+def stubs_from_json(path: Path) -> list[ActStub]:
+    """Build ActStubs from an explicit source list. No catalog crawl."""
+    try:
+        raw = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as e:
+        raise SystemExit(f"Cannot read statute list {path}: {e}") from e
+    if not isinstance(raw, list) or not raw:
+        raise SystemExit(f"Expected a non-empty JSON array in {path}")
+
+    stubs: list[ActStub] = []
+    seen: set[str] = set()
+    for i, item in enumerate(raw):
+        if not isinstance(item, dict):
+            raise SystemExit(f"{path}: entry {i} is not an object")
+        title = str(item.get("law_name_local") or "").strip()
+        url = canonical_url(str(item.get("source_url") or ""))
+        if not title or not url:
+            raise SystemExit(f"{path}: entry {i} needs law_name_local and source_url")
+        if url in seen:
+            raise SystemExit(f"{path}: duplicate source_url {url}")
+        seen.add(url)
+        m = UUID_RE.search(url)
+        uuid = m.group(0).lower() if m else hashlib.sha256(url.encode("utf-8")).hexdigest()
+        stubs.append(
+            ActStub(
+                uuid=uuid,
+                title=title,
+                act_type="",
+                sg_ref="",
+                viewact_url=url,
+                area_id=0,
+                category_name="",
+                category_folder="",
+                subcategory_name="",
+            )
+        )
+    return stubs
+
+
+def process_core_act(
+    session: PoliteSession,
+    stub: ActStub,
+    out_root: Path,
+    log_entries: list[dict],
+    iso_now,
+    counters: dict[str, int],
+    *,
+    force_refresh: bool = False,
+) -> None:
+    """Fetch a core-statute viewdoc URL and write a .txt under out_root."""
+    fname = act_filename(stub.title, stub.uuid)
+    public_url = stub.viewact_url
+
+    existing = find_existing_txt(out_root, fname, public_url)
+    if existing is None:
+        for path in out_root.glob("*.txt") if out_root.exists() else []:
+            if not _is_valid_txt_file(path):
+                continue
+            try:
+                text = path.read_text(encoding="utf-8")
+            except (OSError, UnicodeDecodeError):
+                continue
+            if stub.uuid in text or public_url in text:
+                existing = path
+                break
+
+    if not force_refresh and existing is not None:
+        counters["skipped"] += 1
+        log_entries.append(
+            {
+                "category": stub.category_name,
+                "subcategory": stub.subcategory_name,
+                "folder": stub.category_folder,
+                "filename": existing.name,
+                "uuid": stub.uuid,
+                "area_id": stub.area_id,
+                "url": public_url,
+                "status": "skipped",
+                "downloaded_at": iso_now(),
+            }
+        )
+        return
+
+    dest = (
+        existing
+        if existing is not None
+        else unique_target_path(out_root, fname, public_url)
+    )
+    _safe_print(f"Fetching: {stub.title[:70]}…")
+
+    status = "failed"
+    err: str | None = None
+    try:
+        html = fetch_text(session, public_url)
+        parsed = parse_act_html(html, stub, public_url)
+        parsed.public_url = public_url
+        if not _body_ok(parsed):
+            err = f"extracted text too short or missing articles ({len(parsed.body)} chars)"
+        else:
+            content = format_act_file(parsed, stub)
+            write_status = apply_refresh_write(
+                dest,
+                content,
+                force_refresh=force_refresh,
+                existing=existing,
+                save_fn=save_act_text,
+            )
+            if force_refresh:
+                status = write_status
+                _safe_print(f"  -> {write_status}: {(existing or dest).name}")
+            else:
+                status = "downloaded"
+                _safe_print(f"  -> {dest.name}")
+    except requests.HTTPError as e:
+        err = str(e.response.status_code if e.response is not None else "HTTP error")
+    except requests.Timeout:
+        err = "timeout"
+    except requests.RequestException as e:
+        err = str(e)
+    except Exception as e:
+        err = str(e)
+
+    entry: dict[str, Any] = {
+        "category": stub.category_name,
+        "subcategory": stub.subcategory_name,
+        "folder": stub.category_folder,
+        "filename": "",
+        "uuid": stub.uuid,
+        "area_id": stub.area_id,
+        "url": public_url,
+        "status": status,
+        "downloaded_at": iso_now(),
+    }
+    if status in ("downloaded", "new", "updated", "unchanged"):
+        entry["filename"] = (existing or dest).name
+        record_refresh_status(
+            counters,
+            status if force_refresh else "downloaded",
+        )
+    else:
+        counters["failed"] += 1
+        entry["error"] = err
+        _safe_print(f"  -> error: {err}", file=sys.stderr)
+
+    log_entries.append(entry)
+
+
+def run_from_json(args: argparse.Namespace) -> int:
+    json_path = Path(args.from_json)
+    if not json_path.is_absolute():
+        json_path = repo_root() / json_path
+    if not json_path.is_file():
+        _safe_print(f"Statute list not found: {json_path}", file=sys.stderr)
+        return 1
+
+    try:
+        stubs = stubs_from_json(json_path)
+    except SystemExit as e:
+        _safe_print(str(e), file=sys.stderr)
+        return 1
+
+    out_root = repo_root() / "downloads" / "serbia-core-statutes"
+    log_path = out_root / "download-log.json"
+    session = PoliteSession()
+    log_entries = load_log(log_path)
+    iso_now = lambda: dt.datetime.now(dt.UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
+    counters = init_counters(force_refresh=args.force_refresh)
+
+    _safe_print(f"Fetching {len(stubs)} core statute(s) from {json_path.name}")
+    _safe_print(f"Output: {out_root}")
+
+    try:
+        for stub in stubs:
+            try:
+                process_core_act(
+                    session,
+                    stub,
+                    out_root,
+                    log_entries,
+                    iso_now,
+                    counters,
+                    force_refresh=args.force_refresh,
+                )
+            except Exception as e:
+                counters["failed"] += 1
+                log_entries.append(
+                    {
+                        "category": stub.category_name,
+                        "subcategory": stub.subcategory_name,
+                        "folder": stub.category_folder,
+                        "filename": "",
+                        "uuid": stub.uuid,
+                        "area_id": stub.area_id,
+                        "url": stub.viewact_url,
+                        "status": "failed",
+                        "downloaded_at": iso_now(),
+                        "error": str(e),
+                    }
+                )
+                _safe_print(f"  -> error: {e}", file=sys.stderr)
+    except Exception as e:
+        _safe_print(f"Fatal: {e}", file=sys.stderr)
+        return 1
+    finally:
+        save_log(log_path, log_entries)
+
+    _safe_print("\nSummary: ")
+    print_sync_summary(counters)
+    emit_sync_stats(counters)
+    return 0 if counters.get("failed", 0) == 0 else 1
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(
         description="Download Serbian laws as .txt from pravno-informacioni-sistem.rs."
@@ -676,7 +893,19 @@ def main() -> int:
         action="store_true",
         help="Re-fetch laws and overwrite only when file content changed (SHA-256).",
     )
+    parser.add_argument(
+        "--from-json",
+        metavar="PATH",
+        help=(
+            "Download only the statutes listed in a JSON array of "
+            "{law_name_local, source_url} objects. Fetches each source_url "
+            "directly (viewdoc). Writes to downloads/serbia-core-statutes/."
+        ),
+    )
     args = parser.parse_args()
+
+    if args.from_json:
+        return run_from_json(args)
 
     out_root = repo_root() / "downloads" / "serbia-laws"
     log_path = out_root / "download-log.json"
@@ -792,7 +1021,7 @@ def main() -> int:
     finally:
         save_log(log_path, log_entries)
 
-    _safe_print("\nSummary: ", end="")
+    _safe_print("\nSummary: ")
     print_sync_summary(counters)
     emit_sync_stats(counters)
     return 0
