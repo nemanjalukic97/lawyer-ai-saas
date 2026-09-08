@@ -17,6 +17,7 @@ import {
 import {
   areasCompatibleWithInference,
   inferLegalAreaFromQuery,
+  isVenueJurisdictionQuery,
 } from "./queryAreaInference"
 import { supabaseAdmin } from "./supabase/admin"
 
@@ -102,6 +103,8 @@ export type CaseLawChunk = {
   source_url: string | null
   similarity: number
   matchChannel?: MatchChannel
+  /** Which case-law retrieval list this row was taken from (venue 4+4 merge). */
+  retrievalChannel?: "primary" | "procedural"
 }
 
 export type CaseLawContextResult = {
@@ -179,7 +182,21 @@ function resolveRagFilterMode(
   }
 }
 
-const MAX_CONTEXT_CHARS = 12000
+/** Whole legislation block. 12k was sized for English stubs; full local bodies need more. */
+export const MAX_CONTEXT_CHARS = 24_000
+
+/** Procedural slots reserved when the venue case-law channel fires (k=8 → 4+4). */
+const CASE_LAW_VENUE_PROCEDURAL_SLOTS = 4
+
+/**
+ * Venue-channel vector/keyword queries. A stečaj merits embedding's IVFFlat
+ * neighborhood is commercial Pž; filtering that to legal_area=procedural
+ * returns nothing. These strings sit in the Gr / venue cluster instead.
+ */
+const CASE_LAW_VENUE_CHANNEL_EMBED_QUERY =
+  "Koji je sud stvarno nadležan? Osnovanost zahtjeva za delegaciju? Osnovanost zahtjeva za izuzeće suca? Sukob nadležnosti."
+const CASE_LAW_VENUE_CHANNEL_KEYWORD_QUERY =
+  "Koji je sud stvarno nadležan?"
 
 async function embedQueryText(text: string): Promise<number[]> {
   try {
@@ -1019,6 +1036,215 @@ function buildCaseLawContextResult(
   return { cases, confidence, topSimilarity }
 }
 
+function caseLawDedupeKey(
+  c: Pick<CaseLawChunk, "jurisdiction" | "court" | "case_number">,
+): string {
+  return `${c.jurisdiction}|${c.court}|${c.case_number}`
+}
+
+function isProceduralCaseLawRow(c: CaseLawChunk): boolean {
+  if (c.legal_area.trim().toLowerCase() === "procedural") return true
+  return (
+    c.jurisdiction.trim().toLowerCase() === "croatia" &&
+    /^Gr[\s\d-]/i.test(c.case_number.trim())
+  )
+}
+
+function venueSlotCounts(k: number): { procedural: number; primary: number } {
+  const procedural = Math.min(
+    CASE_LAW_VENUE_PROCEDURAL_SLOTS,
+    Math.floor(k / 2),
+  )
+  return { procedural, primary: Math.max(0, k - procedural) }
+}
+
+function mergeVenueFixedSlots(
+  primary: CaseLawChunk[],
+  procedural: CaseLawChunk[],
+  k: number,
+): CaseLawChunk[] {
+  const { procedural: procSlots, primary: primSlots } = venueSlotCounts(k)
+  const taggedPrimary = primary.map((c) => ({
+    ...c,
+    retrievalChannel: "primary" as const,
+  }))
+  const taggedProcedural = procedural.map((c) => ({
+    ...c,
+    retrievalChannel: "procedural" as const,
+  }))
+
+  const seen = new Set<string>()
+  const take = (items: CaseLawChunk[], n: number): CaseLawChunk[] => {
+    const out: CaseLawChunk[] = []
+    for (const item of items) {
+      if (out.length >= n) break
+      const key = caseLawDedupeKey(item)
+      if (seen.has(key)) continue
+      seen.add(key)
+      out.push(item)
+    }
+    return out
+  }
+
+  const procTaken = take(taggedProcedural, procSlots)
+  const primTaken = take(taggedPrimary, primSlots)
+  const remainder = k - procTaken.length - primTaken.length
+  const fill =
+    remainder > 0 ? take([...taggedPrimary, ...taggedProcedural], remainder) : []
+
+  return [...primTaken, ...procTaken, ...fill].sort(
+    (a, b) => b.similarity - a.similarity,
+  )
+}
+
+type CaseLawRetrievalArgs = {
+  query: string
+  jurisdiction: string
+  embedding: number[]
+  legalArea?: string | null
+  legalAreaMode?: RagFilterMode
+  courtLevel?: string | null
+  k: number
+  similarityThreshold?: number
+  rpcTimeoutMs?: number
+  embedMs: number
+}
+
+async function retrieveCaseLawForJurisdiction(
+  args: CaseLawRetrievalArgs,
+): Promise<CaseLawContextResult & { timing?: RagStageTiming }> {
+  const totalStarted = Date.now()
+  const k = args.k
+  const normalizedLegalArea = normalizeLegalAreaFilter(args.legalArea ?? null)
+  const { rpcFilter, userFilterActive } = resolveRagFilterMode(
+    args.legalAreaMode,
+    normalizedLegalArea,
+  )
+  const explicitProceduralFilter =
+    userFilterActive && rpcFilter === "procedural"
+  const venueQuery = isVenueJurisdictionQuery(args.query)
+  const dropProceduralFromPrimary = !explicitProceduralFilter
+  const runVenueChannel = venueQuery && !userFilterActive
+
+  const { procedural: procSlots } = venueSlotCounts(k)
+  const primaryMatchCount = dropProceduralFromPrimary
+    ? Math.max(k * 2, k + 4)
+    : k
+  const venueMatchCount = Math.max(procSlots * 2, 8)
+
+  const primaryTimeout =
+    args.rpcTimeoutMs ??
+    getCaseLawRpcTimeoutMs(rpcFilter, args.jurisdiction)
+
+  const primaryPromise = matchCaseLawWithEmbedding({
+    embedding: args.embedding,
+    query: args.query,
+    jurisdiction: args.jurisdiction,
+    legalArea: normalizedLegalArea,
+    legalAreaMode: args.legalAreaMode,
+    courtLevel: args.courtLevel ?? null,
+    matchCount: primaryMatchCount,
+    similarityThreshold: args.similarityThreshold,
+    retryIfEmpty: true,
+    rpcTimeoutMs: primaryTimeout,
+    embedMs: 0,
+  })
+
+  const venuePromise = runVenueChannel
+    ? (async () => {
+        const withUserQuery = await matchCaseLawWithEmbedding({
+          embedding: args.embedding,
+          query: args.query,
+          jurisdiction: args.jurisdiction,
+          legalArea: "procedural",
+          legalAreaMode: "filter",
+          courtLevel: args.courtLevel ?? null,
+          matchCount: Math.max(venueMatchCount, 24),
+          similarityThreshold: args.similarityThreshold,
+          retryIfEmpty: true,
+          rpcTimeoutMs: getCaseLawRpcTimeoutMs(
+            "procedural",
+            args.jurisdiction,
+          ),
+          embedMs: 0,
+        })
+        if (withUserQuery.cases.length >= procSlots) {
+          return withUserQuery
+        }
+        const venueEmbedding = await embedQueryText(
+          CASE_LAW_VENUE_CHANNEL_EMBED_QUERY,
+        )
+        return matchCaseLawWithEmbedding({
+          embedding: venueEmbedding,
+          query: CASE_LAW_VENUE_CHANNEL_KEYWORD_QUERY,
+          jurisdiction: args.jurisdiction,
+          legalArea: "procedural",
+          legalAreaMode: "filter",
+          courtLevel: args.courtLevel ?? null,
+          matchCount: venueMatchCount,
+          similarityThreshold: args.similarityThreshold,
+          retryIfEmpty: true,
+          rpcTimeoutMs: getCaseLawRpcTimeoutMs(
+            "procedural",
+            args.jurisdiction,
+          ),
+          embedMs: 0,
+        })
+      })()
+    : null
+
+  const [primary, venue] = await Promise.all([
+    primaryPromise,
+    venuePromise ?? Promise.resolve(null),
+  ])
+
+  let primaryCases = primary.cases
+  if (dropProceduralFromPrimary) {
+    primaryCases = primaryCases.filter((c) => !isProceduralCaseLawRow(c))
+  }
+
+  const mergedCases = venue
+    ? mergeVenueFixedSlots(primaryCases, venue.cases, k)
+    : primaryCases.slice(0, k)
+
+  if (runVenueChannel) {
+    const proceduralSlots = mergedCases.filter(
+      (c) => c.retrievalChannel === "procedural",
+    ).length
+    const primarySlots = mergedCases.filter(
+      (c) => c.retrievalChannel === "primary",
+    ).length
+    // eslint-disable-next-line no-console
+    console.log("[RAG case law] venue 4+4 merge", {
+      jurisdiction: args.jurisdiction,
+      k,
+      primarySlots,
+      proceduralSlots,
+    })
+  }
+
+  const result = buildCaseLawContextResult(mergedCases, args.jurisdiction)
+  const timing: RagStageTiming = {
+    embedMs: args.embedMs,
+    vectorRpcMs: Math.max(
+      primary.timing.vectorRpcMs,
+      venue?.timing.vectorRpcMs ?? 0,
+    ),
+    keywordMs:
+      primary.timing.keywordMs + (venue?.timing.keywordMs ?? 0),
+    keywordTimedOut:
+      primary.timing.keywordTimedOut ||
+      (venue?.timing.keywordTimedOut ?? false),
+    mergeRerankMs:
+      primary.timing.mergeRerankMs + (venue?.timing.mergeRerankMs ?? 0),
+    totalMs: Date.now() - totalStarted + args.embedMs,
+    vectorRetried:
+      primary.timing.vectorRetried || (venue?.timing.vectorRetried ?? false),
+  }
+
+  return { ...result, areaInference: primary.areaInference, timing }
+}
+
 export async function retrieveCaseLawContextsBatch(
   query: string,
   jurisdictions: string[],
@@ -1030,7 +1256,10 @@ export async function retrieveCaseLawContextsBatch(
 ): Promise<CaseLawContextResult[]> {
   if (jurisdictions.length === 0) return []
 
+  const embedStarted = Date.now()
   const embedding = await embedQueryText(query)
+  const embedMs = Date.now() - embedStarted
+  const k = options?.k ?? 6
 
   return Promise.all(
     jurisdictions.map(async (jurisdiction) => {
@@ -1040,21 +1269,19 @@ export async function retrieveCaseLawContextsBatch(
           ? thresholds.defaultThreshold
           : undefined
 
-        const { cases: rawCases } = await matchCaseLawWithEmbedding({
-          embedding,
+        const result = await retrieveCaseLawForJurisdiction({
           query,
           jurisdiction,
+          embedding,
           legalArea: normalizeLegalAreaFilter(options?.legalArea ?? null),
           courtLevel:
             options?.courtLevel != null && options.courtLevel !== ""
               ? options.courtLevel
               : null,
-          matchCount: options?.k ?? 6,
+          k,
           similarityThreshold,
-          retryIfEmpty: true,
+          embedMs,
         })
-
-        const result = buildCaseLawContextResult(rawCases, jurisdiction)
         // eslint-disable-next-line no-console
         console.error("[RAG case law] batch jurisdiction ok", {
           jurisdiction,
@@ -1072,7 +1299,7 @@ export async function retrieveCaseLawContextsBatch(
           stack,
         })
         return {
-          cases: [],
+          cases: [] as CaseLawChunk[],
           confidence: "none" as const,
           topSimilarity: 0,
         }
@@ -1211,10 +1438,21 @@ function truncateContextBlock(text: string): string {
   return text
 }
 
-function joinLegalChunksRaw(chunks: LegalChunk[]): string {
-  const formattedChunks = chunks.map((chunk) => {
+/** Statutory body for the prompt: local text when it is a real article, else `text`. */
+export function legislationChunkText(
+  chunk: Pick<LegalChunk, "text" | "text_local">,
+): string {
+  const local = (chunk.text_local ?? "").trim()
+  const en = (chunk.text ?? "").trim()
+  if (local && local !== en) return local
+  return en
+}
+
+export function joinLegalChunksRaw(chunks: LegalChunk[]): string {
+  const formattedChunks = chunks.map((chunk, index) => {
     const paragraphSuffix = chunk.paragraph_num ? " §" + chunk.paragraph_num : ""
-    return `[LAW: ${chunk.law_name_local} | ARTICLE: ${chunk.article_num}${paragraphSuffix}]\n${chunk.text}`
+    const body = legislationChunkText(chunk)
+    return `RANK ${index + 1} — [LAW: ${chunk.law_name_local} | ARTICLE: ${chunk.article_num}${paragraphSuffix}]\n${body}`
   })
   return formattedChunks.join("\n\n---\n\n")
 }
@@ -1379,28 +1617,22 @@ export async function retrieveCaseLawContext(
       ? thresholds.defaultThreshold
       : undefined)
 
-  const normalizedLegalArea = normalizeLegalAreaFilter(options?.legalArea ?? null)
-  const { rpcFilter } = resolveRagFilterMode(
-    options?.legalAreaMode,
-    normalizedLegalArea,
-  )
+  const embedStarted = Date.now()
+  const embedding = await embedQueryText(query)
+  const embedMs = Date.now() - embedStarted
 
-  const { cases: rawCases, areaInference, timing } = await matchCaseLaw({
+  return retrieveCaseLawForJurisdiction({
     query,
     jurisdiction,
-    legalArea: normalizedLegalArea,
+    embedding,
+    legalArea: options?.legalArea ?? null,
     legalAreaMode: options?.legalAreaMode,
     courtLevel: options?.courtLevel ?? null,
-    matchCount: options?.k ?? 6,
+    k: options?.k ?? 6,
     similarityThreshold,
-    retryIfEmpty: true,
-    rpcTimeoutMs:
-      options?.rpcTimeoutMs ??
-      getCaseLawRpcTimeoutMs(rpcFilter, jurisdiction),
+    rpcTimeoutMs: options?.rpcTimeoutMs,
+    embedMs,
   })
-
-  const result = buildCaseLawContextResult(rawCases, jurisdiction)
-  return { ...result, areaInference, timing }
 }
 
 function formatCaseLawSummaryLines(cases: CaseLawChunk[]): string {

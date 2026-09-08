@@ -6,7 +6,11 @@ export type SimilarCaseOutcomeStats = {
   partially: number
   other: number
   knownOutcomeCount: number
+  retrievedCount: number
+  decisiveCount: number
   plaintiffWinPct: number
+  hasEnoughOutcomes: boolean
+  hasWinRate: boolean
 }
 
 function normalizeOutcome(outcome: string | null): string | null {
@@ -17,7 +21,7 @@ function normalizeOutcome(outcome: string | null): string | null {
 
 export function computeSimilarCaseOutcomeStats(
   sources: CaseLawSource[],
-): SimilarCaseOutcomeStats | null {
+): SimilarCaseOutcomeStats {
   let plaintiffWon = 0
   let defendantWon = 0
   let partially = 0
@@ -53,13 +57,12 @@ export function computeSimilarCaseOutcomeStats(
     }
   }
 
-  if (knownOutcomeCount < 2) {
-    return null
-  }
-
-  const plaintiffWinPct = Math.round(
-    (plaintiffWon / knownOutcomeCount) * 100,
-  )
+  const hasEnoughOutcomes = knownOutcomeCount >= 2
+  const decisiveCount = plaintiffWon + defendantWon
+  const hasWinRate = hasEnoughOutcomes && decisiveCount >= 2
+  const plaintiffWinPct = hasWinRate
+    ? Math.round((plaintiffWon / knownOutcomeCount) * 100)
+    : 0
 
   return {
     plaintiffWon,
@@ -67,6 +70,10 @@ export function computeSimilarCaseOutcomeStats(
     partially,
     other,
     knownOutcomeCount,
+    retrievedCount: sources.length,
+    decisiveCount,
     plaintiffWinPct,
+    hasEnoughOutcomes,
+    hasWinRate,
   }
 }

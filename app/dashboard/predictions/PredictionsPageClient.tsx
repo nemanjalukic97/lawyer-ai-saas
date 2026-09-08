@@ -20,8 +20,17 @@ import { createClient } from "@/lib/supabase/client"
 import { useLanguage } from "@/components/LanguageProvider"
 import { LawCaseLawRagTabs } from "@/components/LawCaseLawRagTabs"
 import { SimilarCaseOutcomeStatsCard } from "@/components/SimilarCaseOutcomeStatsCard"
+import { PredictionDisclaimerFooter } from "@/components/PredictionDisclaimerFooter"
 import { OutdatedCaseLawWarningBanner } from "@/components/OutdatedCaseLawWarningBanner"
 import { computeSimilarCaseOutcomeStats } from "@/lib/similarCaseOutcomeStats"
+import {
+  buildPredictionSystemPrompt,
+  buildPredictionUserPrompt,
+  extractConfidenceLevel,
+  parsePredictionMeta,
+  sectionConfigForLanguage,
+  splitPredictionMeta,
+} from "@/lib/predictionPrompts"
 import type { RagMetadata } from "@/types/rag"
 
 type CaseType =
@@ -59,7 +68,6 @@ type PredictionDetail = {
   case_name: string | null
   case_type: CaseType
   jurisdiction: Jurisdiction
-  outcome_probability: number | null
   confidence_level: "high" | "medium" | "low"
   key_factors: string[] | null
   strategic_recommendations: string[] | null
@@ -115,233 +123,12 @@ function cleanMarkdown(text: string): string {
     .replace(/#{1,6}\s/g, "")
 }
 
-function labelForJurisdiction(jurisdiction: Jurisdiction): string {
-  const option = JURISDICTION_OPTIONS.find((opt) => opt.value === jurisdiction)
-  return option?.label ?? jurisdiction
-}
-
-type PredictionSectionConfig = {
-  outcomeTitle: string
-  confidenceTitle: string
-  keyFactorsTitle: string
-  precedentsTitle: string
-  recommendationsTitle: string
-  risksTitle: string
-  disclaimerTitle: string
-  confidenceHigh: string
-  confidenceMedium: string
-  confidenceLow: string
-}
-
-function sectionConfigForLanguage(language: string): PredictionSectionConfig {
-  switch (language) {
-    case "sr":
-      return {
-        outcomeTitle: "VJEROVATNOĆA ISHODA",
-        confidenceTitle: "NIVO POUZDANOSTI",
-        keyFactorsTitle: "KLJUČNI FAKTORI",
-        precedentsTitle: "RELEVANTNI PRESEDANI",
-        recommendationsTitle: "STRATEŠKE PREPORUKE",
-        risksTitle: "KLJUČNI RIZICI",
-        disclaimerTitle: "ODRICANJE ODGOVORNOSTI",
-        confidenceHigh: "Visok",
-        confidenceMedium: "Srednji",
-        confidenceLow: "Nizak",
-      }
-    case "bs":
-      return {
-        outcomeTitle: "VJEROVATNOĆA ISHODA",
-        confidenceTitle: "NIVO POUZDANOSTI",
-        keyFactorsTitle: "KLJUČNI FAKTORI",
-        precedentsTitle: "RELEVANTNI PRESEDANI",
-        recommendationsTitle: "STRATEŠKE PREPORUKE",
-        risksTitle: "KLJUČNI RIZICI",
-        disclaimerTitle: "ODRICANJE ODGOVORNOSTI",
-        confidenceHigh: "Visok",
-        confidenceMedium: "Srednji",
-        confidenceLow: "Nizak",
-      }
-    case "hr":
-      return {
-        outcomeTitle: "VJEROJATNOST ISHODA",
-        confidenceTitle: "RAZINA POUZDANOSTI",
-        keyFactorsTitle: "KLJUČNI ČIMBENICI",
-        precedentsTitle: "RELEVANTNI PRESEDANI",
-        recommendationsTitle: "STRATEŠKE PREPORUKE",
-        risksTitle: "KLJUČNI RIZICI",
-        disclaimerTitle: "ODRICANJE ODGOVORNOSTI",
-        confidenceHigh: "Visoka",
-        confidenceMedium: "Srednja",
-        confidenceLow: "Niska",
-      }
-    case "sl":
-      return {
-        outcomeTitle: "VERJETNOST IZIDA",
-        confidenceTitle: "STOPNJA ZAUPANJA",
-        keyFactorsTitle: "KLJUČNI DEJAVNIKI",
-        precedentsTitle: "RELEVANTNI PRECEDENSI",
-        recommendationsTitle: "STRATEŠKA PRIPOROČILA",
-        risksTitle: "KLJUČNA TVEGANJA",
-        disclaimerTitle: "ODPOVED ODGOVORNOSTI",
-        confidenceHigh: "Visoka",
-        confidenceMedium: "Srednja",
-        confidenceLow: "Nizka",
-      }
-    case "me":
-      return {
-        outcomeTitle: "VJEROVATNOĆA ISHODA",
-        confidenceTitle: "NIVO POUZDANOSTI",
-        keyFactorsTitle: "KLJUČNI FAKTORI",
-        precedentsTitle: "RELEVANTNI PRESEDANI",
-        recommendationsTitle: "STRATEŠKE PREPORUKE",
-        risksTitle: "KLJUČNI RIZICI",
-        disclaimerTitle: "ODRICANJE ODGOVORNOSTI",
-        confidenceHigh: "Visok",
-        confidenceMedium: "Srednji",
-        confidenceLow: "Nizak",
-      }
-    default:
-      return {
-        outcomeTitle: "OUTCOME PROBABILITY",
-        confidenceTitle: "CONFIDENCE LEVEL",
-        keyFactorsTitle: "KEY FACTORS",
-        precedentsTitle: "RELEVANT PRECEDENTS",
-        recommendationsTitle: "STRATEGIC RECOMMENDATIONS",
-        risksTitle: "KEY RISKS",
-        disclaimerTitle: "DISCLAIMER",
-        confidenceHigh: "High",
-        confidenceMedium: "Medium",
-        confidenceLow: "Low",
-      }
-  }
-}
-
-function buildSystemPrompt(
-  jurisdiction: Jurisdiction,
-  outputLanguageName: string,
-  sections: PredictionSectionConfig
-): string {
-  const jurisdictionLabel = labelForJurisdiction(jurisdiction)
-
-  return `
-You are a legal analytics AI for ${jurisdictionLabel}.
-Analyze this case and predict the outcome based on:
-- Historical precedents in ${jurisdictionLabel}
-- Applicable laws and regulations
-- Key facts provided
-- Evidence quality
-- Current judicial trends in ${jurisdictionLabel}
-
-Write the response in ${outputLanguageName}. Do not use English words like "Medium/High/Low" unless the output language is English.
-Use these EXACT section titles (all caps), in this order, each on its own line:
-1) ${sections.outcomeTitle}
-2) ${sections.confidenceTitle}
-3) ${sections.keyFactorsTitle}
-4) ${sections.precedentsTitle}
-5) ${sections.recommendationsTitle}
-6) ${sections.risksTitle}
-7) ${sections.disclaimerTitle}
-
-Use formal but clear language suitable for lawyers.
-
-At the very end, append a machine footer exactly like this (for parsing; it will be hidden from the user):
----META---
-OUTCOME_PROBABILITY_PERCENT: <number 0-100>
-CONFIDENCE_LEVEL: <high|medium|low>
-`.trim()
-}
-
-function buildUserPrompt(
-  caseType: CaseType,
-  jurisdiction: Jurisdiction,
-  keyFacts: string,
-  evidenceQuality: EvidenceQuality,
-  amountInDispute: string,
-  additionalContext: string
-): string {
-  const jurisdictionLabel = labelForJurisdiction(jurisdiction)
-  const caseTypeLabel = caseType
-  const evidenceLabel = evidenceQuality
-
-  const normalizedAmount =
-    amountInDispute && amountInDispute.trim().length > 0
-      ? amountInDispute.trim()
-      : "Not specified"
-
-  const normalizedContext =
-    additionalContext && additionalContext.trim().length > 0
-      ? additionalContext.trim()
-      : "None provided"
-
-  return `
-Predict the outcome for this ${caseTypeLabel} case in ${jurisdictionLabel}:
-
-Key Facts: ${keyFacts.trim()}
-Evidence Quality: ${evidenceLabel}
-Amount in Dispute: ${normalizedAmount}
-Additional Context: ${normalizedContext}
-
-Provide detailed analysis with outcome probability.
-`.trim()
-}
-
-function extractConfidenceLevel(text: string): "high" | "medium" | "low" {
-  const lower = text.toLowerCase()
-
-  if (lower.includes("confidence level: high") || lower.includes("high confidence")) {
-    return "high"
-  }
-
-  if (
-    lower.includes("confidence level: low") ||
-    lower.includes("low confidence")
-  ) {
-    return "low"
-  }
-
-  if (
-    lower.includes("confidence level: medium") ||
-    lower.includes("medium confidence")
-  ) {
-    return "medium"
-  }
-
-  return "medium"
-}
-
-function extractOutcomeProbability(text: string): number | null {
-  const match = text.match(/(\d{1,3})\s*%/)
-  if (!match) return null
-
-  const value = Number.parseInt(match[1], 10)
-  if (Number.isNaN(value) || value < 0 || value > 100) return null
-  return value
-}
-
-function splitMeta(raw: string): { visible: string; meta: string | null } {
-  const marker = "\n---META---\n"
-  const idx = raw.indexOf(marker)
-  if (idx === -1) return { visible: raw, meta: null }
-  return {
-    visible: raw.slice(0, idx).trimEnd(),
-    meta: raw.slice(idx + marker.length).trim(),
-  }
-}
-
-function parseMeta(meta: string | null): {
-  outcomeProbability: number | null
-  confidenceLevel: "high" | "medium" | "low" | null
-} {
-  if (!meta) return { outcomeProbability: null, confidenceLevel: null }
-  const probMatch = meta.match(/OUTCOME_PROBABILITY_PERCENT:\s*(\d{1,3})/i)
-  const confMatch = meta.match(/CONFIDENCE_LEVEL:\s*(high|medium|low)/i)
-  const prob = probMatch ? Number.parseInt(probMatch[1], 10) : null
-  const outcomeProbability =
-    prob != null && Number.isFinite(prob) && prob >= 0 && prob <= 100 ? prob : null
-  const confidenceLevel = confMatch
-    ? (confMatch[1].toLowerCase() as "high" | "medium" | "low")
-    : null
-  return { outcomeProbability, confidenceLevel }
+function escapeHtml(text: string): string {
+  return text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
 }
 
 function parseAmountInDispute(raw: string): number | null {
@@ -454,8 +241,8 @@ export default function PredictionsPageClient({ selectedId, prefillMatterId }: C
     setIsLoading(true)
 
     try {
-      const systemPrompt = buildSystemPrompt(jurisdiction, outputLanguageName, sections)
-      const userPrompt = buildUserPrompt(
+      const systemPrompt = buildPredictionSystemPrompt(jurisdiction, outputLanguageName, sections)
+      const userPrompt = buildPredictionUserPrompt(
         caseType,
         jurisdiction,
         keyFacts,
@@ -503,7 +290,7 @@ export default function PredictionsPageClient({ selectedId, prefillMatterId }: C
       }
       const raw = data.content ?? ""
       if (data.rag) setRagData(data.rag)
-      const { visible: content, meta } = splitMeta(raw)
+      const { visible: content, meta } = splitPredictionMeta(raw)
 
       setPredictionContent(content)
 
@@ -518,11 +305,9 @@ export default function PredictionsPageClient({ selectedId, prefillMatterId }: C
         }
 
         const amountValue = parseAmountInDispute(amountInDispute)
-        const parsed = parseMeta(meta)
+        const parsed = parsePredictionMeta(meta)
         const confidenceLevel =
           parsed.confidenceLevel ?? extractConfidenceLevel(content)
-        const outcomeProbability =
-          parsed.outcomeProbability ?? extractOutcomeProbability(content)
 
         type CasePredictionInsert = {
           user_id: string
@@ -544,7 +329,7 @@ export default function PredictionsPageClient({ selectedId, prefillMatterId }: C
           case_facts: keyFacts.trim(),
           amount_in_dispute: amountValue,
           evidence_quality: evidenceQuality,
-          outcome_probability: outcomeProbability,
+          outcome_probability: null,
           confidence_level: confidenceLevel,
           full_analysis: content,
           matter_id: matterId === "none" ? null : (matterId || null),
@@ -578,6 +363,8 @@ export default function PredictionsPageClient({ selectedId, prefillMatterId }: C
 
     try {
       const cleaned = cleanMarkdown(predictionContent)
+      const disclaimerTitle = t("predictions.disclaimer.title")
+      const disclaimerBody = t("predictions.disclaimer.body")
       const printWindow = window.open("", "_blank")
       if (!printWindow) return
 
@@ -599,10 +386,28 @@ export default function PredictionsPageClient({ selectedId, prefillMatterId }: C
                 white-space: pre-wrap;
                 font-family: Arial, sans-serif;
               }
+              .disclaimer {
+                margin-top: 28px;
+                padding-top: 16px;
+                border-top: 1px solid #ccc;
+              }
+              .disclaimer h2 {
+                font-size: 11pt;
+                letter-spacing: 0.04em;
+                margin: 0 0 8px 0;
+              }
+              .disclaimer p {
+                font-size: 10pt;
+                margin: 0;
+              }
             </style>
           </head>
           <body>
-            <pre>${cleaned}</pre>
+            <pre>${escapeHtml(cleaned)}</pre>
+            <section class="disclaimer">
+              <h2>${escapeHtml(disclaimerTitle)}</h2>
+              <p>${escapeHtml(disclaimerBody)}</p>
+            </section>
           </body>
         </html>
       `)
@@ -635,7 +440,7 @@ export default function PredictionsPageClient({ selectedId, prefillMatterId }: C
         const { data, error } = await supabase
           .from("case_predictions")
           .select(
-            "id, case_name, case_type, jurisdiction, outcome_probability, confidence_level, key_factors, strategic_recommendations, full_analysis, created_at"
+            "id, case_name, case_type, jurisdiction, confidence_level, key_factors, strategic_recommendations, full_analysis, created_at"
           )
           .eq("id", selectedId)
           .is("deleted_at", null)
@@ -658,7 +463,6 @@ export default function PredictionsPageClient({ selectedId, prefillMatterId }: C
           case_name: data.case_name ?? null,
           case_type: data.case_type,
           jurisdiction: data.jurisdiction,
-          outcome_probability: data.outcome_probability ?? null,
           confidence_level: data.confidence_level,
           key_factors: (data.key_factors as string[] | null) ?? null,
           strategic_recommendations:
@@ -931,9 +735,8 @@ export default function PredictionsPageClient({ selectedId, prefillMatterId }: C
                     <pre className="max-h-[560px] overflow-y-auto whitespace-pre-wrap text-sm leading-relaxed text-foreground">
                       {predictionContent}
                     </pre>
-                    {similarCaseStats ? (
-                      <SimilarCaseOutcomeStatsCard stats={similarCaseStats} />
-                    ) : null}
+                    <SimilarCaseOutcomeStatsCard stats={similarCaseStats} />
+                    <PredictionDisclaimerFooter />
                     <OutdatedCaseLawWarningBanner
                       caseLawSources={ragData?.caseLawSources ?? []}
                     />
@@ -1003,12 +806,6 @@ export default function PredictionsPageClient({ selectedId, prefillMatterId }: C
               </div>
               <div className="space-y-1 text-xs text-muted-foreground">
                 <p>
-                  {t("predictions.sidebar.outcomeProbability")}{" "}
-                  {detail.outcome_probability != null
-                    ? `${detail.outcome_probability}%`
-                    : t("predictions.common.notSpecified")}
-                </p>
-                <p>
                   {t("predictions.sidebar.confidenceLevel")}{" "}
                   {t(`predictions.confidenceLevels.${detail.confidence_level}`)}
                 </p>
@@ -1048,6 +845,7 @@ export default function PredictionsPageClient({ selectedId, prefillMatterId }: C
                       {detail.full_analysis}
                     </pre>
                   </div>
+                  <PredictionDisclaimerFooter className="mt-2" />
                 </div>
               )}
             </div>

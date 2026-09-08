@@ -143,6 +143,78 @@ function phraseMatchesQuery(query: string, phrase: string): boolean {
 }
 
 /**
+ * Venue / conflict-of-jurisdiction phrases. Used to open a procedural case-law
+ * channel — not to infer `legal_area` (stečaj + "sud nadležan" must stay
+ * commercial for statutes).
+ *
+ * Tight on purpose: bare "nadležan" / "надлежан" / "pristojen" are omitted so
+ * labor "nadležni sud za radne sporove" does not fire.
+ * Latin BCS is listed; Cyrillic is matched via getScriptVariants.
+ */
+export const VENUE_JURISDICTION_PHRASES: readonly string[] = [
+  "sukob stvarne nadležnosti",
+  "sukob mjesne nadležnosti",
+  "sukob nadležnosti",
+  "sukob nadleznosti",
+  "određivanje nadležnosti",
+  "odredivanje nadleznosti",
+  "prenošenje nadležnosti",
+  "prenosenje nadleznosti",
+  "prenos pristojnosti",
+  "drugi stvarno nadležni sud",
+  "stvarno nenadležan",
+  "stvarno nenadlezan",
+  "mjesno nenadležan",
+  "mjesno nenadlezan",
+  "stvarne nadležnosti",
+  "stvarna nadležnost",
+  "stvarno nadležan",
+  "stvarno nadležni",
+  "stvarno nadlezan",
+  "mjesna nadležnost",
+  "mjesne nadležnosti",
+  "mjesno nadležan",
+  "mjesno nadlezan",
+  "nadležnost suda",
+  "nadleznost suda",
+  "koji je sud nadležan",
+  "koji je sud nadlezan",
+  "koji sud je nadležan",
+  "koji sud je nadlezan",
+  "katero sodišče je pristojno",
+  "katero sodisce je pristojno",
+  "which court has jurisdiction",
+  "conflict of jurisdiction",
+  "spor o pristojnosti",
+  "stvarna pristojnost",
+  "krajevna pristojnost",
+  "zahtjev za izuzeće",
+  "zahtjev za izuzece",
+  "delegacij",
+  "izločitev",
+  "izuzeće",
+  "izuzece",
+]
+
+const VENUE_JURISDICTION_PHRASES_LONGEST_FIRST = [
+  ...VENUE_JURISDICTION_PHRASES,
+].sort((a, b) => b.length - a.length)
+
+/**
+ * True when the query is about venue, delegation, recusal, or conflict of
+ * jurisdiction — not when a merits query merely mentions a competent court.
+ */
+export function isVenueJurisdictionQuery(query: string): boolean {
+  const normalized = query.trim().replace(/\s+/g, " ")
+  if (normalized.length < 2) return false
+
+  for (const phrase of VENUE_JURISDICTION_PHRASES_LONGEST_FIRST) {
+    if (phraseMatchesQuery(normalized, phrase)) return true
+  }
+  return false
+}
+
+/**
  * Infer a single legal area from the search query.
  * Returns null when there is no clear signal (ranking unchanged).
  */

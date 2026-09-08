@@ -1034,11 +1034,11 @@ export const enMessages: Messages = {
       result: {
         title: "Prediction analysis",
         subtitle:
-          "Outcome probability, key factors, precedents, recommendations, and risks based on the information you provided.",
+          "Qualitative outcome assessment, key factors, precedents, recommendations, and risks based on the information you provided.",
         downloadPdf: "Download PDF",
         saved: "Prediction saved to workspace.",
         empty:
-          "Your case prediction will appear here after you run an analysis. You will see outcome probability, confidence level, key factors, relevant precedents, strategic recommendations, and risks, together with a clear disclaimer.",
+          "Your case prediction will appear here after you run an analysis. You will see a qualitative outcome assessment, confidence level, key factors, relevant precedents, strategic recommendations, and risks, together with a disclaimer.",
         emptyShort: "Run a prediction to see the analysis",
       },
       sidebar: {
@@ -1058,14 +1058,24 @@ export const enMessages: Messages = {
       similarCases: {
         sectionTitle: "Similar Case Outcome Analysis",
         cardTitle: "Similar Case Statistics",
-        plaintiffWinRate: "{pct}% of cases favored the plaintiff",
+        plaintiffWinRate:
+          "Of {n} retrieved decisions, {pct}% were decided for the plaintiff",
+        insufficient:
+          "There are not enough comparable decisions with a recorded outcome to show a rate.",
+        noWinRate:
+          "The retrieved decisions were partial or procedural and do not support a win rate.",
         plaintiffWon: "Plaintiff won",
         defendantWon: "Defendant won",
         partially: "Partial",
         basedOn: "Based on {count} similar rulings from the database",
-        signalGood: "Plaintiff has a strong chance",
+        signalGood: "More decisions favored the plaintiff",
         signalUncertain: "Uncertain",
-        signalRisky: "Risky for the plaintiff",
+        signalRisky: "More decisions favored the defendant",
+      },
+      disclaimer: {
+        title: "DISCLAIMER",
+        body:
+          "Legantis is under active development. This analysis is for informational purposes only and does not replace professional legal judgment or legal advice. The provider accepts no liability for decisions taken on the basis of this content.",
       },
       caseTypes: {
         civil: "Civil Law",
@@ -2028,7 +2038,7 @@ export const enMessages: Messages = {
         predict: {
           title: "Predict Case Outcome",
           description:
-            "AI analysis of case success probability based on precedents.",
+            "Legantis analysis of the likely outcome based on case law and statute.",
         },
         clients: {
           title: "Clients",

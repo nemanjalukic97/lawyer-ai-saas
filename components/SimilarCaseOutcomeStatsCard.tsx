@@ -86,6 +86,58 @@ function CircularProgress({
 
 export function SimilarCaseOutcomeStatsCard({ stats }: Props) {
   const { t } = useLanguage()
+
+  if (!stats.hasEnoughOutcomes) {
+    return (
+      <section className="mt-4 space-y-2">
+        <h3 className="text-sm font-semibold text-foreground">
+          {t("predictions.similarCases.sectionTitle")}
+        </h3>
+        <div className="rounded-md border border-border bg-muted/30 p-4">
+          <p className="text-sm text-muted-foreground">
+            {t("predictions.similarCases.insufficient")}
+          </p>
+        </div>
+      </section>
+    )
+  }
+
+  const breakdown = (
+    <p className="mt-3 text-xs text-muted-foreground">
+      {t("predictions.similarCases.plaintiffWon")}: {stats.plaintiffWon}
+      {" | "}
+      {t("predictions.similarCases.defendantWon")}: {stats.defendantWon}
+      {" | "}
+      {t("predictions.similarCases.partially")}: {stats.partially}
+    </p>
+  )
+
+  if (!stats.hasWinRate) {
+    return (
+      <section className="mt-4 space-y-2">
+        <h3 className="text-sm font-semibold text-foreground">
+          {t("predictions.similarCases.sectionTitle")}
+        </h3>
+        <div className="rounded-md border border-border bg-muted/30 p-4">
+          <p className="text-sm font-medium text-foreground">
+            {t("predictions.similarCases.cardTitle")}
+          </p>
+          {stats.decisiveCount === 0 ? (
+            <p className="mt-3 text-sm text-muted-foreground">
+              {t("predictions.similarCases.noWinRate")}
+            </p>
+          ) : null}
+          {breakdown}
+          <p className="mt-2 text-xs text-muted-foreground/80">
+            {t("predictions.similarCases.basedOn", {
+              count: stats.knownOutcomeCount,
+            })}
+          </p>
+        </div>
+      </section>
+    )
+  }
+
   const signal = getSignalLevel(stats.plaintiffWinPct)
   const styles = signalStyles[signal]
 
@@ -95,6 +147,11 @@ export function SimilarCaseOutcomeStatsCard({ stats }: Props) {
       : signal === "uncertain"
         ? t("predictions.similarCases.signalUncertain")
         : t("predictions.similarCases.signalRisky")
+
+  const rateLabel = t("predictions.similarCases.plaintiffWinRate", {
+    n: stats.knownOutcomeCount,
+    pct: stats.plaintiffWinPct,
+  })
 
   return (
     <section className="mt-4 space-y-2">
@@ -112,11 +169,7 @@ export function SimilarCaseOutcomeStatsCard({ stats }: Props) {
             ringClass={styles.ring}
           />
           <div className="min-w-0 flex-1 space-y-2">
-            <p className={cn("text-sm font-medium", styles.text)}>
-              {t("predictions.similarCases.plaintiffWinRate", {
-                pct: stats.plaintiffWinPct,
-              })}
-            </p>
+            <p className={cn("text-sm font-medium", styles.text)}>{rateLabel}</p>
             <p className="text-xs text-muted-foreground">{signalLabel}</p>
             <div
               className="h-2 w-full overflow-hidden rounded-full bg-muted"
@@ -124,9 +177,7 @@ export function SimilarCaseOutcomeStatsCard({ stats }: Props) {
               aria-valuenow={stats.plaintiffWinPct}
               aria-valuemin={0}
               aria-valuemax={100}
-              aria-label={t("predictions.similarCases.plaintiffWinRate", {
-                pct: stats.plaintiffWinPct,
-              })}
+              aria-label={rateLabel}
             >
               <div
                 className={cn("h-full rounded-full transition-all", styles.bar)}
@@ -136,13 +187,7 @@ export function SimilarCaseOutcomeStatsCard({ stats }: Props) {
           </div>
         </div>
 
-        <p className="mt-3 text-xs text-muted-foreground">
-          {t("predictions.similarCases.plaintiffWon")}: {stats.plaintiffWon}
-          {" | "}
-          {t("predictions.similarCases.defendantWon")}: {stats.defendantWon}
-          {" | "}
-          {t("predictions.similarCases.partially")}: {stats.partially}
-        </p>
+        {breakdown}
 
         <p className="mt-2 text-xs text-muted-foreground/80">
           {t("predictions.similarCases.basedOn", {

@@ -86,10 +86,49 @@ function loadCaseLawAreaOverrides(): CaseLawAreaOverrides {
 
 const CASE_LAW_AREA_OVERRIDES = loadCaseLawAreaOverrides()
 
+/** VSRH Gr 1 register: delegacija / sukob nadležnosti / izuzeće. */
+export function isCroatianGrCase(
+  jurisdiction: string,
+  caseNumber: string,
+): boolean {
+  return jurisdiction === "croatia" && /^Gr[\s\d-]/i.test(caseNumber.trim())
+}
+
+export function croatianGrLegalQuestion(courtPosition: string): string {
+  const cp = courtPosition.toLowerCase()
+  if (cp.includes("izuze")) return "Osnovanost zahtjeva za izuzeće suca?"
+  if (cp.includes("delegacij")) return "Osnovanost zahtjeva za delegaciju?"
+  return "Koji je sud stvarno nadležan?"
+}
+
+export function croatianGrIzreka(courtPosition: string): string | null {
+  const m = courtPosition.match(/riješ(?:io|ila|ili)\s*je\s*:?\s*([\s\S]+)$/i)
+  const iz = m?.[1]?.replace(/\s+/g, " ").trim()
+  return iz && iz.length >= 20 ? iz : null
+}
+
+export function applyCroatianGrIngestOverrides(
+  row: CaseLawInput,
+): CaseLawInput {
+  if (!isCroatianGrCase(row.jurisdiction, row.case_number)) return row
+  const legal_question = croatianGrLegalQuestion(row.court_position)
+  const keywords = (row.keywords ?? []).map((k) =>
+    k === "civil" ? "procedural" : k,
+  )
+  if (!keywords.includes("procedural")) keywords.unshift("procedural")
+  return {
+    ...row,
+    legal_area: "procedural",
+    legal_question,
+    keywords,
+  }
+}
+
 function resolveOverriddenLegalArea(
   id: string,
   row: CaseLawInput,
 ): LegalArea {
+  if (isCroatianGrCase(row.jurisdiction, row.case_number)) return "procedural"
   const fromId = CASE_LAW_AREA_OVERRIDES.byId[id]
   if (fromId) return fromId
 
@@ -262,24 +301,28 @@ export function buildCaseLawUpsertPayload(
   row: CaseLawInput,
   embedding: number[],
 ): Record<string, unknown> {
-  const id = stableIdForCase(row)
-  const overriddenLegalArea: LegalArea = resolveOverriddenLegalArea(id, row)
+  const normalized = applyCroatianGrIngestOverrides(row)
+  const id = stableIdForCase(normalized)
+  const overriddenLegalArea: LegalArea = resolveOverriddenLegalArea(
+    id,
+    normalized,
+  )
   return {
     id,
-    jurisdiction: row.jurisdiction,
-    court: row.court,
-    court_level: row.court_level,
-    case_number: row.case_number,
-    decision_date: normalizeDecisionDate(row.decision_date) ?? null,
+    jurisdiction: normalized.jurisdiction,
+    court: normalized.court,
+    court_level: normalized.court_level,
+    case_number: normalized.case_number,
+    decision_date: normalizeDecisionDate(normalized.decision_date) ?? null,
     legal_area: overriddenLegalArea,
-    legal_question: row.legal_question,
-    court_position: row.court_position,
-    reasoning: row.reasoning,
-    keywords: row.keywords ?? null,
-    related_articles: row.related_articles ?? null,
-    headnote: row.headnote ?? null,
-    outcome: row.outcome ?? null,
-    source_url: row.source_url ?? null,
+    legal_question: normalized.legal_question,
+    court_position: normalized.court_position,
+    reasoning: normalized.reasoning,
+    keywords: normalized.keywords ?? null,
+    related_articles: normalized.related_articles ?? null,
+    headnote: normalized.headnote ?? null,
+    outcome: normalized.outcome ?? null,
+    source_url: normalized.source_url ?? null,
     embedding,
   }
 }
@@ -368,6 +411,16 @@ const openai = new OpenAI({
 const MAX_EMBEDDING_INPUT_CHARS = 10_000
 
 function buildEmbeddingSource(c: CaseLawInput): string {
+  if (isCroatianGrCase(c.jurisdiction, c.case_number)) {
+    const question = croatianGrLegalQuestion(c.court_position)
+    const izreka = croatianGrIzreka(c.court_position)
+    if (!izreka) {
+      throw new Error(
+        `Croatian Gr ${c.case_number}: no izreka after "riješio je"`,
+      )
+    }
+    return `${question}\n\n${izreka}`
+  }
   const kw = (c.keywords ?? []).join(" ")
   return [c.legal_question, c.court_position, c.reasoning, kw]
     .filter(Boolean)
@@ -793,12 +846,14 @@ export async function ingest(options?: {
     }
   }
 
-  for (const row of rowsToProcess) {
-    if (!row?.jurisdiction || !row.case_number) {
+  for (const rawRow of rowsToProcess) {
+    if (!rawRow?.jurisdiction || !rawRow.case_number) {
       // eslint-disable-next-line no-console
       console.warn("Skipping invalid ALL_CASE_LAW entry (missing row or fields).")
       continue
     }
+
+    const row = applyCroatianGrIngestOverrides(rawRow)
 
     jurisdictionSet.add(row.jurisdiction)
 

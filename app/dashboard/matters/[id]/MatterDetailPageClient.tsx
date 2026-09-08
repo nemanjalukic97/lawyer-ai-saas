@@ -20,7 +20,7 @@ type ContractRow = Pick<Tables<"contracts">, "id" | "title" | "created_at" | "st
 type DocumentRow = Pick<Tables<"documents">, "id" | "title" | "created_at" | "status">
 type TimeEntryRow = Pick<Tables<"time_entries">, "id" | "work_date" | "duration_minutes" | "status" | "notes" | "amount">
 type InvoiceRow = Pick<Tables<"invoices">, "id" | "invoice_number" | "status" | "total_amount" | "currency" | "due_date">
-type PredictionRow = Pick<Tables<"case_predictions">, "id" | "case_name" | "created_at" | "outcome_probability" | "confidence_level">
+type PredictionRow = Pick<Tables<"case_predictions">, "id" | "case_name" | "created_at" | "confidence_level">
 
 type MatterDetail = MatterRow & { client?: { name: string } | null }
 
@@ -152,7 +152,7 @@ export function MatterDetailPageClient({ matterId }: Props) {
         (() => {
           const q = supabase
             .from("case_predictions")
-            .select("id, case_name, created_at, outcome_probability, confidence_level")
+            .select("id, case_name, created_at, confidence_level")
             .eq("matter_id", matterId)
             .is("deleted_at", null)
             .order("created_at", { ascending: false })
@@ -566,9 +566,6 @@ export function MatterDetailPageClient({ matterId }: Props) {
                         {p.case_name ?? t("predictions.sidebar.fallbackCaseName")}
                       </p>
                       <div className="flex items-center gap-2">
-                        {typeof p.outcome_probability === "number" && (
-                          <Badge variant="outline">{p.outcome_probability}%</Badge>
-                        )}
                         <Badge variant="outline">
                           {t(`predictions.confidenceLevels.${p.confidence_level}`)}
                         </Badge>

@@ -749,7 +749,7 @@ export const slMessages: Messages = {
         predict: {
           title: "Napovej izid spora",
           description:
-            "Legantis analiza verjetnosti uspeha na podlagi prakse in prava.",
+            "Legantis analiza izida na podlagi prakse in prava.",
         },
         clients: {
           title: "Stranke",
@@ -1393,11 +1393,11 @@ export const slMessages: Messages = {
       result: {
         title: "Analiza napovedi",
         subtitle:
-          "Verjetnost izida, ključni dejavniki, precedensi, priporočila in tveganja na podlagi vnesenih informacij.",
+          "Kakovostna ocena izida, ključni dejavniki, precedensi, priporočila in tveganja na podlagi vnesenih informacij.",
         downloadPdf: "Prenesi PDF",
         saved: "Napoved je shranjena v vaš prostor.",
         empty:
-          "Vaša napoved zadeve se bo pojavila tukaj po analizi. Videli boste verjetnost izida, raven zaupanja, ključne dejavnike, relevantne precedense, strateška priporočila in tveganja, skupaj z jasnim opozorilom.",
+          "Vaša napoved zadeve se bo pojavila tukaj po analizi. Videli boste kakovostno oceno izida, raven zaupanja, ključne dejavnike, relevantne precedense, strateška priporočila in tveganja, skupaj z odpovedjo odgovornosti.",
         emptyShort: "Zaženite napoved, da si ogledate analizo",
       },
       sidebar: {
@@ -1417,14 +1417,24 @@ export const slMessages: Messages = {
       similarCases: {
         sectionTitle: "Analiza izidov podobnih zadev",
         cardTitle: "Statistika podobnih zadev",
-        plaintiffWinRate: "{pct}% primerov v korist tožnika",
+        plaintiffWinRate:
+          "Od {n} najdenih odločb je bilo {pct}% odločenih v korist tožnika",
+        insufficient:
+          "Ni dovolj primerljivih odločb z znanim izidom, da bi prikazali delež.",
+        noWinRate:
+          "Najdene odločbe so delne ali procesne in ne podpirajo deleža zmag.",
         plaintiffWon: "Tožnik uspel",
         defendantWon: "Toženec uspel",
         partially: "Delno",
         basedOn: "Na podlagi {count} podobnih sodnih odločb iz baze",
-        signalGood: "Tožnik ima dobre možnosti",
+        signalGood: "Več odločb v korist tožnika",
         signalUncertain: "Nejasno",
-        signalRisky: "Tvegano za tožnika",
+        signalRisky: "Več odločb v korist toženca",
+      },
+      disclaimer: {
+        title: "ODPOVED ODGOVORNOSTI",
+        body:
+          "Legantis je v aktivnem razvoju. Ta analiza je informativne narave in ne nadomešča strokovne pravne presoje niti pravnega nasveta. Ponudnik storitve ne prevzema odgovornosti za odločitve, sprejete na podlagi te vsebine.",
       },
       caseTypes: {
         civil: "Civilno pravo",

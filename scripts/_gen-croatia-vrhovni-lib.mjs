@@ -32,6 +32,7 @@ export function legalAreaFromCaseNumber(caseNum) {
   if (/Gzz/i.test(s)) return "civil"
   if (/Pzz/i.test(s)) return "commercial"
   if (/Uzp/i.test(s)) return "administrative"
+  if (/^Gr[\d-]/i.test(s)) return "procedural" // Gr 1: delegacija / sukob / izuzeće
   // No Ž-prefixed Vrhovni cases in corpus; labor uses Revr / Gž R upstream.
   return "civil"
 }
@@ -175,6 +176,13 @@ function statuteLabel(legal_area) {
   }
 }
 
+function croatianGrLegalQuestionFromPosition(courtPosition) {
+  const cp = String(courtPosition).toLowerCase()
+  if (cp.includes("izuze")) return "Osnovanost zahtjeva za izuzeće suca?"
+  if (cp.includes("delegacij")) return "Osnovanost zahtjeva za delegaciju?"
+  return "Koji je sud stvarno nadležan?"
+}
+
 function summarize(full, izrekaRaw, caseNum, legal_area) {
   let cp = prepareText(izrekaRaw).replace(
     /^(P\s*R\s*E\s*S\s*U\s*D\s*A|R\s*J\s*E\s*Š\s*E\s*N\s*J\s*E)\s*/i,
@@ -213,6 +221,10 @@ export function extractCaseFromFile(fn, raw) {
   const prefix = meta.case_number.split(/[\s/]/)[0]
   const keywords = [legal_area, COURT, prefix].filter(Boolean)
 
+  const legal_question = /^Gr[\s\d-]/i.test(meta.case_number)
+    ? croatianGrLegalQuestionFromPosition(sum.court_position)
+    : sum.legal_question
+
   return {
     jurisdiction: "croatia",
     court: COURT,
@@ -220,7 +232,7 @@ export function extractCaseFromFile(fn, raw) {
     case_number: meta.case_number,
     decision_date,
     legal_area,
-    legal_question: sum.legal_question,
+    legal_question,
     court_position: sum.court_position,
     reasoning: sum.reasoning,
     keywords,

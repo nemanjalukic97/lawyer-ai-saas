@@ -749,7 +749,7 @@ export const meMessages: Messages = {
         predict: {
           title: "Predvidi ishod spora",
           description:
-            "Legantis analiza vjerovatnoće uspjeha na osnovu prakse i prava.",
+            "Legantis analiza ishoda na osnovu prakse i prava.",
         },
         clients: {
           title: "Klijenti",
@@ -1378,11 +1378,11 @@ export const meMessages: Messages = {
       result: {
         title: "Analiza predviđanja",
         subtitle:
-          "Vjerovatnoća ishoda, ključni faktori, presedani, preporuke i rizici na osnovu unesenih informacija.",
+          "Kvalitativna procjena ishoda, ključni faktori, presedani, preporuke i rizici na osnovu unesenih informacija.",
         downloadPdf: "Preuzmi PDF",
         saved: "Predviđanje je sačuvano u radni prostor.",
         empty:
-          "Vaše predviđanje će se pojaviti ovdje nakon analize. Vidjećete vjerovatnoću ishoda, nivo pouzdanosti, ključne faktore, relevantne presedane, preporuke i rizike, uz jasno odricanje odgovornosti.",
+          "Vaše predviđanje će se pojaviti ovdje nakon analize. Vidjećete kvalitativnu procjenu ishoda, nivo pouzdanosti, ključne faktore, relevantne presedane, preporuke i rizike, uz odricanje odgovornosti.",
         emptyShort: "Pokrenite predviđanje da vidite analizu",
       },
       sidebar: {
@@ -1402,14 +1402,24 @@ export const meMessages: Messages = {
       similarCases: {
         sectionTitle: "Analiza Ishoda Sličnih Predmeta",
         cardTitle: "Statistika Sličnih Predmeta",
-        plaintiffWinRate: "{pct}% slučajeva u korist tužioca",
+        plaintiffWinRate:
+          "Od {n} pronađenih odluka, {pct}% je odlučeno u korist tužioca",
+        insufficient:
+          "Nema dovoljno uporedivih odluka s poznatim ishodom da bismo prikazali omjer.",
+        noWinRate:
+          "Pronađene odluke su djelimične ili procesne i ne podržavaju omjer pobjeda.",
         plaintiffWon: "Tužilac pobijedio",
         defendantWon: "Tuženi pobijedio",
         partially: "Djelimično",
         basedOn: "Na osnovu {count} sličnih presuda iz baze",
-        signalGood: "Tužilac ima dobru šansu",
+        signalGood: "Više odluka u korist tužioca",
         signalUncertain: "Neizvjesno",
-        signalRisky: "Rizično za tužioca",
+        signalRisky: "Više odluka u korist tuženog",
+      },
+      disclaimer: {
+        title: "ODRICANJE ODGOVORNOSTI",
+        body:
+          "Legantis je u aktivnom razvoju. Ova analiza je informativnog karaktera i ne zamjenjuje stručnu pravnu procjenu niti pravni savjet. Pružalac usluge ne preuzima odgovornost za odluke donesene na osnovu ovog sadržaja.",
       },
       caseTypes: {
         civil: "Građansko pravo",
