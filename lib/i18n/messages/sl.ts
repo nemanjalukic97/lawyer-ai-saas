@@ -1426,6 +1426,8 @@ export const slMessages: Messages = {
         plaintiffWon: "Tožnik uspel",
         defendantWon: "Toženec uspel",
         partially: "Delno",
+        procedural: "Procesno / vrnjeno",
+        other: "Drugo",
         basedOn: "Na podlagi {count} podobnih sodnih odločb iz baze",
         signalGood: "Več odločb v korist tožnika",
         signalUncertain: "Nejasno",

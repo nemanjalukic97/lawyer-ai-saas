@@ -7,9 +7,10 @@
  *
  *   npx tsx scripts/ingest-croatia-core-statutes.ts
  *   npx tsx scripts/ingest-croatia-core-statutes.ts --confirm
+ *   npx tsx scripts/ingest-croatia-core-statutes.ts --confirm --from="Zakon o radu"
  */
 import { spawnSync } from "child_process"
-import { readdir, readFile } from "fs/promises"
+import { readdir, readFile, writeFile } from "fs/promises"
 import path from "path"
 
 import dotenv from "dotenv"
@@ -20,6 +21,14 @@ import {
   sleep,
   stableIdForArticle,
 } from "./ingest-legal-texts"
+import {
+  formatNamedArticleBodies,
+  formatPeelReport,
+  parseFromLawArg,
+  reattachTrailingHeadings,
+  sliceStatutesFrom,
+  type PeelRecord,
+} from "./core-statute-nadnaslov"
 
 dotenv.config({ path: ".env.local" })
 
@@ -62,17 +71,25 @@ type ClanakPart = {
   body: string
 }
 
-function parseCli(): { confirm: boolean; jsonPath: string } {
+function parseCli(): {
+  confirm: boolean
+  jsonPath: string
+  fromLaw: string | null
+  articleNum: string | null
+} {
   const args = process.argv.slice(2)
   let confirm = false
   let jsonPath = DEFAULT_JSON
+  let articleNum: string | null = null
   for (let i = 0; i < args.length; i++) {
     const arg = args[i]
     if (arg === "--confirm") confirm = true
     else if (arg === "--from-json" && args[i + 1]) jsonPath = args[++i]
     else if (arg.startsWith("--from-json=")) jsonPath = arg.slice("--from-json=".length)
+    else if (arg.startsWith("--article=")) articleNum = arg.slice("--article=".length)
+    else if (arg === "--article" && args[i + 1]) articleNum = args[++i]
   }
-  return { confirm, jsonPath }
+  return { confirm, jsonPath, fromLaw: parseFromLawArg(args), articleNum }
 }
 
 function canonicalUrl(url: string): string {
@@ -177,13 +194,13 @@ function splitOversizedBody(body: string, maxLen: number): string[] {
 
 function articlesFromStatute(
   statute: CoreStatute,
-  body: string,
+  parts: ClanakPart[],
 ): LegalArticleInput[] {
   const year = /\/eli\/sluzbeni\/(\d{4})\//.exec(statute.source_url)?.[1]
   const effectiveDate = year ? `${year}-01-01` : undefined
   const rows: LegalArticleInput[] = []
 
-  for (const part of splitByClanak(body)) {
+  for (const part of parts) {
     const bodies = splitOversizedBody(part.body, ARTICLE_BODY_MAX_CHARS)
     const split = bodies.length > 1
     for (let i = 0; i < bodies.length; i++) {
@@ -380,10 +397,23 @@ async function upsertArticles(articles: LegalArticleInput[]): Promise<void> {
         source_url: article.source_url ?? null,
         effective_date: article.effective_date ?? null,
       }
-      const { error } = await supabaseAdmin.from("legal_articles").upsert(payload, {
-        onConflict: "id",
-      })
-      if (error) throw error
+      let lastError: unknown
+      for (let attempt = 1; attempt <= 3; attempt++) {
+        const { error } = await supabaseAdmin.from("legal_articles").upsert(payload, {
+          onConflict: "id",
+        })
+        if (!error) {
+          lastError = null
+          break
+        }
+        lastError = error
+        const timeout =
+          (error as { code?: string }).code === "57014" ||
+          /statement timeout/i.test(String((error as { message?: string }).message))
+        if (!timeout || attempt === 3) throw error
+        await sleep(1000 * attempt)
+      }
+      if (lastError) throw lastError
       succeeded += 1
       // eslint-disable-next-line no-console
       console.log(
@@ -406,7 +436,7 @@ async function upsertArticles(articles: LegalArticleInput[]): Promise<void> {
 }
 
 async function main() {
-  const { confirm, jsonPath } = parseCli()
+  const { confirm, jsonPath, fromLaw, articleNum } = parseCli()
   const statutes = await loadStatutes(jsonPath)
 
   let byUrl = await filesByUrl()
@@ -434,6 +464,8 @@ async function main() {
     dups: { articleNum: string; bodies: string[] }[]
   }[] = []
   const articles: LegalArticleInput[] = []
+  const peels: PeelRecord[] = []
+  const bodyChecks: { file: string; text: string }[] = []
 
   for (const statute of statutes) {
     const filePath = byUrl.get(statute.source_url)!
@@ -442,22 +474,66 @@ async function main() {
     if (!parsed) {
       throw new Error(`Invalid law file format: ${filePath}`)
     }
-    const clanakParts = splitByClanak(parsed.body)
-    const fileArticles = articlesFromStatute(statute, parsed.body)
+    const attached = reattachTrailingHeadings(
+      splitByClanak(parsed.body),
+      statute.law_name_local,
+    )
+    if (statute.law_name_local === "Zakon o vlasništvu i drugim stvarnim pravima") {
+      bodyChecks.push({
+        file: "scripts/_check-zvdsp-50-51.txt",
+        text: formatNamedArticleBodies(attached.parts, ["50", "51"]),
+      })
+    }
+    if (statute.law_name_local === "Kazneni zakon") {
+      bodyChecks.push({
+        file: "scripts/_check-kz-322-347.txt",
+        text: formatNamedArticleBodies(attached.parts, ["322", "347"]),
+      })
+    }
+    const fileArticles = articlesFromStatute(statute, attached.parts)
+    peels.push(...attached.peels)
     counts.push({
       law_name_local: statute.law_name_local,
-      clanak: clanakParts.length,
+      clanak: attached.parts.length,
       rows: fileArticles.length,
     })
     dupReports.push({
       law_name_local: statute.law_name_local,
-      dups: duplicateClanaka(clanakParts),
+      dups: duplicateClanaka(attached.parts),
     })
     articles.push(...fileArticles)
   }
 
   printCounts(counts)
   printDuplicateClanaka(dupReports)
+
+  const report = formatPeelReport(peels)
+  const fullPath = path.join(REPO_ROOT, "scripts/_peel-croatia.txt")
+  const flaggedPath = path.join(REPO_ROOT, "scripts/_peel-croatia-flagged.txt")
+  await writeFile(fullPath, report.full, "utf8")
+  await writeFile(flaggedPath, report.flagged, "utf8")
+  for (const check of bodyChecks) {
+    const checkPath = path.join(REPO_ROOT, check.file)
+    await writeFile(checkPath, check.text + "\n", "utf8")
+    // eslint-disable-next-line no-console
+    console.log(`\n=== BODY CHECK ${check.file} ===\n`)
+    // eslint-disable-next-line no-console
+    console.log(check.text)
+  }
+  // eslint-disable-next-line no-console
+  console.log(
+    `\nNadnaslov peels: ${report.total} lines (${report.flaggedCount} flagged)`,
+  )
+  // eslint-disable-next-line no-console
+  console.log(`  full:    ${fullPath}`)
+  // eslint-disable-next-line no-console
+  console.log(`  flagged: ${flaggedPath}`)
+  if (report.flagged) {
+    // eslint-disable-next-line no-console
+    console.log("\n=== FLAGGED PEELS ===\n")
+    // eslint-disable-next-line no-console
+    console.log(report.flagged)
+  }
 
   if (!confirm) {
     // eslint-disable-next-line no-console
@@ -468,7 +544,28 @@ async function main() {
     return
   }
 
-  await upsertArticles(articles)
+  const toWrite = sliceStatutesFrom(statutes, fromLaw)
+  const allowed = new Set(toWrite.map((s) => s.law_name_local))
+  if (articleNum) {
+    if (!fromLaw) {
+      throw new Error("--article requires --from=<law_name_local>")
+    }
+    const retry = articles.filter(
+      (a) => a.law_name_local === fromLaw && a.article_num === articleNum,
+    )
+    if (retry.length === 0) {
+      throw new Error(`No article ${articleNum} in ${fromLaw}`)
+    }
+    // eslint-disable-next-line no-console
+    console.log(`\nRetrying ${fromLaw} čl. ${articleNum} (${retry.length} row(s))`)
+    await upsertArticles(retry)
+    return
+  }
+  if (fromLaw) {
+    // eslint-disable-next-line no-console
+    console.log(`\nResuming from: ${fromLaw} (${toWrite.length} law(s) remaining)`)
+  }
+  await upsertArticles(articles.filter((a) => allowed.has(a.law_name_local)))
 }
 
 if (process.argv[1]?.includes("ingest-croatia-core-statutes")) {

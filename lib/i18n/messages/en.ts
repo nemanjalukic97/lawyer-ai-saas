@@ -1067,6 +1067,8 @@ export const enMessages: Messages = {
         plaintiffWon: "Plaintiff won",
         defendantWon: "Defendant won",
         partially: "Partial",
+        procedural: "Procedural / remanded",
+        other: "Other",
         basedOn: "Based on {count} similar rulings from the database",
         signalGood: "More decisions favored the plaintiff",
         signalUncertain: "Uncertain",

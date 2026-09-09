@@ -20,6 +20,7 @@ import {
   isVenueJurisdictionQuery,
 } from "./queryAreaInference"
 import { supabaseAdmin } from "./supabase/admin"
+import { PREDICTION_UNCITED_FACTOR_RULE } from "./predictionPrompts"
 
 export {
   getJurisdictionRpcThresholds,
@@ -1448,6 +1449,18 @@ export function legislationChunkText(
   return en
 }
 
+/** UI preview of a statute chunk. Same body as the prompt; flags native `text_local`. */
+export function legislationChunkPreview(
+  chunk: Pick<LegalChunk, "text" | "text_local">,
+  maxLen = 200,
+): { preview: string; fromLocal: boolean } {
+  const local = (chunk.text_local ?? "").trim()
+  const fromLocal = local.length > 0
+  const body = legislationChunkText(chunk)
+  if (body.length <= maxLen) return { preview: body, fromLocal }
+  return { preview: body.slice(0, maxLen) + "...", fromLocal }
+}
+
 export function joinLegalChunksRaw(chunks: LegalChunk[]): string {
   const formattedChunks = chunks.map((chunk, index) => {
     const paragraphSuffix = chunk.paragraph_num ? " §" + chunk.paragraph_num : ""
@@ -1655,6 +1668,7 @@ export function buildCombinedRagPrompt(
   jurisdiction: string,
   outputLanguage: string,
   answerMode: AnswerMode = "auto",
+  options?: { allowUncitedFactualFactors?: boolean },
 ): string {
   const legislationBody =
     ragResult.chunks.length > 0
@@ -1668,6 +1682,10 @@ export function buildCombinedRagPrompt(
     "Base your answer on both the legislation above AND the court decisions.\n" +
     "When citing case law, always mention the court name and case number.\n\n"
 
+  const uncitedFactorRule = options?.allowUncitedFactualFactors
+    ? `\n\nKEY FACTORS — UNCITED FACTS:\n${PREDICTION_UNCITED_FACTOR_RULE}\n`
+    : ""
+
   return (
     basePrompt +
     `\n\n"""\n\n[RELEVANT LEGISLATION]\n\n${legislationBody}\n\n[COURT DECISIONS — CASE LAW]\n\n${caseBody}\n\n` +
@@ -1678,7 +1696,8 @@ export function buildCombinedRagPrompt(
       outputLanguage,
       answerMode,
       "combined",
-    )
+    ) +
+    uncitedFactorRule
   )
 }
 

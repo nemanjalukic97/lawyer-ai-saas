@@ -7,6 +7,7 @@ import {
   getAnswerMode,
   summarizeAreaInferenceForLog,
   summarizeMatchChannelsForLog,
+  legislationChunkPreview,
   type LegalChunk,
   type CaseLawContextResult,
 } from "@/lib/legalRag"
@@ -235,6 +236,9 @@ export async function POST(req: NextRequest) {
                 ragJurisdiction,
                 resolvedOutputLanguage,
                 answerMode,
+                featureType === "case_prediction"
+                  ? { allowUncitedFactualFactors: true }
+                  : undefined,
               )
             : buildRagSystemPrompt(
                 systemPrompt,
@@ -252,16 +256,18 @@ export async function POST(req: NextRequest) {
             answerMode,
             validation: null,
             sources: hasStatutes
-              ? ragResult.chunks.map((c) => ({
-                  law_name_local: c.law_name_local,
-                  article_num: c.article_num,
-                  paragraph_num: c.paragraph_num,
-                  text_preview:
-                    c.text.slice(0, 200) +
-                    (c.text.length > 200 ? "..." : ""),
-                  similarity: Math.round(c.similarity * 1000) / 1000,
-                  retrievalChannel: c.retrievalChannel ?? null,
-                }))
+              ? ragResult.chunks.map((c) => {
+                  const { preview, fromLocal } = legislationChunkPreview(c)
+                  return {
+                    law_name_local: c.law_name_local,
+                    article_num: c.article_num,
+                    paragraph_num: c.paragraph_num,
+                    text_preview: preview,
+                    previewIsLocal: fromLocal,
+                    similarity: Math.round(c.similarity * 1000) / 1000,
+                    retrievalChannel: c.retrievalChannel ?? null,
+                  }
+                })
               : [],
             caseLawSources: caseLawResult.cases.map((c) => ({
               court: c.court,

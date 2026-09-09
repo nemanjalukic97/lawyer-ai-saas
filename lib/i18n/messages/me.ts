@@ -1411,6 +1411,8 @@ export const meMessages: Messages = {
         plaintiffWon: "Tužilac pobijedio",
         defendantWon: "Tuženi pobijedio",
         partially: "Djelimično",
+        procedural: "Procesno / vraćeno",
+        other: "Ostalo",
         basedOn: "Na osnovu {count} sličnih presuda iz baze",
         signalGood: "Više odluka u korist tužioca",
         signalUncertain: "Neizvjesno",

@@ -17,14 +17,21 @@ export function RagSourcesPanel({ ragData, showSimilarity = true }: Props) {
   )
   const [translatePending, setTranslatePending] = useState(false)
 
-  const previewKey = ragData.sources.map((s) => s.text_preview).join("\u0000")
+  const previewKey = ragData.sources
+    .map((s) => `${s.previewIsLocal ? "L" : "E"}:${s.text_preview}`)
+    .join("\u0000")
 
   useEffect(() => {
-    const texts = ragData.sources.map((s) => s.text_preview)
-    if (texts.length === 0) return
+    const sources = ragData.sources
+    const originals = sources.map((s) => s.text_preview)
+    if (originals.length === 0) return
 
-    if (language === "en") {
-      setTranslatedPreviews(texts)
+    const translatable = sources
+      .map((s, i) => ({ i, text: s.text_preview, local: Boolean(s.previewIsLocal) }))
+      .filter((s) => !s.local)
+
+    if (language === "en" || translatable.length === 0) {
+      setTranslatedPreviews(originals)
       setTranslatePending(false)
       return
     }
@@ -38,21 +45,28 @@ export function RagSourcesPanel({ ragData, showSimilarity = true }: Props) {
         const res = await fetch("/api/translate-rag-previews", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ texts, targetLanguage: language }),
+          body: JSON.stringify({
+            texts: translatable.map((s) => s.text),
+            targetLanguage: language,
+          }),
         })
         const data = (await res.json()) as { translations?: string[] }
         if (cancelled) return
         if (
           res.ok &&
           Array.isArray(data.translations) &&
-          data.translations.length === texts.length
+          data.translations.length === translatable.length
         ) {
-          setTranslatedPreviews(data.translations)
+          const merged = originals.slice()
+          translatable.forEach((s, j) => {
+            merged[s.i] = data.translations![j] ?? s.text
+          })
+          setTranslatedPreviews(merged)
         } else {
-          setTranslatedPreviews(texts)
+          setTranslatedPreviews(originals)
         }
       } catch {
-        if (!cancelled) setTranslatedPreviews(texts)
+        if (!cancelled) setTranslatedPreviews(originals)
       } finally {
         if (!cancelled) setTranslatePending(false)
       }

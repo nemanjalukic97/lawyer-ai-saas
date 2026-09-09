@@ -2015,6 +2015,8 @@ export const hrMessages: Messages = {
         plaintiffWon: "Tužitelj pobijedio",
         defendantWon: "Tuženi pobijedio",
         partially: "Djelomično",
+        procedural: "Procesno / vraćeno",
+        other: "Ostalo",
         basedOn: "Na temelju {count} sličnih presuda iz baze",
         signalGood: "Više odluka u korist tužitelja",
         signalUncertain: "Neizvjesno",

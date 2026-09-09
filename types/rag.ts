@@ -17,6 +17,8 @@ export type RagSource = {
   article_num: string
   paragraph_num: string | null
   text_preview: string
+  /** True when the preview is native `text_local` (do not re-translate). */
+  previewIsLocal?: boolean
   similarity: number
   retrievalChannel?: "narrative" | "distilled" | "both" | null
 }

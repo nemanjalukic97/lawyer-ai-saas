@@ -4,6 +4,7 @@ export type SimilarCaseOutcomeStats = {
   plaintiffWon: number
   defendantWon: number
   partially: number
+  procedural: number
   other: number
   knownOutcomeCount: number
   retrievedCount: number
@@ -25,6 +26,7 @@ export function computeSimilarCaseOutcomeStats(
   let plaintiffWon = 0
   let defendantWon = 0
   let partially = 0
+  let procedural = 0
   let other = 0
   let knownOutcomeCount = 0
 
@@ -49,7 +51,7 @@ export function computeSimilarCaseOutcomeStats(
         break
       case "procedural":
       case "remanded":
-        other += 1
+        procedural += 1
         break
       default:
         other += 1
@@ -57,6 +59,7 @@ export function computeSimilarCaseOutcomeStats(
     }
   }
 
+  const retrievedCount = sources.length
   const hasEnoughOutcomes = knownOutcomeCount >= 2
   const decisiveCount = plaintiffWon + defendantWon
   const hasWinRate = hasEnoughOutcomes && decisiveCount >= 2
@@ -68,9 +71,10 @@ export function computeSimilarCaseOutcomeStats(
     plaintiffWon,
     defendantWon,
     partially,
+    procedural,
     other,
     knownOutcomeCount,
-    retrievedCount: sources.length,
+    retrievedCount,
     decisiveCount,
     plaintiffWinPct,
     hasEnoughOutcomes,

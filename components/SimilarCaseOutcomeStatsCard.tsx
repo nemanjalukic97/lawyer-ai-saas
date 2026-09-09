@@ -109,6 +109,14 @@ export function SimilarCaseOutcomeStatsCard({ stats }: Props) {
       {t("predictions.similarCases.defendantWon")}: {stats.defendantWon}
       {" | "}
       {t("predictions.similarCases.partially")}: {stats.partially}
+      {" | "}
+      {t("predictions.similarCases.procedural")}: {stats.procedural}
+      {stats.other > 0 ? (
+        <>
+          {" | "}
+          {t("predictions.similarCases.other")}: {stats.other}
+        </>
+      ) : null}
     </p>
   )
 
@@ -130,7 +138,7 @@ export function SimilarCaseOutcomeStatsCard({ stats }: Props) {
           {breakdown}
           <p className="mt-2 text-xs text-muted-foreground/80">
             {t("predictions.similarCases.basedOn", {
-              count: stats.knownOutcomeCount,
+              count: stats.retrievedCount,
             })}
           </p>
         </div>
@@ -191,7 +199,7 @@ export function SimilarCaseOutcomeStatsCard({ stats }: Props) {
 
         <p className="mt-2 text-xs text-muted-foreground/80">
           {t("predictions.similarCases.basedOn", {
-            count: stats.knownOutcomeCount,
+            count: stats.retrievedCount,
           })}
         </p>
       </div>

@@ -135,6 +135,9 @@ export function sectionConfigForLanguage(
   }
 }
 
+export const PREDICTION_UNCITED_FACTOR_RULE =
+  "If a key factor is a factual circumstance rather than a legal rule, state it without a citation. Do not attach an article that does not govern that circumstance. It is better to leave a factor uncited than to cite an article whose text does not support it."
+
 export function buildPredictionSystemPrompt(
   jurisdiction: PredictionJurisdiction,
   outputLanguageName: string,
@@ -169,6 +172,7 @@ The statutes under [RELEVANT LEGISLATION] are listed in retrieval rank order (RA
 For each item in "${sections.keyFactorsTitle}":
 - Cite the highest-ranked retrieved article whose text actually supports that factor.
 - You may add lower-ranked articles as extra support. Do not cite a lower-ranked article instead of a higher-ranked one that supports the same point.
+- ${PREDICTION_UNCITED_FACTOR_RULE}
 
 If you describe a statutory mechanism in "${sections.recommendationsTitle}" (for example a buy-out, partition, or similar remedy), cite the highest-ranked article that creates that mechanism.
 

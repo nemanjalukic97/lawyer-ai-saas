@@ -7,9 +7,10 @@
  *
  *   npx tsx scripts/ingest-serbia-core-statutes.ts
  *   npx tsx scripts/ingest-serbia-core-statutes.ts --confirm
+ *   npx tsx scripts/ingest-serbia-core-statutes.ts --confirm --from="ЗАКОН о раду"
  */
 import { spawnSync } from "child_process"
-import { readdir, readFile } from "fs/promises"
+import { readdir, readFile, writeFile } from "fs/promises"
 import path from "path"
 
 import dotenv from "dotenv"
@@ -20,6 +21,14 @@ import {
   sleep,
   stableIdForArticle,
 } from "./ingest-legal-texts"
+import {
+  formatNamedArticleBodies,
+  formatPeelReport,
+  parseFromLawArg,
+  reattachTrailingHeadings,
+  sliceStatutesFrom,
+  type PeelRecord,
+} from "./core-statute-nadnaslov"
 
 dotenv.config({ path: ".env.local" })
 
@@ -123,7 +132,11 @@ type TailCut = {
   preview: string
 }
 
-function parseCli(): { confirm: boolean; jsonPath: string } {
+function parseCli(): {
+  confirm: boolean
+  jsonPath: string
+  fromLaw: string | null
+} {
   const args = process.argv.slice(2)
   let confirm = false
   let jsonPath = DEFAULT_JSON
@@ -133,7 +146,7 @@ function parseCli(): { confirm: boolean; jsonPath: string } {
     else if (arg === "--from-json" && args[i + 1]) jsonPath = args[++i]
     else if (arg.startsWith("--from-json=")) jsonPath = arg.slice("--from-json=".length)
   }
-  return { confirm, jsonPath }
+  return { confirm, jsonPath, fromLaw: parseFromLawArg(args) }
 }
 
 function canonicalUrl(url: string): string {
@@ -360,11 +373,11 @@ function splitOversizedBody(body: string, maxLen: number): string[] {
 
 function articlesFromStatute(
   statute: CoreStatute,
-  body: string,
+  parts: ClanPart[],
 ): LegalArticleInput[] {
   const rows: LegalArticleInput[] = []
 
-  for (const part of splitByClan(body)) {
+  for (const part of parts) {
     const bodies = splitOversizedBody(part.body, ARTICLE_BODY_MAX_CHARS)
     const split = bodies.length > 1
     for (let i = 0; i < bodies.length; i++) {
@@ -572,10 +585,23 @@ async function upsertArticles(articles: LegalArticleInput[]): Promise<void> {
         source_url: article.source_url ?? null,
         effective_date: article.effective_date ?? null,
       }
-      const { error } = await supabaseAdmin.from("legal_articles").upsert(payload, {
-        onConflict: "id",
-      })
-      if (error) throw error
+      let lastError: unknown
+      for (let attempt = 1; attempt <= 3; attempt++) {
+        const { error } = await supabaseAdmin.from("legal_articles").upsert(payload, {
+          onConflict: "id",
+        })
+        if (!error) {
+          lastError = null
+          break
+        }
+        lastError = error
+        const timeout =
+          (error as { code?: string }).code === "57014" ||
+          /statement timeout/i.test(String((error as { message?: string }).message))
+        if (!timeout || attempt === 3) throw error
+        await sleep(1000 * attempt)
+      }
+      if (lastError) throw lastError
       succeeded += 1
       // eslint-disable-next-line no-console
       console.log(
@@ -598,7 +624,7 @@ async function upsertArticles(articles: LegalArticleInput[]): Promise<void> {
 }
 
 async function main() {
-  const { confirm, jsonPath } = parseCli()
+  const { confirm, jsonPath, fromLaw } = parseCli()
   const statutes = await loadStatutes(jsonPath)
 
   let byUrl = await filesByUrl()
@@ -626,6 +652,8 @@ async function main() {
     dups: { articleNum: string; bodies: string[] }[]
   }[] = []
   const articles: LegalArticleInput[] = []
+  const peels: PeelRecord[] = []
+  const bodyChecks: { file: string; text: string }[] = []
 
   for (const statute of statutes) {
     const filePath = byUrl.get(statute.source_url)!
@@ -636,22 +664,60 @@ async function main() {
     }
     const { cut } = findAmendingActCut(parsed.body)
     printTailCut(statute.law_name_local, cut)
-    const clanParts = splitByClan(parsed.body)
-    const fileArticles = articlesFromStatute(statute, parsed.body)
+    const attached = reattachTrailingHeadings(
+      splitByClan(parsed.body),
+      statute.law_name_local,
+    )
+    if (statute.law_name_local === "ЗАКОН о раду") {
+      bodyChecks.push({
+        file: "scripts/_check-rad-178-179.txt",
+        text: formatNamedArticleBodies(attached.parts, ["178", "179"]),
+      })
+    }
+    const fileArticles = articlesFromStatute(statute, attached.parts)
+    peels.push(...attached.peels)
     counts.push({
       law_name_local: statute.law_name_local,
-      clanak: clanParts.length,
+      clanak: attached.parts.length,
       rows: fileArticles.length,
     })
     dupReports.push({
       law_name_local: statute.law_name_local,
-      dups: duplicateClanaka(clanParts),
+      dups: duplicateClanaka(attached.parts),
     })
     articles.push(...fileArticles)
   }
 
   printCounts(counts)
   printDuplicateClanaka(dupReports)
+
+  const report = formatPeelReport(peels)
+  const fullPath = path.join(REPO_ROOT, "scripts/_peel-serbia.txt")
+  const flaggedPath = path.join(REPO_ROOT, "scripts/_peel-serbia-flagged.txt")
+  await writeFile(fullPath, report.full, "utf8")
+  await writeFile(flaggedPath, report.flagged, "utf8")
+  for (const check of bodyChecks) {
+    const checkPath = path.join(REPO_ROOT, check.file)
+    await writeFile(checkPath, check.text + "\n", "utf8")
+    // eslint-disable-next-line no-console
+    console.log(`\n=== BODY CHECK ${check.file} ===\n`)
+    // eslint-disable-next-line no-console
+    console.log(check.text)
+  }
+  // eslint-disable-next-line no-console
+  console.log(
+    `\nNadnaslov peels: ${report.total} lines (${report.flaggedCount} flagged)`,
+  )
+  // eslint-disable-next-line no-console
+  console.log(`  full:    ${fullPath}`)
+  // eslint-disable-next-line no-console
+  console.log(`  flagged: ${flaggedPath}`)
+  if (report.flagged) {
+    // eslint-disable-next-line no-console
+    console.log("\n=== FLAGGED PEELS ===\n")
+    // eslint-disable-next-line no-console
+    console.log(report.flagged)
+  }
 
   if (!confirm) {
     // eslint-disable-next-line no-console
@@ -662,7 +728,13 @@ async function main() {
     return
   }
 
-  await upsertArticles(articles)
+  const toWrite = sliceStatutesFrom(statutes, fromLaw)
+  const allowed = new Set(toWrite.map((s) => s.law_name_local))
+  if (fromLaw) {
+    // eslint-disable-next-line no-console
+    console.log(`\nResuming from: ${fromLaw} (${toWrite.length} law(s) remaining)`)
+  }
+  await upsertArticles(articles.filter((a) => allowed.has(a.law_name_local)))
 }
 
 if (process.argv[1]?.includes("ingest-serbia-core-statutes")) {

@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server"
 
-import { retrieveLegalContext } from "@/lib/legalRag"
+import { legislationChunkPreview, retrieveLegalContext } from "@/lib/legalRag"
 import { createClient } from "@/lib/supabase/server"
 
 export async function POST(req: NextRequest) {
@@ -42,12 +42,16 @@ export async function POST(req: NextRequest) {
           source: result.areaInference.source ?? null,
         }
       : null,
-    chunks: result.chunks.map((c) => ({
-      law_name_local: c.law_name_local,
-      article_num: c.article_num,
-      paragraph_num: c.paragraph_num,
-      similarity: c.similarity,
-      text_preview: c.text.slice(0, 300),
-    })),
+    chunks: result.chunks.map((c) => {
+      const { preview, fromLocal } = legislationChunkPreview(c, 300)
+      return {
+        law_name_local: c.law_name_local,
+        article_num: c.article_num,
+        paragraph_num: c.paragraph_num,
+        similarity: c.similarity,
+        text_preview: preview,
+        previewIsLocal: fromLocal,
+      }
+    }),
   })
 }
