@@ -6,8 +6,10 @@
  * write to the database unless --confirm is passed.
  *
  *   npx tsx scripts/ingest-serbia-core-statutes.ts
+ *   npx tsx scripts/ingest-serbia-core-statutes.ts --new-only
  *   npx tsx scripts/ingest-serbia-core-statutes.ts --confirm
  *   npx tsx scripts/ingest-serbia-core-statutes.ts --confirm --from="ЗАКОН о раду"
+ *   npx tsx scripts/ingest-serbia-core-statutes.ts --confirm --new-only
  */
 import { spawnSync } from "child_process"
 import { readdir, readFile, writeFile } from "fs/promises"
@@ -24,10 +26,13 @@ import {
 import {
   formatNamedArticleBodies,
   formatPeelReport,
+  normalizeSpacedFirstWord,
   parseFromLawArg,
   reattachTrailingHeadings,
+  scanSplitHealth,
   sliceStatutesFrom,
   type PeelRecord,
+  type SplitHealth,
 } from "./core-statute-nadnaslov"
 
 dotenv.config({ path: ".env.local" })
@@ -37,17 +42,32 @@ const DEFAULT_JSON = "scripts/serbia-core-statutes.json"
 const DOWNLOAD_DIR = "downloads/serbia-core-statutes"
 const JURISDICTION = "serbia"
 
+/** Already in legal_articles. The three administrative/misdemeanor rows stay out of --confirm unless --include-new. */
+const INGESTED_LAW_NAMES = new Set([
+  "ЗАКОН о парничном поступку",
+  "ЗАКОН о облигационим односима",
+  "ЗАКОН о основама својинскоправних односа",
+  "КРИВИЧНИ ЗАКОНИК",
+  "ЗАКОНИК о кривичном поступку",
+  "ЗАКОН о извршењу и обезбеђењу",
+  "ПОРОДИЧНИ ЗАКОН",
+  "ЗАКОН о наслеђивању",
+  "ЗАКОН о раду",
+  "ЗАКОН о привредним друштвима",
+])
+
 /** Leave headroom for law_name_local + article_num + English stub in embed(). */
 const ARTICLE_BODY_MAX_CHARS = 22_000
 
 /**
  * "Члан 1.", "Члан 1.*", "Члан 358а.", "Члан 304a" (Latin a) → groups (1, а?) .
- * Period and trailing asterisk are optional. Letter class stays one character
- * so we do not eat the first letter of "став". PIS sometimes emits Latin
- * suffixes; articleNumFromMatch maps them to Cyrillic.
+ * Suffix is lowercase and glued to the digits — never a following word.
+ * No `i` flag: /[a-z]/i would treat Latin U/I/O as a suffix. `$` keeps the
+ * heading on one line so a body starting "У "/"И "/"О " cannot attach.
+ * PIS Latin suffixes are mapped to Cyrillic in articleNumFromMatch.
  */
-const CLAN_HEADING_RE =
-  /^Члан\s+(\d+)([а-яђјљњћџa-zA-ZčćđšžČĆĐŠŽ])?\s*\.?\s*\*?$/gim
+export const CLAN_HEADING_RE =
+  /^Члан\s+(\d+)([а-яђјљњћџa-zčćđšž])?\s*\.?\s*\*?$/gm
 
 /** Single-letter Latin suffixes → Serbian Cyrillic. Identity for already-Cyrillic. */
 const LATIN_TO_CYRILLIC_SUFFIX: Record<string, string> = {
@@ -102,18 +122,20 @@ const CROSS_REF_AFTER_HEADING_RE =
   /^(став|става|ст\.|овог закона)(?:\s|$|[.,;:0-9])/i
 
 /**
- * Whole-article deletion notice, e.g. "Брисан је (види члан 16. Закона - …)".
+ * Whole-article deletion notice, e.g. "Брисан је (види члан 16. Закона - …)",
+ * "Престао је да важи (види Одлуку УС …)". Gender follows the subject:
+ * члан/назив (m), одредба (f), правило (n); plural ставови/одредбе.
  * Do not use this on the raw first line: "Брисан је ранији став N." is a
  * paragraph-level footnote inside a live article (see REDACTION_LINE_RE).
  */
 const WHOLE_ARTICLE_DELETION_LINE_RE =
-  /^(Брисан је|Престали су да важе)(?:\s|$|\()/
+  /^(Брисан је|Престао је да важи|Престала је да важи|Престало је да важи|Престали су да важе|Престале су да важе|Престала су да важе)(?:\s|$|\()/
 
 const FOOTNOTE_LINE_RE =
   /^\*{1,2}\s*Службени (гласник|лист).*$/gmu
 
 const REDACTION_LINE_RE =
-  /^(Брисан је ранији став|Престао је да важи ранији став).*$/gmu
+  /^(Брисан је ранији став|Престао је да важи ранији став|Престала је да важи раниј|Престало је да важи раниј).*$/gmu
 
 type CoreStatute = {
   law_name_local: string
@@ -136,17 +158,23 @@ function parseCli(): {
   confirm: boolean
   jsonPath: string
   fromLaw: string | null
+  includeNew: boolean
+  newOnly: boolean
 } {
   const args = process.argv.slice(2)
   let confirm = false
+  let includeNew = false
+  let newOnly = false
   let jsonPath = DEFAULT_JSON
   for (let i = 0; i < args.length; i++) {
     const arg = args[i]
     if (arg === "--confirm") confirm = true
+    else if (arg === "--include-new") includeNew = true
+    else if (arg === "--new-only") newOnly = true
     else if (arg === "--from-json" && args[i + 1]) jsonPath = args[++i]
     else if (arg.startsWith("--from-json=")) jsonPath = arg.slice("--from-json=".length)
   }
-  return { confirm, jsonPath, fromLaw: parseFromLawArg(args) }
+  return { confirm, jsonPath, fromLaw: parseFromLawArg(args), includeNew, newOnly }
 }
 
 function canonicalUrl(url: string): string {
@@ -223,18 +251,22 @@ function isCrossReferenceHeading(
 
 function isFootnoteOrRedactionLine(t: string): boolean {
   if (!t) return false
+  const n = normalizeSpacedFirstWord(t)
   FOOTNOTE_LINE_RE.lastIndex = 0
   REDACTION_LINE_RE.lastIndex = 0
-  return FOOTNOTE_LINE_RE.test(t) || REDACTION_LINE_RE.test(t)
+  return FOOTNOTE_LINE_RE.test(n) || REDACTION_LINE_RE.test(n)
 }
 
 function isTitleRedactionLine(t: string): boolean {
-  return /^(Брисан је назив|Престао је да важи назив)/.test(t)
+  const n = normalizeSpacedFirstWord(t)
+  return /^(Брисан је назив|Престао је да важи назив|Престала је да важи назив|Престало је да важи назив)/.test(
+    n,
+  )
 }
 
 function isWholeArticleDeletionLine(t: string): boolean {
   if (isFootnoteOrRedactionLine(t)) return false
-  return WHOLE_ARTICLE_DELETION_LINE_RE.test(t)
+  return WHOLE_ARTICLE_DELETION_LINE_RE.test(normalizeSpacedFirstWord(t))
 }
 
 /**
@@ -397,6 +429,20 @@ function articlesFromStatute(
   return rows
 }
 
+export function processSerbiaStatuteText(
+  statute: CoreStatute,
+  body: string,
+): { articles: LegalArticleInput[]; parts: ClanPart[] } {
+  const attached = reattachTrailingHeadings(
+    splitByClan(body),
+    statute.law_name_local,
+  )
+  return {
+    parts: attached.parts,
+    articles: articlesFromStatute(statute, attached.parts),
+  }
+}
+
 async function collectTxtFiles(dirPath: string): Promise<string[]> {
   const absDir = path.join(REPO_ROOT, dirPath)
   const results: string[] = []
@@ -506,6 +552,51 @@ function printTailCut(lawNameLocal: string, cut: TailCut | null): void {
   console.log(
     `\nAmending-act tail cut (${lawNameLocal}): offset ${cut.offset}\n  around: ${cut.preview}`,
   )
+}
+
+function printSplitHealth(lawNameLocal: string, peels: number, health: SplitHealth): void {
+  const byRule = new Map<string, SplitHealth["held"]>()
+  for (const hit of health.held) {
+    const list = byRule.get(hit.rule) ?? []
+    list.push(hit)
+    byRule.set(hit.rule, list)
+  }
+  // eslint-disable-next-line no-console
+  console.log(`\n--- ${lawNameLocal} ---`)
+  // eslint-disable-next-line no-console
+  console.log(`  nadnaslov peels: ${peels}`)
+  // eslint-disable-next-line no-console
+  console.log(
+    `  suffix articles: ${health.suffixArticles.length}` +
+      (health.suffixArticles.length
+        ? ` (${health.suffixArticles.slice(0, 20).join(", ")}${health.suffixArticles.length > 20 ? ", …" : ""})`
+        : ""),
+  )
+  for (const rule of ["wrap", "gazette", "deletion-list", "asterisk", "paren-period"] as const) {
+    const rows = byRule.get(rule) ?? []
+    // eslint-disable-next-line no-console
+    console.log(`  ${rule} holds: ${rows.length}`)
+    for (const row of rows.slice(0, 8)) {
+      // eslint-disable-next-line no-console
+      console.log(`    чл. ${row.articleNum}\t${row.line.slice(0, 160)}`)
+    }
+    if (rows.length > 8) {
+      // eslint-disable-next-line no-console
+      console.log(`    … ${rows.length - 8} more`)
+    }
+  }
+  // eslint-disable-next-line no-console
+  console.log(`  empty leftovers: ${health.emptyLeftovers.length}`)
+  for (const row of health.emptyLeftovers) {
+    // eslint-disable-next-line no-console
+    console.log(`    чл. ${row.articleNum}\t${row.preview}`)
+  }
+  // eslint-disable-next-line no-console
+  console.log(`  stolen first-lines: ${health.stolenSentences.length}`)
+  for (const row of health.stolenSentences) {
+    // eslint-disable-next-line no-console
+    console.log(`    чл. ${row.articleNum}\t${row.first.slice(0, 160)}`)
+  }
 }
 
 function duplicateClanaka(
@@ -624,8 +715,13 @@ async function upsertArticles(articles: LegalArticleInput[]): Promise<void> {
 }
 
 async function main() {
-  const { confirm, jsonPath, fromLaw } = parseCli()
-  const statutes = await loadStatutes(jsonPath)
+  const { confirm, jsonPath, fromLaw, includeNew, newOnly } = parseCli()
+  let statutes = await loadStatutes(jsonPath)
+  if (newOnly) {
+    statutes = statutes.filter((s) => !INGESTED_LAW_NAMES.has(s.law_name_local))
+  } else if (!includeNew) {
+    statutes = statutes.filter((s) => INGESTED_LAW_NAMES.has(s.law_name_local))
+  }
 
   let byUrl = await filesByUrl()
   const missing = statutes.filter((s) => !byUrl.has(s.source_url))
@@ -664,9 +760,15 @@ async function main() {
     }
     const { cut } = findAmendingActCut(parsed.body)
     printTailCut(statute.law_name_local, cut)
+    const prePeel = splitByClan(parsed.body)
     const attached = reattachTrailingHeadings(
-      splitByClan(parsed.body),
+      prePeel,
       statute.law_name_local,
+    )
+    printSplitHealth(
+      statute.law_name_local,
+      attached.peels.length,
+      scanSplitHealth(prePeel, attached.parts),
     )
     if (statute.law_name_local === "ЗАКОН о раду") {
       bodyChecks.push({
@@ -722,8 +824,9 @@ async function main() {
   if (!confirm) {
     // eslint-disable-next-line no-console
     console.log(
-      "\nStopped before embedding. Re-run with --confirm to embed and upsert:\n" +
-        "  npx tsx scripts/ingest-serbia-core-statutes.ts --confirm",
+      "\nStopped before embedding. Re-run with --confirm to embed and upsert.\n" +
+        "  npx tsx scripts/ingest-serbia-core-statutes.ts --confirm\n" +
+        "  npx tsx scripts/ingest-serbia-core-statutes.ts --confirm --new-only",
     )
     return
   }

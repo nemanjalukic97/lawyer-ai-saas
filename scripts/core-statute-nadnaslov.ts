@@ -31,8 +31,28 @@ function isArticleHeadingLine(t: string): boolean {
   return ARTICLE_HEADING_LINE_RE.test(t)
 }
 
+/**
+ * PIS / NN put amendment stars after the sentence: "законом.*" / "zakona.**".
+ * Citation parens hide a period the same way: "(члан 51. став 1.)".
+ * Strip markers and trailing closers before punctuation and length tests.
+ */
+function stripTrailingMarkersAndCitations(t: string): string {
+  let s = t.replace(/\s*[*†‡]+\s*$/u, "").trimEnd()
+  s = s.replace(/[)\]]+\s*$/u, "").trimEnd()
+  return s
+}
+
 function hasTerminalPunct(t: string): boolean {
-  return /[.;:]$/.test(t)
+  return /[.;:]$/.test(stripTrailingMarkersAndCitations(t))
+}
+
+/**
+ * "Б рисан је" / "B risan je" — OCR inserted spaces inside the first word.
+ */
+export function normalizeSpacedFirstWord(line: string): string {
+  const m = /^(\p{L}(?:\s+\p{L})+)/u.exec(line)
+  if (!m) return line
+  return m[1].replace(/\s+/g, "") + line.slice(m[1].length)
 }
 
 function isStructuralHeadingLine(t: string): boolean {
@@ -70,24 +90,49 @@ function isWrappedContinuation(line: string, preceding: string | null): boolean 
 
 /** Gazette stars and PIS deletion notes stay on the article they sit on. */
 function isGazetteOrDeletionNote(t: string): boolean {
+  const n = normalizeSpacedFirstWord(t)
   // Stars may be packed (*** ) or spaced (* *); title may wrap (*Службени г).
   // No \b after Cyrillic: JS word-boundary is ASCII-only, so it never fires.
-  if (/^\*[\s\*]*Службени(\s|$)/u.test(t)) return true
-  if (/^\*[\s\*]*Službeni(\s|$)/i.test(t)) return true
-  if (/^\*[\s\*]*Narodne\s+novine/i.test(t)) return true
-  if (/^Брисан[аиое]?\s+(је|су)(?:\s|$)/u.test(t)) return true
-  if (/^Brisan[aoi]?\s+(je|su)(?:\s|$)/i.test(t)) return true
+  if (/^\*[\s\*]*Службени(\s|$)/u.test(n)) return true
+  if (/^\*[\s\*]*Službeni(\s|$)/i.test(n)) return true
+  if (/^\*[\s\*]*Narodne\s+novine/i.test(n)) return true
+  if (/^Брисан[аиое]?\s+(је|су)(?:\s|$)/u.test(n)) return true
+  if (/^Brisan[aoi]?\s+(je|su)(?:\s|$)/i.test(n)) return true
+  // члан/назив m, одредба f, правило n; plurals ставови/одредбе/права
+  if (/^(Престао|Престала|Престало)\s+је\s+да\s+важи(?:\s|$)/u.test(n)) {
+    return true
+  }
+  if (/^(Престали|Престале|Престала)\s+су\s+да\s+важе(?:\s|$)/u.test(n)) {
+    return true
+  }
+  if (/^(Prestao|Prestala|Prestalo)\s+je\s+da\s+važi(?:\s|$)/i.test(n)) {
+    return true
+  }
+  if (/^(Prestali|Prestale|Prestala)\s+su\s+da\s+važe(?:\s|$)/i.test(n)) {
+    return true
+  }
   return false
+}
+
+/** "4) брисана је" / "6) брисан је" — deleted enumerated items, not headings. */
+function isDeletedListItem(t: string): boolean {
+  return /^\d+\)\s*(брисан|брисана|брисано|brisan|brisana|brisano)(?:\s|$|\()/iu.test(
+    t,
+  )
 }
 
 function isPeelableHeadingLine(t: string): boolean {
   if (!t) return false
   if (isStavakLine(t)) return false
   if (isArticleHeadingLine(t)) return false
+  if (isDeletedListItem(t)) return false
   if (isGazetteOrDeletionNote(t)) return false
-  if (hasTerminalPunct(t)) return false
+  // Comma too: "foo,*" is a sentence, not a heading. Wrap still uses
+  // hasTerminalPunct ([.;:]) so a comma-ending line can be a continuation.
+  const core = stripTrailingMarkersAndCitations(t)
+  if (/[.,;:]$/.test(core)) return false
   if (isStructuralHeadingLine(t)) return true
-  return t.length >= 8 && t.length <= 160
+  return core.length >= 8 && core.length <= 160
 }
 
 function peelTrailingHeadings(body: string): { body: string; peeled: string[] } {
@@ -123,6 +168,139 @@ export function peelFlagReasons(line: string): string[] {
   if (/\d/.test(line)) reasons.push("digit")
   if (/^\p{Ll}/u.test(line)) reasons.push("lowercase")
   return reasons
+}
+
+const HEALTH_HEADING_RE = /^(Članak|Član|Члан)\s+\d+/i
+const HEALTH_STAVAK_RE = /^\(\d+[a-zа-я]?\)/i
+
+function healthLines(text: string): string[] {
+  return text
+    .split(/\r?\n/)
+    .map((l) => l.trim())
+    .filter(Boolean)
+}
+
+function lastNonEmptyLine(
+  body: string,
+): { line: string; preceding: string | null } | null {
+  const lines = body.split("\n")
+  let lastIdx = lines.length - 1
+  while (lastIdx >= 0 && !lines[lastIdx]!.trim()) lastIdx -= 1
+  if (lastIdx < 0) return null
+  return {
+    line: lines[lastIdx]!.trim(),
+    preceding: precedingNonEmptyLine(lines, lastIdx),
+  }
+}
+
+function isHealthHeadingLike(t: string): boolean {
+  if (HEALTH_HEADING_RE.test(t)) return true
+  if (isStructuralHeadingLine(t)) return true
+  if (/^\p{Ll}[./)]\s+\S/u.test(t)) return true
+  const core = stripTrailingMarkersAndCitations(t)
+  if (/[.,;:!?]$/.test(core)) return false
+  if (HEALTH_STAVAK_RE.test(t)) return false
+  return t.length >= 2 && t.length <= 160
+}
+
+function isHealthOperative(t: string): boolean {
+  if (!t || isGazetteOrDeletionNote(t) || isDeletedListItem(t)) return false
+  if (isHealthHeadingLike(t)) return false
+  if (HEALTH_STAVAK_RE.test(t)) return true
+  const core = stripTrailingMarkersAndCitations(t)
+  if (/[.,;:!?]$/.test(core)) return true
+  if (core.length > 160) return true
+  return false
+}
+
+export type HeldRuleHit = {
+  articleNum: string
+  rule: "wrap" | "gazette" | "deletion-list" | "asterisk" | "paren-period"
+  line: string
+}
+
+export type SplitHealth = {
+  emptyLeftovers: { articleNum: string; preview: string }[]
+  stolenSentences: { articleNum: string; first: string }[]
+  suffixArticles: string[]
+  held: HeldRuleHit[]
+}
+
+/** Why the last line of a pre-peel body did not move onto the next article. */
+export function heldLastLineRule(
+  body: string,
+  articleNum: string,
+): HeldRuleHit | null {
+  const last = lastNonEmptyLine(body)
+  if (!last) return null
+  const { line, preceding } = last
+  if (isDeletedListItem(line)) {
+    return { articleNum, rule: "deletion-list", line }
+  }
+  if (isGazetteOrDeletionNote(line)) {
+    return { articleNum, rule: "gazette", line }
+  }
+  const hadStar = /[*†‡]+\s*$/u.test(line)
+  const hadCloser = /[)\]]+\s*$/u.test(line)
+  const core = stripTrailingMarkersAndCitations(line)
+  if (hadStar && /[.,;:]$/.test(core)) {
+    return { articleNum, rule: "asterisk", line }
+  }
+  if (hadCloser && /[.,;:]$/.test(core)) {
+    return { articleNum, rule: "paren-period", line }
+  }
+  if (
+    isPeelableHeadingLine(line) &&
+    isWrappedContinuation(line, preceding)
+  ) {
+    return { articleNum, rule: "wrap", line }
+  }
+  return null
+}
+
+export function scanSplitHealth<T extends HeadingPart>(
+  prePeel: T[],
+  postPeel: T[],
+): SplitHealth {
+  const held: HeldRuleHit[] = []
+  for (const part of prePeel) {
+    const hit = heldLastLineRule(part.body, part.articleNum)
+    if (hit) held.push(hit)
+  }
+
+  const emptyLeftovers: SplitHealth["emptyLeftovers"] = []
+  const stolenSentences: SplitHealth["stolenSentences"] = []
+  const suffixArticles: string[] = []
+
+  for (const part of postPeel) {
+    if (/\p{L}$/u.test(part.articleNum)) suffixArticles.push(part.articleNum)
+    const lines = healthLines(part.body)
+    const first = lines[0] ?? ""
+    if (isHealthOperative(first)) {
+      stolenSentences.push({ articleNum: part.articleNum, first })
+    }
+    const rest = lines.filter((l) => !HEALTH_HEADING_RE.test(l))
+    const hasOperative = rest.some(isHealthOperative)
+    const hasDeletion = rest.some(
+      (l) => isGazetteOrDeletionNote(l) || isDeletedListItem(l),
+    )
+    const restAreHeadings =
+      rest.length === 0 ||
+      rest.every(
+        (l) =>
+          isHealthHeadingLike(l) ||
+          isGazetteOrDeletionNote(l) ||
+          isDeletedListItem(l),
+      )
+    if (!hasOperative && !hasDeletion && restAreHeadings) {
+      emptyLeftovers.push({
+        articleNum: part.articleNum,
+        preview: lines.join(" | ").slice(0, 200),
+      })
+    }
+  }
+
+  return { emptyLeftovers, stolenSentences, suffixArticles, held }
 }
 
 export function reattachTrailingHeadings<T extends HeadingPart>(

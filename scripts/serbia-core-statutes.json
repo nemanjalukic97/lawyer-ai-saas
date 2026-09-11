@@ -58,5 +58,59 @@
     "law_name": "Companies Act",
     "law_category": "commercial",
     "source_url": "https://reg.pravno-informacioni-sistem.rs/api/viewdoc?uuid=f2267a4c-0ae5-40ac-aebe-3e986e4b3753&regactid=438316&doctype=reg"
+  },
+  {
+    "law_name_local": "ЗАКОН о општем управном поступку",
+    "law_name": "General Administrative Procedure Act",
+    "law_category": "administrative",
+    "source_url": "https://reg.pravno-informacioni-sistem.rs/api/viewdoc?uuid=a3cefe6d-ae90-46eb-b094-84f62f225473&regactid=434986&doctype=reg"
+  },
+  {
+    "law_name_local": "ЗАКОН о управним споровима",
+    "law_name": "Administrative Disputes Act",
+    "law_category": "administrative",
+    "source_url": "https://reg.pravno-informacioni-sistem.rs/api/viewdoc?uuid=fe2ff688-ecaf-47c5-bf65-2088fe66f4b2&regactid=422234&doctype=reg"
+  },
+  {
+    "law_name_local": "ЗАКОН о прекршајима",
+    "law_name": "Misdemeanor Act",
+    "law_category": "misdemeanor",
+    "source_url": "https://reg.pravno-informacioni-sistem.rs/api/viewdoc?uuid=faf55794-488b-4680-8fd2-bbff1d658f67&regactid=434479&doctype=reg"
+  },
+  {
+    "law_name_local": "ЗАКОН о стечају",
+    "law_name": "Bankruptcy Act",
+    "law_category": "commercial",
+    "source_url": "https://reg.pravno-informacioni-sistem.rs/api/viewdoc?uuid=92622317-5341-4d6c-9cb3-744c1614271a&regactid=438645&doctype=reg"
+  },
+  {
+    "law_name_local": "ЗАКОН о ауторском и сродним правима",
+    "law_name": "Copyright and Related Rights Act",
+    "law_category": "commercial",
+    "source_url": "https://reg.pravno-informacioni-sistem.rs/api/viewdoc?uuid=38814ec1-3119-4388-b255-057ee8620c67&regactid=429055&doctype=reg"
+  },
+  {
+    "law_name_local": "ЗАКОН о заштити пословне тајне",
+    "law_name": "Trade Secrets Protection Act",
+    "law_category": "commercial",
+    "source_url": "https://reg.pravno-informacioni-sistem.rs/api/viewdoc?uuid=cd381f12-e03f-4e9b-b032-b4eb47ef44b4&regactid=432289&doctype=reg"
+  },
+  {
+    "law_name_local": "ЗАКОН о јавном реду и миру",
+    "law_name": "Public Order and Peace Act",
+    "law_category": "criminal",
+    "source_url": "https://reg.pravno-informacioni-sistem.rs/api/viewdoc?uuid=5fbdbf5e-5432-4f30-83a4-b4b98677fd70&regactid=425054&doctype=reg"
+  },
+  {
+    "law_name_local": "ЗАКОН о адвокатури",
+    "law_name": "Advocacy Act",
+    "law_category": "general",
+    "source_url": "https://reg.pravno-informacioni-sistem.rs/api/viewdoc?uuid=783561bd-e0f4-48c0-87db-0f5880cda2f5&regactid=420372&doctype=reg"
+  },
+  {
+    "law_name_local": "ЗАКОН о заштити података о личности",
+    "law_name": "Personal Data Protection Act",
+    "law_category": "general",
+    "source_url": "https://reg.pravno-informacioni-sistem.rs/api/viewdoc?uuid=9a49bcd4-c1f0-42b7-9831-5699ed8ad302&regactid=427034&doctype=reg"
   }
 ]

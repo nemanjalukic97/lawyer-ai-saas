@@ -41,11 +41,14 @@ const JURISDICTION = "croatia"
 const ARTICLE_BODY_MAX_CHARS = 22_000
 
 /**
- * "Članak 358.", "Članak 358.a", "Članak 358a." → groups (358, a?) .
- * Letter may sit before or after the period. `[a-z](?![a-z])` avoids eating
- * the first letter of "stavak" / "stavka".
+ * "Članak 358.", "Članak 358.a", "Članak 433a" → groups (358, a?) .
+ * Suffix is lowercase and glued to the number (optional period between).
+ * Do not use the `i` flag: /[a-z]/i treats "U"/"I"/"O" as a suffix, and
+ * `\s*` used to cross the blank line ("Članak 4.\n\nU zasnivanju" → 4u).
+ * The heading is the whole line so trailing whitespace cannot reach the body.
  */
-const CLANAK_HEADING_RE = /^Članak\s+(\d+)\.?\s*([a-z](?![a-z]))?\.?/gim
+export const CLANAK_HEADING_RE =
+  /^Članak\s+(\d+)\.?([a-z])?\.?[ \t]*$/gm
 
 /**
  * Pročišćeni tekst appends later amending acts after the main act. Their own
@@ -219,6 +222,20 @@ function articlesFromStatute(
     }
   }
   return rows
+}
+
+export function processCroatiaStatuteText(
+  statute: CoreStatute,
+  body: string,
+): { articles: LegalArticleInput[]; parts: ClanakPart[] } {
+  const attached = reattachTrailingHeadings(
+    splitByClanak(body),
+    statute.law_name_local,
+  )
+  return {
+    parts: attached.parts,
+    articles: articlesFromStatute(statute, attached.parts),
+  }
 }
 
 async function collectTxtFiles(dirPath: string): Promise<string[]> {
