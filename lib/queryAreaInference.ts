@@ -215,6 +215,49 @@ export function isVenueJurisdictionQuery(query: string): boolean {
 }
 
 /**
+ * Court of BiH / BiH-institutions matter. When true, bih_fbih / bih_rs /
+ * bih_brcko retrieval may return parallel state statutes tagged
+ * applies_before = 'state_court'.
+ *
+ * Tight on purpose (same discipline as the Gr venue gate): bare "sud",
+ * "BiH", "državna služba", and statute names ("KZ BiH", "ZKP BiH") are
+ * omitted. Naming a state code is not a Court of BiH matter.
+ * Latin BCS is listed; Cyrillic is matched via getScriptVariants.
+ */
+export const STATE_COURT_MATTER_PHRASES: readonly string[] = [
+  "pred Sudom Bosne i Hercegovine",
+  "Sud Bosne i Hercegovine",
+  "Sudu Bosne i Hercegovine",
+  "Suda Bosne i Hercegovine",
+  "Sudom Bosne i Hercegovine",
+  "institucijama Bosne i Hercegovine",
+  "institucije Bosne i Hercegovine",
+  "državna služba u institucijama",
+  "drzavna sluzba u institucijama",
+  "pred Sudom BiH",
+  "institucijama BiH",
+  "institucije BiH",
+  "Sudom BiH",
+  "Sudu BiH",
+  "Suda BiH",
+  "Sud BiH",
+]
+
+const STATE_COURT_MATTER_PHRASES_LONGEST_FIRST = [
+  ...STATE_COURT_MATTER_PHRASES,
+].sort((a, b) => b.length - a.length)
+
+export function isStateCourtMatterQuery(query: string): boolean {
+  const normalized = query.trim().replace(/\s+/g, " ")
+  if (normalized.length < 2) return false
+
+  for (const phrase of STATE_COURT_MATTER_PHRASES_LONGEST_FIRST) {
+    if (phraseMatchesQuery(normalized, phrase)) return true
+  }
+  return false
+}
+
+/**
  * Infer a single legal area from the search query.
  * Returns null when there is no clear signal (ranking unchanged).
  */

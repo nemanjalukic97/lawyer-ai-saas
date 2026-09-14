@@ -41,7 +41,8 @@ const DENYLIST = [
 ]
 
 const PARAGRAF_JURISDICTIONS = {
-  bih_fbih: ["fbih", "bih"],
+  // "bih" is state-level (Court of BiH, SG BiH). Do not download it as FBiH.
+  bih_fbih: ["fbih"],
   bih_rs: ["rs"],
   bih_brcko: ["brcko"],
   montenegro: ["me"],

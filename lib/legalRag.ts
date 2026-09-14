@@ -17,6 +17,7 @@ import {
 import {
   areasCompatibleWithInference,
   inferLegalAreaFromQuery,
+  isStateCourtMatterQuery,
   isVenueJurisdictionQuery,
 } from "./queryAreaInference"
 import { supabaseAdmin } from "./supabase/admin"
@@ -138,6 +139,21 @@ const LARGE_CORPUS_JURISDICTIONS = new Set([
   "slovenia",
 ])
 
+/** Entity buckets that also hold parallel state-BiH statutes. */
+const BIH_ENTITY_JURISDICTIONS = new Set([
+  "bih_fbih",
+  "bih_rs",
+  "bih_brcko",
+])
+
+function includeStateCourtArticles(
+  jurisdiction: string,
+  query: string,
+): boolean {
+  if (!BIH_ENTITY_JURISDICTIONS.has(jurisdiction)) return false
+  return isStateCourtMatterQuery(query)
+}
+
 function getLegalRpcTimeoutMs(
   rpcFilterCategory: string | null,
   jurisdiction: string,
@@ -222,12 +238,14 @@ async function runMatchLegalArticlesRpc(args: {
   matchCount: number
   similarityThreshold: number
   timeoutMs?: number
+  includeStateCourt?: boolean
 }): Promise<LegalChunk[]> {
   const rpcArgs: Record<string, unknown> = {
     query_embedding: args.embedding,
     filter_jurisdiction: args.jurisdiction,
     match_count: args.matchCount,
     similarity_threshold: args.similarityThreshold,
+    include_state_court: args.includeStateCourt === true,
   }
   const category = normalizeResearchCategory(args.category)
   if (category) {
@@ -277,6 +295,62 @@ function buildKeywordOrFilter(
 ): string {
   const allPatterns = [...patterns.exactPatterns, ...patterns.stemPatterns]
   return allPatterns.map((p) => `${field}.ilike.${p}`).join(",")
+}
+
+function landRegisterTitleBonus(
+  lawName: string,
+  patterns: ReturnType<typeof buildKeywordIlikePatterns>,
+): number {
+  const wantsRegister = patterns.exactPatterns.some((p) =>
+    /zemljišn|zemljisn|земљишн/i.test(p),
+  )
+  if (!wantsRegister) return 0
+  if (
+    /zemljišn[\s\S]{0,24}knjig|земљишн[\s\S]{0,24}књиг/i.test(lawName)
+  ) {
+    return 0.03
+  }
+  return 0
+}
+
+async function fetchLegalKeywordRows(args: {
+  jurisdiction: string
+  orFilter: string
+  limit: number
+  includeStateCourt?: boolean
+  category: string | null
+  skipLaborHeuristic?: boolean
+  query: string
+}): Promise<Record<string, unknown>[]> {
+  if (!args.orFilter || args.limit <= 0) return []
+
+  let request = supabaseAdmin
+    .from("legal_articles")
+    .select(
+      "id, jurisdiction, law_name, law_name_local, law_category, article_num, paragraph_num, text, text_local, source_url",
+    )
+    .eq("jurisdiction", args.jurisdiction)
+    .or(args.orFilter)
+    .limit(args.limit)
+
+  if (!args.includeStateCourt) {
+    request = request.is("applies_before", null)
+  }
+
+  if (args.category) {
+    request = request.eq("law_category", args.category)
+  } else if (
+    !args.skipLaborHeuristic &&
+    /otkaz|radu|zaposlen|radni|otpremn|ugovor o radu/i.test(args.query)
+  ) {
+    request = request.eq("law_category", "labor")
+  }
+
+  const { data, error } = await request
+  if (error) {
+    throw new Error(error.message)
+  }
+  return (data ?? []) as Record<string, unknown>[]
 }
 
 function rowToLegalChunk(
@@ -337,6 +411,7 @@ async function searchLegalArticlesByKeyword(args: {
   category: string | null
   matchCount: number
   skipLaborHeuristic?: boolean
+  includeStateCourt?: boolean
 }): Promise<KeywordSearchResult<LegalChunk>> {
   const started = Date.now()
   try {
@@ -367,6 +442,7 @@ async function searchLegalArticlesByKeywordInner(args: {
   category: string | null
   matchCount: number
   skipLaborHeuristic?: boolean
+  includeStateCourt?: boolean
 }): Promise<LegalChunk[]> {
   const query = args.query.trim()
   if (query.length < 2) return []
@@ -380,38 +456,51 @@ async function searchLegalArticlesByKeywordInner(args: {
   }
 
   const category = normalizeResearchCategory(args.category)
-  const orFilter = buildKeywordOrFilter(patterns, "text_local")
-
-  let request = supabaseAdmin
-    .from("legal_articles")
-    .select(
-      "id, jurisdiction, law_name, law_name_local, law_category, article_num, paragraph_num, text, text_local, source_url",
-    )
-    .eq("jurisdiction", args.jurisdiction)
-    .or(orFilter)
-    .limit(Math.min(args.matchCount * 3, 30))
-
-  if (category) {
-    request = request.eq("law_category", category)
-  } else if (
-    !args.skipLaborHeuristic &&
-    /otkaz|radu|zaposlen|radni|otpremn|ugovor o radu/i.test(query)
-  ) {
-    request = request.eq("law_category", "labor")
+  const limit = Math.min(args.matchCount * 3, 30)
+  const exactOnly = {
+    exactPatterns: patterns.exactPatterns,
+    stemPatterns: [] as string[],
+  }
+  const stemOnly = {
+    exactPatterns: [] as string[],
+    stemPatterns: patterns.stemPatterns,
   }
 
-  const { data, error } = await request
-  if (error) {
-    throw new Error(error.message)
+  const fetchArgs = {
+    jurisdiction: args.jurisdiction,
+    limit,
+    includeStateCourt: args.includeStateCourt,
+    category,
+    skipLaborHeuristic: args.skipLaborHeuristic,
+    query,
   }
 
-  const scored = (data ?? [])
+  // Exact patterns first so synonym phrases are not crowded out of the
+  // unranked ILIKE window by original-query stems.
+  const exactRows = await fetchLegalKeywordRows({
+    ...fetchArgs,
+    orFilter: buildKeywordOrFilter(exactOnly, "text_local"),
+  })
+  const seen = new Set(exactRows.map((r) => String(r.id ?? "")))
+  const stemRows = (
+    await fetchLegalKeywordRows({
+      ...fetchArgs,
+      orFilter: buildKeywordOrFilter(stemOnly, "text_local"),
+    })
+  ).filter((r) => !seen.has(String(r.id ?? "")))
+
+  const scored = [...exactRows, ...stemRows]
     .map((row) => {
       const r = row as Record<string, unknown>
       const textLocal = String(r.text_local ?? r.text ?? "")
       const match = scoreKeywordTextMatch(textLocal, patterns)
       if (!match) return null
-      return rowToLegalChunk(r, match.score, match.matchChannel)
+      const lawName = String(r.law_name_local ?? r.law_name ?? "")
+      const score = Math.min(
+        0.99,
+        match.score + landRegisterTitleBonus(lawName, patterns),
+      )
+      return rowToLegalChunk(r, score, match.matchChannel)
     })
     .filter((c): c is LegalChunk => c != null)
     .sort((a, b) => b.similarity - a.similarity)
@@ -1332,6 +1421,10 @@ export async function matchLegalArticles(args: {
     normalizedCategory,
   )
   const matchCount = args.matchCount ?? 6
+  const includeStateCourt = includeStateCourtArticles(
+    args.jurisdiction,
+    args.query,
+  )
 
   const keywordPromise = searchLegalArticlesByKeyword({
     query: args.query,
@@ -1339,6 +1432,7 @@ export async function matchLegalArticles(args: {
     category: rpcFilter,
     matchCount,
     skipLaborHeuristic: args.categoryMode === "hint" && normalizedCategory != null,
+    includeStateCourt,
   })
 
   const embedStarted = Date.now()
@@ -1368,6 +1462,7 @@ export async function matchLegalArticles(args: {
     matchCount: rpcMatchCount,
     similarityThreshold: initialThreshold,
     timeoutMs: rpcTimeoutMs,
+    includeStateCourt,
   })
 
   if (data.length === 0 && shouldRetry) {
@@ -1384,6 +1479,7 @@ export async function matchLegalArticles(args: {
       matchCount: rpcMatchCount,
       similarityThreshold: thresholds.lowRetry,
       timeoutMs: rpcTimeoutMs,
+      includeStateCourt,
     })
   }
   const vectorRpcMs = Date.now() - vectorStarted

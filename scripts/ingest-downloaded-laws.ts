@@ -26,15 +26,15 @@ const SOURCE_DIRS: SourceDir[] = [
   { dir: "downloads/serbia-laws", jurisdiction: "serbia", recursive: true },
   { dir: "downloads/croatia-laws", jurisdiction: "croatia", recursive: true },
   { dir: "downloads/slovenia-laws", jurisdiction: "slovenia", recursive: false },
-  { dir: "downloads/paragraf-ba-bih", jurisdiction: "bih_fbih", recursive: false },
   { dir: "downloads/paragraf-ba-fbih", jurisdiction: "bih_fbih", recursive: false },
   { dir: "downloads/paragraf-ba-rs", jurisdiction: "bih_rs", recursive: false },
   { dir: "downloads/paragraf-ba-brcko", jurisdiction: "bih_brcko", recursive: false },
   { dir: "downloads/paragraf-me", jurisdiction: "montenegro", recursive: false },
-  { dir: "downloads/legalist-ba-bih", jurisdiction: "bih_fbih", recursive: false },
   { dir: "downloads/legalist-ba-fbih", jurisdiction: "bih_fbih", recursive: false },
   { dir: "downloads/legalist-ba-rs", jurisdiction: "bih_rs", recursive: false },
 ]
+// State-level BiH lives in downloads/paragraf-ba-bih and downloads/legalist-ba-bih.
+// Do not map those folders to bih_fbih — there is no bih_state jurisdiction yet.
 
 export type IngestLawStats = {
   new: number

@@ -23,6 +23,13 @@ const SYNONYM_PAIRS: ReadonlyArray<readonly [string, string]> = [
   ["poduzeće", "preduzeće"],
   ["trgovačko društvo", "privredno društvo"],
   ["ugovor o djelu", "ugovor o delu"],
+  ["uknjižba", "upis u zemljišne knjige"],
+  ["uknjižba", "zemljišnoknjižni upis"],
+  ["uknjižiti", "upisati u zemljišne knjige"],
+  ["gruntovnica", "zemljišna knjiga"],
+  ["gruntovni", "zemljišnoknjižni"],
+  ["brisovna dozvola", "dozvola za brisanje"],
+  ["zabilježba", "zabilježba u zemljišnoj knjizi"],
 ]
 
 function normalizePhrase(phrase: string): string {
@@ -81,11 +88,22 @@ function pushExpansions(args: {
     args
   for (const synonym of synonyms) {
     if (expansions.length >= maxExpansions) return
-    const expanded = (trimmed.slice(0, start) + synonym + trimmed.slice(end))
-      .trim()
-      .replace(/\s+/g, " ")
+    // Multi-word synonym values are search phrases, not drop-in tokens.
+    // Splicing leftover query words ("uknjižba nekretnine" →
+    // "upis u zemljišne knjige nekretnine") misses the statute's own wording.
+    // Single-word synonyms still splice ("zastara potraživanja" →
+    // "zastara tražbina").
+    const synonymHasSpace = normalizePhrase(synonym).includes(" ")
+    const expanded = synonymHasSpace
+      ? normalizePhrase(synonym)
+      : (trimmed.slice(0, start) + synonym + trimmed.slice(end))
+          .trim()
+          .replace(/\s+/g, " ")
     const norm = normalizePhrase(expanded)
     if (!norm || norm === normalizePhrase(trimmed) || seen.has(norm)) continue
+    // Reverse of a multi-word pair must not collapse to a lone dictionary
+    // word ("%uknjižba%" from "zemljišnoknjižni upis" floods cadastre).
+    if (!norm.includes(" ") && SINGLE_WORD_KEY_SET.has(norm)) continue
     seen.add(norm)
     expansions.push(expanded)
   }

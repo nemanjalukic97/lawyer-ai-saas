@@ -1485,6 +1485,7 @@ export type Database = {
           filter_category: string | null
           match_count: number
           similarity_threshold: number
+          include_state_court?: boolean
         }
         Returns: Json
       }
