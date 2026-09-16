@@ -121,12 +121,45 @@ function isDeletedListItem(t: string): boolean {
   )
 }
 
+/**
+ * Operative sentence with no terminal period, e.g. ZTD čl. 641:
+ * "Odredba članka 161. ovoga Zakona ne primjenjuje se na dionice …".
+ * Same family as Serbian property čl. 8 ("Право својине се може одузети…")
+ * but with nothing to strip — the source omitted the period.
+ *
+ * Structural headings and noun-phrase nadnaslovi stay peelable. A finite
+ * legal verb counts only when it appears before the first relative /
+ * subordinating word, so titles like "Vrijeme za koje se određuje …" or
+ * "Ovrha kad se … promijeni vlasnik" still peel.
+ */
+const SUBORDINATOR_RE =
+  /\b(?:koji|koja|koje|kojega|kojemu|kojem|kojim|kojih|kojima|kad|kada|ako|ukoliko|dok|čim|gdje|који|која|које|којима|када)\b/iu
+
+const MAIN_CLAUSE_VERB_RE =
+  /\b(?:ne\s+)?(?:se\s+)?(?:primjenjuje|primjenjuju|uređuje|uređuju|određuje|određuju|smatra|smatraju|provodi|provode|nastavlja|nastavljaju|upotrebljava|upotrebljavaju|stupa|stupaju|примењује|примењују|уређује|одређује|сматра)\b/iu
+
+function isUnpunctuatedOperativeLine(t: string): boolean {
+  if (isStructuralHeadingLine(t)) return false
+  if (isLowercaseSubsectionLabel(t)) return false
+  if (/^(Odredba|Odredbe|Одредба|Одредбе)\s+(članka|člana|члана)\b/iu.test(t)) {
+    return true
+  }
+  MAIN_CLAUSE_VERB_RE.lastIndex = 0
+  const verb = MAIN_CLAUSE_VERB_RE.exec(t)
+  if (!verb || verb.index === undefined) return false
+  SUBORDINATOR_RE.lastIndex = 0
+  const sub = SUBORDINATOR_RE.exec(t)
+  if (!sub || sub.index === undefined) return true
+  return verb.index < sub.index
+}
+
 function isPeelableHeadingLine(t: string): boolean {
   if (!t) return false
   if (isStavakLine(t)) return false
   if (isArticleHeadingLine(t)) return false
   if (isDeletedListItem(t)) return false
   if (isGazetteOrDeletionNote(t)) return false
+  if (isUnpunctuatedOperativeLine(t)) return false
   // Comma too: "foo,*" is a sentence, not a heading. Wrap still uses
   // hasTerminalPunct ([.;:]) so a comma-ending line can be a continuation.
   const core = stripTrailingMarkersAndCitations(t)
@@ -194,6 +227,7 @@ function lastNonEmptyLine(
 }
 
 function isHealthHeadingLike(t: string): boolean {
+  if (isUnpunctuatedOperativeLine(t)) return false
   if (HEALTH_HEADING_RE.test(t)) return true
   if (isStructuralHeadingLine(t)) return true
   if (/^\p{Ll}[./)]\s+\S/u.test(t)) return true
@@ -205,6 +239,7 @@ function isHealthHeadingLike(t: string): boolean {
 
 function isHealthOperative(t: string): boolean {
   if (!t || isGazetteOrDeletionNote(t) || isDeletedListItem(t)) return false
+  if (isUnpunctuatedOperativeLine(t)) return true
   if (isHealthHeadingLike(t)) return false
   if (HEALTH_STAVAK_RE.test(t)) return true
   const core = stripTrailingMarkersAndCitations(t)

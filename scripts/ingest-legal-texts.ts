@@ -241,7 +241,7 @@ const openai = new OpenAI({
 })
 
 /** text-embedding-3-small rejects inputs over ~8192 tokens; long articles need truncation. */
-const MAX_EMBEDDING_INPUT_CHARS = 24_000
+const MAX_EMBEDDING_INPUT_CHARS = 16_000
 
 /** Remove null bytes, BOM, C0 controls (except tab/LF/CR), and line/paragraph separators that can break JSON transport. */
 function sanitizeEmbeddingSource(raw: string): string {

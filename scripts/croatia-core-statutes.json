@@ -40,5 +40,83 @@
     "law_name": "Constitution of the Republic of Croatia",
     "law_category": "constitutional",
     "source_url": "https://narodne-novine.nn.hr/eli/sluzbeni/2010/85/2422"
+  },
+  {
+    "law_name_local": "Zakon o parničnom postupku",
+    "law_name": "Civil Procedure Act",
+    "law_category": "procedural",
+    "source_url": "https://narodne-novine.nn.hr/eli/sluzbeni/2011/148/2993"
+  },
+  {
+    "law_name_local": "Zakon o zemljišnim knjigama",
+    "law_name": "Land Registry Act",
+    "law_category": "property",
+    "source_url": "https://narodne-novine.nn.hr/eli/sluzbeni/2019/63/1234"
+  },
+  {
+    "law_name_local": "Ovršni zakon",
+    "law_name": "Enforcement Act",
+    "law_category": "procedural",
+    "source_url": "https://narodne-novine.nn.hr/eli/sluzbeni/2012/112/2421"
+  },
+  {
+    "law_name_local": "Zakon o općem upravnom postupku",
+    "law_name": "General Administrative Procedure Act",
+    "law_category": "administrative",
+    "source_url": "https://narodne-novine.nn.hr/eli/sluzbeni/2009/47/1065"
+  },
+  {
+    "law_name_local": "Stečajni zakon",
+    "law_name": "Bankruptcy Act",
+    "law_category": "commercial",
+    "source_url": "https://narodne-novine.nn.hr/eli/sluzbeni/2015/71/1365"
+  },
+  {
+    "law_name_local": "Zakon o trgovačkim društvima",
+    "law_name": "Companies Act",
+    "law_category": "commercial",
+    "source_url": "https://narodne-novine.nn.hr/eli/sluzbeni/2011/152/3144"
+  },
+  {
+    "law_name_local": "Zakon o kaznenom postupku",
+    "law_name": "Criminal Procedure Code",
+    "law_category": "criminal",
+    "source_url": "https://narodne-novine.nn.hr/eli/sluzbeni/2011/121/2386"
+  },
+  {
+    "law_name_local": "Zakon o prekršajima",
+    "law_name": "Misdemeanor Act",
+    "law_category": "misdemeanor",
+    "source_url": "https://narodne-novine.nn.hr/eli/sluzbeni/2007/107/3125"
+  },
+  {
+    "law_name_local": "Zakon o autorskom pravu i srodnim pravima",
+    "law_name": "Copyright and Related Rights Act",
+    "law_category": "commercial",
+    "source_url": "https://narodne-novine.nn.hr/eli/sluzbeni/2021/111/1941"
+  },
+  {
+    "law_name_local": "Zakon o upravnim sporovima",
+    "law_name": "Administrative Disputes Act",
+    "law_category": "administrative",
+    "source_url": "https://narodne-novine.nn.hr/eli/sluzbeni/2024/36/564"
+  },
+  {
+    "law_name_local": "Zakon o javnom redu i miru",
+    "law_name": "Public Order and Peace Act",
+    "law_category": "misdemeanor",
+    "source_url": "https://narodne-novine.nn.hr/eli/sluzbeni/1990/5/59"
+  },
+  {
+    "law_name_local": "Zakon o zaštiti tajnosti podataka",
+    "law_name": "Classified Information Act",
+    "law_category": "confidentiality",
+    "source_url": "https://narodne-novine.nn.hr/eli/sluzbeni/2007/79/2483"
+  },
+  {
+    "law_name_local": "Zakon o zaštiti prirode",
+    "law_name": "Nature Protection Act",
+    "law_category": "property",
+    "source_url": "https://narodne-novine.nn.hr/eli/sluzbeni/2013/80/1658"
   }
 ]

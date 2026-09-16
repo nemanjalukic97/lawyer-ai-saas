@@ -39,8 +39,9 @@ const DEFAULT_JSON = "scripts/croatia-core-statutes.json"
 const DOWNLOAD_DIR = "downloads/croatia-core-statutes"
 const JURISDICTION = "croatia"
 
-/** Leave headroom for law_name_local + article_num + English stub in embed(). */
-const ARTICLE_BODY_MAX_CHARS = 22_000
+/** Leave headroom for law_name_local + article_num + English stub in embed().
+ *  text-embedding-3-small caps at 8192 tokens (~2–3 chars/token for Croatian). */
+const ARTICLE_BODY_MAX_CHARS = 12_000
 
 /**
  * "Članak 358.", "Članak 358.a", "Članak 433a" → groups (358, a?) .
@@ -57,9 +58,28 @@ export const CLANAK_HEADING_RE =
  * "Članak 2./3./4." (mostly vacatio legis) must not overwrite the main act.
  * Do not cut at the main act's "Glava … ZAVRŠNE ODREDBE" or "Dio … PRIJELAZNE
  * I ZAVRŠNE ODREDBE" — those still belong to the original statute.
+ *
+ * NN consolidations use these banners:
+ *   ZAVRŠNA ODREDBA Zakona … / PRIJELAZNE I ZAVRŠNE ODREDBE Zakona …
+ *     (ZVDSP)
+ *   PRIJELAZNE I ZAVRŠNE ODREDBE Zakon o izmjenama …
+ *     (ZKP 121/11; nominative "Zakon", not genitive "Zakona")
+ *   Iz Zakona o preuzimanju/izmjenama …
+ *     (ZPP 148/11)
+ *   ZAKON O IZMJENAMA [I DOPUNAMA] ZAKONA O …
+ *     (ZTD 152/11; the appended acts are titled in full, not "Iz Zakona o")
+ *   DODATAK I. / DODATAK II. …
+ *     (ZASP 111/21; numbered annexes restart Članak 1)
  */
 const AMENDING_ACT_TAIL_RE =
-  /^(ZAVRŠNA ODREDBA|PRIJELAZNE I ZAVRŠNE ODREDBE)\s+Zakona\b/im
+  /^(?:(?:ZAVRŠNA ODREDBA|PRIJELAZNE I ZAVRŠNE ODREDBE)\s+Zakona?\b|Iz Zakona o\b|ZAKON O (?:IZMJENAMA I DOPUNAMA|IZMJENI I DOPUNI|IZMJENAMA|IZMJENI|DOPUNAMA|DOPUNI) ZAKONA\b|DODATAK\s+[IVXLCDM]+\.)/im
+
+/** NN sometimes glues the nadnaslov onto the heading: "Određenje prekršaja Članak 1." */
+const GLUED_CLANAK_HEADING_RE =
+  /(\S)[ \t]+(Članak\s+\d+\.?[a-z]?\.?)[ \t]*$/gm
+
+/** 1990-era consolidations number articles as "Član 1." rather than "Članak 1." */
+const CLAN_HEADING_LINE_RE = /^Član(?!ak)(\s+\d+\.?[a-z]?\.?)[ \t]*$/gm
 
 const CROSS_REF_AFTER_HEADING_RE =
   /^(stavak|stavka|st\.|ovoga Zakona)\b/i
@@ -131,7 +151,12 @@ function parseHeaderUrlAndBody(
 }
 
 function mainActBody(body: string): string {
-  const normalized = body.replace(/\r\n/g, "\n")
+  let normalized = body.replace(/\r\n/g, "\n")
+  GLUED_CLANAK_HEADING_RE.lastIndex = 0
+  normalized = normalized.replace(GLUED_CLANAK_HEADING_RE, "$1\n$2")
+  CLAN_HEADING_LINE_RE.lastIndex = 0
+  normalized = normalized.replace(CLAN_HEADING_LINE_RE, "Članak$1")
+  AMENDING_ACT_TAIL_RE.lastIndex = 0
   const cut = AMENDING_ACT_TAIL_RE.exec(normalized)
   if (!cut || cut.index === undefined) return normalized
   return normalized.slice(0, cut.index).trimEnd()
@@ -610,6 +635,12 @@ async function main() {
       bodyChecks.push({
         file: "scripts/_check-kz-322-347.txt",
         text: formatNamedArticleBodies(attached.parts, ["322", "347"]),
+      })
+    }
+    if (statute.law_name_local === "Zakon o zaštiti prirode") {
+      bodyChecks.push({
+        file: "scripts/_check-zzp-127-165-166.txt",
+        text: formatNamedArticleBodies(attached.parts, ["127", "165", "166"]),
       })
     }
     const fileArticles = articlesFromStatute(statute, attached.parts)
