@@ -127,6 +127,9 @@ export const INFERRED_AREA_ALIASES: Readonly<Record<string, readonly string[]>> 
     inheritance: ["civil"],
   }
 
+/** Cross-cutting: never excluded by an area filter or the mismatch penalty. */
+export const CROSS_CUTTING_LAW_CATEGORIES: readonly string[] = ["constitutional"]
+
 function normalizeForMatch(text: string): string {
   return text.trim().replace(/\s+/g, " ").toLowerCase()
 }
@@ -281,5 +284,14 @@ export function areasCompatibleWithInference(
   const act = actual.trim().toLowerCase()
   if (!inf || !act) return false
   if (act === inf) return true
+  if (CROSS_CUTTING_LAW_CATEGORIES.includes(act)) return true
   return (INFERRED_AREA_ALIASES[inf] ?? []).includes(act)
+}
+
+/** Categories to keep when SQL-filtering to an inferred (or explicit) area. */
+export function lawCategoriesForAreaFilter(category: string): string[] {
+  const cat = category.trim().toLowerCase()
+  if (!cat) return []
+  if (CROSS_CUTTING_LAW_CATEGORIES.includes(cat)) return [cat]
+  return [cat, ...CROSS_CUTTING_LAW_CATEGORIES]
 }

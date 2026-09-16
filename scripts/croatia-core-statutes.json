@@ -34,5 +34,11 @@
     "law_name": "Inheritance Act",
     "law_category": "inheritance",
     "source_url": "https://narodne-novine.nn.hr/eli/sluzbeni/2003/48/604"
+  },
+  {
+    "law_name_local": "Ustav Republike Hrvatske",
+    "law_name": "Constitution of the Republic of Croatia",
+    "law_category": "constitutional",
+    "source_url": "https://narodne-novine.nn.hr/eli/sluzbeni/2010/85/2422"
   }
 ]

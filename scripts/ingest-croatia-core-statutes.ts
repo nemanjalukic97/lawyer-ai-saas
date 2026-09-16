@@ -1,5 +1,5 @@
 /**
- * Article-level ingest for the six Croatian core statutes in
+ * Article-level ingest for the Croatian core statutes in
  * scripts/croatia-core-statutes.json.
  *
  * Splits Narodne novine text on "Članak N." headings. Does not embed or
@@ -26,8 +26,10 @@ import {
   formatPeelReport,
   parseFromLawArg,
   reattachTrailingHeadings,
+  scanSplitHealth,
   sliceStatutesFrom,
   type PeelRecord,
+  type SplitHealth,
 } from "./core-statute-nadnaslov"
 
 dotenv.config({ path: ".env.local" })
@@ -61,6 +63,10 @@ const AMENDING_ACT_TAIL_RE =
 
 const CROSS_REF_AFTER_HEADING_RE =
   /^(stavak|stavka|st\.|ovoga Zakona)\b/i
+
+/** NN 85/2010 leftover Promjena closing clauses, not standing constitutional text. */
+const USTAV_LAST_STANDING_ARTICLE = 150
+const USTAV_LAW_NAME_LOCAL = "Ustav Republike Hrvatske"
 
 type CoreStatute = {
   law_name_local: string
@@ -145,6 +151,19 @@ function isCrossReferenceHeading(
   if (match.index === undefined) return true
   const rest = text.slice(match.index + match[0].length).replace(/^\s+/, "")
   return CROSS_REF_AFTER_HEADING_RE.test(rest)
+}
+
+function isStandingConstitutionArticle(articleNum: string): boolean {
+  const n = parseInt(articleNum, 10)
+  return Number.isFinite(n) && n <= USTAV_LAST_STANDING_ARTICLE
+}
+
+function dropSpentPromjenaArticles(
+  lawNameLocal: string,
+  parts: ClanakPart[],
+): ClanakPart[] {
+  if (lawNameLocal !== USTAV_LAW_NAME_LOCAL) return parts
+  return parts.filter((part) => isStandingConstitutionArticle(part.articleNum))
 }
 
 function splitByClanak(body: string): ClanakPart[] {
@@ -232,9 +251,13 @@ export function processCroatiaStatuteText(
     splitByClanak(body),
     statute.law_name_local,
   )
+  const parts = dropSpentPromjenaArticles(
+    statute.law_name_local,
+    attached.parts,
+  )
   return {
-    parts: attached.parts,
-    articles: articlesFromStatute(statute, attached.parts),
+    parts,
+    articles: articlesFromStatute(statute, parts),
   }
 }
 
@@ -357,6 +380,61 @@ function duplicateClanaka(
     })
 }
 
+function printSplitHealth(
+  lawNameLocal: string,
+  peels: number,
+  health: SplitHealth,
+): void {
+  const byRule = new Map<string, SplitHealth["held"]>()
+  for (const hit of health.held) {
+    const list = byRule.get(hit.rule) ?? []
+    list.push(hit)
+    byRule.set(hit.rule, list)
+  }
+  // eslint-disable-next-line no-console
+  console.log(`\n--- ${lawNameLocal} ---`)
+  // eslint-disable-next-line no-console
+  console.log(`  nadnaslov peels: ${peels}`)
+  // eslint-disable-next-line no-console
+  console.log(
+    `  suffix articles: ${health.suffixArticles.length}` +
+      (health.suffixArticles.length
+        ? ` (${health.suffixArticles.slice(0, 20).join(", ")}${health.suffixArticles.length > 20 ? ", …" : ""})`
+        : ""),
+  )
+  for (const rule of [
+    "wrap",
+    "gazette",
+    "deletion-list",
+    "asterisk",
+    "paren-period",
+  ] as const) {
+    const rows = byRule.get(rule) ?? []
+    // eslint-disable-next-line no-console
+    console.log(`  ${rule} holds: ${rows.length}`)
+    for (const row of rows.slice(0, 8)) {
+      // eslint-disable-next-line no-console
+      console.log(`    čl. ${row.articleNum}\t${row.line.slice(0, 160)}`)
+    }
+    if (rows.length > 8) {
+      // eslint-disable-next-line no-console
+      console.log(`    … ${rows.length - 8} more`)
+    }
+  }
+  // eslint-disable-next-line no-console
+  console.log(`  empty leftovers: ${health.emptyLeftovers.length}`)
+  for (const row of health.emptyLeftovers) {
+    // eslint-disable-next-line no-console
+    console.log(`    čl. ${row.articleNum}\t${row.preview}`)
+  }
+  // eslint-disable-next-line no-console
+  console.log(`  stolen first-lines: ${health.stolenSentences.length}`)
+  for (const row of health.stolenSentences) {
+    // eslint-disable-next-line no-console
+    console.log(`    čl. ${row.articleNum}\t${row.first.slice(0, 160)}`)
+  }
+}
+
 function printDuplicateClanaka(
   reports: { law_name_local: string; dups: { articleNum: string; bodies: string[] }[] }[],
 ): void {
@@ -454,7 +532,7 @@ async function upsertArticles(articles: LegalArticleInput[]): Promise<void> {
 
 async function main() {
   const { confirm, jsonPath, fromLaw, articleNum } = parseCli()
-  const statutes = await loadStatutes(jsonPath)
+  const statutes = sliceStatutesFrom(await loadStatutes(jsonPath), fromLaw)
 
   let byUrl = await filesByUrl()
   const missing = statutes.filter((s) => !byUrl.has(s.source_url))
@@ -491,10 +569,37 @@ async function main() {
     if (!parsed) {
       throw new Error(`Invalid law file format: ${filePath}`)
     }
+    const prePeel = splitByClanak(parsed.body)
     const attached = reattachTrailingHeadings(
-      splitByClanak(parsed.body),
+      prePeel,
       statute.law_name_local,
     )
+    attached.parts = dropSpentPromjenaArticles(
+      statute.law_name_local,
+      attached.parts,
+    )
+    if (statute.law_name_local === USTAV_LAW_NAME_LOCAL) {
+      attached.peels = attached.peels.filter((peel) =>
+        isStandingConstitutionArticle(peel.toArticle),
+      )
+    }
+    printSplitHealth(
+      statute.law_name_local,
+      attached.peels.length,
+      scanSplitHealth(prePeel, attached.parts),
+    )
+    if (statute.law_name_local === USTAV_LAW_NAME_LOCAL) {
+      bodyChecks.push({
+        file: "scripts/_check-ustav-34-150.txt",
+        text: formatNamedArticleBodies(attached.parts, [
+          "1",
+          "34",
+          "150",
+          "151",
+          "152",
+        ]),
+      })
+    }
     if (statute.law_name_local === "Zakon o vlasništvu i drugim stvarnim pravima") {
       bodyChecks.push({
         file: "scripts/_check-zvdsp-50-51.txt",
@@ -561,8 +666,7 @@ async function main() {
     return
   }
 
-  const toWrite = sliceStatutesFrom(statutes, fromLaw)
-  const allowed = new Set(toWrite.map((s) => s.law_name_local))
+  const allowed = new Set(statutes.map((s) => s.law_name_local))
   if (articleNum) {
     if (!fromLaw) {
       throw new Error("--article requires --from=<law_name_local>")
@@ -580,7 +684,7 @@ async function main() {
   }
   if (fromLaw) {
     // eslint-disable-next-line no-console
-    console.log(`\nResuming from: ${fromLaw} (${toWrite.length} law(s) remaining)`)
+    console.log(`\nResuming from: ${fromLaw} (${statutes.length} law(s) remaining)`)
   }
   await upsertArticles(articles.filter((a) => allowed.has(a.law_name_local)))
 }

@@ -19,6 +19,7 @@ import {
   inferLegalAreaFromQuery,
   isStateCourtMatterQuery,
   isVenueJurisdictionQuery,
+  lawCategoriesForAreaFilter,
 } from "./queryAreaInference"
 import { supabaseAdmin } from "./supabase/admin"
 import { PREDICTION_UNCITED_FACTOR_RULE } from "./predictionPrompts"
@@ -338,7 +339,11 @@ async function fetchLegalKeywordRows(args: {
   }
 
   if (args.category) {
-    request = request.eq("law_category", args.category)
+    const cats = lawCategoriesForAreaFilter(args.category)
+    request =
+      cats.length === 1
+        ? request.eq("law_category", cats[0]!)
+        : request.in("law_category", cats)
   } else if (
     !args.skipLaborHeuristic &&
     /otkaz|radu|zaposlen|radni|otpremn|ugovor o radu/i.test(args.query)
