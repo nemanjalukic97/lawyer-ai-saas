@@ -643,6 +643,43 @@ async function main() {
         text: formatNamedArticleBodies(attached.parts, ["127", "165", "166"]),
       })
     }
+    if (statute.law_name_local === "Zakon o otocima") {
+      bodyChecks.push({
+        file: "scripts/_check-otoci-35-38.txt",
+        text: formatNamedArticleBodies(attached.parts, ["35", "36", "37", "38"]),
+      })
+    }
+    if (statute.law_name_local === "Zakon o zaštiti i očuvanju kulturnih dobara") {
+      bodyChecks.push({
+        file: "scripts/_check-kd-19-79-83.txt",
+        text: formatNamedArticleBodies(attached.parts, [
+          "19",
+          "79",
+          "80",
+          "81",
+          "82",
+          "83",
+        ]),
+      })
+    }
+    if (statute.law_name_local === "Zakon o pomorskom dobru i morskim lukama") {
+      bodyChecks.push({
+        file: "scripts/_check-pd-5-219.txt",
+        text: formatNamedArticleBodies(attached.parts, ["5", "219"]),
+      })
+    }
+    if (statute.law_name_local === "Zakon o poljoprivrednom zemljištu") {
+      bodyChecks.push({
+        file: "scripts/_check-pz-71.txt",
+        text: formatNamedArticleBodies(attached.parts, ["71"]),
+      })
+    }
+    if (statute.law_name_local === "Zakon o šumama") {
+      bodyChecks.push({
+        file: "scripts/_check-sume-56.txt",
+        text: formatNamedArticleBodies(attached.parts, ["56"]),
+      })
+    }
     const fileArticles = articlesFromStatute(statute, attached.parts)
     peels.push(...attached.peels)
     counts.push({

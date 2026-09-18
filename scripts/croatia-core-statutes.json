@@ -118,5 +118,35 @@
     "law_name": "Nature Protection Act",
     "law_category": "property",
     "source_url": "https://narodne-novine.nn.hr/eli/sluzbeni/2013/80/1658"
+  },
+  {
+    "law_name_local": "Zakon o otocima",
+    "law_name": "Islands Act",
+    "law_category": "property",
+    "source_url": "https://narodne-novine.nn.hr/eli/sluzbeni/2026/13/112"
+  },
+  {
+    "law_name_local": "Zakon o zaštiti i očuvanju kulturnih dobara",
+    "law_name": "Protection and Preservation of Cultural Goods Act",
+    "law_category": "property",
+    "source_url": "https://narodne-novine.nn.hr/eli/sluzbeni/2024/145/2369"
+  },
+  {
+    "law_name_local": "Zakon o pomorskom dobru i morskim lukama",
+    "law_name": "Maritime Domain and Seaports Act",
+    "law_category": "property",
+    "source_url": "https://narodne-novine.nn.hr/eli/sluzbeni/2023/83/1293"
+  },
+  {
+    "law_name_local": "Zakon o poljoprivrednom zemljištu",
+    "law_name": "Agricultural Land Act",
+    "law_category": "property",
+    "source_url": "https://narodne-novine.nn.hr/eli/sluzbeni/2018/20/402"
+  },
+  {
+    "law_name_local": "Zakon o šumama",
+    "law_name": "Forests Act",
+    "law_category": "property",
+    "source_url": "https://narodne-novine.nn.hr/eli/sluzbeni/2018/68/1392"
   }
 ]
