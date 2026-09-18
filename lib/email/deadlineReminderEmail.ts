@@ -80,26 +80,33 @@ type Copy = {
 const COPY: Record<LanguageCode, Copy> = {
   en: {
     subject: (title, days) =>
-      days === 0 ? `Reminder: ${title} is due today` : `Reminder: ${title} is due in ${days} days`,
+      days === 0
+        ? `Reminder: ${title} is due today`
+        : days === 1
+          ? `Reminder: ${title} is due in 1 day`
+          : `Reminder: ${title} is due in ${days} days`,
     greeting: (name) => `Dear ${name},`,
     dueDateLabel: "Due date",
-    daysRemaining: (days) => `${days} days remaining`,
+    daysRemaining: (days) => (days === 1 ? "1 day remaining" : `${days} days remaining`),
     dueToday: "Due today",
     deadlineTypeLabel: "Deadline type",
     clientLabel: "Client",
     matterLabel: "Matter",
     viewDeadlines: "View deadlines",
     footer: "Kind regards,<br/>Legantis",
-    typeLabels: {
-      court_hearing: "Court hearing",
-      filing_deadline: "Filing deadline",
-      appeal_deadline: "Appeal deadline",
-      statute_of_limitations: "Statute of limitations",
-      contract_expiry: "Contract expiry",
-      client_meeting: "Client meeting",
-      payment_due: "Payment due",
-      other: "Other",
-    },
+      typeLabels: {
+        court_hearing: "Court hearing",
+        filing_deadline: "Filing deadline",
+        claim: "Claim",
+        objection: "Objection",
+        appeal_deadline: "Appeal deadline",
+        statute_of_limitations: "Statute of limitations",
+        court_advance: "Court advance",
+        contract_expiry: "Contract expiry",
+        client_meeting: "Client meeting",
+        payment_due: "Payment due",
+        other: "Other",
+      },
   },
   sr: {
     subject: (title, days) =>
@@ -113,16 +120,19 @@ const COPY: Record<LanguageCode, Copy> = {
     matterLabel: "Predmet",
     viewDeadlines: "Pregledajte rokove",
     footer: "Srdačan pozdrav,<br/>Legantis",
-    typeLabels: {
-      court_hearing: "Ročište",
-      filing_deadline: "Rok za podnesak",
-      appeal_deadline: "Rok za žalbu",
-      statute_of_limitations: "Zastarelost",
-      contract_expiry: "Isticaj ugovora",
-      client_meeting: "Sastanak sa klijentom",
-      payment_due: "Dospijeće plaćanja",
-      other: "Ostalo",
-    },
+      typeLabels: {
+        court_hearing: "Ročište",
+        filing_deadline: "Rok za podnesak",
+        claim: "Tužba",
+        objection: "Prigovor",
+        appeal_deadline: "Rok za žalbu",
+        statute_of_limitations: "Zastarelost",
+        court_advance: "Plaćanje predujma",
+        contract_expiry: "Isticaj ugovora",
+        client_meeting: "Sastanak sa klijentom",
+        payment_due: "Dospijeće plaćanja",
+        other: "Ostalo",
+      },
   },
   bs: {
     subject: (title, days) =>
@@ -139,8 +149,11 @@ const COPY: Record<LanguageCode, Copy> = {
     typeLabels: {
       court_hearing: "Ročište",
       filing_deadline: "Rok za podnesak",
+      claim: "Tužba",
+      objection: "Prigovor",
       appeal_deadline: "Rok za žalbu",
       statute_of_limitations: "Zastara",
+      court_advance: "Plaćanje predujma",
       contract_expiry: "Istek ugovora",
       client_meeting: "Sastanak s klijentom",
       payment_due: "Dospijeće plaćanja",
@@ -162,8 +175,11 @@ const COPY: Record<LanguageCode, Copy> = {
     typeLabels: {
       court_hearing: "Ročište",
       filing_deadline: "Rok za podnesak",
+      claim: "Tužba",
+      objection: "Prigovor",
       appeal_deadline: "Rok za žalbu",
       statute_of_limitations: "Zastara",
+      court_advance: "Plaćanje predujma",
       contract_expiry: "Istek ugovora",
       client_meeting: "Sastanak s klijentom",
       payment_due: "Dospijeće plaćanja",
@@ -182,16 +198,19 @@ const COPY: Record<LanguageCode, Copy> = {
     matterLabel: "Zadeva",
     viewDeadlines: "Ogled rokov",
     footer: "Lep pozdrav,<br/>Legantis",
-    typeLabels: {
-      court_hearing: "Sodna obravnava",
-      filing_deadline: "Rok za vložitev",
-      appeal_deadline: "Rok za pritožbo",
-      statute_of_limitations: "Zastaranje",
-      contract_expiry: "Potek pogodbe",
-      client_meeting: "Sestanek s stranko",
-      payment_due: "Zapadlost plačila",
-      other: "Drugo",
-    },
+      typeLabels: {
+        court_hearing: "Sodna obravnava",
+        filing_deadline: "Rok za vložitev",
+        claim: "Tožba",
+        objection: "Ugovor",
+        appeal_deadline: "Rok za pritožbo",
+        statute_of_limitations: "Zastaranje",
+        court_advance: "Plačilo predujma",
+        contract_expiry: "Potek pogodbe",
+        client_meeting: "Sestanek s stranko",
+        payment_due: "Zapadlost plačila",
+        other: "Drugo",
+      },
   },
   me: {
     subject: (title, days) =>
@@ -208,8 +227,11 @@ const COPY: Record<LanguageCode, Copy> = {
     typeLabels: {
       court_hearing: "Ročište",
       filing_deadline: "Rok za podnesak",
+      claim: "Tužba",
+      objection: "Prigovor",
       appeal_deadline: "Rok za žalbu",
       statute_of_limitations: "Zastara",
+      court_advance: "Plaćanje predujma",
       contract_expiry: "Istek ugovora",
       client_meeting: "Sastanak s klijentom",
       payment_due: "Dospijeće plaćanja",

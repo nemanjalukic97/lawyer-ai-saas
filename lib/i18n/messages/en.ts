@@ -2297,12 +2297,18 @@ export const enMessages: Messages = {
       types: {
         court_hearing: "Court hearing",
         filing_deadline: "Filing deadline",
+        claim: "Claim",
+        objection: "Objection",
         appeal_deadline: "Appeal deadline",
         statute_of_limitations: "Statute of limitations",
+        court_advance: "Court advance",
         contract_expiry: "Contract expiry",
         client_meeting: "Client meeting",
         payment_due: "Payment due",
         other: "Other",
+      },
+      severity: {
+        preclusive: "Preclusive deadline",
       },
       actions: {
         add: "Add deadline",
@@ -2352,6 +2358,10 @@ export const enMessages: Messages = {
           thu: "Thu",
           fri: "Fri",
           sat: "Sat",
+        },
+        legend: {
+          preclusive: "Preclusive deadline — cannot be missed",
+          record: "Record-keeping",
         },
       },
     },

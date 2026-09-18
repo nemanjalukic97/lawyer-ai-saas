@@ -7,6 +7,7 @@ import { AppFooter } from "@/components/AppFooter";
 import { htmlLangFromUiLang, resolveInitialLanguage } from "@/lib/resolve-initial-language";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ThemeSync } from "@/components/theme-sync";
+import { SignupAttributionCapture } from "@/components/SignupAttributionCapture";
 import { Toaster } from "sonner";
 
 const ptSans = PT_Sans({
@@ -116,6 +117,7 @@ export default async function RootLayout({
           disableTransitionOnChange
         >
           <ThemeSync />
+          <SignupAttributionCapture />
           <LanguageProvider initialLanguage={initialLanguage}>
             <div className="flex min-h-screen flex-col">
               <div className="flex-1">{children}</div>

@@ -49,12 +49,14 @@ export type DashboardMetrics = {
     title: string
     due_date: string
     status: Tables<"deadlines">["status"]
+    deadline_type: Tables<"deadlines">["deadline_type"]
   }>
   top3Deadlines: Array<{
     id: string
     title: string
     due_date: string
     status: Tables<"deadlines">["status"]
+    deadline_type: Tables<"deadlines">["deadline_type"]
   }>
   unbilledHours: number
   activeMatters: {
@@ -248,7 +250,7 @@ export async function loadDashboardMetrics(
       .eq("status", "pending"),
     supabase
       .from("deadlines")
-      .select("id, title, due_date, status")
+      .select("id, title, due_date, status, deadline_type")
       .eq("user_id", userId)
       .is("deleted_at", null)
       .order("due_date", { ascending: true })
@@ -317,6 +319,7 @@ export async function loadDashboardMetrics(
     title: string
     due_date: string
     status: string | null
+    deadline_type: Tables<"deadlines">["deadline_type"]
   }>
 
   const upcomingDeadlines = dlRows
@@ -327,6 +330,7 @@ export async function loadDashboardMetrics(
       title: d.title,
       due_date: d.due_date,
       status: d.status as Tables<"deadlines">["status"],
+      deadline_type: d.deadline_type,
     }))
 
   const top3Deadlines = dlRows
@@ -342,6 +346,7 @@ export async function loadDashboardMetrics(
       title: d.title,
       due_date: d.due_date,
       status: (d.status ?? "open") as Tables<"deadlines">["status"],
+      deadline_type: d.deadline_type,
     }))
 
   const unbilledHours =

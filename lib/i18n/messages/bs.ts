@@ -1079,12 +1079,18 @@ export const bsMessages: Messages = {
       types: {
         court_hearing: "Ročište",
         filing_deadline: "Rok za podnošenje",
+        claim: "Tužba",
+        objection: "Prigovor",
         appeal_deadline: "Rok za žalbu",
         statute_of_limitations: "Zastarelost",
+        court_advance: "Plaćanje predujma",
         contract_expiry: "Istek ugovora",
         client_meeting: "Sastanak s klijentom",
         payment_due: "Dospijeće plaćanja",
         other: "Ostalo",
+      },
+      severity: {
+        preclusive: "Prekluzivni rok",
       },
       actions: {
         add: "Dodaj rok",
@@ -1134,6 +1140,10 @@ export const bsMessages: Messages = {
           thu: "Čet",
           fri: "Pet",
           sat: "Sub",
+        },
+        legend: {
+          preclusive: "Prekluzivni rok — ne smije se propustiti",
+          record: "Evidencija",
         },
       },
     },

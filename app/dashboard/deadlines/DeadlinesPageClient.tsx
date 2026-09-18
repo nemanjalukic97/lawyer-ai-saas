@@ -3,9 +3,7 @@
 import Link from "next/link"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { useSearchParams } from "next/navigation"
-import { Calendar, ChevronLeft, ChevronRight, Loader2, Pencil, Trash2 } from "lucide-react"
-
-import { Badge } from "@/components/ui/badge"
+import { AlertTriangle, Calendar, ChevronLeft, ChevronRight, Loader2, Pencil, Trash2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import {
@@ -37,6 +35,11 @@ import { logActivity } from "@/lib/activity/logActivity"
 import { getEffectiveStatus } from "./lib/effectiveStatus"
 import { calendarDaysUntil, formatCalendarMonth, formatDueHeading } from "./lib/dates"
 import { sendTestDeadlineReminders } from "./actions"
+import {
+  isPreclusiveDeadline,
+  severityBorderClass,
+  severityDotClass,
+} from "@/lib/deadlines/severity"
 
 type DeadlineRow = Tables<"deadlines">
 type ClientMini = { id: string; name: string; email: string | null }
@@ -60,28 +63,13 @@ function toIsoDate(d: Date): string {
   return `${y}-${m}-${day}`
 }
 
-function urgencyClass(
-  d: DeadlineRow
-): "bg-muted-foreground" | "bg-destructive" | "bg-amber-500" | "bg-emerald-500" {
-  const eff = getEffectiveStatus(d)
-  if (eff === "completed" || eff === "cancelled") {
-    return "bg-muted-foreground"
-  }
-  if (eff === "overdue") {
-    return "bg-destructive"
-  }
-  const diff = calendarDaysUntil(d.due_date)
-  if (diff <= 3) return "bg-amber-500"
-  return "bg-emerald-500"
-}
-
-function urgencyBorderClass(d: DeadlineRow): string {
-  const eff = getEffectiveStatus(d)
-  if (eff === "completed" || eff === "cancelled") return "border-muted-foreground/40"
-  if (eff === "overdue") return "border-destructive/60"
-  const diff = calendarDaysUntil(d.due_date)
-  if (diff <= 3) return "border-amber-500/60"
-  return "border-emerald-500/50"
+function PreclusiveMarker({ label }: { label: string }) {
+  return (
+    <span className="inline-flex items-center gap-1 text-xs font-medium text-destructive">
+      <AlertTriangle className="h-3.5 w-3.5 shrink-0" aria-hidden />
+      {label}
+    </span>
+  )
 }
 
 function matchesFilter(d: DeadlineRow, filter: FilterKey): boolean {
@@ -115,13 +103,12 @@ export default function DeadlinesPageClient({ planId, prefillMatterId }: Props) 
   const [dialogOpen, setDialogOpen] = useState(false)
   const [editing, setEditing] = useState<DeadlineRow | null>(null)
   const [titleIn, setTitleIn] = useState("")
-  const [typeIn, setTypeIn] = useState<string>(DEADLINE_TYPES[0])
+  const [typeIn, setTypeIn] = useState<string>("other")
   const [dueDateIn, setDueDateIn] = useState("")
   const [dueTimeIn, setDueTimeIn] = useState("")
   const [clientIdIn, setClientIdIn] = useState<string>("")
   const [matterIdIn, setMatterIdIn] = useState<string>("")
   const [descIn, setDescIn] = useState("")
-  const [reminderIn, setReminderIn] = useState("3")
   const [clientQuery, setClientQuery] = useState("")
   const [saving, setSaving] = useState(false)
 
@@ -269,14 +256,13 @@ export default function DeadlinesPageClient({ planId, prefillMatterId }: Props) 
   function openCreate() {
     setEditing(null)
     setTitleIn("")
-    setTypeIn(DEADLINE_TYPES[0])
+    setTypeIn("other")
     const today = new Date()
     setDueDateIn(toIsoDate(today))
     setDueTimeIn("")
     setClientIdIn("")
     setMatterIdIn(prefillMatterId ?? "")
     setDescIn("")
-    setReminderIn("3")
     setClientQuery("")
     setDialogOpen(true)
   }
@@ -290,7 +276,6 @@ export default function DeadlinesPageClient({ planId, prefillMatterId }: Props) 
     setClientIdIn(d.client_id ?? "")
     setMatterIdIn(d.matter_id ?? "")
     setDescIn(d.description ?? "")
-    setReminderIn(String(d.reminder_days_before ?? 3))
     setClientQuery("")
     setDialogOpen(true)
   }
@@ -344,7 +329,6 @@ export default function DeadlinesPageClient({ planId, prefillMatterId }: Props) 
         .eq("id", user.id)
         .maybeSingle()
 
-      const reminder = Number.parseInt(reminderIn, 10)
       const dueTime =
         dueTimeIn.trim() === ""
           ? null
@@ -360,7 +344,6 @@ export default function DeadlinesPageClient({ planId, prefillMatterId }: Props) 
         client_id: clientIdIn || null,
         matter_id: matterIdIn === "none" ? null : (matterIdIn || null),
         description: descIn.trim() || null,
-        reminder_days_before: Number.isFinite(reminder) ? reminder : 3,
       }
 
       if (editing) {
@@ -381,7 +364,6 @@ export default function DeadlinesPageClient({ planId, prefillMatterId }: Props) 
           client_id: payload.client_id,
           matter_id: payload.matter_id,
           description: payload.description,
-          reminder_days_before: payload.reminder_days_before,
         }
         const { data: inserted, error: iErr } = await supabase
           .from("deadlines")
@@ -677,23 +659,24 @@ export default function DeadlinesPageClient({ planId, prefillMatterId }: Props) 
                       : undefined
                     const matter = d.matter_id ? matterMap.get(d.matter_id) : undefined
                     const eff = getEffectiveStatus(d)
-                    const diff = calendarDaysUntil(d.due_date)
-                    const inXClass =
-                      eff === "overdue"
-                        ? "text-xs font-medium text-red-400"
-                        : diff <= 2
-                          ? "text-xs font-medium text-amber-400"
-                          : "text-xs text-muted-foreground/50"
+                    const inXClass = "text-xs text-muted-foreground/70"
+                    const preclusive =
+                      isPreclusiveDeadline(d.deadline_type) &&
+                      eff !== "completed" &&
+                      eff !== "cancelled"
                     return (
                       <li key={d.id}>
                         <div
-                          className={`flex flex-wrap items-center gap-x-3 gap-y-2 rounded-r-lg border-l-2 px-3 py-2.5 transition-colors hover:bg-muted/20 ${urgencyBorderClass(d)}`}
+                          className={`flex flex-wrap items-center gap-x-3 gap-y-2 rounded-r-lg border-l-2 px-3 py-2.5 transition-colors hover:bg-muted/20 ${severityBorderClass(d.deadline_type, d.status)}`}
                         >
                           <div className="min-w-0 flex-1">
                             <p className="truncate text-sm font-semibold leading-tight text-foreground">
                               {displayDeadlineTitle(d.title)}
                             </p>
                             <div className="mt-0.5 flex flex-wrap items-center gap-x-2.5 gap-y-1">
+                              {preclusive && (
+                                <PreclusiveMarker label={t("deadlines.severity.preclusive")} />
+                              )}
                               {client && (
                                 <Link
                                   href={`/dashboard/clients?id=${client.id}`}
@@ -851,13 +834,25 @@ export default function DeadlinesPageClient({ planId, prefillMatterId }: Props) 
                         />
                       )
                     }
-                    const dayDeadlines = deadlinesByDay.get(cell.iso) ?? []
+                    const dayDeadlines = [...(deadlinesByDay.get(cell.iso) ?? [])].sort(
+                      (a, b) => {
+                        const aP = isPreclusiveDeadline(a.deadline_type) ? 0 : 1
+                        const bP = isPreclusiveDeadline(b.deadline_type) ? 0 : 1
+                        return aP - bP
+                      }
+                    )
                     const isToday = cell.iso === todayIso
                     const primaryDeadline = dayDeadlines[0] ?? null
                     const primaryClientName =
                       primaryDeadline?.client_id
                         ? clientMap.get(primaryDeadline.client_id)?.name ?? null
                         : null
+                    const hasPreclusive = dayDeadlines.some(
+                      (dl) =>
+                        isPreclusiveDeadline(dl.deadline_type) &&
+                        dl.status !== "completed" &&
+                        dl.status !== "cancelled"
+                    )
                     return (
                       <button
                         key={cell.iso}
@@ -871,11 +866,21 @@ export default function DeadlinesPageClient({ planId, prefillMatterId }: Props) 
                             : "border-border hover:bg-muted/50"
                         } ${dayDeadlines.length ? "cursor-pointer" : "cursor-default"}`}
                       >
-                        <span className="font-medium">{cell.date.getDate()}</span>
+                        <span className="flex items-center gap-1 font-medium">
+                          {cell.date.getDate()}
+                          {hasPreclusive && (
+                            <span
+                              className="text-destructive"
+                              aria-label={t("deadlines.severity.preclusive")}
+                            >
+                              !
+                            </span>
+                          )}
+                        </span>
                         <div className="mt-0.5 flex min-w-0 flex-wrap items-center gap-x-1 gap-y-0.5">
                           {primaryDeadline && (
                             <span
-                              className={`h-2.5 w-2.5 shrink-0 rounded-full ${urgencyClass(primaryDeadline)}`}
+                              className={`h-2.5 w-2.5 shrink-0 rounded-full ${severityDotClass(primaryDeadline.deadline_type, primaryDeadline.status)}`}
                               title={primaryDeadline.title}
                             />
                           )}
@@ -887,7 +892,7 @@ export default function DeadlinesPageClient({ planId, prefillMatterId }: Props) 
                           {dayDeadlines.slice(1, 3).map((dl) => (
                             <span
                               key={dl.id}
-                              className={`h-2 w-2 rounded-full ${urgencyClass(dl)}`}
+                              className={`h-2 w-2 rounded-full ${severityDotClass(dl.deadline_type, dl.status)}`}
                               title={dl.title}
                             />
                           ))}
@@ -900,6 +905,19 @@ export default function DeadlinesPageClient({ planId, prefillMatterId }: Props) 
                       </button>
                     )
                   })}
+                </div>
+                <div className="mt-3 flex flex-wrap items-center gap-4 text-xs text-muted-foreground">
+                  <span className="inline-flex items-center gap-1.5">
+                    <span className="h-2.5 w-2.5 rounded-full bg-destructive" aria-hidden />
+                    <span className="font-semibold text-destructive" aria-hidden>
+                      !
+                    </span>
+                    {t("deadlines.calendar.legend.preclusive")}
+                  </span>
+                  <span className="inline-flex items-center gap-1.5">
+                    <span className="h-2.5 w-2.5 rounded-full bg-primary/50" aria-hidden />
+                    {t("deadlines.calendar.legend.record")}
+                  </span>
                 </div>
               </Card>
             </TabsContent>
@@ -923,6 +941,13 @@ export default function DeadlinesPageClient({ planId, prefillMatterId }: Props) 
                 <p className="text-xs text-muted-foreground">
                   {t(`deadlines.types.${d.deadline_type}`)}
                 </p>
+                {isPreclusiveDeadline(d.deadline_type) &&
+                  d.status !== "completed" &&
+                  d.status !== "cancelled" && (
+                    <div className="mt-1">
+                      <PreclusiveMarker label={t("deadlines.severity.preclusive")} />
+                    </div>
+                  )}
               </li>
             ))}
           </ul>
@@ -1041,16 +1066,6 @@ export default function DeadlinesPageClient({ planId, prefillMatterId }: Props) 
                 value={descIn}
                 onChange={(e) => setDescIn(e.target.value)}
                 rows={3}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="dl-rem">{t("deadlines.dialog.fields.reminder")}</Label>
-              <Input
-                id="dl-rem"
-                type="number"
-                min={0}
-                value={reminderIn}
-                onChange={(e) => setReminderIn(e.target.value)}
               />
             </div>
           </div>

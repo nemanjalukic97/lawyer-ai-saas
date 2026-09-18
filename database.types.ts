@@ -632,6 +632,32 @@ export type Database = {
           },
         ]
       }
+      deadline_reminder_sends: {
+        Row: {
+          deadline_id: string
+          kind: string
+          sent_at: string
+        }
+        Insert: {
+          deadline_id: string
+          kind: string
+          sent_at?: string
+        }
+        Update: {
+          deadline_id?: string
+          kind?: string
+          sent_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "deadline_reminder_sends_deadline_id_fkey"
+            columns: ["deadline_id"]
+            isOneToOne: false
+            referencedRelation: "deadlines"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       invoice_items: {
         Row: {
           amount: number | null
@@ -1420,6 +1446,13 @@ export type Database = {
           role: Database["public"]["Enums"]["user_role"] | null
           stripe_customer_id: string | null
           stripe_subscription_id: string | null
+          signup_landing_path: string | null
+          signup_referrer_host: string | null
+          signup_utm_campaign: string | null
+          signup_utm_content: string | null
+          signup_utm_medium: string | null
+          signup_utm_source: string | null
+          signup_utm_term: string | null
           subscription_status:
             | Database["public"]["Enums"]["subscription_status"]
             | null
@@ -1447,6 +1480,13 @@ export type Database = {
           role?: Database["public"]["Enums"]["user_role"] | null
           stripe_customer_id?: string | null
           stripe_subscription_id?: string | null
+          signup_landing_path?: string | null
+          signup_referrer_host?: string | null
+          signup_utm_campaign?: string | null
+          signup_utm_content?: string | null
+          signup_utm_medium?: string | null
+          signup_utm_source?: string | null
+          signup_utm_term?: string | null
           subscription_status?:
             | Database["public"]["Enums"]["subscription_status"]
             | null
@@ -1474,6 +1514,13 @@ export type Database = {
           role?: Database["public"]["Enums"]["user_role"] | null
           stripe_customer_id?: string | null
           stripe_subscription_id?: string | null
+          signup_landing_path?: string | null
+          signup_referrer_host?: string | null
+          signup_utm_campaign?: string | null
+          signup_utm_content?: string | null
+          signup_utm_medium?: string | null
+          signup_utm_source?: string | null
+          signup_utm_term?: string | null
           subscription_status?:
             | Database["public"]["Enums"]["subscription_status"]
             | null
@@ -1501,6 +1548,20 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_deadlines_due_for_reminder: {
+        Args: never
+        Returns: {
+          id: string
+          user_id: string
+          law_firm_id: string | null
+          client_id: string | null
+          matter_id: string | null
+          title: string
+          deadline_type: Database["public"]["Enums"]["deadline_type"]
+          due_date: string
+          reminder_kind: string
+        }[]
+      }
       get_public_intake_form: {
         Args: { p_slug: string }
         Returns: Database["public"]["Tables"]["intake_forms"]["Row"][]
@@ -1599,8 +1660,11 @@ export type Database = {
       deadline_type:
         | "court_hearing"
         | "filing_deadline"
+        | "claim"
+        | "objection"
         | "appeal_deadline"
         | "statute_of_limitations"
+        | "court_advance"
         | "contract_expiry"
         | "client_meeting"
         | "payment_due"
@@ -1816,8 +1880,11 @@ export const Constants = {
       deadline_type: [
         "court_hearing",
         "filing_deadline",
+        "claim",
+        "objection",
         "appeal_deadline",
         "statute_of_limitations",
+        "court_advance",
         "contract_expiry",
         "client_meeting",
         "payment_due",

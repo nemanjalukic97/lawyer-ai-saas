@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation"
 
 import { Footer } from "@/components/Footer"
 
-const HIDDEN_PREFIXES = ["/dashboard"]
+const HIDDEN_PREFIXES = ["/dashboard", "/vodic"]
 
 export function AppFooter() {
   const pathname = usePathname()

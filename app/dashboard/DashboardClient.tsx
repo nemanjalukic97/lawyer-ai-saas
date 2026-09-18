@@ -16,6 +16,7 @@ import {
   Scale,
   Search,
   ShieldAlert,
+  AlertTriangle,
   Users,
 } from "lucide-react"
 
@@ -38,11 +39,14 @@ import {
   hasFeature,
   type EntitlementPlanId,
 } from "./lib/entitlements"
-import { getEffectiveStatus } from "./deadlines/lib/effectiveStatus"
-import { calendarDaysUntil, formatDueHeading } from "./deadlines/lib/dates"
+import { formatDueHeading } from "./deadlines/lib/dates"
 import { logOnboardingEvent } from "@/lib/onboarding/logOnboardingEvent"
 import { createClient } from "@/lib/supabase/client"
 import type { Tables } from "@/lib/supabase/types"
+import {
+  isPreclusiveDeadline,
+  severityDotClass,
+} from "@/lib/deadlines/severity"
 
 type FeatureUsagePoint = {
   feature_type: string
@@ -61,6 +65,7 @@ type UpcomingDeadlinePreview = {
   title: string
   due_date: string
   status: Tables<"deadlines">["status"]
+  deadline_type: Tables<"deadlines">["deadline_type"]
 }
 
 type ActiveMatterPreview = {
@@ -267,13 +272,8 @@ export function DashboardBody({
   const canRequestSignatures = getMaxActiveSignatureRequests(planId) !== 0
   const canManageMatters = hasFeature(planId, "matter_management")
 
-  function urgencyDotClass(deadline: UpcomingDeadlinePreview): string {
-    const eff = getEffectiveStatus(deadline)
-    if (eff === "completed" || eff === "cancelled") return "bg-muted-foreground"
-    if (eff === "overdue") return "bg-destructive"
-    const diff = calendarDaysUntil(deadline.due_date)
-    if (diff <= 3) return "bg-amber-500"
-    return "bg-emerald-500"
+  function deadlineDotClass(deadline: UpcomingDeadlinePreview): string {
+    return severityDotClass(deadline.deadline_type, deadline.status)
   }
 
   const deadlinesPreview =
@@ -361,11 +361,20 @@ export function DashboardBody({
               ) : (
                 deadlinesPreview.map((d) => (
                   <div key={d.id} className="flex items-start gap-3 py-2 border-b border-border last:border-0">
-                    <span className={cn("mt-1.5 size-2 shrink-0 rounded-full", urgencyDotClass(d))} aria-hidden />
+                    <span className={cn("mt-1.5 size-2 shrink-0 rounded-full", deadlineDotClass(d))} aria-hidden />
                     <div className="min-w-0 flex-1">
-                      <p className="text-sm font-medium leading-snug">{d.title}</p>
+                      <p className="flex items-center gap-1.5 text-sm font-medium leading-snug">
+                        {isPreclusiveDeadline(d.deadline_type) && (
+                          <AlertTriangle
+                            className="h-3.5 w-3.5 shrink-0 text-destructive"
+                            aria-label={t("deadlines.severity.preclusive")}
+                          />
+                        )}
+                        <span className="min-w-0 truncate">{d.title}</span>
+                      </p>
                       <p className="text-xs text-muted-foreground">
                         {formatDueHeading(d.due_date, dateLocale)}
+                        {isPreclusiveDeadline(d.deadline_type) ? ` · ${t("deadlines.severity.preclusive")}` : ""}
                       </p>
                     </div>
                   </div>
@@ -416,7 +425,7 @@ export function DashboardBody({
             <div className="flex items-center justify-between mb-1">
               <h3 className="text-base font-semibold">Kalendar</h3>
             </div>
-            <MiniCalendar upcomingDeadlines={upcomingDeadlines} urgencyDotClass={urgencyDotClass} canViewDeadlines={canViewDeadlines} />
+            <MiniCalendar upcomingDeadlines={upcomingDeadlines} canViewDeadlines={canViewDeadlines} />
             <div className="mt-3 flex justify-end">
               <Link href={canViewDeadlines ? "/dashboard/deadlines" : "/dashboard/billing"} className="text-xs text-muted-foreground hover:text-primary flex items-center gap-1">
                 Prikaži sve <ArrowUpRight className="h-3 w-3" />
@@ -783,11 +792,9 @@ function ActionCard({
 
 function MiniCalendar({
   upcomingDeadlines,
-  urgencyDotClass,
   canViewDeadlines,
 }: {
   upcomingDeadlines: UpcomingDeadlinePreview[]
-  urgencyDotClass: (d: UpcomingDeadlinePreview) => string
   canViewDeadlines: boolean
 }) {
   const today = new Date()
@@ -797,8 +804,13 @@ function MiniCalendar({
   const firstDay = new Date(year, month, 1).getDay()
   const startOffset = firstDay === 0 ? 6 : firstDay - 1
   const daysInMonth = new Date(year, month + 1, 0).getDate()
-  const deadlineByDate = Object.fromEntries(upcomingDeadlines.map(d => [d.due_date.slice(0, 10), d]))
-  const deadlineDates = new Set(Object.keys(deadlineByDate))
+  const deadlinesByDate = new Map<string, UpcomingDeadlinePreview[]>()
+  for (const d of upcomingDeadlines) {
+    const key = d.due_date.slice(0, 10)
+    const arr = deadlinesByDate.get(key) ?? []
+    arr.push(d)
+    deadlinesByDate.set(key, arr)
+  }
   const totalCells = Math.ceil((startOffset + daysInMonth) / 7) * 7
   const cells = Array.from({ length: totalCells }, (_, i) => {
     const dayNum = i - startOffset + 1
@@ -815,13 +827,29 @@ function MiniCalendar({
           if (!day) return <div key={i} />
           const isToday = day === today.getDate()
           const dateStr = `${year}-${String(month+1).padStart(2,"0")}-${String(day).padStart(2,"0")}`
-          const deadline = canViewDeadlines ? deadlineByDate[dateStr] : undefined
+          const dayItems = canViewDeadlines ? deadlinesByDate.get(dateStr) ?? [] : []
+          const deadline = [...dayItems].sort((a, b) => {
+            const aP = isPreclusiveDeadline(a.deadline_type) ? 0 : 1
+            const bP = isPreclusiveDeadline(b.deadline_type) ? 0 : 1
+            return aP - bP
+          })[0]
+          const preclusive = dayItems.some((d) => isPreclusiveDeadline(d.deadline_type))
           return (
             <div key={i} className="flex flex-col items-center py-0.5">
               <span className={cn("flex h-6 w-6 items-center justify-center rounded-full text-xs", isToday ? "bg-primary text-primary-foreground font-semibold" : "text-foreground")}>
                 {day}
+                {preclusive ? <span className="sr-only">!</span> : null}
               </span>
-              {deadline && <span className={cn("mt-0.5 h-1 w-1 rounded-full", urgencyDotClass(deadline))} />}
+              {deadline && (
+                <span className="inline-flex items-center gap-0.5">
+                  <span className={cn("mt-0.5 h-1 w-1 rounded-full", severityDotClass(deadline.deadline_type, deadline.status))} />
+                  {preclusive && (
+                    <span className="text-[9px] font-semibold leading-none text-destructive" aria-hidden>
+                      !
+                    </span>
+                  )}
+                </span>
+              )}
             </div>
           )
         })}

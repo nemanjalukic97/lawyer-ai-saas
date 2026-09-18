@@ -1009,12 +1009,18 @@ export const slMessages: Messages = {
       types: {
         court_hearing: "Narok",
         filing_deadline: "Rok za vložitev",
+        claim: "Tožba",
+        objection: "Ugovor",
         appeal_deadline: "Rok za pritožbo",
         statute_of_limitations: "Zastaralni rok",
+        court_advance: "Plačilo predujma",
         contract_expiry: "Potek pogodbe",
         client_meeting: "Sestanek s stranko",
         payment_due: "Datum plačila",
         other: "Drugo",
+      },
+      severity: {
+        preclusive: "Prekluzivni rok",
       },
       actions: {
         add: "Dodaj rok",
@@ -1064,6 +1070,10 @@ export const slMessages: Messages = {
           thu: "Čet",
           fri: "Pet",
           sat: "Sob",
+        },
+        legend: {
+          preclusive: "Prekluzivni rok — ne sme se zamuditi",
+          record: "Evidenca",
         },
       },
     },
