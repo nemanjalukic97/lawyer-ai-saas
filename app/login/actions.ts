@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache"
 import { RedirectType, redirect } from "next/navigation"
 
+import { logOnboardingEventNow } from "@/lib/onboarding/logOnboardingEvent"
 import { createClient } from "@/lib/supabase/server"
 
 export async function login(formData: FormData) {
@@ -11,7 +12,7 @@ export async function login(formData: FormData) {
   const email = String(formData.get("email") ?? "")
   const password = String(formData.get("password") ?? "")
 
-  const { error } = await supabase.auth.signInWithPassword({
+  const { data, error } = await supabase.auth.signInWithPassword({
     email,
     password,
   })
@@ -28,6 +29,14 @@ export async function login(formData: FormData) {
     }
 
     redirect(`/login?error=${encodeURIComponent(error.message)}`)
+  }
+
+  if (data.user) {
+    await logOnboardingEventNow(
+      supabase,
+      { event: "login_success", path: "/login" },
+      data.user.id,
+    )
   }
 
   revalidatePath("/", "layout")

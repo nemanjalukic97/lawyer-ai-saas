@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect } from "react"
 import Link from "next/link"
 import {
   ArrowUpRight,
@@ -39,6 +40,8 @@ import {
 } from "./lib/entitlements"
 import { getEffectiveStatus } from "./deadlines/lib/effectiveStatus"
 import { calendarDaysUntil, formatDueHeading } from "./deadlines/lib/dates"
+import { logOnboardingEvent } from "@/lib/onboarding/logOnboardingEvent"
+import { createClient } from "@/lib/supabase/client"
 import type { Tables } from "@/lib/supabase/types"
 
 type FeatureUsagePoint = {
@@ -120,6 +123,13 @@ export function DashboardHeader({
   isFirstVisit = false,
 }: HeaderProps) {
   const { t } = useLanguage()
+
+  useEffect(() => {
+    logOnboardingEvent(createClient(), {
+      event: "dashboard_view",
+      path: "/dashboard",
+    })
+  }, [])
 
   function planBadgeClass(id: EntitlementPlanId): string {
     switch (id) {

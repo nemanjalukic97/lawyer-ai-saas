@@ -1,6 +1,6 @@
 "use client"
 
-import { FormEvent, useEffect, useMemo, useState } from "react"
+import { FormEvent, useEffect, useMemo, useRef, useState } from "react"
 import {
   Search,
   BookmarkPlus,
@@ -34,6 +34,11 @@ import {
   getStarterQueries,
   toUiJurisdiction,
 } from "@/lib/researchStarterQueries"
+import {
+  logOnboardingEvent,
+  sanitizeOnboardingErrorMessage,
+} from "@/lib/onboarding/logOnboardingEvent"
+import { createClient } from "@/lib/supabase/client"
 import type { EntitlementPlanId } from "../lib/entitlements"
 
 type ResearchResultItem = {
@@ -743,6 +748,23 @@ export function ResearchPageClient({
   const [historyError, setHistoryError] = useState<string | null>(null)
   const [history, setHistory] = useState<SavedSession[]>([])
   const [deletingId, setDeletingId] = useState<string | null>(null)
+  const inputFocusedRef = useRef(false)
+
+  function trackOnboarding(
+    input: Parameters<typeof logOnboardingEvent>[1],
+  ) {
+    logOnboardingEvent(createClient(), input)
+  }
+
+  function trackSearchError(message: string, queryText?: string) {
+    trackOnboarding({
+      event: "search_error",
+      path: "/dashboard/research",
+      metadata: {
+        message: sanitizeOnboardingErrorMessage(message, queryText),
+      },
+    })
+  }
 
   const hasResults =
     (results?.results?.length ?? 0) > 0 ||
@@ -803,10 +825,11 @@ export function ResearchPageClient({
       })
       const json = await resp.json().catch(() => null)
       if (!resp.ok) {
-        setError(
+        const message =
           (json && typeof json.error === "string" && json.error) ||
-            t("research.errors.searchFailed"),
-        )
+          t("research.errors.searchFailed")
+        setError(message)
+        trackSearchError(message, input)
         return
       }
       const nextResults = json as SearchResponse
@@ -814,9 +837,26 @@ export function ResearchPageClient({
       setResultsTab(defaultResearchResultsTab(nextResults))
       setLawsPage(1)
       setCaseLawPage(1)
+      const shown = [
+        ...(nextResults.results ?? []),
+        ...(nextResults.lowConfidenceResults ?? []),
+        ...(nextResults.caseLawResults ?? []),
+        ...(nextResults.lowConfidenceCaseLawResults ?? []),
+      ]
+      const topScore = shown.reduce<number | null>((max, item) => {
+        if (typeof item.similarity !== "number") return max
+        return max == null ? item.similarity : Math.max(max, item.similarity)
+      }, null)
+      trackOnboarding({
+        event: "search_results_shown",
+        path: "/dashboard/research",
+        metadata: { count: shown.length, top_score: topScore },
+      })
       if (canSave) void loadHistory()
     } catch {
-      setError(t("research.errors.searchFailed"))
+      const message = t("research.errors.searchFailed")
+      setError(message)
+      trackSearchError(message, input)
     } finally {
       setLoading(false)
     }
@@ -982,10 +1022,27 @@ export function ResearchPageClient({
   }
 
   useEffect(() => {
+    trackOnboarding({
+      event: "research_view",
+      path: "/dashboard/research",
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  useEffect(() => {
     if (!canSave) return
     void loadHistory()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [canSave])
+
+  function onResearchInputFocus() {
+    if (inputFocusedRef.current) return
+    inputFocusedRef.current = true
+    trackOnboarding({
+      event: "research_input_focus",
+      path: "/dashboard/research",
+    })
+  }
 
   function onSubmit(e: FormEvent) {
     e.preventDefault()
@@ -994,6 +1051,11 @@ export function ResearchPageClient({
       setError(t("research.errors.queryRequired"))
       return
     }
+    trackOnboarding({
+      event: "search_submit",
+      path: "/dashboard/research",
+      metadata: { jurisdiction, source: "typed" },
+    })
     void runSearch(trimmed)
   }
 
@@ -1001,6 +1063,16 @@ export function ResearchPageClient({
     const nextJurisdiction = toUiJurisdiction(preferredJurisdiction)
     setJurisdiction(nextJurisdiction)
     setQuery(chipQuery)
+    trackOnboarding({
+      event: "starter_query_click",
+      path: "/dashboard/research",
+      metadata: { jurisdiction: nextJurisdiction },
+    })
+    trackOnboarding({
+      event: "search_submit",
+      path: "/dashboard/research",
+      metadata: { jurisdiction: nextJurisdiction, source: "starter" },
+    })
     void runSearch(chipQuery, nextJurisdiction)
   }
 
@@ -1062,6 +1134,7 @@ export function ResearchPageClient({
                     id="researchQuery"
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
+                    onFocus={onResearchInputFocus}
                     placeholder={t("research.search.placeholder")}
                     autoComplete="off"
                   />

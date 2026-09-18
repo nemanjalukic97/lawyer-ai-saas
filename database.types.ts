@@ -1075,6 +1075,33 @@ export type Database = {
           },
         ]
       }
+      onboarding_events: {
+        Row: {
+          created_at: string
+          event: string
+          id: string
+          metadata: Json | null
+          path: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          event: string
+          id?: string
+          metadata?: Json | null
+          path?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          event?: string
+          id?: string
+          metadata?: Json | null
+          path?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       rag_query_logs: {
         Row: {
           id: string
