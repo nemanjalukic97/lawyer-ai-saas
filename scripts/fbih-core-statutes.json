@@ -1,0 +1,23 @@
+[
+  {
+    "law_name_local": "Zakon o stvarnim pravima",
+    "law_name": "Law on Real Rights",
+    "law_category": "property",
+    "source_url": "https://parlamentfbih.gov.ba/dom_naroda/bos/parlament/propisi/usvojeni_p/ZAKON%20O%20STVARNIM%20PRAVIMA.pdf",
+    "effective_date": "2013-01-01"
+  },
+  {
+    "law_name_local": "Zakon o nasljeđivanju u Federaciji Bosne i Hercegovine",
+    "law_name": "Inheritance Act",
+    "law_category": "inheritance",
+    "source_url": "https://parlamentfbih.gov.ba/dom_naroda/bos/parlament/propisi/usvojeni_p/Zakon%20o%20nasljedjivanju.pdf",
+    "effective_date": "2014-01-01"
+  },
+  {
+    "law_name_local": "FBiH ZOPD 81/15 (name undecided)",
+    "law_name": "Companies Act",
+    "law_category": "commercial",
+    "source_url": "https://parlamentfbih.gov.ba/dom_naroda/bos/parlament/propisi/usvojeni_p_14_18/Zakon_o_gospodarskim_drustvima_hr.pdf",
+    "effective_date": "2015-01-01"
+  }
+]
