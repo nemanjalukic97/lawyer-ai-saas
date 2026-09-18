@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect } from "react"
+import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
 import {
   ArrowUpRight,
@@ -22,6 +22,7 @@ import {
 
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import {
   Card,
   CardContent,
@@ -338,101 +339,96 @@ export function DashboardBody({
           </div>
         </section>
 
-        {/* Section 3 — Three columns */}
-        <section className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-stretch">
-
-          <Card className="h-full p-5">
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-2">
-                <div className="inline-flex h-8 w-8 items-center justify-center rounded-md bg-muted text-muted-foreground"><Calendar className="h-4 w-4" /></div>
-                <h3 className="text-base font-semibold">{t("dashboard.overview.cards.deadlines.title")}</h3>
+        {/* Section 3 — Left stack + wide calendar */}
+        <section className="grid items-stretch gap-4 grid-cols-1 md:grid-cols-3">
+          <div className="flex min-w-0 flex-col gap-4">
+            <Card className="p-5">
+              <div className="mb-4 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div className="inline-flex h-8 w-8 items-center justify-center rounded-md bg-muted text-muted-foreground"><Calendar className="h-4 w-4" /></div>
+                  <h3 className="text-base font-semibold">{t("dashboard.overview.cards.deadlines.title")}</h3>
+                </div>
+                <Button variant="outline" size="sm" asChild>
+                  <Link href={canViewDeadlines ? "/dashboard/deadlines" : "/dashboard/billing"}>{t("dashboard.upcomingDeadlines.viewAll")}</Link>
+                </Button>
               </div>
-              <Button variant="outline" size="sm" asChild>
-                <Link href={canViewDeadlines ? "/dashboard/deadlines" : "/dashboard/billing"}>{t("dashboard.upcomingDeadlines.viewAll")}</Link>
-              </Button>
-            </div>
-            <div className="space-y-1">
-              {!canViewDeadlines ? (
-                <Link href="/dashboard/billing" className="flex items-center gap-2 rounded-lg border border-border px-3 py-2 text-sm text-muted-foreground hover:bg-muted/50">
-                  <Lock className="h-4 w-4" />{t("dashboard.overview.lockedHint")}
-                </Link>
-              ) : deadlinesPreview.length === 0 ? (
-                <p className="text-sm text-muted-foreground py-4">{t("dashboard.upcomingDeadlines.empty")}</p>
-              ) : (
-                deadlinesPreview.map((d) => (
-                  <div key={d.id} className="flex items-start gap-3 py-2 border-b border-border last:border-0">
-                    <span className={cn("mt-1.5 size-2 shrink-0 rounded-full", deadlineDotClass(d))} aria-hidden />
-                    <div className="min-w-0 flex-1">
-                      <p className="flex items-center gap-1.5 text-sm font-medium leading-snug">
-                        {isPreclusiveDeadline(d.deadline_type) && (
-                          <AlertTriangle
-                            className="h-3.5 w-3.5 shrink-0 text-destructive"
-                            aria-label={t("deadlines.severity.preclusive")}
-                          />
-                        )}
-                        <span className="min-w-0 truncate">{d.title}</span>
-                      </p>
-                      <p className="text-xs text-muted-foreground">
-                        {formatDueHeading(d.due_date, dateLocale)}
-                        {isPreclusiveDeadline(d.deadline_type) ? ` · ${t("deadlines.severity.preclusive")}` : ""}
-                      </p>
-                    </div>
-                  </div>
-                ))
-              )}
-            </div>
-          </Card>
-
-          <Card className="h-full p-5">
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-2">
-                <div className="inline-flex h-8 w-8 items-center justify-center rounded-md bg-muted text-muted-foreground"><Briefcase className="h-4 w-4" /></div>
-                <h3 className="text-base font-semibold">{t("dashboard.activeMatters.title")}</h3>
-              </div>
-              <Button size="sm" variant="outline" asChild>
-                <Link href={canManageMatters ? "/dashboard/matters" : "/dashboard/billing"}>{t("dashboard.upcomingDeadlines.viewAll")}</Link>
-              </Button>
-            </div>
-            <p className="text-sm text-muted-foreground mb-3">
-              {t("dashboard.activeMatters.openCountLabel")}{" "}
-              <span className="font-semibold text-foreground">{canManageMatters ? activeMatters.openCount : 0}</span>
-              {!canManageMatters && <Lock className="ml-2 inline h-4 w-4" />}
-            </p>
-            <div className="space-y-2">
-              {!canManageMatters ? (
-                <Link href="/dashboard/billing" className="block rounded-md border p-3 text-sm text-muted-foreground hover:bg-muted/50">{t("dashboard.overview.lockedHint")}</Link>
-              ) : activeMatters.recent.length === 0 ? (
-                <p className="text-sm text-muted-foreground">{t("dashboard.activeMatters.empty")}</p>
-              ) : (
-                activeMatters.recent.map((m) => (
-                  <Link key={m.id} href={`/dashboard/matters/${m.id}`} className="block rounded-md border border-border p-3 hover:bg-muted/50">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <Badge variant="outline" className="text-[10px]">{m.matter_number}</Badge>
-                      <p className="min-w-0 truncate text-sm font-medium">{m.title}</p>
-                      <Badge variant="secondary" className="ml-auto text-[10px]">{t("matters.status.open")}</Badge>
-                    </div>
-                    <p className="mt-1 text-xs text-muted-foreground">
-                      {t("dashboard.activeMatters.updatedPrefix")}{" "}
-                      {m.updated_at ? new Date(m.updated_at).toLocaleString() : "—"}
-                    </p>
+              <div className="space-y-1">
+                {!canViewDeadlines ? (
+                  <Link href="/dashboard/billing" className="flex items-center gap-2 rounded-lg border border-border px-3 py-2 text-sm text-muted-foreground hover:bg-muted/50">
+                    <Lock className="h-4 w-4" />{t("dashboard.overview.lockedHint")}
                   </Link>
-                ))
-              )}
-            </div>
-          </Card>
+                ) : deadlinesPreview.length === 0 ? (
+                  <p className="text-sm text-muted-foreground py-4">{t("dashboard.upcomingDeadlines.empty")}</p>
+                ) : (
+                  deadlinesPreview.map((d) => (
+                    <div key={d.id} className="flex items-start gap-3 py-2 border-b border-border last:border-0">
+                      <span className={cn("mt-1.5 size-2 shrink-0 rounded-full", deadlineDotClass(d))} aria-hidden />
+                      <div className="min-w-0 flex-1">
+                        <p className="flex items-center gap-1.5 text-sm font-medium leading-snug">
+                          {isPreclusiveDeadline(d.deadline_type) && (
+                            <AlertTriangle
+                              className="h-3.5 w-3.5 shrink-0 text-destructive"
+                              aria-label={t("deadlines.severity.preclusive")}
+                            />
+                          )}
+                          <span className="min-w-0 truncate">{d.title}</span>
+                        </p>
+                        <p className="text-xs text-muted-foreground">
+                          {formatDueHeading(d.due_date, dateLocale)}
+                          {isPreclusiveDeadline(d.deadline_type) ? ` · ${t("deadlines.severity.preclusive")}` : ""}
+                        </p>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+            </Card>
 
-          <Card className="h-full p-5">
-            <div className="flex items-center justify-between mb-1">
+            <Card className="p-5">
+              <div className="mb-4 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div className="inline-flex h-8 w-8 items-center justify-center rounded-md bg-muted text-muted-foreground"><Briefcase className="h-4 w-4" /></div>
+                  <h3 className="text-base font-semibold">{t("dashboard.activeMatters.title")}</h3>
+                </div>
+                <Button size="sm" variant="outline" asChild>
+                  <Link href={canManageMatters ? "/dashboard/matters" : "/dashboard/billing"}>{t("dashboard.upcomingDeadlines.viewAll")}</Link>
+                </Button>
+              </div>
+              <div className="space-y-2">
+                {!canManageMatters ? (
+                  <Link href="/dashboard/billing" className="block rounded-md border p-3 text-sm text-muted-foreground hover:bg-muted/50">{t("dashboard.overview.lockedHint")}</Link>
+                ) : activeMatters.recent.length === 0 ? (
+                  <p className="text-sm text-muted-foreground">{t("dashboard.activeMatters.empty")}</p>
+                ) : (
+                  activeMatters.recent.map((m) => (
+                    <Link key={m.id} href={`/dashboard/matters/${m.id}`} className="block rounded-md border border-border p-3 hover:bg-muted/50">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <Badge variant="outline" className="text-[10px]">{m.matter_number}</Badge>
+                        <p className="min-w-0 truncate text-sm font-medium">{m.title}</p>
+                        <Badge variant="secondary" className="ml-auto text-[10px]">{t("matters.status.open")}</Badge>
+                      </div>
+                      <p className="mt-1 text-xs text-muted-foreground">
+                        {t("dashboard.activeMatters.updatedPrefix")}{" "}
+                        {m.updated_at ? new Date(m.updated_at).toLocaleString() : "—"}
+                      </p>
+                    </Link>
+                  ))
+                )}
+              </div>
+            </Card>
+          </div>
+
+          <Card className="min-w-0 p-5 md:col-span-2">
+            <div className="mb-1 flex items-center justify-between">
               <h3 className="text-base font-semibold">Kalendar</h3>
             </div>
             <MiniCalendar upcomingDeadlines={upcomingDeadlines} canViewDeadlines={canViewDeadlines} />
             <div className="mt-3 flex justify-end">
-              <Link href={canViewDeadlines ? "/dashboard/deadlines" : "/dashboard/billing"} className="text-xs text-muted-foreground hover:text-primary flex items-center gap-1">
+              <Link href={canViewDeadlines ? "/dashboard/deadlines" : "/dashboard/billing"} className="flex items-center gap-1 text-xs text-muted-foreground hover:text-primary">
                 Prikaži sve <ArrowUpRight className="h-3 w-3" />
               </Link>
             </div>
           </Card>
-
         </section>
 
         {/* SECTION 4 — Quick Actions (restructured groups) */}
@@ -790,6 +786,16 @@ function ActionCard({
   )
 }
 
+function dayNumberClass(isToday: boolean, preclusive: boolean): string {
+  return cn(
+    "flex h-7 w-7 items-center justify-center rounded-full text-xs",
+    preclusive ? "font-semibold" : "font-normal",
+    isToday && "bg-primary text-primary-foreground",
+    preclusive && !isToday && "text-destructive ring-[3px] ring-destructive",
+    preclusive && isToday && "ring-[3px] ring-destructive ring-offset-2 ring-offset-background"
+  )
+}
+
 function MiniCalendar({
   upcomingDeadlines,
   canViewDeadlines,
@@ -797,6 +803,7 @@ function MiniCalendar({
   upcomingDeadlines: UpcomingDeadlinePreview[]
   canViewDeadlines: boolean
 }) {
+  const { t } = useLanguage()
   const today = new Date()
   const year = today.getFullYear()
   const month = today.getMonth()
@@ -818,7 +825,7 @@ function MiniCalendar({
   })
   return (
     <div>
-      <p className="text-xs text-muted-foreground mb-3">{monthNames[month]} {year}</p>
+      <p className="mb-3 text-xs text-muted-foreground">{monthNames[month]} {year}</p>
       <div className="grid grid-cols-7 text-center text-[11px] font-medium text-muted-foreground/70">
         {["P","U","S","Č","P","S","N"].map((d, i) => <div key={i} className="py-1">{d}</div>)}
       </div>
@@ -828,33 +835,111 @@ function MiniCalendar({
           const isToday = day === today.getDate()
           const dateStr = `${year}-${String(month+1).padStart(2,"0")}-${String(day).padStart(2,"0")}`
           const dayItems = canViewDeadlines ? deadlinesByDate.get(dateStr) ?? [] : []
-          const deadline = [...dayItems].sort((a, b) => {
-            const aP = isPreclusiveDeadline(a.deadline_type) ? 0 : 1
-            const bP = isPreclusiveDeadline(b.deadline_type) ? 0 : 1
-            return aP - bP
-          })[0]
           const preclusive = dayItems.some((d) => isPreclusiveDeadline(d.deadline_type))
+          const recordOnly =
+            dayItems.length > 0 &&
+            !preclusive
           return (
-            <div key={i} className="flex flex-col items-center py-0.5">
-              <span className={cn("flex h-6 w-6 items-center justify-center rounded-full text-xs", isToday ? "bg-primary text-primary-foreground font-semibold" : "text-foreground")}>
-                {day}
-                {preclusive ? <span className="sr-only">!</span> : null}
-              </span>
-              {deadline && (
-                <span className="inline-flex items-center gap-0.5">
-                  <span className={cn("mt-0.5 h-1 w-1 rounded-full", severityDotClass(deadline.deadline_type, deadline.status))} />
-                  {preclusive && (
-                    <span className="text-[9px] font-semibold leading-none text-destructive" aria-hidden>
-                      !
-                    </span>
-                  )}
-                </span>
-              )}
-            </div>
+            <CalendarDayCell
+              key={i}
+              day={day}
+              isToday={isToday}
+              preclusive={preclusive}
+              recordOnly={recordOnly}
+              items={dayItems}
+              typeLabel={(type) => t(`deadlines.types.${type}`)}
+              preclusiveLabel={t("deadlines.severity.preclusive")}
+            />
           )
         })}
       </div>
     </div>
+  )
+}
+
+function CalendarDayCell({
+  day,
+  isToday,
+  preclusive,
+  recordOnly,
+  items,
+  typeLabel,
+  preclusiveLabel,
+}: {
+  day: number
+  isToday: boolean
+  preclusive: boolean
+  recordOnly: boolean
+  items: UpcomingDeadlinePreview[]
+  typeLabel: (type: UpcomingDeadlinePreview["deadline_type"]) => string
+  preclusiveLabel: string
+}) {
+  const [open, setOpen] = useState(false)
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  function openNow() {
+    if (closeTimer.current) clearTimeout(closeTimer.current)
+    setOpen(true)
+  }
+
+  function closeSoon() {
+    if (closeTimer.current) clearTimeout(closeTimer.current)
+    closeTimer.current = setTimeout(() => setOpen(false), 120)
+  }
+
+  const number = (
+    <span className={dayNumberClass(isToday, preclusive)}>
+      {day}
+    </span>
+  )
+  const recordDot = recordOnly ? (
+    <span className="mt-0.5 h-1 w-1 rounded-full bg-primary/50" aria-hidden />
+  ) : null
+
+  if (items.length === 0) {
+    return (
+      <div className="flex flex-col items-center py-0.5">
+        {number}
+      </div>
+    )
+  }
+
+  return (
+    <Popover modal={false} open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <button
+          type="button"
+          className="flex cursor-pointer flex-col items-center py-0.5"
+          onMouseEnter={openNow}
+          onMouseLeave={closeSoon}
+        >
+          {number}
+          {recordDot}
+        </button>
+      </PopoverTrigger>
+      <PopoverContent
+        align="center"
+        sideOffset={6}
+        className="w-64 p-3"
+        onMouseEnter={openNow}
+        onMouseLeave={closeSoon}
+      >
+        <ul className="space-y-2 text-left">
+          {items.map((d) => {
+            const isPreclusive = isPreclusiveDeadline(d.deadline_type)
+            return (
+              <li key={d.id} className="text-xs">
+                <p className="font-medium text-foreground">{d.title}</p>
+                <p className="text-muted-foreground">
+                  {typeLabel(d.deadline_type)}
+                  {isPreclusive ? ` · ${preclusiveLabel}` : ""}
+                </p>
+              </li>
+            )
+          })}
+        </ul>
+      </PopoverContent>
+    </Popover>
   )
 }
 
