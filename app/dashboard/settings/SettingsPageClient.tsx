@@ -27,6 +27,7 @@ import { Switch } from "@/components/ui/switch"
 import type { Tables } from "@/lib/supabase/types"
 import { createClient as createBrowserClient } from "@/lib/supabase/client"
 import { useLanguage } from "@/components/LanguageProvider"
+import { normalizeLanguage } from "@/lib/i18n/normalizeLanguage"
 
 import {
   isPaidPlanId,
@@ -84,7 +85,7 @@ export default function SettingsPageClient({
   profile,
   firm,
 }: SettingsPageClientProps) {
-  const { t } = useLanguage()
+  const { t, setLanguage } = useLanguage()
   const supabase = useMemo(() => createBrowserClient(), [])
   const tabStripRef = useRef<HTMLDivElement>(null)
   const [activeTab, setActiveTab] = useState("profile")
@@ -261,6 +262,7 @@ export default function SettingsPageClient({
       }
 
       setProfileMessage(t("settings.messages.profileUpdated"))
+      setLanguage(normalizeLanguage(preferredLanguage))
     } catch (error) {
       setProfileError(
         error instanceof Error ? error.message : t("settings.errors.failedToSaveProfile")

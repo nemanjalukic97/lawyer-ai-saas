@@ -4,6 +4,8 @@ import { useRouter } from "next/navigation"
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useLanguage, type LanguageCode } from "@/components/LanguageProvider"
+import { LANGUAGE_CODE_TO_DISPLAY } from "@/lib/i18n/normalizeLanguage"
+import { createClient } from "@/lib/supabase/client"
 
 const LANGUAGES: { code: LanguageCode; label: string; countryCode: string }[] = [
   { code: "en", label: "EN", countryCode: "gb" },
@@ -14,6 +16,21 @@ const LANGUAGES: { code: LanguageCode; label: string; countryCode: string }[] = 
   { code: "me", label: "MNE", countryCode: "me" },
 ]
 
+async function persistInterfaceLanguage(code: LanguageCode) {
+  const supabase = createClient()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+  if (!user) return
+  const { error } = await supabase
+    .from("user_profiles")
+    .update({ preferred_language: LANGUAGE_CODE_TO_DISPLAY[code] })
+    .eq("id", user.id)
+  if (error) {
+    console.error("[language] failed to persist preferred_language", error)
+  }
+}
+
 export function LanguageSwitcher() {
   const router = useRouter()
   const { language, setLanguage, t } = useLanguage()
@@ -23,9 +40,11 @@ export function LanguageSwitcher() {
     <Select
       value={language}
       onValueChange={(next) => {
-        setLanguage(next as LanguageCode)
+        const code = next as LanguageCode
+        setLanguage(code)
         // Server components (e.g. /dashboard/templates) read language from cookie.
         router.refresh()
+        void persistInterfaceLanguage(code)
       }}
     >
       <SelectTrigger

@@ -1,5 +1,7 @@
 import type { LanguageCode } from "@/components/LanguageProvider"
+import { daysRemainingLine, dueInPhrase } from "@/lib/i18n/dayCount"
 import { localeForLanguage } from "@/lib/i18n/locale"
+import { normalizeLanguage } from "@/lib/i18n/normalizeLanguage"
 import type { Database } from "@/lib/supabase/types"
 
 type DeadlineType = Database["public"]["Enums"]["deadline_type"]
@@ -24,15 +26,6 @@ type EmailContent = {
   subject: string
   html: string
   text: string
-}
-
-const SUPPORTED_LANGUAGES: ReadonlyArray<LanguageCode> = ["en", "sr", "bs", "hr", "sl", "me"]
-
-function normalizeLanguage(input?: string | null): LanguageCode {
-  const raw = (input ?? "").trim().toLowerCase()
-  if (!raw) return "en"
-  const primary = raw.split(/[-_]/)[0] as LanguageCode
-  return (SUPPORTED_LANGUAGES as readonly string[]).includes(primary) ? primary : "en"
 }
 
 function escapeHtml(input: string): string {
@@ -73,7 +66,8 @@ type Copy = {
   clientLabel: string
   matterLabel: string
   viewDeadlines: string
-  footer: string
+  footerHtml: string
+  footerText: string
   typeLabels: Record<DeadlineType, string>
 }
 
@@ -82,18 +76,17 @@ const COPY: Record<LanguageCode, Copy> = {
     subject: (title, days) =>
       days === 0
         ? `Reminder: ${title} is due today`
-        : days === 1
-          ? `Reminder: ${title} is due in 1 day`
-          : `Reminder: ${title} is due in ${days} days`,
+        : `Reminder: ${title} is due ${dueInPhrase("en", days)}`,
     greeting: (name) => `Dear ${name},`,
     dueDateLabel: "Due date",
-    daysRemaining: (days) => (days === 1 ? "1 day remaining" : `${days} days remaining`),
+    daysRemaining: (days) => daysRemainingLine("en", days),
     dueToday: "Due today",
     deadlineTypeLabel: "Deadline type",
     clientLabel: "Client",
     matterLabel: "Matter",
     viewDeadlines: "View deadlines",
-    footer: "Kind regards,<br/>Legantis",
+    footerHtml: "Kind regards,<br/>Legantis",
+    footerText: "Kind regards,\nLegantis",
       typeLabels: {
         court_hearing: "Court hearing",
         filing_deadline: "Filing deadline",
@@ -110,16 +103,19 @@ const COPY: Record<LanguageCode, Copy> = {
   },
   sr: {
     subject: (title, days) =>
-      days === 0 ? `Podsetnik: ${title} je dospijeva danas` : `Podsetnik: ${title} dospijeva za ${days} dana`,
+      days === 0
+        ? `Podsetnik: ${title} je dospijeva danas`
+        : `Podsetnik: ${title} dospijeva ${dueInPhrase("sr", days)}`,
     greeting: (name) => `Poštovani ${name},`,
     dueDateLabel: "Rok",
-    daysRemaining: (days) => `Preostalo: ${days} dana`,
+    daysRemaining: (days) => daysRemainingLine("sr", days),
     dueToday: "Rok je danas",
     deadlineTypeLabel: "Vrsta roka",
     clientLabel: "Klijent",
     matterLabel: "Predmet",
     viewDeadlines: "Pregledajte rokove",
-    footer: "Srdačan pozdrav,<br/>Legantis",
+    footerHtml: "Srdačan pozdrav,<br/>Legantis",
+    footerText: "Srdačan pozdrav,\nLegantis",
       typeLabels: {
         court_hearing: "Ročište",
         filing_deadline: "Rok za podnesak",
@@ -136,16 +132,19 @@ const COPY: Record<LanguageCode, Copy> = {
   },
   bs: {
     subject: (title, days) =>
-      days === 0 ? `Podsjetnik: ${title} dospijeva danas` : `Podsjetnik: ${title} dospijeva za ${days} dana`,
+      days === 0
+        ? `Podsjetnik: ${title} dospijeva danas`
+        : `Podsjetnik: ${title} dospijeva ${dueInPhrase("bs", days)}`,
     greeting: (name) => `Poštovani ${name},`,
     dueDateLabel: "Rok",
-    daysRemaining: (days) => `Preostalo: ${days} dana`,
+    daysRemaining: (days) => daysRemainingLine("bs", days),
     dueToday: "Rok je danas",
     deadlineTypeLabel: "Vrsta roka",
     clientLabel: "Klijent",
     matterLabel: "Predmet",
     viewDeadlines: "Pogledaj rokove",
-    footer: "Srdačan pozdrav,<br/>Legantis",
+    footerHtml: "Srdačan pozdrav,<br/>Legantis",
+    footerText: "Srdačan pozdrav,\nLegantis",
     typeLabels: {
       court_hearing: "Ročište",
       filing_deadline: "Rok za podnesak",
@@ -162,16 +161,19 @@ const COPY: Record<LanguageCode, Copy> = {
   },
   hr: {
     subject: (title, days) =>
-      days === 0 ? `Podsjetnik: ${title} dospijeva danas` : `Podsjetnik: ${title} dospijeva za ${days} dana`,
+      days === 0
+        ? `Podsjetnik: ${title} dospijeva danas`
+        : `Podsjetnik: ${title} dospijeva ${dueInPhrase("hr", days)}`,
     greeting: (name) => `Poštovani ${name},`,
     dueDateLabel: "Rok",
-    daysRemaining: (days) => `Preostalo: ${days} dana`,
+    daysRemaining: (days) => daysRemainingLine("hr", days),
     dueToday: "Rok je danas",
     deadlineTypeLabel: "Vrsta roka",
     clientLabel: "Klijent",
     matterLabel: "Predmet",
     viewDeadlines: "Pogledajte rokove",
-    footer: "Srdačan pozdrav,<br/>Legantis",
+    footerHtml: "Srdačan pozdrav,<br/>Legantis",
+    footerText: "Srdačan pozdrav,\nLegantis",
     typeLabels: {
       court_hearing: "Ročište",
       filing_deadline: "Rok za podnesak",
@@ -188,16 +190,19 @@ const COPY: Record<LanguageCode, Copy> = {
   },
   sl: {
     subject: (title, days) =>
-      days === 0 ? `Opomnik: ${title} zapade danes` : `Opomnik: ${title} zapade čez ${days} dni`,
+      days === 0
+        ? `Opomnik: ${title} zapade danes`
+        : `Opomnik: ${title} zapade ${dueInPhrase("sl", days)}`,
     greeting: (name) => `Spoštovani ${name},`,
     dueDateLabel: "Rok",
-    daysRemaining: (days) => `Preostalo: ${days} dni`,
+    daysRemaining: (days) => daysRemainingLine("sl", days),
     dueToday: "Rok je danes",
     deadlineTypeLabel: "Vrsta roka",
     clientLabel: "Stranka",
     matterLabel: "Zadeva",
     viewDeadlines: "Ogled rokov",
-    footer: "Lep pozdrav,<br/>Legantis",
+    footerHtml: "Lep pozdrav,<br/>Legantis",
+    footerText: "Lep pozdrav,\nLegantis",
       typeLabels: {
         court_hearing: "Sodna obravnava",
         filing_deadline: "Rok za vložitev",
@@ -214,16 +219,19 @@ const COPY: Record<LanguageCode, Copy> = {
   },
   me: {
     subject: (title, days) =>
-      days === 0 ? `Podsjetnik: ${title} dospijeva danas` : `Podsjetnik: ${title} dospijeva za ${days} dana`,
+      days === 0
+        ? `Podsjetnik: ${title} dospijeva danas`
+        : `Podsjetnik: ${title} dospijeva ${dueInPhrase("me", days)}`,
     greeting: (name) => `Poštovani ${name},`,
     dueDateLabel: "Rok",
-    daysRemaining: (days) => `Preostalo: ${days} dana`,
+    daysRemaining: (days) => daysRemainingLine("me", days),
     dueToday: "Rok je danas",
     deadlineTypeLabel: "Vrsta roka",
     clientLabel: "Klijent",
     matterLabel: "Predmet",
     viewDeadlines: "Pogledajte rokove",
-    footer: "Srdačan pozdrav,<br/>Legantis",
+    footerHtml: "Srdačan pozdrav,<br/>Legantis",
+    footerText: "Srdačan pozdrav,\nLegantis",
     typeLabels: {
       court_hearing: "Ročište",
       filing_deadline: "Rok za podnesak",
@@ -273,7 +281,7 @@ export function buildDeadlineReminderEmail(input: DeadlineReminderEmailInput): E
       ${clientLine ? `<p>${escapeHtml(clientLine)}</p>` : ""}
       ${matterLine ? `<p>${escapeHtml(matterLine)}</p>` : ""}
       <p><a href="${escapeAttr(link)}" style="display:inline-block; padding: 10px 14px; background: #111827; color: #ffffff; border-radius: 8px; text-decoration: none;">${escapeHtml(copy.viewDeadlines)}</a></p>
-      <p>${copy.footer}</p>
+      <p>${copy.footerHtml}</p>
     </div>
   `.trim()
 
@@ -290,8 +298,7 @@ export function buildDeadlineReminderEmail(input: DeadlineReminderEmailInput): E
     "",
     `${copy.viewDeadlines}: ${link}`,
     "",
-    "Kind regards,",
-    "Legantis",
+    copy.footerText,
   ]
     .filter(Boolean)
     .join("\n")

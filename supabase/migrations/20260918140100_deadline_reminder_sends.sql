@@ -1,7 +1,7 @@
 -- =============================================================================
 -- BLOCK 2 of 2 — RUN ONLY AFTER BLOCK 1 HAS COMMITTED SUCCESSFULLY.
 --
--- File: 20260918130000_deadline_type_add_values.sql  (must already have run)
+-- File: 20260918140000_deadline_type_add_values.sql  (must already have run)
 -- This block: per-kind reminder tracking, new RPC, deploy-blast backfill.
 -- =============================================================================
 

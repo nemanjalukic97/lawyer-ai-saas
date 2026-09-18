@@ -91,7 +91,7 @@ export function createProductionDeadlineReminderDeps(): SendDeadlineRemindersDep
       for (const r of rows) {
         if (!isDeadlineReminderKind(r.reminder_kind)) {
           throw new Error(
-            "get_deadlines_due_for_reminder did not return reminder_kind — apply 20260918130100_deadline_reminder_sends.sql before this worker runs"
+            "get_deadlines_due_for_reminder did not return reminder_kind — apply 20260918140100_deadline_reminder_sends.sql before this worker runs"
           )
         }
         parsed.push({

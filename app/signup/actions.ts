@@ -1,15 +1,10 @@
 'use server'
 
-import { cookies } from "next/headers"
 import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
 
 import { createClient } from "@/lib/supabase/server"
 import { getSiteUrl } from "@/lib/site-url"
-import {
-  parseSignupAttribution,
-  SIGNUP_ATTRIBUTION_COOKIE,
-} from "@/lib/signupAttribution"
 
 export async function signup(formData: FormData) {
   const supabase = await createClient()
@@ -82,25 +77,9 @@ export async function signup(formData: FormData) {
       }
 
       if (data?.user?.id) {
-        const attribution = parseSignupAttribution(
-          (await cookies()).get(SIGNUP_ATTRIBUTION_COOKIE)?.value,
-        )
         await supabase
           .from("user_profiles")
-          .update({
-            preferred_jurisdiction: jurisdiction as any,
-            ...(attribution
-              ? {
-                  signup_utm_source: attribution.utm_source,
-                  signup_utm_medium: attribution.utm_medium,
-                  signup_utm_campaign: attribution.utm_campaign,
-                  signup_utm_content: attribution.utm_content,
-                  signup_utm_term: attribution.utm_term,
-                  signup_referrer_host: attribution.referrer_host,
-                  signup_landing_path: attribution.landing_path,
-                }
-              : {}),
-          })
+          .update({ preferred_jurisdiction: jurisdiction as any })
           .eq("id", data.user.id)
       }
     } catch (_) {
@@ -111,4 +90,3 @@ export async function signup(formData: FormData) {
     redirect(`/signup?success=true&email=${encodeURIComponent(email)}`)
   }
 }
-

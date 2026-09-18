@@ -7,7 +7,7 @@
 -- labels. We have been bitten by this (same class of failure as CONCURRENTLY).
 --
 -- Order: this file first; wait for success; then
---   20260918130100_deadline_reminder_sends.sql
+--   20260918140100_deadline_reminder_sends.sql
 -- =============================================================================
 
 ALTER TYPE public.deadline_type ADD VALUE IF NOT EXISTS 'claim';
