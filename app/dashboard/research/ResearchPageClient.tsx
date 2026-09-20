@@ -35,6 +35,10 @@ import {
   toUiJurisdiction,
 } from "@/lib/researchStarterQueries"
 import {
+  isUnofficialConsolidationStub,
+  UNOFFICIAL_CONSOLIDATION_CAPTION,
+} from "@/lib/unofficialConsolidation"
+import {
   logOnboardingEvent,
   sanitizeOnboardingErrorMessage,
 } from "@/lib/onboarding/logOnboardingEvent"
@@ -186,6 +190,11 @@ function ResearchLawResultCard({
       </div>
 
       <div className="mt-3 text-sm leading-relaxed text-foreground">
+        {isUnofficialConsolidationStub(r.text) ? (
+          <p className="mb-2 text-xs text-muted-foreground">
+            {UNOFFICIAL_CONSOLIDATION_CAPTION}
+          </p>
+        ) : null}
         {parts.map((p, idx) =>
           typeof p === "string" ? (
             <span key={idx}>{p}</span>

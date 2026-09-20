@@ -12,6 +12,7 @@ import {
 } from "./ragThresholds"
 import {
   buildKeywordIlikePatterns,
+  scoreKeywordPartialFromCoverage,
   scoreKeywordPatternMatch,
 } from "./keywordVariants"
 import {
@@ -37,6 +38,7 @@ export type MatchChannel =
   | "vector"
   | "keyword_exact"
   | "keyword_stem"
+  | "keyword_partial"
   | "both"
 
 export type LegalChunk = {
@@ -124,7 +126,13 @@ export type RagFilterMode = "filter" | "hint"
 
 
 const RPC_TIMEOUT_MS = 30000
-/** Match Postgres statement_timeout in match_legal_articles (120s) on large corpora. */
+/**
+ * Known issue (out of scope of the keyword split / 0.22/(2n) band).
+ * Unfiltered vector search on large corpora (serbia, bih_rs) is slow: labor-
+ * prediction timing fail and the single phrase circuit-breaker fire are that
+ * RPC (p95 2012 of 2515). Do not treat them as keyword-channel defects.
+ * Matches Postgres statement_timeout in match_legal_articles (120s).
+ */
 const LEGAL_RPC_TIMEOUT_UNFILTERED_MS = 120000
 const CASE_LAW_RPC_TIMEOUT_MS = 12000
 /** Unfiltered vector search on large corpora (e.g. bih_rs) can exceed 12s. */
@@ -280,7 +288,7 @@ async function runMatchLegalArticlesRpc(args: {
 function scoreKeywordTextMatch(
   haystack: string,
   patterns: ReturnType<typeof buildKeywordIlikePatterns>,
-): { score: number; matchChannel: "keyword_exact" | "keyword_stem" } | null {
+): { score: number; matchChannel: "keyword_exact" | "keyword_stem" | "keyword_partial" } | null {
   const match = scoreKeywordPatternMatch(haystack, patterns)
   if (!match) return null
   // scoreKeywordPatternMatch returns `channel`; callers (and the area-aware
@@ -388,26 +396,132 @@ function rowToLegalChunk(
   }
 }
 
-const KEYWORD_SEARCH_TIMEOUT_MS = 8000
+const DEFAULT_KEYWORD_BUDGET_MS = 600
+const KEYWORD_BUDGET_REASON = "keyword_budget_exceeded"
+const KEYWORD_ERROR_REASON = "keyword_search_error"
+const KEYWORD_PHRASE_CIRCUIT_REASON = "keyword_phrase_circuit_breaker"
+const KEYWORD_PHRASE_CIRCUIT_MS = 2500
+
+function getKeywordSearchBudgetMs(): number {
+  const raw = process.env.LEGAL_KEYWORD_BUDGET_MS
+  if (!raw) return DEFAULT_KEYWORD_BUDGET_MS
+  const n = Number.parseInt(raw, 10)
+  return Number.isFinite(n) && n > 0 ? n : DEFAULT_KEYWORD_BUDGET_MS
+}
 
 async function withTimeout<T>(
   promise: Promise<T>,
   timeoutMs: number,
   label: string,
+  abort?: AbortController,
 ): Promise<T> {
-  const timeoutPromise = new Promise<never>((_, reject) =>
-    setTimeout(
-      () => reject(new Error(`${label} timeout after ${timeoutMs}ms`)),
-      timeoutMs,
-    ),
-  )
-  return Promise.race([promise, timeoutPromise])
+  let timer: ReturnType<typeof setTimeout> | undefined
+  const timeoutPromise = new Promise<never>((_, reject) => {
+    timer = setTimeout(() => {
+      abort?.abort()
+      reject(new Error(`${label} timeout after ${timeoutMs}ms`))
+    }, timeoutMs)
+  })
+  try {
+    return await Promise.race([promise, timeoutPromise])
+  } finally {
+    if (timer) clearTimeout(timer)
+  }
 }
 
 type KeywordSearchResult<T> = {
   rows: T[]
   elapsedMs: number
   timedOut: boolean
+  skipReason: string | null
+  stage1Ms?: number
+  stage2Ms?: number | null
+  stage1CircuitBreaker?: boolean
+}
+
+async function runLegalKeywordRpc(args: {
+  jurisdiction: string
+  patterns: string[]
+  tokenGroups: string[][]
+  rpcLimit: number
+  rpcCategories: string[] | null
+  includeStateCourt: boolean
+  signal?: AbortSignal
+}): Promise<Record<string, unknown>[]> {
+  if (args.patterns.length === 0) return []
+  let rpcCall = supabaseAdmin.rpc("search_legal_articles_keyword", {
+    p_jurisdiction: args.jurisdiction,
+    p_patterns: args.patterns,
+    p_token_groups: args.tokenGroups,
+    p_limit: args.rpcLimit,
+    p_categories: args.rpcCategories,
+    p_include_state_court: args.includeStateCourt,
+  })
+  if (args.signal) {
+    rpcCall = rpcCall.abortSignal(args.signal)
+  }
+  const { data, error } = await rpcCall
+  if (error) {
+    throw new Error(error.message)
+  }
+  return (data ?? []) as Record<string, unknown>[]
+}
+
+function scoreLegalKeywordRows(
+  rows: Record<string, unknown>[],
+  patterns: ReturnType<typeof buildKeywordIlikePatterns>,
+  useSqlPartial: boolean,
+): LegalChunk[] {
+  return rows
+    .map((row) => {
+      const r = row
+      const textLocal = String(r.text_local ?? r.text ?? "")
+      const phrase = scoreKeywordTextMatch(textLocal, {
+        ...patterns,
+        contentTokens: [],
+      })
+      const coverageMatch = useSqlPartial
+        ? scoreKeywordPartialFromCoverage(
+            Number(r.matched_count ?? 0),
+            Number(r.token_count ?? 0),
+            r.contiguous === true,
+          )
+        : null
+      const partial = coverageMatch
+        ? {
+            score: coverageMatch.score,
+            matchChannel: coverageMatch.channel,
+          }
+        : null
+      const match =
+        phrase?.matchChannel === "keyword_exact" ||
+        phrase?.matchChannel === "keyword_stem"
+          ? phrase
+          : (partial ?? phrase)
+      if (!match) return null
+      const lawName = String(r.law_name_local ?? r.law_name ?? "")
+      const score = Math.min(
+        0.99,
+        match.score + landRegisterTitleBonus(lawName, patterns),
+      )
+      return rowToLegalChunk(r, score, match.matchChannel)
+    })
+    .filter((c): c is LegalChunk => c != null)
+    .sort((a, b) => b.similarity - a.similarity)
+}
+
+function mergeKeywordStageRows(
+  stage1: LegalChunk[],
+  stage2: LegalChunk[],
+): LegalChunk[] {
+  const byId = new Map<string, LegalChunk>()
+  for (const row of [...stage1, ...stage2]) {
+    const existing = byId.get(row.id)
+    if (!existing || row.similarity > existing.similarity) {
+      byId.set(row.id, row)
+    }
+  }
+  return Array.from(byId.values()).sort((a, b) => b.similarity - a.similarity)
 }
 
 async function searchLegalArticlesByKeyword(args: {
@@ -419,98 +533,212 @@ async function searchLegalArticlesByKeyword(args: {
   includeStateCourt?: boolean
 }): Promise<KeywordSearchResult<LegalChunk>> {
   const started = Date.now()
-  try {
-    const rows = await withTimeout(
-      searchLegalArticlesByKeywordInner(args),
-      KEYWORD_SEARCH_TIMEOUT_MS,
-      "keyword legal search",
-    )
-    return { rows, elapsedMs: Date.now() - started, timedOut: false }
-  } catch (err) {
-    const message = err instanceof Error ? err.message : String(err)
-    // eslint-disable-next-line no-console
-    console.error("[RAG] keyword legal search skipped", {
-      jurisdiction: args.jurisdiction,
-      message,
-    })
+  const query = args.query.trim()
+  if (query.length < 2) {
     return {
       rows: [],
       elapsedMs: Date.now() - started,
-      timedOut: /timeout/i.test(message),
+      timedOut: false,
+      skipReason: null,
+      stage1Ms: 0,
+      stage2Ms: null,
     }
   }
-}
-
-async function searchLegalArticlesByKeywordInner(args: {
-  query: string
-  jurisdiction: string
-  category: string | null
-  matchCount: number
-  skipLaborHeuristic?: boolean
-  includeStateCourt?: boolean
-}): Promise<LegalChunk[]> {
-  const query = args.query.trim()
-  if (query.length < 2) return []
 
   const patterns = buildKeywordIlikePatterns(query)
-  if (
-    patterns.exactPatterns.length === 0 &&
-    patterns.stemPatterns.length === 0
-  ) {
-    return []
+  const phrasePatterns = [
+    ...patterns.exactPatterns,
+    ...patterns.stemPatterns,
+  ]
+  const tokenPatterns = patterns.tokenFetchGroups.flat()
+  if (phrasePatterns.length === 0 && tokenPatterns.length === 0) {
+    return {
+      rows: [],
+      elapsedMs: Date.now() - started,
+      timedOut: false,
+      skipReason: null,
+      stage1Ms: 0,
+      stage2Ms: null,
+    }
   }
 
   const category = normalizeResearchCategory(args.category)
-  const limit = Math.min(args.matchCount * 3, 30)
-  const exactOnly = {
-    exactPatterns: patterns.exactPatterns,
-    stemPatterns: [] as string[],
-  }
-  const stemOnly = {
-    exactPatterns: [] as string[],
-    stemPatterns: patterns.stemPatterns,
-  }
-
-  const fetchArgs = {
+  const rpcCategory =
+    category ??
+    (!args.skipLaborHeuristic &&
+    /otkaz|radu|zaposlen|radni|otpremn|ugovor o radu/i.test(query)
+      ? "labor"
+      : null)
+  const rpcCategories = rpcCategory
+    ? lawCategoriesForAreaFilter(rpcCategory)
+    : null
+  const rpcLimit = Math.min(100, Math.max(40, args.matchCount * 6))
+  const tokenGroups = patterns.contentTokens.map((t) => [
+    ...new Set([...t.variants, ...t.stems].filter(Boolean)),
+  ])
+  const rpcBase = {
     jurisdiction: args.jurisdiction,
-    limit,
-    includeStateCourt: args.includeStateCourt,
-    category,
-    skipLaborHeuristic: args.skipLaborHeuristic,
-    query,
+    rpcLimit,
+    rpcCategories,
+    includeStateCourt: args.includeStateCourt === true,
   }
 
-  // Exact patterns first so synonym phrases are not crowded out of the
-  // unranked ILIKE window by original-query stems.
-  const exactRows = await fetchLegalKeywordRows({
-    ...fetchArgs,
-    orFilter: buildKeywordOrFilter(exactOnly, "text_local"),
-  })
-  const seen = new Set(exactRows.map((r) => String(r.id ?? "")))
-  const stemRows = (
-    await fetchLegalKeywordRows({
-      ...fetchArgs,
-      orFilter: buildKeywordOrFilter(stemOnly, "text_local"),
-    })
-  ).filter((r) => !seen.has(String(r.id ?? "")))
+  const stagesStarted = Date.now()
+  const stage1Abort = new AbortController()
+  const stage1Promise =
+    phrasePatterns.length === 0
+      ? Promise.resolve([] as LegalChunk[])
+      : withTimeout(
+          runLegalKeywordRpc({
+            ...rpcBase,
+            patterns: phrasePatterns,
+            tokenGroups: [],
+            signal: stage1Abort.signal,
+          }).then((rows) => scoreLegalKeywordRows(rows, patterns, false)),
+          KEYWORD_PHRASE_CIRCUIT_MS,
+          "keyword phrase circuit breaker",
+          stage1Abort,
+        )
 
-  const scored = [...exactRows, ...stemRows]
-    .map((row) => {
-      const r = row as Record<string, unknown>
-      const textLocal = String(r.text_local ?? r.text ?? "")
-      const match = scoreKeywordTextMatch(textLocal, patterns)
-      if (!match) return null
-      const lawName = String(r.law_name_local ?? r.law_name ?? "")
-      const score = Math.min(
-        0.99,
-        match.score + landRegisterTitleBonus(lawName, patterns),
-      )
-      return rowToLegalChunk(r, score, match.matchChannel)
-    })
-    .filter((c): c is LegalChunk => c != null)
-    .sort((a, b) => b.similarity - a.similarity)
+  const budgetMs = getKeywordSearchBudgetMs()
+  const abort = new AbortController()
+  const stage2Promise =
+    tokenPatterns.length === 0
+      ? Promise.resolve([] as LegalChunk[])
+      : withTimeout(
+          runLegalKeywordRpc({
+            ...rpcBase,
+            patterns: tokenPatterns,
+            tokenGroups,
+            signal: abort.signal,
+          }).then((rows) => scoreLegalKeywordRows(rows, patterns, true)),
+          budgetMs,
+          "keyword legal search",
+          abort,
+        )
 
-  return scored.slice(0, args.matchCount)
+  const stage1Settled = stage1Promise.then(
+    (rows) => ({
+      rows,
+      ms: Date.now() - stagesStarted,
+      error: null as unknown,
+      circuitBreaker: false,
+    }),
+    (err: unknown) => {
+      const message = err instanceof Error ? err.message : String(err)
+      const circuitBreaker =
+        stage1Abort.signal.aborted ||
+        /circuit breaker/i.test(message)
+      if (circuitBreaker) {
+        // eslint-disable-next-line no-console
+        console.error("[RAG] keyword phrase circuit breaker", {
+          reason: KEYWORD_PHRASE_CIRCUIT_REASON,
+          jurisdiction: args.jurisdiction,
+          circuitMs: KEYWORD_PHRASE_CIRCUIT_MS,
+          elapsedMs: Date.now() - started,
+          stage: "phrase",
+          message,
+        })
+      }
+      return {
+        rows: [] as LegalChunk[],
+        ms: Date.now() - stagesStarted,
+        error: err,
+        circuitBreaker,
+      }
+    },
+  )
+  const stage2Settled =
+    tokenPatterns.length === 0
+      ? Promise.resolve({
+          rows: [] as LegalChunk[],
+          ms: null as number | null,
+          timedOut: false,
+          skipReason: null as string | null,
+        })
+      : stage2Promise.then(
+          (rows) => ({
+            rows,
+            ms: Date.now() - stagesStarted,
+            timedOut: false,
+            skipReason: null as string | null,
+          }),
+          (err: unknown) => {
+            const message = err instanceof Error ? err.message : String(err)
+            const timedOut =
+              abort.signal.aborted ||
+              /timeout/i.test(message) ||
+              /abort/i.test(message)
+            const skipReason = timedOut
+              ? KEYWORD_BUDGET_REASON
+              : KEYWORD_ERROR_REASON
+            // eslint-disable-next-line no-console
+            console.error(
+              timedOut
+                ? "[RAG] keyword legal search budget exceeded"
+                : "[RAG] keyword legal search failed",
+              {
+                reason: skipReason,
+                jurisdiction: args.jurisdiction,
+                budgetMs,
+                elapsedMs: Date.now() - started,
+                stage: "partial",
+                message,
+              },
+            )
+            return {
+              rows: [] as LegalChunk[],
+              ms: Date.now() - stagesStarted,
+              timedOut,
+              skipReason,
+            }
+          },
+        )
+
+  const [stage1, stage2] = await Promise.all([stage1Settled, stage2Settled])
+  const stage1Rows = stage1.rows
+  const stage1Error = stage1.error
+  const stage1Ms = stage1.ms
+  const stage1CircuitBreaker = stage1.circuitBreaker
+  const stage2Rows = stage2.rows
+  const timedOut = stage2.timedOut
+  const skipReason = stage2.skipReason
+  const stage2Ms = stage2.ms
+
+  if (stage1Error && !stage1CircuitBreaker) {
+    const message =
+      stage1Error instanceof Error ? stage1Error.message : String(stage1Error)
+    // eslint-disable-next-line no-console
+    console.error("[RAG] keyword legal search failed", {
+      reason: KEYWORD_ERROR_REASON,
+      jurisdiction: args.jurisdiction,
+      elapsedMs: Date.now() - started,
+      stage: "phrase",
+      message,
+    })
+    if (stage1Rows.length === 0 && stage2Rows.length === 0) {
+      return {
+        rows: [],
+        elapsedMs: Date.now() - started,
+        timedOut: false,
+        skipReason: skipReason ?? KEYWORD_ERROR_REASON,
+        stage1Ms,
+        stage2Ms,
+        stage1CircuitBreaker: false,
+      }
+    }
+  }
+
+  const merged = mergeKeywordStageRows(stage1Rows, stage2Rows)
+  return {
+    rows: merged.slice(0, args.matchCount),
+    elapsedMs: Date.now() - started,
+    timedOut,
+    skipReason,
+    stage1Ms,
+    stage2Ms,
+    stage1CircuitBreaker,
+  }
 }
 
 function mergeHybridLegalChunks(
@@ -544,6 +772,7 @@ function summarizeMatchChannels(chunks: Array<{ matchChannel?: MatchChannel }>) 
     vector: 0,
     keyword_exact: 0,
     keyword_stem: 0,
+    keyword_partial: 0,
     both: 0,
   }
   for (const chunk of chunks) {
@@ -572,6 +801,34 @@ const AREA_MATCH_BOOST = 0.05
 const MAX_RERANK_SCORE = 0.99
 const KEYWORD_MISMATCH_MULTIPLIER = 0.75
 const KEYWORD_BOOST_SCORES = new Set([0.9, 0.95])
+/**
+ * Known issues after shipping the split keyword channel and the 0.22/(2n)
+ * contiguity band. Do not reopen the stemmer or add a nasljeđivanje synonym
+ * pair — measured: unifying the root still leaves FBiH art. 30 at 0.640
+ * under art. 237's 0.677 and wrongly covers ZPP 7/8.
+ *
+ * FBiH "nasljeđivanje nužni dio": rank 1 moved from art. 30 to art. 237.
+ * Cause is not a defect in the keyword channel — 237 has genuinely higher
+ * lexical coverage of the query; art. 30 is correct on legal grounds, not
+ * lexical ones. Art. 30 remains in the yield at rank 11 via vector 0.586.
+ * Tracked under the channel-calibration item below, not as a keyword bug.
+ *
+ * NEXT ROUND — channel calibration. Do not start it from this constant.
+ * The partial band now tops out at 0.5475 raw / 0.677 after this +0.12.
+ * Vector scores on the gate queries run 0.586 / 0.672 / 0.784 / 0.931. The
+ * two distributions overlap in the middle, so a mid-strength lexical hit
+ * interleaves with a strong semantic one by accident rather than by design.
+ * This explains both open items: 143 at yield rank 4 behind an irrelevant
+ * ZUS article, and 30 behind 237.
+ *
+ * Open question to measure first, before any number is touched: should this
+ * boost apply to partial keyword scores at all? It was designed to prefer
+ * curated articles over bulk chunks within the vector channel. On a partial
+ * score that already has its own designed ceiling it double-counts, and it
+ * is what lifts 237 (0.557 → 0.677) above art. 30's vector 0.586. Trade-off:
+ * removing it also drops 143 from 0.640 to 0.520 and pushes it further down.
+ * Measure both directions across all gate groups before proposing anything.
+ */
 const CURATED_ARTICLE_BOOST = 0.12
 const VECTOR_OVERFETCH_FACTOR = 4
 const VECTOR_OVERFETCH_MAX = 60
@@ -633,6 +890,10 @@ export type RagStageTiming = {
   vectorRpcMs: number
   keywordMs: number
   keywordTimedOut: boolean
+  keywordSkipReason?: string | null
+  keywordStage1Ms?: number
+  keywordStage2Ms?: number | null
+  keywordPhraseCircuitBreaker?: boolean
   mergeRerankMs: number
   totalMs: number
   vectorRetried: boolean
@@ -757,18 +1018,27 @@ async function searchCaseLawByKeyword(args: {
       KEYWORD_SEARCH_TIMEOUT_MS,
       "keyword case law search",
     )
-    return { rows, elapsedMs: Date.now() - started, timedOut: false }
+    return { rows, elapsedMs: Date.now() - started, timedOut: false, skipReason: null }
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err)
+    const timedOut = /timeout/i.test(message)
+    const skipReason = timedOut ? KEYWORD_BUDGET_REASON : KEYWORD_ERROR_REASON
     // eslint-disable-next-line no-console
-    console.error("[RAG] keyword case law search skipped", {
-      jurisdiction: args.jurisdiction,
-      message,
-    })
+    console.error(
+      timedOut
+        ? "[RAG] keyword case law search budget exceeded"
+        : "[RAG] keyword case law search failed",
+      {
+        reason: skipReason,
+        jurisdiction: args.jurisdiction,
+        message,
+      },
+    )
     return {
       rows: [],
       elapsedMs: Date.now() - started,
-      timedOut: /timeout/i.test(message),
+      timedOut,
+      skipReason,
     }
   }
 }
@@ -1066,6 +1336,7 @@ async function matchCaseLawWithEmbedding(args: {
     vectorRpcMs,
     keywordMs: keywordResult.elapsedMs,
     keywordTimedOut: keywordResult.timedOut,
+    keywordSkipReason: keywordResult.skipReason,
     mergeRerankMs,
     totalMs: Date.now() - totalStarted + (args.embedMs ?? 0),
     vectorRetried: retried,
@@ -1508,6 +1779,10 @@ export async function matchLegalArticles(args: {
     vectorRpcMs,
     keywordMs: keywordResult.elapsedMs,
     keywordTimedOut: keywordResult.timedOut,
+    keywordSkipReason: keywordResult.skipReason,
+    keywordStage1Ms: keywordResult.stage1Ms,
+    keywordStage2Ms: keywordResult.stage2Ms,
+    keywordPhraseCircuitBreaker: keywordResult.stage1CircuitBreaker === true,
     mergeRerankMs,
     totalMs: Date.now() - totalStarted,
     vectorRetried: retried,

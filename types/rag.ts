@@ -19,6 +19,8 @@ export type RagSource = {
   text_preview: string
   /** True when the preview is native `text_local` (do not re-translate). */
   previewIsLocal?: boolean
+  /** Derived from the English stub; not a database column. */
+  unofficialConsolidation?: boolean
   similarity: number
   retrievalChannel?: "narrative" | "distilled" | "both" | null
 }

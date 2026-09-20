@@ -2,6 +2,9 @@
 
 import type { RagMetadata } from "@/types/rag"
 import { useLanguage } from "@/components/LanguageProvider"
+import {
+  UNOFFICIAL_CONSOLIDATION_CAPTION,
+} from "@/lib/unofficialConsolidation"
 import { useEffect, useState } from "react"
 import { ChevronDown } from "lucide-react"
 
@@ -128,6 +131,11 @@ export function RagSourcesPanel({ ragData, showSimilarity = true }: Props) {
                   </span>
                 )}
               </div>
+              {s.unofficialConsolidation ? (
+                <p className="mt-1 text-[11px] leading-relaxed text-muted-foreground">
+                  {UNOFFICIAL_CONSOLIDATION_CAPTION}
+                </p>
+              ) : null}
               <p className="mt-1 leading-relaxed">
                 {translatePending && translatedPreviews === null
                   ? t("rag.translating")

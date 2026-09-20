@@ -11,6 +11,7 @@ import {
   type LegalChunk,
   type CaseLawContextResult,
 } from "@/lib/legalRag"
+import { isUnofficialConsolidationStub } from "@/lib/unofficialConsolidation"
 import { retrievePredictionLegalContext } from "@/lib/predictionRag"
 import { NextRequest } from "next/server"
 
@@ -264,6 +265,7 @@ export async function POST(req: NextRequest) {
                     paragraph_num: c.paragraph_num,
                     text_preview: preview,
                     previewIsLocal: fromLocal,
+                    unofficialConsolidation: isUnofficialConsolidationStub(c.text),
                     similarity: Math.round(c.similarity * 1000) / 1000,
                     retrievalChannel: c.retrievalChannel ?? null,
                   }

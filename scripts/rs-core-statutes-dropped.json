@@ -1,0 +1,46 @@
+[
+  {
+    "law_name_local": "Породични закон",
+    "citation": "SG RS 17/23 as amended by 27/24, U-4/24 and 61/25",
+    "law_category": "family",
+    "status": "unofficial_consolidation",
+    "reason": "Raw 17/23 is not served. An unofficial consolidation is built from NS RS 17/23 + 27/24 + 61/25 and US RS U-4/24 / U-50/23. Divergences: scripts/rs-porodicni-divergence.json. U-50/23 judged 17/23 чл. 346 u vrijeme važenja; live 346 is the 27/24 replacement.",
+    "dead_provisions": [
+      {
+        "article": "141",
+        "scope": "entire article",
+        "decision": "U-4/24",
+        "date": "2025-02-26",
+        "gazette": "SG RS 20/25 (user gazette label; HTML at ustavnisud.org/OdlukeTxt.aspx?id=5096 does not print the issue number)",
+        "holding": "Čl. 141 of Porodični zakon (17/23 and 27/24) is not in accordance with the Constitution. Struck the 25-year preclusive deadline for a child's paternity suit.",
+        "why_not_served": "A lawyer would tell a client they are time-barred when they are not."
+      },
+      {
+        "article": "149",
+        "scope": "stav 2 only (stav 1 not struck)",
+        "decision": "U-4/24",
+        "date": "2025-02-26",
+        "gazette": "SG RS 20/25 (same as above)",
+        "holding": "Čl. 149 st. 2 of Porodični zakon (17/23 and 27/24) is not in accordance with the Constitution. Struck the 25-year preclusive deadline for a child's challenge to paternity.",
+        "why_not_served": "Same dead-deadline risk as čl. 141."
+      },
+      {
+        "article": "346",
+        "scope": "the 17/23 text as it stood (u vrijeme važenja)",
+        "decision": "U-50/23",
+        "date": "2024-06-26",
+        "gazette": "SG RS 59/24",
+        "holding": "Čl. 346 of Porodični zakon 17/23, while in force, was not in accordance with the Constitution (Art. 110/1 retroactivity). Applied new marital-property rules to pending cases from earlier marriages. 27/24 had already replaced 346 by the decision date.",
+        "why_not_served": "Ingesting 17/23 would serve the voided original 346.",
+        "source": "https://www.ustavnisud.org/database/dokumenti/BILTEN%2029%20-%20TOM%201_27_8_2025_51.pdf"
+      }
+    ]
+  },
+  {
+    "law_name_local": "Закон о привредним друштвима",
+    "citation": "SG RS 127/08",
+    "law_category": "commercial",
+    "status": "dropped",
+    "reason": "19.8% named substantive staleness plus 37 articles that do not exist in the base, in the operative core (founding act, d.o.o. minimum capital cut to 1 KM, closed vs open JSC, squeeze-out). Waits for a licence."
+  }
+]

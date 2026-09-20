@@ -4,8 +4,11 @@
  *
  * Source: Parlament FBiH adopted-act PDFs only. Splits on "Član N." (and
  * "Članak N." if a Croatian authentic text uses that word). Does not rewrite
- * Član → Članak. Does not apply amendments. Does not embed or write unless
- * --confirm is passed.
+ * Član → Članak. Does not apply amendments. Same-line tracking is glued in
+ * pageItemsToLines using GEOMETRIC_GLUE_THRESHOLD after a per-document
+ * valley check; bare 1–3 digit page labels are dropped. Does not embed or
+ * write unless --confirm is passed. --confirm re-embeds only rows whose
+ * text_local changed.
  *
  *   npx tsx scripts/ingest-fbih-core-statutes.ts
  *   npx tsx scripts/ingest-fbih-core-statutes.ts --confirm
@@ -136,57 +139,242 @@ function parseHeaderUrlAndBody(
   return { url: canonicalUrl(url), body }
 }
 
+/**
+ * Join vs space cut for consecutive non-space pdf.js items, as a fraction of
+ * that item's font size. Calibrated on the FBiH Parliament adopted-act PDFs
+ * (stvarna / nasljeđivanje): intra-word tracking clustered at ~0.00, real
+ * word spaces at ≥ 0.23, empty valley 0.08–0.20. Must sit inside the valley
+ * band. Never apply to a document whose own histogram does not leave that
+ * band empty — see assertGeometricValley.
+ */
+export const GEOMETRIC_GLUE_THRESHOLD = 0.12
+export const GEOMETRIC_VALLEY_LO = 0.08
+export const GEOMETRIC_VALLEY_HI = 0.2
+
+if (
+  !(
+    GEOMETRIC_VALLEY_LO < GEOMETRIC_GLUE_THRESHOLD &&
+    GEOMETRIC_GLUE_THRESHOLD < GEOMETRIC_VALLEY_HI
+  )
+) {
+  throw new Error(
+    "GEOMETRIC_GLUE_THRESHOLD must sit strictly inside [GEOMETRIC_VALLEY_LO, GEOMETRIC_VALLEY_HI)",
+  )
+}
+
+/** Bare PDF page labels. Stavci are "(1)", so they do not match. */
+const PAGE_NUMBER_LINE_RE = /^[1-9]\d{0,2}$/
+
+const PDF_LINE_Y_TOL = 3
+
 type PdfTextItem = {
   str?: string
   transform?: number[]
-  hasEOL?: boolean
+  width?: number
 }
 
-function pageItemsToLines(items: PdfTextItem[]): string[] {
-  const rows: { y: number; x: number; str: string; hasEOL: boolean }[] = []
-  for (const item of items) {
-    const str = item.str ?? ""
-    if (!str) continue
-    const transform = item.transform ?? [1, 0, 0, 1, 0, 0]
-    rows.push({
-      y: transform[5] ?? 0,
-      x: transform[4] ?? 0,
-      str,
-      hasEOL: Boolean(item.hasEOL),
-    })
+type PlacedItem = {
+  str: string
+  x: number
+  y: number
+  width: number
+  fontSize: number
+  page: number
+}
+
+export type GeometricValleyHit = {
+  page: number
+  left: string
+  right: string
+  norm: number
+  context: string
+}
+
+export type GeometricValleyAudit = {
+  pdfPath: string
+  pairCount: number
+  intraCount: number
+  spaceCount: number
+  maxIntra: number | null
+  minSpace: number | null
+  valleyHits: GeometricValleyHit[]
+}
+
+function fontSizeOf(transform: number[]): number {
+  return Math.hypot(transform[0] ?? 1, transform[1] ?? 0) || 1
+}
+
+function toPlacedItem(raw: PdfTextItem, page: number): PlacedItem | null {
+  const str = raw.str ?? ""
+  if (!str) return null
+  const transform = raw.transform ?? [1, 0, 0, 1, 0, 0]
+  return {
+    str,
+    x: transform[4] ?? 0,
+    y: transform[5] ?? 0,
+    width: raw.width ?? 0,
+    fontSize: fontSizeOf(transform),
+    page,
   }
-  rows.sort((a, b) => b.y - a.y || a.x - b.x)
-  const lines: string[] = []
-  let current: string[] = []
+}
+
+function normalizedGap(left: PlacedItem, right: PlacedItem): number {
+  return (right.x - (left.x + left.width)) / (left.fontSize || 1)
+}
+
+function groupItemsIntoLines(items: PlacedItem[]): PlacedItem[][] {
+  const rows = [...items].sort((a, b) => b.y - a.y || a.x - b.x)
+  const lines: PlacedItem[][] = []
+  let current: PlacedItem[] = []
   let currentY: number | null = null
-  const Y_TOL = 3
   const flush = () => {
-    const line = current.join("").replace(/[ \t]+/g, " ").trim()
-    if (line) lines.push(line)
+    if (current.length) lines.push(current.sort((a, b) => a.x - b.x))
     current = []
   }
   for (const row of rows) {
-    if (currentY != null && Math.abs(currentY - row.y) > Y_TOL) flush()
+    if (currentY != null && Math.abs(currentY - row.y) > PDF_LINE_Y_TOL) flush()
     currentY = row.y
-    const prev = current[current.length - 1]
-    if (prev && !prev.endsWith(" ") && !row.str.startsWith(" ")) {
-      const glue = /[-–—]$/.test(prev) || /^[,.;:!?)]/.test(row.str) ? "" : " "
-      current.push(glue + row.str)
-    } else {
-      current.push(row.str)
-    }
-    if (row.hasEOL) {
-      flush()
-      currentY = null
-    }
+    current.push(row)
   }
   flush()
   return lines
 }
 
-async function extractPdfText(pdfPath: string): Promise<{
+function consecutiveNonSpacePairs(line: PlacedItem[]): {
+  left: PlacedItem
+  right: PlacedItem
+  norm: number
+}[] {
+  const words = line.filter((it) => it.str.trim() !== "")
+  const pairs: { left: PlacedItem; right: PlacedItem; norm: number }[] = []
+  for (let i = 0; i < words.length - 1; i++) {
+    const left = words[i]!
+    const right = words[i + 1]!
+    pairs.push({ left, right, norm: normalizedGap(left, right) })
+  }
+  return pairs
+}
+
+export function auditGeometricValley(
+  pdfPath: string,
+  items: PlacedItem[],
+): GeometricValleyAudit {
+  const valleyHits: GeometricValleyHit[] = []
+  const intra: number[] = []
+  const space: number[] = []
+  let pairCount = 0
+  const byPage = new Map<number, PlacedItem[]>()
+  for (const it of items) {
+    const list = byPage.get(it.page) ?? []
+    list.push(it)
+    byPage.set(it.page, list)
+  }
+  for (const pageItems of byPage.values()) {
+    for (const line of groupItemsIntoLines(pageItems)) {
+      const pairs = consecutiveNonSpacePairs(line)
+      pairCount += pairs.length
+      const words = line.filter((it) => it.str.trim() !== "")
+      for (let i = 0; i < pairs.length; i++) {
+        const pair = pairs[i]!
+        if (pair.norm < GEOMETRIC_VALLEY_LO) intra.push(pair.norm)
+        else if (pair.norm >= GEOMETRIC_VALLEY_HI) space.push(pair.norm)
+        else {
+          const ctx = words
+            .slice(Math.max(0, i - 1), i + 3)
+            .map((w) => w.str)
+            .join("")
+            .replace(/\s+/g, " ")
+            .trim()
+            .slice(0, 120)
+          valleyHits.push({
+            page: pair.left.page,
+            left: pair.left.str,
+            right: pair.right.str,
+            norm: pair.norm,
+            context: ctx,
+          })
+        }
+      }
+    }
+  }
+  return {
+    pdfPath,
+    pairCount,
+    intraCount: intra.length,
+    spaceCount: space.length,
+    maxIntra: intra.length ? Math.max(...intra) : null,
+    minSpace: space.length ? Math.min(...space) : null,
+    valleyHits,
+  }
+}
+
+export function assertGeometricValley(audit: GeometricValleyAudit): void {
+  const name = path.basename(audit.pdfPath)
+  if (audit.valleyHits.length > 0) {
+    const sample = audit.valleyHits
+      .slice(0, 20)
+      .map(
+        (h) =>
+          `  p${h.page} n=${h.norm.toFixed(3)} ${JSON.stringify(h.left)} | ${JSON.stringify(h.right)}  ${h.context}`,
+      )
+      .join("\n")
+    throw new Error(
+      `GEOMETRIC GLUE REFUSED: ${name} has ${audit.valleyHits.length} non-space gap(s) inside the valley [${GEOMETRIC_VALLEY_LO}, ${GEOMETRIC_VALLEY_HI}). ` +
+        `GEOMETRIC_GLUE_THRESHOLD=${GEOMETRIC_GLUE_THRESHOLD} is not calibrated for this document.\n${sample}`,
+    )
+  }
+  if (audit.intraCount > 0 && audit.spaceCount === 0) {
+    throw new Error(
+      `GEOMETRIC GLUE REFUSED: ${name} has an intra-word cluster (n=${audit.intraCount}, max=${audit.maxIntra?.toFixed(3)}) but no word-space cluster. ` +
+        `Refusing to apply GEOMETRIC_GLUE_THRESHOLD=${GEOMETRIC_GLUE_THRESHOLD}.`,
+    )
+  }
+}
+
+/**
+ * Same-line join. Space-only items are skipped; the gap they occupy is the
+ * join decision. Tracking (gap/fontSize < GEOMETRIC_GLUE_THRESHOLD) concatenates.
+ * A real word space inserts a single space. Bare 1–3 digit lines are dropped.
+ *
+ * BACKLOG — line-wrap hyphen (same geometry layer, not applied):
+ * A hyphen at the end of a line followed by a lowercase continuation is a PDF
+ * wrap artefact (Član 241 "nasljeđiva-nju"). Real compounds such as
+ * "svojinsko-pravni" must survive. Do not strip every hyphen; the tell is
+ * wrap geometry (end of line), not the hyphen character.
+ */
+function pageItemsToLines(items: PlacedItem[]): string[] {
+  const lines: string[] = []
+  for (const lineItems of groupItemsIntoLines(items)) {
+    const words = lineItems.filter((it) => it.str.trim() !== "")
+    if (!words.length) continue
+    const parts: string[] = []
+    for (let i = 0; i < words.length; i++) {
+      const item = words[i]!
+      if (i === 0) {
+        parts.push(item.str)
+        continue
+      }
+      const prev = words[i - 1]!
+      if (/[-–—]$/.test(prev.str) || /^[,.;:!?)]/.test(item.str)) {
+        parts.push(item.str)
+        continue
+      }
+      const glue =
+        normalizedGap(prev, item) < GEOMETRIC_GLUE_THRESHOLD ? "" : " "
+      parts.push(glue + item.str)
+    }
+    const line = parts.join("").replace(/[ \t]+/g, " ").trim()
+    if (!line) continue
+    if (PAGE_NUMBER_LINE_RE.test(line)) continue
+    lines.push(line)
+  }
+  return lines
+}
+
+export async function extractPdfText(pdfPath: string): Promise<{
   text: string
   pages: number
+  valley: GeometricValleyAudit
 }> {
   const pdfjs = await import("pdfjs-dist/legacy/build/pdf.mjs")
   const buf = await readFile(pdfPath)
@@ -200,13 +388,23 @@ async function extractPdfText(pdfPath: string): Promise<{
     disableWorker: true,
     standardFontDataUrl,
   }).promise
-  const pages: string[] = []
+  const byPage: PlacedItem[][] = []
+  const all: PlacedItem[] = []
   for (let i = 1; i <= doc.numPages; i++) {
     const page = await doc.getPage(i)
     const tc = await page.getTextContent()
-    pages.push(pageItemsToLines(tc.items as PdfTextItem[]).join("\n"))
+    const placed: PlacedItem[] = []
+    for (const raw of tc.items as PdfTextItem[]) {
+      const item = toPlacedItem(raw, i)
+      if (item) placed.push(item)
+    }
+    byPage.push(placed)
+    all.push(...placed)
   }
-  return { text: pages.join("\n"), pages: doc.numPages }
+  const valley = auditGeometricValley(pdfPath, all)
+  assertGeometricValley(valley)
+  const pages = byPage.map((items) => pageItemsToLines(items).join("\n"))
+  return { text: pages.join("\n"), pages: doc.numPages, valley }
 }
 
 /**
@@ -462,12 +660,18 @@ async function ensureExtracted(
     console.log(`Downloading\n  ${statute.source_url}`)
     await downloadPdf(statute.source_url, pdfPath)
   }
-  const { text, pages } = await extractPdfText(pdfPath)
+  const { text, pages, valley } = await extractPdfText(pdfPath)
   if (text.replace(/\s+/g, "").length < 500) {
     throw new Error(
       `No usable text layer in ${pdfName} (${pages} pages, ${text.length} chars)`,
     )
   }
+  // eslint-disable-next-line no-console
+  console.log(
+    `  geometric valley ${pdfName}: intra ${valley.intraCount} (max ${valley.maxIntra?.toFixed(3) ?? "—"}) ` +
+      `space ${valley.spaceCount} (min ${valley.minSpace?.toFixed(3) ?? "—"}) ` +
+      `valley-band hits ${valley.valleyHits.length}  threshold ${GEOMETRIC_GLUE_THRESHOLD}`,
+  )
   const header = `URL: ${canonicalUrl(statute.source_url)}\n---\n`
   await writeFile(txtPath, header + text, "utf8")
   return { txtPath, meta: extractMeta(text, pages) }
@@ -664,18 +868,53 @@ async function loadStatutes(jsonRel: string): Promise<CoreStatute[]> {
   })
 }
 
+async function loadExistingTextLocal(
+  articles: LegalArticleInput[],
+): Promise<Map<string, string | null>> {
+  const { supabaseAdmin } = await import("../lib/supabase/admin")
+  const ids = articles.map((a) => stableIdForArticle(a))
+  const existing = new Map<string, string | null>()
+  const chunkSize = 100
+  for (let i = 0; i < ids.length; i += chunkSize) {
+    const batch = ids.slice(i, i + chunkSize)
+    const { data, error } = await supabaseAdmin
+      .from("legal_articles")
+      .select("id, text_local")
+      .in("id", batch)
+    if (error) throw error
+    for (const row of data ?? []) {
+      const rec = row as { id?: string; text_local?: string | null }
+      if (rec.id) existing.set(rec.id, rec.text_local ?? null)
+    }
+  }
+  return existing
+}
+
 async function upsertArticles(articles: LegalArticleInput[]): Promise<void> {
   if (!process.env.OPENAI_API_KEY) {
     throw new Error("Missing OPENAI_API_KEY env var.")
   }
   const { supabaseAdmin } = await import("../lib/supabase/admin")
+  const existingText = await loadExistingTextLocal(articles)
   let succeeded = 0
+  let skipped = 0
   let failed = 0
   for (const article of articles) {
+    const id = stableIdForArticle(article)
+    const prev = existingText.get(id)
+    if (prev !== undefined && prev === (article.text_local ?? null)) {
+      skipped += 1
+      // eslint-disable-next-line no-console
+      console.log(
+        `○ unchanged ${article.law_name_local} / Član ${article.article_num}` +
+          (article.paragraph_num ? ` §${article.paragraph_num}` : ""),
+      )
+      continue
+    }
     try {
       const embedding = await embed(article)
       const payload = {
-        id: stableIdForArticle(article),
+        id,
         jurisdiction: article.jurisdiction,
         law_name: article.law_name,
         law_name_local: article.law_name_local,
@@ -722,7 +961,9 @@ async function upsertArticles(articles: LegalArticleInput[]): Promise<void> {
     await sleep(200)
   }
   // eslint-disable-next-line no-console
-  console.log(`✅ Ingested ${succeeded} rows (${failed} failed)`)
+  console.log(
+    `✅ Ingested ${succeeded} rows (${skipped} unchanged skip-embed, ${failed} failed)`,
+  )
 }
 
 async function collectTxtFiles(dirPath: string): Promise<string[]> {
@@ -888,7 +1129,7 @@ async function main(): Promise<void> {
   if (!confirm) {
     // eslint-disable-next-line no-console
     console.log(
-      "\nStopped before embedding. Do not --confirm until the DELETEs are run.\n" +
+      "\nStopped before embedding. Re-run with --confirm to overwrite (re-embeds only changed text_local).\n" +
         "  npx tsx scripts/ingest-fbih-core-statutes.ts --confirm --from=\"Zakon o stvarnim pravima\"",
     )
     return

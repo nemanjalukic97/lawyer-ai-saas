@@ -6,7 +6,8 @@
  * (avoids a circular import with keywordVariants).
  */
 
-export const MAX_SYNONYM_PHRASE_EXPANSIONS = 2
+/** Latin phrases from the cartesian product, excluding the original query. */
+export const MAX_SYNONYM_PHRASE_EXPANSIONS = 16
 
 /** Single-word keys shorter than this are never expanded (too ambiguous). */
 export const MIN_SINGLE_WORD_SYNONYM_KEY_LEN = 6
@@ -30,6 +31,11 @@ const SYNONYM_PAIRS: ReadonlyArray<readonly [string, string]> = [
   ["gruntovni", "zemljišnoknjižni"],
   ["brisovna dozvola", "dozvola za brisanje"],
   ["zabilježba", "zabilježba u zemljišnoj knjizi"],
+  ["dosjelost", "održaj"],
+  ["vlasništvo", "svojina"],
+  ["nekretnina", "nepokretnost"],
+  ["suvlasništvo", "susvojina"],
+  ["služnost", "službenost"],
 ]
 
 function normalizePhrase(phrase: string): string {
@@ -75,36 +81,113 @@ function overlaps(spans: Span[], start: number, end: number): boolean {
   return spans.some((s) => start < s.end && end > s.start)
 }
 
-function pushExpansions(args: {
-  trimmed: string
+function isWholeToken(lower: string, start: number, end: number): boolean {
+  const leftOk = start === 0 || /\s/.test(lower[start - 1] ?? "")
+  const rightOk = end === lower.length || /\s/.test(lower[end] ?? "")
+  return leftOk && rightOk
+}
+
+type SynonymSlot = {
   start: number
   end: number
+  singleWordSynonyms: string[]
+  multiWordSynonyms: string[]
+}
+
+function splitSynonyms(synonyms: string[]): {
+  singleWord: string[]
+  multiWord: string[]
+} {
+  const singleWord: string[] = []
+  const multiWord: string[] = []
+  for (const synonym of synonyms) {
+    if (normalizePhrase(synonym).includes(" ")) multiWord.push(synonym)
+    else singleWord.push(synonym)
+  }
+  return { singleWord, multiWord }
+}
+
+function tryAddSlot(
+  slots: SynonymSlot[],
+  usedSpans: Span[],
+  start: number,
+  end: number,
+  synonyms: string[],
+): void {
+  if (synonyms.length === 0) return
+  if (overlaps(usedSpans, start, end)) return
+  const { singleWord, multiWord } = splitSynonyms(synonyms)
+  if (singleWord.length === 0 && multiWord.length === 0) return
+  slots.push({ start, end, singleWordSynonyms: singleWord, multiWordSynonyms: multiWord })
+  usedSpans.push({ start, end })
+}
+
+/** Full substitution first; drop fewest-swap (longest-tail) combinations at the cap. */
+function cartesianSingleWordExpansions(
+  trimmed: string,
+  slots: SynonymSlot[],
+  maxExpansions: number,
+  seen: Set<string>,
+): string[] {
+  const spliceSlots = slots.filter((s) => s.singleWordSynonyms.length > 0)
+  if (spliceSlots.length === 0 || maxExpansions <= 0) return []
+
+  type Combo = { replacements: string[]; substitutions: number }
+  const combos: Combo[] = []
+
+  const walk = (index: number, replacements: string[], substitutions: number) => {
+    if (index === spliceSlots.length) {
+      combos.push({ replacements, substitutions })
+      return
+    }
+    const slot = spliceSlots[index]!
+    const original = trimmed.slice(slot.start, slot.end)
+    walk(index + 1, [...replacements, original], substitutions)
+    for (const synonym of slot.singleWordSynonyms) {
+      walk(index + 1, [...replacements, synonym], substitutions + 1)
+    }
+  }
+  walk(0, [], 0)
+
+  combos.sort((a, b) => b.substitutions - a.substitutions || 0)
+
+  const expansions: string[] = []
+  const originalNorm = normalizePhrase(trimmed)
+  for (const combo of combos) {
+    if (combo.substitutions === 0) continue
+    if (expansions.length >= maxExpansions) break
+    const parts = spliceSlots.map((slot, i) => ({
+      start: slot.start,
+      end: slot.end,
+      text: combo.replacements[i]!,
+    }))
+    parts.sort((a, b) => b.start - a.start)
+    let phrase = trimmed
+    for (const part of parts) {
+      phrase = phrase.slice(0, part.start) + part.text + phrase.slice(part.end)
+    }
+    phrase = phrase.trim().replace(/\s+/g, " ")
+    const norm = normalizePhrase(phrase)
+    if (!norm || norm === originalNorm || seen.has(norm)) continue
+    seen.add(norm)
+    expansions.push(phrase)
+  }
+  return expansions
+}
+
+function pushMultiWordExpansions(args: {
   synonyms: string[]
   expansions: string[]
   seen: Set<string>
   maxExpansions: number
 }): void {
-  const { trimmed, start, end, synonyms, expansions, seen, maxExpansions } =
-    args
+  const { synonyms, expansions, seen, maxExpansions } = args
   for (const synonym of synonyms) {
     if (expansions.length >= maxExpansions) return
-    // Multi-word synonym values are search phrases, not drop-in tokens.
-    // Splicing leftover query words ("uknjižba nekretnine" →
-    // "upis u zemljišne knjige nekretnine") misses the statute's own wording.
-    // Single-word synonyms still splice ("zastara potraživanja" →
-    // "zastara tražbina").
-    const synonymHasSpace = normalizePhrase(synonym).includes(" ")
-    const expanded = synonymHasSpace
-      ? normalizePhrase(synonym)
-      : (trimmed.slice(0, start) + synonym + trimmed.slice(end))
-          .trim()
-          .replace(/\s+/g, " ")
-    const norm = normalizePhrase(expanded)
-    if (!norm || norm === normalizePhrase(trimmed) || seen.has(norm)) continue
-    // Reverse of a multi-word pair must not collapse to a lone dictionary
-    // word ("%uknjižba%" from "zemljišnoknjižni upis" floods cadastre).
-    if (!norm.includes(" ") && SINGLE_WORD_KEY_SET.has(norm)) continue
-    seen.add(norm)
+    const expanded = normalizePhrase(synonym)
+    if (!expanded || seen.has(expanded)) continue
+    if (!expanded.includes(" ") && SINGLE_WORD_KEY_SET.has(expanded)) continue
+    seen.add(expanded)
     expansions.push(expanded)
   }
 }
@@ -162,46 +245,33 @@ export function expandQueryWithLegalSynonyms(
 
   const lower = trimmed.toLowerCase()
   const usedSpans: Span[] = []
-  const expansions: string[] = []
-  const seen = new Set<string>()
+  const slots: SynonymSlot[] = []
 
-  // Pass 1: longest exact phrase / token substring match.
+  // Pass 1: longest exact phrase / whole-token match.
+  // Single-word keys must be a full token so "održaj" does not fire inside
+  // "održajem" and splice to "dosjelostem". Inflected tokens are Pass 2.
   for (const key of DICTIONARY_KEYS_LONGEST_FIRST) {
-    if (expansions.length >= maxExpansions) break
     if (!isEligibleDictionaryKey(key)) continue
 
     const re = new RegExp(escapeRegExp(key), "gi")
     let match: RegExpExecArray | null
     while ((match = re.exec(lower)) !== null) {
-      if (expansions.length >= maxExpansions) break
       const start = match.index
       const end = start + match[0].length
       if (overlaps(usedSpans, start, end)) continue
+      if (!key.includes(" ") && !isWholeToken(lower, start, end)) continue
 
       const synonyms = SYNONYM_MAP.get(key) ?? []
-      if (synonyms.length === 0) continue
-
-      pushExpansions({
-        trimmed,
-        start,
-        end,
-        synonyms,
-        expansions,
-        seen,
-        maxExpansions,
-      })
-      usedSpans.push({ start, end })
+      tryAddSlot(slots, usedSpans, start, end, synonyms)
     }
   }
 
   // Pass 2: single-word stem matches for inflected forms not caught above.
-  // Only keys with length >= MIN_SINGLE_WORD_SYNONYM_KEY_LEN (see SINGLE_WORD_KEYS).
-  if (stemWord && expansions.length < maxExpansions) {
+  if (stemWord) {
     const stemToKeys = buildStemToSingleKeys(stemWord)
     const tokenRe = /\S+/g
     let tokenMatch: RegExpExecArray | null
     while ((tokenMatch = tokenRe.exec(lower)) !== null) {
-      if (expansions.length >= maxExpansions) break
       const start = tokenMatch.index
       const end = start + tokenMatch[0].length
       if (overlaps(usedSpans, start, end)) continue
@@ -211,21 +281,32 @@ export function expandQueryWithLegalSynonyms(
       if (!keys || keys.length === 0) continue
 
       for (const key of keys) {
-        if (expansions.length >= maxExpansions) break
         const synonyms = SYNONYM_MAP.get(key) ?? []
         if (synonyms.length === 0) continue
-        pushExpansions({
-          trimmed,
-          start,
-          end,
-          synonyms,
-          expansions,
-          seen,
-          maxExpansions,
-        })
-        usedSpans.push({ start, end })
+        tryAddSlot(slots, usedSpans, start, end, synonyms)
         break
       }
+    }
+  }
+
+  const seen = new Set<string>()
+  const expansions: string[] = []
+
+  // Cross-product of single-word slots, full swap first.
+  expansions.push(
+    ...cartesianSingleWordExpansions(trimmed, slots, maxExpansions, seen),
+  )
+
+  // Multi-word synonym values replace the whole query (not spliced).
+  if (expansions.length < maxExpansions) {
+    for (const slot of slots) {
+      if (expansions.length >= maxExpansions) break
+      pushMultiWordExpansions({
+        synonyms: slot.multiWordSynonyms,
+        expansions,
+        seen,
+        maxExpansions,
+      })
     }
   }
 

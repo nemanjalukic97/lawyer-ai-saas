@@ -1,0 +1,57 @@
+[
+  {
+    "law_name_local": "Закон о насљеђивању",
+    "law_name": "Inheritance Act",
+    "law_category": "inheritance",
+    "source_url": "https://www.narodnaskupstinars.net/sites/default/files/upload/dokumenti/akti/usvojeni_zakoni/Zakon_o_nasljedjivanju.zip",
+    "source_page": "https://www.narodnaskupstinars.net/ci/akti/usvojeni-zakoni/zakon-o-nasljedjivanju",
+    "doc_file": "Zakon_o_nasljedjivanju.doc",
+    "docx_file": "Zakon_o_nasljedjivanju.docx",
+    "effective_date": "2008-12-23"
+  },
+  {
+    "law_name_local": "Породични закон",
+    "law_name": "Family Law of Republika Srpska",
+    "law_category": "family",
+    "unofficial_consolidation": true,
+    "english_stub": "Article {n} of the Family Law of Republika Srpska (family law, unofficial consolidation of SG RS 17/23 as amended by 27/24, U-4/24 and 61/25)",
+    "source_url": "https://www.narodnaskupstinars.net/sites/default/files/upload/dokumenti/akti/usvojeni_zakoni/Porodicni%20zakon_ci.zip",
+    "source_page": "https://www.narodnaskupstinars.net/ci/akti/usvojeni-zakoni/porodicni-zakon",
+    "docx_file": "porodicni-ci/Porodicni zakon.docx",
+    "official_sources": [
+      {
+        "label": "base 17/23 NS RS Cyrillic zip",
+        "url": "https://www.narodnaskupstinars.net/sites/default/files/upload/dokumenti/akti/usvojeni_zakoni/Porodicni%20zakon_ci.zip",
+        "page": "https://www.narodnaskupstinars.net/ci/akti/usvojeni-zakoni/porodicni-zakon"
+      },
+      {
+        "label": "27/24 NS RS Cyrillic zip",
+        "url": "https://www.narodnaskupstinars.net/sites/default/files/upload/dokumenti/akti/usvojeni_zakoni/zakon_o_izmj_i_dop_porodicnog_zakona_ci.zip",
+        "page": "https://www.narodnaskupstinars.net/ci/akti/usvojeni-zakoni/zakon-o-izmjenama-i-dopunama-porodicnog-zakona-1"
+      },
+      {
+        "label": "61/25 NS RS Cyrillic Word",
+        "url": "https://www.narodnaskupstinars.net/sites/default/files/upload/dokumenti/akti/usvojeni_zakoni/zakon_o_izmjeni_i_dopuni_porodicnog_zakona_ci.zip",
+        "page": "https://www.narodnaskupstinars.net/ci/akti/usvojeni-zakoni/zakon-o-izmjeni-i-dopuni-porodicnog-zakona"
+      },
+      {
+        "label": "U-4/24 Ustavni sud RS, 26 Feb 2025, SG RS 20/25",
+        "url": "http://www.ustavnisud.org/OdlukeTxt.aspx?id=5096"
+      },
+      {
+        "label": "U-50/23 Ustavni sud RS, 26 Jun 2024, SG RS 59/24",
+        "url": "http://www.ustavnisud.org/OdlukeTxt.aspx?id=4919"
+      }
+    ]
+  },
+  {
+    "law_name_local": "Закон о стварним правима",
+    "law_name": "Property Rights Act",
+    "law_category": "property",
+    "source_url": "https://www.narodnaskupstinars.net/sites/default/files/upload/dokumenti/akti/usvojeni_zakoni/Zakon_o_stvarnim_pravima.zip",
+    "source_page": "https://www.narodnaskupstinars.net/ci/akti/usvojeni-zakoni/zakon-o-stvarnim-pravima",
+    "doc_file": "Zakon_o_stvarnim_pravima.doc",
+    "docx_file": "Zakon_o_stvarnim_pravima.docx",
+    "effective_date": "2009-07-01"
+  }
+]

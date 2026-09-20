@@ -1,0 +1,41 @@
+{
+  "law_name_local": "Породични закон",
+  "status": "unofficial_consolidation",
+  "citation": "SG RS 17/23 as amended by 27/24, U-4/24 and 61/25",
+  "law_category": "family",
+  "note": "Divergences from the official amending acts. The statutory body in text_local is still taken from those acts; this log records where we did not follow an operation, or followed a defective one as written.",
+  "divergences": [
+    {
+      "article": "333",
+      "scope": "stav 3, quoted «342.» → «332.»",
+      "act": "27/24 чл. 21",
+      "act_says": "У ставу 3. број: „342.” замјењује се бројем: „332.”",
+      "what_we_did": "Did not apply. Left 17/23 text: «члана 341. и члана 342 ст. 1. до 3.»",
+      "why": "The quoted source string «342.» occurs zero times in чл. 333. The base has «342 ст.» with no period after the number. Treating that as «342.» is an inference, not a match."
+    },
+    {
+      "article": "333",
+      "scope": "stav 3, quoted «341.» → «331.»",
+      "act": "27/24 чл. 21",
+      "act_says": "У ставу 3. број: „341.” замјењује се бројем: „331.”, а број: „342.” замјењује се бројем: „332.”",
+      "what_we_did": "Did not apply. «341.» remains in st. 3. (st. 1 «312.» → «302.» was applied; that sentence matched uniquely.)",
+      "why": "Held with the unmatched «342.» substitution in the same sentence. Applying one half of a coordinated pair would produce a text matching no version of the act."
+    },
+    {
+      "article": "270",
+      "scope": "stav 3, whole-stav replacement",
+      "act": "27/24 чл. 14",
+      "act_says": "У члану 270. став 3. мијења се и гласи: «Ако је брак између мајке и очуха, односно маћехе и оца дјетета поништен или разведен или поништен, обавеза издржавања према пасторцима престаје.»",
+      "what_we_did": "Applied the replacement verbatim, including «поништен или разведен или поништен».",
+      "why": "The operation is a whole-stav replacement and is not ambiguous. The duplicated «поништен» is a defect in the amending act, not something we correct."
+    },
+    {
+      "article": "141",
+      "scope": "entire article",
+      "act": "61/25 чл. 1 (after U-4/24)",
+      "act_says": "послије члана 141. додаје се назив члана и нови члан 141а. који гласи: …",
+      "what_we_did": "Omitted чл. 141. Added чл. 141а after чл. 140.",
+      "why": "U-4/24 struck чл. 141 in its entirety. 61/25 adds 141a after 141 but never deletes, replaces, or revives 141. Serving the struck 25-year paternity deadline would be worse than a numbering hole."
+    }
+  ]
+}
