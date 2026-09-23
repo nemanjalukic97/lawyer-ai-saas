@@ -426,8 +426,10 @@ export const hrMessages: Messages = {
           "Nema visoko relevantnih rezultata — pokušajte drugačiju formulaciju ili provjerite naziv zakona.",
         lowConfidenceDivider: "Rezultati niske pouzdanosti",
         excerptLabel: "Odlomak",
+        excerptDisclaimer:
+          "Odlomak iz teksta zakona — može biti presječen. Nije službeni prečišćeni tekst.",
         countSuffix: "rezultata",
-        confidenceLabel: "Pouzdanost",
+        confidenceLabel: "Podudarnost",
         articleLabel: "Članak",
         lawsTab: "Zakoni",
         caseLawTab: "Sudska praksa",

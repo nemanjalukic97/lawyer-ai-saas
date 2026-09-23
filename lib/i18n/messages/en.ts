@@ -426,8 +426,10 @@ export const enMessages: Messages = {
           "No highly relevant results found — try rephrasing your query or check the law name.",
         lowConfidenceDivider: "Low confidence matches",
         excerptLabel: "Excerpt",
+        excerptDisclaimer:
+          "Excerpt from the statute text — it may be cut off. This is not the official consolidated text.",
         countSuffix: "results",
-        confidenceLabel: "Confidence",
+        confidenceLabel: "Match",
         articleLabel: "Article",
         lawsTab: "Laws",
         caseLawTab: "Case Law",

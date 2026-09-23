@@ -131,7 +131,7 @@ function CaseLawItemHeader({
             className={confidenceBadgeClass(confidencePct)}
             variant="outline"
           >
-            {t("research.results.confidenceLabel")} {confidencePct}%
+            {t("rag.matchPercent", { pct: confidencePct })}
           </Badge>
         ) : null}
       </div>

@@ -1,0 +1,98 @@
+{
+  "law_name_local": "Закон о раду",
+  "status": "ingested",
+  "citation_on_rows": "SG RS 1/16, 66/18, 91/21 (odluka US), 119/21, 112/23, 39/24, 28/2026 (odluka US)",
+  "included_after_rows": "SG RS 59/26, Zakon o izmjeni i dopunama Zakona o radu. Gazette number confirmed by JU Službeni glasnik RS, contents notice for broj 59/26 of 26.6.2026, which lists it under Narodna skupština Republike Srpske: https://slglasnik.org/lat/aktuelno/obavjestenja/objavjben-je-sluzhbeni-glasnik-republike-srpske-broj-5926 . Adopted by NS RS on 17 Jun 2026; in force on the eighth day after publication.",
+  "note": "59/26 is included. The 66/18 period-to-semicolon on renumbered point 31) is not applied. čl. 131 став 3 is amended from the Government prijedlog reprint. No database write.",
+  "divergences": [
+    {
+      "article": "131",
+      "scope": "stav 3, quoted „законом“",
+      "act": "119/21 чл. 12",
+      "act_says": "У члану 131. у ставу 3. послије ријечи: „законом“ додају се ријечи: „колективним уговором“.",
+      "what_we_did": "Applied. Став 3 now reads „прописаних овим законом, колективним уговором, општим актом“. The December 2021 prijedlog reprint is „zakonom, kolektivnim ugovorom, opštim aktom“. „или другим законом“ is unchanged.",
+      "why": "The quoted word occurs twice in the 1/16 став, so the instruction alone does not locate the insertion. Searched in order: (a) no official prečišćeni tekst of Zakon o radu RS — the gazette publisher's own book treats this law as the 1/16 text and labels other consolidations in that book as nezvanični prečišćeni tekst; (b) 112/23, 39/24, 59/26 and U-53/25 do not quote чл. 131 став 3; (c) the Government prijedlog that the Narodna skupština adopted (Vlada RS, Prijedlog po hitnom postupku, Banja Luka, decembar 2021, https://www.javnarasprava.ba/rs/Zakon/1748, status Usvojen, LawText RHSC7EFQ.doc) reprints Član 131 in full. In that став 3, „kolektivnim ugovorom“ occurs once and exactly one „zakonom“ precedes it. The obrazloženje (part VI) says чл. 10, 11 and 12 supplement чл. 129, 130 and 131 so that wage-compensation questions are also regulated by collective agreement, and does not itself choose the occurrence."
+    },
+    {
+      "article": "264",
+      "scope": "stav 1, point that 66/18 renumbers from 30) to 31)",
+      "act": "66/18 чл. 4",
+      "act_says": "Досадашња тачка 30) постаје тачка 31). У тачки 31) тачка се замјењује тачком са запетом.",
+      "what_we_did": "Not applied. The operation is punctuation-only. The renumber of old point 30) to 31), and the new points 30) and 32) which the act quotes in full, are applied. They are separate operations.",
+      "why": "The act says to replace a period with a semicolon in the renumbered point 31). After the renumber that point already ends in a semicolon: „(члан 208. овог закона);“. The only period is inside „208.“. The target does not exist as the act describes it, and the change carries no legal effect."
+    },
+    {
+      "article": "177",
+      "scope": "heading",
+      "act": "base 1/16",
+      "act_says": "Члана 177.",
+      "what_we_did": "Counted as члан 177. Heading left as written.",
+      "why": "The base heading is in the genitive. The following text is the article on sporazumni prestanak. It is not a cross-reference."
+    },
+    {
+      "article": "267",
+      "scope": "heading",
+      "act": "base 1/16",
+      "act_says": "Члана 267.",
+      "what_we_did": "Counted as члан 267. Heading left as written.",
+      "why": "Same genitive heading defect as члан 177. The following text is the 50 KM fine for refusing to identify oneself to the labour inspector."
+    },
+    {
+      "article": "271в",
+      "scope": "insertion after чл. 271б",
+      "act": "119/21 чл. 18",
+      "act_says": "Послије члана 271б. додају се нови чл. 271в, 271г. И 271д. који гласе:",
+      "what_we_did": "Would add чл. 271в, чл. 271г and чл. 271д. The capital „И“ and the missing period after 271в would be kept as printed in the instruction; the article bodies are the quoted text.",
+      "why": "The conjunction is defective. The three article numbers are still named. Not a quoted-string match."
+    },
+    {
+      "article": "152",
+      "scope": "base citation inside stav 2",
+      "act": "base 1/16",
+      "act_says": "у смислу члана 149. став 3. и члана 150 овог закона",
+      "what_we_did": "Would keep „члана 150“ without a period.",
+      "why": "Base text. U-53/25 does not touch this citation. The struck words begin later, at „од органа који је покренуо…“."
+    },
+    {
+      "article": "179",
+      "scope": "stav 3, tačka 5)",
+      "act": "base 1/16",
+      "act_says": "кривичног дела",
+      "what_we_did": "Recorded only. The point is struck by U-66/20 and does not reach the corpus.",
+      "why": "The official 1/16 gazette text prints ekavian „кривичног дела“ in чл. 179 став 3 тачка 5). Same phenomenon as ZUP 13/2002: official RS publication is not uniformly ijekavian. This is not a scrape defect."
+    },
+    {
+      "article": "153",
+      "scope": "stav 1, tačka 1), punctuation after the U-53/25 excision",
+      "act": "U-53/25",
+      "act_says": "на терет органа који је покренуо кривични поступак, односно одредио притвор",
+      "what_we_did": "Dropped the comma that the excision orphaned. Before: „али не због ненадлежности,;“. After: „али не због ненадлежности;“.",
+      "why": "The comma introduced the phrase U-53/25 struck. With the phrase gone it had no function, and „,;“ is not a form a gazette prints. Punctuation consequence of our excision. The norm is untouched. чл. 152 став 2 and чл. 179 став 3 were checked for a dangling comma, a doubled separator, or a space before punctuation; neither has one."
+    },
+    {
+      "article": "179",
+      "scope": "stav 1, tačka 3)",
+      "act": "base 1/16",
+      "act_says": "а послодава не може раднику обезбиједити други посао",
+      "what_we_did": "Kept. Not corrected.",
+      "why": "The NS RS 1/16 Word file prints «послодава», a letter short of «послодавац». The live row matches the file. Defect in the official text, same shape as the ekavian «кривичног дела» in став 3 тачка 5)."
+    }
+  ],
+  "us_decisions": [
+    {
+      "decision": "U-66/20",
+      "date": "2021-09-29",
+      "gazette": "SG RS 91/21",
+      "text_in_force": "1/16 as amended by 66/18. 66/18 does not amend чл. 179. 119/21 was adopted on 15 Dec 2021 and the act puts it in force on 1 Jan 2022.",
+      "strikes": "члан 179. став 3. тачка 5) only. The article stays. The point is not put back by 119/21, 112/23, 39/24 or 59/26.",
+      "statute_point": "5) ако његово понашање представља радњу извршења кривичног дела учињеног на раду и у вези са радом, независно од тога да ли је против радника покренут кривични поступак за кривично дјело;"
+    },
+    {
+      "decision": "U-53/25",
+      "date": "2026-03-25",
+      "gazette": "SG RS 28/26, as the later NS RS act 59/26 recites it. The OdlukeTxt HTML does not print the issue number.",
+      "text_in_force": "The izreka names 1/16, 66/18, 91/21 (US), 119/21, 112/23 and 39/24. None of those amending acts edit чл. 152 or чл. 153, so the words judged are the 1/16 text. 59/26 is later (adopted 17 Jun 2026).",
+      "strikes": "Not the articles. чл. 152. став 2, the words „од органа који је покренуо кривични поступак, односно одредио притвор“ (once). чл. 153 has no „(1)“; its only block is what the court calls став 1, and тачка 1) contains „на терет органа који је покренуо кривични поступак, односно одредио притвор“ once."
+    }
+  ]
+}

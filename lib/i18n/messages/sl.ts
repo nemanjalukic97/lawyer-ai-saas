@@ -357,8 +357,10 @@ export const slMessages: Messages = {
           "Ni zelo relevantnih rezultatov — poskusite drugačno formulacijo ali preverite naziv zakona.",
         lowConfidenceDivider: "Rezultati z nizko zanesljivostjo",
         excerptLabel: "Odlomek",
+        excerptDisclaimer:
+          "Odlomek iz besedila zakona — lahko je prekinjen. Ni uradno prečiščeno besedilo.",
         countSuffix: "rezultatov",
-        confidenceLabel: "Zanesljivost",
+        confidenceLabel: "Ujemanje",
         articleLabel: "Člen",
         lawsTab: "Zakoni",
         caseLawTab: "Sodna praksa",

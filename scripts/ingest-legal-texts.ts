@@ -148,12 +148,25 @@ export const SAMPLE_ARTICLES: LegalArticleInput[] = [
 /** Curated articles from scripts/legal-articles-labor-extended.ts (also in SAMPLE_ARTICLES). */
 export const ALL_ARTICLES: LegalArticleInput[] = SAMPLE_ARTICLES
 
+/** Opt-in only. Do not add a short alias — SAMPLE_ARTICLES must not be re-inserted by habit. */
+export const SAMPLE_STUBS_WRITE_FLAG =
+  "--i-know-this-writes-drafted-placeholder-stubs"
+
 export type IngestLegalOptions = {
   dryRun?: boolean
   onlyMissing?: boolean
   /** e.g. "labor-extended" — ingest only LABOR_EXTENDED_ARTICLES */
   onlySource?: "labor-extended"
   skipRetrievalTest?: boolean
+  /** Required for any ingest() call. Set only via SAMPLE_STUBS_WRITE_FLAG. */
+  allowDraftedPlaceholderStubsWrite?: boolean
+}
+
+function assertSampleStubsWriteAllowed(options: IngestLegalOptions): void {
+  if (options.allowDraftedPlaceholderStubsWrite) return
+  throw new Error(
+    `SAMPLE_ARTICLES write path is disabled. These arrays are drafted placeholder text, never statutory, removed from the database on 2026-09-21. Refusing to upsert. Pass ${SAMPLE_STUBS_WRITE_FLAG} only if you intentionally want to re-insert stubs.`,
+  )
 }
 
 function parseIngestCliArgs(): IngestLegalOptions {
@@ -162,15 +175,24 @@ function parseIngestCliArgs(): IngestLegalOptions {
   let onlyMissing = false
   let onlySource: IngestLegalOptions["onlySource"]
   let skipRetrievalTest = false
+  let allowDraftedPlaceholderStubsWrite = false
 
   for (const arg of args) {
     if (arg === "--dry-run") dryRun = true
     else if (arg === "--only-missing") onlyMissing = true
     else if (arg === "--skip-retrieval-test") skipRetrievalTest = true
     else if (arg === "--only-source=labor-extended") onlySource = "labor-extended"
+    else if (arg === SAMPLE_STUBS_WRITE_FLAG)
+      allowDraftedPlaceholderStubsWrite = true
   }
 
-  return { dryRun, onlyMissing, onlySource, skipRetrievalTest }
+  return {
+    dryRun,
+    onlyMissing,
+    onlySource,
+    skipRetrievalTest,
+    allowDraftedPlaceholderStubsWrite,
+  }
 }
 
 function resolveArticlesToIngest(
@@ -312,6 +334,7 @@ export async function checkExisting(): Promise<number> {
 }
 
 export async function ingest(options: IngestLegalOptions = {}) {
+  assertSampleStubsWriteAllowed(options)
   const articles = resolveArticlesToIngest(options)
   const existingTotal = await checkExisting()
   // eslint-disable-next-line no-console

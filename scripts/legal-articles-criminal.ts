@@ -1,3 +1,4 @@
+/** Drafted placeholder text, never statutory; removed from the database on 2026-09-21. */
 /**
  * Criminal-law articles for ingest (seven jurisdictions).
  * Serbia: wording aligned with consolidated Paragraf.rs texts (RS OG 85/2005 et seq.).

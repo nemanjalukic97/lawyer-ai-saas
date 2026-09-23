@@ -5,8 +5,9 @@
  * Source: Narodna skupština RS adopted-act zips only. Binary .doc is converted
  * once to .docx (both files kept under downloads/rs-core-statutes/). Extract
  * with mammoth. Splits only on a line-start "Члан N.". Does not transliterate.
- * Породични закон is an unofficial consolidation (17/23 + 27/24 + U-4/24 +
- * 61/25); see scripts/consolidate-rs-porodicni.ts. Does not embed or write
+ * Породични закон and Закон о раду are unofficial consolidations. See
+ * scripts/consolidate-rs-porodicni.ts and scripts/consolidate-rs-rad.ts.
+ * Does not embed or write
  * unless --confirm is passed. --confirm re-embeds only rows whose text_local
  * changed.
  *
@@ -18,6 +19,7 @@
  * - Закон о привредним друштвима 127/08. 19.8% named stale in the operative
  *   core (founding act, 1 KM capital, closed vs open JSC, squeeze-out).
  * Породични divergences: scripts/rs-porodicni-divergence.json.
+ * Закон о раду divergences: scripts/rs-rad-divergence.json.
  */
 import { access, mkdir, readFile, writeFile } from "fs/promises"
 import path from "path"
@@ -42,6 +44,7 @@ import {
   type SplitHealth,
 } from "./core-statute-nadnaslov"
 import { applyPorodicniConsolidation } from "./consolidate-rs-porodicni"
+import { applyRadConsolidation } from "./consolidate-rs-rad"
 
 dotenv.config({ path: ".env.local" })
 
@@ -58,6 +61,14 @@ const ARTICLE_BODY_MAX_CHARS = 12_000
  */
 export const CLAN_HEADING_RE =
   /^[ \t]*Члан\s+(\d+)([а-яђјљњћџa-zčćđšž])?\s*\.?\s*\*?$/gm
+
+/** 1/16 prints two real articles as a full line "Члана N." The heading is kept. */
+const RAD_CLAN_HEADING_RE =
+  /^[ \t]*Члан(?:а)?\s+(\d+)([а-яђјљњћџa-zčćđšž])?\s*\.?\s*\*?$/gm
+
+function headingReFor(lawNameLocal: string): RegExp {
+  return lawNameLocal === "Закон о раду" ? RAD_CLAN_HEADING_RE : CLAN_HEADING_RE
+}
 
 const CROSS_REF_AFTER_HEADING_RE =
   /^(став|става|ст\.|овог закона|и\s+\d+)/i
@@ -143,9 +154,12 @@ function isCrossReferenceHeading(
   return CROSS_REF_AFTER_HEADING_RE.test(rest)
 }
 
-export function splitByClan(body: string): ClanPart[] {
+export function splitByClan(
+  body: string,
+  headingRe: RegExp = CLAN_HEADING_RE,
+): ClanPart[] {
   const normalized = normalizeExtract(body)
-  const re = new RegExp(CLAN_HEADING_RE.source, CLAN_HEADING_RE.flags)
+  const re = new RegExp(headingRe.source, headingRe.flags)
   const matches = [...normalized.matchAll(re)].filter(
     (match) => !isCrossReferenceHeading(normalized, match),
   )
@@ -222,16 +236,19 @@ export function processRsStatuteText(
   statute: CoreStatute,
   body: string,
 ): { articles: LegalArticleInput[]; parts: ClanPart[]; peels: PeelRecord[] } {
-  const prePeel = splitByClan(body)
+  const prePeel = splitByClan(body, headingReFor(statute.law_name_local))
   const attached = reattachTrailingHeadings(prePeel, statute.law_name_local)
   let parts = attached.parts
   if (statute.unofficial_consolidation) {
-    if (statute.law_name_local !== "Породични закон") {
+    if (statute.law_name_local === "Породични закон") {
+      parts = applyPorodicniConsolidation(attached.parts)
+    } else if (statute.law_name_local === "Закон о раду") {
+      parts = applyRadConsolidation(attached.parts)
+    } else {
       throw new Error(
-        `unofficial_consolidation is only implemented for Породични закон, got ${statute.law_name_local}`,
+        `unofficial_consolidation is not implemented for ${statute.law_name_local}`,
       )
     }
-    parts = applyPorodicniConsolidation(attached.parts)
   }
   return {
     parts,
@@ -523,7 +540,7 @@ async function main(): Promise<void> {
     // eslint-disable-next-line no-console
     console.log(`  zip: ${statute.source_url}`)
     const extracted = await extractDocx(docxPath)
-    const prePeel = splitByClan(extracted)
+    const prePeel = splitByClan(extracted, headingReFor(statute.law_name_local))
     const attached = reattachTrailingHeadings(prePeel, statute.law_name_local)
     printSplitHealth(
       statute.law_name_local,

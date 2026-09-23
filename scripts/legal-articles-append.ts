@@ -1,3 +1,4 @@
+/** Drafted placeholder text, never statutory; removed from the database on 2026-09-21. */
 /**
  * Additional legal articles appended to SAMPLE_ARTICLES in ingest-legal-texts.ts.
  * Serbia/Croatia/Slovenia: source_url points to consolidated law pages (Paragraf, zakon.hr, pisrs.si).

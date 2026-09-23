@@ -35,9 +35,10 @@ import {
   toUiJurisdiction,
 } from "@/lib/researchStarterQueries"
 import {
-  isUnofficialConsolidationStub,
+  isUnofficialConsolidation,
   UNOFFICIAL_CONSOLIDATION_CAPTION,
 } from "@/lib/unofficialConsolidation"
+import { isScrapedExcerpt } from "@/lib/ragThresholds"
 import {
   logOnboardingEvent,
   sanitizeOnboardingErrorMessage,
@@ -160,7 +161,9 @@ function ResearchLawResultCard({
   const displayText =
     r.text_local && r.text_local.trim() ? r.text_local : r.text ?? ""
   const parts = highlightSubstring(displayText, query)
-  const unitLabel = r.isExcerpt
+  const isExcerpt =
+    r.isExcerpt ?? isScrapedExcerpt(r.text ?? "", r.text_local)
+  const unitLabel = isExcerpt
     ? t("research.results.excerptLabel")
     : t("research.results.articleLabel")
 
@@ -172,17 +175,25 @@ function ResearchLawResultCard({
           <span className="text-muted-foreground"> — {r.law_name}</span>
         </p>
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-xs text-muted-foreground">
-            {unitLabel}{" "}
-            <span className="font-medium text-foreground">
-              {r.article_num}
-              {r.paragraph_num ? ` §${r.paragraph_num}` : ""}
-            </span>
-          </p>
+          <div className="space-y-1">
+            <p className="text-xs text-muted-foreground">
+              {unitLabel}{" "}
+              <span className="font-medium text-foreground">
+                {r.article_num}
+                {r.paragraph_num ? ` §${r.paragraph_num}` : ""}
+              </span>
+            </p>
+            {isExcerpt ? (
+              <p className="text-xs text-muted-foreground">
+                {t("research.results.excerptDisclaimer")}
+              </p>
+            ) : null}
+          </div>
           <ResearchLawMetaBadges
             jurisdiction={r.jurisdiction}
             category={r.category}
             confidencePct={r.confidencePct}
+            showConfidence={!isExcerpt}
             jurisdictionBadgeClass={jurisdictionBadgeClass}
             t={t}
           />
@@ -190,7 +201,7 @@ function ResearchLawResultCard({
       </div>
 
       <div className="mt-3 text-sm leading-relaxed text-foreground">
-        {isUnofficialConsolidationStub(r.text) ? (
+        {isUnofficialConsolidation(r.jurisdiction, r.law_name_local) ? (
           <p className="mb-2 text-xs text-muted-foreground">
             {UNOFFICIAL_CONSOLIDATION_CAPTION}
           </p>
@@ -299,12 +310,14 @@ function ResearchLawMetaBadges({
   jurisdiction,
   category,
   confidencePct,
+  showConfidence = true,
   jurisdictionBadgeClass,
   t,
 }: {
   jurisdiction: string
   category: string
   confidencePct: number
+  showConfidence?: boolean
   jurisdictionBadgeClass: (j: string) => string
   t: (key: string, vars?: Record<string, string | number>) => string
 }) {
@@ -321,15 +334,17 @@ function ResearchLawMetaBadges({
       <Badge variant="secondary" className="whitespace-nowrap">
         {category}
       </Badge>
-      <Badge
-        className={cn(
-          confidenceBadgeClass(confidencePct),
-          "whitespace-nowrap",
-        )}
-        variant="outline"
-      >
-        {t("research.results.confidenceLabel")} {confidencePct}%
-      </Badge>
+      {showConfidence ? (
+        <Badge
+          className={cn(
+            confidenceBadgeClass(confidencePct),
+            "whitespace-nowrap",
+          )}
+          variant="outline"
+        >
+          {t("rag.matchPercent", { pct: confidencePct })}
+        </Badge>
+      ) : null}
     </div>
   )
 }
@@ -544,7 +559,7 @@ function CaseLawResultCardBody({
           )}
           variant="outline"
         >
-          {t("research.results.confidenceLabel")} {c.confidencePct}%
+          {t("rag.matchPercent", { pct: c.confidencePct })}
         </Badge>
       </div>
       <CaseLawExpandableBody

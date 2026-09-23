@@ -124,10 +124,12 @@ export function RagSourcesPanel({ ragData, showSimilarity = true }: Props) {
                 </span>
                 {showSimilarity && (
                   <span className="text-muted-foreground/60">
-                    {t("rag.matchPercent").replace(
-                      "{pct}",
-                      (s.similarity * 100).toFixed(0)
-                    )}
+                    {t("rag.matchPercent", {
+                      pct: Math.max(
+                        0,
+                        Math.min(100, Math.round(s.similarity * 100)),
+                      ),
+                    })}
                   </span>
                 )}
               </div>

@@ -1,9 +1,13 @@
 /**
  * Full re-ingest cycle for legal_articles using Supabase JS client (service role).
  *
- * Steps:
+ * DISABLED 2026-09-21: this script deletes every legal_articles row, then used
+ * to re-insert SAMPLE_ARTICLES (drafted placeholders, never statutory).
+ * Write path requires --i-know-this-writes-drafted-placeholder-stubs.
+ *
+ * Steps (only if that flag is passed):
  * 1) Delete all rows from legal_articles (filter neq sentinel id).
- * 2) Run `npm run ingest-legal`.
+ * 2) Run ingest-legal-texts.ts with SAMPLE_STUBS_WRITE_FLAG (npm run ingest-legal is disabled).
  * 3) Query counts equivalent to:
  *    A) total per category
  *    B) per jurisdiction per category
@@ -12,6 +16,8 @@
  */
 import { execSync } from "child_process"
 import dotenv from "dotenv"
+
+import { SAMPLE_STUBS_WRITE_FLAG } from "./ingest-legal-texts"
 
 dotenv.config({ path: ".env.local" })
 
@@ -65,6 +71,12 @@ async function scanAllCategoriesAndJurisdictions() {
 }
 
 async function main() {
+  if (!process.argv.includes(SAMPLE_STUBS_WRITE_FLAG)) {
+    throw new Error(
+      `reingest-legal-cycle is disabled. It deletes every legal_articles row, then used to re-insert SAMPLE_ARTICLES (drafted placeholders, never statutory, removed from the database on 2026-09-21). Refusing to run. Pass ${SAMPLE_STUBS_WRITE_FLAG} only if you intentionally want that cycle.`,
+    )
+  }
+
   const { supabaseAdmin } = await import("../lib/supabase/admin")
 
   const { error: delErr } = await supabaseAdmin
@@ -77,11 +89,14 @@ async function main() {
   // eslint-disable-next-line no-console
   console.log("Deleted all rows from legal_articles (filter neq sentinel id).")
 
-  execSync("npm run ingest-legal", {
-    stdio: "inherit",
-    cwd: process.cwd(),
-    env: { ...process.env },
-  })
+  execSync(
+    `npx tsx scripts/ingest-legal-texts.ts ${SAMPLE_STUBS_WRITE_FLAG}`,
+    {
+      stdio: "inherit",
+      cwd: process.cwd(),
+      env: { ...process.env },
+    },
+  )
 
   const { SAMPLE_ARTICLES } = await import("./ingest-legal-texts")
   const expectedIngestTotal = SAMPLE_ARTICLES.length

@@ -3,10 +3,22 @@
 export const UNOFFICIAL_CONSOLIDATION_CAPTION =
   "Неслужбени пречишћени текст. Саставили смо га из службених извора Народне скупштине РС и Уставног суда РС."
 
-const STUB_MARKER = "unofficial consolidation"
+/** Lawyer-facing caption. The English stub is not consulted. */
+export const UNOFFICIAL_CONSOLIDATIONS: readonly {
+  jurisdiction: string
+  law_name_local: string
+}[] = [
+  { jurisdiction: "bih_rs", law_name_local: "Породични закон" },
+  { jurisdiction: "bih_rs", law_name_local: "Закон о раду" },
+]
 
-export function isUnofficialConsolidationStub(
-  text: string | null | undefined,
+export function isUnofficialConsolidation(
+  jurisdiction: string | null | undefined,
+  lawNameLocal: string | null | undefined,
 ): boolean {
-  return (text ?? "").toLowerCase().includes(STUB_MARKER)
+  if (!jurisdiction || !lawNameLocal) return false
+  return UNOFFICIAL_CONSOLIDATIONS.some(
+    (row) =>
+      row.jurisdiction === jurisdiction && row.law_name_local === lawNameLocal,
+  )
 }
