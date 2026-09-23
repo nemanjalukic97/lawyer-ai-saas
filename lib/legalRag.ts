@@ -400,6 +400,7 @@ const DEFAULT_KEYWORD_BUDGET_MS = 600
 const KEYWORD_BUDGET_REASON = "keyword_budget_exceeded"
 const KEYWORD_ERROR_REASON = "keyword_search_error"
 const KEYWORD_PHRASE_CIRCUIT_REASON = "keyword_phrase_circuit_breaker"
+const KEYWORD_CHANNEL_HINT_SKIP_REASON = "keyword_skipped_hint"
 const KEYWORD_PHRASE_CIRCUIT_MS = 2500
 
 function getKeywordSearchBudgetMs(): number {
@@ -531,6 +532,7 @@ async function searchLegalArticlesByKeyword(args: {
   matchCount: number
   skipLaborHeuristic?: boolean
   includeStateCourt?: boolean
+  skipKeywordChannel?: boolean
 }): Promise<KeywordSearchResult<LegalChunk>> {
   const started = Date.now()
   const query = args.query.trim()
@@ -540,6 +542,23 @@ async function searchLegalArticlesByKeyword(args: {
       elapsedMs: Date.now() - started,
       timedOut: false,
       skipReason: null,
+      stage1Ms: 0,
+      stage2Ms: null,
+    }
+  }
+
+  if (args.skipKeywordChannel === true) {
+    // eslint-disable-next-line no-console
+    console.error("[RAG] keyword channel skipped for hint mode", {
+      reason: KEYWORD_CHANNEL_HINT_SKIP_REASON,
+      jurisdiction: args.jurisdiction,
+      stage: "all",
+    })
+    return {
+      rows: [],
+      elapsedMs: Date.now() - started,
+      timedOut: false,
+      skipReason: KEYWORD_CHANNEL_HINT_SKIP_REASON,
       stage1Ms: 0,
       stage2Ms: null,
     }
@@ -807,29 +826,144 @@ const KEYWORD_BOOST_SCORES = new Set([0.9, 0.95])
  * pair — measured: unifying the root still leaves FBiH art. 30 at 0.640
  * under art. 237's 0.677 and wrongly covers ZPP 7/8.
  *
- * FBiH "nasljeđivanje nužni dio": rank 1 moved from art. 30 to art. 237.
- * Cause is not a defect in the keyword channel — 237 has genuinely higher
- * lexical coverage of the query; art. 30 is correct on legal grounds, not
- * lexical ones. Art. 30 remains in the yield at rank 11 via vector 0.586.
- * Tracked under the channel-calibration item below, not as a keyword bug.
+ * FBiH "nasljeđivanje nužni dio": when the keyword channel runs, art. 237
+ * outranks art. 30 because 237 has higher lexical coverage. Art. 30 is
+ * the correct article on legal grounds. The partial band tops out at
+ * 0.5475 raw. Vector scores on the gate queries run 0.586 / 0.672 /
+ * 0.784 / 0.931, so a mid-strength lexical hit interleaves with a strong
+ * semantic one. Do not paper over that with a curated-article constant.
  *
- * NEXT ROUND — channel calibration. Do not start it from this constant.
- * The partial band now tops out at 0.5475 raw / 0.677 after this +0.12.
- * Vector scores on the gate queries run 0.586 / 0.672 / 0.784 / 0.931. The
- * two distributions overlap in the middle, so a mid-strength lexical hit
- * interleaves with a strong semantic one by accident rather than by design.
- * This explains both open items: 143 at yield rank 4 behind an irrelevant
- * ZUS article, and 30 behind 237.
+ * Displayed match % (corpus audit item 1, labelling only — do not fix now):
+ * the figure is max(vector cosine, keyword phrase 0.95/0.90 or partial)
+ * after area rerank, capped at MAX_RERANK_SCORE. Equal percentages can
+ * mean different things, and everything that clears the ceiling prints 99.
+ * The UI label is podudarnost/match, not pouzdanost.
  *
- * Open question to measure first, before any number is touched: should this
- * boost apply to partial keyword scores at all? It was designed to prefer
- * curated articles over bulk chunks within the vector channel. On a partial
- * score that already has its own designed ceiling it double-counts, and it
- * is what lifts 237 (0.557 → 0.677) above art. 30's vector 0.586. Trade-off:
- * removing it also drops 143 from 0.640 to 0.520 and pushes it further down.
- * Measure both directions across all gate groups before proposing anything.
+ * DECISION 2026-09-23 — CURATED_ARTICLE_BOOST (+0.12) is removed.
+ * Do not re-add an additive curated constant from first principles.
+ * Inside the returned yield the 2026-09-23 inventory was 9 GOOD against
+ * 69 BAD and 13 UNCLEAR. Across the full inventory (361 flips: 30 GOOD /
+ * 173 BAD / 158 UNCLEAR) BAD led GOOD in every gap band, including
+ * 0–0.01. Largest GOOD gap 0.1123, smallest BAD gap 0.0001, largest
+ * flip in the set BAD at 0.12. All 30 GOOD flips were one article
+ * (Закон о раду чл. 179) on one query, and that query's rank 1 was a
+ * phrase hit the boost did not create. The same +0.12 lifted чл. 179
+ * (the employer's grounds) and чл. 178 (the worker's own resignation),
+ * and lifted чл. 28 (documents a candidate hands over at hiring) up
+ * against the answer to a dismissal-grounds query. There is no gap
+ * threshold at which the boost was net positive.
+ * isCuratedLegalChunk stays. The Član / Odlomak label and the excerpt
+ * notice use that distinction (a scraped excerpt is not a curated
+ * article). It no longer changes a score.
+ * AREA_MATCH_BOOST (+0.05) and KEYWORD_MISMATCH_MULTIPLIER (×0.75)
+ * are a separate question and were not measured here. Leave them.
+ * Phrase scores (0.95 / 0.90) and the hint-mode keyword skip are untouched.
+ *
+ * SHIPPED TOGETHER 2026-09-23 — the boost removal and the partial-band
+ * move are one change. The removal is right on the inventory (9 GOOD
+ * against 69 BAD inside the yield) and it depended on the partial band:
+ * without +0.12, latin paternity's full-coverage articles scored 0.52
+ * under a vector cluster at 0.58–0.60 and left the yield. The band is
+ * now base 0.46 + span 0.14×coverage + contiguity span/(2n). Full
+ * contiguous coverage for the token counts in this 15-query set lands
+ * strictly above 0.6006 and strictly below 0.6360.
+ * The window is 0.035 wide. It is the gap between two measured scores
+ * on these 15 queries (latin paternity's rank 1 at 0.6006, and Zakon o
+ * radu чл. 192 at 0.6360), not a principled constant. A different query
+ * can fall inside it.
+ * This does not fix razlozi za otkaz. Чл. 179 has to beat чл. 175, and
+ * чл. 175 is a stem hit at 0.95. No partial band can or should do that.
+ * A keyword phrase hit assigns 0.90/0.95 as a decision while coverage
+ * is measured. That is the next round.
+ *
+ * ACCEPTED 2026-09-23 — latin rank 1 missed the letter of criterion (a)
+ * by 0.0006. Gate n=30: Породични закон чл. 143, 141а and 142 are in the
+ * yield 30/30, and three of the top five are family law (чл. 156, 143,
+ * 157). Rank 1 stayed a bulk criminal-procedure excerpt at 0.6006.
+ * Those family-law articles are 4/4 and not contiguous, so they score
+ * 0.6000. A contiguous 4/4 would be 0.6175 and would clear 0.6006.
+ * Accepted deliberately. The gap is a tie, and the substance is the
+ * yield: latin paternity went from zero family-law articles to three of
+ * the top five. Do not nudge a constant to cross six ten-thousandths.
+ *
+ * COST 2026-09-23 — otkazni rok, Zakon o radu. Rank 1 held: чл. 192
+ * «Отказни рок». Raising the band put чл. 265 (misdemeanor fines) and
+ * чл. 37 (probation) at ranks 3 and 4. They displaced чл. 190 (the
+ * one-year rehire ban) and чл. 184 (the preclusion for giving the
+ * dismissal), which are the more relevant articles. The band bought
+ * latin paternity and cost this.
+ *
+ * SATURATION — standing defect of the scoring, same shape as the
+ * contiguity saturation and the 0.99 rerank ceiling. On that query four
+ * rows sit at exactly 0.650: чл. 192, the form bylaw чл. 3, чл. 265 and
+ * чл. 37. Equal scores mean the order among them is arbitrary. Several
+ * distinct signals collapse onto identical values. Do not treat the
+ * order inside a tied score as a ranking.
+ *
+ * PARTIAL STAGE — recorded 2026-09-23, do not act. The partial stage
+ * still died at 600 ms on 8 of 15 queries (latin paternity, nužni dio,
+ * dosjelost, ostavinski, zaštita povjerenja u zemljišne knjige, park,
+ * rok za tužbu u upravnom sporu, opšti upravni postupak rok za žalbu).
+ * Hint-mode is fixed. Research is not. This inventory, like the
+ * 2026-09-21 one, saw the keyword channel on fewer than half the
+ * queries. The removed boost applied to curated rows on any channel,
+ * so wider keyword coverage should produce more flips of both kinds
+ * rather than reverse the GOOD/BAD ratio. That is reasoning, not a
+ * measurement. Do not treat it as a reason to put the constant back.
+ *
+ * HEADING SIGNAL — recorded 2026-09-23, do not act. A future ingest
+ * change, not a scoring change. The article heading is a separate line
+ * from the body where the line exists, and on the two harm pairs it
+ * prefers the lawyer's article (Закон о раду чл. 179 over чл. 175;
+ * FBiH nasljeđivanje čl. 30 over čl. 237). The corpora do not carry it
+ * uniformly. Census of text_local, curated rows only:
+ * Croatia 7,107 rows across 23 laws (kazneni postupak and prekršaji
+ * are 0 rows): title before the number 5,546; short line after the
+ * number 25; body starts at the number 1,332; number line unmatched
+ * 204, including lettered articles written "Članak 358.a".
+ * FBiH 651 rows, two statutes (ZOPD 81/15 is 0 rows): title before 303,
+ * title after the number 328 (Zakon o stvarnim pravima keeps the title
+ * on the line after Član), absent 20.
+ * RS, four statutes, 1,162 rows: Породични закон 346/350 title before;
+ * Закон о стварним правима 333/357 title before; Закон о насљеђивању
+ * 149/173 title after the number; Закон о раду 96 title before and
+ * 180 of 282 with no heading. On Закон о раду the heading belongs to
+ * a section — «2.1 Разлози за отказ уговора о раду» stands above a
+ * group — and ingest attaches it only to the first article under it.
+ * Propagating that section heading onto every article beneath it at
+ * ingest would make the signal present on those articles. Do not do
+ * it in this round.
+ *
+ * FIX B (token-selectivity fetch cutoff) — accepted, stopped. 2026-09-21
+ * measurement: the high-share fetch tokens (prava, postupak, samouprave)
+ * are exactly the ones carrying the floor-passing singletons. No share
+ * cutoff is sound; do not retry a "drop ILIKE above X% of the jurisdiction"
+ * rule.
+ *
+ * SLOVENIA UPB stacking — recorded 2026-09-22, do not act. 75 CODE families
+ * hold more than one official consolidation (210 titles, 8,558 rows), so a
+ * search can return a superseded UPB. law_name / law_name_local are 1:1;
+ * newest in a family is max N in (CODE-UPBn). Fixing it properly needs three
+ * things we do not have: a widened applies_before (text CHECK'd to
+ * 'state_court' only), a real commencement date (effective_date is a
+ * 1 January year stamp on 96,964/96,968 rows), and the PISRS supersession
+ * graph (each edition has its own ZAKO id; 1,096 lettered amendments such
+ * as (ZKP-A) and 3,441 titles with no -UPBn cannot be joined from held
+ * columns). Do not DELETE. Do not retune the Slovenia IVFFlat for this.
+ * Families (CODE: UPB list, newest last):
+ * ZSPJS 1-7,13; ZKP 1-4,8,16; ZPol 1,2,4-7; ZTro 1-3,6-8; ZZelP 1-4,6,8;
+ * ZDT 1-5; ZOFVI 1-5; ZDCOPMD 1,2,5,7; ZIZ 1-4; ZS 1-4; ZSS 1-4;
+ * ZUT 1-3,5; ZViS 1-3,7; ZVVJTO 1-4; PZ 1,2,5; ZASP 1-3; ZFPPIPP 7,8,17;
+ * ZJU 1-3; ZJZ 1,2,5; ZLV 1-3; ZN 1-3; ZOsn 1-3; ZOUTI 1-3; ZOZP 1-3;
+ * ZPlaP 1-3; ZPP 1-3; ZRPJN 1,4,5; ZT 1,3,4; ZZavar 1,2,7; ZZdrS 1-3;
+ * ZZVZZ 1-3; ZZZiv 1-3; EZ 1,2; ZDD 1,3; ZDIJZ 1,2; ZDIP 1,2; ZDMV 1,2;
+ * ZDPra 1,2; ZDRS 1,2; ZEC 1,2; ZFZ 1,2; ZGos 1,2; ZIS 1,3; ZJSRS 1,2;
+ * ZKZ 1,2; ZLet 1,4; ZLS 1,2; ZMatR 1,2; ZNPK 1,2; ZNSVS 1,2; ZON 1,2;
+ * ZPILDR 1,2; ZPKri 1,2; ZPos 1,2; ZPrCP 2,7; ZPRPGDT 1,2; ZPZRTH 1,2;
+ * ZRLI 1,2; ZSOVA 1,2; ZSReg 1,2; ZSŠP 1,4; ZSV 1,2; ZTP 1,2; ZUP 1,2;
+ * ZVISJV 1,2; ZVPot 1,2; ZVrt 1,2; ZVTPPV 1,2; ZVV 1,2; ZVZelP 1,3;
+ * ZZad 1,2; ZZDej 1,2; ZZdrI 1,2; ZZRZI 1,2; ZZSDT 2,4.
  */
-const CURATED_ARTICLE_BOOST = 0.12
 const VECTOR_OVERFETCH_FACTOR = 4
 const VECTOR_OVERFETCH_MAX = 60
 /** Today's merge ceiling: unique(vector[:k] ∪ keyword[:k]). Preserves ~20 Zakoni / ~12 chat rows. */
@@ -843,29 +977,9 @@ function finalYieldLimit(matchCount: number): number {
   return matchCount * FINAL_YIELD_FACTOR
 }
 
-function isCuratedLegalChunk(chunk: LegalChunk): boolean {
+/** Scraped excerpts are Odlomak. Curated articles are Član. Not a score. */
+export function isCuratedLegalChunk(chunk: LegalChunk): boolean {
   return !isScrapedExcerpt(chunk.text, chunk.text_local)
-}
-
-function applyCuratedArticleBoost(chunks: LegalChunk[]): LegalChunk[] {
-  const scored = chunks.map((chunk) => {
-    if (!isCuratedLegalChunk(chunk)) return chunk
-    return {
-      ...chunk,
-      similarity: Math.min(
-        MAX_RERANK_SCORE,
-        chunk.similarity + CURATED_ARTICLE_BOOST,
-      ),
-    }
-  })
-  scored.sort((a, b) => {
-    if (b.similarity !== a.similarity) return b.similarity - a.similarity
-    const aCurated = isCuratedLegalChunk(a)
-    const bCurated = isCuratedLegalChunk(b)
-    if (aCurated !== bCurated) return aCurated ? -1 : 1
-    return 0
-  })
-  return scored
 }
 
 export type AreaInferenceLog = {
@@ -1709,6 +1823,7 @@ export async function matchLegalArticles(args: {
     matchCount,
     skipLaborHeuristic: args.categoryMode === "hint" && normalizedCategory != null,
     includeStateCourt,
+    skipKeywordChannel: args.categoryMode === "hint",
   })
 
   const embedStarted = Date.now()
@@ -1770,8 +1885,7 @@ export async function matchLegalArticles(args: {
     userFilterActive,
     areaHint,
   )
-  const boosted = applyCuratedArticleBoost(reranked)
-  const chunks = boosted.slice(0, finalYieldLimit(matchCount))
+  const chunks = reranked.slice(0, finalYieldLimit(matchCount))
   const mergeRerankMs = Date.now() - mergeStarted
 
   const timing: RagStageTiming = {

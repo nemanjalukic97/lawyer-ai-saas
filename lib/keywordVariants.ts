@@ -109,10 +109,17 @@ export const KEYWORD_PARTIAL_MIN_MATCHED = 2
 
 export const KEYWORD_EXACT_PHRASE_SCORE = 0.95
 export const KEYWORD_STEM_PHRASE_SCORE = 0.9
-export const KEYWORD_PARTIAL_BASE = 0.3
-export const KEYWORD_PARTIAL_COVERAGE_SPAN = 0.22
+export const KEYWORD_PARTIAL_BASE = 0.46
+export const KEYWORD_PARTIAL_COVERAGE_SPAN = 0.14
 
-/** Coverage step is 0.22/n. Contiguity is half a step: 0.22/(2n). */
+/**
+ * Coverage step is span/n. Contiguity is half a step: span/(2n), so it
+ * stays strictly smaller than one coverage step for every n.
+ * 2026-09-23 window: full contiguous coverage for the gate token counts
+ * sits in (0.6006, 0.6360). Base rose from 0.30 and span fell from 0.22
+ * because the old contiguity term spread n=2 and n=43 by more than that
+ * window. Shape is unchanged: base + span×coverage + contiguity.
+ */
 export function keywordPartialCoverageStep(tokenCount: number): number {
   if (tokenCount < 1) return 0
   return KEYWORD_PARTIAL_COVERAGE_SPAN / tokenCount
@@ -482,9 +489,9 @@ function contentTokenPresent(
 /**
  * Coverage-only partial for callers without the statute RPC flag (case-law
  * keyword). Contiguity is SQL-only: never computed here.
- * Exact 0.95 and stem 0.90 always outrank any partial. For n content tokens
- * partial ≤ 0.30 + 0.22 + 0.22/(2n); post curated-boost (+0.12) still below stem.
- * FBiH 30→237 and RS 143 rank-4 are channel-calibration, not this band.
+ * Exact 0.95 and stem 0.90 always outrank any partial. Full contiguous
+ * coverage is base + span + span/(2n). The maximum is n=2. After
+ * AREA_MATCH_BOOST (+0.05) that maximum stays below stem 0.90.
  */
 function scorePartialCoverage(
   haystack: string,
