@@ -508,7 +508,7 @@ function scoreLegalKeywordRows(
       return rowToLegalChunk(r, score, match.matchChannel)
     })
     .filter((c): c is LegalChunk => c != null)
-    .sort((a, b) => b.similarity - a.similarity)
+    .sort((a, b) => b.similarity - a.similarity || compareIdAsc(a, b))
 }
 
 function mergeKeywordStageRows(
@@ -522,7 +522,15 @@ function mergeKeywordStageRows(
       byId.set(row.id, row)
     }
   }
-  return Array.from(byId.values()).sort((a, b) => b.similarity - a.similarity)
+  return Array.from(byId.values()).sort(
+    (a, b) => b.similarity - a.similarity || compareIdAsc(a, b),
+  )
+}
+
+function compareIdAsc(a: { id: string }, b: { id: string }): number {
+  if (a.id < b.id) return -1
+  if (a.id > b.id) return 1
+  return 0
 }
 
 async function searchLegalArticlesByKeyword(args: {
@@ -901,9 +909,12 @@ const KEYWORD_BOOST_SCORES = new Set([0.9, 0.95])
  * order inside a tied score as a ranking.
  *
  * PARTIAL STAGE — recorded 2026-09-23, do not act. The partial stage
- * still died at 600 ms on 8 of 15 queries (latin paternity, nužni dio,
+ * still died at 600 ms on 8 of 13 queries (latin paternity, nužni dio,
  * dosjelost, ostavinski, zaštita povjerenja u zemljišne knjige, park,
  * rok za tužbu u upravnom sporu, opšti upravni postupak rok za žalbu).
+ * The gate file has 13 specs: those eight, plus the two otkazni rok
+ * searches, labor prediction, the employment contract, and Ivana.
+ * The count 15 did not name two further specs, and none were removed.
  * Hint-mode is fixed. Research is not. This inventory, like the
  * 2026-09-21 one, saw the keyword channel on fewer than half the
  * queries. The removed boost applied to curated rows on any channel,
@@ -982,6 +993,46 @@ export function isCuratedLegalChunk(chunk: LegalChunk): boolean {
   return !isScrapedExcerpt(chunk.text, chunk.text_local)
 }
 
+const SCORE_TIE_EPS = 1e-9
+
+/** Leading integer, then the leftover suffix. No leading integer sorts last. */
+function compareArticleOrdinal(a: string, b: string): number {
+  const parse = (value: string) => {
+    const match = /^(\d+)(.*)$/u.exec(value.trim())
+    if (!match) return null
+    return { n: Number(match[1]), suffix: match[2] ?? "" }
+  }
+  const pa = parse(a)
+  const pb = parse(b)
+  if (pa && pb) {
+    if (pa.n !== pb.n) return pa.n - pb.n
+    if (pa.suffix < pb.suffix) return -1
+    if (pa.suffix > pb.suffix) return 1
+    return 0
+  }
+  if (pa && !pb) return -1
+  if (!pa && pb) return 1
+  return 0
+}
+
+/**
+ * Final statute order. Bulk excerpt ordinals live in article_num
+ * (ingest-downloaded-laws writes String(i + 1) there).
+ * Score, then curated, then law, then article ordinal, then id.
+ */
+export function compareLegalChunks(a: LegalChunk, b: LegalChunk): number {
+  const ds = b.similarity - a.similarity
+  if (Math.abs(ds) >= SCORE_TIE_EPS) return ds
+  const ac = isCuratedLegalChunk(a) ? 0 : 1
+  const bc = isCuratedLegalChunk(b) ? 0 : 1
+  if (ac !== bc) return ac - bc
+  if (a.law_name_local < b.law_name_local) return -1
+  if (a.law_name_local > b.law_name_local) return 1
+  const art = compareArticleOrdinal(a.article_num, b.article_num)
+  if (art !== 0) return art
+  return compareIdAsc(a, b)
+}
+
 export type AreaInferenceLog = {
   inferredArea: string | null
   applied: boolean
@@ -1034,10 +1085,12 @@ function applyAreaAwareReranking<T extends {
   query: string,
   userFilterActive: boolean,
   areaHint?: string | null,
+  compare?: (a: T, b: T) => number,
 ): { items: T[]; log: AreaInferenceLog } {
+  const order = (list: T[]) => (compare ? [...list].sort(compare) : list)
   if (userFilterActive) {
     return {
-      items,
+      items: order(items),
       log: {
         inferredArea: null,
         applied: false,
@@ -1051,7 +1104,7 @@ function applyAreaAwareReranking<T extends {
   const inferredArea = hint ?? inferLegalAreaFromQuery(query)
   if (!inferredArea) {
     return {
-      items,
+      items: order(items),
       log: {
         inferredArea: null,
         applied: false,
@@ -1086,7 +1139,7 @@ function applyAreaAwareReranking<T extends {
     return { ...item, similarity: scoreAfter }
   })
 
-  reranked.sort((a, b) => b.similarity - a.similarity)
+  reranked.sort(compare ?? ((a, b) => b.similarity - a.similarity))
 
   return {
     items: reranked,
@@ -1884,6 +1937,7 @@ export async function matchLegalArticles(args: {
     args.query,
     userFilterActive,
     areaHint,
+    compareLegalChunks,
   )
   const chunks = reranked.slice(0, finalYieldLimit(matchCount))
   const mergeRerankMs = Date.now() - mergeStarted
@@ -1916,7 +1970,7 @@ function deduplicateChunks(chunks: LegalChunk[]): LegalChunk[] {
     }
   }
 
-  return Array.from(map.values()).sort((a, b) => b.similarity - a.similarity)
+  return Array.from(map.values()).sort(compareLegalChunks)
 }
 
 function truncateContextBlock(text: string): string {

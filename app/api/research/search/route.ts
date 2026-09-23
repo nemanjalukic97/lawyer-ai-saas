@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server"
 import { getSubscriptionContextForUser } from "@/app/dashboard/lib/getEntitlementPlan"
 import { PLAN_ENTITLEMENTS } from "@/app/dashboard/lib/entitlements"
 import {
+  compareLegalChunks,
   matchLegalArticles,
   retrieveCaseLawContext,
   summarizeAreaInferenceForLog,
@@ -228,9 +229,7 @@ function mergeLegalChunks(searches: Array<{ chunks?: LegalChunk[] }>): LegalChun
     const existing = bestByKey.get(key)
     if (!existing || c.similarity > existing.similarity) bestByKey.set(key, c)
   }
-  return Array.from(bestByKey.values()).sort(
-    (a, b) => (b.similarity ?? 0) - (a.similarity ?? 0),
-  )
+  return Array.from(bestByKey.values()).sort(compareLegalChunks)
 }
 
 function mergeCaseLawChunks(
