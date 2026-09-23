@@ -396,7 +396,15 @@ function rowToLegalChunk(
   }
 }
 
-const DEFAULT_KEYWORD_BUDGET_MS = 600
+// Stage-2 partial budget. Value from scripts/_diag-stage2-true-time.ts
+// on 2026-09-23: the slowest channel-running spec measured 1172 ms
+// (fbih_ostavinski); headroom max(100 ms, 15% of 1172) = 176 ms gives
+// 1348. Single-user measurement, not validated under concurrency.
+// hint_labor_prediction measures 2303 ms median and 3328 ms max but
+// does not reach stage 2 in production, and the budget is deliberately
+// not fitted to it. If the channel is ever enabled for full prediction
+// prompts, that statement needs work before the budget is reconsidered.
+const DEFAULT_KEYWORD_BUDGET_MS = 1348
 const KEYWORD_BUDGET_REASON = "keyword_budget_exceeded"
 const KEYWORD_ERROR_REASON = "keyword_search_error"
 const KEYWORD_PHRASE_CIRCUIT_REASON = "keyword_phrase_circuit_breaker"
@@ -921,6 +929,15 @@ const KEYWORD_BOOST_SCORES = new Set([0.9, 0.95])
  * so wider keyword coverage should produce more flips of both kinds
  * rather than reverse the GOOD/BAD ratio. That is reasoning, not a
  * measurement. Do not treat it as a reason to put the constant back.
+ *
+ * SORT SPILL — recorded 2026-09-23, do not act. EXPLAIN of the stage-2
+ * statement showed an external merge on disk (Sort Space Type: Disk)
+ * for seven queries: fbih_dosjelost, fbih_ostavinski, park_prvokup,
+ * hr_zvdsp, rs_opsti_upravni, hint_labor_prediction, and
+ * ivana_civil_suvlasnistvo. Those are the slow plans. The corpus
+ * re-chunk will change the sort footprint. Measure the spill again
+ * after re-chunking, against the corpus we will actually have. The
+ * 32 MB work_mem migration stays unapplied.
  *
  * HEADING SIGNAL — recorded 2026-09-23, do not act. A future ingest
  * change, not a scoring change. The article heading is a separate line
