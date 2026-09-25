@@ -966,6 +966,50 @@ export type Database = {
         }
         Relationships: []
       }
+      legal_search_logs: {
+        Row: {
+          id: string
+          created_at: string
+          user_id: string
+          law_firm_id: string | null
+          query: string
+          jurisdiction_filter: string | null
+          category_filter: string | null
+          mode: string
+          results: Json
+        }
+        Insert: {
+          id?: string
+          created_at?: string
+          user_id: string
+          law_firm_id?: string | null
+          query: string
+          jurisdiction_filter?: string | null
+          category_filter?: string | null
+          mode: string
+          results: Json
+        }
+        Update: {
+          id?: string
+          created_at?: string
+          user_id?: string
+          law_firm_id?: string | null
+          query?: string
+          jurisdiction_filter?: string | null
+          category_filter?: string | null
+          mode?: string
+          results?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "legal_search_logs_law_firm_id_fkey"
+            columns: ["law_firm_id"]
+            isOneToOne: false
+            referencedRelation: "law_firms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       matters: {
         Row: {
           client_id: string | null

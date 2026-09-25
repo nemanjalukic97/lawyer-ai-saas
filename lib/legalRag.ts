@@ -396,15 +396,24 @@ function rowToLegalChunk(
   }
 }
 
-// Stage-2 partial budget. Value from scripts/_diag-stage2-true-time.ts
-// on 2026-09-23: the slowest channel-running spec measured 1172 ms
-// (fbih_ostavinski); headroom max(100 ms, 15% of 1172) = 176 ms gives
-// 1348. Single-user measurement, not validated under concurrency.
-// hint_labor_prediction measures 2303 ms median and 3328 ms max but
-// does not reach stage 2 in production, and the budget is deliberately
-// not fitted to it. If the channel is ever enabled for full prediction
-// prompts, that statement needs work before the budget is reconsidered.
-const DEFAULT_KEYWORD_BUDGET_MS = 1348
+// Stage-2 partial budget. A single global abort, not a per-jurisdiction wait.
+// 2026-09-25: set above the worst observed execution of the Serbia paternity
+// statement, 5421 ms, not fitted to its median of 1164 ms. Typical runs were
+// 1157–1192 ms. Excursions reached 3006 ms, 3007 ms, and 5421 ms with 0
+// shared blocks read, contended-to-isolated ratios near 1, the sort under 1%
+// of the time, and the index scan at 2%. That variance is shared-core CPU.
+// The search log records stage2_ms and stage2_completed so production traffic
+// can show how often a query waits near this valve.
+// A generous ceiling does not slow a query that already returns: the budget
+// aborts, it does not wait. bih_brcko paternity returns at 193 ms and Croatia
+// otkazni rok at 91 ms under any ceiling at or above their own time.
+// A BitmapOr rewrite that collapsed six heap passes into one was measured and
+// rejected: median 2830 ms against 1164 ms for the same Serbia statement.
+// hint_labor_prediction measures 2303 ms median and 3328 ms max but does not
+// reach stage 2 in production, and the budget is deliberately not fitted to
+// it. If the channel is ever enabled for full prediction prompts, that
+// statement needs work before the budget is reconsidered.
+const DEFAULT_KEYWORD_BUDGET_MS = 8000
 const KEYWORD_BUDGET_REASON = "keyword_budget_exceeded"
 const KEYWORD_ERROR_REASON = "keyword_search_error"
 const KEYWORD_PHRASE_CIRCUIT_REASON = "keyword_phrase_circuit_breaker"
@@ -920,15 +929,19 @@ const KEYWORD_BOOST_SCORES = new Set([0.9, 0.95])
  * still died at 600 ms on 8 of 13 queries (latin paternity, nužni dio,
  * dosjelost, ostavinski, zaštita povjerenja u zemljišne knjige, park,
  * rok za tužbu u upravnom sporu, opšti upravni postupak rok za žalbu).
- * The gate file has 13 specs: those eight, plus the two otkazni rok
- * searches, labor prediction, the employment contract, and Ivana.
- * The count 15 did not name two further specs, and none were removed.
- * Hint-mode is fixed. Research is not. This inventory, like the
+ * That inventory's gate file had 13 specs: those eight, plus the two
+ * otkazni rok searches, labor prediction, the employment contract, and
+ * Ivana. The count 15 did not name two further specs, and none were
+ * removed. Hint-mode is fixed. Research is not. This inventory, like the
  * 2026-09-21 one, saw the keyword channel on fewer than half the
  * queries. The removed boost applied to curated rows on any channel,
  * so wider keyword coverage should produce more flips of both kinds
  * rather than reverse the GOOD/BAD ratio. That is reasoning, not a
  * measurement. Do not treat it as a reason to put the constant back.
+ * 2026-09-25 — the gate is 17 specs. Four research specs were added, one
+ * paternity query each for serbia, slovenia, montenegro, and bih_brcko,
+ * the jurisdictions that had no research spec. The set now covers all
+ * seven jurisdictions with at least one research spec.
  *
  * SORT SPILL — recorded 2026-09-23, do not act. EXPLAIN of the stage-2
  * statement showed an external merge on disk (Sort Space Type: Disk)

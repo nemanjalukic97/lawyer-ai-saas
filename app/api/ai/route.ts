@@ -24,6 +24,9 @@ import { PLAN_ENTITLEMENTS } from "@/app/dashboard/lib/entitlements"
 import { getSubscriptionContextForUser } from "@/app/dashboard/lib/getEntitlementPlan"
 import { normalizeJurisdiction } from "@/lib/normalizeJurisdiction"
 import { normalizeResearchCategory } from "@/lib/normalizeResearchCategory"
+import { logLegalSearch } from "@/lib/research/logLegalSearch"
+
+export const maxDuration = 60
 
 type FeatureType =
   | "contract_generation"
@@ -202,6 +205,18 @@ export async function POST(req: NextRequest) {
                 categoryMode: "hint",
                 k,
               })
+
+        await logLegalSearch({
+          supabase,
+          userId: user.id,
+          lawFirmId,
+          query: userPrompt,
+          jurisdictionFilter: ragJurisdiction,
+          categoryFilter,
+          mode: "hint",
+          chunks: ragResult.chunks,
+          keywordRuns: [{ timing: ragResult.timing }],
+        })
 
         let caseLawResult: CaseLawContextResult = {
           cases: [],

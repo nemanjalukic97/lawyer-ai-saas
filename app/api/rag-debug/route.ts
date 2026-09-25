@@ -1,5 +1,7 @@
 import { NextRequest } from "next/server"
 
+export const maxDuration = 60
+
 import { legislationChunkPreview, retrieveLegalContext } from "@/lib/legalRag"
 import { createClient } from "@/lib/supabase/server"
 

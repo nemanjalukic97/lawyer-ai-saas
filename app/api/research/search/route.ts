@@ -1,5 +1,7 @@
 import { NextRequest } from "next/server"
 
+export const maxDuration = 60
+
 import { createClient } from "@/lib/supabase/server"
 import { getSubscriptionContextForUser } from "@/app/dashboard/lib/getEntitlementPlan"
 import { PLAN_ENTITLEMENTS } from "@/app/dashboard/lib/entitlements"
@@ -22,6 +24,7 @@ import {
   normalizeResearchCategory,
 } from "@/lib/normalizeResearchCategory"
 import { isScrapedExcerpt, splitByRelevanceTier } from "@/lib/ragThresholds"
+import { logLegalSearch } from "@/lib/research/logLegalSearch"
 import type { TablesInsert } from "@/lib/supabase/types"
 
 type ResearchSearchScope = "laws" | "caselaw" | "both"
@@ -373,6 +376,7 @@ export async function POST(req: NextRequest) {
                       applied: false,
                       results: [],
                     } satisfies AreaInferenceLog,
+                    failed: true as const,
                     timing: {
                       embedMs: 0,
                       vectorRpcMs: 0,
@@ -580,6 +584,26 @@ export async function POST(req: NextRequest) {
           err instanceof Error ? err.message : String(err),
         )
       }
+    }
+
+    if (page === 1 && fetchLaws) {
+      const logMs = await logLegalSearch({
+        supabase,
+        userId: user.id,
+        lawFirmId,
+        query,
+        jurisdictionFilter: jurisdiction,
+        categoryFilter: category,
+        mode: "research",
+        chunks: sorted,
+        keywordRuns: searches.map((run, index) => ({
+          jurisdiction: jurisdictions[index] ?? null,
+          timing: run.timing,
+          failed: "failed" in run && run.failed === true,
+        })),
+      })
+      // eslint-disable-next-line no-console
+      console.error("[research/search] legal_search_logs insert", { ms: logMs })
     }
 
     return Response.json({

@@ -1,6 +1,6 @@
 {
-  "gitSha": "594e9cb7dc05708ab01545ccd6e0edddc21e6c63",
-  "date": "2026-09-23T21:25:07.264Z",
+  "gitSha": "1712a54b1c547302a81514dc939049d1002feb6d",
+  "date": "2026-09-25T16:49:59.507Z",
   "note": "Variance-and-latency snapshot of one code version. Not a comparison of two versions. channel_not_run queries are stored and excluded from --compare-baseline.",
   "queries": {
     "latin_paternity": {
@@ -1234,6 +1234,386 @@
           "article_num": "30",
           "is_curated": false,
           "score": 0.612164,
+          "rank": 10
+        }
+      ]
+    },
+    "serbia_paternity": {
+      "status": "valid",
+      "top10": [
+        {
+          "id": "1c83af54-a105-46d2-b48e-6225bb96fc3f",
+          "jurisdiction": "serbia",
+          "law_name_local": "ПОРОДИЧНИ ЗАКОН",
+          "article_num": "251",
+          "is_curated": true,
+          "score": 0.6,
+          "rank": 1
+        },
+        {
+          "id": "ad119083-2a70-4891-9cac-03f11b3cc5cb",
+          "jurisdiction": "serbia",
+          "law_name_local": "ПОРОДИЧНИ ЗАКОН",
+          "article_num": "256",
+          "is_curated": true,
+          "score": 0.6,
+          "rank": 2
+        },
+        {
+          "id": "ae15d402-5a77-4788-b344-508c95647be6",
+          "jurisdiction": "serbia",
+          "law_name_local": "Закон о решавању сукоба закона са прописима других земаља",
+          "article_num": "22",
+          "is_curated": false,
+          "score": 0.6,
+          "rank": 3
+        },
+        {
+          "id": "0880bd72-0bb5-4146-9907-b243492cdaba",
+          "jurisdiction": "serbia",
+          "law_name_local": "ЗАКОН о националним саветима националних мањина",
+          "article_num": "24",
+          "is_curated": false,
+          "score": 0.5825,
+          "rank": 4
+        },
+        {
+          "id": "3c889d61-19e1-47d8-be24-6b03e4f4c58b",
+          "jurisdiction": "serbia",
+          "law_name_local": "ЗАКОН о судским таксама",
+          "article_num": "9",
+          "is_curated": false,
+          "score": 0.5825,
+          "rank": 5
+        },
+        {
+          "id": "9f9813a7-f927-43f3-9554-56cfa22ab62b",
+          "jurisdiction": "serbia",
+          "law_name_local": "ЗАКОН о трговачким праксама за одређене врсте производа",
+          "article_num": "17",
+          "is_curated": false,
+          "score": 0.5825,
+          "rank": 6
+        },
+        {
+          "id": "a51f507d-bcb6-4991-818c-a7cb6b5051ce",
+          "jurisdiction": "serbia",
+          "law_name_local": "Закон о обавезном осигурању у саобраћају",
+          "article_num": "18",
+          "is_curated": false,
+          "score": 0.5825,
+          "rank": 7
+        },
+        {
+          "id": "3ccc0e31-654d-46e7-9777-5b10ee24d2ad",
+          "jurisdiction": "serbia",
+          "law_name_local": "ПРАВИЛНИК о праћењу рада судова",
+          "article_num": "2",
+          "is_curated": false,
+          "score": 0.5825,
+          "rank": 8
+        },
+        {
+          "id": "8fd677ec-0dce-4827-b57f-10cabfe422db",
+          "jurisdiction": "serbia",
+          "law_name_local": "СТАТУТ Стоматолошке коморе Србије",
+          "article_num": "37",
+          "is_curated": false,
+          "score": 0.5825,
+          "rank": 9
+        },
+        {
+          "id": "1f1a6bb0-3d55-4286-8daf-39be2719a4ec",
+          "jurisdiction": "serbia",
+          "law_name_local": "СУДСКИ ПОСЛОВНИК Судски пословник о изменама и допунама Судског пословника: \"Службени гласник РС\", број 70/2011-31",
+          "article_num": "139",
+          "is_curated": false,
+          "score": 0.5825,
+          "rank": 10
+        }
+      ]
+    },
+    "slovenia_paternity": {
+      "status": "valid",
+      "top10": [
+        {
+          "id": "7d44c5a8-4c99-417d-a72a-9b31f2212b70",
+          "jurisdiction": "slovenia",
+          "law_name_local": "Zakon o varstvu okolja (ZVO-2)",
+          "article_num": "144",
+          "is_curated": false,
+          "score": 0.555453,
+          "rank": 1
+        },
+        {
+          "id": "f361aae8-070b-40ef-b2d9-93d2908e1b73",
+          "jurisdiction": "slovenia",
+          "law_name_local": "Zakon o sodelovanju med Republiko Slovenijo in mednarodnim kazenskim sodiščem za nekdanjo Jugoslavijo ter mednarodnim kazenskim sodiščem za Ruando (ZSMKSR)",
+          "article_num": "6",
+          "is_curated": false,
+          "score": 0.552788,
+          "rank": 2
+        },
+        {
+          "id": "4bd4d01a-2323-4056-9607-212df82158d5",
+          "jurisdiction": "slovenia",
+          "law_name_local": "Zakon o kazenskem postopku (uradno prečiščeno besedilo) (ZKP-UPB3)",
+          "article_num": "104",
+          "is_curated": false,
+          "score": 0.552657,
+          "rank": 3
+        },
+        {
+          "id": "3edf03f8-9534-4b47-8ee6-78be6fdd1cfb",
+          "jurisdiction": "slovenia",
+          "law_name_local": "Zakon o kazenskem postopku (uradno prečiščeno besedilo) (ZKP-UPB1)",
+          "article_num": "89",
+          "is_curated": false,
+          "score": 0.552607,
+          "rank": 4
+        },
+        {
+          "id": "988ac29a-ad00-4d2b-a030-22bbcd00bb4d",
+          "jurisdiction": "slovenia",
+          "law_name_local": "Zakon o kazenskem postopku (uradno prečiščeno besedilo) (ZKP-UPB4)",
+          "article_num": "105",
+          "is_curated": false,
+          "score": 0.55228,
+          "rank": 5
+        },
+        {
+          "id": "800b11d2-bced-45df-9342-ebbc7d64c207",
+          "jurisdiction": "slovenia",
+          "law_name_local": "Zakon o kazenskem postopku (uradno prečiščeno besedilo) (ZKP-UPB2)",
+          "article_num": "102",
+          "is_curated": false,
+          "score": 0.55206,
+          "rank": 6
+        },
+        {
+          "id": "72171af5-df8b-49fb-8578-08b4f395a4d4",
+          "jurisdiction": "slovenia",
+          "law_name_local": "Zakon o varstvu okolja (ZVO-2)",
+          "article_num": "145",
+          "is_curated": false,
+          "score": 0.550126,
+          "rank": 7
+        },
+        {
+          "id": "6651b57d-2fcf-40e5-83b2-e7c7b23ff074",
+          "jurisdiction": "slovenia",
+          "law_name_local": "Zakon o spremembah in dopolnitvah Zakona o sodnih taksah (ZST-1B)",
+          "article_num": "18",
+          "is_curated": false,
+          "score": 0.550082,
+          "rank": 8
+        },
+        {
+          "id": "2799eb08-c607-4311-af87-f1cbcf1ab0da",
+          "jurisdiction": "slovenia",
+          "law_name_local": "Zakon o sodnih taksah (ZST-1)",
+          "article_num": "34",
+          "is_curated": false,
+          "score": 0.550003,
+          "rank": 9
+        },
+        {
+          "id": "873a0589-a863-4536-88c2-51b5afeea764",
+          "jurisdiction": "slovenia",
+          "law_name_local": "Zakon o ratifikaciji Pogodbe med Vlado Republike Slovenije in Vlado Republike Hrvaške o ureditvi statusnih in drugih pravnih razmerij, povezanih z vlaganjem v Nuklearno elektrarno Krško, njenim izkoriščanjem in razgradnjo in Skupne izjave ob podpisu Pogodbe med Vlado Republike Slovenije in Vlado Republike Hrvaške o ureditvi statusnih in drugih pravnih razmerij, povezanih z vlaganjem v Nuklearno elektrarno Krško, njenim izkoriščanjem in razgradnjo (BHRNEK)",
+          "article_num": "55",
+          "is_curated": false,
+          "score": 0.5475,
+          "rank": 10
+        }
+      ]
+    },
+    "montenegro_paternity": {
+      "status": "valid",
+      "top10": [
+        {
+          "id": "4857bbd6-f407-46c7-baa8-9e46a82a9b87",
+          "jurisdiction": "montenegro",
+          "law_name_local": "PORODIČNI ZAKON",
+          "article_num": "69",
+          "is_curated": false,
+          "score": 0.6175,
+          "rank": 1
+        },
+        {
+          "id": "c5dade4d-c967-489c-a792-255142ae3bed",
+          "jurisdiction": "montenegro",
+          "law_name_local": "PORODIČNI ZAKON",
+          "article_num": "68",
+          "is_curated": false,
+          "score": 0.608741,
+          "rank": 2
+        },
+        {
+          "id": "00e43382-962c-4a44-b2b0-06f46164ebbe",
+          "jurisdiction": "montenegro",
+          "law_name_local": "PORODIČNI ZAKON",
+          "article_num": "21",
+          "is_curated": false,
+          "score": 0.6,
+          "rank": 3
+        },
+        {
+          "id": "b5697f78-d185-4793-8f15-733e650db596",
+          "jurisdiction": "montenegro",
+          "law_name_local": "PORODIČNI ZAKON",
+          "article_num": "22",
+          "is_curated": false,
+          "score": 0.6,
+          "rank": 4
+        },
+        {
+          "id": "1ccdb5f0-3bc0-4eba-aa68-bc98a62ac762",
+          "jurisdiction": "montenegro",
+          "law_name_local": "PORODIČNI ZAKON",
+          "article_num": "28",
+          "is_curated": false,
+          "score": 0.6,
+          "rank": 5
+        },
+        {
+          "id": "67cae92a-79ca-4067-a227-e2840ded568e",
+          "jurisdiction": "montenegro",
+          "law_name_local": "PORODIČNI ZAKON",
+          "article_num": "73",
+          "is_curated": false,
+          "score": 0.6,
+          "rank": 6
+        },
+        {
+          "id": "b16a1af4-a9ab-4efc-ac4a-57364b1d2805",
+          "jurisdiction": "montenegro",
+          "law_name_local": "ZAKONO MEĐUNARODNOM PRIVATNOM PRAVU",
+          "article_num": "36",
+          "is_curated": false,
+          "score": 0.5825,
+          "rank": 7
+        },
+        {
+          "id": "3d70e5c7-f40e-44ae-937e-acea67444e37",
+          "jurisdiction": "montenegro",
+          "law_name_local": "ZAKONO PARNIČNOM POSTUPKU",
+          "article_num": "11",
+          "is_curated": false,
+          "score": 0.5825,
+          "rank": 8
+        },
+        {
+          "id": "dfd1893a-be1c-40fd-9245-ff448a091a00",
+          "jurisdiction": "montenegro",
+          "law_name_local": "ZAKONO PRIVREDNIM DRUŠTVIMA",
+          "article_num": "63",
+          "is_curated": false,
+          "score": 0.5825,
+          "rank": 9
+        },
+        {
+          "id": "935eacbe-975d-49ad-8cbe-de41fbe75d4e",
+          "jurisdiction": "montenegro",
+          "law_name_local": "ZAKONIKO KRIVIČNOM POSTUPKU",
+          "article_num": "135",
+          "is_curated": false,
+          "score": 0.575533,
+          "rank": 10
+        }
+      ]
+    },
+    "bih_brcko_paternity": {
+      "status": "valid",
+      "top10": [
+        {
+          "id": "8f8d1ccb-e777-4eb0-82b7-afb62fa17c25",
+          "jurisdiction": "bih_brcko",
+          "law_name_local": "ZAKONO PARNIČNOM POSTUPKU BRČKO DISTRIKTA BIH",
+          "article_num": "102",
+          "is_curated": false,
+          "score": 0.6,
+          "rank": 1
+        },
+        {
+          "id": "e2b94926-77c8-40b5-9a3f-0bec4c59ebaf",
+          "jurisdiction": "bih_brcko",
+          "law_name_local": "ZAKONO PARNIČNOM POSTUPKU BRČKO DISTRIKTA BIH",
+          "article_num": "103",
+          "is_curated": false,
+          "score": 0.6,
+          "rank": 2
+        },
+        {
+          "id": "f283c03b-6ba6-414f-8d3b-d0c508e00238",
+          "jurisdiction": "bih_brcko",
+          "law_name_local": "PORODIČNI ZAKONBRČKO DISTRIKTA BIH",
+          "article_num": "10",
+          "is_curated": false,
+          "score": 0.5825,
+          "rank": 3
+        },
+        {
+          "id": "5d9bcc91-4c2c-4ff7-a604-0eca6881298d",
+          "jurisdiction": "bih_brcko",
+          "law_name_local": "PORODIČNI ZAKONBRČKO DISTRIKTA BIH",
+          "article_num": "66",
+          "is_curated": false,
+          "score": 0.5825,
+          "rank": 4
+        },
+        {
+          "id": "03b9ec64-e3e9-4eeb-8207-cceac72f5de6",
+          "jurisdiction": "bih_brcko",
+          "law_name_local": "ZAKONO PARNIČNOM POSTUPKU BRČKO DISTRIKTA BIH",
+          "article_num": "101",
+          "is_curated": false,
+          "score": 0.5825,
+          "rank": 5
+        },
+        {
+          "id": "d9c2ba4f-9a7f-4b31-94a7-2c310a005fda",
+          "jurisdiction": "bih_brcko",
+          "law_name_local": "ZAKONO SUDSKIM TAKSAMA",
+          "article_num": "14",
+          "is_curated": false,
+          "score": 0.5825,
+          "rank": 6
+        },
+        {
+          "id": "9445fbf9-6f30-46f9-a4bc-943e701b64a0",
+          "jurisdiction": "bih_brcko",
+          "law_name_local": "PORODIČNI ZAKONBRČKO DISTRIKTA BIH",
+          "article_num": "61",
+          "is_curated": false,
+          "score": 0.580617,
+          "rank": 7
+        },
+        {
+          "id": "dd73bf76-3a7f-451b-a04c-1cfc90645724",
+          "jurisdiction": "bih_brcko",
+          "law_name_local": "PORODIČNI ZAKONBRČKO DISTRIKTA BIH",
+          "article_num": "62",
+          "is_curated": false,
+          "score": 0.57953,
+          "rank": 8
+        },
+        {
+          "id": "0eaaa9c5-7db5-44ce-9995-4a8da833e848",
+          "jurisdiction": "bih_brcko",
+          "law_name_local": "ZAKONO KRIVIČNOM POSTUPKU BRČKO DISTRIKTA BOSNE I HERCEGOVINE",
+          "article_num": "92",
+          "is_curated": false,
+          "score": 0.577794,
+          "rank": 9
+        },
+        {
+          "id": "e604b7ef-39b0-43ac-94b8-6d0fd84ff84d",
+          "jurisdiction": "bih_brcko",
+          "law_name_local": "ZAKONO PARNIČNOM POSTUPKU BRČKO DISTRIKTA BIH",
+          "article_num": "39",
+          "is_curated": false,
+          "score": 0.574959,
           "rank": 10
         }
       ]

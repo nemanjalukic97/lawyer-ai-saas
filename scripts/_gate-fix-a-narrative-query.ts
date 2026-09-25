@@ -1,5 +1,5 @@
 /**
- * Variance and latency instrument for the 13 gate specs.
+ * Variance and latency instrument for the 17 gate specs.
  * It is not a regression instrument: one process, one code version.
  * Research specs compare a call with itself. Prediction specs compare
  * two query formulations. A difference there is variance, not a code change.
@@ -23,7 +23,9 @@ dotenv.config({ path: path.join("scripts", "outreach", ".env") })
 dotenv.config({ path: ".env.local" })
 
 const PHRASE_BUDGET_MS = 2500
-const PARTIAL_BUDGET_MS = 1348
+// Same valve as DEFAULT_KEYWORD_BUDGET_MS. Set above the worst observed
+// Serbia paternity execution, 5421 ms, not fitted to the median.
+const PARTIAL_BUDGET_MS = 8000
 const BASELINE_PATH = path.join("scripts", "gate-baseline.json")
 const SCORE_DELTA = 1e-6
 
@@ -185,6 +187,34 @@ const SPECS: Spec[] = [
     fullPrompt: "opšti upravni postupak rok za žalbu",
     jurisdiction: "bih_rs",
     k: 8,
+    kind: "research",
+  },
+  {
+    id: "serbia_paternity",
+    fullPrompt: LATIN,
+    jurisdiction: "serbia",
+    k: 10,
+    kind: "research",
+  },
+  {
+    id: "slovenia_paternity",
+    fullPrompt: LATIN,
+    jurisdiction: "slovenia",
+    k: 10,
+    kind: "research",
+  },
+  {
+    id: "montenegro_paternity",
+    fullPrompt: LATIN,
+    jurisdiction: "montenegro",
+    k: 10,
+    kind: "research",
+  },
+  {
+    id: "bih_brcko_paternity",
+    fullPrompt: LATIN,
+    jurisdiction: "bih_brcko",
+    k: 10,
     kind: "research",
   },
 ]
