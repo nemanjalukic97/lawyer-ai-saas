@@ -16,6 +16,13 @@ const navLinkClass =
 
 const pillButtonClass = "rounded-full"
 
+const SECTION_LINKS = [
+  { href: "#how-it-works", key: "howItWorks" },
+  { href: "#features", key: "features" },
+  { href: "#pricing", key: "pricing" },
+  { href: "#faq", key: "faq" },
+] as const
+
 type HeaderProps = {
   /** From server (Supabase cookies) so first paint matches session and avoids logged-out flash */
   initialSignedIn?: boolean
@@ -86,13 +93,12 @@ export function Header({ initialSignedIn }: HeaderProps) {
         <NavbarBrand href="/" onClick={closeMenu} />
       </div>
 
-      <div className="hidden items-center gap-4 min-[992px]:flex">
-        <Link href="#features" className={navLinkClass}>
-          {t("nav.features")}
-        </Link>
-        <Link href="#pricing" className={navLinkClass}>
-          {t("nav.pricing")}
-        </Link>
+      <div className="hidden items-center gap-1 min-[992px]:flex">
+        {SECTION_LINKS.map(({ href, key }) => (
+          <Link key={key} href={href} className={navLinkClass}>
+            {t(`nav.${key}`)}
+          </Link>
+        ))}
       </div>
 
       <div className="flex flex-1 items-center justify-end gap-3">
@@ -154,20 +160,16 @@ export function Header({ initialSignedIn }: HeaderProps) {
           }}
         >
           <div className="flex flex-col gap-2 max-[991px]:items-center">
-            <Link
-              href="#features"
-              className={cn(navLinkClass, "block max-[991px]:mx-auto max-[991px]:w-fit max-[991px]:text-center")}
-              onClick={closeMenu}
-            >
-              {t("nav.features")}
-            </Link>
-            <Link
-              href="#pricing"
-              className={cn(navLinkClass, "block max-[991px]:mx-auto max-[991px]:w-fit max-[991px]:text-center")}
-              onClick={closeMenu}
-            >
-              {t("nav.pricing")}
-            </Link>
+            {SECTION_LINKS.map(({ href, key }) => (
+              <Link
+                key={key}
+                href={href}
+                className={cn(navLinkClass, "block max-[991px]:mx-auto max-[991px]:w-fit max-[991px]:text-center")}
+                onClick={closeMenu}
+              >
+                {t(`nav.${key}`)}
+              </Link>
+            ))}
             {signedIn ? (
               <>
                 <div className="px-3 pt-1">

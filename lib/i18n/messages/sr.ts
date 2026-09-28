@@ -9,6 +9,8 @@ export const srMessages: Messages = {
     nav: {
       features: "Funkcionalnosti",
       pricing: "Cene",
+      howItWorks: "Kako radi",
+      faq: "Česta pitanja",
       login: "Prijava",
       getStarted: "Započni",
       dashboard: "Kontrolna tabla",

@@ -131,6 +131,11 @@ const NEGATIVE_CASES: Array<{
     query: "naknada štete zbog povrede na radu",
     reportOnly: true,
   },
+  {
+    id: "neg_bankarska_garancija",
+    query: "bankarska garancija za izvršenje ugovora",
+    mustNot: "civil",
+  },
 ]
 
 const SPECS: Spec[] = [

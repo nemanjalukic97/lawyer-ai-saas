@@ -1,0 +1,313 @@
+{
+  "law_name_local": "ЗАКОН о заштити потрошача",
+  "source_url": "https://pravno-informacioni-sistem.rs/viewAct/be0650dc-af85-4a3d-8539-4a4796616ee6",
+  "citation": "„Службени гласник РС”, број 35 од 23. априла 2026.",
+  "articles": 220,
+  "law_category": "civil",
+  "decisions": [
+    {
+      "id": "effective_date_is_application",
+      "decision": "effective_date is the date the provision governs conduct, not the date the act enters into force. It is set per article.",
+      "arithmetic": "The register prints the publication date, 23 April 2026, and the formula in Article 220. It does not print 1 May 2026 or 1 August 2026. The eighth day from 23 April 2026, not counting the day of publication, is 1 May 2026 (24 April through 1 May). Adding eight calendar days to 23 April lands on the same day. Three months from 1 May 2026, by the corresponding day, is 1 August 2026.",
+      "what_we_did": "Article 4 and Article 6 are dated 2026-05-01. The other 218 articles are dated 2026-08-01.",
+      "why": "Earlier statutes in this corpus carry effective_date as a year stamp or a single date for the act. This departs from that. A lawyer needs the date from which the provision governs. Do not retrofit other laws.",
+      "article_4_limit": "Article 220 applies 1 May 2026 only to Article 4, paragraph 1, and to the whole of Article 6. The row is one article, so Article 4 carries 2026-05-01 for the whole article. Paragraphs of Article 4 after paragraph 1 govern from 1 August 2026. The column cannot say both."
+    },
+    {
+      "id": "group_headings_not_copied",
+      "decision": "A heading is stored in text_local only when it belongs to exactly one article. A heading that stands over several articles is not copied onto the first of them.",
+      "why": "Copying a section heading onto only the first article would make that article look specially titled. The heading is not a provision.",
+      "headings": [
+        {
+          "heading": "I. УВОДНЕ ОДРЕДБЕ",
+          "articles": []
+        },
+        {
+          "heading": "II. ИНФОРМИСАЊЕ ПОТРОШАЧА И ЕДУКАЦИЈА",
+          "articles": []
+        },
+        {
+          "heading": "III. НЕПОШТЕНА ПОСЛОВНА ПРАКСА",
+          "articles": []
+        },
+        {
+          "heading": "IV. ЗАШТИТА ПОТРОШАЧА У ОСТВАРИВАЊУ ПРАВА ИЗ УГОВОРА НА ДАЉИНУ И УГОВОРА КОЈИ СЕ ЗАКЉУЧУЈУ ИЗВАН ПОСЛОВНИХ ПРОСТОРИЈА",
+          "articles": []
+        },
+        {
+          "heading": "1. Обавештавање потрошача и право на одустанак",
+          "articles": [
+            "27",
+            "28",
+            "29",
+            "30",
+            "31",
+            "32",
+            "33",
+            "34",
+            "35",
+            "36",
+            "37",
+            "38"
+          ]
+        },
+        {
+          "heading": "2. Ограничење употребе појединих средстава комуникације на даљину",
+          "articles": [
+            "39",
+            "40",
+            "41"
+          ]
+        },
+        {
+          "heading": "V. ЗАШТИТА ПОТРОШАЧА У ОСТВАРИВАЊУ ПРАВА ИЗ УГОВОРА КОЈИ САДРЖЕ НЕПРАВИЧНЕ УГОВОРНЕ ОДРЕДБЕ",
+          "articles": []
+        },
+        {
+          "heading": "VI. ЗАШТИТА ПОТРОШАЧА У ОСТВАРИВАЊУ ПРАВА ИЗ УГОВОРА О ПРОДАЈИ",
+          "articles": []
+        },
+        {
+          "heading": "1. Испорука и прелазак ризика",
+          "articles": [
+            "48",
+            "49",
+            "50",
+            "51",
+            "52"
+          ]
+        },
+        {
+          "heading": "2. Саобразност робе",
+          "articles": [
+            "53",
+            "54",
+            "55",
+            "56",
+            "57",
+            "58",
+            "59",
+            "60"
+          ]
+        },
+        {
+          "heading": "3. Комерцијална гаранција",
+          "articles": [
+            "61",
+            "62"
+          ]
+        },
+        {
+          "heading": "VII. БЕЗБЕДНОСТ ПОТРОШАЧА",
+          "articles": []
+        },
+        {
+          "heading": "VIII. ОДГОВОРНОСТ ЗА ПРОИЗВОДЕ СА НЕДОСТАТКОМ",
+          "articles": []
+        },
+        {
+          "heading": "IX. ЗАШТИТА ПОТРОШАЧА У ОСТВАРИВАЊУ ПРАВА ИЗ УГОВОРА О ИСПОРУЦИ ДИГИТАЛНОГ САДРЖАЈА И ДИГИТАЛНИХ УСЛУГА",
+          "articles": []
+        },
+        {
+          "heading": "X. ЗАШТИТА ПОТРОШАЧА У ОСТВАРИВАЊУ ПРАВА ИЗ УГОВОРА О ПРУЖАЊУ УСЛУГА, ОСИМ УСЛУГА ОД ОПШТЕГ ЕКОНОМСКОГ ИНТЕРЕСА",
+          "articles": []
+        },
+        {
+          "heading": "XI. УСЛУГЕ ОД ОПШТЕГ ЕКОНОМСКОГ ИНТЕРЕСА",
+          "articles": []
+        },
+        {
+          "heading": "XII. ЗАШТИТА ПОТРОШАЧА У ОСТВАРИВАЊУ ПРАВА ИЗ УГОВОРА О ТУРИСТИЧКОМ ПУТОВАЊУ И ВРЕМЕНСКИ ПОДЕЉЕНОМ КОРИШЋЕЊУ НЕПОКРЕТНОСТИ",
+          "articles": []
+        },
+        {
+          "heading": "1. Заштита потрошача у остваривању права из уговора о туристичком путовању",
+          "articles": [
+            "115",
+            "116",
+            "117",
+            "118",
+            "119",
+            "120",
+            "121",
+            "122"
+          ]
+        },
+        {
+          "heading": "1.1. Измене уговора пре поласка",
+          "articles": []
+        },
+        {
+          "heading": "1.2. Саобразност туристичког путовања",
+          "articles": []
+        },
+        {
+          "heading": "2. Временски подељено коришћење непокретности (тајм-шеринг), трајне олакшице за одмор, помоћ приликом препродаје, омогућавање размене",
+          "articles": [
+            "141",
+            "142",
+            "143",
+            "144",
+            "145",
+            "146",
+            "147",
+            "148",
+            "149",
+            "150",
+            "151",
+            "152"
+          ]
+        },
+        {
+          "heading": "XIII. ДОКУМЕНТ ЈАВНЕ ПОЛИТИКЕ И ИНСТИТУЦИОНАЛНИ ОКВИР ЗА ЗАШТИТУ ПОТРОШАЧА",
+          "articles": []
+        },
+        {
+          "heading": "ХIV. ПОТРОШАЧКИ ПРИГОВОРИ И ВАНСУДСКО РЕШАВАЊЕ ПОТРОШАЧКИХ СПОРОВА",
+          "articles": []
+        },
+        {
+          "heading": "1. Национални регистар потрошачких приговора и појам потрошачких приговора",
+          "articles": [
+            "169",
+            "170"
+          ]
+        },
+        {
+          "heading": "2. Вансудско решавање потрошачких спорова",
+          "articles": [
+            "171",
+            "172",
+            "173",
+            "174"
+          ]
+        },
+        {
+          "heading": "3. Начела вансудског решавања потрошачких спорова",
+          "articles": [
+            "175",
+            "176",
+            "177",
+            "178",
+            "179",
+            "180"
+          ]
+        },
+        {
+          "heading": "4. Поступак вансудског решавања потрошачког спора",
+          "articles": [
+            "181",
+            "182",
+            "183",
+            "184",
+            "185",
+            "186",
+            "187",
+            "188",
+            "189",
+            "190",
+            "191"
+          ]
+        },
+        {
+          "heading": "XV. ЗАШТИТА КОЛЕКТИВНОГ ИНТЕРЕСА ПОТРОШАЧА",
+          "articles": []
+        },
+        {
+          "heading": "XVI. НАДЗОР",
+          "articles": []
+        },
+        {
+          "heading": "XVII. КАЗНЕНЕ ОДРЕДБЕ",
+          "articles": []
+        },
+        {
+          "heading": "Прекршај",
+          "articles": [
+            "209",
+            "210"
+          ]
+        },
+        {
+          "heading": "XVIII. ПРЕЛАЗНЕ И ЗАВРШНЕ ОДРЕДБЕ",
+          "articles": [
+            "214",
+            "215",
+            "216",
+            "217",
+            "218",
+            "219",
+            "220"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "homoglyphs_kept",
+      "decision": "Latin letters mixed into Cyrillic words are kept in text_local as the register prints them. They are not normalised.",
+      "why": "Correcting them would be an edit of the official text. The English rendering uses the Serbian word.",
+      "articles": [
+        "4",
+        "5",
+        "8",
+        "10",
+        "20",
+        "39",
+        "48",
+        "53",
+        "54",
+        "61",
+        "63",
+        "74",
+        "82",
+        "94",
+        "95",
+        "98",
+        "101",
+        "103",
+        "113",
+        "132",
+        "143",
+        "144",
+        "145",
+        "164",
+        "166",
+        "168",
+        "170",
+        "174",
+        "177",
+        "184",
+        "206",
+        "209"
+      ]
+    }
+  ],
+  "temporal": [
+    {
+      "article": "215",
+      "rule": "Proceedings not finished by the day application of this Law begins are finished under the regulations under which they were started.",
+      "text_local": "Члан 215.\n\nПоступци који нису окончани до дана почетка примене овог закона, окончаће се по одредбама прописа по којима су започети.\n"
+    },
+    {
+      "article": "216",
+      "rule": "Bylaws authorised by this Law are to be adopted within one year of its entry into force.",
+      "text_local": "Члан 216.\n\nПодзаконски акти који се доносе на основу овлашћења из овог закона биће донети у року од годину дана од дана ступања на снагу овог закона.\n"
+    },
+    {
+      "article": "217",
+      "rule": "Until those bylaws are adopted, bylaws already adopted continue to apply if they are not contrary to this Law.",
+      "text_local": "Члан 217.\n\nДо доношења подзаконских аката на основу овлашћења из овог закона примењиваће се подзаконски акти донети до дана ступања на снагу овог закона, ако нису у супротности са овим законом.\n"
+    },
+    {
+      "article": "218",
+      "rule": "The Law applies to digital content or digital services delivered after application begins, except Articles 85 and 86, which apply only to contracts concluded from the start of application.",
+      "text_local": "Члан 218.\n\nОдредбе овог закона примењују се на дигитални садржај или дигиталне услуге који се испоручују након почетка примене овог закона осим чл. 85. и 86. овог закона који се примењују само на уговоре закључене од почетка примене овог закона.\n"
+    },
+    {
+      "article": "219",
+      "rule": "On the day application of this Law begins, the Law on Consumer Protection, Official Gazette of the RS, No. 88/21, ceases to have effect.",
+      "text_local": "Члан 219.\n\nДаном почетка примене овог закона престаје да важи Закон о заштити потрошача („Службени гласник РС”, број 88/21).\n"
+    }
+  ]
+}

@@ -20,7 +20,7 @@ export function HomeHowItWorksSection() {
   return (
     <section
       id="how-it-works"
-      className="scroll-mt-14 border-b border-border py-[126px] sm:py-[158px]"
+      className="scroll-mt-14 border-b border-border bg-muted/15 py-[126px] sm:py-[158px]"
       aria-labelledby="how-it-works-heading"
     >
       <div className="mx-auto max-w-6xl px-4 sm:px-6">

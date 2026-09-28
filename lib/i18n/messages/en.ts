@@ -9,6 +9,8 @@ export const enMessages: Messages = {
     nav: {
       features: "Features",
       pricing: "Pricing",
+      howItWorks: "How it works",
+      faq: "FAQ",
       login: "Log in",
       getStarted: "Get started",
       dashboard: "Dashboard",

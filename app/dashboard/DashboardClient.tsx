@@ -341,7 +341,7 @@ export function DashboardBody({
 
         {/* Section 3 — Left stack + wide calendar */}
         <section className="grid items-stretch gap-4 grid-cols-1 md:grid-cols-3">
-          <div className="flex min-w-0 flex-col gap-4">
+          <div className="flex h-full min-w-0 flex-col gap-4">
             <Card className="p-5">
               <div className="mb-4 flex items-center justify-between">
                 <div className="flex items-center gap-2">
@@ -384,7 +384,7 @@ export function DashboardBody({
               </div>
             </Card>
 
-            <Card className="p-5">
+            <Card className="flex-1 p-5">
               <div className="mb-4 flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <div className="inline-flex h-8 w-8 items-center justify-center rounded-md bg-muted text-muted-foreground"><Briefcase className="h-4 w-4" /></div>
@@ -418,7 +418,7 @@ export function DashboardBody({
             </Card>
           </div>
 
-          <Card className="min-w-0 p-5 md:col-span-2">
+          <Card className="h-full min-w-0 p-5 md:col-span-2">
             <div className="mb-1 flex items-center justify-between">
               <h3 className="text-base font-semibold">Kalendar</h3>
             </div>

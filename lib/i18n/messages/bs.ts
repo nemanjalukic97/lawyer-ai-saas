@@ -9,6 +9,8 @@ export const bsMessages: Messages = {
     nav: {
       features: "Funkcionalnosti",
       pricing: "Cijene",
+      howItWorks: "Kako radi",
+      faq: "Česta pitanja",
       login: "Prijava",
       getStarted: "Započni",
       dashboard: "Kontrolna ploča",

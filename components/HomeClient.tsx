@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button"
 import { useLanguage, type LanguageCode } from "@/components/LanguageProvider"
 import { cn } from "@/lib/utils"
 
+import { JurisdictionBar } from "@/components/home/JurisdictionBar"
 import {
   HERO_GRID_BACKGROUND,
   HERO_REVEAL_TRANSITION,
@@ -350,35 +351,14 @@ export function HomeClient({ children, signupStatus, initialSignedIn }: Props) {
                 <p className="mt-4 text-sm text-muted-foreground">{t("home.hero.noCreditCard")}</p>
               </div>
 
-              <div
-                className="mt-[68px] mx-auto max-w-4xl rotate-0 sm:rotate-1"
-                style={{
-                  transformOrigin: "center center",
-                  transition: "transform 0.08s ease-out",
-                }}
-                onMouseMove={(e) => {
-                  if (!mockupVisible || window.innerWidth < 768) return
-                  const el = e.currentTarget
-                  el.style.transition = "transform 0.08s ease-out"
-                  const rect = el.getBoundingClientRect()
-                  const x = (e.clientX - rect.left) / rect.width - 0.5
-                  const y = (e.clientY - rect.top) / rect.height - 0.5
-                  el.style.transform = `perspective(1000px) rotateY(${x * 6}deg) rotateX(${-y * 4}deg) rotate(1deg)`
-                }}
-                onMouseLeave={(e) => {
-                  if (!mockupVisible || window.innerWidth < 768) return
-                  const el = e.currentTarget
-                  el.style.transition = "transform 0.4s ease-out"
-                  el.style.transform = ""
-                }}
-              >
-                <div className="relative aspect-[16/10] w-full">
+              <div className="mx-auto mt-[68px] w-full max-w-4xl">
+                <div className="relative aspect-[4/3] w-full sm:aspect-[16/10]">
                   {mockupRevealed && (
                     <div
                       className={cn(
                         HERO_REVEAL_TRANSITION,
                         !mockupVisible && "motion-safe:translate-y-8 motion-safe:opacity-0",
-                        mockupVisible && "motion-safe:translate-y-0 motion-safe:opacity-100"
+                        mockupVisible && "motion-safe:opacity-100"
                       )}
                     >
                       <DashboardMockup />
@@ -386,6 +366,7 @@ export function HomeClient({ children, signupStatus, initialSignedIn }: Props) {
                   )}
                 </div>
               </div>
+              <JurisdictionBar className="mt-8 sm:mt-10" />
             </div>
           </div>
         </section>

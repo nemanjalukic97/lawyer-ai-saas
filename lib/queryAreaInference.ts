@@ -46,6 +46,22 @@ export const QUERY_AREA_TERM_ENTRIES: readonly {
   { phrase: "dužnik", area: "civil" },
   { phrase: "duznik", area: "civil" },
 
+  // Consumer. Not "garancij": a bank guarantee and a performance
+  // guarantee contain the same stem. Not bare "nepošten": unfair
+  // competition is not this statute. Cyrillic is added at match time.
+  { phrase: "nepoštena trgovačka praksa", area: "civil" },
+  { phrase: "nepostena trgovacka praksa", area: "civil" },
+  { phrase: "nepoštene trgovačke prakse", area: "civil" },
+  { phrase: "nepostene trgovacke prakse", area: "civil" },
+  { phrase: "nepoštena poslovna praksa", area: "civil" },
+  { phrase: "nepostena poslovna praksa", area: "civil" },
+  { phrase: "nepoštene poslovne prakse", area: "civil" },
+  { phrase: "nepostene poslovne prakse", area: "civil" },
+  { phrase: "saobraznost", area: "civil" },
+  { phrase: "reklamacij", area: "civil" },
+  { phrase: "potrošač", area: "civil" },
+  { phrase: "potrosac", area: "civil" },
+
   // Commercial
   { phrase: "privredno društvo", area: "commercial" },
   { phrase: "privredno drustvo", area: "commercial" },
