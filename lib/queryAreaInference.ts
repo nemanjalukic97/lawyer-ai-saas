@@ -67,17 +67,39 @@ export const QUERY_AREA_TERM_ENTRIES: readonly {
   { phrase: "osuđen", area: "criminal" },
   { phrase: "osuden", area: "criminal" },
 
-  // Family
+  // Family. Stems, not bare participles: "usvojen" is also "zakon je
+  // usvojen", and "izdržav" is also "izdržavanje kazne".
   { phrase: "razvod braka", area: "family" },
   { phrase: "roditeljsko pravo", area: "family" },
+  { phrase: "roditeljsk", area: "family" },
   { phrase: "bračna stečevina", area: "family" },
   { phrase: "izdržavanje djeteta", area: "family" },
+  { phrase: "izdržavanje deteta", area: "family" },
+  { phrase: "izdržavanje supružnika", area: "family" },
+  { phrase: "izdržavanje supruznika", area: "family" },
+  { phrase: "zakonsko izdržavanje", area: "family" },
   { phrase: "alimentacij", area: "family" },
+  { phrase: "očinstv", area: "family" },
+  { phrase: "ocinstv", area: "family" },
+  { phrase: "materinstv", area: "family" },
+  { phrase: "usvojenje", area: "family" },
+  { phrase: "usvojenja", area: "family" },
+  { phrase: "usvojitelj", area: "family" },
+  { phrase: "posvojenje", area: "family" },
+  { phrase: "posvojitelj", area: "family" },
+  { phrase: "staratelj", area: "family" },
+  { phrase: "skrbništ", area: "family" },
+  { phrase: "skrbnis", area: "family" },
 
   // Inheritance
   { phrase: "nasljedno pravo", area: "inheritance" },
   { phrase: "nasledno pravo", area: "inheritance" },
   { phrase: "ostavinska rasprava", area: "inheritance" },
+  { phrase: "ostavinsk", area: "inheritance" },
+  { phrase: "nasljeđ", area: "inheritance" },
+  { phrase: "nasljedj", area: "inheritance" },
+  { phrase: "nasleđ", area: "inheritance" },
+  { phrase: "nasledj", area: "inheritance" },
   { phrase: "testament", area: "inheritance" },
 
   // Property
@@ -99,10 +121,17 @@ export const QUERY_AREA_TERM_ENTRIES: readonly {
   { phrase: "hipotek", area: "property" },
   { phrase: "zemljišn", area: "property" },
   { phrase: "zemljisn", area: "property" },
+  { phrase: "vlasništv", area: "property" },
+  { phrase: "vlasnistv", area: "property" },
 
-  // Administrative
+  // Administrative. Not the stem "upravn": "upravni odbor" is a
+  // management board. Inflected two-word forms sit beside the nominatives.
   { phrase: "upravni spor", area: "administrative" },
+  { phrase: "upravnom sporu", area: "administrative" },
+  { phrase: "upravnog spora", area: "administrative" },
   { phrase: "upravni postupak", area: "administrative" },
+  { phrase: "upravnom postupku", area: "administrative" },
+  { phrase: "upravnog postupka", area: "administrative" },
 
   // Constitutional
   { phrase: "ustavni sud", area: "constitutional" },

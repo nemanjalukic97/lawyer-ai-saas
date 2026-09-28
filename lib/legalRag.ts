@@ -774,8 +774,12 @@ async function searchLegalArticlesByKeyword(args: {
   }
 
   const merged = mergeKeywordStageRows(stage1Rows, stage2Rows)
+  // Keep the rows the RPC already returned (rpcLimit), not matchCount.
+  // The final yield is still matchCount * 2. Reranking cannot promote a
+  // row discarded here. Two stages together can exceed one response, so
+  // the cap stays rpcLimit — nothing beyond what one keyword call returns.
   return {
-    rows: merged.slice(0, args.matchCount),
+    rows: merged.slice(0, rpcLimit),
     elapsedMs: Date.now() - started,
     timedOut,
     skipReason,
@@ -943,6 +947,33 @@ const KEYWORD_BOOST_SCORES = new Set([0.9, 0.95])
  * the jurisdictions that had no research spec. The set now covers all
  * seven jurisdictions with at least one research spec.
  *
+ * LAW CATEGORY LABELS — recorded 2026-09-25. law_category is wrong
+ * for some laws, and any boost keyed on it inherits the error. Do not
+ * retune the area boost, the phrase list, or the category filter to
+ * compensate for a mislabeled statute.
+ *
+ * Approved corrections are owner-run UPDATEs in
+ * scripts/law-category-updates.sql. 87 laws, 6,321 rows. Slovenian
+ * Zakon o kazenskem postopku moves from labor to criminal. Zakon o
+ * upravnim sporovima (Republika Srpska) moves from general to
+ * administrative. The 39-row FBiH prečišćeni text of Zakon o
+ * vanparničnom postupku stays inheritance: probate is conducted as
+ * non-contentious procedure, and moving it to procedural would drop
+ * the inheritance boost on those rows.
+ *
+ * GENERAL BUCKET — recorded 2026-09-28, do not act. general holds
+ * 173,608 of 229,028 rows and 9,425 of 10,419 law names.
+ * lawCategoriesForAreaFilter keeps only the chosen category plus
+ * constitutional, so an explicit category filter searches roughly
+ * 2–5% of the corpus and says nothing about it. Correcting these 88
+ * laws does not change that. It is its own task.
+ *
+ * SLOVENIA LABOR — recorded 2026-09-28, do not act. Slovenia carries
+ * 27,694 rows under labor. The name rules account for 4,376. The
+ * remaining 23,318 — energy, pensions, foreigners, the maritime code,
+ * insurance, tax procedure — are not labor law. That is an ingest
+ * defect specific to Slovenia and is its own task.
+ *
  * SORT SPILL — recorded 2026-09-23, do not act. EXPLAIN of the stage-2
  * statement showed an external merge on disk (Sort Space Type: Disk)
  * for seven queries: fbih_dosjelost, fbih_ostavinski, park_prvokup,
@@ -1007,7 +1038,9 @@ const KEYWORD_BOOST_SCORES = new Set([0.9, 0.95])
  */
 const VECTOR_OVERFETCH_FACTOR = 4
 const VECTOR_OVERFETCH_MAX = 60
-/** Today's merge ceiling: unique(vector[:k] ∪ keyword[:k]). Preserves ~20 Zakoni / ~12 chat rows. */
+/** Final statute yield is matchCount * 2. Keyword candidates kept for
+ * reranking are the RPC limit (6×, floor 40, cap 100), not matchCount.
+ * Vector candidates are matchCount * 4, capped at 60. */
 const FINAL_YIELD_FACTOR = 2
 
 function vectorOverfetchCount(matchCount: number): number {

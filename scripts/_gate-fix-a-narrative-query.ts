@@ -98,6 +98,41 @@ type QueryResult = {
   unstable: boolean
 }
 
+/** Phrase-detector checks. Not retrieval specs. Not written to the baseline. */
+const NEGATIVE_CASES: Array<{
+  id: string
+  query: string
+  mustNot?: string
+  mustBe?: string
+  reportOnly?: boolean
+}> = [
+  {
+    id: "neg_izdrzavanje_kazne",
+    query: "uslovni otpust sa izdržavanja kazne zatvora",
+    mustNot: "family",
+  },
+  {
+    id: "neg_upravni_odbor",
+    query: "razrješenje članova upravnog odbora društva",
+    mustNot: "administrative",
+  },
+  {
+    id: "neg_usvojeni_amandmani",
+    query: "usvojeni amandmani na zakon",
+    mustNot: "family",
+  },
+  {
+    id: "neg_ugovor_o_djelu",
+    query: "ugovor o djelu",
+    mustBe: "civil",
+  },
+  {
+    id: "neg_naknada_stete_na_radu",
+    query: "naknada štete zbog povrede na radu",
+    reportOnly: true,
+  },
+]
+
 const SPECS: Spec[] = [
   { id: "latin_paternity", fullPrompt: LATIN, jurisdiction: "bih_rs", k: 8, kind: "research" },
   {
@@ -423,7 +458,34 @@ async function main() {
   }
 
   const { retrieveLegalContext } = await import("../lib/legalRag")
+  const { inferLegalAreaFromQuery } = await import("../lib/queryAreaInference")
   const { isScrapedExcerpt } = await import("../lib/ragThresholds")
+
+  const negativeFailures: string[] = []
+  for (const item of NEGATIVE_CASES) {
+    const area = inferLegalAreaFromQuery(item.query)
+    const failed =
+      (item.mustNot != null && area === item.mustNot) ||
+      (item.mustBe != null && area !== item.mustBe)
+    if (failed) negativeFailures.push(item.id)
+    console.log(
+      "NEGATIVE",
+      JSON.stringify({
+        id: item.id,
+        query: item.query,
+        area,
+        mustNot: item.mustNot ?? null,
+        mustBe: item.mustBe ?? null,
+        reportOnly: item.reportOnly === true,
+        failed,
+      }),
+    )
+  }
+  if (negativeFailures.length > 0) {
+    throw new Error(
+      `Negative area cases failed: ${negativeFailures.join(", ")}`,
+    )
+  }
 
   async function oneCall(spec: Spec, variant: Variant): Promise<Run> {
     const retrieved = await retrieveLegalContext(
