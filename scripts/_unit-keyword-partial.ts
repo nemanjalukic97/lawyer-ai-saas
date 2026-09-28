@@ -3,11 +3,14 @@
  */
 import {
   KEYWORD_EXACT_PHRASE_SCORE,
+  KEYWORD_FETCH_SCRIPT_BY_JURISDICTION,
   KEYWORD_PARTIAL_COVERAGE_FLOOR,
   KEYWORD_STEM_PHRASE_SCORE,
   buildKeywordIlikePatterns,
   extractKeywordContentTokens,
+  filterKeywordFetchPatterns,
   isKeywordStopword,
+  keywordFetchScriptForJurisdiction,
   keywordPartialContiguityBonus,
   keywordPartialCoverageStep,
   scoreKeywordPartialFromCoverage,
@@ -90,6 +93,22 @@ assert(
   "rok must not be a fetch ILIKE",
 )
 assert(patterns.tokenFetchGroups.length === 3, "tužbu, utvrđivanja, očinstva")
+
+assert(
+  KEYWORD_FETCH_SCRIPT_BY_JURISDICTION.bih_rs === "both",
+  "bih_rs stays both-script",
+)
+assert(keywordFetchScriptForJurisdiction("serbia") === "cyrillic", "serbia cyr")
+assert(keywordFetchScriptForJurisdiction("croatia") === "latin", "croatia lat")
+assert(keywordFetchScriptForJurisdiction("unknown") === "both", "unknown both")
+const bothScripts = patterns.tokenFetchGroups.flat()
+const serbiaFetch = filterKeywordFetchPatterns(bothScripts, "serbia")
+const croatiaFetch = filterKeywordFetchPatterns(bothScripts, "croatia")
+const rsFetch = filterKeywordFetchPatterns(bothScripts, "bih_rs")
+assert(serbiaFetch.length > 0 && serbiaFetch.every((p) => /[А-Яа-яЂђЈјЉљЊњЋћЏџ]/.test(p)), "serbia fetch cyrillic")
+assert(croatiaFetch.length > 0 && croatiaFetch.every((p) => !/[А-Яа-яЂђЈјЉљЊњЋћЏџ]/.test(p)), "croatia fetch latin")
+assert(JSON.stringify(rsFetch) === JSON.stringify(bothScripts), "bih_rs fetch unchanged")
+assert(serbiaFetch.length + croatiaFetch.length === bothScripts.length, "halves partition")
 
 const hits = {
   "141а": scoreKeywordPatternMatch(ART_141A, patterns),

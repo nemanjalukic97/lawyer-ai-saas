@@ -293,6 +293,68 @@ function isCyrillicScript(value: string): boolean {
   return /[А-Яа-яЂђЈјЉљЊњЋћЏџ]/.test(value)
 }
 
+export type KeywordFetchScript = "cyrillic" | "latin" | "both"
+
+/**
+ * Stage-2 fetch ILIKE (`p_patterns`) keep only this script. Scoring token
+ * groups stay both-script: a row found in one script still scores on
+ * whatever it contains.
+ *
+ * Measured 2026-09-28 on text_local letters (Cyrillic U+0400–U+04FF vs
+ * Latin A–Za–zČĆŠŽĐ). A row is Cyrillic or Latin if that set is ≥90% of
+ * its letters; otherwise mixed.
+ *
+ *   serbia       94.0% Cyrillic, 1.2% Latin, 4.0% mixed
+ *   croatia      99.99% Latin
+ *   bih_fbih     99.95% Latin
+ *   bih_brcko    100% Latin
+ *   montenegro   100% Latin
+ *   slovenia     99.82% Latin
+ *   bih_rs       84.2% Latin, 15.8% Cyrillic — genuinely mixed
+ *
+ * Accepted loss, Serbia keyword channel: 1,039 rows (1.2%) written
+ * entirely in Latin become unreachable. Those rows are lab-service price
+ * lists, magistral formulas, customs classification decisions, and the
+ * over-the-counter medicine list. No consumer-protection or obligations
+ * act is among them. Mixed rows (3,304) stay reachable through their
+ * Cyrillic letters.
+ *
+ * bih_rs is both because dropping either script makes whole rows
+ * unreachable. Unknown jurisdictions stay both so a new corpus is not
+ * silently truncated.
+ */
+export const KEYWORD_FETCH_SCRIPT_BY_JURISDICTION: Record<
+  string,
+  KeywordFetchScript
+> = {
+  serbia: "cyrillic",
+  croatia: "latin",
+  bih_fbih: "latin",
+  bih_federation: "latin",
+  bih_brcko: "latin",
+  montenegro: "latin",
+  slovenia: "latin",
+  bih_rs: "both",
+}
+
+export function keywordFetchScriptForJurisdiction(
+  jurisdiction: string,
+): KeywordFetchScript {
+  return KEYWORD_FETCH_SCRIPT_BY_JURISDICTION[jurisdiction] ?? "both"
+}
+
+/** Fetch needles only. Does not touch scoring token groups. */
+export function filterKeywordFetchPatterns(
+  patterns: string[],
+  jurisdiction: string,
+): string[] {
+  const script = keywordFetchScriptForJurisdiction(jurisdiction)
+  if (script === "both") return patterns
+  return patterns.filter((pattern) =>
+    script === "cyrillic" ? isCyrillicScript(pattern) : !isCyrillicScript(pattern),
+  )
+}
+
 /** Whole-token sa ↔ s (Cyrillic са ↔ с). Not a synonym pair. */
 function withSaSEquivalents(phrase: string): string[] {
   const trimmed = phrase.trim().replace(/\s+/g, " ")

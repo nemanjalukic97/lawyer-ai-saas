@@ -12,6 +12,7 @@ import {
 } from "./ragThresholds"
 import {
   buildKeywordIlikePatterns,
+  filterKeywordFetchPatterns,
   scoreKeywordPartialFromCoverage,
   scoreKeywordPatternMatch,
 } from "./keywordVariants"
@@ -594,7 +595,10 @@ async function searchLegalArticlesByKeyword(args: {
     ...patterns.exactPatterns,
     ...patterns.stemPatterns,
   ]
-  const tokenPatterns = patterns.tokenFetchGroups.flat()
+  const tokenPatterns = filterKeywordFetchPatterns(
+    patterns.tokenFetchGroups.flat(),
+    args.jurisdiction,
+  )
   if (phrasePatterns.length === 0 && tokenPatterns.length === 0) {
     return {
       rows: [],
@@ -973,6 +977,36 @@ const KEYWORD_BOOST_SCORES = new Set([0.9, 0.95])
  * remaining 23,318 — energy, pensions, foreigners, the maritime code,
  * insurance, tax procedure — are not labor law. That is an ingest
  * defect specific to Slovenia and is its own task.
+ *
+ * TEMPORAL VALIDITY — recorded 2026-09-28, do not act. First concrete
+ * instance. Закон о заштити потрошача, „Службени гласник РС”, број
+ * 88/21, governed consumer relations until 1 August 2026, the
+ * application date of the replacement act, „Службени гласник РС”,
+ * број 35 of 23 April 2026. 88/21 is absent from legal_articles in
+ * every form. The 138 bulk rows of ЗАКОН о заштити потрошача are
+ * excerpts of 35/2026, not of 88/21. A matter that arose before
+ * 1 August 2026 is decided under 88/21, and the product would hand
+ * that lawyer the current statute with no warning. Do not ingest
+ * 88/21 until a row can carry the validity window. effective_date
+ * on the 35/2026 articles is the application date (1 May 2026 for
+ * чл. 4 and чл. 6, 1 August 2026 for the other 218), not entry into
+ * force, and it is not a validity window for the repealed act.
+ * Do not retrofit effective_date on other laws.
+ *
+ * NAME QUALITY — recorded 2026-09-28, do not act. law_name_local is
+ * not the name of an act for a measurable slice, and those strings are
+ * what the product shows a lawyer as the source. Six titles account
+ * for 2,348 rows, all serbia: katalog 751; 088-2010-zakonodavni 708
+ * (a filename); број блока 274 (a fragment); На основу члана 3 234
+ * (the opening formula of a decree); Untitled 1 227 (an empty
+ * document title); ПРАВИЛНИ о утврђивању водних тела површинских и
+ * подземних вода 154 (the final к of правилник is missing). Do not
+ * rename them and do not delete them here.
+ * Separately, real statutes are stored with a missing space, the same
+ * defect as ZAKONO RADU: KRIVIČNI ZAKONIKREPUBLIKE SRPSKE 166
+ * (bih_rs); IZBORNI ZAKONBOSNE I HERCEGOVINE 145 (bih_fbih); KRIVIČNI
+ * ZAKONFEDERACIJE BOSNE I HERCEGOVINE 144 (bih_fbih). Name quality
+ * is its own measurement. Do not change the ingest.
  *
  * SORT SPILL — recorded 2026-09-23, do not act. EXPLAIN of the stage-2
  * statement showed an external merge on disk (Sort Space Type: Disk)

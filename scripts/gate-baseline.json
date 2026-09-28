@@ -1,6 +1,6 @@
 {
-  "gitSha": "b1ccee356fdd126ee8104544d60dbe76c3208a11",
-  "date": "2026-09-25T19:07:30.782Z",
+  "gitSha": "6384ed5bbac66f11f6173f6c5ec86632388253d5",
+  "date": "2026-09-28T20:06:21.879Z",
   "note": "Variance-and-latency snapshot of one code version. Not a comparison of two versions. channel_not_run queries are stored and excluded from --compare-baseline.",
   "queries": {
     "latin_paternity": {
@@ -170,7 +170,7 @@
           "law_name_local": "Zakon o radu",
           "article_num": "118",
           "is_curated": true,
-          "score": 0.412609,
+          "score": 0.412598,
           "rank": 8
         },
         {
@@ -179,7 +179,7 @@
           "law_name_local": "Zakon o radu",
           "article_num": "123",
           "is_curated": true,
-          "score": 0.40051,
+          "score": 0.400486,
           "rank": 9
         },
         {
@@ -188,7 +188,7 @@
           "law_name_local": "Zakon o radu",
           "article_num": "130",
           "is_curated": true,
-          "score": 0.383021,
+          "score": 0.383011,
           "rank": 10
         }
       ]
@@ -1052,13 +1052,67 @@
       "status": "valid",
       "top10": [
         {
+          "id": "27387298-772f-4c53-8876-ffce78664ce0",
+          "jurisdiction": "bih_rs",
+          "law_name_local": "ZAKONO UPRAVNIM SPOROVIMA",
+          "article_num": "5",
+          "is_curated": false,
+          "score": 0.686317,
+          "rank": 1
+        },
+        {
+          "id": "67bf102b-e4b1-4ddf-b65d-8837af63b1a1",
+          "jurisdiction": "bih_rs",
+          "law_name_local": "ZAKONO UPRAVNIM SPOROVIMA",
+          "article_num": "6",
+          "is_curated": false,
+          "score": 0.682092,
+          "rank": 2
+        },
+        {
+          "id": "2090a2f2-b217-4fc5-bdaa-5d68a8fb1c6c",
+          "jurisdiction": "bih_rs",
+          "law_name_local": "ZAKONO UPRAVNIM SPOROVIMA",
+          "article_num": "4",
+          "is_curated": false,
+          "score": 0.67174,
+          "rank": 3
+        },
+        {
+          "id": "1d981a8d-de21-48b0-81bb-dfa956ee9402",
+          "jurisdiction": "bih_rs",
+          "law_name_local": "ZAKONO UPRAVNIM SPOROVIMA",
+          "article_num": "3",
+          "is_curated": false,
+          "score": 0.667026,
+          "rank": 4
+        },
+        {
+          "id": "c0d20268-5357-4076-ac80-222f2e0e0e54",
+          "jurisdiction": "bih_rs",
+          "law_name_local": "ZAKONO UPRAVNIM SPOROVIMA",
+          "article_num": "8",
+          "is_curated": false,
+          "score": 0.65908,
+          "rank": 5
+        },
+        {
           "id": "fa6e4e73-de5e-460f-90c1-314007eb7b52",
           "jurisdiction": "bih_rs",
           "law_name_local": "ZAKONO OPŠTEM UPRAVNOM POSTUPKU",
           "article_num": "58",
           "is_curated": false,
           "score": 0.657868,
-          "rank": 1
+          "rank": 6
+        },
+        {
+          "id": "94774737-042b-4cce-b7fb-154694419bf6",
+          "jurisdiction": "bih_rs",
+          "law_name_local": "ZAKONO UPRAVNIM SPOROVIMA",
+          "article_num": "10",
+          "is_curated": false,
+          "score": 0.657518,
+          "rank": 7
         },
         {
           "id": "42c5b2fb-cfb2-4dab-a6e1-df904b983cea",
@@ -1067,7 +1121,7 @@
           "article_num": "16",
           "is_curated": false,
           "score": 0.65,
-          "rank": 2
+          "rank": 8
         },
         {
           "id": "52cfb868-05ee-4b63-87c7-ae720f423ba7",
@@ -1076,69 +1130,15 @@
           "article_num": "73",
           "is_curated": false,
           "score": 0.65,
-          "rank": 3
-        },
-        {
-          "id": "27387298-772f-4c53-8876-ffce78664ce0",
-          "jurisdiction": "bih_rs",
-          "law_name_local": "ZAKONO UPRAVNIM SPOROVIMA",
-          "article_num": "5",
-          "is_curated": false,
-          "score": 0.636317,
-          "rank": 4
-        },
-        {
-          "id": "da071819-e4a0-437e-b5a2-96fab5ad30e5",
-          "jurisdiction": "bih_rs",
-          "law_name_local": "ZAKONO OPŠTEM UPRAVNOM POSTUPKU",
-          "article_num": "75",
-          "is_curated": false,
-          "score": 0.6325,
-          "rank": 5
-        },
-        {
-          "id": "67bf102b-e4b1-4ddf-b65d-8837af63b1a1",
-          "jurisdiction": "bih_rs",
-          "law_name_local": "ZAKONO UPRAVNIM SPOROVIMA",
-          "article_num": "6",
-          "is_curated": false,
-          "score": 0.632092,
-          "rank": 6
-        },
-        {
-          "id": "2090a2f2-b217-4fc5-bdaa-5d68a8fb1c6c",
-          "jurisdiction": "bih_rs",
-          "law_name_local": "ZAKONO UPRAVNIM SPOROVIMA",
-          "article_num": "4",
-          "is_curated": false,
-          "score": 0.62174,
-          "rank": 7
-        },
-        {
-          "id": "60898098-6251-4446-8492-ec99c5feeba5",
-          "jurisdiction": "bih_rs",
-          "law_name_local": "ZAKONO OPŠTEM UPRAVNOM POSTUPKU",
-          "article_num": "32",
-          "is_curated": false,
-          "score": 0.618055,
-          "rank": 8
-        },
-        {
-          "id": "aea24981-a1c9-4960-908c-8f45f5561076",
-          "jurisdiction": "bih_rs",
-          "law_name_local": "ZAKONO PRIVREDNIM DRUŠTVIMA",
-          "article_num": "129",
-          "is_curated": false,
-          "score": 0.6175,
           "rank": 9
         },
         {
-          "id": "1d981a8d-de21-48b0-81bb-dfa956ee9402",
+          "id": "ef764b2a-f4c6-4bf9-95fe-f61426b73989",
           "jurisdiction": "bih_rs",
           "law_name_local": "ZAKONO UPRAVNIM SPOROVIMA",
-          "article_num": "3",
+          "article_num": "9",
           "is_curated": false,
-          "score": 0.617026,
+          "score": 0.65,
           "rank": 10
         }
       ]
@@ -1152,7 +1152,7 @@
           "law_name_local": "ZAKONO OPŠTEM UPRAVNOM POSTUPKU",
           "article_num": "64",
           "is_curated": false,
-          "score": 0.684277,
+          "score": 0.684267,
           "rank": 1
         },
         {
@@ -1161,7 +1161,7 @@
           "law_name_local": "ZAKONO OPŠTEM UPRAVNOM POSTUPKU",
           "article_num": "58",
           "is_curated": false,
-          "score": 0.664896,
+          "score": 0.664892,
           "rank": 2
         },
         {
@@ -1210,30 +1210,30 @@
           "rank": 7
         },
         {
+          "id": "ef764b2a-f4c6-4bf9-95fe-f61426b73989",
+          "jurisdiction": "bih_rs",
+          "law_name_local": "ZAKONO UPRAVNIM SPOROVIMA",
+          "article_num": "9",
+          "is_curated": false,
+          "score": 0.65,
+          "rank": 8
+        },
+        {
+          "id": "27387298-772f-4c53-8876-ffce78664ce0",
+          "jurisdiction": "bih_rs",
+          "law_name_local": "ZAKONO UPRAVNIM SPOROVIMA",
+          "article_num": "5",
+          "is_curated": false,
+          "score": 0.647599,
+          "rank": 9
+        },
+        {
           "id": "937ad22c-d570-4162-a01d-68a81113234a",
           "jurisdiction": "bih_rs",
           "law_name_local": "ZAKONO OPŠTEM UPRAVNOM POSTUPKU",
           "article_num": "63",
           "is_curated": false,
-          "score": 0.644104,
-          "rank": 8
-        },
-        {
-          "id": "b566dd08-cb9b-4480-b3cd-61374a257ef2",
-          "jurisdiction": "bih_rs",
-          "law_name_local": "ZAKONO OPŠTEM UPRAVNOM POSTUPKU",
-          "article_num": "65",
-          "is_curated": false,
-          "score": 0.631508,
-          "rank": 9
-        },
-        {
-          "id": "ea5308ad-9810-424c-b556-bd508f727865",
-          "jurisdiction": "bih_rs",
-          "law_name_local": "ZAKONO OPŠTEM UPRAVNOM POSTUPKU",
-          "article_num": "43",
-          "is_curated": false,
-          "score": 0.630298,
+          "score": 0.644126,
           "rank": 10
         }
       ]
