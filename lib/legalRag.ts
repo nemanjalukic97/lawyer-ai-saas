@@ -13,8 +13,12 @@ import {
 import {
   buildKeywordIlikePatterns,
   filterKeywordFetchPatterns,
+  keywordContentTokensMatched,
+  keywordIdfLnWeight,
+  keywordWeightedCoverage,
   scoreKeywordPartialFromCoverage,
   scoreKeywordPatternMatch,
+  type KeywordContentToken,
 } from "./keywordVariants"
 import {
   areasCompatibleWithInference,
@@ -456,6 +460,8 @@ type KeywordSearchResult<T> = {
   stage1Ms?: number
   stage2Ms?: number | null
   stage1CircuitBreaker?: boolean
+  idfMs?: number
+  idfFallback?: boolean
 }
 
 async function runLegalKeywordRpc(args: {
@@ -486,11 +492,165 @@ async function runLegalKeywordRpc(args: {
   return (data ?? []) as Record<string, unknown>[]
 }
 
+const KEYWORD_IDF_COUNT_CONCURRENCY = 4
+const KEYWORD_IDF_JURISDICTIONS = [
+  "serbia",
+  "croatia",
+  "bih_fbih",
+  "bih_brcko",
+  "montenegro",
+  "slovenia",
+  "bih_rs",
+] as const
+const keywordIdfNCache = new Map<string, number>()
+const keywordIdfDfCache = new Map<string, number>()
+let keywordIdfNWarm: Promise<void> | null = null
+
+function keywordIdfNeedles(token: KeywordContentToken): string[] {
+  return [...new Set([...token.variants, ...token.stems].filter(Boolean))]
+}
+
+function keywordIdfDfCacheKey(jurisdiction: string, needles: string[]): string {
+  return `${jurisdiction}\t${needles.slice().sort().join("\0")}`
+}
+
+function keywordIdfOrFilter(needles: string[]): string {
+  return needles
+    .map((n) => {
+      const pat = `%${n.replace(/[%_,()]/g, "")}%`
+      return `text_local.ilike.${pat}`
+    })
+    .join(",")
+}
+
+async function countLegalArticlesMatching(args: {
+  jurisdiction: string
+  needles: string[]
+}): Promise<number> {
+  const unique = [...new Set(args.needles.filter(Boolean))]
+  if (unique.length === 0) return 0
+  let request = supabaseAdmin
+    .from("legal_articles")
+    .select("id", { count: "exact", head: true })
+    .eq("jurisdiction", args.jurisdiction)
+    .not("text_local", "is", null)
+  request =
+    unique.length === 1
+      ? request.ilike("text_local", `%${unique[0]!.replace(/[%_\\]/g, "\\$&")}%`)
+      : request.or(keywordIdfOrFilter(unique))
+  const { count, error } = await request
+  if (error) {
+    throw new Error(error.message || error.code || "idf_count_failed")
+  }
+  return count ?? 0
+}
+
+async function mapPool<T, R>(
+  items: T[],
+  concurrency: number,
+  fn: (item: T) => Promise<R>,
+): Promise<R[]> {
+  const out: R[] = new Array(items.length)
+  let next = 0
+  async function worker() {
+    for (;;) {
+      const i = next
+      next += 1
+      if (i >= items.length) return
+      out[i] = await fn(items[i]!)
+    }
+  }
+  const n = Math.max(1, Math.min(concurrency, items.length))
+  await Promise.all(Array.from({ length: n }, () => worker()))
+  return out
+}
+
+function warmKeywordIdfNCache(): Promise<void> {
+  if (keywordIdfNWarm) return keywordIdfNWarm
+  keywordIdfNWarm = Promise.all(
+    KEYWORD_IDF_JURISDICTIONS.map(async (jurisdiction) => {
+      if (keywordIdfNCache.has(jurisdiction)) return
+      const { count, error } = await supabaseAdmin
+        .from("legal_articles")
+        .select("id", { count: "exact", head: true })
+        .eq("jurisdiction", jurisdiction)
+      if (error) throw new Error(error.message)
+      keywordIdfNCache.set(jurisdiction, count ?? 0)
+    }),
+  )
+    .then(() => undefined)
+    .catch((err: unknown) => {
+      keywordIdfNWarm = null
+      // eslint-disable-next-line no-console
+      console.error("[RAG] keyword idf N warm failed", {
+        message: err instanceof Error ? err.message : String(err),
+      })
+    })
+  return keywordIdfNWarm
+}
+
+void warmKeywordIdfNCache()
+
+type KeywordIdfLoad = {
+  weights: number[] | null
+  failed: boolean
+}
+
+/**
+ * Jurisdiction N and per-token df for ln(N/df) coverage. Process-cached.
+ * Lookups run beside stage 2. The request waits for them — no timeout
+ * fallback to uniform weighting.
+ */
+async function loadKeywordIdfWeights(
+  jurisdiction: string,
+  tokens: KeywordContentToken[],
+): Promise<KeywordIdfLoad> {
+  if (tokens.length === 0) return { weights: null, failed: false }
+
+  const nPromise = (async () => {
+    let corpusN = keywordIdfNCache.get(jurisdiction)
+    if (corpusN == null) {
+      const { count, error } = await supabaseAdmin
+        .from("legal_articles")
+        .select("id", { count: "exact", head: true })
+        .eq("jurisdiction", jurisdiction)
+      if (error) throw new Error(error.message || error.code || "idf_n_failed")
+      corpusN = count ?? 0
+      keywordIdfNCache.set(jurisdiction, corpusN)
+    }
+    return corpusN
+  })()
+
+  const [n, dfs] = await Promise.all([
+    nPromise,
+    mapPool(tokens, KEYWORD_IDF_COUNT_CONCURRENCY, async (token) => {
+      const needles = keywordIdfNeedles(token)
+      const key = keywordIdfDfCacheKey(jurisdiction, needles)
+      const cached = keywordIdfDfCache.get(key)
+      if (cached != null) return cached
+      const df = await countLegalArticlesMatching({ jurisdiction, needles })
+      keywordIdfDfCache.set(key, df)
+      return df
+    }),
+  ])
+  if (!(n > 0)) return { weights: null, failed: false }
+  const weights = dfs.map((df) => keywordIdfLnWeight(n, df))
+  if (weights.every((w) => w <= 0)) return { weights: null, failed: false }
+  return { weights, failed: false }
+}
+
 function scoreLegalKeywordRows(
   rows: Record<string, unknown>[],
   patterns: ReturnType<typeof buildKeywordIlikePatterns>,
   useSqlPartial: boolean,
+  idfWeights?: number[] | null,
 ): LegalChunk[] {
+  const contentTokens = patterns.contentTokens ?? []
+  const useIdf =
+    useSqlPartial &&
+    idfWeights != null &&
+    idfWeights.length === contentTokens.length &&
+    contentTokens.length > 0
   return rows
     .map((row) => {
       const r = row
@@ -500,11 +660,28 @@ function scoreLegalKeywordRows(
         contentTokens: [],
       })
       const coverageMatch = useSqlPartial
-        ? scoreKeywordPartialFromCoverage(
-            Number(r.matched_count ?? 0),
-            Number(r.token_count ?? 0),
-            r.contiguous === true,
-          )
+        ? useIdf
+          ? (() => {
+              const flags = keywordContentTokensMatched(
+                textLocal,
+                contentTokens,
+              )
+              const matchedCount = flags.reduce(
+                (n, hit) => n + (hit ? 1 : 0),
+                0,
+              )
+              return scoreKeywordPartialFromCoverage(
+                matchedCount,
+                contentTokens.length,
+                r.contiguous === true,
+                keywordWeightedCoverage(flags, idfWeights),
+              )
+            })()
+          : scoreKeywordPartialFromCoverage(
+              Number(r.matched_count ?? 0),
+              Number(r.token_count ?? 0),
+              r.contiguous === true,
+            )
         : null
       const partial = coverageMatch
         ? {
@@ -631,6 +808,21 @@ async function searchLegalArticlesByKeyword(args: {
     includeStateCourt: args.includeStateCourt === true,
   }
 
+  const idfStarted = Date.now()
+  const idfPromise: Promise<KeywordIdfLoad> =
+    tokenPatterns.length === 0
+      ? Promise.resolve({ weights: null, failed: false })
+      : loadKeywordIdfWeights(args.jurisdiction, patterns.contentTokens).catch(
+          (err: unknown) => {
+            // eslint-disable-next-line no-console
+            console.error("[RAG] keyword idf lookup failed", {
+              jurisdiction: args.jurisdiction,
+              message: err instanceof Error ? err.message : String(err),
+            })
+            return { weights: null, failed: true }
+          },
+        )
+
   const stagesStarted = Date.now()
   const stage1Abort = new AbortController()
   const stage1Promise =
@@ -650,6 +842,8 @@ async function searchLegalArticlesByKeyword(args: {
 
   const budgetMs = getKeywordSearchBudgetMs()
   const abort = new AbortController()
+  let idfFallback = false
+  let idfMs = 0
   const stage2Promise =
     tokenPatterns.length === 0
       ? Promise.resolve([] as LegalChunk[])
@@ -659,11 +853,24 @@ async function searchLegalArticlesByKeyword(args: {
             patterns: tokenPatterns,
             tokenGroups,
             signal: abort.signal,
-          }).then((rows) => scoreLegalKeywordRows(rows, patterns, true)),
+          }),
           budgetMs,
           "keyword legal search",
           abort,
-        )
+        ).then(async (rows) => {
+          const loaded = await idfPromise
+          idfMs = Date.now() - idfStarted
+          idfFallback = loaded.failed
+          if (loaded.failed) {
+            // eslint-disable-next-line no-console
+            console.error("[RAG] keyword idf fallback to uniform", {
+              reason: "keyword_idf_lookup_failed",
+              jurisdiction: args.jurisdiction,
+              idfMs,
+            })
+          }
+          return scoreLegalKeywordRows(rows, patterns, true, loaded.weights)
+        })
 
   const stage1Settled = stage1Promise.then(
     (rows) => ({
@@ -773,6 +980,8 @@ async function searchLegalArticlesByKeyword(args: {
         stage1Ms,
         stage2Ms,
         stage1CircuitBreaker: false,
+        idfMs,
+        idfFallback,
       }
     }
   }
@@ -790,6 +999,8 @@ async function searchLegalArticlesByKeyword(args: {
     stage1Ms,
     stage2Ms,
     stage1CircuitBreaker,
+    idfMs,
+    idfFallback,
   }
 }
 
@@ -1046,6 +1257,39 @@ const KEYWORD_BOOST_SCORES = new Set([0.9, 0.95])
  * cutoff is sound; do not retry a "drop ILIKE above X% of the jurisdiction"
  * rule.
  *
+ * IDF TOKEN WEIGHTING — variant A shipped 2026-09-29. Partial coverage
+ * is sum(ln(N/df) for matched tokens) / sum(ln(N/df) for all tokens).
+ * N is jurisdiction row count, df is ILIKE document frequency of the
+ * scoring needles (variants + stems) in that jurisdiction. Base 0.46,
+ * span 0.14, contiguity, phrase 0.95/0.90, area +0.05, mismatch ×0.75
+ * and the budgets are unchanged. B_sqrt was not shipped (it drops ЗЗП
+ * чл. 4 from `saobraznost`). C was not shipped (rarest-token exclusion).
+ * FBiH чл. 30 moving 15→19 is not a user-visible cost.
+ *
+ * REGRESSION — `nepoštena trgovačka praksa prema potrošaču`. Variant A
+ * costs ЗЗП чл. 18, 20, 21 and 22 from the top 10. What replaces them
+ * is ЗАКОН о трговачким праксама, the B2B supply-chain statute for
+ * trader-to-supplier relations, including enforcement and limitation
+ * chunks (чл. 25 and 30). The query says "prema potrošaču". That is
+ * the wrong statute, not a lex-specialis substitution. Gold 16, 17,
+ * 209 and 5 remain at ranks 2, 3, 4 and 6. Accepted because the gain
+ * on `reklamacija` (чл. 63 from absent to rank 3) is larger, not
+ * because the loss is harmless.
+ *
+ * df is process-cached. N is warmed for the seven jurisdictions at
+ * process start. The request waits for uncached token df; it does not
+ * time out into uniform weighting. A lookup error is the only fallback,
+ * and it is logged (`keyword_idf_lookup_failed` / idf_fallback on the
+ * search log).
+ *
+ * FETCH VS SCORING NEEDLES — recorded 2026-09-29, do not act. Stage 2
+ * fetches on the inflected surface (`купљени`) while scoring uses the
+ * stem (`купљен`). ЗЗП чл. 63 contains "роба купљена", which the
+ * scoring stem matches and the fetch surface does not. A row matching
+ * 1 of 3 tokens gets no keyword score: coverage 0.333 is below the
+ * 0.5 floor and KEYWORD_PARTIAL_MIN_MATCHED is 2. The ungated band
+ * formula 0.46 + 0.14×(1/3) = 0.5067 is not a score production assigns.
+ *
  * SLOVENIA UPB stacking — recorded 2026-09-22, do not act. 75 CODE families
  * hold more than one official consolidation (210 titles, 8,558 rows), so a
  * search can return a superseded UPB. law_name / law_name_local are 1:1;
@@ -1156,6 +1400,8 @@ export type RagStageTiming = {
   keywordStage1Ms?: number
   keywordStage2Ms?: number | null
   keywordPhraseCircuitBreaker?: boolean
+  keywordIdfMs?: number
+  keywordIdfFallback?: boolean
   mergeRerankMs: number
   totalMs: number
   vectorRetried: boolean
@@ -2048,6 +2294,8 @@ export async function matchLegalArticles(args: {
     keywordStage1Ms: keywordResult.stage1Ms,
     keywordStage2Ms: keywordResult.stage2Ms,
     keywordPhraseCircuitBreaker: keywordResult.stage1CircuitBreaker === true,
+    keywordIdfMs: keywordResult.idfMs,
+    keywordIdfFallback: keywordResult.idfFallback === true,
     mergeRerankMs,
     totalMs: Date.now() - totalStarted,
     vectorRetried: retried,

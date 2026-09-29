@@ -4,15 +4,19 @@
 import {
   KEYWORD_EXACT_PHRASE_SCORE,
   KEYWORD_FETCH_SCRIPT_BY_JURISDICTION,
+  KEYWORD_PARTIAL_BASE,
   KEYWORD_PARTIAL_COVERAGE_FLOOR,
+  KEYWORD_PARTIAL_COVERAGE_SPAN,
   KEYWORD_STEM_PHRASE_SCORE,
   buildKeywordIlikePatterns,
   extractKeywordContentTokens,
   filterKeywordFetchPatterns,
   isKeywordStopword,
   keywordFetchScriptForJurisdiction,
+  keywordIdfLnWeight,
   keywordPartialContiguityBonus,
   keywordPartialCoverageStep,
+  keywordWeightedCoverage,
   scoreKeywordPartialFromCoverage,
   scoreKeywordPatternMatch,
 } from "../lib/keywordVariants"
@@ -53,6 +57,31 @@ assertScore(n4.fullNon?.score, 0.6, "4/4 non-contig")
 assertScore(n4.threeContig?.score, 0.5825, "3/4 contig")
 assertScore(n4.threeNon?.score, 0.565, "3/4 non-contig")
 assertScore(scoreKeywordPartialFromCoverage(2, 4, false)?.score, 0.53, "2/4 floor")
+assert(KEYWORD_PARTIAL_BASE === 0.46, "base 0.46")
+assert(KEYWORD_PARTIAL_COVERAGE_SPAN === 0.14, "span 0.14")
+assert(KEYWORD_EXACT_PHRASE_SCORE === 0.95, "exact 0.95")
+assert(KEYWORD_STEM_PHRASE_SCORE === 0.9, "stem 0.90")
+
+const reklamacijaW = [6.679, 4.377, 1.847]
+const covGold = keywordWeightedCoverage([true, true, false], reklamacijaW)
+assert(covGold > 0.85 && covGold < 0.86, `gold weighted coverage ${covGold}`)
+assert(
+  scoreKeywordPartialFromCoverage(2, 3, false, covGold) != null,
+  "reklamacija+kupljeni stays above floor",
+)
+const covJunk = keywordWeightedCoverage([false, true, true], reklamacijaW)
+assert(covJunk < 0.5, `common-token coverage ${covJunk}`)
+assert(
+  scoreKeywordPartialFromCoverage(2, 3, false, covJunk) == null,
+  "kupljeni+proizvod drops below weighted floor",
+)
+assert(keywordIdfLnWeight(83507, 105) > keywordIdfLnWeight(83507, 13167), "rare > common")
+assert(keywordIdfLnWeight(0, 10) === 0 && keywordIdfLnWeight(100, 0) === 0, "idf zero guards")
+assertScore(
+  scoreKeywordPartialFromCoverage(4, 4, false, 1)?.score,
+  0.6,
+  "weighted full coverage matches uniform 4/4",
+)
 assert(
   n4.fullNon!.score > n4.threeContig!.score,
   "4/4 non-contig must outrank 3/4 contig",

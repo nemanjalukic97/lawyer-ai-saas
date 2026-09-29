@@ -600,7 +600,7 @@ async function main() {
   const file: BaselineFile = {
     gitSha: gitSha(),
     date: new Date().toISOString(),
-    note: "Variance-and-latency snapshot of one code version. Not a comparison of two versions. channel_not_run queries are stored and excluded from --compare-baseline.",
+    note: "Variance-and-latency snapshot of one code version. Not a comparison of two versions. channel_not_run queries are stored and excluded from --compare-baseline. rs_opsti_upravni 1e-5 score deltas with no rank change are approximate-index variance in the vector search, not an effect of the 220 Serbian consumer-statute embeddings.",
     queries: Object.fromEntries(
       results.map((r) => [r.id, { status: r.status, top10: r.top10 }]),
     ),

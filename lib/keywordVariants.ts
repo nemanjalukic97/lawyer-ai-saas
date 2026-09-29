@@ -570,13 +570,47 @@ function scorePartialCoverage(
   )
 }
 
+/** ln(N / df). df 0 or N 0 → weight 0 so a missing count cannot dominate. */
+export function keywordIdfLnWeight(corpusN: number, df: number): number {
+  if (!(corpusN > 0) || !(df > 0)) return 0
+  return Math.log(corpusN / Math.min(df, corpusN))
+}
+
+export function keywordContentTokensMatched(
+  haystack: string,
+  tokens: KeywordContentToken[],
+): boolean[] {
+  const h = haystack.toLowerCase()
+  return tokens.map((t) => contentTokenPresent(h, t))
+}
+
+export function keywordWeightedCoverage(
+  matchedFlags: boolean[],
+  weights: number[],
+): number {
+  if (
+    matchedFlags.length === 0 ||
+    matchedFlags.length !== weights.length
+  ) {
+    return 0
+  }
+  let wAll = 0
+  let wHit = 0
+  for (let i = 0; i < weights.length; i++) {
+    const w = weights[i] ?? 0
+    wAll += w
+    if (matchedFlags[i]) wHit += w
+  }
+  return wAll > 0 ? wHit / wAll : 0
+}
+
 export function scoreKeywordPartialFromCoverage(
   matchedCount: number,
   tokenCount: number,
   contiguous: boolean,
+  coverage: number = tokenCount > 0 ? matchedCount / tokenCount : 0,
 ): KeywordScoredMatch | null {
   if (tokenCount <= 0) return null
-  const coverage = matchedCount / tokenCount
   const minMatched =
     tokenCount >= KEYWORD_PARTIAL_MIN_MATCHED
       ? KEYWORD_PARTIAL_MIN_MATCHED

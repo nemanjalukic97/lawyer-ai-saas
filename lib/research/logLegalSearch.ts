@@ -14,6 +14,8 @@ export type LegalSearchKeywordTiming = {
   stage2_ms: number | null
   stage2_completed: boolean
   skipped_hint: boolean
+  idf_ms: number | null
+  idf_fallback: boolean
 }
 
 type KeywordRun = {
@@ -44,6 +46,8 @@ export function keywordTimingFromStage(
       stage2_ms: null,
       stage2_completed: false,
       skipped_hint: false,
+      idf_ms: null,
+      idf_fallback: false,
     }
   }
 
@@ -58,6 +62,8 @@ export function keywordTimingFromStage(
       skip !== BUDGET_SKIP &&
       skip !== HINT_SKIP,
     skipped_hint: skip === HINT_SKIP,
+    idf_ms: timing.keywordIdfMs ?? null,
+    idf_fallback: timing.keywordIdfFallback === true,
   }
 }
 
@@ -71,12 +77,18 @@ function aggregateKeyword(
     .map((part) => part.stage2_ms)
     .filter((ms): ms is number => ms != null)
 
+  const idf = parts
+    .map((part) => part.idf_ms)
+    .filter((ms): ms is number => ms != null)
+
   return {
     stage1_ms: Math.max(...parts.map((part) => part.stage1_ms)),
     stage1_completed: parts.every((part) => part.stage1_completed),
     stage2_ms: stage2.length > 0 ? Math.max(...stage2) : null,
     stage2_completed: parts.every((part) => part.stage2_completed),
     skipped_hint: parts.every((part) => part.skipped_hint),
+    idf_ms: idf.length > 0 ? Math.max(...idf) : null,
+    idf_fallback: parts.some((part) => part.idf_fallback),
   }
 }
 
