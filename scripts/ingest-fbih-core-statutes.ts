@@ -2,6 +2,12 @@
  * Article-level ingest for the FBiH round-1 adopted acts in
  * scripts/fbih-core-statutes.json.
  *
+ * After any write to legal_articles, invalidate keyword IDF df:
+ *   DELETE FROM public.legal_keyword_token_df WHERE jurisdiction = 'bih_fbih';
+ * or TRUNCATE public.legal_keyword_token_df;
+ * Stale df silently wrong-ranks until refreshed. Next corpus change:
+ * re-chunk of 23,966 bulk rows in bih_rs, bih_fbih, bih_brcko, montenegro.
+ *
  * Source: Parlament FBiH adopted-act PDFs only. Splits on "Član N." (and
  * "Članak N." if a Croatian authentic text uses that word). Does not rewrite
  * Član → Članak. Does not apply amendments. Same-line tracking is glued in

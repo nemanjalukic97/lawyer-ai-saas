@@ -100,7 +100,7 @@ const KEYWORD_STOPWORD_SET: Set<string> = (() => {
 })()
 
 /** ILIKE `%rok%` floods; scoring still counts short content tokens. */
-const MIN_TOKEN_FETCH_LEN = 5
+export const MIN_TOKEN_FETCH_LEN = 5
 const MAX_TOKEN_FETCH_GROUPS = 8
 
 /** Coverage floor for partial hits. Justified below in scoreKeywordPatternMatch. */
@@ -141,6 +141,11 @@ export type KeywordContentToken = {
   surface: string
   variants: string[]
   stems: string[]
+}
+
+/** Surface long enough to be a stage-2 fetch group. Scoring still uses shorter tokens. */
+export function keywordTokenIsFetchLength(token: KeywordContentToken): boolean {
+  return Array.from(token.surface).length >= MIN_TOKEN_FETCH_LEN
 }
 
 /** Longest first — only one suffix stripped per word. Latin + Cyrillic. */
@@ -471,7 +476,7 @@ export function buildKeywordIlikePatterns(
 
   const contentTokens = extractKeywordContentTokens(trimmed)
   const tokenFetchGroups: string[][] = contentTokens
-    .filter((t) => Array.from(t.surface).length >= MIN_TOKEN_FETCH_LEN)
+    .filter((t) => keywordTokenIsFetchLength(t))
     .sort(
       (a, b) =>
         Array.from(b.surface).length - Array.from(a.surface).length ||

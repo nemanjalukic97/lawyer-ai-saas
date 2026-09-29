@@ -493,6 +493,8 @@ async function runLegalKeywordRpc(args: {
 }
 
 const KEYWORD_IDF_COUNT_CONCURRENCY = 4
+/** Unit separator inside the persisted needle-set key (variants ∪ stems). */
+const KEYWORD_IDF_NEEDLE_SEP = "\u001f"
 const KEYWORD_IDF_JURISDICTIONS = [
   "serbia",
   "croatia",
@@ -505,13 +507,20 @@ const KEYWORD_IDF_JURISDICTIONS = [
 const keywordIdfNCache = new Map<string, number>()
 const keywordIdfDfCache = new Map<string, number>()
 let keywordIdfNWarm: Promise<void> | null = null
+/** False once PostgREST reports the df table is missing (migration not applied). */
+let keywordIdfDfTableAvailable: boolean | null = null
 
 function keywordIdfNeedles(token: KeywordContentToken): string[] {
   return [...new Set([...token.variants, ...token.stems].filter(Boolean))]
 }
 
-function keywordIdfDfCacheKey(jurisdiction: string, needles: string[]): string {
-  return `${jurisdiction}\t${needles.slice().sort().join("\0")}`
+/** Canonical key for one content token's scoring needle set. */
+function keywordIdfNeedleKey(needles: string[]): string {
+  return needles.slice().sort().join(KEYWORD_IDF_NEEDLE_SEP)
+}
+
+function keywordIdfDfCacheKey(jurisdiction: string, needleKey: string): string {
+  return `${jurisdiction}\t${needleKey}`
 }
 
 function keywordIdfOrFilter(needles: string[]): string {
@@ -540,9 +549,83 @@ async function countLegalArticlesMatching(args: {
       : request.or(keywordIdfOrFilter(unique))
   const { count, error } = await request
   if (error) {
-    throw new Error(error.message || error.code || "idf_count_failed")
+    const detail = [error.message, error.code, error.details, error.hint]
+      .filter((part) => typeof part === "string" && part.length > 0)
+      .join(" | ")
+    throw new Error(detail || "idf_count_failed")
   }
   return count ?? 0
+}
+
+async function readPersistedKeywordDf(
+  jurisdiction: string,
+  needleKey: string,
+): Promise<number | null> {
+  if (keywordIdfDfTableAvailable === false) return null
+  const { data, error } = await supabaseAdmin
+    .from("legal_keyword_token_df" as never)
+    .select("df")
+    .eq("jurisdiction", jurisdiction)
+    .eq("needle", needleKey)
+    .maybeSingle()
+  if (error) {
+    const code = error.code ?? ""
+    const msg = error.message ?? ""
+    if (
+      code === "42P01" ||
+      code === "PGRST205" ||
+      /legal_keyword_token_df/i.test(msg) ||
+      /does not exist/i.test(msg) ||
+      /schema cache/i.test(msg)
+    ) {
+      keywordIdfDfTableAvailable = false
+      return null
+    }
+    throw new Error(error.message || error.code || "idf_df_read_failed")
+  }
+  keywordIdfDfTableAvailable = true
+  if (data == null) return null
+  const df = Number((data as { df?: unknown }).df)
+  return Number.isFinite(df) && df >= 0 ? df : null
+}
+
+async function writePersistedKeywordDf(args: {
+  jurisdiction: string
+  needleKey: string
+  df: number
+}): Promise<void> {
+  if (keywordIdfDfTableAvailable === false) return
+  const { error } = await supabaseAdmin.from("legal_keyword_token_df" as never).upsert(
+    {
+      jurisdiction: args.jurisdiction,
+      needle: args.needleKey,
+      df: args.df,
+      computed_at: new Date().toISOString(),
+    } as never,
+    { onConflict: "jurisdiction,needle" },
+  )
+  if (error) {
+    const code = error.code ?? ""
+    const msg = error.message ?? ""
+    if (
+      code === "42P01" ||
+      code === "PGRST205" ||
+      /legal_keyword_token_df/i.test(msg) ||
+      /does not exist/i.test(msg) ||
+      /schema cache/i.test(msg)
+    ) {
+      keywordIdfDfTableAvailable = false
+      return
+    }
+    // eslint-disable-next-line no-console
+    console.error("[RAG] keyword idf df persist failed", {
+      jurisdiction: args.jurisdiction,
+      message: msg,
+      code,
+    })
+  } else {
+    keywordIdfDfTableAvailable = true
+  }
 }
 
 async function mapPool<T, R>(
@@ -597,9 +680,11 @@ type KeywordIdfLoad = {
 }
 
 /**
- * Jurisdiction N and per-token df for ln(N/df) coverage. Process-cached.
- * Lookups run beside stage 2. The request waits for them — no timeout
- * fallback to uniform weighting.
+ * Jurisdiction N and per-token df for ln(N/df) coverage. Every content
+ * token is looked up (including scoring-only short surfaces). df is
+ * process-cached and, when legal_keyword_token_df exists, persisted by
+ * (jurisdiction, needle-set key). Miss: exact COUNT, then insert. The
+ * request waits — no timeout fallback to uniform weighting.
  */
 async function loadKeywordIdfWeights(
   jurisdiction: string,
@@ -625,11 +710,24 @@ async function loadKeywordIdfWeights(
     nPromise,
     mapPool(tokens, KEYWORD_IDF_COUNT_CONCURRENCY, async (token) => {
       const needles = keywordIdfNeedles(token)
-      const key = keywordIdfDfCacheKey(jurisdiction, needles)
-      const cached = keywordIdfDfCache.get(key)
+      const needleKey = keywordIdfNeedleKey(needles)
+      const memKey = keywordIdfDfCacheKey(jurisdiction, needleKey)
+      const cached = keywordIdfDfCache.get(memKey)
       if (cached != null) return cached
+
+      const persisted = await readPersistedKeywordDf(jurisdiction, needleKey)
+      if (persisted != null) {
+        keywordIdfDfCache.set(memKey, persisted)
+        return persisted
+      }
+
       const df = await countLegalArticlesMatching({ jurisdiction, needles })
-      keywordIdfDfCache.set(key, df)
+      keywordIdfDfCache.set(memKey, df)
+      await writePersistedKeywordDf({
+        jurisdiction,
+        needleKey,
+        df,
+      })
       return df
     }),
   ])
@@ -809,19 +907,25 @@ async function searchLegalArticlesByKeyword(args: {
   }
 
   const idfStarted = Date.now()
+  let idfFallback = false
+  let idfMs = 0
   const idfPromise: Promise<KeywordIdfLoad> =
     tokenPatterns.length === 0
       ? Promise.resolve({ weights: null, failed: false })
-      : loadKeywordIdfWeights(args.jurisdiction, patterns.contentTokens).catch(
-          (err: unknown) => {
+      : loadKeywordIdfWeights(args.jurisdiction, patterns.contentTokens)
+          .then((loaded) => {
+            idfMs = Date.now() - idfStarted
+            return loaded
+          })
+          .catch((err: unknown) => {
+            idfMs = Date.now() - idfStarted
             // eslint-disable-next-line no-console
             console.error("[RAG] keyword idf lookup failed", {
               jurisdiction: args.jurisdiction,
               message: err instanceof Error ? err.message : String(err),
             })
             return { weights: null, failed: true }
-          },
-        )
+          })
 
   const stagesStarted = Date.now()
   const stage1Abort = new AbortController()
@@ -842,8 +946,6 @@ async function searchLegalArticlesByKeyword(args: {
 
   const budgetMs = getKeywordSearchBudgetMs()
   const abort = new AbortController()
-  let idfFallback = false
-  let idfMs = 0
   const stage2Promise =
     tokenPatterns.length === 0
       ? Promise.resolve([] as LegalChunk[])
@@ -859,7 +961,6 @@ async function searchLegalArticlesByKeyword(args: {
           abort,
         ).then(async (rows) => {
           const loaded = await idfPromise
-          idfMs = Date.now() - idfStarted
           idfFallback = loaded.failed
           if (loaded.failed) {
             // eslint-disable-next-line no-console
@@ -951,6 +1052,27 @@ async function searchLegalArticlesByKeyword(args: {
         )
 
   const [stage1, stage2] = await Promise.all([stage1Settled, stage2Settled])
+  // Always wait for IDF after the stages settle. Stage-2 timeout used to
+  // drop this await, so cold COUNTs never finished writing to
+  // legal_keyword_token_df and the next request paid the miss again.
+  if (tokenPatterns.length > 0) {
+    const loaded = await idfPromise
+    // idfMs is set when idfPromise settles; only fill if empty (no tokens path).
+    if (idfMs === 0) idfMs = Date.now() - idfStarted
+    if (loaded.failed) {
+      // Log only when stage-2 timed out before its own await ran.
+      if (!idfFallback) {
+        // eslint-disable-next-line no-console
+        console.error("[RAG] keyword idf fallback to uniform", {
+          reason: "keyword_idf_lookup_failed",
+          jurisdiction: args.jurisdiction,
+          idfMs,
+          afterStageSettle: true,
+        })
+      }
+      idfFallback = true
+    }
+  }
   const stage1Rows = stage1.rows
   const stage1Error = stage1.error
   const stage1Ms = stage1.ms
@@ -1276,11 +1398,24 @@ const KEYWORD_BOOST_SCORES = new Set([0.9, 0.95])
  * on `reklamacija` (чл. 63 from absent to rank 3) is larger, not
  * because the loss is harmless.
  *
- * df is process-cached. N is warmed for the seven jurisdictions at
- * process start. The request waits for uncached token df; it does not
- * time out into uniform weighting. A lookup error is the only fallback,
- * and it is logged (`keyword_idf_lookup_failed` / idf_fallback on the
- * search log).
+ * df is process-cached and, when present, persisted in
+ * legal_keyword_token_df keyed by (jurisdiction, needle) where needle is
+ * the canonical sorted scoring-needle set (variants ∪ stems) for one
+ * content token. Every content token is looked up, including short
+ * scoring-only surfaces. On a miss the request waits for an exact
+ * COUNT, writes the row, and uses it — no timeout into uniform, no cap,
+ * no fixed short-token weight. N is warmed for the seven jurisdictions
+ * at process start. A lookup error is the only fallback to uniform, and
+ * it is logged (`keyword_idf_lookup_failed` / idf_fallback on the search
+ * log). Invalidation is manual. df goes stale the moment the corpus
+ * changes. After any ingest that writes legal_articles, refresh:
+ *   DELETE FROM public.legal_keyword_token_df WHERE jurisdiction = $1;
+ * or TRUNCATE public.legal_keyword_token_df;
+ * The next corpus change is the re-chunk of 23,966 bulk rows in
+ * bih_rs, bih_fbih, bih_brcko and montenegro — truncate or delete those
+ * jurisdictions before the first post-rechunk search, or IDF ranks on
+ * stale counts. Same landmine class as the disarmed write path and the
+ * mislabelled categories: correct today, quietly wrong later.
  *
  * FETCH VS SCORING NEEDLES — recorded 2026-09-29, do not act. Stage 2
  * fetches on the inflected surface (`купљени`) while scoring uses the

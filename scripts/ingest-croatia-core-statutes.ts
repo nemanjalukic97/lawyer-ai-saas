@@ -2,6 +2,12 @@
  * Article-level ingest for the Croatian core statutes in
  * scripts/croatia-core-statutes.json.
  *
+ * After any write to legal_articles, invalidate keyword IDF df:
+ *   DELETE FROM public.legal_keyword_token_df WHERE jurisdiction = 'croatia';
+ * or TRUNCATE public.legal_keyword_token_df;
+ * Stale df silently wrong-ranks until refreshed. Next corpus change:
+ * re-chunk of 23,966 bulk rows in bih_rs, bih_fbih, bih_brcko, montenegro.
+ *
  * Splits Narodne novine text on "Članak N." headings. Does not embed or
  * write to the database unless --confirm is passed.
  *

@@ -2,6 +2,12 @@
  * Article-level ingest for the RS round-1 adopted acts in
  * scripts/rs-core-statutes.json.
  *
+ * After any write to legal_articles, invalidate keyword IDF df:
+ *   DELETE FROM public.legal_keyword_token_df WHERE jurisdiction = 'bih_rs';
+ * or TRUNCATE public.legal_keyword_token_df;
+ * Stale df silently wrong-ranks until refreshed. Next corpus change:
+ * re-chunk of 23,966 bulk rows in bih_rs, bih_fbih, bih_brcko, montenegro.
+ *
  * Source: Narodna skupština RS adopted-act zips only. Binary .doc is converted
  * once to .docx (both files kept under downloads/rs-core-statutes/). Extract
  * with mammoth. Splits only on a line-start "Члан N.". Does not transliterate.

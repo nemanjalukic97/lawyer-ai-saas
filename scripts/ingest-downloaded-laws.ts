@@ -1,3 +1,12 @@
+/**
+ * Ingest downloaded law text into legal_articles.
+ *
+ * After any write to legal_articles, invalidate keyword IDF df:
+ *   DELETE FROM public.legal_keyword_token_df WHERE jurisdiction = $1;
+ * or TRUNCATE public.legal_keyword_token_df;
+ * Stale df silently wrong-ranks until refreshed. Next corpus change:
+ * re-chunk of 23,966 bulk rows in bih_rs, bih_fbih, bih_brcko, montenegro.
+ */
 import { createHash } from "crypto"
 import { readdir, readFile } from "fs/promises"
 import path from "path"
