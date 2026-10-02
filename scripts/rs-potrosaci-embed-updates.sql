@@ -1,0 +1,9 @@
+-- Split: the 220 UPDATE statements are too large for the SQL editor as one file.
+-- Run in order, each file self-contained. AND embedding IS NULL: re-runs are safe.
+--
+--   scripts/rs-potrosaci-embed-updates-1.sql   (50)
+--   scripts/rs-potrosaci-embed-updates-2.sql   (50)
+--   scripts/rs-potrosaci-embed-updates-3.sql   (50)
+--   scripts/rs-potrosaci-embed-updates-4.sql   (50)
+--   scripts/rs-potrosaci-embed-updates-5.sql   (20)
+--   scripts/rs-potrosaci-embed-updates-6.sql   (verification SELECT)

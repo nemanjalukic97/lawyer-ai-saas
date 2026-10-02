@@ -28,6 +28,10 @@ import { buttonVariants } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
 
+// The inner frame is pinned to 820px tall by min-h-[820px] below. The wrapper's aspect ratio
+// must stay frameWidth : 820 (aspect-square below sm, aspect-[1280/820] from sm up) — and the
+// same ratio is repeated on the reserving wrapper in HomeClient.tsx. Changing min-h-[820px],
+// FRAME_WIDTH or COMPACT_FRAME_WIDTH means changing all three.
 const FRAME_WIDTH = 1280
 const COMPACT_FRAME_WIDTH = 820
 const COMPACT_QUERY = "(max-width: 639px)"
@@ -213,7 +217,7 @@ export default function DashboardMockup() {
   return (
     <div
       ref={frameRef}
-      className="relative aspect-[4/3] w-full overflow-hidden rounded-xl border border-border bg-background shadow-2xl sm:aspect-[16/10]"
+      className="relative aspect-square w-full overflow-hidden rounded-xl border border-border bg-background shadow-2xl sm:aspect-[1280/820]"
       aria-hidden
     >
       <div

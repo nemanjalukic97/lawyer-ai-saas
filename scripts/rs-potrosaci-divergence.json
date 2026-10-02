@@ -281,6 +281,12 @@
         "206",
         "209"
       ]
+    },
+    {
+      "id": "clan_5_embedding_truncated",
+      "decision": "The embedding for чл. 5 covers the opening of the article, not all of it.",
+      "what_we_did": "The ingest concatenation (law_name_local + article_num + \": \" + text_local + \" \" + text) is 34,868 characters. The ingest 16,000-character cap still exceeded text-embedding-3-small's 8,192-token limit. The stored vector was built from the first 12,000 characters of that concatenation.",
+      "why": "The model rejected the 16,000-character input. A shorter prefix of the same concatenation is what the API accepted. Retrieval against later provisions of чл. 5 will not have those sentences in the vector."
     }
   ],
   "temporal": [

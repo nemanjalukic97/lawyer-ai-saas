@@ -22,7 +22,7 @@ export function LegantisWalkthrough({ label }: { label: string }) {
   }, [])
 
   return (
-    <div className="aspect-video w-full overflow-hidden rounded-xl border border-border bg-[#05070d] shadow-2xl">
+    <div className="hidden aspect-video w-full overflow-hidden rounded-xl border border-border bg-[#05070d] shadow-2xl lg:block">
       <iframe
         ref={ref}
         title={label}

@@ -2,11 +2,11 @@
 -- Run scripts/act-type-migration.sql first if act_type does not exist yet.
 -- The column is already on legal_articles; this statement only fills NULLs.
 --
--- Batch size 4000. A read-only SELECT of this SET expression classified all
--- 229,110 rows in 218.5 s (2026-09-28), 0.95 ms/row. 4000 rows is about
--- 3.8 s of classification, leaving headroom for the write under the 8.1 s
--- cancel. 229,110 NULL rows → 58 runs (the last run is smaller). Re-running
--- is safe: a row with a value is no longer NULL.
+-- Batch size 40000. A read-only SELECT of this SET expression classified
+-- 40,000 NULL rows in 612 ms (2026-09-29). That is under 4 s, so 40,000
+-- stands. About 225,110 NULL rows remain after the first 4,000-row run
+-- → 6 more executions (the last run is smaller). Re-running is safe: a
+-- row with a value is no longer NULL.
 --
 -- SET is the approved title rule: the raw first word, then a non-normative
 -- instrument, then the act stem in the first six words. zakonik is tried
@@ -21,7 +21,7 @@
 -- change them. Run the verification SELECT after updated returns 0.
 
 WITH batch AS (
-  SELECT id FROM legal_articles WHERE act_type IS NULL LIMIT 4000
+  SELECT id FROM legal_articles WHERE act_type IS NULL LIMIT 40000
 ),
 upd AS (
 UPDATE legal_articles AS la

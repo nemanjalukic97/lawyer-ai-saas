@@ -352,7 +352,7 @@ export function HomeClient({ children, signupStatus, initialSignedIn }: Props) {
               </div>
 
               <div className="mx-auto mt-[68px] w-full max-w-4xl">
-                <div className="relative aspect-[4/3] w-full sm:aspect-[16/10]">
+                <div className="relative aspect-square w-full sm:aspect-[1280/820]">
                   {mockupRevealed && (
                     <div
                       className={cn(
