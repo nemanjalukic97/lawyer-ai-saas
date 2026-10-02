@@ -67,3 +67,12 @@ scripts/outreach/zastupnici_zig.csv
 # local agent artifacts
 .claude/
 AGENT-HISTORY-CATALOG.md
+
+# outreach — lozinke i lièni podaci advokata
+scripts/outreach/.env
+scripts/outreach/*.csv
+scripts/outreach/*.csv.bak-*
+scripts/outreach/*.docx
+scripts/outreach/slovenija_odvetniki.json
+scripts/outreach/__pycache__/
+scripts/outreach/Desktop/
