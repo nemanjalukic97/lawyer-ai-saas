@@ -11,6 +11,12 @@
  * --write-baseline never runs unless that flag is passed, and
  * --compare-baseline never writes the file.
  *
+ * Comparison contract (--compare-baseline). A difference in ORDER,
+ * membership, or the channel_not_run set is a failure: the run prints
+ * FAIL and the process exits non-zero. Stop the work. A difference in
+ * SCORES alone is printed as SCORE and is not a failure. Identical
+ * specs print nothing.
+ *
  * Credentials: scripts/outreach/.env, then .env.local. Nothing is inlined.
  */
 import { execSync } from "child_process"
@@ -391,7 +397,7 @@ function recheck(results: QueryResult[]) {
   }
 }
 
-function diffAgainst(baseline: BaselineFile, current: QueryResult[]) {
+function diffAgainst(baseline: BaselineFile, current: QueryResult[]): boolean {
   console.log(
     JSON.stringify({
       baselineSha: baseline.gitSha,
@@ -399,10 +405,26 @@ function diffAgainst(baseline: BaselineFile, current: QueryResult[]) {
       currentSha: gitSha(),
     }),
   )
+  let failed = false
   const excluded: string[] = []
   for (const result of current) {
     const stored = baseline.queries[result.id]
     const storedStatus = stored?.status
+    const channelFlip =
+      (result.status === "channel_not_run") !==
+      (storedStatus === "channel_not_run")
+    if (channelFlip) {
+      failed = true
+      console.log(
+        "FAIL",
+        JSON.stringify({
+          id: result.id,
+          reason: "channel_not_run",
+          from: storedStatus ?? "absent",
+          to: result.status,
+        }),
+      )
+    }
     if (
       !stored ||
       result.status === "missing" ||
@@ -441,12 +463,18 @@ function diffAgainst(baseline: BaselineFile, current: QueryResult[]) {
         from: beforeById.get(r.id)!.score,
         to: r.score,
       }))
-    console.log(
-      "DIFF",
-      JSON.stringify({ id: result.id, gone, added, moved, scoreDeltas }),
-    )
+    if (gone.length > 0 || added.length > 0 || moved.length > 0) {
+      failed = true
+      console.log(
+        "FAIL",
+        JSON.stringify({ id: result.id, gone, added, moved, scoreDeltas }),
+      )
+    } else if (scoreDeltas.length > 0) {
+      console.log("SCORE", JSON.stringify({ id: result.id, scoreDeltas }))
+    }
   }
   console.log("EXCLUDED", JSON.stringify(excluded))
+  return failed
 }
 
 async function main() {
@@ -579,7 +607,8 @@ async function main() {
 
   if (compareBaseline) {
     const raw = await readFile(BASELINE_PATH, "utf8")
-    diffAgainst(JSON.parse(raw) as BaselineFile, results)
+    const failed = diffAgainst(JSON.parse(raw) as BaselineFile, results)
+    if (failed) process.exitCode = 1
     return
   }
 
@@ -600,7 +629,7 @@ async function main() {
   const file: BaselineFile = {
     gitSha: gitSha(),
     date: new Date().toISOString(),
-    note: "Variance-and-latency snapshot of one code version. Not a comparison of two versions. channel_not_run queries are stored and excluded from --compare-baseline. rs_opsti_upravni 1e-5 score deltas with no rank change are approximate-index variance in the vector search, not an effect of the 220 Serbian consumer-statute embeddings.",
+    note: "Variance-and-latency snapshot of one code version. Not a comparison of two versions. channel_not_run queries are stored and excluded from --compare-baseline. Re-anchored 2026-10-03 on the current scores after four runs with the same score-only drift and stable order. Cause not found; see GATE SCORE DRIFT in lib/legalRag.ts.",
     queries: Object.fromEntries(
       results.map((r) => [r.id, { status: r.status, top10: r.top10 }]),
     ),

@@ -1416,6 +1416,29 @@ const KEYWORD_BOOST_SCORES = new Set([0.9, 0.95])
  * jurisdictions before the first post-rechunk search, or IDF ranks on
  * stale counts. Same landmine class as the disarmed write path and the
  * mislabelled categories: correct today, quietly wrong later.
+ * The same ingest also parses the opening chunk into legal_act_parent
+ * (linkIngestedActs in lib/legalActParent.ts). That table is a follow-on
+ * read for the research response. It is not an input to scoring.
+ *
+ * ARTICLE REWRITE — recorded 2026-10-02. Updates to legal_articles must
+ * batch at 800 rows or fewer, because each row carries a 1536-dimension
+ * embedding that is rewritten with it; 2000 approached the statement
+ * timeout. The statement timeout on the Cursor connection is about 2
+ * minutes, while the application path is about 8.1 seconds; a repair
+ * that fits here can still be far too slow for a request.
+ *
+ * GATE SCORE DRIFT — recorded 2026-10-03, cause not found. Four
+ * consecutive --compare-baseline runs showed the same nine score-only
+ * differences, with identical values each time: hint_otkazni_serbia
+ * (about 2e-5) and rs_opsti_upravni (about 3e-4). Order, membership,
+ * and the channel_not_run set did not move. Ruled out: IDF scale (N
+ * and df are both per-jurisdiction row counts), embedding
+ * nondeterminism (three fetches of the same query text were
+ * bit-identical), and a Serbia-only name repair (bih_rs moved too).
+ * The baseline was re-anchored on those scores. If order ever moves,
+ * decompose the score the way rs_opsti_upravni čl. 58 was decomposed
+ * — vector similarity, keyword band, IDF coverage, and the area bonus
+ * — before changing ranking.
  *
  * FETCH VS SCORING NEEDLES — recorded 2026-09-29, do not act. Stage 2
  * fetches on the inflected surface (`купљени`) while scoring uses the

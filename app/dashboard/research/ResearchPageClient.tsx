@@ -81,10 +81,57 @@ type ResearchCaseLawResultItem = {
   matchChannel?: "vector" | "keyword" | "both"
 }
 
+type ImplementingActRef = { name: string; rows: number }
+
+type ImplementingActsGroup = {
+  jurisdiction: string
+  statute: string
+  total: number
+  top: ImplementingActRef[]
+  acts: ImplementingActRef[]
+}
+
+/**
+ * Label and remainder follow the statute's jurisdiction, not the UI language.
+ * Each jurisdiction has its own entry. Serbia is Cyrillic ekavica. RS, FBiH,
+ * Brčko and Montenegro are Latin ijekavica. Croatia and Slovenia are separate.
+ */
+const IMPLEMENTING_ACTS_COPY: Record<string, { label: string; more: string }> = {
+  serbia: {
+    label: "Овај закон је разрађен подзаконским актима:",
+    more: "и још",
+  },
+  bih_rs: {
+    label: "Ovaj zakon je razrađen podzakonskim aktima:",
+    more: "i još",
+  },
+  bih_fbih: {
+    label: "Ovaj zakon je razrađen podzakonskim aktima:",
+    more: "i još",
+  },
+  bih_brcko: {
+    label: "Ovaj zakon je razrađen podzakonskim aktima:",
+    more: "i još",
+  },
+  montenegro: {
+    label: "Ovaj zakon je razrađen podzakonskim aktima:",
+    more: "i još",
+  },
+  croatia: {
+    label: "Ovaj zakon razrađen je provedbenim propisima:",
+    more: "i još",
+  },
+  slovenia: {
+    label: "Ta zakon je podrobneje urejen s podzakonskimi predpisi:",
+    more: "in še",
+  },
+}
+
 type SearchResponse = {
   query: string
   filters: { jurisdiction: string | null; category: string | null }
   results: ResearchResultItem[]
+  implementingActs?: ImplementingActsGroup[] | null
   lowConfidenceResults?: ResearchResultItem[]
   hasHighlyRelevantLaws?: boolean
   caseLawResults?: ResearchCaseLawResultItem[]
@@ -99,6 +146,28 @@ type SearchResponse = {
   hasMoreLowConfidenceLaws?: boolean
   hasMoreCaseLaw?: boolean
   hasMoreLowConfidenceCaseLaw?: boolean
+}
+
+function formatImplementingActsLine(
+  data: Pick<SearchResponse, "results" | "implementingActs"> | null | undefined,
+): string | null {
+  const first = data?.results?.[0]
+  if (!first?.law_name_local) return null
+  const groups = data?.implementingActs
+  if (!groups || groups.length === 0) return null
+  const group = groups.find(
+    (item) =>
+      item.statute === first.law_name_local &&
+      item.jurisdiction === first.jurisdiction,
+  )
+  if (!group) return null
+  if (!group.acts?.length || !group.top?.length) return null
+  const copy = IMPLEMENTING_ACTS_COPY[group.jurisdiction]
+  if (!copy) return null
+  const names = group.top.map((act) => act.name).join(", ")
+  const remainder = group.total - group.top.length
+  if (remainder > 0) return `${copy.label} ${names} — ${copy.more} ${remainder}`
+  return `${copy.label} ${names}`
 }
 
 function mergeResultItemsById<T extends { id: string }>(
@@ -627,6 +696,8 @@ function ResearchResultsTabs({
     )
   }
 
+  const implementingActsLine = formatImplementingActsLine(results)
+
   return (
     <Tabs
       value={tabValue}
@@ -677,6 +748,11 @@ function ResearchResultsTabs({
                   confidenceBadgeClass={confidenceBadgeClass}
                 />
               ))}
+              {implementingActsLine ? (
+                <p className="whitespace-normal break-words text-sm text-muted-foreground">
+                  {implementingActsLine}
+                </p>
+              ) : null}
               {(results.lowConfidenceResults ?? []).length > 0 ? (
                 <>
                   <ResearchLowConfidenceDivider t={t} />

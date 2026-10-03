@@ -1,7 +1,7 @@
 {
-  "gitSha": "b4b5cea093fd3e3e1c32b4b2e44a055138913883",
-  "date": "2026-09-29T16:58:25.051Z",
-  "note": "Variance-and-latency snapshot of one code version. Not a comparison of two versions. channel_not_run queries are stored and excluded from --compare-baseline. rs_opsti_upravni 1e-5 score deltas with no rank change are approximate-index variance in the vector search, not an effect of the 220 Serbian consumer-statute embeddings.",
+  "gitSha": "0bd37bdd34d3f4d387d3bc0b411273edfaf8e696",
+  "date": "2026-10-03T07:09:41.373Z",
+  "note": "Variance-and-latency snapshot of one code version. Not a comparison of two versions. channel_not_run queries are stored and excluded from --compare-baseline. Re-anchored 2026-10-03 on the current scores after four runs with the same score-only drift and stable order. Cause not found; see GATE SCORE DRIFT in lib/legalRag.ts.",
   "queries": {
     "latin_paternity": {
       "status": "valid",
@@ -238,7 +238,7 @@
           "law_name_local": "ЗАКОН о раду",
           "article_num": "184",
           "is_curated": true,
-          "score": 0.433749,
+          "score": 0.433734,
           "rank": 5
         },
         {
@@ -256,7 +256,7 @@
           "law_name_local": "ЗАКОН о раду",
           "article_num": "180",
           "is_curated": true,
-          "score": 0.389304,
+          "score": 0.389273,
           "rank": 7
         },
         {
@@ -265,7 +265,7 @@
           "law_name_local": "ЗАКОН о раду",
           "article_num": "196",
           "is_curated": true,
-          "score": 0.381165,
+          "score": 0.381192,
           "rank": 8
         },
         {
@@ -274,7 +274,7 @@
           "law_name_local": "ЗАКОН о раду",
           "article_num": "14",
           "is_curated": true,
-          "score": 0.372072,
+          "score": 0.37205,
           "rank": 9
         },
         {
@@ -283,7 +283,7 @@
           "law_name_local": "ЗАКОН о раду",
           "article_num": "182",
           "is_curated": true,
-          "score": 0.36837,
+          "score": 0.368333,
           "rank": 10
         }
       ]
@@ -1152,7 +1152,7 @@
           "law_name_local": "ZAKONO OPŠTEM UPRAVNOM POSTUPKU",
           "article_num": "64",
           "is_curated": false,
-          "score": 0.684087,
+          "score": 0.684277,
           "rank": 1
         },
         {
@@ -1161,7 +1161,7 @@
           "law_name_local": "ZAKONO OPŠTEM UPRAVNOM POSTUPKU",
           "article_num": "58",
           "is_curated": false,
-          "score": 0.665336,
+          "score": 0.664896,
           "rank": 2
         },
         {
@@ -1224,7 +1224,7 @@
           "law_name_local": "ZAKONO UPRAVNIM SPOROVIMA",
           "article_num": "5",
           "is_curated": false,
-          "score": 0.648076,
+          "score": 0.647609,
           "rank": 9
         },
         {
@@ -1233,7 +1233,7 @@
           "law_name_local": "ZAKONO OPŠTEM UPRAVNOM POSTUPKU",
           "article_num": "63",
           "is_curated": false,
-          "score": 0.64383,
+          "score": 0.644104,
           "rank": 10
         }
       ]

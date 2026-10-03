@@ -24,6 +24,7 @@ import {
   normalizeResearchCategory,
 } from "@/lib/normalizeResearchCategory"
 import { isScrapedExcerpt, splitByRelevanceTier } from "@/lib/ragThresholds"
+import { lookupImplementingActs } from "@/lib/legalActParent"
 import { logLegalSearch } from "@/lib/research/logLegalSearch"
 import type { TablesInsert } from "@/lib/supabase/types"
 
@@ -606,11 +607,36 @@ export async function POST(req: NextRequest) {
       console.error("[research/search] legal_search_logs insert", { ms: logMs })
     }
 
+    let implementingActs: Awaited<ReturnType<typeof lookupImplementingActs>> = []
+    if (fetchLaws && (lawPage.length > 0 || lowLawPage.length > 0)) {
+      try {
+        implementingActs = await lookupImplementingActs([
+          ...lawPage.map((chunk) => ({
+            jurisdiction: chunk.jurisdiction,
+            law_name_local: chunk.law_name_local,
+          })),
+          ...lowLawPage.map((chunk) => ({
+            jurisdiction: chunk.jurisdiction,
+            law_name_local: chunk.law_name_local,
+          })),
+        ])
+      } catch (err) {
+        // The citation table is not an input to ranking. A read failure
+        // leaves the field empty and the result list unchanged.
+        // eslint-disable-next-line no-console
+        console.error(
+          "[research/search] implementing acts lookup failed",
+          err instanceof Error ? err.message : String(err),
+        )
+      }
+    }
+
     return Response.json({
       query,
       filters: { jurisdiction, category },
       results,
       lowConfidenceResults,
+      implementingActs,
       hasHighlyRelevantLaws,
       caseLawResults,
       lowConfidenceCaseLawResults,

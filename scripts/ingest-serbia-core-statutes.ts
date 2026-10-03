@@ -7,6 +7,8 @@
  * or TRUNCATE public.legal_keyword_token_df;
  * Stale df silently wrong-ranks until refreshed. Next corpus change:
  * re-chunk of 23,966 bulk rows in bih_rs, bih_fbih, bih_brcko, montenegro.
+ * The same write parses the opening chunk into legal_act_parent
+ * (linkIngestedActs). A missing table is ignored.
  *
  * Splits PIS viewdoc text on "Члан N." headings. Does not embed or
  * write to the database unless --confirm is passed.
@@ -664,6 +666,13 @@ async function upsertArticles(articles: LegalArticleInput[]): Promise<void> {
   const { supabaseAdmin } = await import("../lib/supabase/admin")
   let succeeded = 0
   let failed = 0
+  const linkedActs: Array<{
+    jurisdiction: string
+    law_name_local: string
+    article_num: string
+    paragraph_num?: string | null
+    text_local?: string | null
+  }> = []
 
   for (const article of articles) {
     try {
@@ -700,6 +709,13 @@ async function upsertArticles(articles: LegalArticleInput[]): Promise<void> {
       }
       if (lastError) throw lastError
       succeeded += 1
+      linkedActs.push({
+        jurisdiction: article.jurisdiction,
+        law_name_local: article.law_name_local,
+        article_num: article.article_num,
+        paragraph_num: article.paragraph_num ?? null,
+        text_local: article.text_local ?? null,
+      })
       // eslint-disable-next-line no-console
       console.log(
         `✓ ${article.law_name_local} / Члан ${article.article_num}` +
@@ -714,6 +730,11 @@ async function upsertArticles(articles: LegalArticleInput[]): Promise<void> {
       )
     }
     await sleep(200)
+  }
+
+  if (linkedActs.length > 0) {
+    const { linkIngestedActs } = await import("../lib/legalActParent")
+    await linkIngestedActs(linkedActs)
   }
 
   // eslint-disable-next-line no-console

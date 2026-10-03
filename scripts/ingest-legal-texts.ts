@@ -6,6 +6,8 @@
  * or TRUNCATE public.legal_keyword_token_df;
  * Stale df silently wrong-ranks until refreshed. Next corpus change:
  * re-chunk of 23,966 bulk rows in bih_rs, bih_fbih, bih_brcko, montenegro.
+ * The same write parses the opening chunk into legal_act_parent
+ * (linkIngestedActs). A missing table is ignored.
  */
 import { createHash } from "crypto"
 import dotenv from "dotenv"
@@ -404,6 +406,13 @@ export async function ingest(options: IngestLegalOptions = {}) {
 
   const jurisdictionSet = new Set<string>()
   const succeededByJurisdiction = new Map<string, number>()
+  const linkedActs: Array<{
+    jurisdiction: string
+    law_name_local: string
+    article_num: string
+    paragraph_num?: string | null
+    text_local?: string | null
+  }> = []
   let succeeded = 0
   let skipped = 0
 
@@ -442,6 +451,13 @@ export async function ingest(options: IngestLegalOptions = {}) {
       if (error) throw error
 
       succeeded += 1
+      linkedActs.push({
+        jurisdiction: article.jurisdiction,
+        law_name_local: article.law_name_local,
+        article_num: article.article_num,
+        paragraph_num: article.paragraph_num ?? null,
+        text_local: article.text_local ?? null,
+      })
       succeededByJurisdiction.set(
         article.jurisdiction,
         (succeededByJurisdiction.get(article.jurisdiction) ?? 0) + 1,
@@ -459,6 +475,11 @@ export async function ingest(options: IngestLegalOptions = {}) {
     }
 
     await sleep(200)
+  }
+
+  if (linkedActs.length > 0) {
+    const { linkIngestedActs } = await import("../lib/legalActParent")
+    await linkIngestedActs(linkedActs)
   }
 
   const jurisdictionOrder = [...succeededByJurisdiction.keys()].sort((a, b) =>
