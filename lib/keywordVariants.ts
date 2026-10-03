@@ -113,6 +113,20 @@ export const KEYWORD_PARTIAL_BASE = 0.46
 export const KEYWORD_PARTIAL_COVERAGE_SPAN = 0.14
 
 /**
+ * Added to the vector cosine in mergeHybridLegalChunks (2026-10-03).
+ * These replaced max(vector, band). Change or revert them here.
+ * The partial add-on is not a third flat number: it is the coverage
+ * term from scoreKeywordPartialFromCoverage, and only when that
+ * function accepts the row.
+ */
+export const KEYWORD_EXACT_COSINE_BONUS = 0.3
+export const KEYWORD_STEM_COSINE_BONUS = 0.25
+
+export function keywordPartialCosineBonus(partialScore: number): number {
+  return partialScore - KEYWORD_PARTIAL_BASE
+}
+
+/**
  * Coverage step is span/n. Contiguity is half a step: span/(2n), so it
  * stays strictly smaller than one coverage step for every n.
  * 2026-09-23 window: full contiguous coverage for the gate token counts

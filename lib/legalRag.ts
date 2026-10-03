@@ -15,7 +15,10 @@ import {
   filterKeywordFetchPatterns,
   keywordContentTokensMatched,
   keywordIdfLnWeight,
+  keywordPartialCosineBonus,
   keywordWeightedCoverage,
+  KEYWORD_EXACT_COSINE_BONUS,
+  KEYWORD_STEM_COSINE_BONUS,
   scoreKeywordPartialFromCoverage,
   scoreKeywordPatternMatch,
   type KeywordContentToken,
@@ -737,6 +740,11 @@ async function loadKeywordIdfWeights(
   return { weights, failed: false }
 }
 
+const keywordMergeMeta = new WeakMap<
+  LegalChunk,
+  { bonus: number; land: number }
+>()
+
 function scoreLegalKeywordRows(
   rows: Record<string, unknown>[],
   patterns: ReturnType<typeof buildKeywordIlikePatterns>,
@@ -794,11 +802,17 @@ function scoreLegalKeywordRows(
           : (partial ?? phrase)
       if (!match) return null
       const lawName = String(r.law_name_local ?? r.law_name ?? "")
-      const score = Math.min(
-        0.99,
-        match.score + landRegisterTitleBonus(lawName, patterns),
-      )
-      return rowToLegalChunk(r, score, match.matchChannel)
+      const land = landRegisterTitleBonus(lawName, patterns)
+      const score = Math.min(0.99, match.score + land)
+      const bonus =
+        match.matchChannel === "keyword_exact"
+          ? KEYWORD_EXACT_COSINE_BONUS
+          : match.matchChannel === "keyword_stem"
+            ? KEYWORD_STEM_COSINE_BONUS
+            : keywordPartialCosineBonus(match.score)
+      const chunk = rowToLegalChunk(r, score, match.matchChannel)
+      keywordMergeMeta.set(chunk, { bonus, land })
+      return chunk
     })
     .filter((c): c is LegalChunk => c != null)
     .sort((a, b) => b.similarity - a.similarity || compareIdAsc(a, b))
@@ -1110,9 +1124,10 @@ async function searchLegalArticlesByKeyword(args: {
 
   const merged = mergeKeywordStageRows(stage1Rows, stage2Rows)
   // Keep the rows the RPC already returned (rpcLimit), not matchCount.
-  // The final yield is still matchCount * 2. Reranking cannot promote a
-  // row discarded here. Two stages together can exceed one response, so
-  // the cap stays rpcLimit — nothing beyond what one keyword call returns.
+  // The final yield is still matchCount * 2. The cosine bonus cannot
+  // promote a row discarded here. Two stages together can exceed one
+  // response, so the cap stays rpcLimit — nothing beyond what one
+  // keyword call returns.
   return {
     rows: merged.slice(0, rpcLimit),
     elapsedMs: Date.now() - started,
@@ -1126,11 +1141,85 @@ async function searchLegalArticlesByKeyword(args: {
   }
 }
 
+function parseStoredEmbedding(value: unknown): number[] | null {
+  if (Array.isArray(value)) {
+    const nums = value.map((n) => Number(n))
+    return nums.every((n) => Number.isFinite(n)) ? nums : null
+  }
+  if (typeof value !== "string") return null
+  const trimmed = value.trim()
+  if (!trimmed.startsWith("[") || !trimmed.endsWith("]")) return null
+  const nums = trimmed
+    .slice(1, -1)
+    .split(",")
+    .map((part) => Number(part.trim()))
+  if (nums.length === 0 || nums.some((n) => !Number.isFinite(n))) return null
+  return nums
+}
+
+function cosineSimilarity(a: number[], b: number[]): number | null {
+  if (a.length === 0 || a.length !== b.length) return null
+  let dot = 0
+  let na = 0
+  let nb = 0
+  for (let i = 0; i < a.length; i++) {
+    const x = a[i] ?? 0
+    const y = b[i] ?? 0
+    dot += x * y
+    na += x * x
+    nb += y * y
+  }
+  if (!(na > 0) || !(nb > 0)) return null
+  return dot / (Math.sqrt(na) * Math.sqrt(nb))
+}
+
+/** Keyword rows the vector overfetch did not return. Missing embedding → no cosine. */
+async function loadKeywordOnlyCosines(
+  ids: string[],
+  queryEmbedding: number[],
+): Promise<Map<string, number>> {
+  const out = new Map<string, number>()
+  if (ids.length === 0) return out
+  const { data, error } = await supabaseAdmin
+    .from("legal_articles")
+    .select("id, embedding")
+    .in("id", ids)
+  if (error || !data) {
+    // eslint-disable-next-line no-console
+    console.error("[RAG] keyword cosine lookup failed", {
+      message: error?.message ?? "empty",
+      ids: ids.length,
+    })
+    return out
+  }
+  for (const row of data as Array<{ id?: unknown; embedding?: unknown }>) {
+    const id = String(row.id ?? "")
+    const embedding = parseStoredEmbedding(row.embedding)
+    if (!id || !embedding) continue
+    const cosine = cosineSimilarity(queryEmbedding, embedding)
+    if (cosine == null || !Number.isFinite(cosine)) continue
+    out.set(id, cosine)
+  }
+  return out
+}
+
+const MAX_RERANK_SCORE = 0.99
+
+function cosinePlusKeywordBonus(
+  cosine: number,
+  bonus: number,
+  land: number,
+): number {
+  return Math.min(MAX_RERANK_SCORE, cosine + bonus + land)
+}
+
 function mergeHybridLegalChunks(
   vectorChunks: LegalChunk[],
   keywordChunks: LegalChunk[],
-): LegalChunk[] {
+  cosineByKeywordId: Map<string, number>,
+): { chunks: LegalChunk[]; keywordRowsWithoutCosine: number } {
   const byId = new Map<string, LegalChunk>()
+  let keywordRowsWithoutCosine = 0
 
   for (const chunk of vectorChunks) {
     byId.set(chunk.id, { ...chunk, matchChannel: "vector" })
@@ -1138,18 +1227,35 @@ function mergeHybridLegalChunks(
 
   for (const chunk of keywordChunks) {
     const existing = byId.get(chunk.id)
+    const meta = keywordMergeMeta.get(chunk)
+    const bonus = meta?.bonus ?? 0
+    const land = meta?.land ?? 0
+    const cosine = existing
+      ? existing.similarity
+      : cosineByKeywordId.get(chunk.id)
+    if (cosine == null || !Number.isFinite(cosine)) {
+      keywordRowsWithoutCosine += 1
+      if (!existing) byId.set(chunk.id, { ...chunk })
+      continue
+    }
+    const similarity = cosinePlusKeywordBonus(cosine, bonus, land)
     if (!existing) {
-      byId.set(chunk.id, { ...chunk })
+      byId.set(chunk.id, { ...chunk, similarity })
       continue
     }
     byId.set(chunk.id, {
       ...existing,
-      similarity: Math.max(existing.similarity, chunk.similarity),
+      similarity,
       matchChannel: "both",
     })
   }
 
-  return Array.from(byId.values()).sort((a, b) => b.similarity - a.similarity)
+  return {
+    chunks: Array.from(byId.values()).sort(
+      (a, b) => b.similarity - a.similarity,
+    ),
+    keywordRowsWithoutCosine,
+  }
 }
 
 function summarizeMatchChannels(chunks: Array<{ matchChannel?: MatchChannel }>) {
@@ -1183,7 +1289,6 @@ export function summarizeMatchChannelsForLog(
 }
 
 const AREA_MATCH_BOOST = 0.05
-const MAX_RERANK_SCORE = 0.99
 const KEYWORD_MISMATCH_MULTIPLIER = 0.75
 const KEYWORD_BOOST_SCORES = new Set([0.9, 0.95])
 /**
@@ -1200,10 +1305,12 @@ const KEYWORD_BOOST_SCORES = new Set([0.9, 0.95])
  * semantic one. Do not paper over that with a curated-article constant.
  *
  * Displayed match % (corpus audit item 1, labelling only — do not fix now):
- * the figure is max(vector cosine, keyword phrase 0.95/0.90 or partial)
- * after area rerank, capped at MAX_RERANK_SCORE. Equal percentages can
- * mean different things, and everything that clears the ceiling prints 99.
- * The UI label is podudarnost/match, not pouzdanost.
+ * the figure is the vector cosine plus the keyword bonus (exact +0.30,
+ * stem +0.25, partial coverage term), after area rerank, capped at
+ * MAX_RERANK_SCORE. A keyword row with no cosine still shows the old
+ * band. Equal percentages can mean different things, and everything
+ * that clears the ceiling prints 99. The UI label is podudarnost/match,
+ * not pouzdanost.
  *
  * DECISION 2026-09-23 — CURATED_ARTICLE_BOOST (+0.12) is removed.
  * Do not re-add an additive curated constant from first principles.
@@ -1440,6 +1547,31 @@ const KEYWORD_BOOST_SCORES = new Set([0.9, 0.95])
  * — vector similarity, keyword band, IDF coverage, and the area bonus
  * — before changing ranking.
  *
+ * COSINE ADDITIVE KEYWORD SCORE — shipped 2026-10-03. Replaced
+ * max(vector, band) inside mergeHybridLegalChunks, before the yield
+ * cut. The band is a bonus on the cosine, capped at 0.99: exact
+ * + KEYWORD_EXACT_COSINE_BONUS (0.30), stem + KEYWORD_STEM_COSINE_BONUS
+ * (0.25), partial + the coverage term from scoreKeywordPartialFromCoverage
+ * (IDF-weighted coverage, contiguity, the 0.5 floor, the 2-token
+ * minimum). A row that function rejects keeps its cosine. A keyword
+ * row with no embedding keeps the old band. Unchanged: the 0.99 cap,
+ * area +0.05, mismatch ×0.75, the land-register bonus, the 2,500 ms
+ * phrase breaker, the 8,000 ms partial budget, compareLegalChunks,
+ * the keyword cap, and the yield size.
+ * Fixed: a flat 0.95 / 0.90 / partial band collapsed a top 10 onto
+ * one number, and the yield cut then kept the tied rows that sorted
+ * first by law name. That was selection, not only order. ЗАКОН о
+ * облигационим односима чл. 455 was a stem hit at cosine 0.555, inside
+ * both the phrase window and the vector overfetch, and the 20-row
+ * yield dropped it.
+ * Cost: Zakon o vlasništvu i drugim stvarnim pravima čl. 388 is no
+ * longer rank 1 on the zemljišne knjige query. ZAKON O OPŠTEM
+ * UPRAVNOM POSTUPKU чл. 64 leaves the top 10 of "opšti upravni
+ * postupak rok za žalbu". Ten of the 17 gate specs change their
+ * top-10 set, and the Croatia and Serbia otkazni-rok filters change
+ * order only. A phrase window that fills the keyword cap still
+ * crowds the partial window out before this score runs.
+ *
  * FETCH VS SCORING NEEDLES — recorded 2026-09-29, do not act. Stage 2
  * fetches on the inflected surface (`купљени`) while scoring uses the
  * stem (`купљен`). ЗЗП чл. 63 contains "роба купљена", which the
@@ -1560,6 +1692,8 @@ export type RagStageTiming = {
   keywordPhraseCircuitBreaker?: boolean
   keywordIdfMs?: number
   keywordIdfFallback?: boolean
+  /** Keyword rows that kept the old band because they had no cosine. */
+  keywordRowsWithoutCosine?: number
   mergeRerankMs: number
   totalMs: number
   vectorRetried: boolean
@@ -2431,7 +2565,19 @@ export async function matchLegalArticles(args: {
 
   const keywordResult = await keywordPromise
   const mergeStarted = Date.now()
-  const merged = mergeHybridLegalChunks(data, keywordResult.rows)
+  const vectorIds = new Set(data.map((chunk) => chunk.id))
+  const keywordOnlyIds = keywordResult.rows
+    .filter((chunk) => !vectorIds.has(chunk.id))
+    .map((chunk) => chunk.id)
+  const cosineByKeywordId = await loadKeywordOnlyCosines(
+    keywordOnlyIds,
+    embedding,
+  )
+  const { chunks: merged, keywordRowsWithoutCosine } = mergeHybridLegalChunks(
+    data,
+    keywordResult.rows,
+    cosineByKeywordId,
+  )
   const { items: reranked, log: areaInference } = applyAreaAwareReranking(
     merged,
     (c) => c.law_category,
@@ -2454,6 +2600,7 @@ export async function matchLegalArticles(args: {
     keywordPhraseCircuitBreaker: keywordResult.stage1CircuitBreaker === true,
     keywordIdfMs: keywordResult.idfMs,
     keywordIdfFallback: keywordResult.idfFallback === true,
+    keywordRowsWithoutCosine,
     mergeRerankMs,
     totalMs: Date.now() - totalStarted,
     vectorRetried: retried,

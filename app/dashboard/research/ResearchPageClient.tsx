@@ -214,6 +214,15 @@ function ResearchNoHighlyRelevantBanner({ t }: { t: (key: string) => string }) {
   )
 }
 
+function researchStatuteTitle(item: {
+  law_name_local?: string | null
+  law_name?: string | null
+}): string {
+  const local = item.law_name_local
+  if (local != null && local.trim() !== "") return local
+  return item.law_name ?? ""
+}
+
 function ResearchLawResultCard({
   r,
   query,
@@ -240,8 +249,7 @@ function ResearchLawResultCard({
     <Card key={r.id} className="p-5">
       <div className="space-y-2">
         <p className="text-sm font-medium leading-snug text-foreground break-words">
-          <span>{r.law_name_local}</span>
-          <span className="text-muted-foreground"> — {r.law_name}</span>
+          {researchStatuteTitle(r)}
         </p>
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <div className="space-y-1">

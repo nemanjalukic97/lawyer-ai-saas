@@ -629,7 +629,7 @@ async function main() {
   const file: BaselineFile = {
     gitSha: gitSha(),
     date: new Date().toISOString(),
-    note: "Variance-and-latency snapshot of one code version. Not a comparison of two versions. channel_not_run queries are stored and excluded from --compare-baseline. Re-anchored 2026-10-03 on the current scores after four runs with the same score-only drift and stable order. Cause not found; see GATE SCORE DRIFT in lib/legalRag.ts.",
+    note: "Variance-and-latency snapshot of one code version. Not a comparison of two versions. channel_not_run queries are stored and excluded from --compare-baseline. Re-anchored 2026-10-03 after the cosine-additive keyword score replaced max(vector, band). Order and membership moved. See COSINE ADDITIVE KEYWORD SCORE in lib/legalRag.ts.",
     queries: Object.fromEntries(
       results.map((r) => [r.id, { status: r.status, top10: r.top10 }]),
     ),
