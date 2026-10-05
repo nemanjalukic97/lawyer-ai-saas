@@ -422,12 +422,14 @@ function rowToLegalChunk(
 // reach stage 2 in production, and the budget is deliberately not fitted to
 // it. If the channel is ever enabled for full prediction prompts, that
 // statement needs work before the budget is reconsidered.
-const DEFAULT_KEYWORD_BUDGET_MS = 8000
+// 2026-10-05: 8,000 -> 20,000. An aborted partial stage returned a second list.
+const DEFAULT_KEYWORD_BUDGET_MS = 20000
 const KEYWORD_BUDGET_REASON = "keyword_budget_exceeded"
 const KEYWORD_ERROR_REASON = "keyword_search_error"
 const KEYWORD_PHRASE_CIRCUIT_REASON = "keyword_phrase_circuit_breaker"
 const KEYWORD_CHANNEL_HINT_SKIP_REASON = "keyword_skipped_hint"
-const KEYWORD_PHRASE_CIRCUIT_MS = 2500
+// 2026-10-05: 2,500 -> 6,000. Same reason as the partial budget above.
+const KEYWORD_PHRASE_CIRCUIT_MS = 6000
 
 function getKeywordSearchBudgetMs(): number {
   const raw = process.env.LEGAL_KEYWORD_BUDGET_MS
@@ -754,7 +756,7 @@ function scheduleKeywordDfCompute(
  * process-cached and, when legal_keyword_token_df exists, persisted by
  * (jurisdiction, needle-set key). A miss uses uniform coverage for this
  * request. The COUNT and insert run after this returns, outside the
- * partial stage's 8,000 ms scan budget, so the next request can hit
+ * partial stage's 20,000 ms scan budget, so the next request can hit
  * the table.
  */
 async function loadKeywordIdfWeights(
@@ -1606,8 +1608,8 @@ const KEYWORD_BOOST_SCORES = new Set([0.9, 0.95])
  * the canonical sorted scoring-needle set (variants ∪ stems) for one
  * content token. Every content token is looked up, including short
  * scoring-only surfaces. On a miss this request uses uniform coverage.
- * The COUNT and insert run outside the partial stage's 8,000 ms scan
- * budget (direct SQL, not the 8-second HTTP count) so the next request
+ * The COUNT and insert run outside the partial stage's 20,000 ms scan
+ * budget (direct SQL, not the HTTP count) so the next request
  * can hit the table. No cap, no fixed short-token weight. N is warmed
  * for the seven jurisdictions at process start. A lookup error also
  * falls back to uniform, logged as `keyword_idf_lookup_failed`. A cache
@@ -1653,8 +1655,7 @@ const KEYWORD_BOOST_SCORES = new Set([0.9, 0.95])
  * (IDF-weighted coverage, contiguity, the 0.5 floor, the 2-token
  * minimum). A row that function rejects keeps its cosine. A keyword
  * row with no embedding keeps the old band. Unchanged: the 0.99 cap,
- * area +0.05, mismatch ×0.75, the land-register bonus, the 2,500 ms
- * phrase breaker, the 8,000 ms partial budget, compareLegalChunks,
+ * area +0.05, mismatch ×0.75, the land-register bonus, compareLegalChunks,
  * the keyword cap, and the yield size.
  * Fixed: a flat 0.95 / 0.90 / partial band collapsed a top 10 onto
  * one number, and the yield cut then kept the tied rows that sorted
