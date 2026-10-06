@@ -28,6 +28,7 @@ type TopChunk = LegalChunk
 
 const HINT_SKIP = "keyword_skipped_hint"
 const BUDGET_SKIP = "keyword_budget_exceeded"
+const GROUP_COUNT_SKIP = "keyword_partial_skipped_group_count"
 
 /**
  * Completion matches scripts/_verify-legal-order-after.ts.
@@ -60,7 +61,8 @@ export function keywordTimingFromStage(
     stage2_completed:
       timing.keywordTimedOut !== true &&
       skip !== BUDGET_SKIP &&
-      skip !== HINT_SKIP,
+      skip !== HINT_SKIP &&
+      skip !== GROUP_COUNT_SKIP,
     skipped_hint: skip === HINT_SKIP,
     idf_ms: timing.keywordIdfMs ?? null,
     idf_fallback: timing.keywordIdfFallback === true,

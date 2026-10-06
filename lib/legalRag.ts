@@ -468,6 +468,7 @@ type KeywordSearchResult<T> = {
   stage1CircuitBreaker?: boolean
   idfMs?: number
   idfFallback?: boolean
+  partialGroupCount?: number
 }
 
 async function runLegalKeywordRpc(args: {
@@ -1003,6 +1004,17 @@ async function searchLegalArticlesByKeyword(args: {
   const tokenGroups = patterns.contentTokens.map((t) => [
     ...new Set([...t.variants, ...t.stems].filter(Boolean)),
   ])
+  const partialGroupCount = tokenGroups.length
+  const skipPartial = partialGroupCount > 6
+  if (skipPartial) {
+    // eslint-disable-next-line no-console
+    console.error("[RAG] keyword partial stage skipped", {
+      reason: "keyword_partial_skipped_group_count",
+      jurisdiction: args.jurisdiction,
+      groupCount: partialGroupCount,
+      stage: "partial",
+    })
+  }
   const rpcBase = {
     jurisdiction: args.jurisdiction,
     rpcLimit,
@@ -1014,7 +1026,7 @@ async function searchLegalArticlesByKeyword(args: {
   let idfFallback = false
   let idfMs = 0
   const idfPromise: Promise<KeywordIdfLoad> =
-    tokenPatterns.length === 0
+    tokenPatterns.length === 0 || skipPartial
       ? Promise.resolve({
           weights: null,
           failed: false,
@@ -1060,7 +1072,7 @@ async function searchLegalArticlesByKeyword(args: {
   const budgetMs = getKeywordSearchBudgetMs()
   const abort = new AbortController()
   const stage2Promise =
-    tokenPatterns.length === 0
+    tokenPatterns.length === 0 || skipPartial
       ? Promise.resolve([] as LegalChunk[])
       : withTimeout(
           runLegalKeywordRpc({
@@ -1127,7 +1139,14 @@ async function searchLegalArticlesByKeyword(args: {
           timedOut: false,
           skipReason: null as string | null,
         })
-      : stage2Promise.then(
+      : skipPartial
+        ? Promise.resolve({
+            rows: [] as LegalChunk[],
+            ms: null as number | null,
+            timedOut: false,
+            skipReason: "keyword_partial_skipped_group_count" as string | null,
+          })
+        : stage2Promise.then(
           (rows) => ({
             rows,
             ms: Date.now() - stagesStarted,
@@ -1216,6 +1235,7 @@ async function searchLegalArticlesByKeyword(args: {
         stage1CircuitBreaker: false,
         idfMs,
         idfFallback,
+        partialGroupCount: skipPartial ? partialGroupCount : undefined,
       }
     }
   }
@@ -1236,6 +1256,7 @@ async function searchLegalArticlesByKeyword(args: {
     stage1CircuitBreaker,
     idfMs,
     idfFallback,
+    partialGroupCount: skipPartial ? partialGroupCount : undefined,
   }
 }
 
@@ -1791,6 +1812,8 @@ export type RagStageTiming = {
   keywordPhraseCircuitBreaker?: boolean
   keywordIdfMs?: number
   keywordIdfFallback?: boolean
+  /** Set when the partial stage is not called because the query has more than six token groups. */
+  keywordPartialGroupCount?: number
   /** Keyword rows that kept the old band because they had no cosine. */
   keywordRowsWithoutCosine?: number
   mergeRerankMs: number
@@ -2699,6 +2722,9 @@ export async function matchLegalArticles(args: {
     keywordPhraseCircuitBreaker: keywordResult.stage1CircuitBreaker === true,
     keywordIdfMs: keywordResult.idfMs,
     keywordIdfFallback: keywordResult.idfFallback === true,
+    ...(keywordResult.partialGroupCount != null
+      ? { keywordPartialGroupCount: keywordResult.partialGroupCount }
+      : {}),
     keywordRowsWithoutCosine,
     mergeRerankMs,
     totalMs: Date.now() - totalStarted,
