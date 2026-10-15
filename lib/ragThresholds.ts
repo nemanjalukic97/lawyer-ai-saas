@@ -70,9 +70,12 @@ export function splitByRelevanceTier<T extends { similarity: number; jurisdictio
 }
 
 /** Bulk-scraped rows store identical text and text_local (no English translation). */
-export function isScrapedExcerpt(text: string, textLocal: string | null): boolean {
+export function storedTextsMatch(text: string, textLocal: string | null): boolean {
   const local = (textLocal ?? "").trim()
   const en = text.trim()
   if (!local || !en) return false
   return local === en
 }
+
+/** Scripts still import the earlier name. */
+export const isScrapedExcerpt = storedTextsMatch

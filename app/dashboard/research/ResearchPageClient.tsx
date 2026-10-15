@@ -38,7 +38,7 @@ import {
   isUnofficialConsolidation,
   UNOFFICIAL_CONSOLIDATION_CAPTION,
 } from "@/lib/unofficialConsolidation"
-import { isScrapedExcerpt } from "@/lib/ragThresholds"
+import { showsExcerptCard } from "@/lib/researchExcerptFlags"
 import {
   logOnboardingEvent,
   sanitizeOnboardingErrorMessage,
@@ -60,6 +60,7 @@ type ResearchResultItem = {
   confidencePct: number
   excerpt: string
   isExcerpt?: boolean
+  is_excerpt?: boolean
   matchChannel?: "vector" | "keyword" | "both"
 }
 
@@ -223,6 +224,55 @@ function researchStatuteTitle(item: {
   return item.law_name ?? ""
 }
 
+const PLAIN_ARTICLE_NUM = /^\d+\p{L}{0,2}$/u
+
+type ArticleCitation = {
+  article: (n: string) => string
+  range: (n: string) => string
+  part: (n: string) => string
+}
+
+const CLAN_CITATION: ArticleCitation = {
+  article: (n) => `Član ${n}`,
+  range: (n) => `Čl. ${n}`,
+  part: (n) => `(${n}. dio)`,
+}
+
+const ARTICLE_CITATION: Record<string, ArticleCitation> = {
+  montenegro: CLAN_CITATION,
+  bih_rs: CLAN_CITATION,
+  bih_fbih: CLAN_CITATION,
+  bih_brcko: CLAN_CITATION,
+  croatia: {
+    article: (n) => `Članak ${n}`,
+    range: (n) => `Čl. ${n}`,
+    part: (n) => `(${n}. dio)`,
+  },
+  serbia: {
+    article: (n) => `Члан ${n}`,
+    range: (n) => `Чл. ${n}`,
+    part: (n) => `(${n}. део)`,
+  },
+  slovenia: {
+    article: (n) => `${n}. člen`,
+    range: (n) => `${n}. čl.`,
+    part: (n) => `(${n}. del)`,
+  },
+}
+
+function articleCitationLabel(
+  jurisdiction: string,
+  articleNum: string,
+  paragraphNum: string | null,
+): string {
+  const format = ARTICLE_CITATION[jurisdiction] ?? CLAN_CITATION
+  const head = PLAIN_ARTICLE_NUM.test(articleNum)
+    ? format.article(articleNum)
+    : format.range(articleNum)
+  if (!paragraphNum) return head
+  return `${head} ${format.part(paragraphNum)}`
+}
+
 function ResearchLawResultCard({
   r,
   query,
@@ -239,12 +289,11 @@ function ResearchLawResultCard({
   const displayText =
     r.text_local && r.text_local.trim() ? r.text_local : r.text ?? ""
   const parts = highlightSubstring(displayText, query)
-  const isExcerpt =
-    r.isExcerpt ?? isScrapedExcerpt(r.text ?? "", r.text_local)
-  const unitLabel = isExcerpt
-    ? t("research.results.excerptLabel")
-    : t("research.results.articleLabel")
-
+  const isExcerpt = showsExcerptCard({
+    is_excerpt: r.is_excerpt,
+    text: r.text ?? "",
+    text_local: r.text_local,
+  })
   return (
     <Card key={r.id} className="p-5">
       <div className="space-y-2">
@@ -254,11 +303,19 @@ function ResearchLawResultCard({
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <div className="space-y-1">
             <p className="text-xs text-muted-foreground">
-              {unitLabel}{" "}
-              <span className="font-medium text-foreground">
-                {r.article_num}
-                {r.paragraph_num ? ` §${r.paragraph_num}` : ""}
-              </span>
+              {isExcerpt ? (
+                <>
+                  {t("research.results.excerptLabel")}{" "}
+                  <span className="font-medium text-foreground">
+                    {r.article_num}
+                    {r.paragraph_num ? ` §${r.paragraph_num}` : ""}
+                  </span>
+                </>
+              ) : (
+                <span className="font-medium text-foreground">
+                  {articleCitationLabel(r.jurisdiction, r.article_num, r.paragraph_num)}
+                </span>
+              )}
             </p>
             {isExcerpt ? (
               <p className="text-xs text-muted-foreground">

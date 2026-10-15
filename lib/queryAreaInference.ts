@@ -163,14 +163,132 @@ export const QUERY_AREA_TERMS = [...QUERY_AREA_TERM_ENTRIES].sort(
   (a, b) => b.phrase.length - a.phrase.length,
 )
 
-/** Soft compatibility across umbrella / sibling areas. */
-export const INFERRED_AREA_ALIASES: Readonly<Record<string, readonly string[]>> =
-  {
-    civil: ["commercial", "property"],
-    commercial: ["civil"],
-    property: ["civil"],
-    inheritance: ["civil"],
-  }
+/**
+ * Compatible areas, listed in both directions. Equality is handled
+ * separately. Constitutional rows are cross-cutting in
+ * areasCompatibleWithInference.
+ *
+ * Private-law core, mutually compatible:
+ *   civil        ↔ family, inheritance, property, enforcement
+ *   family       ↔ civil, inheritance, property, enforcement
+ *   inheritance  ↔ civil, family, property, enforcement
+ *   property     ↔ civil, family, inheritance, enforcement
+ *   enforcement  ↔ civil, family, inheritance, property
+ *
+ * Unchanged, not part of that core:
+ *   commercial   ↔ civil
+ *   labor, criminal, administrative, constitutional, procedural,
+ *   confidentiality, misdemeanor: equality only
+ *
+ * Unknown category, both vocabularies (case_law.legal_area and
+ * legal_articles.law_category), compatible with every area below,
+ * both directions. `null` is a real key of this map.
+ *   general, "", null ↔ every named area
+ */
+type AreaToken = string | null
+
+export const INFERRED_AREA_ALIASES: ReadonlyMap<
+  AreaToken,
+  readonly AreaToken[]
+> = new Map<AreaToken, readonly AreaToken[]>([
+  [
+    "civil",
+    [
+      "family",
+      "inheritance",
+      "property",
+      "enforcement",
+      "commercial",
+      "general",
+      "",
+      null,
+    ],
+  ],
+  [
+    "family",
+    ["civil", "inheritance", "property", "enforcement", "general", "", null],
+  ],
+  [
+    "inheritance",
+    ["civil", "family", "property", "enforcement", "general", "", null],
+  ],
+  [
+    "property",
+    ["civil", "family", "inheritance", "enforcement", "general", "", null],
+  ],
+  [
+    "enforcement",
+    ["civil", "family", "inheritance", "property", "general", "", null],
+  ],
+  ["commercial", ["civil", "general", "", null]],
+  ["labor", ["general", "", null]],
+  ["criminal", ["general", "", null]],
+  ["administrative", ["general", "", null]],
+  ["constitutional", ["general", "", null]],
+  ["procedural", ["general", "", null]],
+  ["confidentiality", ["general", "", null]],
+  ["misdemeanor", ["general", "", null]],
+  [
+    "general",
+    [
+      "administrative",
+      "civil",
+      "commercial",
+      "confidentiality",
+      "constitutional",
+      "criminal",
+      "enforcement",
+      "family",
+      "inheritance",
+      "labor",
+      "misdemeanor",
+      "procedural",
+      "property",
+      "",
+      null,
+    ],
+  ],
+  [
+    "",
+    [
+      "administrative",
+      "civil",
+      "commercial",
+      "confidentiality",
+      "constitutional",
+      "criminal",
+      "enforcement",
+      "family",
+      "general",
+      "inheritance",
+      "labor",
+      "misdemeanor",
+      "procedural",
+      "property",
+      null,
+    ],
+  ],
+  [
+    null,
+    [
+      "administrative",
+      "civil",
+      "commercial",
+      "confidentiality",
+      "constitutional",
+      "criminal",
+      "enforcement",
+      "family",
+      "general",
+      "inheritance",
+      "labor",
+      "misdemeanor",
+      "procedural",
+      "property",
+      "",
+    ],
+  ],
+])
 
 /** Cross-cutting: never excluded by an area filter or the mismatch penalty. */
 export const CROSS_CUTTING_LAW_CATEGORIES: readonly string[] = ["constitutional"]
@@ -321,16 +439,27 @@ export function inferLegalAreaFromQuery(query: string): string | null {
   return null
 }
 
+function normalizeAreaToken(value: string | null | undefined): AreaToken {
+  if (value == null) return null
+  return value.trim().toLowerCase()
+}
+
 export function areasCompatibleWithInference(
-  inferred: string,
-  actual: string,
+  inferred: string | null | undefined,
+  actual: string | null | undefined,
 ): boolean {
-  const inf = inferred.trim().toLowerCase()
-  const act = actual.trim().toLowerCase()
-  if (!inf || !act) return false
-  if (act === inf) return true
-  if (CROSS_CUTTING_LAW_CATEGORIES.includes(act)) return true
-  return (INFERRED_AREA_ALIASES[inf] ?? []).includes(act)
+  const inf = normalizeAreaToken(inferred)
+  const act = normalizeAreaToken(actual)
+  if (inf === act) return true
+  if (
+    typeof act === "string" &&
+    act.length > 0 &&
+    CROSS_CUTTING_LAW_CATEGORIES.includes(act)
+  ) {
+    return true
+  }
+  const aliases = INFERRED_AREA_ALIASES.get(inf) ?? []
+  return aliases.some((alias) => alias === act)
 }
 
 /** Categories to keep when SQL-filtering to an inferred (or explicit) area. */

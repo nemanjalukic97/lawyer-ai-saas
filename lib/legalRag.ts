@@ -1,3 +1,5 @@
+import { createHash } from "crypto"
+import { isApparatusProvision } from "./provisionKind"
 import OpenAI from "openai"
 import pg from "pg"
 import {
@@ -6,7 +8,7 @@ import {
 } from "./normalizeResearchCategory"
 import {
   getJurisdictionRpcThresholds,
-  isScrapedExcerpt,
+  storedTextsMatch,
   LOWER_THRESHOLD_JURISDICTIONS,
   LOWER_SIMILARITY_THRESHOLDS,
   SIMILARITY_THRESHOLDS,
@@ -58,6 +60,10 @@ export type LegalChunk = {
   law_category: string
   article_num: string
   paragraph_num: string | null
+  /** Null on a consolidated row. A banner row carries the amending act. */
+  amending_act?: string | null
+  /** Column from match_legal_articles. Absent until that function returns it. */
+  is_excerpt?: boolean
   text: string
   text_local: string | null
   source_url: string | null
@@ -345,7 +351,7 @@ async function fetchLegalKeywordRows(args: {
   let request = supabaseAdmin
     .from("legal_articles")
     .select(
-      "id, jurisdiction, law_name, law_name_local, law_category, article_num, paragraph_num, text, text_local, source_url",
+      "id, jurisdiction, law_name, law_name_local, law_category, article_num, paragraph_num, amending_act, is_excerpt, text, text_local, source_url",
     )
     .eq("jurisdiction", args.jurisdiction)
     .or(args.orFilter)
@@ -391,6 +397,11 @@ function rowToLegalChunk(
       row.paragraph_num == null || row.paragraph_num === ""
         ? null
         : String(row.paragraph_num),
+    amending_act:
+      row.amending_act == null || row.amending_act === ""
+        ? null
+        : String(row.amending_act),
+    is_excerpt: typeof row.is_excerpt === "boolean" ? row.is_excerpt : undefined,
     text: String(row.text ?? ""),
     text_local:
       row.text_local == null || row.text_local === ""
@@ -430,12 +441,45 @@ const KEYWORD_PHRASE_CIRCUIT_REASON = "keyword_phrase_circuit_breaker"
 const KEYWORD_CHANNEL_HINT_SKIP_REASON = "keyword_skipped_hint"
 // 2026-10-05: 2,500 -> 6,000. Same reason as the partial budget above.
 const KEYWORD_PHRASE_CIRCUIT_MS = 6000
+// f51e769 ran the case-law keyword channel at 8,000 ms from 3 July to 20 September.
+// 2026-10-08: 8,000 -> 15,000 absorbed a plan-cache flip, not a slow index.
+// Execution 6 of search_case_law_keyword adopted a generic plan and read all
+// 29,995 Croatian rows (14–15 s). The partial trgm plan is ~470 ms.
+// 15,000 existed only for that flip, so the budget returns to 8,000.
+const KEYWORD_CASE_LAW_BUDGET_MS = 8000
+
+class KeywordBudgetExceededError extends Error {
+  readonly keywordBudgetExceeded = true as const
+
+  constructor(label: string, timeoutMs: number) {
+    super(`${label} timeout after ${timeoutMs}ms`)
+    this.name = "KeywordBudgetExceededError"
+  }
+}
+
+function keywordErrorLog(err: unknown): {
+  name: string
+  message: string
+  stack: string | undefined
+} {
+  if (err instanceof Error) {
+    return { name: err.name, message: err.message, stack: err.stack }
+  }
+  return { name: "NonError", message: String(err), stack: undefined }
+}
 
 function getKeywordSearchBudgetMs(): number {
   const raw = process.env.LEGAL_KEYWORD_BUDGET_MS
   if (!raw) return DEFAULT_KEYWORD_BUDGET_MS
   const n = Number.parseInt(raw, 10)
   return Number.isFinite(n) && n > 0 ? n : DEFAULT_KEYWORD_BUDGET_MS
+}
+
+function getKeywordCaseLawBudgetMs(): number {
+  const raw = process.env.LEGAL_CASE_LAW_KEYWORD_BUDGET_MS
+  if (!raw) return KEYWORD_CASE_LAW_BUDGET_MS
+  const n = Number.parseInt(raw, 10)
+  return Number.isFinite(n) && n > 0 ? n : KEYWORD_CASE_LAW_BUDGET_MS
 }
 
 async function withTimeout<T>(
@@ -445,14 +489,19 @@ async function withTimeout<T>(
   abort?: AbortController,
 ): Promise<T> {
   let timer: ReturnType<typeof setTimeout> | undefined
+  let budgetExceeded: KeywordBudgetExceededError | undefined
   const timeoutPromise = new Promise<never>((_, reject) => {
     timer = setTimeout(() => {
+      budgetExceeded = new KeywordBudgetExceededError(label, timeoutMs)
       abort?.abort()
-      reject(new Error(`${label} timeout after ${timeoutMs}ms`))
+      reject(budgetExceeded)
     }, timeoutMs)
   })
   try {
     return await Promise.race([promise, timeoutPromise])
+  } catch (err) {
+    if (budgetExceeded) throw budgetExceeded
+    throw err
   } finally {
     if (timer) clearTimeout(timer)
   }
@@ -1108,19 +1157,18 @@ async function searchLegalArticlesByKeyword(args: {
       circuitBreaker: false,
     }),
     (err: unknown) => {
-      const message = err instanceof Error ? err.message : String(err)
-      const circuitBreaker =
-        stage1Abort.signal.aborted ||
-        /circuit breaker/i.test(message)
+      const error = keywordErrorLog(err)
+      const circuitBreaker = err instanceof KeywordBudgetExceededError
       if (circuitBreaker) {
         // eslint-disable-next-line no-console
         console.error("[RAG] keyword phrase circuit breaker", {
+          error,
           reason: KEYWORD_PHRASE_CIRCUIT_REASON,
           jurisdiction: args.jurisdiction,
           circuitMs: KEYWORD_PHRASE_CIRCUIT_MS,
           elapsedMs: Date.now() - started,
           stage: "phrase",
-          message,
+          message: error.message,
         })
       }
       return {
@@ -1154,11 +1202,8 @@ async function searchLegalArticlesByKeyword(args: {
             skipReason: null as string | null,
           }),
           (err: unknown) => {
-            const message = err instanceof Error ? err.message : String(err)
-            const timedOut =
-              abort.signal.aborted ||
-              /timeout/i.test(message) ||
-              /abort/i.test(message)
+            const error = keywordErrorLog(err)
+            const timedOut = err instanceof KeywordBudgetExceededError
             const skipReason = timedOut
               ? KEYWORD_BUDGET_REASON
               : KEYWORD_ERROR_REASON
@@ -1168,12 +1213,13 @@ async function searchLegalArticlesByKeyword(args: {
                 ? "[RAG] keyword legal search budget exceeded"
                 : "[RAG] keyword legal search failed",
               {
+                error,
                 reason: skipReason,
                 jurisdiction: args.jurisdiction,
                 budgetMs,
                 elapsedMs: Date.now() - started,
                 stage: "partial",
-                message,
+                message: error.message,
               },
             )
             return {
@@ -1214,15 +1260,15 @@ async function searchLegalArticlesByKeyword(args: {
   const stage2Ms = stage2.ms
 
   if (stage1Error && !stage1CircuitBreaker) {
-    const message =
-      stage1Error instanceof Error ? stage1Error.message : String(stage1Error)
+    const error = keywordErrorLog(stage1Error)
     // eslint-disable-next-line no-console
     console.error("[RAG] keyword legal search failed", {
+      error,
       reason: KEYWORD_ERROR_REASON,
       jurisdiction: args.jurisdiction,
       elapsedMs: Date.now() - started,
       stage: "phrase",
-      message,
+      message: error.message,
     })
     if (stage1Rows.length === 0 && stage2Rows.length === 0) {
       return {
@@ -1296,11 +1342,12 @@ function cosineSimilarity(a: number[], b: number[]): number | null {
 async function loadKeywordOnlyCosines(
   ids: string[],
   queryEmbedding: number[],
+  table: "legal_articles" | "case_law" = "legal_articles",
 ): Promise<Map<string, number>> {
   const out = new Map<string, number>()
   if (ids.length === 0) return out
   const { data, error } = await supabaseAdmin
-    .from("legal_articles")
+    .from(table as "legal_articles")
     .select("id, embedding")
     .in("id", ids)
   if (error || !data) {
@@ -1308,6 +1355,7 @@ async function loadKeywordOnlyCosines(
     console.error("[RAG] keyword cosine lookup failed", {
       message: error?.message ?? "empty",
       ids: ids.length,
+      table,
     })
     return out
   }
@@ -1364,17 +1412,93 @@ function mergeHybridLegalChunks(
     }
     byId.set(chunk.id, {
       ...existing,
+      amending_act: existing.amending_act ?? chunk.amending_act ?? null,
+      is_excerpt:
+        typeof existing.is_excerpt === "boolean" ? existing.is_excerpt : chunk.is_excerpt,
       similarity,
       matchChannel: "both",
     })
   }
 
+  const sorted = Array.from(byId.values()).sort(
+    (a, b) => b.similarity - a.similarity,
+  )
   return {
-    chunks: Array.from(byId.values()).sort(
-      (a, b) => b.similarity - a.similarity,
-    ),
+    chunks: applyPerArticleResultCap(sorted),
     keywordRowsWithoutCosine,
   }
+}
+
+/**
+ * Same normalisation as unique_article_text:
+ * md5(btrim(regexp_replace(text_local, '[[:space:]]+', ' ', 'g'))).
+ */
+export function normalizedProvisionHash(text: string | null | undefined): string {
+  const collapsed = (text ?? "").replace(/[ \t\n\r\f\v]+/g, " ").replace(/^ +| +$/g, "")
+  return createHash("md5").update(collapsed, "utf8").digest("hex")
+}
+
+function amendingActKey(act: string | null | undefined): string {
+  return act == null ? "\u0000" : act
+}
+
+/**
+ * Cap identity for pieces of one split. The text hash is not part of it:
+ * each piece has its own hash, and the cap would stop capping.
+ * Whole provisions have a null paragraph_num and are not capped.
+ */
+export function legalArticleCapKey(chunk: LegalChunk): string {
+  const law = chunk.law_name_local || chunk.law_name
+  return `${chunk.jurisdiction}\0${law}\0${chunk.article_num}\0${amendingActKey(chunk.amending_act)}`
+}
+
+/** Merge identity. Gains amending_act and the normalised text hash. */
+export function legalArticleMergeKey(chunk: LegalChunk): string {
+  const hash = normalizedProvisionHash(chunk.text_local || chunk.text)
+  return `${chunk.jurisdiction}::${chunk.law_name}::${chunk.article_num}::${chunk.paragraph_num ?? ""}::${amendingActKey(chunk.amending_act)}::${hash}`
+}
+
+/** Pieces of one article, kept two at a time. Rows with no paragraph_num are not capped. */
+const PER_ARTICLE_RESULT_CAP = 2
+
+function applyPerArticleResultCap(sorted: LegalChunk[]): LegalChunk[] {
+  const seen = new Map<string, number>()
+  const kept: LegalChunk[] = []
+  const excluded: Array<{
+    law_name_local: string
+    article_num: string
+    paragraph_num: string | null
+    similarity: number
+  }> = []
+  for (const chunk of sorted) {
+    if (chunk.paragraph_num == null || chunk.paragraph_num === "") {
+      kept.push(chunk)
+      continue
+    }
+    const law = chunk.law_name_local || chunk.law_name
+    const key = legalArticleCapKey(chunk)
+    const count = seen.get(key) ?? 0
+    if (count >= PER_ARTICLE_RESULT_CAP) {
+      excluded.push({
+        law_name_local: law,
+        article_num: chunk.article_num,
+        paragraph_num: chunk.paragraph_num,
+        similarity: Math.round(chunk.similarity * 1000) / 1000,
+      })
+      continue
+    }
+    seen.set(key, count + 1)
+    kept.push(chunk)
+  }
+  if (excluded.length > 0) {
+    // eslint-disable-next-line no-console
+    console.error("[RAG] per-article cap", {
+      kept: kept.length,
+      excluded: excluded.length,
+      dropped: excluded,
+    })
+  }
+  return kept
 }
 
 function summarizeMatchChannels(chunks: Array<{ matchChannel?: MatchChannel }>) {
@@ -1409,7 +1533,23 @@ export function summarizeMatchChannelsForLog(
 
 const AREA_MATCH_BOOST = 0.05
 const KEYWORD_MISMATCH_MULTIPLIER = 0.75
-const KEYWORD_BOOST_SCORES = new Set([0.9, 0.95])
+
+/**
+ * Same shape as an area mismatch: multiply, do not subtract.
+ * Applied to the yielded rows. A commencement that shares the article
+ * number stays in the yield and sorts after the operative text.
+ */
+function applyApparatusPenalty(chunks: LegalChunk[]): LegalChunk[] {
+  let penalised = false
+  const next = chunks.map((chunk) => {
+    if (!isApparatusProvision(chunk.text)) return chunk
+    penalised = true
+    return { ...chunk, similarity: chunk.similarity * KEYWORD_MISMATCH_MULTIPLIER }
+  })
+  if (!penalised) return chunks
+  return next.sort(compareLegalChunks)
+}
+
 /**
  * Known issues after shipping the split keyword channel and the 0.22/(2n)
  * contiguity band. Do not reopen the stemmer or add a nasljeđivanje synonym
@@ -1741,7 +1881,7 @@ function finalYieldLimit(matchCount: number): number {
 
 /** Scraped excerpts are Odlomak. Curated articles are Član. Not a score. */
 export function isCuratedLegalChunk(chunk: LegalChunk): boolean {
-  return !isScrapedExcerpt(chunk.text, chunk.text_local)
+  return !storedTextsMatch(chunk.text, chunk.text_local)
 }
 
 const SCORE_TIE_EPS = 1e-9
@@ -1823,15 +1963,6 @@ export type RagStageTiming = {
   distilledRetrieveMs?: number
 }
 
-function isKeywordBoostedResult(
-  score: number,
-  channel?: MatchChannel,
-): boolean {
-  if (channel === "keyword_exact" || channel === "keyword_stem") return true
-  if (channel === "both") return KEYWORD_BOOST_SCORES.has(score)
-  return false
-}
-
 function applyAreaAwareReranking<T extends {
   id: string
   similarity: number
@@ -1873,14 +2004,19 @@ function applyAreaAwareReranking<T extends {
 
   const results: AreaInferenceLog["results"] = []
   const reranked = items.map((item) => {
-    const area = getArea(item).trim().toLowerCase()
-    const areaMatch = areasCompatibleWithInference(inferredArea, area)
+    const rawArea = getArea(item)
+    const area =
+      typeof rawArea === "string" ? rawArea.trim().toLowerCase() : ""
+    const areaMatch = areasCompatibleWithInference(
+      inferredArea,
+      typeof rawArea === "string" ? rawArea : null,
+    )
     const scoreBefore = item.similarity
     let scoreAfter = scoreBefore
 
     if (areaMatch) {
       scoreAfter = Math.min(MAX_RERANK_SCORE, scoreBefore + AREA_MATCH_BOOST)
-    } else if (isKeywordBoostedResult(scoreBefore, item.matchChannel)) {
+    } else {
       scoreAfter = scoreBefore * KEYWORD_MISMATCH_MULTIPLIER
     }
 
@@ -1939,13 +2075,13 @@ async function searchCaseLawByKeyword(args: {
   try {
     const rows = await withTimeout(
       searchCaseLawByKeywordInner(args),
-      KEYWORD_SEARCH_TIMEOUT_MS,
+      getKeywordCaseLawBudgetMs(),
       "keyword case law search",
     )
     return { rows, elapsedMs: Date.now() - started, timedOut: false, skipReason: null }
   } catch (err) {
-    const message = err instanceof Error ? err.message : String(err)
-    const timedOut = /timeout/i.test(message)
+    const error = keywordErrorLog(err)
+    const timedOut = err instanceof KeywordBudgetExceededError
     const skipReason = timedOut ? KEYWORD_BUDGET_REASON : KEYWORD_ERROR_REASON
     // eslint-disable-next-line no-console
     console.error(
@@ -1953,9 +2089,11 @@ async function searchCaseLawByKeyword(args: {
         ? "[RAG] keyword case law search budget exceeded"
         : "[RAG] keyword case law search failed",
       {
+        error,
         reason: skipReason,
         jurisdiction: args.jurisdiction,
-        message,
+        message: error.message,
+        elapsedMs: Date.now() - started,
       },
     )
     return {
@@ -2016,19 +2154,43 @@ async function searchCaseLawByKeywordInner(args: {
       const match = scoreKeywordTextMatch(combined, patterns)
       if (!match) return null
       const chunk = normalizeCaseLawChunks([raw])[0]
-      return { ...chunk, similarity: match.score, matchChannel: match.matchChannel }
+      const scoredChunk = {
+        ...chunk,
+        similarity: match.score,
+        matchChannel: match.matchChannel,
+      }
+      const bonus =
+        match.matchChannel === "keyword_exact"
+          ? KEYWORD_EXACT_COSINE_BONUS
+          : match.matchChannel === "keyword_stem"
+            ? KEYWORD_STEM_COSINE_BONUS
+            : keywordPartialCosineBonus(match.score)
+      caseLawKeywordMergeMeta.set(scoredChunk, { bonus })
+      return scoredChunk
     })
     .filter((c): c is CaseLawChunk => c != null)
     .sort((a, b) => b.similarity - a.similarity)
 
-  return scored.slice(0, args.matchCount)
+  // Yield cut is after cosine + bonus, in the caller. Slicing here
+  // would keep the flat band's ties and drop a higher cosine.
+  return scored
 }
 
+const caseLawKeywordMergeMeta = new WeakMap<CaseLawChunk, { bonus: number }>()
+
+/**
+ * Same shape as mergeHybridLegalChunks. Exact +0.30, stem +0.25, partial
+ * the coverage term, cap 0.99, added to the cosine before truncation.
+ * A row already in the vector set uses that similarity as its cosine.
+ * A keyword-only row uses the id lookup. No embedding keeps the band.
+ */
 function mergeHybridCaseChunks(
   vectorCases: CaseLawChunk[],
   keywordCases: CaseLawChunk[],
-): CaseLawChunk[] {
+  cosineByKeywordId: Map<string, number>,
+): { cases: CaseLawChunk[]; keywordRowsWithoutCosine: number } {
   const byId = new Map<string, CaseLawChunk>()
+  let keywordRowsWithoutCosine = 0
 
   for (const item of vectorCases) {
     byId.set(item.id, { ...item, matchChannel: "vector" })
@@ -2036,18 +2198,31 @@ function mergeHybridCaseChunks(
 
   for (const item of keywordCases) {
     const existing = byId.get(item.id)
+    const bonus = caseLawKeywordMergeMeta.get(item)?.bonus ?? 0
+    const cosine = existing
+      ? existing.similarity
+      : cosineByKeywordId.get(item.id)
+    if (cosine == null || !Number.isFinite(cosine)) {
+      keywordRowsWithoutCosine += 1
+      if (!existing) byId.set(item.id, { ...item })
+      continue
+    }
+    const similarity = cosinePlusKeywordBonus(cosine, bonus, 0)
     if (!existing) {
-      byId.set(item.id, { ...item })
+      byId.set(item.id, { ...item, similarity })
       continue
     }
     byId.set(item.id, {
       ...existing,
-      similarity: Math.max(existing.similarity, item.similarity),
+      similarity,
       matchChannel: "both",
     })
   }
 
-  return Array.from(byId.values()).sort((a, b) => b.similarity - a.similarity)
+  return {
+    cases: Array.from(byId.values()).sort((a, b) => b.similarity - a.similarity),
+    keywordRowsWithoutCosine,
+  }
 }
 
 async function runMatchCaseLawRpc(args: {
@@ -2245,7 +2420,20 @@ async function matchCaseLawWithEmbedding(args: {
 
   const keywordResult = await keywordPromise
   const mergeStarted = Date.now()
-  const merged = mergeHybridCaseChunks(data, keywordResult.rows)
+  const vectorIds = new Set(data.map((item) => item.id))
+  const keywordOnlyIds = keywordResult.rows
+    .filter((item) => !vectorIds.has(item.id))
+    .map((item) => item.id)
+  const cosineByKeywordId = await loadKeywordOnlyCosines(
+    keywordOnlyIds,
+    args.embedding,
+    "case_law",
+  )
+  const { cases: merged, keywordRowsWithoutCosine } = mergeHybridCaseChunks(
+    data,
+    keywordResult.rows,
+    cosineByKeywordId,
+  )
   const { items: reranked, log: areaInference } = applyAreaAwareReranking(
     merged,
     (c) => c.legal_area,
@@ -2261,6 +2449,7 @@ async function matchCaseLawWithEmbedding(args: {
     keywordMs: keywordResult.elapsedMs,
     keywordTimedOut: keywordResult.timedOut,
     keywordSkipReason: keywordResult.skipReason,
+    keywordRowsWithoutCosine,
     mergeRerankMs,
     totalMs: Date.now() - totalStarted + (args.embedMs ?? 0),
     vectorRetried: retried,
@@ -2525,6 +2714,16 @@ async function retrieveCaseLawForJurisdiction(
     keywordTimedOut:
       primary.timing.keywordTimedOut ||
       (venue?.timing.keywordTimedOut ?? false),
+    keywordSkipReason: primary.timing.keywordTimedOut
+      ? primary.timing.keywordSkipReason ?? null
+      : venue?.timing.keywordTimedOut
+        ? venue.timing.keywordSkipReason ?? null
+        : primary.timing.keywordSkipReason ??
+          venue?.timing.keywordSkipReason ??
+          null,
+    keywordRowsWithoutCosine:
+      (primary.timing.keywordRowsWithoutCosine ?? 0) +
+      (venue?.timing.keywordRowsWithoutCosine ?? 0),
     mergeRerankMs:
       primary.timing.mergeRerankMs + (venue?.timing.mergeRerankMs ?? 0),
     totalMs: Date.now() - totalStarted + args.embedMs,
@@ -2708,7 +2907,7 @@ export async function matchLegalArticles(args: {
     areaHint,
     compareLegalChunks,
   )
-  const chunks = reranked.slice(0, finalYieldLimit(matchCount))
+  const chunks = applyApparatusPenalty(reranked.slice(0, finalYieldLimit(matchCount)))
   const mergeRerankMs = Date.now() - mergeStarted
 
   const timing: RagStageTiming = {

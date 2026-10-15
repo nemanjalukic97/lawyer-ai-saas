@@ -7,6 +7,7 @@ import { getSubscriptionContextForUser } from "@/app/dashboard/lib/getEntitlemen
 import { PLAN_ENTITLEMENTS } from "@/app/dashboard/lib/entitlements"
 import {
   compareLegalChunks,
+  legalArticleMergeKey,
   matchLegalArticles,
   retrieveCaseLawContext,
   summarizeAreaInferenceForLog,
@@ -23,7 +24,7 @@ import {
   inferLegalAreasFromLawChunks,
   normalizeResearchCategory,
 } from "@/lib/normalizeResearchCategory"
-import { isScrapedExcerpt, splitByRelevanceTier } from "@/lib/ragThresholds"
+import { storedTextsMatch, splitByRelevanceTier } from "@/lib/ragThresholds"
 import { lookupImplementingActs } from "@/lib/legalActParent"
 import { logLegalSearch } from "@/lib/research/logLegalSearch"
 import type { TablesInsert } from "@/lib/supabase/types"
@@ -53,6 +54,8 @@ type ResearchResultItem = {
   confidencePct: number
   excerpt: string
   isExcerpt: boolean
+  /** Column value. The card treats a row as an excerpt only when this is not false and text equals text_local. */
+  is_excerpt?: boolean
   matchChannel?: MatchChannel
 }
 
@@ -220,7 +223,8 @@ function toResultItem(chunk: LegalChunk, query: string): ResearchResultItem {
     similarity,
     confidencePct: Math.max(0, Math.min(100, Math.round(similarity * 100))),
     excerpt: buildExcerpt(chunk, query),
-    isExcerpt: isScrapedExcerpt(chunk.text, chunk.text_local),
+    isExcerpt: storedTextsMatch(chunk.text, chunk.text_local),
+    is_excerpt: chunk.is_excerpt,
     matchChannel: chunk.matchChannel,
   }
 }
@@ -229,7 +233,7 @@ function mergeLegalChunks(searches: Array<{ chunks?: LegalChunk[] }>): LegalChun
   const merged = searches.flatMap((s) => s.chunks ?? [])
   const bestByKey = new Map<string, LegalChunk>()
   for (const c of merged) {
-    const key = `${c.jurisdiction}::${c.law_name}::${c.article_num}::${c.paragraph_num ?? ""}`
+    const key = legalArticleMergeKey(c)
     const existing = bestByKey.get(key)
     if (!existing || c.similarity > existing.similarity) bestByKey.set(key, c)
   }
@@ -489,6 +493,18 @@ export async function POST(req: NextRequest) {
     const caseLawMatchLog = fetchCaseLaw
       ? summarizeMatchChannelsForLog(sortedCases.slice(0, 20))
       : null
+
+    const pageCaseCards =
+      caseLawResults.length + lowConfidenceCaseLawResults.length
+    for (const timing of caseLawTimings) {
+      if (!timing?.keywordTimedOut) continue
+      // eslint-disable-next-line no-console
+      console.error("[RAG] case law keyword budget trip", {
+        jurisdiction: timing.jurisdiction,
+        elapsedMs: timing.keywordMs,
+        cards: pageCaseCards,
+      })
+    }
 
     const caseLawAreaInference =
       caseLawSearchRuns.find((r) => r.areaInference?.applied)?.areaInference ??

@@ -1,6 +1,6 @@
 {
-  "gitSha": "d644afd0077ad809d0c0fd57dd349718d681d51f",
-  "date": "2026-10-03T19:38:21.072Z",
+  "gitSha": "932c69f61125e00aceb9f3dd60356a7cf6699f0a",
+  "date": "2026-10-06T20:21:10.887Z",
   "note": "Variance-and-latency snapshot of one code version. Not a comparison of two versions. channel_not_run queries are stored and excluded from --compare-baseline. Re-anchored 2026-10-03 after the cosine-additive keyword score replaced max(vector, band). Order and membership moved. See COSINE ADDITIVE KEYWORD SCORE in lib/legalRag.ts.",
   "queries": {
     "latin_paternity": {
@@ -147,48 +147,48 @@
           "rank": 5
         },
         {
+          "id": "c4260e57-95a0-4d5b-b7d5-cf18956074a4",
+          "jurisdiction": "croatia",
+          "law_name_local": "Zakon o radu",
+          "article_num": "116",
+          "is_curated": true,
+          "score": 0.540003,
+          "rank": 6
+        },
+        {
+          "id": "1989b786-37e9-44b4-9ab5-9057565b6338",
+          "jurisdiction": "croatia",
+          "law_name_local": "Zakon o radu",
+          "article_num": "129",
+          "is_curated": true,
+          "score": 0.455489,
+          "rank": 7
+        },
+        {
+          "id": "334633c9-732d-4953-bcc8-a5cbfe74fcf2",
+          "jurisdiction": "croatia",
+          "law_name_local": "Zakon o radu",
+          "article_num": "199",
+          "is_curated": true,
+          "score": 0.454981,
+          "rank": 8
+        },
+        {
           "id": "e91ce9db-72b0-4ed0-afb1-73b1d5bcc937",
           "jurisdiction": "croatia",
           "law_name_local": "Zakon o radu",
           "article_num": "15",
           "is_curated": true,
           "score": 0.452776,
-          "rank": 6
-        },
-        {
-          "id": "28913578-9653-4679-9e35-25dd0faec504",
-          "jurisdiction": "croatia",
-          "law_name_local": "Zakon o radu",
-          "article_num": "118",
-          "is_curated": true,
-          "score": 0.412598,
-          "rank": 7
-        },
-        {
-          "id": "ab393d78-f61a-40eb-928b-972cbd470aa5",
-          "jurisdiction": "croatia",
-          "law_name_local": "Zakon o upravljanju i održavanju zgrada",
-          "article_num": "40",
-          "is_curated": false,
-          "score": 0.401339,
-          "rank": 8
-        },
-        {
-          "id": "eb67b9c6-d754-499e-892b-4e5f39c50d10",
-          "jurisdiction": "croatia",
-          "law_name_local": "Zakon o radu",
-          "article_num": "123",
-          "is_curated": true,
-          "score": 0.400486,
           "rank": 9
         },
         {
-          "id": "130f2f63-436d-4c94-8f81-cb52f0b80dbd",
+          "id": "a677e0a1-1057-4597-b5b0-ffc9794a081a",
           "jurisdiction": "croatia",
           "law_name_local": "Zakon o radu",
-          "article_num": "130",
+          "article_num": "4",
           "is_curated": true,
-          "score": 0.383011,
+          "score": 0.451117,
           "rank": 10
         }
       ]
@@ -631,22 +631,13 @@
           "rank": 6
         },
         {
-          "id": "7d4513a2-9894-472d-9833-0c9e917da6e8",
-          "jurisdiction": "bih_fbih",
-          "law_name_local": "ZAKON O OBLIGACIONIM ODNOSIMA(\"Sl. list SFRJ\", br. 29/1978, 39/1985, 45/1989 - odluka USJ i 57/1989, \"Sl. list RBiH\", br. 2/1992, 13/1993 i 13/1994 i \"Sl. novine FBiH\", br. 29/2003 i 42/2011)",
-          "article_num": "46",
-          "is_curated": false,
-          "score": 0.60445,
-          "rank": 7
-        },
-        {
           "id": "7d382b73-3c62-42ae-bfe9-57035a74af38",
           "jurisdiction": "bih_fbih",
           "law_name_local": "Zakon o nasljeđivanju u Federaciji Bosne i Hercegovine",
           "article_num": "28",
           "is_curated": true,
           "score": 0.602064,
-          "rank": 8
+          "rank": 7
         },
         {
           "id": "ace6d3cc-ccfb-4b6b-a253-6152138f30f6",
@@ -655,7 +646,7 @@
           "article_num": "48",
           "is_curated": true,
           "score": 0.600375,
-          "rank": 9
+          "rank": 8
         },
         {
           "id": "71d7715d-372b-4bfa-ae34-d8610136c0ee",
@@ -664,6 +655,15 @@
           "article_num": "40",
           "is_curated": true,
           "score": 0.585218,
+          "rank": 9
+        },
+        {
+          "id": "22b19d95-ff86-420c-ae58-5c7fb2a63510",
+          "jurisdiction": "bih_fbih",
+          "law_name_local": "Zakon o nasljeđivanju u Federaciji Bosne i Hercegovine",
+          "article_num": "38",
+          "is_curated": true,
+          "score": 0.584294,
           "rank": 10
         }
       ]
@@ -794,13 +794,22 @@
           "rank": 3
         },
         {
+          "id": "a0abffe4-2008-4da7-8196-ff54f3a851c5",
+          "jurisdiction": "bih_fbih",
+          "law_name_local": "Zakon o nasljeđivanju u Federaciji Bosne i Hercegovine",
+          "article_num": "164",
+          "is_curated": true,
+          "score": 0.821507,
+          "rank": 4
+        },
+        {
           "id": "3e31169e-6f71-4400-a899-d150eb219992",
           "jurisdiction": "bih_fbih",
           "law_name_local": "Zakon o nasljeđivanju u Federaciji Bosne i Hercegovine",
           "article_num": "243",
           "is_curated": true,
           "score": 0.806861,
-          "rank": 4
+          "rank": 5
         },
         {
           "id": "9a8638ac-f846-4014-bfa2-92ccf1125c86",
@@ -809,7 +818,7 @@
           "article_num": "198",
           "is_curated": true,
           "score": 0.804308,
-          "rank": 5
+          "rank": 6
         },
         {
           "id": "59c4047f-3796-4d56-906d-de7e46942121",
@@ -818,7 +827,7 @@
           "article_num": "251",
           "is_curated": true,
           "score": 0.802382,
-          "rank": 6
+          "rank": 7
         },
         {
           "id": "7b169053-8eee-4488-8f4e-9e8a8b21ad41",
@@ -827,7 +836,7 @@
           "article_num": "173",
           "is_curated": true,
           "score": 0.800641,
-          "rank": 7
+          "rank": 8
         },
         {
           "id": "f1c41ef6-7ff7-4148-ad5d-b5afecb6670e",
@@ -836,7 +845,7 @@
           "article_num": "249",
           "is_curated": true,
           "score": 0.797965,
-          "rank": 8
+          "rank": 9
         },
         {
           "id": "db15a9af-a965-4f38-863c-665a171ffeb0",
@@ -845,15 +854,6 @@
           "article_num": "235",
           "is_curated": true,
           "score": 0.797225,
-          "rank": 9
-        },
-        {
-          "id": "0854e22e-a1a5-4e45-a75b-2fe86137b2fc",
-          "jurisdiction": "bih_fbih",
-          "law_name_local": "Zakon o nasljeđivanju u Federaciji Bosne i Hercegovine",
-          "article_num": "237",
-          "is_curated": true,
-          "score": 0.777648,
           "rank": 10
         }
       ]
@@ -943,12 +943,12 @@
           "rank": 9
         },
         {
-          "id": "6f58799d-1da8-4ec0-9cf9-80c7a54a45b6",
+          "id": "5f7e37c6-ef59-43bc-b88f-33fda5148261",
           "jurisdiction": "croatia",
-          "law_name_local": "Zakon o vlasništvu i drugim stvarnim pravima",
-          "article_num": "123",
+          "law_name_local": "Zakon o zemljišnim knjigama",
+          "article_num": "198",
           "is_curated": true,
-          "score": 0.839458,
+          "score": 0.846141,
           "rank": 10
         }
       ]
@@ -1133,12 +1133,12 @@
           "rank": 9
         },
         {
-          "id": "5e168f4a-b3dc-42e0-9199-0338542fafc5",
+          "id": "7f10db0e-22a3-43ac-83cc-448580ee9e0f",
           "jurisdiction": "bih_rs",
-          "law_name_local": "ZAKON O UPRAVNIM SPOROVIMA",
-          "article_num": "13",
+          "law_name_local": "ZAKON O OPŠTEM UPRAVNOM POSTUPKU",
+          "article_num": "59",
           "is_curated": false,
-          "score": 0.738985,
+          "score": 0.755644,
           "rank": 10
         }
       ]
@@ -1247,17 +1247,8 @@
           "law_name_local": "ПОРОДИЧНИ ЗАКОН",
           "article_num": "56",
           "is_curated": true,
-          "score": 0.683417,
+          "score": 0.683326,
           "rank": 1
-        },
-        {
-          "id": "f8dce2b3-af2a-456a-b011-b9a170096d0b",
-          "jurisdiction": "serbia",
-          "law_name_local": "ПОРОДИЧНИ ЗАКОН",
-          "article_num": "248",
-          "is_curated": true,
-          "score": 0.683108,
-          "rank": 2
         },
         {
           "id": "ccdd689a-c76e-47b8-8fc8-4ac4a4ba9f34",
@@ -1265,8 +1256,8 @@
           "law_name_local": "ПОРОДИЧНИ ЗАКОН",
           "article_num": "253",
           "is_curated": true,
-          "score": 0.651409,
-          "rank": 3
+          "score": 0.651367,
+          "rank": 2
         },
         {
           "id": "b1f136d2-5f8a-42ea-8346-3d0e45e7430b",
@@ -1274,8 +1265,8 @@
           "law_name_local": "ПОРОДИЧНИ ЗАКОН",
           "article_num": "254",
           "is_curated": true,
-          "score": 0.642955,
-          "rank": 4
+          "score": 0.642873,
+          "rank": 3
         },
         {
           "id": "ad119083-2a70-4891-9cac-03f11b3cc5cb",
@@ -1283,8 +1274,8 @@
           "law_name_local": "ПОРОДИЧНИ ЗАКОН",
           "article_num": "256",
           "is_curated": true,
-          "score": 0.634206,
-          "rank": 5
+          "score": 0.634113,
+          "rank": 4
         },
         {
           "id": "cd2f9cbe-277c-4463-82d4-2ec3de4753fd",
@@ -1292,8 +1283,8 @@
           "law_name_local": "ПОРОДИЧНИ ЗАКОН",
           "article_num": "252",
           "is_curated": true,
-          "score": 0.627022,
-          "rank": 6
+          "score": 0.626884,
+          "rank": 5
         },
         {
           "id": "1c83af54-a105-46d2-b48e-6225bb96fc3f",
@@ -1301,17 +1292,8 @@
           "law_name_local": "ПОРОДИЧНИ ЗАКОН",
           "article_num": "251",
           "is_curated": true,
-          "score": 0.623024,
-          "rank": 7
-        },
-        {
-          "id": "e0a5b9d7-0c9c-49fe-9455-c790e0d0d186",
-          "jurisdiction": "serbia",
-          "law_name_local": "ЗАКОН о парничном поступку",
-          "article_num": "50",
-          "is_curated": true,
-          "score": 0.608424,
-          "rank": 8
+          "score": 0.622896,
+          "rank": 6
         },
         {
           "id": "53ba2e2d-51ae-4148-a442-3b308dc0eb3a",
@@ -1319,8 +1301,17 @@
           "law_name_local": "ЗАКОНИК о кривичном поступку",
           "article_num": "286",
           "is_curated": true,
-          "score": 0.582303,
-          "rank": 9
+          "score": 0.582203,
+          "rank": 7
+        },
+        {
+          "id": "5215fcc6-952b-4992-a1b6-e6cf5712eacf",
+          "jurisdiction": "serbia",
+          "law_name_local": "ЗАКОН о заштити права оплемењивача биљних сорти",
+          "article_num": "18",
+          "is_curated": false,
+          "score": 0.576003,
+          "rank": 8
         },
         {
           "id": "41c043f0-8eb0-4dbc-bc27-8aa6997ade07",
@@ -1328,7 +1319,16 @@
           "law_name_local": "ПОРОДИЧНИ ЗАКОН",
           "article_num": "307",
           "is_curated": true,
-          "score": 0.569554,
+          "score": 0.569422,
+          "rank": 9
+        },
+        {
+          "id": "d1b799bb-91ad-45a7-8c1d-e0f836df7f2b",
+          "jurisdiction": "serbia",
+          "law_name_local": "ПОРОДИЧНИ ЗАКОН",
+          "article_num": "55",
+          "is_curated": true,
+          "score": 0.561597,
           "rank": 10
         }
       ]
@@ -1608,12 +1608,12 @@
           "rank": 9
         },
         {
-          "id": "ce1f3bb2-9477-4ecb-8a5b-32adca9f2baa",
+          "id": "5d9bcc91-4c2c-4ff7-a604-0eca6881298d",
           "jurisdiction": "bih_brcko",
           "law_name_local": "PORODIČNI ZAKON BRČKO DISTRIKTA BIH",
-          "article_num": "63",
+          "article_num": "66",
           "is_curated": false,
-          "score": 0.685151,
+          "score": 0.680552,
           "rank": 10
         }
       ]
