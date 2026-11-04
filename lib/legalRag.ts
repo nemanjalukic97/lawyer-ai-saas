@@ -1534,12 +1534,17 @@ export function summarizeMatchChannelsForLog(
 const AREA_MATCH_BOOST = 0.05
 const KEYWORD_MISMATCH_MULTIPLIER = 0.75
 
+/** Jurisdictions whose article rows are split finely enough for the apparatus penalty. */
+const APPARATUS_PENALTY_JURISDICTIONS = new Set<string>(["montenegro", "serbia"])
+
 /**
  * Same shape as an area mismatch: multiply, do not subtract.
  * Applied to the yielded rows. A commencement that shares the article
  * number stays in the yield and sorts after the operative text.
+ * A jurisdiction not in the set keeps every score and the existing order.
  */
-function applyApparatusPenalty(chunks: LegalChunk[]): LegalChunk[] {
+function applyApparatusPenalty(chunks: LegalChunk[], jurisdiction: string): LegalChunk[] {
+  if (!APPARATUS_PENALTY_JURISDICTIONS.has(jurisdiction)) return chunks
   let penalised = false
   const next = chunks.map((chunk) => {
     if (!isApparatusProvision(chunk.text)) return chunk
@@ -2907,7 +2912,10 @@ export async function matchLegalArticles(args: {
     areaHint,
     compareLegalChunks,
   )
-  const chunks = applyApparatusPenalty(reranked.slice(0, finalYieldLimit(matchCount)))
+  const chunks = applyApparatusPenalty(
+    reranked.slice(0, finalYieldLimit(matchCount)),
+    args.jurisdiction,
+  )
   const mergeRerankMs = Date.now() - mergeStarted
 
   const timing: RagStageTiming = {
