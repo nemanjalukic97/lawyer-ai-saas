@@ -304,13 +304,7 @@ function ResearchLawResultCard({
           <div className="space-y-1">
             <p className="text-xs text-muted-foreground">
               {isExcerpt ? (
-                <>
-                  {t("research.results.excerptLabel")}{" "}
-                  <span className="font-medium text-foreground">
-                    {r.article_num}
-                    {r.paragraph_num ? ` §${r.paragraph_num}` : ""}
-                  </span>
-                </>
+                t("research.results.excerptLabel")
               ) : (
                 <span className="font-medium text-foreground">
                   {articleCitationLabel(r.jurisdiction, r.article_num, r.paragraph_num)}
