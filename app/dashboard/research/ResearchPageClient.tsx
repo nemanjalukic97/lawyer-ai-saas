@@ -327,7 +327,6 @@ function ResearchLawResultCard({
             jurisdiction={r.jurisdiction}
             category={r.category}
             confidencePct={r.confidencePct}
-            showConfidence={!isExcerpt}
             jurisdictionBadgeClass={jurisdictionBadgeClass}
             t={t}
           />
