@@ -2811,6 +2811,8 @@ export async function matchLegalArticles(args: {
   similarityThreshold?: number
   retryIfEmpty?: boolean
   rpcTimeoutMs?: number
+  /** Hint mode skips the keyword channel unless the caller opts in. */
+  runKeywordChannel?: boolean
 }): Promise<{
   chunks: LegalChunk[]
   usedThreshold: number
@@ -2837,7 +2839,8 @@ export async function matchLegalArticles(args: {
     matchCount,
     skipLaborHeuristic: args.categoryMode === "hint" && normalizedCategory != null,
     includeStateCourt,
-    skipKeywordChannel: args.categoryMode === "hint",
+    skipKeywordChannel:
+      args.categoryMode === "hint" && args.runKeywordChannel !== true,
   })
 
   const embedStarted = Date.now()
@@ -3093,6 +3096,8 @@ export async function retrieveLegalContext(
     categoryMode?: RagFilterMode
     k?: number
     similarityThreshold?: number
+    /** Hint mode skips the keyword channel unless this is set. */
+    runKeywordChannel?: boolean
   },
 ): Promise<RagResult & { timing?: RagStageTiming }> {
   const thresholds = getJurisdictionRpcThresholds(jurisdiction)
@@ -3110,6 +3115,7 @@ export async function retrieveLegalContext(
     matchCount: options?.k ?? 6,
     similarityThreshold,
     retryIfEmpty: true,
+    runKeywordChannel: options?.runKeywordChannel,
   })
 
   const chunks = deduplicateChunks(rawChunks)

@@ -69,6 +69,8 @@ interface AiRequestBody {
   jurisdiction?: string
   category?: string
   outputLanguage?: string
+  /** Document generation only. Embedded and keyword-searched in place of userPrompt. */
+  retrievalQuery?: string
 }
 
 export async function POST(req: NextRequest) {
@@ -194,6 +196,13 @@ export async function POST(req: NextRequest) {
     if (JURISDICTION_FEATURES.has(featureType) && ragJurisdiction) {
       try {
         const k = FEATURE_K[featureType] ?? 6
+        const documentRetrievalQuery =
+          featureType === "document_generation" &&
+          typeof body.retrievalQuery === "string" &&
+          body.retrievalQuery.trim()
+            ? body.retrievalQuery.trim()
+            : null
+        const statuteQuery = documentRetrievalQuery ?? userPrompt
         const ragResult =
           featureType === "case_prediction"
             ? await retrievePredictionLegalContext(userPrompt, ragJurisdiction, {
@@ -201,17 +210,20 @@ export async function POST(req: NextRequest) {
                 categoryMode: "hint",
                 k,
               })
-            : await retrieveLegalContext(userPrompt, ragJurisdiction, {
+            : await retrieveLegalContext(statuteQuery, ragJurisdiction, {
                 category: categoryFilter ?? undefined,
                 categoryMode: "hint",
                 k,
+                ...(documentRetrievalQuery
+                  ? { runKeywordChannel: true }
+                  : {}),
               })
 
         await logLegalSearch({
           supabase,
           userId: user.id,
           lawFirmId,
-          query: userPrompt,
+          query: statuteQuery,
           jurisdictionFilter: ragJurisdiction,
           categoryFilter,
           mode: "hint",

@@ -24,6 +24,10 @@ import { LawCaseLawRagTabs } from "@/components/LawCaseLawRagTabs"
 import { OutdatedCaseLawWarningBanner } from "@/components/OutdatedCaseLawWarningBanner"
 import { buildCaseLawAppendixSection } from "@/lib/formatCaseLawAppendix"
 import type { RagMetadata } from "@/types/rag"
+import {
+  retrievalQueryForDocument,
+  SHORT_RETRIEVAL_DOCUMENT_TYPES,
+} from "@/lib/documentRetrievalQuery"
 
 type DocumentType =
   | "nda"
@@ -550,6 +554,9 @@ export default function GeneratePageClient({ selectedId, templateId }: Props) {
 
       const mappedCategory = documentCategoryMap[documentType] 
         ?? "civil"
+      const retrievalQuery = SHORT_RETRIEVAL_DOCUMENT_TYPES.has(documentType)
+        ? retrievalQueryForDocument(documentType, jurisdiction)
+        : null
 
       const response = await fetch("/api/ai", {
         method: "POST",
@@ -559,6 +566,7 @@ export default function GeneratePageClient({ selectedId, templateId }: Props) {
         body: JSON.stringify({
           systemPrompt,
           userPrompt,
+          ...(retrievalQuery ? { retrievalQuery } : {}),
           featureType: "document_generation",
           jurisdiction: jurisdiction,
           category: mappedCategory,
