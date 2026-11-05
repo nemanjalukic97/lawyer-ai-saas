@@ -12,6 +12,7 @@ import {
   type CaseLawContextResult,
 } from "@/lib/legalRag"
 import { isUnofficialConsolidation } from "@/lib/unofficialConsolidation"
+import { showsExcerptCard } from "@/lib/researchExcerptFlags"
 import { retrievePredictionLegalContext } from "@/lib/predictionRag"
 import { NextRequest } from "next/server"
 
@@ -276,8 +277,14 @@ export async function POST(req: NextRequest) {
                   const { preview, fromLocal } = legislationChunkPreview(c)
                   return {
                     law_name_local: c.law_name_local,
+                    jurisdiction: c.jurisdiction,
                     article_num: c.article_num,
                     paragraph_num: c.paragraph_num,
+                    excerpt: showsExcerptCard({
+                      is_excerpt: c.is_excerpt,
+                      text: c.text,
+                      text_local: c.text_local,
+                    }),
                     text_preview: preview,
                     previewIsLocal: fromLocal,
                     unofficialConsolidation: isUnofficialConsolidation(

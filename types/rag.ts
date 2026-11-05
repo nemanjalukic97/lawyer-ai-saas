@@ -14,8 +14,11 @@ export type CaseLawSource = {
 
 export type RagSource = {
   law_name_local: string
+  jurisdiction: string
   article_num: string
   paragraph_num: string | null
+  /** Result of showsExcerptCard on the whole chunk. Absent on a source built before this field. */
+  excerpt?: boolean
   text_preview: string
   /** True when the preview is native `text_local` (do not re-translate). */
   previewIsLocal?: boolean

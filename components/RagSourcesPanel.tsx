@@ -1,5 +1,6 @@
 "use client"
 
+import { articleCitationLabel } from "@/lib/articleCitation"
 import type { RagMetadata } from "@/types/rag"
 import { useLanguage } from "@/components/LanguageProvider"
 import {
@@ -117,10 +118,23 @@ export function RagSourcesPanel({ ragData, showSimilarity = true }: Props) {
             >
               <div className="flex items-center gap-2">
                 <span className="font-medium text-foreground">
-                  {s.law_name_local}, {s.article_num}
-                  {s.paragraph_num
-                    ? ` ${t("rag.paragraphLabel")} ${s.paragraph_num}`
-                    : ""}
+                  {s.excerpt === true ? (
+                    <>
+                      {s.law_name_local}, {t("research.results.excerptLabel")}
+                    </>
+                  ) : s.excerpt === false ? (
+                    <>
+                      {s.law_name_local},{" "}
+                      {articleCitationLabel(s.jurisdiction, s.article_num, s.paragraph_num)}
+                    </>
+                  ) : (
+                    <>
+                      {s.law_name_local}, {s.article_num}
+                      {s.paragraph_num
+                        ? ` ${t("rag.paragraphLabel")} ${s.paragraph_num}`
+                        : ""}
+                    </>
+                  )}
                 </span>
                 {showSimilarity && (
                   <span className="text-muted-foreground/60">
