@@ -26,9 +26,7 @@ import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useLanguage } from "@/components/LanguageProvider"
 import { cn } from "@/lib/utils"
-import {
-  highlightSubstring,
-} from "@/lib/highlightSearchTerms"
+import { ExcerptText } from "@/components/ExcerptText"
 import { CaseLawExpandableBody } from "@/components/CaseLawExpandableBody"
 import {
   getStarterQueries,
@@ -39,6 +37,7 @@ import {
   UNOFFICIAL_CONSOLIDATION_CAPTION,
 } from "@/lib/unofficialConsolidation"
 import { articleCitationLabel } from "@/lib/articleCitation"
+import { excerptBadgeText, statuteDisplayBody, trimExcerpt } from "@/lib/excerptTrim"
 import { showsExcerptCard } from "@/lib/researchExcerptFlags"
 import {
   logOnboardingEvent,
@@ -238,9 +237,7 @@ function ResearchLawResultCard({
   jurisdictionBadgeClass: (j: string) => string
   confidenceBadgeClass: (pct: number) => string
 }) {
-  const displayText =
-    r.text_local && r.text_local.trim() ? r.text_local : r.text ?? ""
-  const parts = highlightSubstring(displayText, query)
+  const trimmed = trimExcerpt(statuteDisplayBody(r), r.jurisdiction)
   const isExcerpt = showsExcerptCard({
     is_excerpt: r.is_excerpt,
     text: r.text ?? "",
@@ -256,7 +253,11 @@ function ResearchLawResultCard({
           <div className="space-y-1">
             <p className="text-xs text-muted-foreground">
               {isExcerpt ? (
-                t("research.results.excerptLabel")
+                excerptBadgeText(
+                  r.jurisdiction,
+                  trimmed,
+                  t("research.results.excerptLabel"),
+                )
               ) : (
                 <span className="font-medium text-foreground">
                   {articleCitationLabel(r.jurisdiction, r.article_num, r.paragraph_num)}
@@ -285,18 +286,7 @@ function ResearchLawResultCard({
             {UNOFFICIAL_CONSOLIDATION_CAPTION}
           </p>
         ) : null}
-        {parts.map((p, idx) =>
-          typeof p === "string" ? (
-            <span key={idx}>{p}</span>
-          ) : (
-            <mark
-              key={idx}
-              className="rounded bg-primary/15 px-0.5 text-foreground"
-            >
-              {p.mark}
-            </mark>
-          ),
-        )}
+        <ExcerptText excerpt={trimmed} query={query} />
       </div>
     </Card>
   )

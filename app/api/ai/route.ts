@@ -12,6 +12,7 @@ import {
   type CaseLawContextResult,
 } from "@/lib/legalRag"
 import { isUnofficialConsolidation } from "@/lib/unofficialConsolidation"
+import { statuteDisplayBody } from "@/lib/excerptTrim"
 import { showsExcerptCard } from "@/lib/researchExcerptFlags"
 import { retrievePredictionLegalContext } from "@/lib/predictionRag"
 import { NextRequest } from "next/server"
@@ -286,17 +287,22 @@ export async function POST(req: NextRequest) {
             validation: null,
             sources: hasStatutes
               ? ragResult.chunks.map((c) => {
-                  const { preview, fromLocal } = legislationChunkPreview(c)
+                  const excerpt = showsExcerptCard({
+                    is_excerpt: c.is_excerpt,
+                    text: c.text,
+                    text_local: c.text_local,
+                  })
+                  const sliced = excerpt ? null : legislationChunkPreview(c)
+                  const preview = excerpt ? statuteDisplayBody(c) : sliced.preview
+                  const fromLocal = excerpt
+                    ? (c.text_local ?? "").trim().length > 0
+                    : sliced.fromLocal
                   return {
                     law_name_local: c.law_name_local,
                     jurisdiction: c.jurisdiction,
                     article_num: c.article_num,
                     paragraph_num: c.paragraph_num,
-                    excerpt: showsExcerptCard({
-                      is_excerpt: c.is_excerpt,
-                      text: c.text,
-                      text_local: c.text_local,
-                    }),
+                    excerpt,
                     text_preview: preview,
                     previewIsLocal: fromLocal,
                     unofficialConsolidation: isUnofficialConsolidation(

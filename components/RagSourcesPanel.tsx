@@ -1,6 +1,8 @@
 "use client"
 
 import { articleCitationLabel } from "@/lib/articleCitation"
+import { ExcerptText } from "@/components/ExcerptText"
+import { excerptBadgeText, trimExcerpt } from "@/lib/excerptTrim"
 import type { RagMetadata } from "@/types/rag"
 import { useLanguage } from "@/components/LanguageProvider"
 import {
@@ -21,18 +23,26 @@ export function RagSourcesPanel({ ragData, showSimilarity = true }: Props) {
   )
   const [translatePending, setTranslatePending] = useState(false)
 
-  const previewKey = ragData.sources
-    .map((s) => `${s.previewIsLocal ? "L" : "E"}:${s.text_preview}`)
+  const prepared = ragData.sources.map((source) => {
+    const trimmed = trimExcerpt(source.text_preview, source.jurisdiction)
+    return { source, trimmed, original: source.text_preview }
+  })
+  const previewKey = prepared
+    .map((item) => `${item.source.previewIsLocal ? "L" : "E"}:${item.original}`)
     .join("\u0000")
 
   useEffect(() => {
-    const sources = ragData.sources
-    const originals = sources.map((s) => s.text_preview)
+    const sources = prepared
+    const originals = sources.map((item) => item.original)
     if (originals.length === 0) return
 
     const translatable = sources
-      .map((s, i) => ({ i, text: s.text_preview, local: Boolean(s.previewIsLocal) }))
-      .filter((s) => !s.local)
+      .map((item, i) => ({
+        i,
+        text: item.original,
+        local: Boolean(item.source.previewIsLocal),
+      }))
+      .filter((item) => !item.local)
 
     if (language === "en" || translatable.length === 0) {
       setTranslatedPreviews(originals)
@@ -110,7 +120,9 @@ export function RagSourcesPanel({ ragData, showSimilarity = true }: Props) {
         </summary>
 
         <ul className="mt-3 space-y-3">
-          {ragData.sources.map((s, i) => (
+          {prepared.map((item, i) => {
+            const s = item.source
+            return (
             <li
               key={i}
               className="text-xs text-muted-foreground border-l-2 
@@ -120,7 +132,12 @@ export function RagSourcesPanel({ ragData, showSimilarity = true }: Props) {
                 <span className="font-medium text-foreground">
                   {s.excerpt === true ? (
                     <>
-                      {s.law_name_local}, {t("research.results.excerptLabel")}
+                      {s.law_name_local},{" "}
+                      {excerptBadgeText(
+                        s.jurisdiction,
+                        item.trimmed,
+                        t("research.results.excerptLabel"),
+                      )}
                     </>
                   ) : s.excerpt === false ? (
                     <>
@@ -153,12 +170,18 @@ export function RagSourcesPanel({ ragData, showSimilarity = true }: Props) {
                 </p>
               ) : null}
               <p className="mt-1 leading-relaxed">
-                {translatePending && translatedPreviews === null
-                  ? t("rag.translating")
-                  : (translatedPreviews?.[i] ?? s.text_preview)}
+                {translatePending && translatedPreviews === null ? (
+                  t("rag.translating")
+                ) : translatedPreviews?.[i] != null &&
+                  translatedPreviews[i] !== item.original ? (
+                  <span className="text-foreground">{translatedPreviews[i]}</span>
+                ) : (
+                  <ExcerptText excerpt={item.trimmed} />
+                )}
               </p>
             </li>
-          ))}
+            )
+          })}
         </ul>
 
         {ragData.validation &&
