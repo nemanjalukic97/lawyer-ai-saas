@@ -356,6 +356,7 @@ export async function POST(req: NextRequest) {
                 matchCount,
                 similarityThreshold: 0.25,
                 retryIfEmpty: true,
+                applyActTypePenalty: true,
               })
                 .then((result) => {
                   // eslint-disable-next-line no-console

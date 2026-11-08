@@ -305,7 +305,11 @@ function buildStemIlikePattern(phrase: string): string | null {
     return null
   }
 
-  return parts.join(" ")
+  // A pattern that does not end in % is end-anchored by ILIKE and by
+  // matchesIlikePattern, so "otkazati ugovor o radu …" misses the stem tier.
+  // Short words stay literals; only the whole pattern gains a trailing %.
+  const joined = parts.join(" ")
+  return joined.endsWith("%") ? joined : `${joined}%`
 }
 
 function isCyrillicScript(value: string): boolean {

@@ -1,4 +1,5 @@
 import { createHash } from "crypto"
+import { classifyActType } from "./actType"
 import { isApparatusProvision } from "./provisionKind"
 import OpenAI from "openai"
 import pg from "pg"
@@ -33,6 +34,7 @@ import {
   isVenueJurisdictionQuery,
   lawCategoriesForAreaFilter,
 } from "./queryAreaInference"
+import { getScriptVariants } from "./serbianTransliteration"
 import { supabaseAdmin } from "./supabase/admin"
 import { PREDICTION_UNCITED_FACTOR_RULE } from "./predictionPrompts"
 
@@ -337,6 +339,13 @@ function landRegisterTitleBonus(
   return 0
 }
 
+const LABOR_KEYWORD_RE = /otkaz|radu|zaposlen|radni|otpremn|ugovor o radu/i
+
+/** Latin pattern, applied to every script variant. A Cyrillic query matches. */
+function queryMatchesLaborHeuristic(query: string): boolean {
+  return getScriptVariants(query).some((variant) => LABOR_KEYWORD_RE.test(variant))
+}
+
 async function fetchLegalKeywordRows(args: {
   jurisdiction: string
   orFilter: string
@@ -369,7 +378,7 @@ async function fetchLegalKeywordRows(args: {
         : request.in("law_category", cats)
   } else if (
     !args.skipLaborHeuristic &&
-    /otkaz|radu|zaposlen|radni|otpremn|ugovor o radu/i.test(args.query)
+    queryMatchesLaborHeuristic(args.query)
   ) {
     request = request.eq("law_category", "labor")
   }
@@ -760,6 +769,9 @@ function scheduleKeywordDfCompute(
   jurisdiction: string,
   tokens: KeywordContentToken[],
 ): void {
+  // Measurement harness sets this so a cache miss cannot INSERT.
+  // Unset in production: a miss still counts and persists, as before.
+  if (process.env.LEGAL_IDF_PERSIST_DISABLED === "1") return
   for (const token of tokens) {
     const needles = keywordIdfNeedles(token)
     const needleKey = keywordIdfNeedleKey(needles)
@@ -1043,7 +1055,7 @@ async function searchLegalArticlesByKeyword(args: {
   const rpcCategory =
     category ??
     (!args.skipLaborHeuristic &&
-    /otkaz|radu|zaposlen|radni|otpremn|ugovor o radu/i.test(query)
+    queryMatchesLaborHeuristic(query)
       ? "labor"
       : null)
   const rpcCategories = rpcCategory
@@ -1341,7 +1353,7 @@ function cosineSimilarity(a: number[], b: number[]): number | null {
 /** Keyword rows the vector overfetch did not return. Missing embedding → no cosine. */
 async function loadKeywordOnlyCosines(
   ids: string[],
-  queryEmbedding: number[],
+  queryEmbeddings: number[][],
   table: "legal_articles" | "case_law" = "legal_articles",
 ): Promise<Map<string, number>> {
   const out = new Map<string, number>()
@@ -1363,9 +1375,14 @@ async function loadKeywordOnlyCosines(
     const id = String(row.id ?? "")
     const embedding = parseStoredEmbedding(row.embedding)
     if (!id || !embedding) continue
-    const cosine = cosineSimilarity(queryEmbedding, embedding)
-    if (cosine == null || !Number.isFinite(cosine)) continue
-    out.set(id, cosine)
+    let best: number | null = null
+    for (const queryEmbedding of queryEmbeddings) {
+      const cosine = cosineSimilarity(queryEmbedding, embedding)
+      if (cosine == null || !Number.isFinite(cosine)) continue
+      if (best == null || cosine > best) best = cosine
+    }
+    if (best == null) continue
+    out.set(id, best)
   }
   return out
 }
@@ -1534,6 +1551,14 @@ export function summarizeMatchChannelsForLog(
 const AREA_MATCH_BOOST = 0.05
 const KEYWORD_MISMATCH_MULTIPLIER = 0.75
 
+/**
+ * Statute and neutral subtract 0.
+ * 0.10 is measured on sixteen queries.
+ * 0.15 is a judgement with no measurement behind it.
+ */
+const ACT_TYPE_SUBORDINATE_PENALTY = 0.1
+const ACT_TYPE_NON_NORMATIVE_PENALTY = 0.15
+
 /** Jurisdictions whose article rows are split finely enough for the apparatus penalty. */
 const APPARATUS_PENALTY_JURISDICTIONS = new Set<string>(["montenegro", "serbia"])
 
@@ -1552,6 +1577,22 @@ function applyApparatusPenalty(chunks: LegalChunk[], jurisdiction: string): Lega
     return { ...chunk, similarity: chunk.similarity * KEYWORD_MISMATCH_MULTIPLIER }
   })
   if (!penalised) return chunks
+  return next.sort(compareLegalChunks)
+}
+
+/** After apparatus, on the yielded rows. No second cap. Floor at 0. */
+function applyActTypePenalty(chunks: LegalChunk[]): LegalChunk[] {
+  const next = chunks.map((chunk) => {
+    const { tier } = classifyActType(chunk.law_name_local)
+    const penalty =
+      tier === "subordinate"
+        ? ACT_TYPE_SUBORDINATE_PENALTY
+        : tier === "non-normative"
+          ? ACT_TYPE_NON_NORMATIVE_PENALTY
+          : 0
+    if (penalty === 0) return chunk
+    return { ...chunk, similarity: Math.max(0, chunk.similarity - penalty) }
+  })
   return next.sort(compareLegalChunks)
 }
 
@@ -2431,7 +2472,7 @@ async function matchCaseLawWithEmbedding(args: {
     .map((item) => item.id)
   const cosineByKeywordId = await loadKeywordOnlyCosines(
     keywordOnlyIds,
-    args.embedding,
+    [args.embedding],
     "case_law",
   )
   const { cases: merged, keywordRowsWithoutCosine } = mergeHybridCaseChunks(
@@ -2802,6 +2843,253 @@ export async function retrieveCaseLawContextsBatch(
   )
 }
 
+function unionByMaxSimilarity(groups: LegalChunk[][]): LegalChunk[] {
+  const byId = new Map<string, LegalChunk>()
+  for (const group of groups) {
+    for (const chunk of group) {
+      const prev = byId.get(chunk.id)
+      if (!prev || chunk.similarity > prev.similarity) byId.set(chunk.id, chunk)
+    }
+  }
+  return [...byId.values()]
+}
+
+type StatuteVectorPass = {
+  data: LegalChunk[]
+  embedMs: number
+  vectorRpcMs: number
+  retried: boolean
+  usedThreshold: number
+  queryEmbeddings: number[][]
+}
+
+async function runSingleScriptVector(args: {
+  query: string
+  jurisdiction: string
+  category: string | null
+  matchCount: number
+  initialThreshold: number
+  lowRetry: number
+  shouldRetry: boolean
+  timeoutMs: number
+  includeStateCourt: boolean
+  reuseEmbedding: number[] | null
+  embedMsAlready: number
+  vectorMsAlready: number
+}): Promise<StatuteVectorPass> {
+  const embedStarted = Date.now()
+  const embedding = args.reuseEmbedding ?? (await embedQueryText(args.query))
+  const embedMs =
+    args.embedMsAlready + (args.reuseEmbedding ? 0 : Date.now() - embedStarted)
+  const vectorStarted = Date.now()
+  let data = await runMatchLegalArticlesRpc({
+    embedding,
+    jurisdiction: args.jurisdiction,
+    category: args.category,
+    matchCount: args.matchCount,
+    similarityThreshold: args.initialThreshold,
+    timeoutMs: args.timeoutMs,
+    includeStateCourt: args.includeStateCourt,
+  })
+  let retried = false
+  let usedThreshold = args.initialThreshold
+  if (data.length === 0 && args.shouldRetry) {
+    // eslint-disable-next-line no-console
+    console.log(
+      `[RAG] no results at threshold ${args.initialThreshold}, retrying with ${args.lowRetry}`,
+    )
+    retried = true
+    usedThreshold = args.lowRetry
+    data = await runMatchLegalArticlesRpc({
+      embedding,
+      jurisdiction: args.jurisdiction,
+      category: args.category,
+      matchCount: args.matchCount,
+      similarityThreshold: args.lowRetry,
+      timeoutMs: args.timeoutMs,
+      includeStateCourt: args.includeStateCourt,
+    })
+  }
+  return {
+    data,
+    embedMs,
+    vectorRpcMs: args.vectorMsAlready + (Date.now() - vectorStarted),
+    retried,
+    usedThreshold,
+    queryEmbeddings: [embedding],
+  }
+}
+
+async function rpcRows(
+  embedding: number[],
+  args: {
+    jurisdiction: string
+    category: string | null
+    matchCount: number
+    similarityThreshold: number
+    timeoutMs: number
+    includeStateCourt: boolean
+  },
+): Promise<{ rows: LegalChunk[] | null; error: string | null }> {
+  try {
+    const rows = await runMatchLegalArticlesRpc({
+      embedding,
+      jurisdiction: args.jurisdiction,
+      category: args.category,
+      matchCount: args.matchCount,
+      similarityThreshold: args.similarityThreshold,
+      timeoutMs: args.timeoutMs,
+      includeStateCourt: args.includeStateCourt,
+    })
+    return { rows, error: null }
+  } catch (err) {
+    return {
+      rows: null,
+      error: err instanceof Error ? err.message : String(err),
+    }
+  }
+}
+
+/** Both scripts, higher cosine per row. A failed embed or RPC uses one script. */
+async function runMaxCosineVector(args: {
+  query: string
+  jurisdiction: string
+  category: string | null
+  matchCount: number
+  initialThreshold: number
+  lowRetry: number
+  shouldRetry: boolean
+  timeoutMs: number
+  includeStateCourt: boolean
+}): Promise<StatuteVectorPass> {
+  const normalized = args.query.trim().replace(/\s+/g, " ")
+  const variants = [...new Set(getScriptVariants(normalized))]
+  if (variants.length < 2) {
+    return runSingleScriptVector({
+      ...args,
+      query: normalized,
+      reuseEmbedding: null,
+      embedMsAlready: 0,
+      vectorMsAlready: 0,
+    })
+  }
+
+  const embedStarted = Date.now()
+  const embedded = await Promise.all(
+    variants.map(async (text) => {
+      try {
+        return {
+          text,
+          embedding: await embedQueryText(text),
+          error: null as string | null,
+        }
+      } catch (err) {
+        return {
+          text,
+          embedding: null as number[] | null,
+          error: err instanceof Error ? err.message : String(err),
+        }
+      }
+    }),
+  )
+  const embedMs = Date.now() - embedStarted
+  const failedEmbed = embedded.find((item) => item.error)
+  const original = embedded.find((item) => item.text === normalized)
+  if (failedEmbed) {
+    // eslint-disable-next-line no-console
+    console.error("[RAG] dual-script vector fallback", {
+      jurisdiction: args.jurisdiction,
+      stage: "embed",
+      script: failedEmbed.text === normalized ? "query" : "twin",
+      message: failedEmbed.error,
+    })
+    return runSingleScriptVector({
+      ...args,
+      query: normalized,
+      reuseEmbedding: original?.embedding ?? null,
+      embedMsAlready: embedMs,
+      vectorMsAlready: 0,
+    })
+  }
+
+  const embeddings = embedded.map((item) => item.embedding as number[])
+  const rpcBase = {
+    jurisdiction: args.jurisdiction,
+    category: args.category,
+    matchCount: args.matchCount,
+    timeoutMs: args.timeoutMs,
+    includeStateCourt: args.includeStateCourt,
+  }
+  const vectorStarted = Date.now()
+  const first = await Promise.all(
+    embeddings.map((embedding) =>
+      rpcRows(embedding, {
+        ...rpcBase,
+        similarityThreshold: args.initialThreshold,
+      }),
+    ),
+  )
+  const firstError = first.find((item) => item.error)
+  if (firstError) {
+    // eslint-disable-next-line no-console
+    console.error("[RAG] dual-script vector fallback", {
+      jurisdiction: args.jurisdiction,
+      stage: "rpc",
+      message: firstError.error,
+    })
+    return runSingleScriptVector({
+      ...args,
+      query: normalized,
+      reuseEmbedding: original?.embedding ?? null,
+      embedMsAlready: embedMs,
+      vectorMsAlready: Date.now() - vectorStarted,
+    })
+  }
+
+  let data = unionByMaxSimilarity(first.map((item) => item.rows ?? []))
+  let retried = false
+  let usedThreshold = args.initialThreshold
+  if (data.length === 0 && args.shouldRetry) {
+    // eslint-disable-next-line no-console
+    console.log(
+      `[RAG] no results at threshold ${args.initialThreshold}, retrying with ${args.lowRetry}`,
+    )
+    retried = true
+    usedThreshold = args.lowRetry
+    const second = await Promise.all(
+      embeddings.map((embedding) =>
+        rpcRows(embedding, { ...rpcBase, similarityThreshold: args.lowRetry }),
+      ),
+    )
+    const secondError = second.find((item) => item.error)
+    if (secondError) {
+      // eslint-disable-next-line no-console
+      console.error("[RAG] dual-script vector fallback", {
+        jurisdiction: args.jurisdiction,
+        stage: "rpc-retry",
+        message: secondError.error,
+      })
+      return runSingleScriptVector({
+        ...args,
+        query: normalized,
+        reuseEmbedding: original?.embedding ?? null,
+        embedMsAlready: embedMs,
+        vectorMsAlready: Date.now() - vectorStarted,
+      })
+    }
+    data = unionByMaxSimilarity(second.map((item) => item.rows ?? []))
+  }
+
+  return {
+    data,
+    embedMs,
+    vectorRpcMs: Date.now() - vectorStarted,
+    retried,
+    usedThreshold,
+    queryEmbeddings: embeddings,
+  }
+}
+
 export async function matchLegalArticles(args: {
   query: string
   jurisdiction: string
@@ -2813,6 +3101,11 @@ export async function matchLegalArticles(args: {
   rpcTimeoutMs?: number
   /** Hint mode skips the keyword channel unless the caller opts in. */
   runKeywordChannel?: boolean
+  /**
+   * Research search only. Default false: a caller that omits this does not
+   * get the penalty. retrieveLegalContext passes false.
+   */
+  applyActTypePenalty?: boolean
 }): Promise<{
   chunks: LegalChunk[]
   usedThreshold: number
@@ -2843,54 +3136,31 @@ export async function matchLegalArticles(args: {
       args.categoryMode === "hint" && args.runKeywordChannel !== true,
   })
 
-  const embedStarted = Date.now()
-  const embedding = await embedQueryText(args.query)
-  const embedMs = Date.now() - embedStarted
   const thresholds = getJurisdictionRpcThresholds(args.jurisdiction)
-
   const initialThreshold =
     args.similarityThreshold ?? thresholds.defaultThreshold
   const shouldRetry =
     args.retryIfEmpty !== false && initialThreshold > thresholds.lowRetry
-
-  let usedThreshold = initialThreshold
-  let retried = false
-
   const rpcTimeoutMs =
     args.rpcTimeoutMs ??
     getLegalRpcTimeoutMs(rpcFilter, args.jurisdiction)
 
-  const rpcMatchCount = vectorOverfetchCount(matchCount)
-
-  const vectorStarted = Date.now()
-  let data = await runMatchLegalArticlesRpc({
-    embedding,
+  const vectorPass = await runMaxCosineVector({
+    query: args.query,
     jurisdiction: args.jurisdiction,
     category: rpcFilter,
-    matchCount: rpcMatchCount,
-    similarityThreshold: initialThreshold,
+    matchCount: vectorOverfetchCount(matchCount),
+    initialThreshold,
+    lowRetry: thresholds.lowRetry,
+    shouldRetry,
     timeoutMs: rpcTimeoutMs,
     includeStateCourt,
   })
-
-  if (data.length === 0 && shouldRetry) {
-    // eslint-disable-next-line no-console
-    console.log(
-      `[RAG] no results at threshold ${initialThreshold}, retrying with ${thresholds.lowRetry}`,
-    )
-    retried = true
-    usedThreshold = thresholds.lowRetry
-    data = await runMatchLegalArticlesRpc({
-      embedding,
-      jurisdiction: args.jurisdiction,
-      category: rpcFilter,
-      matchCount: rpcMatchCount,
-      similarityThreshold: thresholds.lowRetry,
-      timeoutMs: rpcTimeoutMs,
-      includeStateCourt,
-    })
-  }
-  const vectorRpcMs = Date.now() - vectorStarted
+  const data = vectorPass.data
+  const embedMs = vectorPass.embedMs
+  const vectorRpcMs = vectorPass.vectorRpcMs
+  const retried = vectorPass.retried
+  const usedThreshold = vectorPass.usedThreshold
 
   const keywordResult = await keywordPromise
   const mergeStarted = Date.now()
@@ -2900,7 +3170,7 @@ export async function matchLegalArticles(args: {
     .map((chunk) => chunk.id)
   const cosineByKeywordId = await loadKeywordOnlyCosines(
     keywordOnlyIds,
-    embedding,
+    vectorPass.queryEmbeddings,
   )
   const { chunks: merged, keywordRowsWithoutCosine } = mergeHybridLegalChunks(
     data,
@@ -2915,10 +3185,12 @@ export async function matchLegalArticles(args: {
     areaHint,
     compareLegalChunks,
   )
-  const chunks = applyApparatusPenalty(
+  const yielded = applyApparatusPenalty(
     reranked.slice(0, finalYieldLimit(matchCount)),
     args.jurisdiction,
   )
+  const chunks =
+    args.applyActTypePenalty === true ? applyActTypePenalty(yielded) : yielded
   const mergeRerankMs = Date.now() - mergeStarted
 
   const timing: RagStageTiming = {
@@ -3116,6 +3388,7 @@ export async function retrieveLegalContext(
     similarityThreshold,
     retryIfEmpty: true,
     runKeywordChannel: options?.runKeywordChannel,
+    applyActTypePenalty: false,
   })
 
   const chunks = deduplicateChunks(rawChunks)
