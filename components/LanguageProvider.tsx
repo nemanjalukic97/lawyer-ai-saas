@@ -11,6 +11,7 @@ import {
 } from "react"
 
 import { MESSAGES } from "@/lib/i18n/messages"
+import { lookupMessage } from "@/lib/i18n/translate"
 import type { LanguageCode, Messages } from "@/lib/i18n/types"
 import {
   DEFAULT_UI_LANGUAGE,
@@ -30,15 +31,6 @@ type LanguageContextValue = {
 }
 
 const LanguageContext = createContext<LanguageContextValue | null>(null)
-
-function getNestedMessage(messages: Messages, key: string): string | undefined {
-  return key
-    .split(".")
-    .reduce<unknown>((acc, part) => {
-      if (!acc || typeof acc !== "object") return undefined
-      return (acc as Record<string, unknown>)[part]
-    }, messages) as string | undefined
-}
 
 function readCookie(name: string): string | null {
   if (typeof document === "undefined") return null
@@ -103,14 +95,7 @@ function translate(
   key: string,
   vars?: Record<string, string | number>,
 ): string {
-  const messages = MESSAGES[language] ?? MESSAGES.en
-  const value = getNestedMessage(messages, key)
-  if (typeof value !== "string") return key
-  if (!vars) return value
-  return value.replace(/\{(\w+)\}/g, (_, varName: string) => {
-    const v = vars[varName]
-    return v === undefined || v === null ? `{${varName}}` : String(v)
-  })
+  return lookupMessage(MESSAGES, language, key, vars)
 }
 
 type LanguageProviderProps = {

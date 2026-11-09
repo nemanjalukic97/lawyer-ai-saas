@@ -809,6 +809,11 @@ export const srMessages: Messages = {
           description:
             "Kreirajte NDA ugovore i druga dokumenta uz pomoć Legantisa.",
         },
+        conflict: {
+          title: "Provera sukoba",
+          description:
+            "Proverite sukob interesa pre dodavanja novog klijenta.",
+        },
         research: {
           title: "Pravno istraživanje",
           description:
@@ -1561,7 +1566,6 @@ export const srMessages: Messages = {
       },
       common: {
         notSpecified: "Nije navedeno",
-        translating: "Prevodim šablon…",
       },
     },
     analyze: {

@@ -809,6 +809,11 @@ export const bsMessages: Messages = {
           description:
             "Kreirajte NDA i druge ugovore uz pomoć Legantisa.",
         },
+        conflict: {
+          title: "Provjera sukoba",
+          description:
+            "Provjerite sukob interesa prije dodavanja novog klijenta.",
+        },
         research: {
           title: "Pravno istraživanje",
           description:
@@ -1561,7 +1566,6 @@ export const bsMessages: Messages = {
       },
       common: {
         notSpecified: "Nije navedeno",
-        translating: "Prevajam predlogo…",
       },
     },
     analyze: {
@@ -1862,7 +1866,7 @@ export const bsMessages: Messages = {
           "Prije dodavanja novog klijenta, pokrenite brzu provjeru sukoba kroz vaš radni prostor.",
         name: {
           label: "Ime/naziv potencijalnog klijenta",
-          placeholder: "npr. John Doe / Johnson Ltd",
+          placeholder: "npr. Amra Begić / Begić d.o.o.",
         },
         actions: {
           check: "Pokreni provjeru",
