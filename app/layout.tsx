@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import { cookies, headers } from "next/headers";
 import { Geist_Mono, PT_Sans } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "@/components/LanguageProvider";
 import { AppFooter } from "@/components/AppFooter";
-import { htmlLangFromUiLang, resolveInitialLanguage } from "@/lib/resolve-initial-language";
+import { htmlLangFromUiLang } from "@/lib/resolve-initial-language";
+import { resolveRequestUiLanguage } from "@/lib/resolve-request-language";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ThemeSync } from "@/components/theme-sync";
 import { SignupAttributionCapture } from "@/components/SignupAttributionCapture";
@@ -94,12 +94,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const cookieStore = await cookies();
-  const headerList = await headers();
-  const initialLanguage = resolveInitialLanguage(
-    cookieStore.get("legantis-language")?.value,
-    headerList.get("accept-language")
-  );
+  const initialLanguage = await resolveRequestUiLanguage();
   const htmlLang = htmlLangFromUiLang(initialLanguage);
 
   return (

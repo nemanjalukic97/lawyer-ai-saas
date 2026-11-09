@@ -4,7 +4,7 @@ import { createClient } from "@/lib/supabase/server"
 import { hasFeature } from "../lib/entitlements"
 import { getEntitlementPlanForUser } from "../lib/getEntitlementPlan"
 import { TemplatesPageClient, type TemplateSummary } from "./TemplatesPageClient"
-import { cookies } from "next/headers"
+import { resolveRequestUiLanguage } from "@/lib/resolve-request-language"
 
 export default async function TemplatesPage() {
   const supabase = await createClient()
@@ -19,7 +19,7 @@ export default async function TemplatesPage() {
     redirect("/dashboard/billing")
   }
 
-  const language = (await cookies()).get("legantis-language")?.value ?? "en"
+  const language = await resolveRequestUiLanguage()
 
   const { data: rows } = await supabase
     .from("templates")

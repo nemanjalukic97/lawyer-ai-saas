@@ -7,15 +7,21 @@ import {
   useEffect,
   useMemo,
   useState,
+  useSyncExternalStore,
 } from "react"
 
 import { MESSAGES } from "@/lib/i18n/messages"
 import type { LanguageCode, Messages } from "@/lib/i18n/types"
-import { htmlLangFromUiLang, type ResolvedUiLang } from "@/lib/resolve-initial-language"
+import {
+  DEFAULT_UI_LANGUAGE,
+  htmlLangFromUiLang,
+  UI_LANGUAGE_CHOSEN_COOKIE,
+  UI_LANGUAGE_CHOSEN_VALUE,
+  UI_LANGUAGE_COOKIE,
+  type ResolvedUiLang,
+} from "@/lib/resolve-initial-language"
 
 export type { LanguageCode, Messages }
-
-const STORAGE_KEY = "legantis-language"
 
 type LanguageContextValue = {
   language: LanguageCode
@@ -34,112 +40,129 @@ function getNestedMessage(messages: Messages, key: string): string | undefined {
     }, messages) as string | undefined
 }
 
-function readLanguageFromCookie(): LanguageCode | null {
+function readCookie(name: string): string | null {
   if (typeof document === "undefined") return null
   const parts = document.cookie.split(";")
   for (const part of parts) {
     const idx = part.indexOf("=")
     const key = (idx === -1 ? part : part.slice(0, idx)).trim()
-    if (key !== STORAGE_KEY) continue
+    if (key !== name) continue
     const raw = idx === -1 ? "" : part.slice(idx + 1).trim()
-    let value = raw
     try {
-      value = decodeURIComponent(raw)
+      return decodeURIComponent(raw)
     } catch {
-      /* keep raw */
+      return raw
     }
-    if (value && MESSAGES[value as LanguageCode]) return value as LanguageCode
   }
   return null
 }
 
-const detectLanguage = (): LanguageCode => {
-  if (typeof window === "undefined") return "en"
-  const saved = window.localStorage.getItem(STORAGE_KEY)
-  if (saved && MESSAGES[saved as LanguageCode]) return saved as LanguageCode
+function writeChosenLanguage(code: LanguageCode) {
+  const attrs = "Path=/; Max-Age=31536000; SameSite=Lax"
+  document.cookie = `${UI_LANGUAGE_COOKIE}=${code}; ${attrs}`
+  document.cookie = `${UI_LANGUAGE_CHOSEN_COOKIE}=${UI_LANGUAGE_CHOSEN_VALUE}; ${attrs}`
+}
 
-  const fromCookie = readLanguageFromCookie()
-  if (fromCookie) return fromCookie
+const LANGUAGE_CHANGE_EVENT = "legantis-language-change"
 
-  const browserLang = navigator.language || navigator.languages?.[0] || "en"
-  const lang = browserLang.toLowerCase().split("-")[0]
+function notifyLanguageStore() {
+  window.dispatchEvent(new Event(LANGUAGE_CHANGE_EVENT))
+}
 
-  const supported: Record<string, LanguageCode> = {
-    sr: "sr",
-    bs: "bs",
-    hr: "hr",
-    sl: "sl",
-    cnr: "me",
-    me: "me",
-    en: "en",
+function subscribeLanguageStore(onStoreChange: () => void) {
+  window.addEventListener(LANGUAGE_CHANGE_EVENT, onStoreChange)
+  window.addEventListener("storage", onStoreChange)
+  return () => {
+    window.removeEventListener(LANGUAGE_CHANGE_EVENT, onStoreChange)
+    window.removeEventListener("storage", onStoreChange)
   }
+}
 
-  return supported[lang] ?? "en"
+/**
+ * A localStorage language counts only together with the chosen marker.
+ * The old jurisdiction control wrote the language alone. That bare value is
+ * ignored and must not be copied into the chosen cookie.
+ * When the cookie marker is already set, the server painted that choice.
+ */
+function readStoredChoice(): LanguageCode | null {
+  if (readCookie(UI_LANGUAGE_CHOSEN_COOKIE) === UI_LANGUAGE_CHOSEN_VALUE) return null
+  if (window.localStorage.getItem(UI_LANGUAGE_CHOSEN_COOKIE) !== UI_LANGUAGE_CHOSEN_VALUE) {
+    return null
+  }
+  const stored = window.localStorage.getItem(UI_LANGUAGE_COOKIE)
+  if (!stored || !MESSAGES[stored as LanguageCode]) return null
+  return stored as LanguageCode
+}
+
+function noStoredChoice(): LanguageCode | null {
+  return null
+}
+
+function translate(
+  language: LanguageCode,
+  key: string,
+  vars?: Record<string, string | number>,
+): string {
+  const messages = MESSAGES[language] ?? MESSAGES.en
+  const value = getNestedMessage(messages, key)
+  if (typeof value !== "string") return key
+  if (!vars) return value
+  return value.replace(/\{(\w+)\}/g, (_, varName: string) => {
+    const v = vars[varName]
+    return v === undefined || v === null ? `{${varName}}` : String(v)
+  })
 }
 
 type LanguageProviderProps = {
   children: React.ReactNode
-  /** From root layout: cookie and/or Accept-Language so first paint is not stuck on English */
+  /** From root layout, already resolved. First paint uses this and does not wait for localStorage. */
   initialLanguage?: LanguageCode
 }
 
 export function LanguageProvider({
   children,
-  initialLanguage = "en",
+  initialLanguage = DEFAULT_UI_LANGUAGE,
 }: LanguageProviderProps) {
   const [language, setLanguageState] = useState<LanguageCode>(initialLanguage)
+  const storedChoice = useSyncExternalStore(
+    subscribeLanguageStore,
+    readStoredChoice,
+    noStoredChoice,
+  )
+  const activeLanguage = storedChoice ?? language
 
   useEffect(() => {
-    const fromCookie = readLanguageFromCookie()
-    const fromStorage =
-      typeof window !== "undefined" ? window.localStorage.getItem(STORAGE_KEY) : null
-    const detected =
-      fromStorage && MESSAGES[fromStorage as LanguageCode]
-        ? (fromStorage as LanguageCode)
-        : fromCookie ?? initialLanguage
-
-    setLanguageState((prev) => (detected !== prev ? detected : prev))
-  }, [initialLanguage])
+    // storedChoice is null for a bare localStorage value, so this cannot
+    // promote a language written by the old jurisdiction control.
+    if (!storedChoice) return
+    writeChosenLanguage(storedChoice)
+  }, [storedChoice])
 
   useEffect(() => {
-    if (typeof document === "undefined") return
-    document.documentElement.lang = htmlLangFromUiLang(language as ResolvedUiLang)
-  }, [language])
-
-  useEffect(() => {
-    if (typeof window === "undefined") return
-    document.cookie = `${STORAGE_KEY}=${language}; Path=/; Max-Age=31536000; SameSite=Lax`
-  }, [language])
+    document.documentElement.lang = htmlLangFromUiLang(activeLanguage as ResolvedUiLang)
+  }, [activeLanguage])
 
   const setLanguage = useCallback((code: LanguageCode) => {
     setLanguageState(code)
-    if (typeof window !== "undefined") {
-      window.localStorage.setItem(STORAGE_KEY, code)
-      document.cookie = `${STORAGE_KEY}=${code}; Path=/; Max-Age=31536000; SameSite=Lax`
-    }
+    if (typeof window === "undefined") return
+    window.localStorage.setItem(UI_LANGUAGE_COOKIE, code)
+    window.localStorage.setItem(UI_LANGUAGE_CHOSEN_COOKIE, UI_LANGUAGE_CHOSEN_VALUE)
+    writeChosenLanguage(code)
+    notifyLanguageStore()
   }, [])
 
   const t = useCallback(
-    (key: string, vars?: Record<string, string | number>) => {
-      const messages = MESSAGES[language] ?? MESSAGES.en
-      const value = getNestedMessage(messages, key)
-      if (typeof value !== "string") return key
-      if (!vars) return value
-      return value.replace(/\{(\w+)\}/g, (_, varName: string) => {
-        const v = vars[varName]
-        return v === undefined || v === null ? `{${varName}}` : String(v)
-      })
-    },
-    [language]
+    (key: string, vars?: Record<string, string | number>) => translate(activeLanguage, key, vars),
+    [activeLanguage],
   )
 
   const value = useMemo(
     () => ({
-      language,
+      language: activeLanguage,
       setLanguage,
       t,
     }),
-    [language, setLanguage, t]
+    [activeLanguage, setLanguage, t],
   )
 
   return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>
@@ -148,20 +171,11 @@ export function LanguageProvider({
 export function useLanguage() {
   const ctx = useContext(LanguageContext)
   if (!ctx) {
-    const language: LanguageCode = "en"
+    const language: LanguageCode = DEFAULT_UI_LANGUAGE
     return {
       language,
       setLanguage: () => {},
-      t: (key: string, vars?: Record<string, string | number>) => {
-        const messages = MESSAGES[language] ?? MESSAGES.en
-        const value = getNestedMessage(messages, key)
-        if (typeof value !== "string") return key
-        if (!vars) return value
-        return value.replace(/\{(\w+)\}/g, (_, varName: string) => {
-          const v = vars[varName]
-          return v === undefined || v === null ? `{${varName}}` : String(v)
-        })
-      },
+      t: (key: string, vars?: Record<string, string | number>) => translate(language, key, vars),
     }
   }
   return ctx

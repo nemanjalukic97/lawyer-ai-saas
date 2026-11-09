@@ -27,6 +27,9 @@ import { getSubscriptionContextForUser } from "@/app/dashboard/lib/getEntitlemen
 import { normalizeJurisdiction } from "@/lib/normalizeJurisdiction"
 import { normalizeResearchCategory } from "@/lib/normalizeResearchCategory"
 import { logLegalSearch } from "@/lib/research/logLegalSearch"
+import { LANGUAGE_CODE_TO_DISPLAY } from "@/lib/i18n/normalizeLanguage"
+import { resolveRequestUiLanguage } from "@/lib/resolve-request-language"
+import { UI_LANGUAGE_CHOSEN_COOKIE, UI_LANGUAGE_COOKIE } from "@/lib/resolve-initial-language"
 
 export const maxDuration = 60
 
@@ -94,29 +97,17 @@ export async function POST(req: NextRequest) {
 
   const { systemPrompt, userPrompt, featureType, entityType, entityId } = body
 
-  const cookieLanguageCode = req.cookies.get("legantis-language")?.value
-  const outputLanguageFromCookie = (() => {
-    switch (cookieLanguageCode) {
-      case "sr":
-        return "Serbian"
-      case "bs":
-        return "Bosnian"
-      case "hr":
-        return "Croatian"
-      case "sl":
-        return "Slovenian"
-      case "me":
-        return "Montenegrin"
-      case "en":
-      default:
-        return "English"
-    }
-  })()
+  const uiLanguage = await resolveRequestUiLanguage({
+    languageCookie: req.cookies.get(UI_LANGUAGE_COOKIE)?.value,
+    chosenCookie: req.cookies.get(UI_LANGUAGE_CHOSEN_COOKIE)?.value,
+    acceptLanguage: req.headers.get("accept-language"),
+  })
+  const outputLanguageFromUi = LANGUAGE_CODE_TO_DISPLAY[uiLanguage]
 
   const resolvedOutputLanguage =
     typeof body.outputLanguage === "string" && body.outputLanguage.trim()
       ? body.outputLanguage.trim()
-      : outputLanguageFromCookie
+      : outputLanguageFromUi
 
   const validFeatureTypes: FeatureType[] = [
     "contract_generation",
