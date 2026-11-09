@@ -1750,7 +1750,7 @@ export const slMessages: Messages = {
         },
         matterName: {
           label: "Stranka / Naziv zadeve",
-          placeholder: "npr. ACME d.o.o. – Delovni spor",
+          placeholder: "npr. Novak d.o.o. – Delovni spor",
         },
         description: {
           label: "Opis dela",
@@ -1857,7 +1857,7 @@ export const slMessages: Messages = {
           label: "Ime osebe ali podjetja",
           placeholder: "Vnesite ime…",
           help:
-            "Iskanje ni občutljivo na velike/male črke in podpira delna imena (npr. »John« najde »John Doe« in »Johnson Ltd«).",
+            "Iskanje ni občutljivo na velike/male črke in podpira delna imena (npr. »Luka« najde »Luka Novak« in »Novak d.o.o.«).",
         },
         actions: {
           check: "Preveri konflikte",
@@ -1964,7 +1964,7 @@ export const slMessages: Messages = {
         },
         companyName: {
           label: "Naziv podjetja",
-          placeholder: "npr. ACME d.o.o.",
+          placeholder: "npr. Novak d.o.o.",
         },
         notes: {
           label: "Opombe",

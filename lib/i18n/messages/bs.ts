@@ -1751,7 +1751,7 @@ export const bsMessages: Messages = {
         },
         matterName: {
           label: "Klijent / Naziv predmeta",
-          placeholder: "npr. ACME d.o.o. – Radni spor",
+          placeholder: "npr. Begić d.o.o. – Radni spor",
         },
         description: {
           label: "Opis posla",
@@ -1905,7 +1905,7 @@ export const bsMessages: Messages = {
         },
         companyName: {
           label: "Naziv kompanije",
-          placeholder: "npr. ACME d.o.o.",
+          placeholder: "npr. Begić d.o.o.",
         },
         notes: {
           label: "Bilješke",
@@ -1974,7 +1974,7 @@ export const bsMessages: Messages = {
           label: "Ime osobe ili naziv firme",
           placeholder: "Unesite ime…",
           help:
-            "Pretraga nije osjetljiva na velika/mala slova i podržava djelimična imena (npr. „John” nalazi „John Doe” i „Johnson Ltd”).",
+            "Pretraga nije osjetljiva na velika/mala slova i podržava djelimična imena (npr. „Amra” nalazi „Amra Begić” i „Begić d.o.o.”).",
         },
         actions: {
           check: "Provjeri sukobe",

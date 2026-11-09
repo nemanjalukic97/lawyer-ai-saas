@@ -725,7 +725,7 @@ export const hrMessages: Messages = {
           label: "Ime osobe ili naziv tvrtke",
           placeholder: "Unesite ime…",
           help:
-            "Pretraga nije osjetljiva na velika/mala slova i podržava djelomična imena (npr. „John” nalazi „John Doe” i „Johnson Ltd”).",
+            "Pretraga nije osjetljiva na velika/mala slova i podržava djelomična imena (npr. „Ivan” nalazi „Ivan Horvat” i „Horvat d.o.o.”).",
         },
         actions: {
           check: "Provjeri sukobe",
@@ -832,7 +832,7 @@ export const hrMessages: Messages = {
         },
         companyName: {
           label: "Naziv kompanije",
-          placeholder: "npr. ACME d.o.o.",
+          placeholder: "npr. Horvat d.o.o.",
         },
         notes: {
           label: "Bilješke",
@@ -2282,7 +2282,7 @@ export const hrMessages: Messages = {
         },
         matterName: {
           label: "Klijent / Naziv predmeta",
-          placeholder: "npr. ACME d.o.o. – Radni spor",
+          placeholder: "npr. Horvat d.o.o. – Radni spor",
         },
         description: {
           label: "Opis posla",

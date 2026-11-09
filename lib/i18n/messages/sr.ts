@@ -1751,7 +1751,7 @@ export const srMessages: Messages = {
         },
         matterName: {
           label: "Klijent / Naziv predmeta",
-          placeholder: "npr. ACME d.o.o. – Radni spor",
+          placeholder: "npr. Marković d.o.o. – Radni spor",
         },
         description: {
           label: "Opis posla",
@@ -1864,7 +1864,7 @@ export const srMessages: Messages = {
           "Pre dodavanja novog klijenta, pokrenite brzu proveru sukoba kroz vaš radni prostor.",
         name: {
           label: "Ime/naziv potencijalnog klijenta",
-          placeholder: "npr. Marko Marković / ACME d.o.o.",
+          placeholder: "npr. Marko Marković / Marković d.o.o.",
         },
         actions: {
           check: "Pokreni proveru",
@@ -1903,7 +1903,7 @@ export const srMessages: Messages = {
         },
         companyName: {
           label: "Naziv kompanije",
-          placeholder: "npr. ACME d.o.o.",
+          placeholder: "npr. Marković d.o.o.",
         },
         notes: {
           label: "Bilješke",
