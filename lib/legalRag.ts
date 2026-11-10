@@ -1572,7 +1572,7 @@ function applyApparatusPenalty(chunks: LegalChunk[], jurisdiction: string): Lega
   if (!APPARATUS_PENALTY_JURISDICTIONS.has(jurisdiction)) return chunks
   let penalised = false
   const next = chunks.map((chunk) => {
-    if (!isApparatusProvision(chunk.text)) return chunk
+    if (!isApparatusProvision(legislationChunkText(chunk))) return chunk
     penalised = true
     return { ...chunk, similarity: chunk.similarity * KEYWORD_MISMATCH_MULTIPLIER }
   })
