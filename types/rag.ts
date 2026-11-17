@@ -19,6 +19,8 @@ export type RagSource = {
   paragraph_num: string | null
   /** Result of showsExcerptCard on the whole chunk. Absent on a source built before this field. */
   excerpt?: boolean
+  /** Stored flag. The card uses `excerpt`; citation checks use this. */
+  is_excerpt?: boolean
   text_preview: string
   /** True when the preview is native `text_local` (do not re-translate). */
   previewIsLocal?: boolean

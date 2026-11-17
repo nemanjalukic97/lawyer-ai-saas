@@ -294,6 +294,7 @@ export async function POST(req: NextRequest) {
                     article_num: c.article_num,
                     paragraph_num: c.paragraph_num,
                     excerpt,
+                    is_excerpt: c.is_excerpt,
                     text_preview: preview,
                     previewIsLocal: fromLocal,
                     unofficialConsolidation: isUnofficialConsolidation(
@@ -389,6 +390,7 @@ export async function POST(req: NextRequest) {
         paragraph_num: s.paragraph_num,
         text: s.text_preview,
         text_local: null,
+        is_excerpt: s.is_excerpt,
         source_url: null,
         similarity: s.similarity,
       }))

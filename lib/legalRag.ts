@@ -65,7 +65,7 @@ export type LegalChunk = {
   paragraph_num: string | null
   /** Null on a consolidated row. A banner row carries the amending act. */
   amending_act?: string | null
-  /** Column from match_legal_articles. Absent until that function returns it. */
+  /** Live search returns this boolean. Keyword search returns it too. */
   is_excerpt?: boolean
   text: string
   text_local: string | null
@@ -3266,8 +3266,11 @@ export function legislationChunkPreview(
 
 export function joinLegalChunksRaw(chunks: LegalChunk[]): string {
   const formattedChunks = chunks.map((chunk, index) => {
-    const paragraphSuffix = chunk.paragraph_num ? " §" + chunk.paragraph_num : ""
     const body = legislationChunkText(chunk)
+    if (chunk.is_excerpt === true) {
+      return `RANK ${index + 1} — [LAW: ${chunk.law_name_local} | EXCERPT: no article number]\n${body}`
+    }
+    const paragraphSuffix = chunk.paragraph_num ? " §" + chunk.paragraph_num : ""
     return `RANK ${index + 1} — [LAW: ${chunk.law_name_local} | ARTICLE: ${chunk.article_num}${paragraphSuffix}]\n${body}`
   })
   return formattedChunks.join("\n\n---\n\n")
@@ -3285,11 +3288,12 @@ export function formatContextBlock(chunks: LegalChunk[]): string {
   )
 }
 
+const ARTICLE_REFERENCE =
+  /(?<![\p{L}\p{N}])(?:Član|Člen|Čl\.|Члан|Чл\.|Art\.|Article|Artikkel)\s+(\d+)/giu
+
 export function extractArticleReferences(text: string): string[] {
   const matches: string[] = []
-  for (const match of text.matchAll(
-    /\b(?:Član|Člen|Čl\.|Art\.|Article|Artikkel)\s+(\d+)/gi,
-  )) {
+  for (const match of text.matchAll(ARTICLE_REFERENCE)) {
     const value = (match[1] ?? "").trim()
     if (value) matches.push(value)
   }
@@ -3325,20 +3329,13 @@ export function validateCitations(
     }
   }
 
-  const citedArticles = extractArticleReferences(aiResponse).filter((cited) => {
-    const n = Number.parseInt(cited, 10)
-    if (!Number.isFinite(n) || n < 1 || n > 9) return true
-
-    const re = new RegExp(
-      String.raw`\b(?:Član|Člen|Article)\b[\s\S]{0,20}\b${n}\b`,
-      "i",
-    )
-    return re.test(aiResponse)
-  })
+  const citedArticles = extractArticleReferences(aiResponse)
 
   const validArticleNumbers = new Set<string>()
+  const excerptChunks: LegalChunk[] = []
   for (const chunk of chunks) {
-    validArticleNumbers.add(normalizeArticleNumber(chunk.article_num))
+    if (chunk.is_excerpt === true) excerptChunks.push(chunk)
+    else validArticleNumbers.add(normalizeArticleNumber(chunk.article_num))
   }
 
   const normalizedCited = citedArticles.map((c) => normalizeArticleNumber(c))
@@ -3352,7 +3349,18 @@ export function validateCitations(
     .map((c) => c.article_num)
     .filter((articleNum) => !aiLower.includes(articleNum.toLowerCase()))
 
-  const valid = citedArticles.length > 0 && invalidCitations.length === 0
+  const excerptsCitedByLawName =
+    excerptChunks.length > 0 &&
+    excerptChunks.every((chunk) => {
+      const name = chunk.law_name_local.trim()
+      return name.length >= 3 && aiLower.includes(name.toLowerCase())
+    })
+  const realChunks = chunks.length - excerptChunks.length
+  const valid =
+    invalidCitations.length === 0 &&
+    (realChunks > 0
+      ? citedArticles.length > 0
+      : excerptsCitedByLawName && citedArticles.length === 0)
 
   return {
     valid,
@@ -3524,6 +3532,11 @@ function buildMandatoryRulesSuffix(
       ? "⚠️ CONFIDENCE: MEDIUM — The retrieved provisions \nmay not directly address this specific question.\nOnly cite articles that are genuinely relevant to \nthe legal question asked. If an article is about \na completely different topic (e.g. administrative \nlaw, criminal law, trade secrets) and the question \nis about contract validity, do NOT cite it.\nState clearly which aspects are and are not covered \nby the retrieved provisions."
       : "⚠️ CONFIDENCE: LOW — The retrieved provisions have weak relevance \n   to this query. Do NOT provide a definitive legal conclusion. State \n   explicitly that the directly applicable provision may not be in \n   the database yet."
 
+  const hasExcerpt = ragResult.chunks.some((chunk) => chunk.is_excerpt === true)
+  const excerptRule = hasExcerpt
+    ? `EXCERPT BLOCKS HAVE NO ARTICLE NUMBER:\nA block marked EXCERPT: no article number is cited by law name only:\n  "(Law Name Local)"\nDo not invent an article number for an excerpt block.\nA block marked ARTICLE still requires "(Član X, Law Name Local)", "(Člen X, Law Name Local)", or "(Article X, {law_name_local})".\n\n`
+    : ""
+
   const extractedBlock = `=== ANSWER FORMAT (EXTRACTED MODE) ===
 
 CRITICAL — MANDATORY CITATION FORMAT:
@@ -3585,7 +3598,14 @@ One sentence with at least one citation.
 
 STEP 6 — SOURCES:
 List ALL articles cited above:
-- Član X — Law Name Local`
+- Član X — Law Name Local
+${hasExcerpt ? `
+EXCERPT SOURCES:
+When the source block says EXCERPT: no article number, end the sentence with the law name only:
+(Law Name Local)
+Do not invent an article number for that block.
+A numbered citation is still required for a block marked ARTICLE.
+` : ""}`
 
   const analyticalBlock = `=== ANSWER FORMAT (ANALYTICAL MODE) ===
 
@@ -3634,7 +3654,14 @@ CONCLUSION:
 
 SOURCES:
 [List every article cited: law name local, article number, 
-paragraph if applicable]`
+paragraph if applicable]
+${hasExcerpt ? `
+EXCERPT SOURCES:
+When the source block says EXCERPT: no article number, cite the law name only:
+(Law Name Local)
+Do not invent an article number for that block.
+A numbered citation is still required for a block marked ARTICLE.
+` : ""}`
 
   const draftingBlockStatutes = `=== DOCUMENT DRAFTING MODE ===
 
@@ -3708,6 +3735,7 @@ DRAFTING RULES:
   return (
     `=== MANDATORY RULES — READ BEFORE ANSWERING ===\n\n` +
     rule1Lead +
+    excerptRule +
     rule2 +
     `RULE 3 — NO SEMANTIC DRIFT:\nDo not reinterpret, expand, or generalize beyond what is explicitly \nwritten in the provision text. Only restate or closely paraphrase \nwhat is written. Do not add meaning that is not present.` +
     (ruleScope === "combined"
