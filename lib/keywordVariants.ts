@@ -2,7 +2,9 @@ import {
   expandQueryWithLegalSynonyms,
   MAX_SYNONYM_PHRASE_EXPANSIONS,
 } from "./legalSynonyms"
+import { DIALECT_PAIRS } from "./dialectPairs"
 import {
+  cyrillicToLatin,
   escapeIlikePattern,
   getScriptVariants,
 } from "./serbianTransliteration"
@@ -493,7 +495,16 @@ export function buildKeywordIlikePatterns(
   }
 
   const contentTokens = extractKeywordContentTokens(trimmed)
-  const tokenFetchGroups: string[][] = contentTokens
+  return {
+    exactPatterns: [...exactPatterns],
+    stemPatterns: [...stemPatterns],
+    tokenFetchGroups: buildTokenFetchGroups(contentTokens),
+    contentTokens,
+  }
+}
+
+function buildTokenFetchGroups(contentTokens: KeywordContentToken[]): string[][] {
+  return contentTokens
     .filter((t) => keywordTokenIsFetchLength(t))
     .sort(
       (a, b) =>
@@ -506,13 +517,6 @@ export function buildKeywordIlikePatterns(
         t.variants.map((v) => `%${escapeIlikePattern(v.toLowerCase())}%`),
       ),
     ])
-
-  return {
-    exactPatterns: [...exactPatterns],
-    stemPatterns: [...stemPatterns],
-    tokenFetchGroups,
-    contentTokens,
-  }
 }
 
 /**
@@ -670,4 +674,130 @@ export function scoreKeywordPatternMatch(
   }
 
   return scorePartialCoverage(haystack, patterns.contentTokens ?? [])
+}
+
+type DialectStemHit = {
+  pairIndex: number
+  side: "ije" | "eka"
+  variants: string[]
+  stems: string[]
+}
+
+const dialectByStem = new Map<string, DialectStemHit>()
+
+function latinStemKey(spelling: string): string {
+  return stemWord(cyrillicToLatin(spelling).toLowerCase())
+}
+
+function needlesForSpelling(spelling: string): { variants: string[]; stems: string[] } {
+  const token = extractKeywordContentTokens(spelling)[0]
+  return {
+    variants: token?.variants ?? [],
+    stems: token?.stems ?? [],
+  }
+}
+
+function registerDialectStem(
+  spelling: string,
+  pairIndex: number,
+  side: "ije" | "eka",
+  counterpart: { variants: string[]; stems: string[] },
+): void {
+  const key = latinStemKey(spelling)
+  const prev = dialectByStem.get(key)
+  if (prev) {
+    const a = DIALECT_PAIRS[prev.pairIndex]!
+    const b = DIALECT_PAIRS[pairIndex]!
+    throw new Error(
+      `dialect stem collision on "${key}": ${a.ije}/${a.eka} [${prev.pairIndex}] and ${b.ije}/${b.eka} [${pairIndex}]`,
+    )
+  }
+  dialectByStem.set(key, {
+    pairIndex,
+    side,
+    variants: counterpart.variants,
+    stems: counterpart.stems,
+  })
+}
+
+for (let pairIndex = 0; pairIndex < DIALECT_PAIRS.length; pairIndex++) {
+  const pair = DIALECT_PAIRS[pairIndex]!
+  const ije = needlesForSpelling(pair.ije)
+  const eka = needlesForSpelling(pair.eka)
+  registerDialectStem(pair.ije, pairIndex, "ije", eka)
+  registerDialectStem(pair.eka, pairIndex, "eka", ije)
+}
+
+/**
+ * Slovenia is excluded on a trimmed, case-insensitive jurisdiction string.
+ * The route normalizes aliases before this runs, and Slovenia is not one of them.
+ * Phrase patterns are left untouched. Counterpart variants and stems join
+ * the matched token only, then the token fetch groups are rebuilt.
+ */
+export function mergeDialectNeedles(
+  patterns: KeywordIlikePatternSet,
+  jurisdiction: string,
+): void {
+  if (jurisdiction.trim().toLowerCase() === "slovenia") return
+  let changed = false
+  for (const token of patterns.contentTokens) {
+    const extra = dialectByStem.get(latinStemKey(token.surface))
+    if (!extra) continue
+    const variants = [...new Set([...token.variants, ...extra.variants])]
+    const stems = [...new Set([...token.stems, ...extra.stems])]
+    if (variants.length !== token.variants.length || stems.length !== token.stems.length) {
+      changed = true
+    }
+    token.variants = variants
+    token.stems = stems
+  }
+  if (changed) {
+    patterns.tokenFetchGroups = buildTokenFetchGroups(patterns.contentTokens)
+  }
+}
+
+function levenshtein(a: string, b: string): number {
+  if (a === b) return 0
+  if (Math.abs(a.length - b.length) > 1) return 2
+  const prev = new Array<number>(b.length + 1)
+  const curr = new Array<number>(b.length + 1)
+  for (let j = 0; j <= b.length; j++) prev[j] = j
+  for (let i = 1; i <= a.length; i++) {
+    curr[0] = i
+    for (let j = 1; j <= b.length; j++) {
+      const cost = a[i - 1] === b[j - 1] ? 0 : 1
+      curr[j] = Math.min(curr[j - 1]! + 1, prev[j]! + 1, prev[j - 1]! + cost)
+    }
+    for (let j = 0; j <= b.length; j++) prev[j] = curr[j]!
+  }
+  return prev[b.length]!
+}
+
+/** Stems from two different pairs whose edit distance is one. */
+export function dialectStemNearMisses(): Array<{
+  a: string
+  b: string
+  stemA: string
+  stemB: string
+}> {
+  const rows = [...dialectByStem.entries()]
+  const out: Array<{ a: string; b: string; stemA: string; stemB: string }> = []
+  for (let i = 0; i < rows.length; i++) {
+    for (let j = i + 1; j < rows.length; j++) {
+      const [stemA, hitA] = rows[i]!
+      const [stemB, hitB] = rows[j]!
+      if (hitA.pairIndex === hitB.pairIndex) continue
+      if (Math.abs(stemA.length - stemB.length) > 1) continue
+      if (levenshtein(stemA, stemB) !== 1) continue
+      const pairA = DIALECT_PAIRS[hitA.pairIndex]!
+      const pairB = DIALECT_PAIRS[hitB.pairIndex]!
+      out.push({
+        a: `${pairA.ije}/${pairA.eka} ${hitA.side}`,
+        b: `${pairB.ije}/${pairB.eka} ${hitB.side}`,
+        stemA,
+        stemB,
+      })
+    }
+  }
+  return out
 }

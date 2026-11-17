@@ -17,6 +17,7 @@ import {
 import {
   buildKeywordIlikePatterns,
   filterKeywordFetchPatterns,
+  mergeDialectNeedles,
   keywordContentTokensMatched,
   keywordIdfLnWeight,
   keywordPartialCosineBonus,
@@ -1036,6 +1037,7 @@ async function searchLegalArticlesByKeyword(args: {
     ...patterns.exactPatterns,
     ...patterns.stemPatterns,
   ]
+  mergeDialectNeedles(patterns, args.jurisdiction)
   const tokenPatterns = filterKeywordFetchPatterns(
     patterns.tokenFetchGroups.flat(),
     args.jurisdiction,
