@@ -1026,11 +1026,11 @@ async function searchLegalArticlesByKeyword(args: {
   }
 
   const patterns = buildKeywordIlikePatterns(query)
+  mergeDialectNeedles(patterns, args.jurisdiction, query)
   const phrasePatterns = [
     ...patterns.exactPatterns,
     ...patterns.stemPatterns,
   ]
-  mergeDialectNeedles(patterns, args.jurisdiction)
   const tokenPatterns = filterKeywordFetchPatterns(
     patterns.tokenFetchGroups.flat(),
     args.jurisdiction,

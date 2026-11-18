@@ -809,15 +809,92 @@ for (let pairIndex = 0; pairIndex < DIALECT_PAIRS.length; pairIndex++) {
   registerDialectStem(pair.eka, pairIndex, "eka", ije)
 }
 
+/** Phrase variants including the original. Two roots are the cap; a third stays as written. */
+const MAX_DIALECT_PHRASE_VARIANTS = 4
+
+function bareKeywordToken(word: string): string {
+  return word.replace(/^[^\p{L}\p{N}]+|[^\p{L}\p{N}]+$/gu, "")
+}
+
+/** Counterpart stem plus the query token's own ending. Not the stored surface. */
+function inflectionPreservingCounterpart(word: string): string | null {
+  const bare = bareKeywordToken(word)
+  if (!bare || isKeywordStopword(bare)) return null
+  const latin = cyrillicToLatin(bare).toLowerCase()
+  const hit = dialectByStem.get(stemWord(latin))
+  if (!hit) return null
+  const pair = DIALECT_PAIRS[hit.pairIndex]!
+  const fromSurface = hit.side === "ije" ? pair.ije : pair.eka
+  const toSurface = hit.side === "ije" ? pair.eka : pair.ije
+  const fromStem = latinStemKey(fromSurface)
+  const toStem = latinStemKey(toSurface)
+  const next = latin.startsWith(fromStem)
+    ? toStem + latin.slice(fromStem.length)
+    : cyrillicToLatin(toSurface).toLowerCase()
+  if (next === latin) return null
+  return next
+}
+
+function dialectPhraseVariants(query: string): string[] {
+  const phrase = query.trim().replace(/\s+/g, " ")
+  if (!phrase) return []
+  const groups: Array<{ bare: string; next: string }> = []
+  const seen = new Set<string>()
+  for (const word of phrase.split(/\s+/)) {
+    const bare = bareKeywordToken(word)
+    const key = bare.toLowerCase()
+    if (!bare || seen.has(key)) continue
+    const next = inflectionPreservingCounterpart(word)
+    if (!next) continue
+    seen.add(key)
+    groups.push({ bare, next })
+  }
+  let variants = [phrase]
+  for (const group of groups.slice(0, 2)) {
+    const nextVariants: string[] = []
+    for (const prefix of variants) {
+      nextVariants.push(prefix, prefix.replaceAll(group.bare, group.next))
+    }
+    variants = [...new Set(nextVariants)].slice(0, MAX_DIALECT_PHRASE_VARIANTS)
+  }
+  return variants
+}
+
+function appendDialectPhrasePatterns(
+  patterns: KeywordIlikePatternSet,
+  query: string,
+): void {
+  if ((patterns.contentTokens?.length ?? 0) < 2) return
+  const exact = new Set(patterns.exactPatterns)
+  const stem = new Set(patterns.stemPatterns)
+  const phrase = query.trim().replace(/\s+/g, " ").toLowerCase()
+  for (const variant of dialectPhraseVariants(query)) {
+    if (variant.toLowerCase() === phrase) continue
+    for (const equivalent of withSaSEquivalents(variant)) {
+      for (const script of getScriptVariants(equivalent)) {
+        exact.add(`%${escapeIlikePattern(script)}%`)
+        const stemPattern = buildStemIlikePattern(script)
+        if (stemPattern) stem.add(stemPattern)
+      }
+    }
+  }
+  patterns.exactPatterns = [...exact]
+  patterns.stemPatterns = [...stem]
+}
+
 /**
  * Slovenia is excluded on a trimmed, case-insensitive jurisdiction string.
  * The route normalizes aliases before this runs, and Slovenia is not one of them.
- * Phrase patterns are left untouched. Counterpart variants and stems join
- * the matched token only, then the token fetch groups are rebuilt.
+ * Counterpart variants and stems join the matched token only, then the token
+ * fetch groups are rebuilt. A query with two or more content tokens also
+ * appends counterpart phrase patterns, capped at four variants including the
+ * original and added beside the original query rather than through the
+ * synonym cap. One content token leaves the phrase arrays unchanged.
  */
 export function mergeDialectNeedles(
   patterns: KeywordIlikePatternSet,
   jurisdiction: string,
+  query?: string,
 ): void {
   if (jurisdiction.trim().toLowerCase() === "slovenia") return
   let changed = false
@@ -834,6 +911,9 @@ export function mergeDialectNeedles(
   }
   if (changed) {
     patterns.tokenFetchGroups = buildTokenFetchGroups(patterns.contentTokens)
+  }
+  if (typeof query === "string" && query.trim() !== "") {
+    appendDialectPhrasePatterns(patterns, query)
   }
 }
 

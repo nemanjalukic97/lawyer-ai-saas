@@ -43,7 +43,8 @@ test("the constant is the 78 measured pairs and does not include mjesto", () => 
 })
 
 test("slovenia does not expand svjedok and phrase patterns stay put", () => {
-  const patterns = buildKeywordIlikePatterns("svjedok na sudu", {
+  const query = "svjedok na sudu"
+  const patterns = buildKeywordIlikePatterns(query, {
     maxSynonymExpansions: 0,
   })
   const before = patterns.contentTokens.map((token) => ({
@@ -53,17 +54,19 @@ test("slovenia does not expand svjedok and phrase patterns stay put", () => {
   }))
   const exact = [...patterns.exactPatterns]
   const stem = [...patterns.stemPatterns]
-  mergeDialectNeedles(patterns, "slovenia")
+  mergeDialectNeedles(patterns, "slovenia", query)
   for (const spelling of ["Slovenia", " slovenia "]) {
-    const again = buildKeywordIlikePatterns("svjedok na sudu", {
+    const again = buildKeywordIlikePatterns(query, {
       maxSynonymExpansions: 0,
     })
-    mergeDialectNeedles(again, spelling)
+    mergeDialectNeedles(again, spelling, query)
     assert.equal(
       again.contentTokens.find((token) => token.surface === "svjedok")?.variants.includes("svedok"),
       false,
       spelling,
     )
+    assert.deepEqual(again.exactPatterns, exact, spelling)
+    assert.deepEqual(again.stemPatterns, stem, spelling)
   }
   assert.deepEqual(
     patterns.contentTokens.map((token) => ({
@@ -78,12 +81,12 @@ test("slovenia does not expand svjedok and phrase patterns stay put", () => {
 })
 
 test("serbia adds the svedok needles to the svjedok token only", () => {
-  const patterns = buildKeywordIlikePatterns("svjedok na sudu", {
+  const query = "svjedok na sudu"
+  const patterns = buildKeywordIlikePatterns(query, {
     maxSynonymExpansions: 0,
   })
-  const exact = [...patterns.exactPatterns]
   const stem = [...patterns.stemPatterns]
-  mergeDialectNeedles(patterns, "serbia")
+  mergeDialectNeedles(patterns, "serbia", query)
   assert.equal(patterns.contentTokens.length, 2)
   const token = patterns.contentTokens.find((item) => item.surface === "svjedok")
   assert.ok(token)
@@ -93,33 +96,93 @@ test("serbia adds the svedok needles to the svjedok token only", () => {
   const other = patterns.contentTokens.find((item) => item.surface === "sudu")
   assert.ok(other)
   assert.equal(other.variants.includes("svedok"), false)
-  assert.deepEqual(patterns.exactPatterns, exact)
   assert.deepEqual(patterns.stemPatterns, stem)
   assert.equal(
-    patterns.exactPatterns.some((pattern) => pattern.includes("svedok")),
-    false,
+    patterns.exactPatterns.some((pattern) => pattern.includes("svedok na sudu")),
+    true,
   )
-  assert.equal(
-    patterns.stemPatterns.some((pattern) => pattern.includes("svedok")),
-    false,
+  const latinExact = patterns.exactPatterns.filter(
+    (pattern) => !/[А-Яа-яЂђЈјЉљЊњЋћЏџ]/.test(pattern),
   )
+  assert.equal(latinExact.length, 2)
   assert.equal(
     patterns.tokenFetchGroups.flat().some((pattern) => pattern.includes("сведок")),
     true,
   )
 })
 
-test("rješenje picks up the measured rešenja needles and stays one token", () => {
-  const patterns = buildKeywordIlikePatterns("rješenje o izvršenju", {
+test("serbia-bound rješenje o izvršenju gains the ekavian phrase", () => {
+  const query = "rješenje o izvršenju"
+  const patterns = buildKeywordIlikePatterns(query, {
     maxSynonymExpansions: 0,
   })
   const count = patterns.contentTokens.length
-  mergeDialectNeedles(patterns, "bih_rs")
+  mergeDialectNeedles(patterns, "serbia", query)
   assert.equal(patterns.contentTokens.length, count)
   const token = patterns.contentTokens.find((item) => item.surface === "rješenje")
   assert.ok(token)
   assert.equal(token.stems.includes("rešenj"), true)
   assert.equal(token.variants.includes("rešenja"), true)
+  assert.equal(
+    patterns.exactPatterns.some((pattern) => pattern.includes("rešenje o izvršenju")),
+    true,
+  )
+  assert.equal(
+    patterns.exactPatterns.some((pattern) => pattern.includes("rešenja o izvršenju")),
+    false,
+  )
+})
+
+test("otkaz ugovora o radu does not gain phrase patterns", () => {
+  const query = "otkaz ugovora o radu"
+  for (const jurisdiction of ["serbia", "bih_fbih"]) {
+    const patterns = buildKeywordIlikePatterns(query, {
+      maxSynonymExpansions: 0,
+    })
+    const exact = [...patterns.exactPatterns]
+    const stem = [...patterns.stemPatterns]
+    mergeDialectNeedles(patterns, jurisdiction, query)
+    assert.deepEqual(patterns.exactPatterns, exact, jurisdiction)
+    assert.deepEqual(patterns.stemPatterns, stem, jurisdiction)
+  }
+})
+
+test("a single content token does not expand phrase patterns", () => {
+  const query = "vrijednost"
+  const patterns = buildKeywordIlikePatterns(query, {
+    maxSynonymExpansions: 0,
+  })
+  const exact = [...patterns.exactPatterns]
+  const stem = [...patterns.stemPatterns]
+  mergeDialectNeedles(patterns, "serbia", query)
+  assert.equal(patterns.contentTokens.length, 1)
+  assert.deepEqual(patterns.exactPatterns, exact)
+  assert.deepEqual(patterns.stemPatterns, stem)
+  assert.equal(patterns.contentTokens[0]?.variants.includes("vrednost"), true)
+})
+
+test("phrase variants stop at four including the original", () => {
+  const query = "vrijednost zahtjev rješenja mjesec"
+  const patterns = buildKeywordIlikePatterns(query, {
+    maxSynonymExpansions: 0,
+  })
+  mergeDialectNeedles(patterns, "serbia", query)
+  const latinExact = patterns.exactPatterns.filter(
+    (pattern) => !/[А-Яа-яЂђЈјЉљЊњЋћЏџ]/.test(pattern),
+  )
+  assert.equal(latinExact.length, 4)
+  assert.equal(
+    latinExact.some((pattern) => pattern.includes("vrednost zahtev rješenja mjesec")),
+    true,
+  )
+  assert.equal(
+    latinExact.some((pattern) => pattern.includes("mesec")),
+    false,
+  )
+  assert.equal(
+    latinExact.some((pattern) => pattern.includes("rešenja")),
+    false,
+  )
 })
 
 test("no two pairs share a stem, and one-character neighbours are named", () => {
