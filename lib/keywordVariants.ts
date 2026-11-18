@@ -611,6 +611,55 @@ export function keywordContentTokensMatched(
   return tokens.map((t) => contentTokenPresent(h, t))
 }
 
+/**
+ * IDF WEIGHTED PATH is off. See the register note in lib/legalRag.ts.
+ * `mjestu` is the ijekavian spelling. Against the ekavian Serbian corpus
+ * its document frequency is 4 of 164329, weight 10.623, 59.4% of
+ * `diskriminacija na radnom mjestu`. Storing the eight missing frequencies
+ * for that query keeps 0 of 274 candidate rows. `опојних` at 78 documents
+ * is a real rare term; no frequency floor separates the two. Uniform
+ * coverage stays until the dialect key covers the vocabulary, including
+ * mjesto/mesto. The writer still stores document frequencies.
+ */
+export const KEYWORD_IDF_WEIGHTED_PATH = false
+
+/** Weights were not loaded, a complete vector was ignored, or the vector was applied. */
+export type KeywordIdfWeightState = "missing" | "gated" | "applied"
+
+/** Same predicate the scorer uses. A complete vector is `gated` while the constant is false. */
+export function keywordIdfWeightState(
+  idfWeights: number[] | null | undefined,
+  tokenCount: number,
+): KeywordIdfWeightState {
+  const present =
+    idfWeights != null && tokenCount > 0 && idfWeights.length === tokenCount
+  if (!present) return "missing"
+  return KEYWORD_IDF_WEIGHTED_PATH ? "applied" : "gated"
+}
+
+/**
+ * `idf_fallback` is true unless the weights were applied, so a gated vector
+ * is not logged as used. `idf_weights` names which of the three states it was.
+ */
+export function keywordIdfLogFields(state: KeywordIdfWeightState): {
+  idf_weights: KeywordIdfWeightState
+  idf_fallback: boolean
+} {
+  return { idf_weights: state, idf_fallback: state !== "applied" }
+}
+
+/** A mixed request stays off `applied`. Missing outranks gated. */
+export function aggregateKeywordIdfWeightState(
+  states: KeywordIdfWeightState[],
+): KeywordIdfWeightState {
+  if (states.some((state) => state === "missing")) return "missing"
+  if (states.some((state) => state === "gated")) return "gated"
+  if (states.length > 0 && states.every((state) => state === "applied")) {
+    return "applied"
+  }
+  return "missing"
+}
+
 export function keywordWeightedCoverage(
   matchedFlags: boolean[],
   weights: number[],
@@ -653,6 +702,38 @@ export function scoreKeywordPartialFromCoverage(
     score: KEYWORD_PARTIAL_BASE + KEYWORD_PARTIAL_COVERAGE_SPAN * coverage + bonus,
     channel: "keyword_partial",
   }
+}
+
+/**
+ * Uniform SQL coverage unless KEYWORD_IDF_WEIGHTED_PATH is on and the
+ * weight vector lines up with the content tokens. The gated and missing
+ * states both use matched_count / token_count from the keyword RPC.
+ */
+export function scoreGatedKeywordPartial(args: {
+  useSqlPartial: boolean
+  idfWeights: number[] | null | undefined
+  contentTokens: KeywordContentToken[]
+  textLocal: string
+  sqlMatchedCount: number
+  sqlTokenCount: number
+  contiguous: boolean
+}): KeywordScoredMatch | null {
+  if (!args.useSqlPartial) return null
+  if (keywordIdfWeightState(args.idfWeights, args.contentTokens.length) !== "applied") {
+    return scoreKeywordPartialFromCoverage(
+      args.sqlMatchedCount,
+      args.sqlTokenCount,
+      args.contiguous,
+    )
+  }
+  const flags = keywordContentTokensMatched(args.textLocal, args.contentTokens)
+  const matchedCount = flags.reduce((n, hit) => n + (hit ? 1 : 0), 0)
+  return scoreKeywordPartialFromCoverage(
+    matchedCount,
+    args.contentTokens.length,
+    args.contiguous,
+    keywordWeightedCoverage(flags, args.idfWeights ?? []),
+  )
 }
 
 export function scoreKeywordPatternMatch(

@@ -1,6 +1,11 @@
 import type { ServerSupabaseClient } from "@/lib/supabase/server"
 import type { Json } from "@/lib/supabase/types"
 import {
+  aggregateKeywordIdfWeightState,
+  keywordIdfLogFields,
+  type KeywordIdfWeightState,
+} from "@/lib/keywordVariants"
+import {
   isCuratedLegalChunk,
   type LegalChunk,
   type RagStageTiming,
@@ -15,6 +20,8 @@ export type LegalSearchKeywordTiming = {
   stage2_completed: boolean
   skipped_hint: boolean
   idf_ms: number | null
+  /** missing, gated, or applied. idf_fallback agrees: true unless applied. */
+  idf_weights: KeywordIdfWeightState
   idf_fallback: boolean
 }
 
@@ -41,6 +48,7 @@ export function keywordTimingFromStage(
   failed = false,
 ): LegalSearchKeywordTiming {
   if (failed || !timing) {
+    const idf = keywordIdfLogFields("missing")
     return {
       stage1_ms: 0,
       stage1_completed: false,
@@ -48,11 +56,13 @@ export function keywordTimingFromStage(
       stage2_completed: false,
       skipped_hint: false,
       idf_ms: null,
-      idf_fallback: false,
+      idf_weights: idf.idf_weights,
+      idf_fallback: idf.idf_fallback,
     }
   }
 
   const skip = timing.keywordSkipReason ?? null
+  const idf = keywordIdfLogFields(timing.keywordIdfWeights ?? "missing")
   return {
     stage1_ms: timing.keywordStage1Ms ?? 0,
     stage1_completed:
@@ -65,7 +75,8 @@ export function keywordTimingFromStage(
       skip !== GROUP_COUNT_SKIP,
     skipped_hint: skip === HINT_SKIP,
     idf_ms: timing.keywordIdfMs ?? null,
-    idf_fallback: timing.keywordIdfFallback === true,
+    idf_weights: idf.idf_weights,
+    idf_fallback: idf.idf_fallback,
   }
 }
 
@@ -79,9 +90,12 @@ function aggregateKeyword(
     .map((part) => part.stage2_ms)
     .filter((ms): ms is number => ms != null)
 
-  const idf = parts
+  const idfMs = parts
     .map((part) => part.idf_ms)
     .filter((ms): ms is number => ms != null)
+  const idf = keywordIdfLogFields(
+    aggregateKeywordIdfWeightState(parts.map((part) => part.idf_weights)),
+  )
 
   return {
     stage1_ms: Math.max(...parts.map((part) => part.stage1_ms)),
@@ -89,8 +103,9 @@ function aggregateKeyword(
     stage2_ms: stage2.length > 0 ? Math.max(...stage2) : null,
     stage2_completed: parts.every((part) => part.stage2_completed),
     skipped_hint: parts.every((part) => part.skipped_hint),
-    idf_ms: idf.length > 0 ? Math.max(...idf) : null,
-    idf_fallback: parts.some((part) => part.idf_fallback),
+    idf_ms: idfMs.length > 0 ? Math.max(...idfMs) : null,
+    idf_weights: idf.idf_weights,
+    idf_fallback: idf.idf_fallback,
   }
 }
 

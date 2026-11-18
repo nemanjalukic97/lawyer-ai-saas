@@ -18,15 +18,16 @@ import {
   buildKeywordIlikePatterns,
   filterKeywordFetchPatterns,
   mergeDialectNeedles,
-  keywordContentTokensMatched,
   keywordIdfLnWeight,
+  keywordIdfLogFields,
+  keywordIdfWeightState,
   keywordPartialCosineBonus,
-  keywordWeightedCoverage,
   KEYWORD_EXACT_COSINE_BONUS,
   KEYWORD_STEM_COSINE_BONUS,
-  scoreKeywordPartialFromCoverage,
+  scoreGatedKeywordPartial,
   scoreKeywordPatternMatch,
   type KeywordContentToken,
+  type KeywordIdfWeightState,
 } from "./keywordVariants"
 import {
   areasCompatibleWithInference,
@@ -527,6 +528,8 @@ type KeywordSearchResult<T> = {
   stage1CircuitBreaker?: boolean
   idfMs?: number
   idfFallback?: boolean
+  /** missing, gated, or applied. idfFallback is true unless this is applied. */
+  idfWeights?: KeywordIdfWeightState
   partialGroupCount?: number
 }
 
@@ -820,7 +823,8 @@ function scheduleKeywordDfCompute(
  * (jurisdiction, needle-set key). A miss uses uniform coverage for this
  * request. The COUNT and insert run after this returns, outside the
  * partial stage's 20,000 ms scan budget, so the next request can hit
- * the table.
+ * the table. scoreGatedKeywordPartial ignores a returned vector while
+ * KEYWORD_IDF_WEIGHTED_PATH is false and the log records that as gated.
  */
 async function loadKeywordIdfWeights(
   jurisdiction: string,
@@ -905,11 +909,6 @@ function scoreLegalKeywordRows(
   idfWeights?: number[] | null,
 ): LegalChunk[] {
   const contentTokens = patterns.contentTokens ?? []
-  const useIdf =
-    useSqlPartial &&
-    idfWeights != null &&
-    idfWeights.length === contentTokens.length &&
-    contentTokens.length > 0
   return rows
     .map((row) => {
       const r = row
@@ -918,30 +917,15 @@ function scoreLegalKeywordRows(
         ...patterns,
         contentTokens: [],
       })
-      const coverageMatch = useSqlPartial
-        ? useIdf
-          ? (() => {
-              const flags = keywordContentTokensMatched(
-                textLocal,
-                contentTokens,
-              )
-              const matchedCount = flags.reduce(
-                (n, hit) => n + (hit ? 1 : 0),
-                0,
-              )
-              return scoreKeywordPartialFromCoverage(
-                matchedCount,
-                contentTokens.length,
-                r.contiguous === true,
-                keywordWeightedCoverage(flags, idfWeights),
-              )
-            })()
-          : scoreKeywordPartialFromCoverage(
-              Number(r.matched_count ?? 0),
-              Number(r.token_count ?? 0),
-              r.contiguous === true,
-            )
-        : null
+      const coverageMatch = scoreGatedKeywordPartial({
+        useSqlPartial,
+        idfWeights,
+        contentTokens,
+        textLocal,
+        sqlMatchedCount: Number(r.matched_count ?? 0),
+        sqlTokenCount: Number(r.token_count ?? 0),
+        contiguous: r.contiguous === true,
+      })
       const partial = coverageMatch
         ? {
             score: coverageMatch.score,
@@ -1007,6 +991,7 @@ async function searchLegalArticlesByKeyword(args: {
   const started = Date.now()
   const query = args.query.trim()
   if (query.length < 2) {
+    const idf = keywordIdfLogFields("missing")
     return {
       rows: [],
       elapsedMs: Date.now() - started,
@@ -1014,6 +999,8 @@ async function searchLegalArticlesByKeyword(args: {
       skipReason: null,
       stage1Ms: 0,
       stage2Ms: null,
+      idfFallback: idf.idf_fallback,
+      idfWeights: idf.idf_weights,
     }
   }
 
@@ -1024,6 +1011,7 @@ async function searchLegalArticlesByKeyword(args: {
       jurisdiction: args.jurisdiction,
       stage: "all",
     })
+    const idf = keywordIdfLogFields("missing")
     return {
       rows: [],
       elapsedMs: Date.now() - started,
@@ -1031,6 +1019,8 @@ async function searchLegalArticlesByKeyword(args: {
       skipReason: KEYWORD_CHANNEL_HINT_SKIP_REASON,
       stage1Ms: 0,
       stage2Ms: null,
+      idfFallback: idf.idf_fallback,
+      idfWeights: idf.idf_weights,
     }
   }
 
@@ -1045,6 +1035,7 @@ async function searchLegalArticlesByKeyword(args: {
     args.jurisdiction,
   )
   if (phrasePatterns.length === 0 && tokenPatterns.length === 0) {
+    const idf = keywordIdfLogFields("missing")
     return {
       rows: [],
       elapsedMs: Date.now() - started,
@@ -1052,6 +1043,8 @@ async function searchLegalArticlesByKeyword(args: {
       skipReason: null,
       stage1Ms: 0,
       stage2Ms: null,
+      idfFallback: idf.idf_fallback,
+      idfWeights: idf.idf_weights,
     }
   }
 
@@ -1091,8 +1084,40 @@ async function searchLegalArticlesByKeyword(args: {
   }
 
   const idfStarted = Date.now()
-  let idfFallback = false
+  let idfWeightState: KeywordIdfWeightState = "missing"
+  let idfFallback = keywordIdfLogFields(idfWeightState).idf_fallback
   let idfMs = 0
+  let idfStateLogged = false
+  function recordIdfLoad(loaded: KeywordIdfLoad, afterStageSettle: boolean): void {
+    idfWeightState = keywordIdfWeightState(
+      loaded.weights,
+      patterns.contentTokens.length,
+    )
+    idfFallback = keywordIdfLogFields(idfWeightState).idf_fallback
+    if (idfStateLogged) return
+    idfStateLogged = true
+    if (idfWeightState === "gated") {
+      // eslint-disable-next-line no-console
+      console.error("[RAG] keyword idf weights gated", {
+        reason: "keyword_idf_weighted_path_off",
+        jurisdiction: args.jurisdiction,
+        idfMs,
+        ...(afterStageSettle ? { afterStageSettle: true } : {}),
+      })
+      return
+    }
+    if (loaded.failed || loaded.cacheMiss) {
+      // eslint-disable-next-line no-console
+      console.error("[RAG] keyword idf fallback to uniform", {
+        reason: loaded.cacheMiss
+          ? "keyword_idf_cache_miss"
+          : "keyword_idf_lookup_failed",
+        jurisdiction: args.jurisdiction,
+        idfMs,
+        ...(afterStageSettle ? { afterStageSettle: true } : {}),
+      })
+    }
+  }
   const idfPromise: Promise<KeywordIdfLoad> =
     tokenPatterns.length === 0 || skipPartial
       ? Promise.resolve({
@@ -1154,17 +1179,7 @@ async function searchLegalArticlesByKeyword(args: {
           abort,
         ).then(async (rows) => {
           const loaded = await idfPromise
-          if (loaded.failed || loaded.cacheMiss) {
-            idfFallback = true
-            // eslint-disable-next-line no-console
-            console.error("[RAG] keyword idf fallback to uniform", {
-              reason: loaded.cacheMiss
-                ? "keyword_idf_cache_miss"
-                : "keyword_idf_lookup_failed",
-              jurisdiction: args.jurisdiction,
-              idfMs,
-            })
-          }
+          recordIdfLoad(loaded, false)
           return scoreLegalKeywordRows(rows, patterns, true, loaded.weights)
         })
 
@@ -1256,18 +1271,7 @@ async function searchLegalArticlesByKeyword(args: {
     const loaded = await idfPromise
     // idfMs is set when idfPromise settles; only fill if empty (no tokens path).
     if (idfMs === 0) idfMs = Date.now() - idfStarted
-    if ((loaded.failed || loaded.cacheMiss) && !idfFallback) {
-      // eslint-disable-next-line no-console
-      console.error("[RAG] keyword idf fallback to uniform", {
-        reason: loaded.cacheMiss
-          ? "keyword_idf_cache_miss"
-          : "keyword_idf_lookup_failed",
-        jurisdiction: args.jurisdiction,
-        idfMs,
-        afterStageSettle: true,
-      })
-      idfFallback = true
-    }
+    recordIdfLoad(loaded, true)
   }
   const stage1Rows = stage1.rows
   const stage1Error = stage1.error
@@ -1300,6 +1304,7 @@ async function searchLegalArticlesByKeyword(args: {
         stage1CircuitBreaker: false,
         idfMs,
         idfFallback,
+        idfWeights: idfWeightState,
         partialGroupCount: skipPartial ? partialGroupCount : undefined,
       }
     }
@@ -1321,6 +1326,7 @@ async function searchLegalArticlesByKeyword(args: {
     stage1CircuitBreaker,
     idfMs,
     idfFallback,
+    idfWeights: idfWeightState,
     partialGroupCount: skipPartial ? partialGroupCount : undefined,
   }
 }
@@ -1817,6 +1823,22 @@ function applyActTypePenalty(chunks: LegalChunk[]): LegalChunk[] {
  * on `reklamacija` (чл. 63 from absent to rank 3) is larger, not
  * because the loss is harmless.
  *
+ * IDF WEIGHTED PATH — gated 2026-11-18. KEYWORD_IDF_WEIGHTED_PATH is
+ * false in lib/keywordVariants.ts. The scorer keeps uniform coverage
+ * (matched_count / token_count) even when every token has a stored df.
+ * `mjestu` df 4 of 164329, weight 10.623, 59.4% of `diskriminacija na
+ * radnom mjestu`; storing the eight missing frequencies keeps 0 of 274
+ * rows. `опојних` at 78 is a real rare term. No frequency floor. The
+ * writer still fills legal_keyword_token_df. The search log records
+ * idf_weights as missing, gated, or applied. idf_fallback is true
+ * unless the state is applied, so a gated vector is not logged as
+ * used. Nothing in the app reads either field back. They are written
+ * on legal_search_logs.results.keyword and, when more than one
+ * jurisdiction ran, on each keyword_by_jurisdiction entry. The
+ * aggregate prefers missing, then gated, then applied. Turn the
+ * constant on only when the dialect key covers the vocabulary,
+ * including mjesto/mesto.
+ *
  * df is process-cached and, when present, persisted in
  * legal_keyword_token_df keyed by (jurisdiction, needle) where needle is
  * the canonical sorted scoring-needle set (variants ∪ stems) for one
@@ -1827,8 +1849,9 @@ function applyActTypePenalty(chunks: LegalChunk[]): LegalChunk[] {
  * can hit the table. No cap, no fixed short-token weight. N is warmed
  * for the seven jurisdictions at process start. A lookup error also
  * falls back to uniform, logged as `keyword_idf_lookup_failed`. A cache
- * miss is logged as `keyword_idf_cache_miss`. Both set idf_fallback on
- * the search log. Invalidation is manual. df goes stale the moment the corpus
+ * miss is logged as `keyword_idf_cache_miss`. A complete vector while
+ * the constant is false is logged as `keyword_idf_weighted_path_off`
+ * and persisted as idf_weights `gated`. Invalidation is manual. df goes stale the moment the corpus
  * changes. After any ingest that writes legal_articles, refresh:
  *   DELETE FROM public.legal_keyword_token_df WHERE jurisdiction = $1;
  * or TRUNCATE public.legal_keyword_token_df;
@@ -2006,6 +2029,8 @@ export type RagStageTiming = {
   keywordPhraseCircuitBreaker?: boolean
   keywordIdfMs?: number
   keywordIdfFallback?: boolean
+  /** missing: no vector. gated: vector ignored. applied: weighted coverage. */
+  keywordIdfWeights?: KeywordIdfWeightState
   /** Set when the partial stage is not called because the query has more than six token groups. */
   keywordPartialGroupCount?: number
   /** Keyword rows that kept the old band because they had no cosine. */
@@ -3217,7 +3242,9 @@ export async function matchLegalArticles(args: {
     keywordStage2Ms: keywordResult.stage2Ms,
     keywordPhraseCircuitBreaker: keywordResult.stage1CircuitBreaker === true,
     keywordIdfMs: keywordResult.idfMs,
-    keywordIdfFallback: keywordResult.idfFallback === true,
+    keywordIdfWeights: keywordResult.idfWeights ?? "missing",
+    keywordIdfFallback: keywordIdfLogFields(keywordResult.idfWeights ?? "missing")
+      .idf_fallback,
     ...(keywordResult.partialGroupCount != null
       ? { keywordPartialGroupCount: keywordResult.partialGroupCount }
       : {}),
