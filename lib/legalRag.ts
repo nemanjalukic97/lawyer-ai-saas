@@ -1,5 +1,6 @@
 import { createHash } from "crypto"
 import { classifyActType } from "./actType"
+import { normaliseLawName } from "./lawNameDisplay"
 import { isApparatusProvision } from "./provisionKind"
 import OpenAI from "openai"
 import pg from "pg"
@@ -3306,11 +3307,12 @@ export function legislationChunkPreview(
 export function joinLegalChunksRaw(chunks: LegalChunk[]): string {
   const formattedChunks = chunks.map((chunk, index) => {
     const body = legislationChunkText(chunk)
+    const law = normaliseLawName(chunk.law_name_local)
     if (chunk.is_excerpt === true) {
-      return `RANK ${index + 1} — [LAW: ${chunk.law_name_local} | EXCERPT: no article number]\n${body}`
+      return `RANK ${index + 1} — [LAW: ${law} | EXCERPT: no article number]\n${body}`
     }
     const paragraphSuffix = chunk.paragraph_num ? " §" + chunk.paragraph_num : ""
-    return `RANK ${index + 1} — [LAW: ${chunk.law_name_local} | ARTICLE: ${chunk.article_num}${paragraphSuffix}]\n${body}`
+    return `RANK ${index + 1} — [LAW: ${law} | ARTICLE: ${chunk.article_num}${paragraphSuffix}]\n${body}`
   })
   return formattedChunks.join("\n\n---\n\n")
 }
@@ -3391,7 +3393,7 @@ export function validateCitations(
   const excerptsCitedByLawName =
     excerptChunks.length > 0 &&
     excerptChunks.every((chunk) => {
-      const name = chunk.law_name_local.trim()
+      const name = normaliseLawName(chunk.law_name_local.trim())
       return name.length >= 3 && aiLower.includes(name.toLowerCase())
     })
   const realChunks = chunks.length - excerptChunks.length

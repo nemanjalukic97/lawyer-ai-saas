@@ -1,6 +1,7 @@
 "use client"
 
 import { articleCitationLabel } from "@/lib/articleCitation"
+import { normaliseLawName } from "@/lib/lawNameDisplay"
 import { ExcerptText } from "@/components/ExcerptText"
 import { excerptBadgeText, trimExcerpt } from "@/lib/excerptTrim"
 import type { RagMetadata } from "@/types/rag"
@@ -122,6 +123,7 @@ export function RagSourcesPanel({ ragData, showSimilarity = true }: Props) {
         <ul className="mt-3 space-y-3">
           {prepared.map((item, i) => {
             const s = item.source
+            const lawTitle = normaliseLawName(s.law_name_local)
             return (
             <li
               key={i}
@@ -132,7 +134,7 @@ export function RagSourcesPanel({ ragData, showSimilarity = true }: Props) {
                 <span className="font-medium text-foreground">
                   {s.excerpt === true ? (
                     <>
-                      {s.law_name_local},{" "}
+                      {lawTitle},{" "}
                       {excerptBadgeText(
                         s.jurisdiction,
                         item.trimmed,
@@ -141,12 +143,12 @@ export function RagSourcesPanel({ ragData, showSimilarity = true }: Props) {
                     </>
                   ) : s.excerpt === false ? (
                     <>
-                      {s.law_name_local},{" "}
+                      {lawTitle},{" "}
                       {articleCitationLabel(s.jurisdiction, s.article_num, s.paragraph_num)}
                     </>
                   ) : (
                     <>
-                      {s.law_name_local}, {s.article_num}
+                      {lawTitle}, {s.article_num}
                       {s.paragraph_num
                         ? ` ${t("rag.paragraphLabel")} ${s.paragraph_num}`
                         : ""}

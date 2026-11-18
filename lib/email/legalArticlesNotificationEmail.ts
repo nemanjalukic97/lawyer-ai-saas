@@ -1,4 +1,5 @@
 import type { LanguageCode } from "@/components/LanguageProvider"
+import { normaliseLawName } from "@/lib/lawNameDisplay"
 
 export type LegalArticlesNotificationEmailInput = {
   language?: string | null
@@ -214,12 +215,12 @@ export function buildLegalArticlesNotificationEmail(
   const lawListHtml = input.laws
     .map(
       (law) =>
-        `<li>${escapeHtml(law.lawNameLocal)} — ${escapeHtml(copy.articleCount(law.articleCount))}</li>`
+        `<li>${escapeHtml(normaliseLawName(law.lawNameLocal))} — ${escapeHtml(copy.articleCount(law.articleCount))}</li>`
     )
     .join("")
 
   const lawListText = input.laws
-    .map((law) => `- ${law.lawNameLocal} — ${copy.articleCount(law.articleCount)}`)
+    .map((law) => `- ${normaliseLawName(law.lawNameLocal)} — ${copy.articleCount(law.articleCount)}`)
     .join("\n")
 
   const html = `

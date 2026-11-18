@@ -71,6 +71,12 @@ const GLUE = new Set([
   "poslovanja",
 ])
 
+/**
+ * Case endings are real inflections. The display splitter must not cut them.
+ * Every other member of GLUE is a word the display splitter may separate.
+ */
+const CASE_ENDING = new Set(["a", "u", "e", "i", "om", "oj", "ao"])
+
 /** Longest stem wins. Equal lengths keep this order. */
 const STEMS: ReadonlyArray<readonly [string, ActType]> = [
   ["pravilnik", "pravilnik"],
@@ -144,10 +150,10 @@ function translateChars(value: string, from: string, to: string): string {
   return [...value].map((ch) => (map.has(ch) ? map.get(ch)! : ch)).join("")
 }
 
-function foldToken(token: string): string {
-  const looked = CYRILLIC_LETTER.test(token)
-    ? translateChars(token, LOOKALIKE_FROM, LOOKALIKE_TO)
-    : token
+function foldPrefix(full: string, prefix: string): string {
+  const looked = CYRILLIC_LETTER.test(full)
+    ? translateChars(prefix, LOOKALIKE_FROM, LOOKALIKE_TO)
+    : prefix
   const expanded = looked
     .replaceAll("ђ", "dj")
     .replaceAll("љ", "lj")
@@ -155,6 +161,10 @@ function foldToken(token: string): string {
     .replaceAll("џ", "dz")
     .replaceAll("đ", "dj")
   return translateChars(expanded, FOLD_FROM, FOLD_TO)
+}
+
+function foldToken(token: string): string {
+  return foldPrefix(token, token)
 }
 
 function matchStem(folded: string): ActType | null {
@@ -181,14 +191,17 @@ function normalizeTitle(lawNameLocal: string): string {
     .trim()
 }
 
+function windowOf<T>(tokens: readonly T[], firstIsPureNumber: boolean): readonly T[] {
+  const start = firstIsPureNumber ? 1 : 0
+  return tokens.slice(start, 4)
+}
+
 function tokenAct(norm: string): ActType | null {
   const tokens = norm
     .split(" ")
     .map((token) => token.replace(/[.,:;–—-]+$/u, ""))
     .filter(Boolean)
-  const candidates = /^[0-9]+$/.test(tokens[0] ?? "")
-    ? tokens.slice(1, 4)
-    : tokens.slice(0, 4)
+  const candidates = windowOf(tokens, /^[0-9]+$/.test(tokens[0] ?? ""))
   for (const token of candidates) {
     const act = matchStem(foldToken(token))
     if (act) return act
@@ -216,4 +229,77 @@ export function classifyActType(lawNameLocal: string): {
     actType = "kolektivni_ugovor"
   }
   return { actType, tier: actTier(actType) }
+}
+
+const DISPLAY_LEAD = /^[\s"'„“«‚‘»]+/u
+const DISPLAY_TRAIL = /[.,:;–—-]+$/u
+
+type DisplayToken = {
+  core: string
+  trail: string
+  start: number
+  end: number
+}
+
+function displayTokens(name: string): DisplayToken[] {
+  const lead = name.match(DISPLAY_LEAD)?.[0].length ?? 0
+  const tokens: DisplayToken[] = []
+  const re = /\S+/g
+  let match: RegExpExecArray | null
+  const body = name.slice(lead)
+  while ((match = re.exec(body))) {
+    const raw = match[0]
+    const core = raw.replace(DISPLAY_TRAIL, "")
+    tokens.push({
+      core,
+      trail: raw.slice(core.length),
+      start: lead + match.index,
+      end: lead + match.index + raw.length,
+    })
+  }
+  return tokens
+}
+
+function stemCut(core: string): number {
+  if (!core) return -1
+  const folded = foldToken(core.toLowerCase())
+  if (/^[0-9]/.test(folded)) return -1
+  for (const { entry } of STEMS_LONGEST_FIRST) {
+    const [stem] = entry
+    if (!folded.startsWith(stem)) continue
+    const rest = folded.slice(stem.length)
+    if (rest.length > 0 && !GLUE.has(rest)) continue
+    if (rest.length === 0 || stem === "uputstv" || CASE_ENDING.has(rest)) return -1
+    const fullLower = core.toLowerCase()
+    const chars = [...core]
+    for (let k = 0; k <= chars.length; k++) {
+      const prefix = chars.slice(0, k).join("")
+      const prefixFold = foldPrefix(fullLower, prefix.toLowerCase())
+      if (prefixFold === stem) return prefix.length
+      if (prefixFold.length > stem.length) return -1
+    }
+    return -1
+  }
+  return -1
+}
+
+/**
+ * Display only. Inserts a space after an act-type stem when the remainder
+ * is a word glue. Does not change classifyActType, and refuses the stem
+ * `uputstv` so УПУТСТВО stays one word.
+ */
+export function insertActTypeSpaces(name: string): string {
+  const tokens = displayTokens(name)
+  const windowTokens = windowOf(tokens, /^[0-9]+$/.test(tokens[0]?.core ?? ""))
+  const hits: Array<{ token: DisplayToken; cut: number }> = []
+  for (const token of windowTokens) {
+    const cut = stemCut(token.core)
+    if (cut > 0) hits.push({ token, cut })
+  }
+  let out = name
+  for (const hit of hits.sort((a, b) => b.token.start - a.token.start)) {
+    const next = `${hit.token.core.slice(0, hit.cut)} ${hit.token.core.slice(hit.cut)}${hit.token.trail}`
+    out = out.slice(0, hit.token.start) + next + out.slice(hit.token.end)
+  }
+  return out
 }

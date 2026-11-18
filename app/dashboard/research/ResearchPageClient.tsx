@@ -37,6 +37,7 @@ import {
   UNOFFICIAL_CONSOLIDATION_CAPTION,
 } from "@/lib/unofficialConsolidation"
 import { articleCitationLabel } from "@/lib/articleCitation"
+import { normaliseLawName } from "@/lib/lawNameDisplay"
 import { excerptBadgeText, statuteDisplayBody, trimExcerpt } from "@/lib/excerptTrim"
 import { showsExcerptCard } from "@/lib/researchExcerptFlags"
 import {
@@ -165,7 +166,7 @@ function formatImplementingActsLine(
   if (!group.acts?.length || !group.top?.length) return null
   const copy = IMPLEMENTING_ACTS_COPY[group.jurisdiction]
   if (!copy) return null
-  const names = group.top.map((act) => act.name).join(", ")
+  const names = group.top.map((act) => normaliseLawName(act.name)).join(", ")
   const remainder = group.total - group.top.length
   if (remainder > 0) return `${copy.label} ${names} — ${copy.more} ${remainder}`
   return `${copy.label} ${names}`
@@ -220,7 +221,7 @@ function researchStatuteTitle(item: {
   law_name?: string | null
 }): string {
   const local = item.law_name_local
-  if (local != null && local.trim() !== "") return local
+  if (local != null && local.trim() !== "") return normaliseLawName(local)
   return item.law_name ?? ""
 }
 
