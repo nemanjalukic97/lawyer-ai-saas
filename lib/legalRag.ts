@@ -998,6 +998,8 @@ async function searchLegalArticlesByKeyword(args: {
   jurisdiction: string
   category: string | null
   matchCount: number
+  /** Research search only. Clamped at the function ceiling of 100. */
+  keywordRpcLimit?: number
   skipLaborHeuristic?: boolean
   includeStateCourt?: boolean
   skipKeywordChannel?: boolean
@@ -1063,7 +1065,10 @@ async function searchLegalArticlesByKeyword(args: {
   const rpcCategories = rpcCategory
     ? lawCategoriesForAreaFilter(rpcCategory)
     : null
-  const rpcLimit = Math.min(100, Math.max(40, args.matchCount * 6))
+  const rpcLimit =
+    args.keywordRpcLimit == null
+      ? Math.min(100, Math.max(40, args.matchCount * 6))
+      : Math.min(100, Math.max(1, Math.floor(args.keywordRpcLimit)))
   const tokenGroups = patterns.contentTokens.map((t) => [
     ...new Set([...t.variants, ...t.stems].filter(Boolean)),
   ])
@@ -1915,7 +1920,8 @@ function applyActTypePenalty(chunks: LegalChunk[]): LegalChunk[] {
 const VECTOR_OVERFETCH_FACTOR = 4
 const VECTOR_OVERFETCH_MAX = 60
 /** Final statute yield is matchCount * 2. Keyword candidates kept for
- * reranking are the RPC limit (6×, floor 40, cap 100), not matchCount.
+ * reranking are the RPC limit, not matchCount. The generator keeps
+ * 6× matchCount, floor 40, cap 100. Research search passes 100.
  * Vector candidates are matchCount * 4, capped at 60. */
 const FINAL_YIELD_FACTOR = 2
 
@@ -3108,6 +3114,11 @@ export async function matchLegalArticles(args: {
    * get the penalty. retrieveLegalContext passes false.
    */
   applyActTypePenalty?: boolean
+  /**
+   * Research search only. Replaces the 6× keyword pool. Clamped at 100,
+   * the function ceiling. Omit it and the generator's formula stays.
+   */
+  keywordRpcLimit?: number
 }): Promise<{
   chunks: LegalChunk[]
   usedThreshold: number
@@ -3132,6 +3143,7 @@ export async function matchLegalArticles(args: {
     jurisdiction: args.jurisdiction,
     category: rpcFilter,
     matchCount,
+    keywordRpcLimit: args.keywordRpcLimit,
     skipLaborHeuristic: args.categoryMode === "hint" && normalizedCategory != null,
     includeStateCourt,
     skipKeywordChannel:

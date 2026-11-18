@@ -354,6 +354,7 @@ export async function POST(req: NextRequest) {
                 jurisdiction: j,
                 category,
                 matchCount,
+                keywordRpcLimit: 100,
                 similarityThreshold: 0.25,
                 retryIfEmpty: true,
                 applyActTypePenalty: true,
