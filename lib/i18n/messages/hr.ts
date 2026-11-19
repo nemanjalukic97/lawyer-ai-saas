@@ -457,6 +457,8 @@ export const hrMessages: Messages = {
       errors: {
         queryRequired: "Unesite upit za pretragu.",
         searchFailed: "Pretraga nije uspjela. Pokušajte ponovo.",
+        incomplete:
+          "Neki izvori nisu dovršeni na vrijeme. Ovo su rezultati koji su dohvaćeni.",
         historyFailed: "Nije moguće učitati nedavne pretrage.",
         saveFailed: "Nije moguće spremiti istraživanje.",
         deleteFailed: "Nije moguće obrisati istraživanje.",

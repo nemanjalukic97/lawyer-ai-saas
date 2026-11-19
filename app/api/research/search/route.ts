@@ -6,6 +6,7 @@ import { createClient } from "@/lib/supabase/server"
 import { getSubscriptionContextForUser } from "@/app/dashboard/lib/getEntitlementPlan"
 import { PLAN_ENTITLEMENTS } from "@/app/dashboard/lib/entitlements"
 import {
+  abandonedArmsForTiming,
   compareLegalChunks,
   legalArticleMergeKey,
   matchLegalArticles,
@@ -17,6 +18,8 @@ import {
   type CaseLawContextResult,
   type LegalChunk,
   type MatchChannel,
+  type RagStageTiming,
+  type ResearchAbandonedArm,
 } from "@/lib/legalRag"
 import { parseSearchTokens } from "@/lib/highlightSearchTerms"
 import { normalizeJurisdiction } from "@/lib/normalizeJurisdiction"
@@ -79,6 +82,13 @@ type ResearchCaseLawResultItem = {
 
 const PER_JURIS_CAP = 50
 const DEFAULT_LIMIT = 10
+/** Under the 60s platform limit. Vector race is 40s, SQL cancel is 35s. */
+const RESEARCH_ROUTE_BUDGET_MS = 45000
+
+type AbandonedEntry = {
+  arm: ResearchAbandonedArm
+  jurisdiction: string | null
+}
 
 function normalizeQuery(input: string): string {
   return input.trim().replace(/\s+/g, " ").trim()
@@ -106,25 +116,42 @@ async function fetchCaseLawForJurisdictions(
   jurisdictions: string[],
   category: string | null,
   matchCount: number,
-): Promise<CaseLawContextResult[]> {
+  signal?: AbortSignal,
+): Promise<Array<CaseLawContextResult & { timing?: RagStageTiming }>> {
   const caseLawOpts = {
     k: Math.max(10, matchCount),
     ...(category ? { legalArea: category } : {}),
   }
 
   return Promise.all(
-    jurisdictions.map((j) =>
-      retrieveCaseLawContext(query, j, caseLawOpts).catch((err) => {
-        const message = err instanceof Error ? err.message : String(err)
-        // eslint-disable-next-line no-console
-        console.error("[research/search] case law failed", j, message, err)
-        return {
-          cases: [] as CaseLawChunk[],
-          confidence: "none" as const,
-          topSimilarity: 0,
-        }
-      }),
-    ),
+    jurisdictions.map((j) => {
+      const started = Date.now()
+      return retrieveCaseLawContext(query, j, { ...caseLawOpts, signal }).catch(
+        (err) => {
+          const message = err instanceof Error ? err.message : String(err)
+          const elapsed = Date.now() - started
+          // eslint-disable-next-line no-console
+          console.error("[research/search] case law failed", j, message, err)
+          const timing: RagStageTiming = {
+            embedMs: 0,
+            vectorRpcMs: elapsed,
+            keywordMs: 0,
+            keywordTimedOut: signal?.aborted === true,
+            vectorFailed: true,
+            vectorError: message,
+            mergeRerankMs: 0,
+            totalMs: elapsed,
+            vectorRetried: false,
+          }
+          return {
+            cases: [] as CaseLawChunk[],
+            confidence: "none" as const,
+            topSimilarity: 0,
+            timing,
+          }
+        },
+      )
+    }),
   )
 }
 
@@ -292,6 +319,11 @@ export async function POST(req: NextRequest) {
   const fetchLaws = scope === "laws" || scope === "both"
   const fetchCaseLaw = scope === "caselaw" || scope === "both"
 
+  const routeAbort = new AbortController()
+  const budgetTimer = setTimeout(
+    () => routeAbort.abort(),
+    RESEARCH_ROUTE_BUDGET_MS,
+  )
   try {
     const { planId, lawFirmId } = await getSubscriptionContextForUser(
       supabase,
@@ -345,10 +377,11 @@ export async function POST(req: NextRequest) {
       })
     }
 
+    const lawStarted = jurisdictions.map(() => Date.now())
     const [searches, caseLawSearches] = await Promise.all([
       fetchLaws
         ? Promise.all(
-            jurisdictions.map((j) =>
+            jurisdictions.map((j, index) =>
               matchLegalArticles({
                 query,
                 jurisdiction: j,
@@ -358,6 +391,7 @@ export async function POST(req: NextRequest) {
                 similarityThreshold: 0.25,
                 retryIfEmpty: true,
                 applyActTypePenalty: true,
+                signal: routeAbort.signal,
               })
                 .then((result) => {
                   // eslint-disable-next-line no-console
@@ -372,8 +406,20 @@ export async function POST(req: NextRequest) {
                 })
                 .catch((err) => {
                   const message = err instanceof Error ? err.message : String(err)
+                  const elapsed = Date.now() - lawStarted[index]!
                   // eslint-disable-next-line no-console
                   console.error("[research/search] laws failed", j, message, err)
+                  const timing: RagStageTiming = {
+                    embedMs: 0,
+                    vectorRpcMs: elapsed,
+                    keywordMs: 0,
+                    keywordTimedOut: routeAbort.signal.aborted,
+                    vectorFailed: true,
+                    vectorError: message,
+                    mergeRerankMs: 0,
+                    totalMs: elapsed,
+                    vectorRetried: false,
+                  }
                   return {
                     chunks: [] as LegalChunk[],
                     usedThreshold: 0.25,
@@ -384,15 +430,7 @@ export async function POST(req: NextRequest) {
                       results: [],
                     } satisfies AreaInferenceLog,
                     failed: true as const,
-                    timing: {
-                      embedMs: 0,
-                      vectorRpcMs: 0,
-                      keywordMs: 0,
-                      keywordTimedOut: false,
-                      mergeRerankMs: 0,
-                      totalMs: 0,
-                      vectorRetried: false,
-                    },
+                    timing,
                   }
                 }),
             ),
@@ -404,8 +442,9 @@ export async function POST(req: NextRequest) {
             jurisdictions,
             category,
             matchCount,
+            routeAbort.signal,
           )
-        : Promise.resolve([] as CaseLawContextResult[]),
+        : Promise.resolve([] as Array<CaseLawContextResult & { timing?: RagStageTiming }>),
     ])
 
     const lawTimings = searches
@@ -447,9 +486,11 @@ export async function POST(req: NextRequest) {
       ? summarizeMatchChannelsForLog(sorted.slice(0, 20))
       : null
 
-    let caseLawSearchRuns: CaseLawContextResult[] = caseLawSearches
+    let caseLawSearchRuns: Array<CaseLawContextResult & { timing?: RagStageTiming }> =
+      caseLawSearches
     let sortedCases = fetchCaseLaw ? mergeCaseLawChunks(caseLawSearchRuns) : []
 
+    let caseRetrySkipped = false
     if (
       fetchCaseLaw &&
       category == null &&
@@ -458,7 +499,9 @@ export async function POST(req: NextRequest) {
       sorted.length > 0
     ) {
       const inferredAreas = inferLegalAreasFromLawChunks(sorted)
-      if (inferredAreas.length > 0) {
+      if (inferredAreas.length > 0 && routeAbort.signal.aborted) {
+        caseRetrySkipped = true
+      } else if (inferredAreas.length > 0) {
         // eslint-disable-next-line no-console
         console.error("[research/search] case law retry by inferred areas", {
           inferredAreas,
@@ -471,6 +514,7 @@ export async function POST(req: NextRequest) {
               jurisdictions,
               area,
               matchCount,
+              routeAbort.signal,
             ),
           ),
         )
@@ -548,6 +592,79 @@ export async function POST(req: NextRequest) {
     }
     if (!fetchCaseLaw || caseLawResults.length === 0) caseLawConfidence = "none"
 
+    let implementingActs: Awaited<ReturnType<typeof lookupImplementingActs>> = []
+    let implementingActsSkipped = false
+    if (fetchLaws && (lawPage.length > 0 || lowLawPage.length > 0)) {
+      if (routeAbort.signal.aborted) {
+        implementingActsSkipped = true
+      } else {
+        try {
+          implementingActs = await lookupImplementingActs([
+            ...lawPage.map((chunk) => ({
+              jurisdiction: chunk.jurisdiction,
+              law_name_local: chunk.law_name_local,
+            })),
+            ...lowLawPage.map((chunk) => ({
+              jurisdiction: chunk.jurisdiction,
+              law_name_local: chunk.law_name_local,
+            })),
+          ])
+        } catch (err) {
+          // The citation table is not an input to ranking. A read failure
+          // leaves the field empty and the result list unchanged.
+          // eslint-disable-next-line no-console
+          console.error(
+            "[research/search] implementing acts lookup failed",
+            err instanceof Error ? err.message : String(err),
+          )
+        }
+      }
+    }
+
+    const abandoned: AbandonedEntry[] = []
+    if (fetchLaws) {
+      searches.forEach((run, index) => {
+        for (const arm of abandonedArmsForTiming("statute", run.timing)) {
+          abandoned.push({
+            arm,
+            jurisdiction: jurisdictions[index] ?? null,
+          })
+        }
+      })
+    }
+    if (fetchCaseLaw) {
+      const firstPass = caseLawSearches.length
+      caseLawSearchRuns.forEach((run, index) => {
+        const jurisdiction =
+          index < firstPass
+            ? jurisdictions[index] ?? null
+            : run.cases[0]?.jurisdiction ?? normalizedJurisdiction
+        for (const arm of abandonedArmsForTiming("case", run.timing)) {
+          abandoned.push({ arm, jurisdiction })
+        }
+      })
+    }
+    if (caseRetrySkipped) {
+      abandoned.push({
+        arm: "case_retry",
+        jurisdiction: normalizedJurisdiction,
+      })
+    }
+    if (implementingActsSkipped) {
+      abandoned.push({ arm: "implementing_acts", jurisdiction: null })
+    }
+    const incomplete = abandoned.length > 0
+    const loggedCaseLawTimings = caseLawSearchRuns
+      .map((run, index) => {
+        if (!run.timing) return null
+        const jurisdiction =
+          index < caseLawSearches.length
+            ? jurisdictions[index] ?? null
+            : run.cases[0]?.jurisdiction ?? normalizedJurisdiction
+        return { jurisdiction, ...run.timing }
+      })
+      .filter(Boolean)
+
     const shouldLogUsage = page === 1 && scope === "both"
     if (shouldLogUsage) {
       try {
@@ -578,9 +695,12 @@ export async function POST(req: NextRequest) {
             ),
             has_highly_relevant_laws: hasHighlyRelevantLaws,
             has_highly_relevant_case_law: hasHighlyRelevantCaseLaw,
+            incomplete,
+            abandoned,
+            route_budget_ms: RESEARCH_ROUTE_BUDGET_MS,
             timing: {
               laws: lawTimings,
-              case_law: caseLawTimings,
+              case_law: loggedCaseLawTimings,
             },
           } as any,
         }
@@ -620,33 +740,11 @@ export async function POST(req: NextRequest) {
           timing: run.timing,
           failed: "failed" in run && run.failed === true,
         })),
+        incomplete,
+        abandoned,
       })
       // eslint-disable-next-line no-console
       console.error("[research/search] legal_search_logs insert", { ms: logMs })
-    }
-
-    let implementingActs: Awaited<ReturnType<typeof lookupImplementingActs>> = []
-    if (fetchLaws && (lawPage.length > 0 || lowLawPage.length > 0)) {
-      try {
-        implementingActs = await lookupImplementingActs([
-          ...lawPage.map((chunk) => ({
-            jurisdiction: chunk.jurisdiction,
-            law_name_local: chunk.law_name_local,
-          })),
-          ...lowLawPage.map((chunk) => ({
-            jurisdiction: chunk.jurisdiction,
-            law_name_local: chunk.law_name_local,
-          })),
-        ])
-      } catch (err) {
-        // The citation table is not an input to ranking. A read failure
-        // leaves the field empty and the result list unchanged.
-        // eslint-disable-next-line no-console
-        console.error(
-          "[research/search] implementing acts lookup failed",
-          err instanceof Error ? err.message : String(err),
-        )
-      }
     }
 
     return Response.json({
@@ -668,8 +766,12 @@ export async function POST(req: NextRequest) {
       hasMoreLowConfidenceLaws,
       hasMoreCaseLaw,
       hasMoreLowConfidenceCaseLaw,
+      incomplete,
+      abandoned,
     })
   } catch {
     return Response.json({ error: "Internal server error" }, { status: 500 })
+  } finally {
+    clearTimeout(budgetTimer)
   }
 }

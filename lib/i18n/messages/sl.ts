@@ -457,6 +457,8 @@ export const slMessages: Messages = {
       errors: {
         queryRequired: "Vnesite iskalni niz.",
         searchFailed: "Iskanje ni uspelo. Poskusite znova.",
+        incomplete:
+          "Nekateri viri se niso končali pravočasno. To so rezultati, ki so bili pridobljeni.",
         historyFailed: "Ni mogoče naložiti nedavnih iskanj.",
         saveFailed: "Ni mogoče shraniti raziskave.",
         deleteFailed: "Ni mogoče izbrisati raziskave.",

@@ -148,6 +148,11 @@ type SearchResponse = {
   hasMoreLowConfidenceLaws?: boolean
   hasMoreCaseLaw?: boolean
   hasMoreLowConfidenceCaseLaw?: boolean
+  incomplete?: boolean
+  abandoned?: Array<{
+    arm: string
+    jurisdiction: string | null
+  }>
 }
 
 function formatImplementingActsLine(
@@ -1004,6 +1009,8 @@ export function ResearchPageClient({
             hasMoreLaws: json.hasMoreLaws ?? false,
             hasMoreLowConfidenceLaws: json.hasMoreLowConfidenceLaws ?? false,
             limit: json.limit ?? prev.limit,
+            incomplete: Boolean(prev.incomplete || json.incomplete),
+            abandoned: [...(prev.abandoned ?? []), ...(json.abandoned ?? [])],
           }
         }
         return {
@@ -1023,6 +1030,8 @@ export function ResearchPageClient({
             json.hasMoreLowConfidenceCaseLaw ?? false,
           caseLawConfidence: json.caseLawConfidence ?? prev.caseLawConfidence,
           limit: json.limit ?? prev.limit,
+          incomplete: Boolean(prev.incomplete || json.incomplete),
+          abandoned: [...(prev.abandoned ?? []), ...(json.abandoned ?? [])],
         }
       })
 
@@ -1380,7 +1389,13 @@ export function ResearchPageClient({
                   </div>
                 )
               ) : (
-                <ResearchResultsTabs
+                <>
+                  {results.incomplete ? (
+                    <p className="text-sm text-amber-900 dark:text-amber-100" role="status">
+                      {t("research.errors.incomplete")}
+                    </p>
+                  ) : null}
+                  <ResearchResultsTabs
                   results={results}
                   activeTab={resultsTab}
                   onTabChange={setResultsTab}
@@ -1392,6 +1407,7 @@ export function ResearchPageClient({
                   onLoadMoreLaws={() => void loadMore("laws")}
                   onLoadMoreCaseLaw={() => void loadMore("caselaw")}
                 />
+                </>
               )}
             </section>
           </div>

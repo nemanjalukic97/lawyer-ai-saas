@@ -457,6 +457,8 @@ export const enMessages: Messages = {
       errors: {
         queryRequired: "Please enter a search query.",
         searchFailed: "Search failed. Please try again.",
+        incomplete:
+          "Some sources did not finish in time. These are the results that were retrieved.",
         historyFailed: "Could not load recent searches.",
         saveFailed: "Could not save research session.",
         deleteFailed: "Could not delete research session.",

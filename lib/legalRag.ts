@@ -147,16 +147,19 @@ export type RagFilterMode = "filter" | "hint"
 
 const RPC_TIMEOUT_MS = 30000
 /**
- * Known issue (out of scope of the keyword split / 0.22/(2n) band).
- * Unfiltered vector search on large corpora (serbia, bih_rs) is slow: labor-
- * prediction timing fail and the single phrase circuit-breaker fire are that
- * RPC (p95 2012 of 2515). Do not treat them as keyword-channel defects.
- * Matches Postgres statement_timeout in match_legal_articles (120s).
+ * Unfiltered statute vector race. Logged vector time never exceeded 6.2s.
+ * The live function still says 120s until match_legal_articles is replaced;
+ * the replacement is 35s, so this race sits 5s above that cancel and 5s
+ * below the 45s research route budget. A tie would leave the winner to
+ * whichever promise settles first in the same tick.
  */
-const LEGAL_RPC_TIMEOUT_UNFILTERED_MS = 120000
+const LEGAL_RPC_TIMEOUT_UNFILTERED_MS = 40000
 const CASE_LAW_RPC_TIMEOUT_MS = 12000
-/** Unfiltered vector search on large corpora (e.g. bih_rs) can exceed 12s. */
-const CASE_LAW_RPC_TIMEOUT_UNFILTERED_MS = 60000
+/**
+ * Unfiltered case-law vector race. service_role statement_timeout is 30s
+ * and these functions do not override it, so the role fires first.
+ */
+const CASE_LAW_RPC_TIMEOUT_UNFILTERED_MS = 40000
 
 const LARGE_CORPUS_JURISDICTIONS = new Set([
   "bih_rs",
@@ -244,12 +247,18 @@ const CASE_LAW_VENUE_CHANNEL_EMBED_QUERY =
 const CASE_LAW_VENUE_CHANNEL_KEYWORD_QUERY =
   "Koji je sud stvarno nadležan?"
 
-async function embedQueryText(text: string): Promise<number[]> {
+async function embedQueryText(
+  text: string,
+  signal?: AbortSignal,
+): Promise<number[]> {
   try {
-    const res = await openai.embeddings.create({
-      model: "text-embedding-3-small",
-      input: text,
-    })
+    const res = await openai.embeddings.create(
+      {
+        model: "text-embedding-3-small",
+        input: text,
+      },
+      signal ? { signal } : undefined,
+    )
 
     const embedding = res.data?.[0]?.embedding
     if (!embedding) throw new Error("missing embedding")
@@ -268,6 +277,7 @@ async function runMatchLegalArticlesRpc(args: {
   similarityThreshold: number
   timeoutMs?: number
   includeStateCourt?: boolean
+  signal?: AbortSignal
 }): Promise<LegalChunk[]> {
   const rpcArgs: Record<string, unknown> = {
     query_embedding: args.embedding,
@@ -281,28 +291,29 @@ async function runMatchLegalArticlesRpc(args: {
     rpcArgs.filter_category = category
   }
 
-  const rpcCall = supabaseAdmin.rpc("match_legal_articles", rpcArgs)
-
   const timeoutMs =
     args.timeoutMs ?? getLegalRpcTimeoutMs(category, args.jurisdiction)
-
-  const timeoutPromise = new Promise<never>((_, reject) =>
-    setTimeout(
-      () => reject(new Error(`RAG RPC timeout after ${timeoutMs}ms`)),
-      timeoutMs,
-    ),
-  )
-
-  const { data, error } = (await Promise.race([
-    rpcCall,
-    timeoutPromise,
-  ])) as { data: LegalChunk[] | null; error: { message: string } | null }
-
-  if (error) {
-    throw new Error(error.message)
+  const controller = new AbortController()
+  linkParentAbort(args.signal, controller)
+  let timer: ReturnType<typeof setTimeout> | undefined
+  timer = setTimeout(() => controller.abort(), timeoutMs)
+  try {
+    if (controller.signal.aborted) {
+      throw new Error(`RAG RPC timeout after ${timeoutMs}ms`)
+    }
+    const { data, error } = await supabaseAdmin
+      .rpc("match_legal_articles", rpcArgs)
+      .abortSignal(controller.signal)
+    if (error) throw new Error(error.message)
+    return (data ?? []) as LegalChunk[]
+  } catch (err) {
+    if (controller.signal.aborted) {
+      throw new Error(`RAG RPC timeout after ${timeoutMs}ms`)
+    }
+    throw err instanceof Error ? err : new Error(String(err))
+  } finally {
+    if (timer) clearTimeout(timer)
   }
-
-  return (data ?? []) as LegalChunk[]
 }
 
 function scoreKeywordTextMatch(
@@ -494,20 +505,53 @@ function getKeywordCaseLawBudgetMs(): number {
   return Number.isFinite(n) && n > 0 ? n : KEYWORD_CASE_LAW_BUDGET_MS
 }
 
+function linkParentAbort(
+  parent: AbortSignal | undefined,
+  child: AbortController,
+): void {
+  if (!parent) return
+  if (parent.aborted) {
+    child.abort()
+    return
+  }
+  parent.addEventListener("abort", () => child.abort(), { once: true })
+}
+
+/** SQL cancel, the local race, and a bad embedding are not worth a second pass. */
+function isTerminalVectorError(message: string, signal?: AbortSignal): boolean {
+  if (signal?.aborted) return true
+  return /timeout|statement timeout|canceling statement|abort|dimension/i.test(
+    message,
+  )
+}
+
 async function withTimeout<T>(
   promise: Promise<T>,
   timeoutMs: number,
   label: string,
   abort?: AbortController,
 ): Promise<T> {
+  if (abort?.signal.aborted) {
+    throw new KeywordBudgetExceededError(label, timeoutMs)
+  }
   let timer: ReturnType<typeof setTimeout> | undefined
   let budgetExceeded: KeywordBudgetExceededError | undefined
+  let onAbort: (() => void) | undefined
+  // A late abort rejects the original promise after the race has settled.
+  void promise.then(
+    () => undefined,
+    () => undefined,
+  )
   const timeoutPromise = new Promise<never>((_, reject) => {
-    timer = setTimeout(() => {
+    const fail = () => {
+      if (budgetExceeded) return
       budgetExceeded = new KeywordBudgetExceededError(label, timeoutMs)
-      abort?.abort()
+      if (abort && !abort.signal.aborted) abort.abort()
       reject(budgetExceeded)
-    }, timeoutMs)
+    }
+    onAbort = fail
+    timer = setTimeout(fail, timeoutMs)
+    abort?.signal.addEventListener("abort", fail)
   })
   try {
     return await Promise.race([promise, timeoutPromise])
@@ -516,6 +560,7 @@ async function withTimeout<T>(
     throw err
   } finally {
     if (timer) clearTimeout(timer)
+    if (onAbort) abort?.signal.removeEventListener("abort", onAbort)
   }
 }
 
@@ -988,6 +1033,7 @@ async function searchLegalArticlesByKeyword(args: {
   skipLaborHeuristic?: boolean
   includeStateCourt?: boolean
   skipKeywordChannel?: boolean
+  signal?: AbortSignal
 }): Promise<KeywordSearchResult<LegalChunk>> {
   const started = Date.now()
   const query = args.query.trim()
@@ -1148,6 +1194,9 @@ async function searchLegalArticlesByKeyword(args: {
 
   const stagesStarted = Date.now()
   const stage1Abort = new AbortController()
+  const budgetAbort = new AbortController()
+  linkParentAbort(args.signal, stage1Abort)
+  linkParentAbort(args.signal, budgetAbort)
   const stage1Promise =
     phrasePatterns.length === 0
       ? Promise.resolve([] as LegalChunk[])
@@ -1164,7 +1213,6 @@ async function searchLegalArticlesByKeyword(args: {
         )
 
   const budgetMs = getKeywordSearchBudgetMs()
-  const abort = new AbortController()
   const stage2Promise =
     tokenPatterns.length === 0 || skipPartial
       ? Promise.resolve([] as LegalChunk[])
@@ -1173,11 +1221,11 @@ async function searchLegalArticlesByKeyword(args: {
             ...rpcBase,
             patterns: tokenPatterns,
             tokenGroups,
-            signal: abort.signal,
+            signal: budgetAbort.signal,
           }),
           budgetMs,
           "keyword legal search",
-          abort,
+          budgetAbort,
         ).then(async (rows) => {
           const loaded = await idfPromise
           recordIdfLoad(loaded, false)
@@ -2039,8 +2087,34 @@ export type RagStageTiming = {
   mergeRerankMs: number
   totalMs: number
   vectorRetried: boolean
+  /** Vector RPC threw, timed out, or was aborted. Keyword rows are still merged. */
+  vectorFailed?: boolean
+  vectorError?: string | null
   distillMs?: number
   distilledRetrieveMs?: number
+}
+
+export type ResearchAbandonedArm =
+  | "statute_vector"
+  | "statute_keyword"
+  | "case_vector"
+  | "case_keyword"
+  | "case_retry"
+  | "implementing_acts"
+
+export function abandonedArmsForTiming(
+  scope: "statute" | "case",
+  timing: RagStageTiming | undefined,
+): ResearchAbandonedArm[] {
+  if (!timing) return []
+  const arms: ResearchAbandonedArm[] = []
+  if (timing.vectorFailed) {
+    arms.push(scope === "statute" ? "statute_vector" : "case_vector")
+  }
+  if (timing.keywordTimedOut) {
+    arms.push(scope === "statute" ? "statute_keyword" : "case_keyword")
+  }
+  return arms
 }
 
 function applyAreaAwareReranking<T extends {
@@ -2150,13 +2224,17 @@ async function searchCaseLawByKeyword(args: {
   jurisdiction: string
   legalArea: string | null
   matchCount: number
+  signal?: AbortSignal
 }): Promise<KeywordSearchResult<CaseLawChunk>> {
   const started = Date.now()
+  const controller = new AbortController()
+  linkParentAbort(args.signal, controller)
   try {
     const rows = await withTimeout(
-      searchCaseLawByKeywordInner(args),
+      searchCaseLawByKeywordInner({ ...args, signal: controller.signal }),
       getKeywordCaseLawBudgetMs(),
       "keyword case law search",
+      controller,
     )
     return { rows, elapsedMs: Date.now() - started, timedOut: false, skipReason: null }
   } catch (err) {
@@ -2190,6 +2268,7 @@ async function searchCaseLawByKeywordInner(args: {
   jurisdiction: string
   legalArea: string | null
   matchCount: number
+  signal?: AbortSignal
 }): Promise<CaseLawChunk[]> {
   const query = args.query.trim()
   if (query.length < 2) return []
@@ -2207,12 +2286,14 @@ async function searchCaseLawByKeywordInner(args: {
   // No labor-area heuristic here: case_law never had one (unlike statutes'
   // law_category pre-filter); partial indexes make an extra filter unnecessary
   // for latency, and legalArea is only applied when the caller passes it.
-  const { data, error } = await supabaseAdmin.rpc("search_case_law_keyword", {
+  let rpcCall = supabaseAdmin.rpc("search_case_law_keyword", {
     p_jurisdiction: args.jurisdiction,
     p_patterns: allPatterns,
     p_limit: Math.max(args.matchCount * 3, 15),
     p_legal_area: legalArea,
   })
+  if (args.signal) rpcCall = rpcCall.abortSignal(args.signal)
+  const { data, error } = await rpcCall
   if (error) {
     throw new Error(error.message)
   }
@@ -2313,6 +2394,7 @@ async function runMatchCaseLawRpc(args: {
   matchCount: number
   similarityThreshold: number
   timeoutMs?: number
+  signal?: AbortSignal
 }): Promise<CaseLawChunk[]> {
   const rpcArgs: Record<string, unknown> = {
     query_embedding: args.embedding,
@@ -2328,32 +2410,28 @@ async function runMatchCaseLawRpc(args: {
     rpcArgs.filter_court_level = args.courtLevel
   }
 
-  const rpcCall = supabaseAdmin.rpc("match_case_law", rpcArgs)
-
   const timeoutMs =
     args.timeoutMs ?? getCaseLawRpcTimeoutMs(legalArea, args.jurisdiction)
-
-  const timeoutPromise = new Promise<never>((_, reject) =>
-    setTimeout(
-      () =>
-        reject(new Error(`RAG case law RPC timeout after ${timeoutMs}ms`)),
-      timeoutMs,
-    ),
-  )
-
-  const { data, error } = (await Promise.race([
-    rpcCall,
-    timeoutPromise,
-  ])) as {
-    data: CaseLawChunk[] | null
-    error: { message: string } | null
+  const controller = new AbortController()
+  linkParentAbort(args.signal, controller)
+  const timer = setTimeout(() => controller.abort(), timeoutMs)
+  try {
+    if (controller.signal.aborted) {
+      throw new Error(`RAG case law RPC timeout after ${timeoutMs}ms`)
+    }
+    const { data, error } = await supabaseAdmin
+      .rpc("match_case_law", rpcArgs)
+      .abortSignal(controller.signal)
+    if (error) throw new Error(error.message)
+    return normalizeCaseLawChunks(data ?? [])
+  } catch (err) {
+    if (controller.signal.aborted) {
+      throw new Error(`RAG case law RPC timeout after ${timeoutMs}ms`)
+    }
+    throw err instanceof Error ? err : new Error(String(err))
+  } finally {
+    clearTimeout(timer)
   }
-
-  if (error) {
-    throw new Error(error.message)
-  }
-
-  return normalizeCaseLawChunks(data ?? [])
 }
 
 function asStringArray(v: unknown): string[] | null {
@@ -2424,6 +2502,7 @@ async function matchCaseLawWithEmbedding(args: {
   similarityThreshold?: number
   retryIfEmpty?: boolean
   rpcTimeoutMs?: number
+  signal?: AbortSignal
   /** When set, embedMs is attributed to a shared upstream embedding call. */
   embedMs?: number
 }): Promise<{
@@ -2461,6 +2540,7 @@ async function matchCaseLawWithEmbedding(args: {
           jurisdiction: args.jurisdiction,
           legalArea: rpcFilter,
           matchCount,
+          signal: args.signal,
         })
       : Promise.resolve({
           rows: [] as CaseLawChunk[],
@@ -2469,32 +2549,50 @@ async function matchCaseLawWithEmbedding(args: {
         })
 
   const vectorStarted = Date.now()
-  let data = await runMatchCaseLawRpc({
-    embedding: args.embedding,
-    jurisdiction: args.jurisdiction,
-    legalArea: rpcFilter,
-    courtLevel: args.courtLevel ?? null,
-    matchCount: args.matchCount ?? 6,
-    similarityThreshold: initialThreshold,
-    timeoutMs: rpcTimeoutMs,
-  })
+  let data: CaseLawChunk[] = []
+  let vectorError: string | null = null
+  if (args.embedding.length > 0 && !args.signal?.aborted) {
+    try {
+      data = await runMatchCaseLawRpc({
+        embedding: args.embedding,
+        jurisdiction: args.jurisdiction,
+        legalArea: rpcFilter,
+        courtLevel: args.courtLevel ?? null,
+        matchCount: args.matchCount ?? 6,
+        similarityThreshold: initialThreshold,
+        timeoutMs: rpcTimeoutMs,
+        signal: args.signal,
+      })
+    } catch (err) {
+      vectorError = err instanceof Error ? err.message : String(err)
+    }
+  } else if (args.signal?.aborted) {
+    vectorError = "RAG case law RPC aborted"
+  } else {
+    vectorError = "embedding failed"
+  }
 
-  if (data.length === 0 && shouldRetry) {
+  if (data.length === 0 && shouldRetry && !vectorError && !args.signal?.aborted) {
     // eslint-disable-next-line no-console
     console.log(
       `[RAG case law] no results at threshold ${initialThreshold}, retrying with ${thresholds.lowRetry}`,
     )
     retried = true
     usedThreshold = thresholds.lowRetry
-    data = await runMatchCaseLawRpc({
-      embedding: args.embedding,
-      jurisdiction: args.jurisdiction,
-      legalArea: rpcFilter,
-      courtLevel: args.courtLevel ?? null,
-      matchCount: args.matchCount ?? 6,
-      similarityThreshold: thresholds.lowRetry,
-      timeoutMs: rpcTimeoutMs,
-    })
+    try {
+      data = await runMatchCaseLawRpc({
+        embedding: args.embedding,
+        jurisdiction: args.jurisdiction,
+        legalArea: rpcFilter,
+        courtLevel: args.courtLevel ?? null,
+        matchCount: args.matchCount ?? 6,
+        similarityThreshold: thresholds.lowRetry,
+        timeoutMs: rpcTimeoutMs,
+        signal: args.signal,
+      })
+    } catch (err) {
+      vectorError = err instanceof Error ? err.message : String(err)
+    }
   }
   const vectorRpcMs = Date.now() - vectorStarted
 
@@ -2533,6 +2631,8 @@ async function matchCaseLawWithEmbedding(args: {
     mergeRerankMs,
     totalMs: Date.now() - totalStarted + (args.embedMs ?? 0),
     vectorRetried: retried,
+    vectorFailed: vectorError != null,
+    vectorError,
   }
 
   return { cases: reranked, usedThreshold, retried, areaInference, timing }
@@ -2667,6 +2767,7 @@ type CaseLawRetrievalArgs = {
   similarityThreshold?: number
   rpcTimeoutMs?: number
   embedMs: number
+  signal?: AbortSignal
 }
 
 async function retrieveCaseLawForJurisdiction(
@@ -2707,6 +2808,7 @@ async function retrieveCaseLawForJurisdiction(
     retryIfEmpty: true,
     rpcTimeoutMs: primaryTimeout,
     embedMs: 0,
+    signal: args.signal,
   })
 
   const venuePromise = runVenueChannel
@@ -2726,12 +2828,14 @@ async function retrieveCaseLawForJurisdiction(
             args.jurisdiction,
           ),
           embedMs: 0,
+          signal: args.signal,
         })
-        if (withUserQuery.cases.length >= procSlots) {
+        if (withUserQuery.cases.length >= procSlots || args.signal?.aborted) {
           return withUserQuery
         }
         const venueEmbedding = await embedQueryText(
           CASE_LAW_VENUE_CHANNEL_EMBED_QUERY,
+          args.signal,
         )
         return matchCaseLawWithEmbedding({
           embedding: venueEmbedding,
@@ -2748,6 +2852,7 @@ async function retrieveCaseLawForJurisdiction(
             args.jurisdiction,
           ),
           embedMs: 0,
+          signal: args.signal,
         })
       })()
     : null
@@ -2809,6 +2914,10 @@ async function retrieveCaseLawForJurisdiction(
     totalMs: Date.now() - totalStarted + args.embedMs,
     vectorRetried:
       primary.timing.vectorRetried || (venue?.timing.vectorRetried ?? false),
+    vectorFailed:
+      primary.timing.vectorFailed === true ||
+      venue?.timing.vectorFailed === true,
+    vectorError: primary.timing.vectorError ?? venue?.timing.vectorError ?? null,
   }
 
   return { ...result, areaInference: primary.areaInference, timing }
@@ -2895,6 +3004,7 @@ type StatuteVectorPass = {
   retried: boolean
   usedThreshold: number
   queryEmbeddings: number[][]
+  vectorError: string | null
 }
 
 async function runSingleScriptVector(args: {
@@ -2910,47 +3020,87 @@ async function runSingleScriptVector(args: {
   reuseEmbedding: number[] | null
   embedMsAlready: number
   vectorMsAlready: number
+  signal?: AbortSignal
 }): Promise<StatuteVectorPass> {
   const embedStarted = Date.now()
-  const embedding = args.reuseEmbedding ?? (await embedQueryText(args.query))
+  let embedding = args.reuseEmbedding
+  try {
+    if (!embedding) embedding = await embedQueryText(args.query, args.signal)
+  } catch (err) {
+    return {
+      data: [],
+      embedMs: args.embedMsAlready + (Date.now() - embedStarted),
+      vectorRpcMs: args.vectorMsAlready,
+      retried: false,
+      usedThreshold: args.initialThreshold,
+      queryEmbeddings: [],
+      vectorError: err instanceof Error ? err.message : String(err),
+    }
+  }
+  if (!embedding) {
+    return {
+      data: [],
+      embedMs: args.embedMsAlready + (Date.now() - embedStarted),
+      vectorRpcMs: args.vectorMsAlready,
+      retried: false,
+      usedThreshold: args.initialThreshold,
+      queryEmbeddings: [],
+      vectorError: "missing embedding",
+    }
+  }
   const embedMs =
     args.embedMsAlready + (args.reuseEmbedding ? 0 : Date.now() - embedStarted)
   const vectorStarted = Date.now()
-  let data = await runMatchLegalArticlesRpc({
+  const rpcBase = {
     embedding,
     jurisdiction: args.jurisdiction,
     category: args.category,
     matchCount: args.matchCount,
-    similarityThreshold: args.initialThreshold,
     timeoutMs: args.timeoutMs,
     includeStateCourt: args.includeStateCourt,
-  })
+    signal: args.signal,
+  }
+  let data: LegalChunk[] = []
+  let vectorError: string | null = null
+  try {
+    data = await runMatchLegalArticlesRpc({
+      ...rpcBase,
+      similarityThreshold: args.initialThreshold,
+    })
+  } catch (err) {
+    vectorError = err instanceof Error ? err.message : String(err)
+  }
   let retried = false
   let usedThreshold = args.initialThreshold
-  if (data.length === 0 && args.shouldRetry) {
+  if (
+    data.length === 0 &&
+    args.shouldRetry &&
+    !vectorError &&
+    !args.signal?.aborted
+  ) {
     // eslint-disable-next-line no-console
     console.log(
       `[RAG] no results at threshold ${args.initialThreshold}, retrying with ${args.lowRetry}`,
     )
     retried = true
     usedThreshold = args.lowRetry
-    data = await runMatchLegalArticlesRpc({
-      embedding,
-      jurisdiction: args.jurisdiction,
-      category: args.category,
-      matchCount: args.matchCount,
-      similarityThreshold: args.lowRetry,
-      timeoutMs: args.timeoutMs,
-      includeStateCourt: args.includeStateCourt,
-    })
+    try {
+      data = await runMatchLegalArticlesRpc({
+        ...rpcBase,
+        similarityThreshold: args.lowRetry,
+      })
+    } catch (err) {
+      vectorError = err instanceof Error ? err.message : String(err)
+    }
   }
   return {
-    data,
+    data: vectorError ? [] : data,
     embedMs,
     vectorRpcMs: args.vectorMsAlready + (Date.now() - vectorStarted),
     retried,
     usedThreshold,
     queryEmbeddings: [embedding],
+    vectorError,
   }
 }
 
@@ -2963,6 +3113,7 @@ async function rpcRows(
     similarityThreshold: number
     timeoutMs: number
     includeStateCourt: boolean
+    signal?: AbortSignal
   },
 ): Promise<{ rows: LegalChunk[] | null; error: string | null }> {
   try {
@@ -2974,6 +3125,7 @@ async function rpcRows(
       similarityThreshold: args.similarityThreshold,
       timeoutMs: args.timeoutMs,
       includeStateCourt: args.includeStateCourt,
+      signal: args.signal,
     })
     return { rows, error: null }
   } catch (err) {
@@ -2995,6 +3147,7 @@ async function runMaxCosineVector(args: {
   shouldRetry: boolean
   timeoutMs: number
   includeStateCourt: boolean
+  signal?: AbortSignal
 }): Promise<StatuteVectorPass> {
   const normalized = args.query.trim().replace(/\s+/g, " ")
   const variants = [...new Set(getScriptVariants(normalized))]
@@ -3014,7 +3167,7 @@ async function runMaxCosineVector(args: {
       try {
         return {
           text,
-          embedding: await embedQueryText(text),
+          embedding: await embedQueryText(text, args.signal),
           error: null as string | null,
         }
       } catch (err) {
@@ -3030,6 +3183,17 @@ async function runMaxCosineVector(args: {
   const failedEmbed = embedded.find((item) => item.error)
   const original = embedded.find((item) => item.text === normalized)
   if (failedEmbed) {
+    if (isTerminalVectorError(failedEmbed.error ?? "", args.signal)) {
+      return {
+        data: [],
+        embedMs,
+        vectorRpcMs: 0,
+        retried: false,
+        usedThreshold: args.initialThreshold,
+        queryEmbeddings: original?.embedding ? [original.embedding] : [],
+        vectorError: failedEmbed.error,
+      }
+    }
     // eslint-disable-next-line no-console
     console.error("[RAG] dual-script vector fallback", {
       jurisdiction: args.jurisdiction,
@@ -3053,6 +3217,7 @@ async function runMaxCosineVector(args: {
     matchCount: args.matchCount,
     timeoutMs: args.timeoutMs,
     includeStateCourt: args.includeStateCourt,
+    signal: args.signal,
   }
   const vectorStarted = Date.now()
   const first = await Promise.all(
@@ -3065,6 +3230,17 @@ async function runMaxCosineVector(args: {
   )
   const firstError = first.find((item) => item.error)
   if (firstError) {
+    if (isTerminalVectorError(firstError.error ?? "", args.signal)) {
+      return {
+        data: [],
+        embedMs,
+        vectorRpcMs: Date.now() - vectorStarted,
+        retried: false,
+        usedThreshold: args.initialThreshold,
+        queryEmbeddings: embeddings,
+        vectorError: firstError.error,
+      }
+    }
     // eslint-disable-next-line no-console
     console.error("[RAG] dual-script vector fallback", {
       jurisdiction: args.jurisdiction,
@@ -3083,7 +3259,7 @@ async function runMaxCosineVector(args: {
   let data = unionByMaxSimilarity(first.map((item) => item.rows ?? []))
   let retried = false
   let usedThreshold = args.initialThreshold
-  if (data.length === 0 && args.shouldRetry) {
+  if (data.length === 0 && args.shouldRetry && !args.signal?.aborted) {
     // eslint-disable-next-line no-console
     console.log(
       `[RAG] no results at threshold ${args.initialThreshold}, retrying with ${args.lowRetry}`,
@@ -3097,6 +3273,17 @@ async function runMaxCosineVector(args: {
     )
     const secondError = second.find((item) => item.error)
     if (secondError) {
+      if (isTerminalVectorError(secondError.error ?? "", args.signal)) {
+        return {
+          data: [],
+          embedMs,
+          vectorRpcMs: Date.now() - vectorStarted,
+          retried: true,
+          usedThreshold,
+          queryEmbeddings: embeddings,
+          vectorError: secondError.error,
+        }
+      }
       // eslint-disable-next-line no-console
       console.error("[RAG] dual-script vector fallback", {
         jurisdiction: args.jurisdiction,
@@ -3121,8 +3308,10 @@ async function runMaxCosineVector(args: {
     retried,
     usedThreshold,
     queryEmbeddings: embeddings,
+    vectorError: null,
   }
 }
+
 
 export async function matchLegalArticles(args: {
   query: string
@@ -3145,6 +3334,7 @@ export async function matchLegalArticles(args: {
    * the function ceiling. Omit it and the generator's formula stays.
    */
   keywordRpcLimit?: number
+  signal?: AbortSignal
 }): Promise<{
   chunks: LegalChunk[]
   usedThreshold: number
@@ -3174,6 +3364,7 @@ export async function matchLegalArticles(args: {
     includeStateCourt,
     skipKeywordChannel:
       args.categoryMode === "hint" && args.runKeywordChannel !== true,
+    signal: args.signal,
   })
 
   const thresholds = getJurisdictionRpcThresholds(args.jurisdiction)
@@ -3185,17 +3376,39 @@ export async function matchLegalArticles(args: {
     args.rpcTimeoutMs ??
     getLegalRpcTimeoutMs(rpcFilter, args.jurisdiction)
 
-  const vectorPass = await runMaxCosineVector({
-    query: args.query,
-    jurisdiction: args.jurisdiction,
-    category: rpcFilter,
-    matchCount: vectorOverfetchCount(matchCount),
-    initialThreshold,
-    lowRetry: thresholds.lowRetry,
-    shouldRetry,
-    timeoutMs: rpcTimeoutMs,
-    includeStateCourt,
-  })
+  let vectorPass: StatuteVectorPass
+  try {
+    vectorPass = await runMaxCosineVector({
+      query: args.query,
+      jurisdiction: args.jurisdiction,
+      category: rpcFilter,
+      matchCount: vectorOverfetchCount(matchCount),
+      initialThreshold,
+      lowRetry: thresholds.lowRetry,
+      shouldRetry,
+      timeoutMs: rpcTimeoutMs,
+      includeStateCourt,
+      signal: args.signal,
+    })
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err)
+    vectorPass = {
+      data: [],
+      embedMs: 0,
+      vectorRpcMs: Date.now() - totalStarted,
+      retried: false,
+      usedThreshold: initialThreshold,
+      queryEmbeddings: [],
+      vectorError: message,
+    }
+  }
+  if (vectorPass.vectorError) {
+    // eslint-disable-next-line no-console
+    console.error("[RAG] statute vector abandoned", {
+      jurisdiction: args.jurisdiction,
+      message: vectorPass.vectorError,
+    })
+  }
   const data = vectorPass.data
   const embedMs = vectorPass.embedMs
   const vectorRpcMs = vectorPass.vectorRpcMs
@@ -3253,6 +3466,8 @@ export async function matchLegalArticles(args: {
     mergeRerankMs,
     totalMs: Date.now() - totalStarted,
     vectorRetried: retried,
+    vectorFailed: vectorPass.vectorError != null,
+    vectorError: vectorPass.vectorError,
   }
 
   return { chunks, usedThreshold, retried, areaInference, timing }
@@ -3477,6 +3692,7 @@ export async function retrieveCaseLawContext(
     k?: number
     similarityThreshold?: number
     rpcTimeoutMs?: number
+    signal?: AbortSignal
   },
 ): Promise<CaseLawContextResult & { timing?: RagStageTiming }> {
   const thresholds = getJurisdictionRpcThresholds(jurisdiction)
@@ -3487,7 +3703,18 @@ export async function retrieveCaseLawContext(
       : undefined)
 
   const embedStarted = Date.now()
-  const embedding = await embedQueryText(query)
+  let embedding: number[] = []
+  try {
+    embedding = await embedQueryText(query, options?.signal)
+  } catch (err) {
+    // Keyword search does not need the embedding. An empty vector marks
+    // the vector arm failed inside retrieveCaseLawForJurisdiction.
+    // eslint-disable-next-line no-console
+    console.error("[RAG case law] embed failed", {
+      jurisdiction,
+      message: err instanceof Error ? err.message : String(err),
+    })
+  }
   const embedMs = Date.now() - embedStarted
 
   return retrieveCaseLawForJurisdiction({
@@ -3501,6 +3728,7 @@ export async function retrieveCaseLawContext(
     similarityThreshold,
     rpcTimeoutMs: options?.rpcTimeoutMs,
     embedMs,
+    signal: options?.signal,
   })
 }
 

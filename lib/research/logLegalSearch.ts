@@ -142,6 +142,8 @@ export async function logLegalSearch(args: {
   mode: LegalSearchLogMode
   chunks: TopChunk[]
   keywordRuns: KeywordRun[]
+  incomplete?: boolean
+  abandoned?: Array<{ arm: string; jurisdiction: string | null }>
 }): Promise<number> {
   const started = Date.now()
   try {
@@ -159,12 +161,19 @@ export async function logLegalSearch(args: {
         LegalSearchKeywordTiming & { jurisdiction: string }
       >
       top: ReturnType<typeof compactTop>
+      incomplete?: boolean
+      abandoned?: Array<{ arm: string; jurisdiction: string | null }>
     } = {
       count: args.chunks.length,
       zero_results: args.chunks.length === 0,
       mode: args.mode,
       keyword,
       top,
+    }
+
+    if (args.incomplete != null) {
+      results.incomplete = args.incomplete
+      results.abandoned = args.abandoned ?? []
     }
 
     if (perRun.length > 1) {
