@@ -1622,7 +1622,7 @@ const ACT_TYPE_SUBORDINATE_PENALTY = 0.1
 const ACT_TYPE_NON_NORMATIVE_PENALTY = 0.15
 
 /** Jurisdictions whose article rows are split finely enough for the apparatus penalty. */
-const APPARATUS_PENALTY_JURISDICTIONS = new Set<string>(["montenegro", "serbia"])
+const APPARATUS_PENALTY_JURISDICTIONS = new Set<string>(["montenegro", "serbia", "bih_fbih", "bih_rs", "bih_brcko"])
 
 /**
  * Same shape as an area mismatch: multiply, do not subtract.
