@@ -10,15 +10,15 @@ import dotenv from "dotenv"
 import pg from "pg"
 
 const require = createRequire(__filename)
-const { getEncoding } = require("./_tmp-token/node_modules/js-tiktoken") as {
+const { getEncoding } = require("../_tmp-token/node_modules/js-tiktoken") as {
   getEncoding: (name: string) => {
     encode: (text: string, allowedSpecial?: string[] | "all", disallowedSpecial?: string[] | "all") => number[]
   }
 }
 const tokenEncoder = getEncoding("cl100k_base")
 
-dotenv.config({ path: path.resolve(__dirname, "outreach/.env"), quiet: true })
-dotenv.config({ path: path.resolve(__dirname, "../.env.local"), quiet: true })
+dotenv.config({ path: path.resolve(__dirname, "../outreach/.env"), quiet: true })
+dotenv.config({ path: path.resolve(__dirname, "../../.env.local"), quiet: true })
 
 const connectionString = process.env.DATABASE_URL
 if (!connectionString) throw new Error("DATABASE_URL is missing from scripts/outreach/.env and .env.local")
@@ -26,9 +26,11 @@ if (!connectionString) throw new Error("DATABASE_URL is missing from scripts/out
 const GAZETTE_LINE = /^\("Sl\. list (?:CG|RCG)", br\. \d+\/\d{4}(?: - (?:ispr\.|odluka US|dr\. zakon))?(?:(?:, | i )\d+\/\d{4}(?: - (?:ispr\.|odluka US|dr\. zakon))?)*\)$/
 const NOTE_HEADINGS = new Set(["NAPOMENA IZDAVAČA", "НАПОМЕНА ИЗДАВАЧА"])
 const PLAIN_OLD = /^(Članak|Члан|Član)[ \t]+(\d+[A-Za-zČĆŽŠĐčćžšđ]*)(\*+)?\.?(?=[ \t\r]|$)/u
-const PLAIN_ARTICLE = /^(Članak|Члан|Član)[ \t]+(\d+\p{L}{0,2})(\*+)?\.?(?=[ \t\r]|$)/u
+const ARTICLE_DIGITS = "\\d+(?:\\.\\d+)*\\p{L}{0,2}"
+const ARTICLE_DIGITS_LOWER = "\\d+(?:\\.\\d+)*\\p{Ll}{0,2}"
+const PLAIN_ARTICLE = new RegExp(`^(Članak|Члан|Član)[ \\t]+(${ARTICLE_DIGITS})(\\*+)?\\.?(?=[ \\t\\r]|$)`, "u")
 // Члан 8.Предмети — the period is already at line start. The number stops before the period.
-const GLUED_RUBRIC = /^(Članak|Члан|Član)[ \t]+(\d+\p{L}{0,2})\.(?=\p{L})/u
+const GLUED_RUBRIC = new RegExp(`^(Članak|Члан|Član)[ \\t]+(${ARTICLE_DIGITS})\\.(?=\\p{L})`, "u")
 export function gluedRubricHeading(value: string): { articleNum: string; length: number } | null {
   const match = GLUED_RUBRIC.exec(value)
   if (!match) return null
@@ -45,7 +47,8 @@ const TARIFNI_OLD = /^Tarifni broj[ \t]+(\d+[A-Za-zČĆŽŠĐčćžšđ]*)(?=[ \
 const TARIFNI_MARK = /^(?:Tarifni broj|Тарифни број|ТАРИФНИ БРОЈ)[ \t]+(\d+\p{L}{0,2})(?=[ \t\r]|$)/u
 const ITEM_MARK = /^(\d+)\)(?=[ \t\r]|$)/
 const ROMAN_LED = /^(?=[IVXLCDM])M{0,4}(?:CM|CD|D?C{0,3})(?:XC|XL|L?X{0,3})(?:IX|IV|V?I{0,3})(?:\.| )/u
-const CITATION_NUM = /^\d+\p{L}{0,2}$/u
+const CITATION_NUM = new RegExp(`^${ARTICLE_DIGITS}$`, "u")
+const ROMAN_NUM = "(?=[IVXLCDM]{1,6}(?!\\p{L}))M{0,4}(?:CM|CD|D?C{0,3})(?:XC|XL|L?X{0,3})(?:IX|IV|V?I{0,3})"
 const SPLIT_AT = 6_000
 const TOKEN_LIMIT = 7_000
 const SENTENCE_END = new Set([".", ";", ":", "!", "?"])
@@ -321,6 +324,8 @@ export type FinderFlags = {
   lowerSuffix?: boolean
   spaceInline?: boolean
   starAfter?: boolean
+  inlineLatin?: boolean
+  sloveneClen?: boolean
 }
 /** Phase 5 line-start lookalikes. One character to one character. No i/I, and no ѕ. */
 const DETECTOR_TWINS: Record<string, string> = {
@@ -333,7 +338,9 @@ export function foldDetectorLine(value: string): string {
   for (const ch of value) out += DETECTOR_TWINS[ch] ?? ch
   return out
 }
-const INLINE_CLAN = /(?<!\p{L})Члан[ \t]+(\d+\p{L}{0,2})/gu
+const INLINE_CLAN = new RegExp(`(?<!\\p{L})Члан[ \\t]+(${ARTICLE_DIGITS})`, "gu")
+const INLINE_ANY = new RegExp(`(?<!\\p{L})(?:Članak|Члан|Član)[ \\t]+(${ARTICLE_DIGITS})`, "gu")
+const SLOVENE_CLEN = /^(\d+)\. člen(?!\p{L})/u
 const NUMBERED_CAPS_TAIL = /(?:^|[\s.])(?:[IVXLCDM]{1,8}|[0-9]{1,3})\.\s+[\p{Lu}ЂЈЉЊЋЏ][\p{Lu}ЂЈЉЊЋЏ\s]{2,}$/u
 export function isNumberedCapsPrefix(before: string): boolean {
   const trimmed = before.replace(/[ \t\u00a0]+$/u, "")
@@ -381,7 +388,12 @@ function lineStartHeading(line: string, start: number, fold: boolean, starAfter 
   return matchLineStart(folded, start, line, starAfter)
 }
 const HEADING_WORD = "(?:Članak|Члан|Član)"
-const STAR_AFTER = /^(Članak|Члан|Član)[ \t]+(\d+\p{L}{0,2})\.\*+(?=[ \t\r]|$)/u
+const STAR_AFTER = new RegExp(`^(Članak|Члан|Član)[ \\t]+(${ARTICLE_DIGITS})\\.\\*+(?=[ \\t\\r]|$)`, "u")
+const LINE_GAP = "[ \\t]*\\r?\\n[ \\t\\n\\r]*"
+
+function headingFrom(match: RegExpMatchArray, start: number, line: string): Heading {
+  return { index: start, length: (match[0] ?? "").length, articleNum: match[1] ?? "", line }
+}
 
 function pushHeading(hits: Heading[], hit: Heading): void {
   if (hits.some((kept) => kept.index === hit.index)) return
@@ -389,7 +401,7 @@ function pushHeading(hits: Heading[], hit: Heading): void {
 }
 
 function retokenLowerSuffix(hits: Heading[], text: string): void {
-  const number = /^(?:Članak|Члан|Član)[ \t]+(\d+\p{Ll}{0,2})/u
+  const number = new RegExp(`^(?:Članak|Члан|Član)[ \\t]+(${ARTICLE_DIGITS_LOWER})`, "u")
   for (const hit of hits) {
     const match = number.exec(text.slice(hit.index, hit.index + hit.length + 8))
     const articleNum = match?.[1]
@@ -403,12 +415,20 @@ function retokenLowerSuffix(hits: Heading[], text: string): void {
 
 export function findHeadings(text: string, fold = true, flags?: FinderFlags): Heading[] {
   const hits: Heading[] = []
-  const num = flags?.lowerSuffix ? "\\d+\\p{Ll}{0,2}" : "\\d+\\p{L}{0,2}"
+  const num = flags?.lowerSuffix ? ARTICLE_DIGITS_LOWER : ARTICLE_DIGITS
   const tail = flags?.lowerSuffix ? "(?:\\*+)?\\.?(?=[ \\t\\r]|$|\\p{Lu})" : "(?:\\*+)?\\.?(?=[ \\t\\r]|$)"
   const letterRe = flags?.letterBefore ? new RegExp(`(?<=\\p{L})${HEADING_WORD}[ \\t]+(${num})${tail}`, "gu") : null
   const spaceRe = flags?.spaceInline ? new RegExp(`(?<=\\s)${HEADING_WORD}[ \\t]+(${num})${tail}`, "gu") : null
   const lineStopRe = flags?.lowerSuffix ? new RegExp(`^${HEADING_WORD}[ \\t]+(${num})(?:\\*+)?\\.?(?=\\p{Lu})`, "u") : null
   const inlineStopRe = flags?.lowerSuffix ? new RegExp(`(?<!\\p{L})Члан[ \\t]+(${num})(?=\\p{Lu})`, "gu") : null
+  const brokenTail = flags?.lowerSuffix ? "(?:\\*+)?\\.?(?=[ \\t\\r\\n]|$|\\p{Lu})" : "(?:\\*+)?\\.?(?=[ \\t\\r\\n]|$)"
+  const brokenPlain = new RegExp(`^${HEADING_WORD}${LINE_GAP}(${num})${brokenTail}`, "u")
+  const brokenStar = flags?.starAfter === true
+    ? new RegExp(`^${HEADING_WORD}${LINE_GAP}(${num})\\.\\*+(?=[ \\t\\r\\n]|$)`, "u")
+    : null
+  const romanSame = new RegExp(`^${HEADING_WORD}[ \\t]+(${ROMAN_NUM})(?:\\*+)?\\.?(?=[ \\t\\r\\n]|$)`, "u")
+  const romanBreak = new RegExp(`^${HEADING_WORD}${LINE_GAP}(${ROMAN_NUM})(?:\\*+)?\\.?(?=[ \\t\\r\\n]|$)`, "u")
+  const takeBroken = (slice: string) => brokenStar?.exec(slice) ?? brokenPlain.exec(slice)
   const addPattern = (re: RegExp, line: string, start: number) => {
     re.lastIndex = 0
     for (const match of line.matchAll(re)) {
@@ -422,8 +442,21 @@ export function findHeadings(text: string, fold = true, flags?: FinderFlags): He
     const line = lineAt(text, start)
     const atStart = lineStartHeading(line, start, fold, flags?.starAfter === true)
     if (atStart) hits.push(atStart)
-    INLINE_CLAN.lastIndex = 0
-    for (const match of line.matchAll(INLINE_CLAN)) {
+    else {
+      const window = text.slice(start, start + 64)
+      const folded = fold ? foldDetectorLine(window) : window
+      const broken = takeBroken(window) ?? (folded === window ? null : takeBroken(folded))
+      const roman = broken ? null : romanSame.exec(window) ?? romanBreak.exec(window)
+      const spanned = broken ?? roman
+      if (spanned) hits.push(headingFrom(spanned, start, line))
+    }
+    if (!hits.some((hit) => hit.index === start) && flags?.sloveneClen === true) {
+      const clen = SLOVENE_CLEN.exec(line)
+      if (clen) hits.push({ index: start, length: clen[0].length, articleNum: clen[1] ?? "", line })
+    }
+    const inlineRe = flags?.inlineLatin === true ? INLINE_ANY : INLINE_CLAN
+    inlineRe.lastIndex = 0
+    for (const match of line.matchAll(inlineRe)) {
       const at = match.index ?? 0
       if (at === 0) continue
       if (!isNumberedCapsPrefix(line.slice(0, at))) continue
@@ -606,6 +639,100 @@ export function embeddingInput(law: string, article: string, paragraph: string |
 }
 export function embedTokenCount(law: string, article: string, paragraph: string | null, text: string, copies = 1): number {
   return tokenEncoder.encode(embeddingInput(law, article, paragraph, text, copies), [], "all").length
+}
+
+/** A promulgation line. Longer than this, and not a formula, the prefix is emitted. */
+const PREFIX_FORMULA_FLOOR = 500
+/**
+ * The Federation election-law note, the longest prefix in any of the five
+ * jurisdictions that is still a publisher note. Longer than this, the prefix
+ * is the body of the act and is emitted even when it opens with a formula.
+ */
+const PREFIX_LENGTH_CUT = 2_704
+
+/**
+ * Openers read off the 435 Serbian prefixes between 501 and 2,704 characters,
+ * plus the note shapes that open every longer Federation and Republika Srpska
+ * prefix. A prefix these match is the wrapper, and it stays unemitted.
+ */
+const LETTER_END = "(?!\\p{L})"
+const PREFIX_FORMULA_START: RegExp[] = [
+  new RegExp(`^(?:На|Na|Ha|Hа)\\s+(?:основу|osnovu|temelju)${LETTER_END}`, "u"),
+  new RegExp(`^Редакцијски\\s+пречишћенн?\\s+текст${LETTER_END}`, "u"),
+  /^Redakcijski\s+prečišćen/iu,
+  /^Priprema\s*:/iu,
+  new RegExp(`^Redakcija\\s+nije\\s+sprovela${LETTER_END}`, "iu"),
+  new RegExp(`^НАПОМЕН[АЕ]\\s+ИЗДАВАЧА${LETTER_END}`, "u"),
+  new RegExp(`^NAPOMENA\\s+IZDAVAČA${LETTER_END}`, "iu"),
+  new RegExp(`^Odredbe${LETTER_END}`, "iu"),
+  new RegExp(`^Prečišćen\\s+tekst${LETTER_END}`, "iu"),
+  new RegExp(`^PREAMBULA${LETTER_END}`, "u"),
+  new RegExp(`^Preambula${LETTER_END}`, "u"),
+  new RegExp(`^Одлука\\s+о\\s+проглашењу${LETTER_END}`, "u"),
+  new RegExp(`^Odluka\\s+o\\s+proglašenju${LETTER_END}`, "iu"),
+  new RegExp(`^(?:ODBOR\\s+ZA\\s+ZAKONODAVSTVO|ZASTUPNIČKI\\s+DOM|HRVATSKI\\s+SABOR|Hrvatski\\s+sabor)${LETTER_END}`, "u"),
+  /^U\s+["„]Sl\./u,
+]
+const PREFIX_TITLE = new RegExp(`^(?:ЗАКОН|УРЕДБА|ПРАВИЛНИК|ОДЛУКА|РЕШЕЊЕ|УСТАВ|УСТАВНИ|ZAKON|USTAV|Zakon|Ustav)${LETTER_END}`, "u")
+const PREFIX_GAZETTE = /(?:Службен|Služben|Sl\.\s*(?:glasnik|list|novine)|"Sl\.)/iu
+
+function prefixCore(text: string): string {
+  return text.replace(/^[\s*]+/u, "").replace(/^\d{1,6}(?=\s)/u, "").replace(/^\s+/u, "")
+}
+
+export function prefixEmbeddingInput(law: string, paragraph: string | null, text: string): string {
+  const suffix = paragraph ? ` §${paragraph}` : ""
+  return sanitizeEmbeddingSource(`${law}${suffix}: ${text}`)
+}
+
+function prefixTokenCount(law: string, paragraph: string | null, text: string): number {
+  return tokenEncoder.encode(prefixEmbeddingInput(law, paragraph, text), [], "all").length
+}
+
+export function prefixIsFormula(text: string): boolean {
+  const core = prefixCore(text)
+  const head = core.slice(0, 500)
+  if (PREFIX_FORMULA_START.some((pattern) => pattern.test(core))) return true
+  if (/НАПОМЕН[АЕ]\s+ИЗДАВАЧА/u.test(head)) return true
+  if (new RegExp(`(?:на основу члана|na osnovu člana|na temelju članka)${LETTER_END}`, "iu").test(head.slice(0, 240))) return true
+  if (PREFIX_TITLE.test(core) && PREFIX_GAZETTE.test(head)) return true
+  return false
+}
+
+export function prefixShouldEmit(text: string): boolean {
+  if (text.length > PREFIX_LENGTH_CUT) return true
+  if (text.length <= PREFIX_FORMULA_FLOOR) return false
+  return !prefixIsFormula(text)
+}
+
+function windowPrefix(law: string, text: string): Array<{ text: string; paragraph: string | null }> {
+  if (prefixTokenCount(law, null, text) <= TOKEN_LIMIT) return [{ text, paragraph: null }]
+  const pieces: string[] = []
+  let offset = 0
+  while (offset < text.length) {
+    let lo = offset + 1
+    let hi = text.length
+    let best = offset
+    while (lo <= hi) {
+      const mid = (lo + hi) >> 1
+      if (prefixTokenCount(law, "99", text.slice(offset, mid)) <= TOKEN_LIMIT) {
+        best = mid
+        lo = mid + 1
+      } else hi = mid - 1
+    }
+    if (best <= offset) throw new Error(`${law}: no prefix stays within ${TOKEN_LIMIT} tokens`)
+    if (best < text.length) {
+      const slice = text.slice(offset, best)
+      const br = Math.max(slice.lastIndexOf("\n"), slice.lastIndexOf(" "))
+      if (br > 200) best = offset + br
+    }
+    const piece = text.slice(offset, best).trim()
+    if (piece.length === 0) throw new Error(`${law}: prefix window trimmed to nothing`)
+    pieces.push(piece)
+    offset = best
+    while (offset < text.length && /\s/u.test(text[offset] ?? "")) offset += 1
+  }
+  return pieces.map((piece, index) => ({ text: piece, paragraph: String(index + 1) }))
 }
 function overTokenLimit(law: string, article: string, text: string, copies = 1): boolean {
   return embedTokenCount(law, article, "9999", text, copies) > TOKEN_LIMIT
@@ -1313,7 +1440,28 @@ export function processLaw(
   const exceptions: string[] = []
   const untiled = stripped.length - emitted.length - remainder.length
   if (untiled !== 0) exceptions.push(`untiled ${untiled}`)
-  if (remainder.length > 0) exceptions.push(`unemitted_prefix ${remainder.length}`)
+  const emitPrefix = prefixShouldEmit(remainder)
+  if (remainder.length > 0 && !emitPrefix) exceptions.push(`unemitted_prefix ${remainder.length}`)
+  if (emitPrefix) {
+    const windows = windowPrefix(lawName, remainder)
+    preambleRows = windows.length
+    for (const window of windows) {
+      const tokens = options?.skipTokens ? 0 : prefixTokenCount(lawName, window.paragraph, window.text)
+      if (!options?.skipTokens) embedTokens += tokens
+      outputChars += window.text.length
+      outputRows += 1
+      if (collectPieces) {
+        produced.push({
+          article_num: "",
+          paragraph_num: window.paragraph,
+          chars: window.text.length,
+          tokens,
+          heading_index: 0,
+          ...(options?.includeText ? { text: window.text } : {}),
+        })
+      }
+    }
+  }
   const partOrdinal = new Map<string, number>()
   const starAt = new Set<number>()
   if (finderFlags?.starAfter) {
@@ -1620,7 +1768,7 @@ export function processLaw(
     articles_no_title: articlesNoTitle,
     articles_over_two_pieces: piecesOverTwo,
     preamble_rows_written: preambleRows,
-    remainder_chars: remainder.length,
+    remainder_chars: emitPrefix ? 0 : remainder.length,
     remainder_head: [...remainder].slice(0, 80).join(""),
     strips,
     named_drops: Object.fromEntries(dropByKind),

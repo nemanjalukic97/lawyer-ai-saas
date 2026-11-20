@@ -10,8 +10,8 @@ import dotenv from "dotenv"
 import pg from "pg"
 import { findHeadings, processLaw } from "./_tmp-serbia-phase3"
 
-dotenv.config({ path: path.resolve(__dirname, "outreach/.env"), quiet: true })
-dotenv.config({ path: path.resolve(__dirname, "../.env.local"), quiet: true })
+dotenv.config({ path: path.resolve(__dirname, "../outreach/.env"), quiet: true })
+dotenv.config({ path: path.resolve(__dirname, "../../.env.local"), quiet: true })
 const connectionString = process.env.DATABASE_URL
 if (!connectionString) throw new Error("DATABASE_URL is missing from scripts/outreach/.env and .env.local")
 

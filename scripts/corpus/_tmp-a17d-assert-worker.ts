@@ -12,7 +12,7 @@ import { applyRepairs } from "./_tmp-serbia-phase6"
 import { amendingActAt, findActs, findMarkers, findSignatures } from "./_tmp-a17d-act"
 
 type Chunk = { id?: string; article_num: string; text_local: string }
-type Request = { id: number; law: string; chunks: Chunk[]; finderFlags?: FinderFlags; detail?: boolean; emitRows?: boolean; skipTokens?: boolean; skipDivide?: boolean; diagnoseEmpty?: boolean; rubricCensus?: boolean; pieceCensus?: boolean }
+type Request = { id: number; law: string; chunks: Chunk[]; finderFlags?: FinderFlags; detail?: boolean; emitRows?: boolean; skipTokens?: boolean; skipDivide?: boolean; diagnoseEmpty?: boolean; rubricCensus?: boolean; pieceCensus?: boolean; applyCitation?: boolean }
 type Repair = { was: string; now: string; context: string }
 
 const CHEMICALS = "Закон о хемикалијама"
@@ -235,7 +235,7 @@ parentPort?.on("message", (msg: Request) => {
       skipTokens: msg.skipTokens === true,
       skipDivide: msg.skipDivide === true,
       foldHeadings: false,
-      citationGenitives: CITATION,
+      ...(msg.applyCitation === false ? {} : { citationGenitives: CITATION }),
       ...(msg.detail ? { includeRemainder: true } : {}),
       ...(msg.finderFlags ? { finderFlags: msg.finderFlags } : {}),
       ...(msg.rubricCensus ? { rubricCensus: true } : {}),
@@ -279,7 +279,7 @@ parentPort?.on("message", (msg: Request) => {
     let missingSource = 0
     for (const piece of result.produced ?? []) {
       const text = piece.text ?? ""
-      const amending = amendingActAt(piece.heading_index, markers, acts, signatures)
+      const amending = piece.article_num === "" ? null : amendingActAt(piece.heading_index, markers, acts, signatures)
       const key = `${piece.article_num}\u0000${piece.paragraph_num ?? ""}\u0000${amending ?? ""}\u0000${textHash(text)}`
       counts.set(key, (counts.get(key) ?? 0) + 1)
       if (seen.has(key)) {
@@ -494,8 +494,8 @@ parentPort?.on("message", (msg: Request) => {
             repairs: detail.changed,
             first_plain: detail.firstPlain,
             first_flag: detail.firstFlag,
-            prefix_chars: remainder.length,
-            ...(remainder.length > 0 ? { prefix: remainder } : {}),
+            prefix_chars: result.remainder_chars ?? 0,
+            ...((result.remainder_chars ?? 0) > 0 && remainder.length > 0 ? { prefix: remainder } : {}),
             dup_articles: undistinguishedArticles(result.produced ?? [], markers, acts, signatures),
             ...(starPlacement ? { star_placement: starPlacement } : {}),
           }
