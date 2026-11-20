@@ -1,4 +1,5 @@
-const PLAIN_ARTICLE_NUM = /^\d+\p{L}{0,2}$/u
+const SINGLE_ARTICLE_NUM = /^\d+(?:\.\d+)*\p{L}{0,2}$/u
+const ROMAN_ARTICLE_NUM = /^(?=[IVXLCDM]{1,6}$)M{0,4}(?:CM|CD|D?C{0,3})(?:XC|XL|L?X{0,3})(?:IX|IV|V?I{0,3})$/u
 
 type ArticleCitation = {
   article: (n: string) => string
@@ -40,9 +41,8 @@ export function articleCitationLabel(
   paragraphNum: string | null,
 ): string {
   const format = ARTICLE_CITATION[jurisdiction] ?? CLAN_CITATION
-  const head = PLAIN_ARTICLE_NUM.test(articleNum)
-    ? format.article(articleNum)
-    : format.range(articleNum)
+  const single = SINGLE_ARTICLE_NUM.test(articleNum) || ROMAN_ARTICLE_NUM.test(articleNum)
+  const head = single ? format.article(articleNum) : format.range(articleNum)
   if (!paragraphNum) return head
   return `${head} ${format.part(paragraphNum)}`
 }
