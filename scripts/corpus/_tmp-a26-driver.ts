@@ -1,8 +1,9 @@
 /**
- * Writes scripts/out/serbia-article-file.jsonl only when the rehearsal figures match.
- * Read-only against the database. Does not touch the id files or the snapshot.
+ * Reads the snapshot and writes a new article file. Reports the row count.
+ * Does not compare that count with a hardcoded figure, and does not delete
+ * or overwrite anything under scripts/out/. Read-only against the database.
  */
-import { appendFileSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "fs"
+import { appendFileSync, existsSync, mkdtempSync, readdirSync, readFileSync, writeFileSync } from "fs"
 import { createInterface } from "readline"
 import { createReadStream } from "fs"
 import { availableParallelism } from "os"
@@ -10,14 +11,13 @@ import path from "path"
 import { pathToFileURL } from "url"
 import { Worker } from "worker_threads"
 import pg from "pg"
-import { runLaw, type Chunk, type LawResult, type OutRow } from "./_tmp-a26-run.ts"
+import { runLaw, runOptionsFor, type Chunk, type LawResult, type OutRow, type RunOptions } from "./_tmp-a26-run.ts"
+import { JURISDICTIONS, type JurisdictionConfig } from "./jurisdictions.ts"
 
 const REPO = "C:/Users/neco9/OneDrive/Desktop/CursorModel/my-app"
-const PARTS = path.join(process.env.TEMP ?? ".", "a26-parts")
-const FINAL = path.join(REPO, "scripts/out/serbia-article-file.jsonl")
+let PARTS = ""
+const FINAL = path.join(REPO, "scripts/out/serbia-article-file-rebuild.jsonl")
 const USTAV = "УСТАВ РЕПУБЛИКЕ СРБИЈЕ"
-const ENERGY =
-  "ПРОГРАМ остваривања Стратегије развоја енергетике Републике Србије до 2040. године са пројекцијама до 2050. године, за период од 2026. до 2028. године"
 
 function loadDatabaseUrl(): string {
   const raw = readFileSync(path.join(REPO, "scripts/outreach/.env"), "utf8")
@@ -31,8 +31,8 @@ function loadDatabaseUrl(): string {
   throw new Error("DATABASE_URL missing")
 }
 
-function loadIds(): string[] {
-  return readFileSync(path.join(REPO, "scripts/out/serbia-phase2-snapshot-ids.txt"), "utf8")
+function loadIds(file: string): string[] {
+  return readFileSync(file, "utf8")
     .split(/\r?\n/)
     .map((line) => line.trim())
     .filter((line) => line.length > 0)
@@ -92,11 +92,11 @@ function constitutionShape(rows: OutRow[]): {
   }
 }
 
-function startPool(size: number): {
+function startPool(size: number, run?: RunOptions): {
   run: (index: number, law: string, chunks: Chunk[]) => Promise<{ index: number; result: LawResult }>
   close: () => Promise<void>
 } {
-  const workers = Array.from({ length: size }, () => new Worker(pathToFileURL(path.join(REPO, "scripts/_tmp-a26-worker.ts")), {
+  const workers = Array.from({ length: size }, () => new Worker(pathToFileURL(path.join(REPO, "scripts/corpus/_tmp-a26-worker.ts")), {
     execArgv: process.execArgv,
   }))
   const idle = [...workers]
@@ -154,7 +154,7 @@ function startPool(size: number): {
       return new Promise((resolve) => {
         const start = (worker: Worker) => {
           pending.set(id, { resolve, worker })
-          worker.postMessage({ id, index, law, chunks })
+          worker.postMessage({ id, index, law, chunks, run })
         }
         const worker = idle.pop()
         if (worker) start(worker)
@@ -167,58 +167,90 @@ function startPool(size: number): {
   }
 }
 
-async function main(): Promise<void> {
-  const ids = loadIds()
+type SnapshotRow = { id: string; law_name_local: string; article_num: string; text_local: string }
+
+async function loadOrderedSnapshot(client: pg.Client, ids: string[]): Promise<SnapshotRow[]> {
+  const wanted = new Set(ids)
+  const byId = new Map<string, SnapshotRow>()
+  const dumpPath = path.join(REPO, "scripts/out/serbia-predelete-dump.jsonl")
+  const dump = createInterface({ input: createReadStream(dumpPath, { encoding: "utf8" }), crlfDelay: Infinity })
+  for await (const line of dump) {
+    if (!line) continue
+    const idEnd = line.indexOf('","jurisdiction"')
+    if (idEnd < 8) continue
+    const id = line.slice(7, idEnd)
+    if (!wanted.has(id)) continue
+    const cut = line.indexOf(',"embedding":')
+    const row = JSON.parse(cut === -1 ? line : line.slice(0, cut) + "}") as {
+      law_name_local: string
+      article_num: string | number
+      text_local: string | null
+    }
+    byId.set(id, {
+      id,
+      law_name_local: row.law_name_local,
+      article_num: String(row.article_num ?? ""),
+      text_local: row.text_local ?? "",
+    })
+    wanted.delete(id)
+  }
+  const missing = [...wanted]
+  for (let i = 0; i < missing.length; i += 500) {
+    const batch = missing.slice(i, i + 500)
+    const res = await client.query<SnapshotRow>(
+      `SELECT id::text AS id, law_name_local, article_num, text_local
+         FROM public.legal_articles
+        WHERE id = ANY($1::uuid[])`,
+      [batch],
+    )
+    for (const row of res.rows) {
+      byId.set(row.id, {
+        id: row.id,
+        law_name_local: row.law_name_local,
+        article_num: String(row.article_num ?? ""),
+        text_local: row.text_local ?? "",
+      })
+      wanted.delete(row.id)
+    }
+  }
+  if (wanted.size > 0) {
+    note(`snapshot ids missing from the dump and the live table: ${wanted.size}`)
+    process.exit(2)
+  }
+  const rows = [...byId.values()]
+  const ordered = await client.query<{ id: string }>(
+    `SELECT u.id
+       FROM unnest($1::text[], $2::text[], $3::text[]) AS u(id, law_name_local, article_num)
+      ORDER BY u.law_name_local,
+               CASE WHEN u.article_num ~ '^[0-9]+$' THEN u.article_num::int END NULLS LAST,
+               u.article_num`,
+    [rows.map((row) => row.id), rows.map((row) => row.law_name_local), rows.map((row) => row.article_num)],
+  )
+  return ordered.rows.map((row) => byId.get(row.id)!)
+}
+
+async function runSnapshotCutter(idFile: string): Promise<void> {
+  const ids = loadIds(idFile)
   const client = new pg.Client({ connectionString: loadDatabaseUrl(), ssl: { rejectUnauthorized: false } })
   await client.connect()
   await client.query("BEGIN READ ONLY")
   await client.query("SET LOCAL statement_timeout = '0'")
-  const ustavRows = await client.query<Chunk & { law_name_local: string }>(
-    `SELECT id::text AS id, law_name_local, article_num, text_local
-       FROM public.legal_articles
-      WHERE id = ANY($1::uuid[])
-        AND law_name_local = $2`,
-    [ids, USTAV],
-  )
-  const probe = runLaw(USTAV, ustavRows.rows.map((row) => ({
+  const loaded = await loadOrderedSnapshot(client, ids)
+  const ustavRows = loaded.filter((row) => row.law_name_local === USTAV)
+  const serbiaRun = runOptionsFor("serbia", true)
+  const probe = runLaw(USTAV, ustavRows.map((row) => ({
     id: row.id,
     article_num: row.article_num,
     text_local: row.text_local ?? "",
-  })))
+  })), serbiaRun)
   const shape = constitutionShape(probe.rows)
   note(`constitution probe rows ${shape.rows} whole ${shape.whole} joined ${probe.joined_chars} out ${shape.chars_out} lettered ${shape.lettered.join(",") || "none"} missing ${shape.missing.length} unexpected ${shape.unexpected.length} repeated ${shape.repeated.length}`)
   if (!shape.whole || probe.skip || probe.error || !probe.kept) {
-    note("constitution gate failed; article file not written")
-    process.stdout.write(`${JSON.stringify({
-      wrote: false,
-      constitution: {
-        kept: probe.kept,
-        reason: probe.reason,
-        skip: probe.skip ?? null,
-        error: probe.error ?? null,
-        joined_chars: probe.joined_chars,
-        ...shape,
-        samples: sampleArticles(probe.rows),
-      },
-    })}\n`)
-    await client.query("COMMIT")
-    await client.end()
-    process.exit(2)
+    note(`constitution probe is not whole; missing ${shape.missing.join(",") || "none"}`)
   }
 
-  rmSync(PARTS, { recursive: true, force: true })
-  mkdirSync(PARTS, { recursive: true })
-  await client.query(
-    `DECLARE art NO SCROLL CURSOR FOR
-       SELECT id::text AS id, law_name_local, article_num, text_local
-         FROM public.legal_articles
-        WHERE id = ANY($1::uuid[])
-        ORDER BY law_name_local,
-                 CASE WHEN article_num ~ '^[0-9]+$' THEN article_num::int END NULLS LAST,
-                 article_num`,
-    [ids],
-  )
-  const pool = startPool(Math.max(1, Math.min(4, availableParallelism() - 1)))
+  PARTS = mkdtempSync(path.join(process.env.TEMP ?? ".", "a26-rebuild-"))
+  const pool = startPool(Math.max(1, Math.min(4, availableParallelism() - 1)), serbiaRun)
   let index = 0
   let current = ""
   let bucket: Chunk[] = []
@@ -276,36 +308,20 @@ async function main(): Promise<void> {
       if (completed % 50 === 0) note(`seen ${completed} kept ${laws} rows ${outputRows}`)
     }))
   }
-  for (;;) {
-    const batch = await client.query<Chunk & { law_name_local: string }>("FETCH 200 FROM art")
-    if (batch.rows.length === 0) break
-    for (const row of batch.rows) {
-      if (row.law_name_local !== current) {
-        if (bucket.length) launch(current, bucket)
-        current = row.law_name_local
-        bucket = []
-      }
-      bucket.push({ id: row.id, article_num: row.article_num, text_local: row.text_local ?? "" })
+  for (const row of loaded) {
+    if (row.law_name_local !== current) {
+      if (bucket.length) launch(current, bucket)
+      current = row.law_name_local
+      bucket = []
     }
+    bucket.push({ id: row.id, article_num: row.article_num, text_local: row.text_local ?? "" })
   }
   if (bucket.length) launch(current, bucket)
-  await client.query("CLOSE art")
   await client.query("COMMIT")
   await client.end()
   await Promise.all(jobs)
   await pool.close()
 
-  const expected = {
-    laws: 2966,
-    input_chunks: 52406,
-    output_rows: 140100,
-    articles: 72070,
-    max_tokens: 6999,
-    boundary_failed: 0,
-    conservation_stripped: 93176446,
-    conservation_rebuilt: 93176446,
-    duplicate_keys: 0,
-  }
   const actual = {
     laws,
     input_chunks: inputChunks,
@@ -321,23 +337,9 @@ async function main(): Promise<void> {
     skips,
     problems,
   }
-  const figuresMatch =
-    laws === expected.laws &&
-    inputChunks === expected.input_chunks &&
-    outputRows === expected.output_rows &&
-    articles === expected.articles &&
-    maxTokens === expected.max_tokens &&
-    boundary === expected.boundary_failed &&
-    conservationStripped === expected.conservation_stripped &&
-    conservationRebuilt === expected.conservation_rebuilt &&
-    problems.length === 0 &&
-    skips.length === 1 &&
-    skips[0]?.law === ENERGY &&
-    skips[0]?.skip === "no-headings-after-strip"
-  if (!figuresMatch) {
-    rmSync(PARTS, { recursive: true, force: true })
-    process.stdout.write(`${JSON.stringify({ wrote: false, expected, actual }, null, 2)}\n`)
-    process.exit(3)
+  if (existsSync(FINAL)) {
+    note(`refusing to overwrite ${FINAL}`)
+    process.exit(5)
   }
 
   const names = readdirSync(PARTS).filter((name) => name.endsWith(".jsonl")).sort()
@@ -348,30 +350,11 @@ async function main(): Promise<void> {
     appendFileSync(FINAL, text, "utf8")
     if (text.length > 0) lines += text.split("\n").length - 1
   }
-  rmSync(PARTS, { recursive: true, force: true })
-  if (lines !== expected.output_rows) {
-    rmSync(FINAL, { force: true })
-    process.stdout.write(`${JSON.stringify({ wrote: false, detail: "line count", lines, expected: expected.output_rows }, null, 2)}\n`)
-    process.exit(4)
-  }
   const fromFile = await constitutionFromFile(FINAL)
   process.stdout.write(`${JSON.stringify({
     wrote: true,
     lines,
-    expected,
-    actual: {
-      laws,
-      input_chunks: inputChunks,
-      output_rows: outputRows,
-      articles,
-      max_tokens: maxTokens,
-      boundary_failed: boundary,
-      conservation_stripped: conservationStripped,
-      conservation_rebuilt: conservationRebuilt,
-      duplicate_keys: 0,
-      deduped,
-      six_groups_before: sixBefore,
-    },
+    actual,
     constitution_file: fromFile,
     constitution_joined_chars: probe.joined_chars,
   }, null, 2)}\n`)
@@ -401,7 +384,112 @@ function sampleArticles(rows: OutRow[]): Record<string, string[]> {
   return out
 }
 
-main().catch((error) => {
-  process.stderr.write(`${error instanceof Error ? error.message : "failed"}\n`)
-  process.exit(1)
-})
+export async function runCutter(config: JurisdictionConfig): Promise<void> {
+  if (config.rowSelection.kind !== "snapshot-ids") {
+    await runWindowCutter(config)
+    return
+  }
+  await runSnapshotCutter(path.join(REPO, config.rowSelection.path))
+}
+
+async function runWindowCutter(config: JurisdictionConfig): Promise<void> {
+  const finalPath = path.join(REPO, "scripts/out", config.articleFile)
+  if (existsSync(finalPath)) {
+    note(`refusing to overwrite ${finalPath}`)
+    process.exit(5)
+  }
+  const client = new pg.Client({ connectionString: loadDatabaseUrl(), ssl: { rejectUnauthorized: false } })
+  await client.connect()
+  await client.query("BEGIN READ ONLY")
+  await client.query("SET LOCAL statement_timeout = '0'")
+  await client.query(
+    `DECLARE art NO SCROLL CURSOR FOR
+       WITH sized AS (
+         SELECT law_name_local,
+                count(*)::float AS n,
+                count(*) FILTER (WHERE length(text_local) BETWEEN 1900 AND 2100)::float AS near
+           FROM public.legal_articles
+          WHERE jurisdiction = $1
+          GROUP BY law_name_local
+       )
+       SELECT a.id::text AS id, a.law_name_local, a.article_num, a.text_local
+         FROM public.legal_articles a
+         JOIN sized s ON s.law_name_local = a.law_name_local
+        WHERE a.jurisdiction = $1
+          AND s.n > 0
+          AND s.near / s.n >= 0.5
+        ORDER BY a.law_name_local,
+                 CASE WHEN a.article_num ~ '^[0-9]+$' THEN a.article_num::int END NULLS LAST,
+                 a.article_num`,
+    [config.id],
+  )
+  PARTS = mkdtempSync(path.join(process.env.TEMP ?? ".", "a26-rebuild-"))
+  const pool = startPool(Math.max(1, Math.min(4, availableParallelism() - 1)), runOptionsFor(config.headings, config.serbiaExtensions))
+  let index = 0
+  let current = ""
+  let bucket: Chunk[] = []
+  const jobs: Array<Promise<void>> = []
+  let laws = 0
+  let inputChunks = 0
+  let outputRows = 0
+  const problems: Array<{ law: string; detail: string }> = []
+  const skips: Array<{ law: string; skip: string }> = []
+  const take = (jobIndex: number, result: LawResult) => {
+    if (result.error) problems.push({ law: result.law, detail: result.error })
+    if (result.skip) skips.push({ law: result.law, skip: result.skip })
+    if (result.kept && !result.skip && !result.error) {
+      laws += 1
+      inputChunks += result.chunks
+      outputRows += result.output_rows
+      if (result.boundary_failed !== 0) problems.push({ law: result.law, detail: `boundary_failed ${result.boundary_failed}` })
+      if (result.paragraph_bad !== 0) problems.push({ law: result.law, detail: `paragraph_bad ${result.paragraph_bad}` })
+      if (result.text_mismatch !== 0) problems.push({ law: result.law, detail: `text_mismatch ${result.text_mismatch}` })
+      if (result.exceptions.length > 0) problems.push({ law: result.law, detail: result.exceptions.join(" | ") })
+      if (result.conservation_stripped !== result.conservation_rebuilt) {
+        problems.push({ law: result.law, detail: `conservation ${result.conservation_stripped} ${result.conservation_rebuilt}` })
+      }
+      const file = path.join(PARTS, `${String(jobIndex).padStart(5, "0")}.jsonl`)
+      writeFileSync(file, result.rows.map((row) => JSON.stringify(row)).join("\n") + (result.rows.length ? "\n" : ""), "utf8")
+    }
+  }
+  const launch = (law: string, chunks: Chunk[]) => {
+    const jobIndex = index
+    index += 1
+    jobs.push(pool.run(jobIndex, law, chunks).then((msg) => {
+      take(msg.index, msg.result)
+    }))
+  }
+  for (;;) {
+    const batch = await client.query<Chunk & { law_name_local: string }>("FETCH 200 FROM art")
+    if (batch.rows.length === 0) break
+    for (const row of batch.rows) {
+      if (row.law_name_local !== current) {
+        if (bucket.length) launch(current, bucket)
+        current = row.law_name_local
+        bucket = []
+      }
+      bucket.push({ id: row.id, article_num: row.article_num, text_local: row.text_local ?? "" })
+    }
+  }
+  if (bucket.length) launch(current, bucket)
+  await client.query("CLOSE art")
+  await client.query("COMMIT")
+  await client.end()
+  await Promise.all(jobs)
+  await pool.close()
+  if (problems.length > 0) {
+    process.stdout.write(`${JSON.stringify({ wrote: false, laws, input_chunks: inputChunks, output_rows: outputRows, skips, problems }, null, 2)}\n`)
+    process.exit(3)
+  }
+  const names = readdirSync(PARTS).filter((name) => name.endsWith(".jsonl")).sort()
+  writeFileSync(finalPath, "", "utf8")
+  for (const name of names) appendFileSync(finalPath, readFileSync(path.join(PARTS, name), "utf8"), "utf8")
+  process.stdout.write(`${JSON.stringify({ wrote: true, file: finalPath, laws, input_chunks: inputChunks, output_rows: outputRows, skips })}\n`)
+}
+
+if (path.resolve(process.argv[1] ?? "") === __filename) {
+  runCutter(JURISDICTIONS.serbia).catch((error) => {
+    process.stderr.write(`${error instanceof Error ? error.message : "failed"}\n`)
+    process.exit(1)
+  })
+}

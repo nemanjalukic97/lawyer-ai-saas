@@ -1,11 +1,11 @@
 import { parentPort } from "worker_threads"
-import { runLaw, type Chunk } from "./_tmp-a26-run.ts"
+import { runLaw, type Chunk, type RunOptions } from "./_tmp-a26-run.ts"
 
-type Request = { id: number; index: number; law: string; chunks: Chunk[] }
+type Request = { id: number; index: number; law: string; chunks: Chunk[]; run?: RunOptions }
 
 parentPort?.on("message", (msg: Request) => {
   try {
-    const result = runLaw(msg.law, msg.chunks)
+    const result = runLaw(msg.law, msg.chunks, msg.run)
     parentPort?.postMessage({ id: msg.id, index: msg.index, result })
   } catch (error) {
     parentPort?.postMessage({

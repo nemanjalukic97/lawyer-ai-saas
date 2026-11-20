@@ -4,7 +4,7 @@
  * scripts/_tmp-a17d-assert-worker.ts. Adds the source chunk id.
  */
 import { createHash } from "crypto"
-import { findHeadings, processLaw, stripEditorial } from "./_tmp-serbia-phase3.ts"
+import { findHeadings, processLaw, stripEditorial, type FinderFlags } from "./_tmp-serbia-phase3.ts"
 import { applyRepairs } from "./_tmp-serbia-phase6.ts"
 import { amendingActAt, findActs, findMarkers, findSignatures } from "./_tmp-a17d-act.ts"
 
@@ -143,7 +143,48 @@ function strippedToOriginal(original: string, repaired: string, stripped: string
   }
 }
 
-export function runLaw(law: string, chunks: Chunk[]): LawResult {
+export type HeadingStyle = "serbia" | "clan" | "clen"
+
+export type RunOptions = {
+  headings: HeadingStyle
+  chemicals: boolean
+  collision: ReadonlySet<string>
+  gap: ReadonlySet<string>
+  citationGenitives: ReadonlySet<string> | null
+}
+
+export function runOptionsFor(headings: HeadingStyle, serbiaExtensions: boolean): RunOptions {
+  if (!serbiaExtensions) {
+    return {
+      headings,
+      chemicals: false,
+      collision: new Set<string>(),
+      gap: new Set<string>(),
+      citationGenitives: null,
+    }
+  }
+  return {
+    headings: "serbia",
+    chemicals: true,
+    collision: COLLISION,
+    gap: GAP,
+    citationGenitives: CITATION,
+  }
+}
+
+function flagsFor(headings: HeadingStyle): FinderFlags {
+  const flags: FinderFlags = { letterBefore: true, lowerSuffix: true, starAfter: true }
+  if (headings === "clen") {
+    flags.inlineLatin = true
+    flags.sloveneClen = true
+  } else if (headings === "clan") {
+    flags.inlineLatin = true
+  }
+  return flags
+}
+
+export function runLaw(law: string, chunks: Chunk[], run?: RunOptions): LawResult {
+  if (run != null) return runConfigured(law, chunks, run)
   const ordered = [...chunks].sort((a, b) => Number(a.article_num) - Number(b.article_num))
   const joined = ordered.map((row) => row.text_local ?? "").join("")
   const reason = gateReason(law, joined, ordered)
@@ -206,7 +247,139 @@ export function runLaw(law: string, chunks: Chunk[]): LawResult {
   let deduped = 0
   for (const piece of result.produced ?? []) {
     const text = piece.text ?? ""
-    const amending = amendingActAt(piece.heading_index, markers, acts, signatures)
+    const amending = piece.article_num === "" ? null : amendingActAt(piece.heading_index, markers, acts, signatures)
+    const key = `${piece.article_num}\u0000${piece.paragraph_num ?? ""}\u0000${amending ?? ""}\u0000${textHash(text)}`
+    counts.set(key, (counts.get(key) ?? 0) + 1)
+    if (seen.has(key)) {
+      deduped += 1
+      continue
+    }
+    seen.add(key)
+    const place = toOriginal(piece.heading_index)
+    rows.push({
+      law_name_local: law,
+      article_num: piece.article_num,
+      paragraph_num: piece.paragraph_num,
+      amending_act: amending,
+      text_local: text,
+      source_chunk_id: place == null ? null : chunkAt(spans, place),
+    })
+  }
+  const sixGroups = [...counts.values()].filter((n) => n > 1).length
+  return {
+    law,
+    kept: true,
+    reason,
+    chunks: ordered.length,
+    output_rows: rows.length,
+    articles: result.articles ?? 0,
+    max_tokens: result.max_tokens ?? 0,
+    boundary_failed: result.boundary_failed ?? 0,
+    paragraph_bad: result.paragraph_bad ?? 0,
+    text_mismatch: result.text_mismatch ?? 0,
+    conservation_stripped: result.conservation_stripped ?? 0,
+    conservation_rebuilt: result.conservation_rebuilt ?? 0,
+    exceptions: result.exceptions ?? [],
+    deduped,
+    six_groups_before: sixGroups,
+    joined_chars: joined.length,
+    rows,
+  }
+}
+
+function gateReasonConfigured(law: string, joined: string, ordered: Array<{ article_num: string }>, run: RunOptions): string {
+  const flags = flagsFor(run.headings)
+  const headings = findHeadings(joined, false, flags)
+  const first = headings[0]?.index ?? null
+  const hard = run.collision.has(law) || run.gap.has(law)
+  if (keeps(first, joined.length) && contiguousOf(ordered) && !hard) return "kept"
+  if (run.collision.has(law)) return "collision"
+  if (run.gap.has(law)) return "numbering-gap"
+  const lineStartRe = run.headings === "serbia" ? LINE_START : /^(?:Članak|Члан|Član|\d+\. člen)[ \t]+?[0-9]?/u
+  const anyRe = run.headings === "serbia" ? ANY_CLAN : /(?<!\p{L})(?:Članak|Члан|Član)[ \t]+[0-9]/gu
+  let lineStart = 0
+  let inline = 0
+  for (const line of joined.split("\n")) {
+    const raw = line.replace(/\r$/, "")
+    if (run.headings === "clen" && SLOVENE_LINE.test(raw)) lineStart += 1
+    if (lineStartRe.test(raw)) lineStart += 1
+    anyRe.lastIndex = 0
+    for (const match of raw.matchAll(anyRe)) if ((match.index ?? 0) !== 0) inline += 1
+  }
+  if (first == null && lineStart === 0 && inline === 0) return "no-heading"
+  if (first == null) return "inline-outside-guard"
+  if (first > joined.length - first) return "preamble"
+  return "not-contiguous"
+}
+
+const SLOVENE_LINE = /^(\d+)\. člen(?!\p{L})/u
+
+function runConfigured(law: string, chunks: Chunk[], run: RunOptions): LawResult {
+  const flags = flagsFor(run.headings)
+  const ordered = [...chunks].sort((a, b) => Number(a.article_num) - Number(b.article_num))
+  const joined = ordered.map((row) => row.text_local ?? "").join("")
+  const reason = gateReasonConfigured(law, joined, ordered, run)
+  const empty: LawResult = {
+    law,
+    kept: false,
+    reason,
+    chunks: ordered.length,
+    output_rows: 0,
+    articles: 0,
+    max_tokens: 0,
+    boundary_failed: 0,
+    paragraph_bad: 0,
+    text_mismatch: 0,
+    conservation_stripped: 0,
+    conservation_rebuilt: 0,
+    exceptions: [],
+    deduped: 0,
+    six_groups_before: 0,
+    joined_chars: joined.length,
+    rows: [],
+  }
+  if (reason !== "kept") return empty
+  const repaired = applyRepairs(law, joined).text
+  let source = repaired
+  if (run.chemicals && law === CHEMICALS) {
+    const signatures = findSignatures(source, law, "1")
+    if (signatures.length >= 2 && signatures[1]! > 0 && signatures[1]! < source.length) {
+      source = source.slice(0, signatures[1])
+    }
+  }
+  const fake = ordered.map((chunk, index) => ({
+    article_num: chunk.article_num,
+    text_local: index === 0 ? source : "",
+  }))
+  const result = processLaw(law, fake, true, {
+    includeText: true,
+    skipTokens: false,
+    foldHeadings: false,
+    ...(run.citationGenitives ? { citationGenitives: run.citationGenitives } : {}),
+    ...(flags ? { finderFlags: flags } : {}),
+  })
+  if (result.skip) {
+    return { ...empty, kept: true, skip: result.skip }
+  }
+  const stripped = stripEditorial(source, law, [])
+  const markers = findMarkers(stripped)
+  const acts = findActs(stripped)
+  const firstArticle = findHeadings(stripped, false, flags)[0]?.articleNum ?? "1"
+  const signatures = findSignatures(stripped, law, firstArticle)
+  let cursor = 0
+  const spans = ordered.map((row) => {
+    const start = cursor
+    cursor += (row.text_local ?? "").length
+    return { id: row.id, start, end: cursor }
+  })
+  const toOriginal = strippedToOriginal(joined, source, stripped)
+  const seen = new Set<string>()
+  const counts = new Map<string, number>()
+  const rows: OutRow[] = []
+  let deduped = 0
+  for (const piece of result.produced ?? []) {
+    const text = piece.text ?? ""
+    const amending = piece.article_num === "" ? null : amendingActAt(piece.heading_index, markers, acts, signatures)
     const key = `${piece.article_num}\u0000${piece.paragraph_num ?? ""}\u0000${amending ?? ""}\u0000${textHash(text)}`
     counts.set(key, (counts.get(key) ?? 0) + 1)
     if (seen.has(key)) {

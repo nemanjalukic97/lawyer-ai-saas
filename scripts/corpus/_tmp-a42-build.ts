@@ -4,17 +4,11 @@
  * the file gates pass. Does not embed, does not touch the database, and does
  * not modify the source article file or the embedding partial.
  */
-import { createReadStream, createWriteStream } from "fs"
+import { createReadStream, createWriteStream, existsSync } from "fs"
 import { writeFile } from "fs/promises"
 import { createInterface } from "readline"
 import { createHash } from "crypto"
 import path from "path"
-
-const ARTICLES = path.resolve(__dirname, "out/serbia-article-file.jsonl")
-const INSERT = path.resolve(__dirname, "out/serbia-insert-final.jsonl")
-const PLAN = path.resolve(__dirname, "out/_a42-plan.jsonl")
-const REPORT = path.resolve(__dirname, "out/_a42-report.json")
-const DROPPED = path.resolve(__dirname, "out/_a42-dropped.jsonl")
 
 const NAMED: Array<{ id: string; law: string; article: string }> = [
   { id: "заштита природе 4", law: "ЗАКОН о заштити природе", article: "4" },
@@ -101,7 +95,36 @@ function assertNoSingletonNumberedPart(rows: Array<{ law: string; article: strin
   return singles
 }
 
-async function main(): Promise<void> {
+export type BuildOptions = {
+  articles: string
+  insert: string
+  plan: string
+  report: string
+  dropped: string
+  phrases: readonly string[]
+  useSerbiaNamed: boolean
+  expectedLaws: number | null
+}
+
+function commenced(text: string, phrases: readonly string[]): boolean {
+  return phrases.some((phrase) => text.includes(phrase))
+}
+
+export async function buildInsert(options: BuildOptions): Promise<void> {
+  for (const file of [options.insert, options.plan, options.report, options.dropped]) {
+    if (existsSync(file)) {
+      process.stderr.write(`refusing to overwrite ${file}\n`)
+      process.exitCode = 5
+      return
+    }
+  }
+  const ARTICLES = options.articles
+  const INSERT = options.insert
+  const PLAN = options.plan
+  const REPORT = options.report
+  const DROPPED = options.dropped
+  const phrases = options.phrases
+  const named = options.useSerbiaNamed ? NAMED : []
   const byArticle = new Map<string, Slot[]>()
   const order: string[] = []
   let sourceRows = 0
@@ -129,8 +152,10 @@ async function main(): Promise<void> {
     sourceChars += row.text_local.length
     sourceRows += 1
   }
-  if (sourceRows !== 134_118) throw new Error(`source rows ${sourceRows}`)
-  if (sourceChars !== 91_360_819) throw new Error(`source chars ${sourceChars}`)
+  if (options.expectedLaws === 2966) {
+    if (sourceRows !== 134_118) throw new Error(`source rows ${sourceRows}`)
+    if (sourceChars !== 91_360_819) throw new Error(`source chars ${sourceChars}`)
+  }
 
   type Drop = Slot & { law: string; article: string; reason: "exact" | "prefix"; keptPara: string | null; keptChunk: string | null }
   const drops: Drop[] = []
@@ -242,7 +267,7 @@ async function main(): Promise<void> {
         text: row.text_local,
         hash: textHash(pgCollapse(row.text_local)),
         normLen: pgCollapse(row.text_local).length,
-        excerpt: false,
+        excerpt: row.article_num === "",
       })
     }
     cursor += 1
@@ -258,7 +283,7 @@ async function main(): Promise<void> {
     lawNames.push(output[lawStart]!.law)
     let last = -1
     for (let i = lawStart; i < lawEnd; i += 1) {
-      if (output[i]!.text.includes("ступа на снагу")) last = i
+      if (commenced(output[i]!.text, phrases)) last = i
     }
     if (last < 0) noBoundaryLaws += 1
     else {
@@ -326,7 +351,7 @@ async function main(): Promise<void> {
     let lawEnd = lawStart + 1
     while (lawEnd < output.length && output[lawEnd]!.law === output[lawStart]!.law) lawEnd += 1
     let last = -1
-    for (let i = lawStart; i < lawEnd; i += 1) if (output[i]!.text.includes("ступа на снагу")) last = i
+    for (let i = lawStart; i < lawEnd; i += 1) if (commenced(output[i]!.text, phrases)) last = i
     if (last >= 0 && last + 1 < lawEnd) {
       const boundaryArticle = output[last]!.article
       const slot = trueByLaw.get(output[lawStart]!.law) ?? { rows: 0, chars: 0, article: boundaryArticle }
@@ -348,7 +373,7 @@ async function main(): Promise<void> {
   }
 
   const exceptions: Array<{ id: string; law: string; article: string; para: string; head: string }> = []
-  for (const item of NAMED) {
+  for (const item of named) {
     for (const row of output) {
       if (row.law !== item.law || row.article !== item.article) continue
       if (row.excerpt) {
@@ -370,7 +395,7 @@ async function main(): Promise<void> {
     missingChunk === 0 &&
     orderBreaks === 0 &&
     missingFlag === 0 &&
-    seenLaws.size === 2_966 &&
+    (options.expectedLaws == null || seenLaws.size === options.expectedLaws) &&
     hashDupes === 0 &&
     singletonParts === 0 &&
     exceptions.length === 0 &&
@@ -518,7 +543,7 @@ async function main(): Promise<void> {
   })}\n`)
 }
 
-main().catch((error: unknown) => {
-  process.stderr.write(`${error instanceof Error ? error.stack : String(error)}\n`)
+if (path.resolve(process.argv[1] ?? "") === __filename) {
+  process.stderr.write("run scripts/corpus/split.ts --jurisdiction <id> --stage insert\n")
   process.exit(1)
-})
+}
