@@ -148,16 +148,25 @@ export type RagFilterMode = "filter" | "hint"
 const RPC_TIMEOUT_MS = 30000
 /**
  * Unfiltered statute vector race. Logged vector time never exceeded 6.2s.
- * The live function still says 120s until match_legal_articles is replaced;
- * the replacement is 35s, so this race sits 5s above that cancel and 5s
- * below the 45s research route budget. A tie would leave the winner to
- * whichever promise settles first in the same tick.
+ * SET LOCAL statement_timeout inside the function cannot shorten the
+ * deadline armed when the command arrived: PostgreSQL measures that
+ * timeout from arrival, and a later assignment does not restart the timer.
+ * On the PostgREST path the cancel is service_role's 30s, measured at
+ * 30,648 ms. The 35s in match_legal_articles and the 30000ms in
+ * search_legal_articles_keyword are inert, so this 40s race is never the
+ * binding limit on the statute path.
+ *
+ * Real rungs, in order: the 6s phrase circuit, the 8s case-law keyword,
+ * the 12s filtered case-law race, the 20s partial stage, the role's 30s,
+ * the 45s route budget, and Vercel's 60s. The 35s and this 40s race are
+ * not reachable on the statute path.
  */
 const LEGAL_RPC_TIMEOUT_UNFILTERED_MS = 40000
 const CASE_LAW_RPC_TIMEOUT_MS = 12000
 /**
  * Unfiltered case-law vector race. service_role statement_timeout is 30s
- * and these functions do not override it, so the role fires first.
+ * and these functions do not override it, so the role fires first. This
+ * 40s race is not the cancel.
  */
 const CASE_LAW_RPC_TIMEOUT_UNFILTERED_MS = 40000
 
@@ -1916,9 +1925,10 @@ function applyActTypePenalty(chunks: LegalChunk[]): LegalChunk[] {
  * ARTICLE REWRITE — recorded 2026-10-02. Updates to legal_articles must
  * batch at 800 rows or fewer, because each row carries a 1536-dimension
  * embedding that is rewritten with it; 2000 approached the statement
- * timeout. The statement timeout on the Cursor connection is about 2
- * minutes, while the application path is about 8.1 seconds; a repair
- * that fits here can still be far too slow for a request.
+ * timeout. The statement timeout on the direct postgres connection is 2
+ * minutes. On the PostgREST path the ceiling is service_role's 30s,
+ * measured at 30,648 ms; a repair that fits here can still be far too
+ * slow for a request.
  *
  * GATE SCORE DRIFT — recorded 2026-10-03, cause not found. Four
  * consecutive --compare-baseline runs showed the same nine score-only

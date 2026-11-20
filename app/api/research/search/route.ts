@@ -82,7 +82,13 @@ type ResearchCaseLawResultItem = {
 
 const PER_JURIS_CAP = 50
 const DEFAULT_LIMIT = 10
-/** Under the 60s platform limit. Vector race is 40s, SQL cancel is 35s. */
+/**
+ * Under the 60s platform limit. The route budget is 45s. The statute SQL
+ * cancel is service_role's 30s, measured at 30,648 ms. The 35s in
+ * match_legal_articles and the 40s vector race do not bind: a SET LOCAL
+ * inside the function cannot shorten the timeout armed when the command
+ * arrived.
+ */
 const RESEARCH_ROUTE_BUDGET_MS = 45000
 
 type AbandonedEntry = {
