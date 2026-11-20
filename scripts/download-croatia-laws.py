@@ -434,6 +434,64 @@ def _text_of(el: Tag | None) -> str:
     return " ".join(el.get_text("\n", strip=True).split())
 
 
+_NESTED_TAGS = ["p", "h3", "h4", "h5", "h6", "li"]
+_CLANAK_LINE = re.compile(r"Članak[ \t]+\d+")
+
+
+def _clanak_line_share(body: str) -> tuple[int, int]:
+    total = 0
+    at_line = 0
+    for match in _CLANAK_LINE.finditer(body):
+        total += 1
+        start = match.start()
+        prev = body.rfind("\n", 0, start)
+        prefix = body[prev + 1 : start] if prev >= 0 else body[:start]
+        if prefix.strip() == "":
+            at_line += 1
+    return at_line, total
+
+
+def _has_nested_block(root: Tag) -> bool:
+    for el in root.find_all(_NESTED_TAGS):
+        if not isinstance(el, Tag) or el.find_parent("table"):
+            continue
+        if el.find(_NESTED_TAGS):
+            return True
+    return False
+
+
+def _direct_doc_body(root: Tag) -> str:
+    """Read .doc with its own line breaks.
+
+    The element walk collapses every newline inside a tag and, on old
+    Narodne novine HTML, also emits each unclosed ancestor. This reader
+    is used only when that walk nested a block or left most Članak
+    headings off the start of a line. A page that already has one
+    heading per element never reaches it, so its text stays the same.
+    """
+    clone = BeautifulSoup(str(root), "html.parser")
+    target = (
+        clone.select_one(".doc")
+        or clone.select_one(".sl-content")
+        or clone.select_one(".articleContent")
+        or clone.find("article")
+        or clone.find("body")
+        or clone
+    )
+    for bad in target.select("script, style"):
+        bad.decompose()
+    lines: list[str] = []
+    for raw in target.get_text("\n", strip=True).split("\n"):
+        line = " ".join(raw.split())
+        if not line:
+            continue
+        if _is_footer_text(line):
+            break
+        lines.append(line)
+    body = "\n".join(lines)
+    return re.sub(r"\n{3,}", "\n\n", body).strip()
+
+
 def _is_footer_text(text: str) -> bool:
     low = text.casefold()
     return any(m in low for m in FOOTER_MARKERS)
@@ -477,6 +535,9 @@ def parse_act_html(html: str, stub: LawStub) -> ParsedAct:
 
     body = "\n\n".join(body_parts)
     body = re.sub(r"\n{3,}", "\n\n", body).strip()
+    at_line, total = _clanak_line_share(body)
+    if _has_nested_block(root) or (total > 0 and at_line / total < 0.5):
+        body = _direct_doc_body(root)
 
     return ParsedAct(title=title, body=body)
 
